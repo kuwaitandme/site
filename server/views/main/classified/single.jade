@@ -5,9 +5,8 @@ block content
 
 	//- Raw HTML version so that bots can crawl it's contents
 	section.c-content
-		h1.c-title post.title
-		pre.c-description post.description
-		.c-disclaimer post.disclaimer
+		h1.c-title= data.classified.title
+		pre.c-description= data.classified.description
 
 	//- JS Template for the slideshow
 	script(id="slideshow-template", type="text/template")
@@ -15,8 +14,8 @@ block content
 		|   <div class="flexslider">
 		|     <ul class="slides">
 		|     <% _.each(images, function(img) {  %>
-		|       <li data-thumb="<?= site_url('/uploads/thumb/<%= img %>') ?>" alt="<%= img %>">
-		|         <img src="<?= site_url('/uploads/<%= img %>') ?>" />
+		|       <li data-thumb="/uploads/thumb/<%= img %>" alt="<%= img %>">
+		|         <img src="/uploads/<%= img %>" />
 		|       </li>
 		|     <% }); %>
 		|     </ul>
@@ -31,11 +30,11 @@ block content
 		|   </li><%
 		|     var cls="", text="";
 		|     switch(status) {
-		|       case "0": text = "<?= lang('post.status.aw'); ?>"; cls="yellow"; break;
-		|       case "1": text = "<?= lang('post.status.active'); ?>"; cls="green"; break;
-		|       case "2": text = "<?= lang('post.status.archive'); ?>"; cls="red"; break;
-		|       case "3": text = "<?= lang('post.status.reject'); ?>"; cls="red"; break;
-		|       case "4": text = "<?= lang('post.status.ban'); ?>";  cls="red"; break;
+		|       case "0": text = "#{__('post.status.aw')}"; cls="yellow"; break;
+		|       case "1": text = "#{__('post.status.active')}"; cls="green"; break;
+		|       case "2": text = "#{__('post.status.archive')}"; cls="red"; break;
+		|       case "3": text = "#{__('post.status.reject')}"; cls="red"; break;
+		|       case "4": text = "#{__('post.status.ban')}";  cls="red"; break;
 		|       default: break;
 		|     }
 		|   %>
@@ -45,7 +44,7 @@ block content
 		|   <li><%
 		|     var cat = app.helpers.category.find(category);
 		|     if(cat) {
-		|       print("<?= lang("csingle.cat") ?> ");
+		|       print("#{__("page.csingle.cat")} ?> ");
 		|       var subcat = app.helpers.category.find(cat.parent);
 		|       if(subcat) print(cat.name + " / " + subcat.name);
 		|       else print(cat.name);
@@ -74,4 +73,4 @@ block content
 		|   <li><%= address1 %>; <%=address2 %></li>
 		| <% } %>
 		| </ul>
-		| <div class="c-disclaimer"><?= lang("csingle.disclaimer") ?></div>
+		| <div class="c-disclaimer">#{__("page.csingle.disclaimer")}</div>

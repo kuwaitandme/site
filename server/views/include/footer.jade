@@ -11,6 +11,7 @@ footer
 		script
 			| window.categories = !{JSON.stringify(categories)};
 			| window.locations = !{JSON.stringify(locations)};
+			| window.page = !{JSON.stringify(bodyid)};
 			| window.data = !{JSON.stringify(data)};
 		script(src="/javascripts/libs.min.js")
 		script(src="/javascripts/app.js")
