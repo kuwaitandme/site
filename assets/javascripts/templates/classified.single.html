@@ -1,0 +1,57 @@
+<% showMeta = true; %>
+
+<section id="singleAdminPanel"></section>
+
+<% if(images) { %>
+	<div class="c-gallery">
+		<div class="flexslider">
+			<ul class="slides">
+			<% _.each(images, function(img) {  %>
+				<li data-thumb="/uploads/thumb/<%= img %>" alt="<%= img %>"><img src="/uploads/<%= img %>" /></li>
+			<% }); %>
+			</ul>
+		</div>
+	</div>
+<% } %>
+
+<div class="c-content">
+	<h1 class="c-title c-row"><%= post.title %></h1>
+	<pre class="font-text c-row c-description"><%= post.description %></pre>
+	<ul class="c-meta c-row">
+		</li><%
+			var cls="", text="";
+			switch(post.status) {
+				case "0": text = "Awaiting Moderation"; cls="yellow"; break;
+				case "1": text = "Active"; cls="green"; break;
+				case "2": text = "Archived"; cls="red"; break;
+				case "3": text = "Rejected"; cls="red"; break;
+				case "4": text = "Banned";  cls="red"; break;
+				default: break;
+			}
+		%>
+		<li class="box radii <%= cls %>"><%= lang.single.status[text] %></li>
+	</ul>
+	<ul class="c-meta c-row">
+		<li>Categorized under: <%
+			var cat = app.helpers.category.find(post.category);
+			var subcat = app.helpers.category.find(cat.parent);
+
+			if(cat && subcat) print(lang.category[subcat.name] + " / " +
+				lang.category[cat.name]);
+			else print("Unknown");
+		%></li>
+	</ul>
+	<% if (showMeta) { %>
+		<ul class="c-meta c-row">
+		<% if(post.location && post.location != "0") { %>
+		<% } if(post.email && post.email.length) { %>
+			<li><%= post.email %></li>
+		<% } if(post.phone && post.phone.length) { %>
+			<li><%= post.phone %></li>
+		<% } if(post.address1 && post.address1.length) { %>
+			<li><%= post.address1 %> <%= post.address2 %></li>
+		<% } %>
+	<% } %>
+	</ul>
+	<div class="c-row c-disclaimer"><%= lang.single.disclaimer %></div>
+</div>

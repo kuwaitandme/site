@@ -1,0 +1,13 @@
+doctype html
+html
+	head
+		title 500 Server
+		link(rel='stylesheet', href='/stylesheets/style.css')
+	body#error
+		pre.e-message= message
+
+		if error.status
+			pre.e-status Status: #{error.status}
+
+		.e-title Stack Trace
+		pre.e-stack #{error.stack}

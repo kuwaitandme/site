@@ -1,0 +1,125 @@
+body#classified-single {
+	#admin-controls {
+		border: 1px solid #ff7302;
+		display: inline-block;
+		height: 37px;
+		margin: 30px;
+		margin-bottom: 0;
+		overflow: hidden;
+
+		.meta {
+			border-right: 1px solid #FFF;
+			float: left;
+
+			&:last-child { border-right: none; }
+		}
+		form {
+			margin: 0;
+			padding: 0;
+		}
+		input, .input {
+			@include single-transition();
+			background: #ff7302;
+			border-radius: 0;
+			color: #FFF;
+			border: 0;
+			font-weight: 700;
+			padding-top: 8px;
+			width: auto;
+
+			&:hover {
+				background: #FFF;
+				color: #ff7302;
+			}
+		}
+	}
+	.c-content {
+		max-width: 95%;
+		margin: 0 auto;
+
+		h1 { font-size: 40px; }
+		.c-row {
+			margin: 10px 0;
+			padding: 0;
+		}
+		.c-meta {
+			@include clearfix();
+			color: #000;
+			font-size: 12px;
+			text-transform: uppercase;
+
+			li {
+				float: left;
+
+				&:after {
+					color: #444;
+					content: '\b7\a0';
+					padding: 5px;
+				}
+				&:last-child:after {
+					content: '';
+					padding: 0;
+				}
+			}
+
+			.box {
+				padding: 5px 10px;
+				background: #e74c3c;
+				color: #FFF;
+				margin-top: -5px;
+
+				&.yellow { background: #F67F00; }
+				&.green { background: #27AE60; }
+
+			}
+		}
+		.c-description {
+			font-size: 16px;
+			line-height: 28px;
+			margin-bottom: 15px;
+			min-height: 100px;
+
+			white-space: pre-wrap;       /* CSS 3 */
+			white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+			white-space: -pre-wrap;      /* Opera 4-6 */
+			white-space: -o-pre-wrap;    /* Opera 7 */
+			word-wrap: break-word;       /* Internet Explorer 5.5+ */
+		}
+	}
+	.c-gallery {
+		margin: 0;
+		max-width: 100%;
+
+		.flexslider {
+			border: none;
+			-webkit-box-shadow: none;
+			-moz-box-shadow: none;
+			-o-box-shadow: none;
+			box-shadow: none;
+		}
+	}
+	.c-disclaimer {
+		font-size: 12px;
+		color: #999;
+	}
+
+	@media #{$large-up} {
+		.c-gallery {
+			margin: 30px auto;
+			max-width: 75%;
+
+			img { width: 100%; }
+			.flexslider {
+				border: 4px solid #fff;
+				-webkit-box-shadow: 0 1px 4px rgba(0,0,0,0.8);
+				-moz-box-shadow: 0 1px 4px rgba(0,0,0,0.8);
+				-o-box-shadow: 0 1px 4px rgba(0,0,0,0.8);
+				box-shadow: 0 1px 4px rgba(0,0,0,0.8);
+			}
+		}
+		.c-content {
+			max-width: 75%;
+			margin: 30px auto;
+		}
+	}
+}

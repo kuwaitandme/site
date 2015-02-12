@@ -1,0 +1,16 @@
+extends ../../layout.jade
+
+block content
+	div.auth-title Sign Up!
+	form(method="POST")
+		section
+			div
+				input(type="email", name="login", placeholder="email", required)
+			div
+				input(type="password", name="password", placeholder="password", required)
+			div
+				input(type="password", name="repassword", placeholder="re-enter password", required)
+			div
+				input(type="submit", class="submit", value="Sign-up")
+		div.extra-links
+			| Already have an account? Login <a href="/auth/login">here</a>

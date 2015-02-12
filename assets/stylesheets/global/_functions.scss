@@ -1,0 +1,15 @@
+@mixin single-transition($property:all, $speed:300ms, $ease:ease-out) {
+	transition: $property $speed $ease;
+}
+
+@mixin radius($radius:$global-radius) {
+	@if $radius {
+		border-radius: $radius;
+	}
+}
+
+// We use this to do clear floats
+@mixin clearfix {
+	&:before, &:after { content: " "; display: table; }
+	&:after { clear: both; }
+}

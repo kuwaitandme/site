@@ -1,0 +1,38 @@
+extends ../layout.jade
+
+block content
+	//- Render raw the top classifieds section
+	section#top-classifieds
+		each classified in data.topClassifieds
+			a(href="/classified/single/" + classified.id)= classified.title
+
+	//- Render the list of classifieds
+	section#masonry-container.hide-for-small-only
+		each category in categories
+			div
+				a(href="/classified/search?cat=" + category.id)= category.name
+
+
+	//- JS Template for the classified list
+	script(id="list-template", type="text/template")
+		| <div class="m-item classified-list-long">
+		|   <div class="cl-title"> <%= title %>
+		|     <div class="sprite <%= title %>"></div>
+		|   </div>
+		|   <ul>
+		|   <% _.each(children, function(cat) { %>
+		|     <li><a href="/classified/search?cat=<%= cat.id %>"><%= cat.name %></a></li>
+		|   <% }); %>
+		|   </ul>
+
+	//- JS Template for the top classified list
+	script(id="top-classifieds-template", type="text/template")
+		| <div class="m-item classified-list-long">
+		|   <div class="cl-title"> <%= title %>
+		|     <div class="sprite <%= title %>"></div>
+		|   </div>
+		|   <ul>
+		|   <% _.each(children, function(cat) { %>
+		|     <li><a href="/classified/search?cat=<%= cat.id %>"><%= cat.name %></a></li>
+		|   <% }); %>
+		|   </ul>

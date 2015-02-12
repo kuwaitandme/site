@@ -1,0 +1,19 @@
+#messages {
+	display: none;
+
+	left: 0%;
+	position: fixed;
+	text-align: center;
+	top: 10px;
+	width: 100%;
+	z-index: 20;
+
+	.message {
+		background: #2ecc71;
+		border-bottom: 5px solid #27ae60;
+		color: rgba(0, 0, 0, 0.7);
+		display: inline-block;
+		overflow: hidden;
+		padding: 5px 15px;
+	}
+}

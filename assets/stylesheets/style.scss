@@ -1,0 +1,37 @@
+@charset "UTF-8";
+
+@import
+	"libs/normalize",
+	"libs/flexslider",
+	"libs/foundation/settings",
+	"libs/foundation/components/grid",
+	"libs/foundation/components/visibility",
+
+	"global/functions",
+	"global/properties",
+	"global/basicStyles",
+	"global/font",
+
+	"components/classifieds.list",
+	"components/footer",
+	"components/header",
+	"components/messages",
+	"components/pageNavigation",
+	"components/singleAdminPanel",
+
+	// "components/ad",
+	// "components/breadcrumbs",
+	// "components/filterbox",
+	// "components/loadingScreen",
+
+	"pages/auth",
+	"pages/error",
+	"pages/classified.post",
+	"pages/classified.search",
+	"pages/classified.single",
+	"pages/guest",
+	"pages/guest.post",
+	"pages/guest.single",
+	"pages/landing",
+	"pages/privacy",
+	"pages/terms";

@@ -1,0 +1,24 @@
+<% if(controls.length > 0) { %>
+	<ul id="mobile-admin-panel" class="row text-center hide-for-large-up">
+		<% _.each(controls, function(c) { %>
+			<form class="small-4 columns" method="POST">
+				<input type="hidden" name="action" value="<%= c %>">
+				<input type="submit" value="<%= window.lang.admin.single[c] %>" />
+			</form>
+		<% }); %>
+	</ul>
+	<div id="main-admin-panel">
+		<div id="mobile-admin-grabber" class="float-left item hide-for-large-up">
+			<span class="font-awesome">&#xf0c9;</span>
+			<span class="title"><%= window.lang.admin.single.admin %></span>
+		</div>
+		<div class="show-for-large-up">
+			<% _.each(controls, function(c) { %>
+			<form class="float-left item large" method="POST">
+				<input type="hidden" name="action" value="<%= c %>">
+				<span class="title"><input type="submit" value="<%= window.lang.admin.single[c] %>" /></span>
+			</form>
+			<% }); %>
+		</div>
+	</div>
+<% } %>

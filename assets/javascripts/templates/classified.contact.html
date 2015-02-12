@@ -1,0 +1,46 @@
+<% if(userid != post.owner && false) { %>
+<form class="padding" method="POST">
+	<input type="hidden" name="action" value="reply">
+
+	<div class="font-title heading text-center padding"> Send your reply </div>
+	<div class="clearfix padding-top">
+		<div class="c25 float-left">
+			<div class="form-label">Name</div>
+		</div>
+		<div class="c75 float-left">
+			<input name="name" placeholder="your name"/>
+		</div>
+	</div>
+	<div class="clearfix padding-top">
+		<div class="c25 float-left">
+			<div class="form-label">Email</div>
+		</div>
+		<div class="c75 float-left">
+			<input name="email" placeholder="your email"/>
+		</div>
+	</div>
+	<div class="clearfix padding-top">
+		<div class="c25 float-left">
+			<div class="form-label">Reply</div>
+		</div>
+		<div class="c75 float-left">
+			<textarea name="reply"></textarea>
+		</div>
+	</div>
+	<div class="clearfix padding">
+		<div class="c25 float-left">&nbsp;</div>
+		<div class="c75 float-left">
+			<b>Important Safety Warning:<br/></b>
+			Avoid scams and fraud by meeting all sellers in-person to pay for items. Kuwait &amp; Me does not offer any transaction or payment services. You are responsible to ensure your safety, Kuwait and Me cannot do this for you and takes no responsibility.
+		</div>
+	</div>
+	<div class="clearfix padding">
+		<div class="c25 float-left">
+			<div class="form-label"></div>
+		</div>
+		<div class="c75 float-left">
+			<input type="submit" class="submit" value="Send Reply"/>
+		</div>
+	</div>
+</form>
+<% } %>

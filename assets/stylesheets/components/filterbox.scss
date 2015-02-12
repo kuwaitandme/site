@@ -1,0 +1,133 @@
+#filter-box {
+	$main-color: #16a085;
+	// position: absolute;
+	z-index: 1;
+
+	#fb-click-capture {
+		background: transparent;
+		height: 100%;
+		left: 0;
+		position: fixed;
+		top: 0;
+		width: 100%;
+		z-index: -1;
+	}
+	#filter-box-container {
+		background: $main-color;
+		color: #FFF;
+		overflow: hidden;
+		// width: 250px;
+
+		.border { border-bottom: 1px solid rgba(255, 255, 255, 0.3); }
+		.border-dark { border-bottom: 1px solid rgba(0, 0, 0, 0.1); }
+		.option {
+			padding: 0;
+			border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+			border-right: 1px solid rgba(255, 255, 255, 0.3);
+			font-size: 14px;
+
+			.option-title {
+				cursor: pointer;
+
+				.icon {
+					text-align: center;
+					width: 34px;
+					display: inline-block;
+					padding: 10px;
+				}
+			}
+
+			.sub-option {
+				display: none;
+				background: rgba(0, 0, 0, 0.2);
+				padding: 10px;
+			}
+		}
+
+
+		#filter-box-keywords {
+			margin: 0;
+			.keyword-container {
+				background: #FFF;
+				display: inline-block;
+				min-height: 44px;
+				width: 100%;
+
+				&:before {
+					content: " ";
+				}
+			}
+			.keyword-container {
+				padding: 5px;
+				@include clearfix();
+			}
+			.keyword {
+				background: $main-color;
+				color: #FFF;
+				cursor: pointer;
+				display: inline-block;
+				font-size: 14px;
+				margin: 3px;
+				padding: 3px 6px;
+				padding-left: 20px;
+				position: relative;
+
+				-webkit-border-radius: 3px;
+				-moz-border-radius: 3px;
+				border-radius: 3px;
+
+				&:before {
+					@extend .font-awesome;
+					content: "\f00d";
+					font-size: 10px;
+					left: 7px;
+					margin-top: -1px;
+					padding-right: 5px;
+					position: absolute;
+					top: 9px;
+				}
+			}
+		}
+		.sub-container {
+			margin-top: 10px;
+			overflow: hidden;
+			text-align: center;
+
+			border-radius: 3px;
+			-webkit-border-radius: 3px;
+			-moz-border-radius: 3px;
+		}
+		input, select, .input {
+			background: #F0f0f0;
+			border: none;
+			color: #000;
+			cursor: pointer;
+			display: inline-block;
+			font-size: 13px;
+			font-weight: 700;
+			margin: 0 auto;
+			padding: 8px;
+			width: 100%;
+		}
+		input:focus, select:focus, textarea:focus, button:focus { outline: none; }
+		#filter-box-submit, .input {
+			@include single-transition(background);
+			background: #FFF;
+			border: 1px solid #FFF;
+			color: $main-color;
+			font-weight: 400;
+			margin: 15px auto;
+			padding: 10px;
+			width: auto;
+
+			-webkit-border-radius: 3px;
+			-moz-border-radius: 3px;
+			border-radius: 3px;
+
+			&:hover {
+				color: #FFF;
+				background: $main-color;
+			}
+		}
+	}
+}

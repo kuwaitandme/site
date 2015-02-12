@@ -1,0 +1,29 @@
+.page-nav {
+	text-align: center;
+	padding: 5px;
+
+	ul {
+		@include clearfix();
+		background: #ff7302;
+		color: #FFF;
+		display: inline-block;
+		margin: 0;
+		overflow: hidden;
+		padding: 0;
+
+		border-radius: 5px;
+		-moz-border-radius: 5px;
+		-webkit-border-radius: 5px;
+
+		li {
+			@include single-transition(background);
+			border-left: 1px solid rgba(255, 255, 255, 0.2);
+			float: left;
+			padding: 5px 10px;
+
+			&:first {border-left: none;}
+			&:hover, &.current { background: #ffa133 }
+			a { text-decoration: none;}
+		}
+	}
+}

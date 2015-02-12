@@ -1,0 +1,16 @@
+extends ../../layout.jade
+
+block content
+	div.auth-title Login
+	form(method="POST")
+		section
+			div
+				input(type="email", name="login", placeholder="email", required)
+			div
+				input(type="password", name="password", placeholder="password", required)
+			div
+				input(type="submit", class="submit", value="Login")
+		div.extra-links
+			| Is this your first time here? <a href="/auth/signup">Sign up!</a>
+		div.extra-links
+			| Forgot your password? Click <a href="/auth/forgot">here</a>, to reset it.

@@ -1,0 +1,49 @@
+doctype html
+html(lang="en")
+	head
+		title= title
+
+		//- SEO language tags
+		//- link(rel="alternate", hreflang="ar", href="/ar")
+		//- link(rel="alternate", hreflang="en", href="/en")
+
+		//- Favicon tags
+		link(rel="apple-touch-icon", sizes="57x57", href="/images/favicon/apple-touch-icon-57x57.png")
+		link(rel="apple-touch-icon", sizes="60x60", href="/images/favicon/apple-touch-icon-60x60.png")
+		link(rel="apple-touch-icon", sizes="72x72", href="/images/favicon/apple-touch-icon-72x72.png")
+		link(rel="apple-touch-icon", sizes="76x76", href="/images/favicon/apple-touch-icon-76x76.png")
+		link(rel="icon", href="/images/favicon.ico", type="image/x-icon")
+		link(rel="icon", type="image/png", href="/images/favicon/favicon-16x16.png", sizes="16x16")
+		link(rel="icon", type="image/png", href="/images/favicon/favicon-32x32.png", sizes="32x32")
+		link(rel="manifest", href="/images/favicon/manifest.json")
+		link(rel="shortcut icon", href="/favicon.ico", type="image/x-icon")
+		link(rel="shortcut icon", href="/images/favicon/favicon.ico")
+		meta(name="msapplication-TileColor", content="#ffffff")
+		meta(name="msapplication-config", content="/images/favicon/browserconfig.xml")
+		meta(name="theme-color", content="#ffffff")
+
+		//- Stylesheet
+		link(rel='stylesheet', href='/stylesheets/style.css')
+
+		//- SEO description tag
+		if description
+			meta(name="description", content=description)
+
+		//- SEO keywords tag
+		meta(name="keywords", content="kuwait, classifieds, free, kuwait and me, kuwait & me, ads, local, matrimonial, community, cars, vehicles, pets, rent, sale, buy, sell, jobs, arabic, english, easy")
+
+		//- Other Meta tags
+		meta(charset="utf-8")
+		meta(http-equiv="content-type", content="text/html; charset=UTF-8")
+		meta(name="viewport", content="width=device-width, initial-scale=1")
+
+	body(id="#{bodyid}")
+		//- Include site header
+		include ./include/header.jade
+
+		//- Here goes the main content of the site
+		main
+			block content
+
+		//- Include site footer
+		include ./include/footer.jade

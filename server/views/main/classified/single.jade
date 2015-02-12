@@ -1,0 +1,77 @@
+extends ../../layout.jade
+
+block content
+	section.c-gallery
+
+	//- Raw HTML version so that bots can crawl it's contents
+	section.c-content
+		h1.c-title post.title
+		pre.c-description post.description
+		.c-disclaimer post.disclaimer
+
+	//- JS Template for the slideshow
+	script(id="slideshow-template", type="text/template")
+		| <% if(images) { %>
+		|   <div class="flexslider">
+		|     <ul class="slides">
+		|     <% _.each(images, function(img) {  %>
+		|       <li data-thumb="<?= site_url('/uploads/thumb/<%= img %>') ?>" alt="<%= img %>">
+		|         <img src="<?= site_url('/uploads/<%= img %>') ?>" />
+		|       </li>
+		|     <% }); %>
+		|     </ul>
+		|   </div>
+		| <% } %>
+
+	//- JS Template for the single classified
+	script(id="single-template", type="text/template")
+		| <h1 class="c-title"><%=title %></h1>
+		| <pre class="c-description"><%=description %></pre>
+		| <ul class="c-meta">
+		|   </li><%
+		|     var cls="", text="";
+		|     switch(status) {
+		|       case "0": text = "<?= lang('post.status.aw'); ?>"; cls="yellow"; break;
+		|       case "1": text = "<?= lang('post.status.active'); ?>"; cls="green"; break;
+		|       case "2": text = "<?= lang('post.status.archive'); ?>"; cls="red"; break;
+		|       case "3": text = "<?= lang('post.status.reject'); ?>"; cls="red"; break;
+		|       case "4": text = "<?= lang('post.status.ban'); ?>";  cls="red"; break;
+		|       default: break;
+		|     }
+		|   %>
+		|   <li class="box <%= cls %>"><%= text %></li>
+		| </ul>
+		| <ul class="c-meta">
+		|   <li><%
+		|     var cat = app.helpers.category.find(category);
+		|     if(cat) {
+		|       print("<?= lang("csingle.cat") ?> ");
+		|       var subcat = app.helpers.category.find(cat.parent);
+		|       if(subcat) print(cat.name + " / " + subcat.name);
+		|       else print(cat.name);
+		|     }
+		|   %></li>
+		| </ul>
+		| <ul class="c-meta">
+		| <%
+		|   if(location &&location != "0") { /* Location */
+		| %>
+		|   <li><%
+		|       var loc = app.helpers.location.find(location);
+		|       if(loc) print(loc.name);
+		|    %></li>
+		| <%
+		|   } if(email &&email.length) { /* Email */
+		| %>
+		|   <li><%= email %></li>
+		| <%
+		|   } if(phone &&phone.length) { /* Phone */
+		| %>
+		|   <li><%= phone %></li>
+		| <%
+		|   } if(address1 &&address1.length) { /* Address */
+		| %>
+		|   <li><%= address1 %>; <%=address2 %></li>
+		| <% } %>
+		| </ul>
+		| <div class="c-disclaimer"><?= lang("csingle.disclaimer") ?></div>

@@ -1,0 +1,64 @@
+#singleAdminPanel {
+	@include clearfix();
+	background: #000;
+	color: #FFF;
+	text-align: center;
+
+	#mobile-admin-grabber {
+		margin: 0;
+		padding: 19px;
+	}
+	input {
+		background: transparent;
+		border: none;
+		padding: 0;
+	}
+
+	.item {
+		cursor: pointer;
+		display: inline-block;
+		float: left;
+		font-size: 16px;
+		margin: 0 10px;
+		padding: 10px;
+
+		span {
+			padding: 2px 5px;
+
+			&.title { padding: 0; }
+		}
+		&.large {
+			font-size: 14px;
+			padding: 10px;
+			@include single-transition(background);
+
+			&:hover {
+				background: rgba(0, 0, 0, 0.1);
+			}
+		}
+	}
+	#mobile-admin-panel {
+		-webkit-transition-property: width, height; /* Safari */
+		-webkit-transition-duration: 1s; /* Safari */
+		transition-property: width, height;
+		transition-duration: 1s;
+
+		padding: 0;
+		background: rgba(0, 0, 0, 0.2);
+		height: 0;
+		overflow: hidden;
+
+		.columns {
+			padding: 0;
+		}
+
+		input {
+			border: 1px solid rgba(0, 0, 0, 0.1);
+			padding: 15px 0;
+
+			&:hover {
+				background: rgba(0, 0, 0, 0.2);
+			}
+		}
+	}
+}

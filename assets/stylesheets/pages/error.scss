@@ -1,0 +1,24 @@
+body#error {
+	background: #000;
+	color: #FFF;
+
+	pre {
+		margin: 0;
+		padding: 15px;
+	}
+	.e-stack { padding: 10px; }
+	.e-message {
+		background: #FFF;
+		color: red;
+	}
+	.e-status {
+		background: #FFF;
+		color: #000;
+	}
+	.e-title {
+		padding: 15px;
+		text-align: center;
+		font-size: 18px;
+		@extend .font-title;
+	}
+}

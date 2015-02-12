@@ -1,0 +1,102 @@
+body#landing {
+	select {
+		background: #3498db;
+		color: #FFF;
+		padding: 10px;
+		border: 0;
+		margin: 5px 0;
+		border-bottom: 5px solid #2980b9;
+	}
+
+	#clsf-list {
+		.columns { padding: 0; }
+		.row { margin: 0; }
+	}
+	#masonry-container { margin: 0 auto; }
+
+	.classified-list-long {
+		padding: 10px;
+		width: 220px;
+		position: relative;
+
+		.title {
+			font-size: 18px;
+			margin-bottom: 15px;
+			padding-bottom: 5px;
+		}
+		ul, li {
+			font-family: Verdana, Arial, Helvetica, sans-serif;
+			font-size: 13px;
+			padding: 0; margin: 0;
+		}
+		li a {
+			color: blue;
+			text-decoration: none;
+			word-wrap: break-word;
+
+			&:hover { text-decoration: underline; }
+		}
+		img {
+			height: 50px;
+			width: 50px;
+		}
+
+		.sprite {
+			background: url("/images/sprites_32.png") no-repeat scroll;
+			display: inline-block;
+			height: 32px;
+			margin-bottom: -10px;
+			margin-left: 18px;
+			right: 0;
+			top: 0;
+			width: 32px;
+
+			&.Classes { background-position: 0 #{-32 * 6}px }
+			&.Community { background-position: 0 #{-32 * 5}px }
+			&.Jobs { background-position: 0 #{-32 * 10}px }
+			&.Pets { background-position: 0 #{-32 * 4}px }
+			&.Real { background-position: 0 #{-32 * 8}px }
+			&.Rent { background-position: 0 #{-32 * 9}px }
+			&.Sale { background-position: 0 #{-32 * 0}px }
+			&.Services { background-position: 0 #{-32 * 18}px }
+			&.Vehicles { background-position: 0 #{-32 * 2}px }
+			&.Personal { background-position: 0 #{-32 * 7}px }
+		}
+	}
+
+	#top-classifieds {
+		padding: 0;
+		position: relative;
+		@extend .font-title;
+
+		.top-c {
+			@include single-transition(border-color);
+			background: #FFF;
+			border: 1px solid #EEE;
+			max-width: 200px;
+
+			.top-c-title {
+				padding: 10px;
+			}
+
+			&:hover { border-color: #CCC; }
+			&.has-thumb {
+				// background: red;
+				height: 150px;
+				width: 150px;
+
+				// background-size: 150px 150px;
+				// background: no-repeat center center fixed;
+				// -webkit-background-size: cover;
+				// -moz-background-size: cover;
+				// -o-background-size: cover;
+				// background-size: cover;
+				//
+				.top-c-title {
+					background: rgba(255, 255, 255, 0.7)
+				}
+			}
+			a { text-decoration: none; }
+		}
+	}
+}

@@ -1,0 +1,71 @@
+<section id="filter-box-container">
+	<input name="cat" type="hidden" value="">
+	<div class="medium-6 no-padding columns">
+		<div class="option">
+			<div class="font-title option-title"><span class="font-awesome icon">&#xf002;</span>Keywords</div>
+			<div class="sub-option">
+				<div id="filter-box-keywords">
+					<div class="keyword-container border-dark radii-top">&nsbp;</div>
+					<input id="filter-box-keyword-input" placeholder="Type in keywords here" class="radii-bottom" />
+					<input name="keywords" type="hidden" value="">
+				</div>
+			</div>
+		</div>
+		<div class="option">
+			<div class="font-title option-title"><span class="font-awesome icon">&#xf155;</span>Price</div>
+			<div class="sub-option">
+				<select id="price-selector" name="price" placeholder="sub-category" class="radii">
+					<option disabled selected>Choose a price</option>
+					<option>Free</option>
+					<option>Exact</option>
+					<option>Range</option>
+					<option>Contact Owner</option>
+				</select>
+				<div class="padding-top">
+					<div class="radii">
+						<input class="hide" name="exactprice" placeholder="Exact Price" />
+						<input class="hide" name="minprice" placeholder="Minimum" />
+						<input class="hide" name="maxprice" placeholder="Maximum" />
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="medium-6 no-padding columns">
+		<div class="option">
+			<div class="font-title option-title"><span class="font-awesome icon">&#xf187;</span>Category</div>
+			<div class="sub-option">
+				<select id="cat-selector" name="category1" placeholder="category"  class="radii-top">
+					<option value="" disabled selected>Choose a category</option>
+				</select>
+				<select id="subcat-selector" name="cat" placeholder="sub-category" class="radii-bottom">
+					<option value="" disabled selected>Choose a sub-category</option>
+				</select>
+			</div>
+		</div>
+		<div class="option">
+			<div class="font-title option-title"><span class="font-awesome icon">&#xf041;</span>Location</div>
+			<div class="sub-option">
+				<select name="location" class="radii">
+					<option value="" disabled selected>Select a location</option>
+					<option value="">None</option>
+					<% _.each(locations, function(location) { %>
+						<option value=<%= location["id"] %>><%= location["name"] %></option>
+					<% }); %>
+				</select>
+			</div>
+		</div>
+	</div>
+	<div class="small-12 columns">
+		<div class="medium-6 no-padding columns">
+			<div class="text-center">
+				<input type="submit" id="filter-box-submit" class="font-title" value="Update Filters" />
+			</div>
+		</div>
+		<div class="medium-6 no-padding columns">
+			<div class="text-center">
+				<div class="input font-title">Hide filters</div>
+			</div>
+		</div>
+	</div>
+</section>

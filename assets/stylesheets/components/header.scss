@@ -1,0 +1,112 @@
+header {
+	// height: 120px;
+	background: #FFF;
+	border-bottom: 2px solid #EEE;
+
+	nav#main-nav {
+		height: 100%;
+		padding: 5px 25px 10px;
+		width: 100%;
+
+		ul {
+			@include clearfix();
+			margin: 0;
+			padding: 0;
+			width: 100%;
+		}
+		li {
+			// @include single-transition(color);
+			color: #000;
+			float: left;
+			margin-right: 50px;
+			padding: 6px 0;
+
+			a { text-decoration: none; }
+
+			&.form {
+				float: right;
+				margin: 0;
+
+				form {
+					position: relative;
+					margin: 0;
+
+					input {
+						@include radius(20px);
+						background: #f7f7f7;
+						border: none;
+						color: #000;
+						font-size: 12px;
+						outline: none;
+						padding: 5px 15px;
+					}
+					.icon {
+						color: $main-color;
+						padding: 2px 4px;
+						position: absolute;
+						right: 5px;
+						top: 0;
+					}
+				}
+			}
+			&#nav-logo {
+				height: 45px;
+				width: 131px;
+				background: url(../images/kme-small.png);
+			}
+		}
+	}
+	#subnav-container {
+		@include clearfix();
+		padding: 0 15px;
+
+		.nav-sub {
+			@include clearfix();
+			font-size: 12px;
+			margin: 0;
+			padding: 0;
+
+			&.auth { float: right }
+			&.lang { float: left }
+			a:last-child li:after { display: none; }
+			li {
+				@include single-transition(color);
+				color: #999;
+				float: left;
+				padding: 7px;
+				position: relative;
+
+				/* Display the millidot after each li */
+				&:after {
+					content: '\b7\a0';
+					position: relative;
+					right: -7px;
+					top: 0;
+				}
+				&:hover { color: #000; }
+			}
+		}
+	}
+
+	// #mobile-sub-nav {
+	// 	-webkit-transition: height .25s ease-in-out;
+	// 	transition: height .25s ease-in-out;
+
+	// 	padding: 0;
+	// 	background: rgba(0, 0, 0, 0.2);
+	// 	height: 0;
+	// 	overflow: hidden;
+
+	// 	li {
+	// 		border: 1px solid rgba(0, 0, 0, 0.1);
+	// 		padding: 15px 0;
+	// 		text-decoration: none;
+
+	// 		&:hover { background: rgba(0, 0, 0, 0.2); }
+	// 	}
+
+	// 	&.reveal {
+	// 		height: 159px;
+	// 	}
+	// }
+}

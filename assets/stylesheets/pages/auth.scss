@@ -1,0 +1,39 @@
+body#auth-login main, body#auth-signup main {
+	border: none;
+	background: none;
+
+	.auth-title {
+		@extend .font-title;
+		padding: 25px;
+		text-align: center;
+		font-size: 30px;
+	}
+
+	form {
+		margin: 0 auto;
+		width: 300px;
+
+		> section { margin-bottom: 10px; }
+		input {
+			border: 1px solid #DDD;
+			border-bottom: 0;
+			width: 100%;
+			padding: 10px;
+
+			&.submit {
+				border: 0;
+				border-bottom: 5px solid #27ae60;
+				background: #2ecc71;
+				color: #FFF;
+				font-weight: 700;
+			}
+		}
+	}
+
+	.extra-links {
+		text-align: center;
+		padding-top: 20px;
+
+		a { color: #27ae60; }
+	}
+}

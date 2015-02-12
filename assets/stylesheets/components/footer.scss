@@ -1,0 +1,19 @@
+footer {
+	// background: #293A4A;
+	color: rgba(0, 0, 0, 0.5);
+	font-size: 10px;
+	font-weight: 700;
+	margin: 0;
+	padding: 10px;
+	text-align: center;
+	text-transform: uppercase;
+
+	a { text-decoration: none; }
+	div {
+		@include single-transition(color);
+		padding: 0 10px;
+		display: inline-block;
+
+		&:hover { color: #000; }
+	}
+}

@@ -1,0 +1,24 @@
+
+<script> window.url = "<?= site_url('guest/single/'. $hash) ?>"; </script>
+<section class="clearfix padding">
+  <div class="float-left container">
+    <!-- Disclaimer message -->
+    <h1 class="font-title"> <?= lang('gfinish.congrat') ?></h1>
+    <p><?= lang("gfinish.since") ?></p>
+    <br/>
+
+    <!-- Instructions for the guest -->
+    <p><?= lang("gfinish.instr") ?></p>
+
+    <!-- QR code -->
+    <div id="qrcode"></div>
+
+    <!-- URL -->
+    <h2><a href="<?= site_url('guest/single/'. $hash) ?>">
+      <?= site_url('guest/single/'. $hash) ?></a>
+    </h2>
+
+    <!-- Warning -->
+    <p><?= lang("gfinish.warn") ?></p>
+  </div>
+</section>

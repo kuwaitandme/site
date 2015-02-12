@@ -1,0 +1,14 @@
+<div class="font-title heading-xl padding text-center l-title">Login</div>
+<form action="<%= lang.href %>/auth/login" method="POST">
+	<section>
+		<div><input type="email" name="login" placeholder="email" required/></div>
+		<div><input type="password" name="password" placeholder="password" required/></div>
+		<div><input type="submit" class="submit" value="Login" /></div>
+	</section>
+	<div class="extra-links">
+		Is this your first time here? <a data-view="auth/signup" href="<%= lang.href %>/auth/signup">Sign up!</a>
+	</div>
+<!-- 	<div class="extra-links">
+		Forgot your password? Click <a data-view="auth/forgot" href="<%= lang.href %>/auth/forgot">here</a>, to reset it.
+	</div> -->
+</form>

@@ -1,0 +1,68 @@
+.classified-list {
+	ul {
+		@include clearfix();
+		border-left: 1px solid #EEE;
+		margin: 0;
+		padding: 0;
+
+		a { text-decoration: none; }
+		li {
+			@include single-transition(border-color);
+			background: #FFF;
+			border: 1px solid #EEE;
+			max-width: 50%;
+			overflow: hidden;
+
+			&:hover { border-color: #BBB; }
+			.heading { font-size: 20px; }
+			.thumb {
+				background: #FFF;
+				float: left;
+				height: 150px;
+				overflow: hidden;
+				text-align: center;
+				width: 150px;
+
+				img { max-width: none; }
+			}
+			.c-info {
+				padding: 20px;
+				height: 100%;
+				padding-left: 160px;
+			}
+			.box {
+				background: #e74c3c;
+				color: #FFF;
+				font-size: 12px;
+				display: inline-block;
+				margin-top: 5px;
+				padding: 5px 10px;
+				width: auto;
+
+				&.yellow { background: #F67F00; }
+				&.green { background: #27AE60; }
+			}
+			.c-meta{
+				font-size: 12px;
+				color: #999;
+
+				&:after {
+					padding: 2px;
+					content: '\b7\a0';
+				}
+				&:last-child:after{ content: ""; }
+			}
+			.c-title {
+				@extend .font-title;
+				font-size: 24px;
+				overflow: hidden;
+				line-height: 24px;
+				padding-bottom: 15px;
+			}
+			&.no-thumb {
+				.thumb { display: none; }
+				.c-info { padding-left: 20px; }
+			}
+		}
+	}
+}

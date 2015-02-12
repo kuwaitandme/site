@@ -1,0 +1,77 @@
+<form enctype="multipart/form-data">
+	<div class="tab active">
+		<div class="tab-title"> Basic Information </div>
+		<div class="tab-content">
+			<div class="hint">Choose a title for your classified. The best titles are meaningful, clear and short </div>
+			<input name="title" placeholder="<%= lang.post.placeholder.title %>" required/>
+			<div class="seperator"></div>
+
+			<div class="hint">Choose what kind of classified this will be. If you choose "Offering", then you are offering something. If you choose "Wanted", then you are requesting for something.</div>
+			<select>
+				<option value="0" selected>Offering</option>
+				<option value="1">Wanted</option>
+			</select>
+			<div class="seperator"></div>
+
+			<div class="hint">Choose the categories which best fits your classified. Choose a parent category and then choose a sub-category.</div>
+			<select id="cat-selector" name="parent-category" required>
+				<option disabled selected data-id="-1"><%= lang.post.placeholder.category %></option>
+			</select>
+			<select id="subcat-selector" name="category" required>
+				<option disabled data-id="-1" selected><%= lang.post.placeholder.subcategory %></option>
+			</select>
+			<div class="seperator"></div>
+
+			<div class="hint">Give a price. If you leave this field blank, the classified gets labeled as "For free". If you want people to contact you for a quote, choose the "Contact Owner" option.</div>
+			<input name="price" placeholder="<%= lang.post.placeholder.price %>" required/>
+			<div class="seperator"></div>
+
+			<div class="hint">Here goes the description. Here you give as much as detail as you can about your classified.</div>
+			<textarea name="description" placeholder="<%= lang.post.placeholder.description %>"required></textarea>
+			<div class="seperator"></div>
+		</div>
+	</div>
+	<div class="tab">
+		<div class="tab-title"> Photos/Videos </div>
+		<div class="tab-content">
+			<div class="hint">
+				<b>Get at least twice the number of replies by uploading images</b>. Max 10 images. File size can be 4 MB per image with max dimension 6000x4000.<br/> Add your images here, by dragging and dropping them here or by clicking on the box.
+			</div>
+			<div id="image-upload" class="font-title">
+				<span class="heading">Drag &amp; Drop images here</span><br/>
+				<span>or just click or tap.</span>
+			</div>
+			<ul id="image-upload-preview"></ul>
+			<div class="seperator"></div>
+		</div>
+	</div>
+	<div class="tab">
+		<div class="tab-title"> Contact Information </div>
+		<div class="tab-content">
+			<div class="hint">A contact email. Give an email through using people can reach you for your classified. </div>
+			<input name="email" placeholder="<%= lang.post.placeholder.email %>" required/>
+			<div class="seperator"></div>
+
+			<div class="hint">A contact phone. Give a phone number if you want to be contacted via phone. </div>
+			<input name="phone" placeholder="<%= lang.post.placeholder.phone %>" required/>
+			<div class="seperator"></div>
+
+			<div class="hint">Pick the location of the classified. If no location is needed pick the last option.</div>
+			<select name="location" required>
+				<option disabled selected value=""><%= lang.post.location_choose %></option>
+				<% _.each(locations, function(location) { %>
+					<option value=<%= location["id"] %>><%= lang.location[location.name] %></option>
+				<% }); %>
+				<option value="0">None</option>
+			</select>
+			<div class="seperator"></div>
+
+			<div class="hint">
+				<b>Disclaimer:<br/></b>By submitting this classified, you are agreeing to our
+				<a href='/en/terms'>terms and conditions</a>, and to our <a href='/en/privacy'>privacy policy.</a>
+			</div>
+			<input type="submit" class="submit" value="<%= lang.post.submit %>" />
+			<div class="seperator"></div>
+		</div>
+	</div>
+</form>

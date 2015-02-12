@@ -1,0 +1,19 @@
+#loading-screen {
+	background: #ecf0f1;
+	color: #34495e;
+	font-size: 22px;
+	height: 100%;
+	opacity: 0.5;
+	position: absolute;
+	top: 0;
+	width: 100%;
+	z-index: 1;
+
+	.title {
+		left: 50%;
+		margin-left: -33px;
+		margin-top: -24px;
+		position: absolute;
+		top: 40%;
+	}
+}

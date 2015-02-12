@@ -1,0 +1,135 @@
+<div class="font-title text-center heading-xl" >Edit your classified</div>
+	<form method="POST" class="margin-top border-top" accept-charset="utf-8" enctype="multipart/form-data">
+		<div class="clearfix padding-top">
+			<div class="c25 float-left">
+				<div class="label">Title</div>
+			</div>
+			<div class="c75 float-left">
+				<input name="title" placeholder="title" required value="<%= post.title %>" />
+			</div>
+		</div>
+		<div class="clearfix padding-top">
+			<div class="c25 float-left">
+				<div class="label">Category</div>
+			</div>
+			<div class="c75 float-left">
+			<select id="cat-selector" placeholder="sub-category" class="border-dark">
+				<option disabled selected>Choose a category</option>
+			</select>
+			</div>
+		</div>
+		<div class="clearfix padding-top">
+			<div class="c25 float-left">
+				<div class="label">&nbsp;</div>
+			</div>
+			<div class="c75 float-left">
+			<select id="subcat-selector" name="category" placeholder="sub-category" class="border-dark" required>
+				<option disabled selected>Choose a sub-category</option>
+			</select>
+			</div>
+		</div>
+		<div class="clearfix padding-top">
+			<div class="c25 float-left">
+				<div class="label">Classified type</div>
+			</div>
+			<div class="c75 float-left">
+				<select name="type" class="border-dark">
+					<option value="0" selected>Offering</option>
+					<option value="1">Wanted</option>
+				</select>
+			</div>
+		</div>
+		<div class="clearfix padding-top">
+			<div class="c25 float-left">
+				<div class="label">Description</div>
+			</div>
+			<div class="c75 float-left">
+				<textarea name="description" required><%= post.description %></textarea>
+			</div>
+		</div>
+		<div class="clearfix padding-top">
+			<div class="c25 float-left">
+				<div class="label">Price (KD)</div>
+			</div>
+			<div class="c75 float-left">
+				<select id="price-selector" placeholder="sub-category" class="border-dark">
+					<option selected>Custom</option>
+					<option>Free</option>
+					<option>Contact Owner</option>
+				</select>
+			</div>
+		</div>
+		<div class="clearfix padding-top" id="price-container">
+			<div class="c25 float-left">
+				<div class="label">&nbsp;</div>
+			</div>
+			<div class="c75 float-left">
+				<input name="price" type="number" placeholder="0.000" required value="<%= post.price %>"/>
+			</div>
+		</div>
+<!-- 		<div class="clearfix padding-top">
+			<div class="c25 float-left">
+				<div class="label">Images</div>
+			</div>
+			<div class="c75 float-left">
+				<input type="file" name="userfile" size="20" />
+			</div>
+		</div> -->
+		<div class="seperator"></div>
+		<div class="clearfix">
+			<div class="c25 float-left">
+				<div class="label">Contact Email</div>
+			</div>
+			<div class="c75 float-left">
+				<input name="email" type="email" placeholder="email@domain.com" value="<%= post.email %>"/>
+			</div>
+		</div>
+		<div class="clearfix padding-top">
+			<div class="c25 float-left">
+				<div class="label">Contact Telephone</div>
+			</div>
+			<div class="c75 float-left">
+				<input name="phone" type="tel" placeholder="+965 12345689" value="<%= post.phone %>"/>
+			</div>
+		</div>
+		<div class="clearfix padding-top">
+			<div class="c25 float-left">
+				<div class="label">Location</div>
+			</div>
+			<div class="c75 float-left">
+				<select name="location">
+					<option value="">None</option>
+					<% _.each(locations, function(location) { %>
+						<option value=<%= location["id"] %>><%= location["name"] %></option>
+					<% }); %>
+				</select>
+				<!-- <input name="location" placeholder="Location"/> -->
+			</div>
+		</div>
+		<div class="clearfix padding-top">
+			<div class="c25 float-left">
+				<div class="label">Address</div>
+			</div>
+			<div class="c75 float-left">
+				<input name="address1" type="text" placeholder="Address line #1" value="<%= post.address1 %>"/>
+			</div>
+		</div>
+		<div class="clearfix padding-top">
+			<div class="c25 float-left">
+				<div class="label"></div>
+			</div>
+			<div class="c75 float-left">
+				<input name="address2" type="text" placeholder="Address line #2" value="<%= post.address2 %>"/>
+			</div>
+		</div>
+		<div class="seperator"></div>
+		<div class="clearfix">
+			<div class="c25 float-left">
+				<div class="label"></div>
+			</div>
+			<div class="c75 float-left">
+				<input type="submit" class="submit" value="Submit"/>
+			</div>
+		</div>
+	</form>
+</div>

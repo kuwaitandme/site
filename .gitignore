@@ -1,0 +1,12 @@
+# Sublime files
+*.sublime-project
+*.sublime-workspace
+
+# node files
+/.sass-cache
+/node_modules
+/npm-debug.log
+
+# Compiled CSS & JS files
+/server/public/javascripts
+/server/public/stylesheets

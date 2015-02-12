@@ -1,0 +1,32 @@
+header
+	//- Message Container
+	section#messages
+		div.message
+
+	//- Language nav
+	section#subnav-container
+		unless user
+			ul.nav-sub.auth
+				a(href="/auth/login")
+					li login
+				a(href="/auth/signup")
+					li signup
+		else
+			ul.nav-sub.auth
+				a(href="/account/manage")
+					li account
+				a(href="/auth/logout")
+					li logout
+	//- Main nav
+	nav#main-nav
+		ul
+			a(href="/")
+				li#nav-logo
+			a(href="/classified/post")
+				li Post a classified
+			a(href="/classified/search")
+				li Search for a classified
+			li.form
+				form(action="classified/search", method="GET")
+					input(name="keywords")
+					span.icon.font-awesome &#xf002;

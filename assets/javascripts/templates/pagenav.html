@@ -1,0 +1,17 @@
+<% if(display) {%>
+	<div class="page-nav">
+		<ul>
+	<% if(showFirst) {%>
+			<li><a href="<%= firstURL %>">First</a></li>
+			<li>&middot; &middot; &middot;</li>
+	<% } %>
+	<% _.each(pages, function(page) { %>
+			<li class="<%= page.class %>"><a href="<%= page.href %>"><%= page.val %></a></li>
+	<% }); %>
+	<% if(showLast) { %>
+			<li>&middot; &middot; &middot;</li>
+			<li><a href="<%= lastURL %>">Last</a></li>
+	<% } %>
+		</ul>
+	</div>
+<% } %>
