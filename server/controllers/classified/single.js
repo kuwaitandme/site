@@ -1,4 +1,6 @@
-var render = require('../helpers/render');
+var model = require('../../models/classifieds'),
+	mysql = require('../helpers/mysql'),
+	render = require('../helpers/render');
 
 /**
  * Controller for the classified posting page. Creates a new classified and
@@ -8,12 +10,21 @@ var render = require('../helpers/render');
  * account page or else stay in the same page and display an error
  */
 module.exports = function(request, response, next) {
+	/* Connect to the database to submit the queries */
+	var db = mysql.connect();
 
-	/* Generate the response */
-	render(response, {
-		bodyid: 'classified-single',
-		description: null,
-		page: 'classified/single',
-		title: ""//response.__('title.classified.single')
+	/* Get the classified */
+	model.get(db,  request.param("id"), function(classified) {
+
+		/* Generate the response */
+		render(response, {
+			bodyid: 'classified-single',
+			description: null,
+			page: 'classified/single',
+			title: classified.title,
+
+			data: { classified: classified }
+		}, db);
 	});
+
 }

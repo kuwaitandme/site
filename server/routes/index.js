@@ -20,6 +20,6 @@ router.get('/auth/signup', controllers.auth.signup);
 router.get('/classified/edit', controllers.landing);
 router.get('/classified/post', controllers.classified.post);
 router.get('/classified/search', controllers.classified.search);
-router.get('/classified/single', controllers.classified.single);
+router.get('/classified/single/:id', controllers.classified.single);
 
 module.exports = router;
