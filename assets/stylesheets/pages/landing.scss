@@ -19,11 +19,6 @@ body#landing {
 		width: 220px;
 		position: relative;
 
-		.title {
-			font-size: 18px;
-			margin-bottom: 15px;
-			padding-bottom: 5px;
-		}
 		ul, li {
 			font-family: Verdana, Arial, Helvetica, sans-serif;
 			font-size: 13px;
@@ -40,7 +35,12 @@ body#landing {
 			height: 50px;
 			width: 50px;
 		}
-
+		.cl-title {
+			@extend .font-title;
+			font-size: 18px;
+			margin-bottom: 15px;
+			padding-bottom: 5px;
+		}
 		.sprite {
 			background: url("/images/sprites_32.png") no-repeat scroll;
 			display: inline-block;

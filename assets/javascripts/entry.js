@@ -8,10 +8,6 @@
  */
 
 window.app = {
-	helpers: null,
-	views: null,
-
-
 	/**
 	 * This function sets up the different variables
 	 */
@@ -28,7 +24,7 @@ window.app = {
 		/* Get and initialize the main view */
 		var view = window.page;
 		var CurrentView = this.views.pages[view];
-		if(CurrentView) this.mainbody = new CurrentView({ el: "#main-body" });
+		if(CurrentView) this.mainbody = new CurrentView({ el: "main" });
 	},
 
 

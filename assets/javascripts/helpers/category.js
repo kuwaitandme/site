@@ -16,5 +16,29 @@ module.exports = {
 				if(subcategory.id == id) return subcategory;
 			}
 		}
+	},
+
+	/**
+	 * Rearranges the category array into a parent-child type dictionary
+	 */
+	rearrange: function(categories) {
+		var result = [];
+
+		for(var i=0; i<categories.length; i++) {
+			var parentCat = categories[i];
+
+			if(!parentCat.parent) {
+				parentCat.children = [];
+
+				for(var j=0; j<categories.length; j++) {
+					var childCat = categories[j];
+
+					if(childCat.parent == parentCat.id)
+						parentCat.children.push(childCat);
+				}
+				result.push(parentCat);
+			}
+		}
+		return result;
 	}
 };
