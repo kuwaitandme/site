@@ -10,23 +10,20 @@ var	mysql = require('./mysql');
  * @param  db           The database connection to use if there already is one
  *                      open.
  */
-module.exports = function(response, args, db, callback) {
+module.exports = function(response, args, db) {
 	var closeDB = false;
 
 	var common = [];
 
-	/* Check for an body id set */
+	/* Protect un-initialized variables */
 	if(!args.bodyid) args.bodyid = "";
+	if(!args.data) args.data = "";
 
-	/* Check if any database connection was specified */
-	if(!db) {
-		/* No database connection was specified, so create one */
-		db = mysql.connect();
+	/* Check if any database connection was specified. If no database connection
+	 * was specified, so create one */
+	if(!db) db = mysql.connect();
 
-		/* Set a flag to close the connection once our function is done */
-		closeDB = true;
-	}
-
+	/* Setup data for our asynchronous tasks */
 	var tasks = [{
 		name: "locations",
 		query: "SELECT * FROM location"
@@ -63,14 +60,8 @@ module.exports = function(response, args, db, callback) {
 			locations: common["locations"]
 		});
 
-		/* Check the flag to see if we have to close the connection by ourselves
-		 * or not */
-		if(closeDB) db.end();
-
-		console.log(common);
-
-		/* Finally call the callback function to continue the program's flow */
-		if(callback) callback();
+		/* Clean up! */
+		db.end();
 	}
 
 	/* Perform the asynchronous tasks to get the locations and categories */

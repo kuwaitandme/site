@@ -1,4 +1,5 @@
-var	model = require('../../models/classifieds'),
+var async = require("async"),
+	model = require('../../models/classifieds'),
 	mysql = require('../helpers/mysql'),
 	render = require('../helpers/render');
 
@@ -15,10 +16,29 @@ var description = "Sell things that you don't want. Buy things at bargain "
 module.exports = function(request, response, next) {
 	/* Connect to the database and submit the queries */
 	var db = mysql.connect();
+	var topClassifieds = [], categoryCount = [];
 
-	/* Get the top classifieds */
-	model.getTopClassifieds(db, function (topClassifieds) {
+	/* Prepare the DB queries to be run parallely */
+	parallelTasks = [
+		/* Get the top classifieds */
+		function(callback) {
+			model.getTopClassifieds(db, function (result) {
+				topClassifieds = result;
+				callback();
+			});
+		},
 
+		/* Get the number of classifieds per category */
+		function(callback) {
+			model.classifiedsPerCategory(db, function (result) {
+				categoryCount = result;
+				callback();
+			});
+		}
+	];
+
+	/* Function to be run once done */
+	asyncFinish = function () {
 		/* Generate the response */
 		render(response, {
 			bodyid: "landing",
@@ -26,10 +46,13 @@ module.exports = function(request, response, next) {
 			page: 'landing',
 			title: response.__('title.landing'),
 
-			data: { topClassifieds: topClassifieds }
+			data: {
+				categoryCount: categoryCount,
+				topClassifieds: topClassifieds
+			}
 		}, db);
+	}
 
-		/* Finally, close the db connection */
-		db.end();
-	});
+	/* Run the tasks in parallel */
+	async.parallel(parallelTasks, asyncFinish);
 }
