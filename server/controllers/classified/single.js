@@ -17,7 +17,7 @@ module.exports = function(request, response, next) {
 	model.get(db,  request.param("id"), function(classified) {
 
 		/* Generate the response */
-		render(response, {
+		render(request, response, {
 			bodyid: 'classified-single',
 			description: null,
 			page: 'classified/single',

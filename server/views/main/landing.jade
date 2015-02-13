@@ -22,7 +22,12 @@ block content
 		|   </div>
 		|   <ul>
 		|   <% _.each(children, function(cat) { %>
-		|     <li><a href="/classified/search?cat=<%= cat.id %>"><%= cat.name %></a></li>
+		|     <li>
+		|       <a href="/classified/search?cat=<%= cat.id %>">
+		|         <span class="name"><%= cat.name %></span>
+		|         <span class="count">(123,1232)</span>
+		|       </a>
+		|     </li>
 		|   <% }); %>
 		|   </ul>
 		| </div>

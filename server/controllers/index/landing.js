@@ -40,7 +40,7 @@ module.exports = function(request, response, next) {
 	/* Function to be run once done */
 	asyncFinish = function () {
 		/* Generate the response */
-		render(response, {
+		render(request, response, {
 			bodyid: "landing",
 			description: description,
 			page: 'landing',

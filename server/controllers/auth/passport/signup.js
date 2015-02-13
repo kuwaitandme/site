@@ -2,9 +2,7 @@ var bCrypt = require('bcrypt-nodejs'),
 	mongoose = require('mongoose'),
 	LocalStrategy = require('passport-local').Strategy;
 
-var	crypt = require('../../helpers/crypt'),
-	dbConfig = require('../../helpers/mongodb'),
-	Users = require('../../../models/users').model;
+var	Users = require('../../../models/users').model;
 
 
 /**
@@ -28,7 +26,7 @@ module.exports = function(passport) {
 		 * The main function that checks for the user and creates it.
 		 */
 		function(req, username, password, done) {
-			mongoose.connect(dbConfig.url);
+			// mongoose.connect(dbConfig.url);
 
 			findOrCreateUser = function() {
 				/* Find a user in Mongo with provided username */

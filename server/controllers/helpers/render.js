@@ -10,7 +10,7 @@ var	mysql = require('./mysql');
  * @param  db           The database connection to use if there already is one
  *                      open.
  */
-module.exports = function(response, args, db) {
+module.exports = function(request, response, args, db) {
 	var closeDB = false;
 
 	var common = [];
@@ -50,7 +50,7 @@ module.exports = function(response, args, db) {
 	var asyncComplete = function (error) {
 		response.render("main/" + args.page, {
 			title: args.title + " | Kuwait &amp; Me",
-			user: null,
+			user: request.user,
 			bodyid: args.bodyid,
 			description: args.description,
 

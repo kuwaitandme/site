@@ -9,12 +9,6 @@ module.exports = {
 			var category = categories[i];
 
 			if(category.id == id) return category;
-
-			for(var j=0; j<category.children.length; j++) {
-				var subcategory = category.children[j];
-
-				if(subcategory.id == id) return subcategory;
-			}
 		}
 	},
 

@@ -10,7 +10,7 @@ module.exports = Backbone.View.extend({
 
 		/* Add the templates */
 		$(".c-content").html(
-			singleTemplate(window.post)
+			singleTemplate(window.data.classified)
 		);
 		$(".c-gallery").html(
 			slideshowTemplate({ images: window.images })

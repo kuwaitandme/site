@@ -1,1 +1,8 @@
-body#classified-search { background: #EEE; }
+body#classified-search {
+    .noclassifieds-title {
+        @extend .font-title;
+        padding: 20px;
+        text-align: center;
+        font-size: 30px;
+    }
+}

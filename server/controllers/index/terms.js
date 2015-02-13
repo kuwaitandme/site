@@ -7,7 +7,7 @@ var render = require('../helpers/render');
 module.exports = function(request, response, next) {
 
 	/* Generate the response */
-	render(response, {
+	render(request, response, {
 		bodyid: "terms",
 		page: 'terms',
 		title: response.__('title.terms'),
