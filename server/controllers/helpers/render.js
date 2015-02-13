@@ -1,6 +1,5 @@
 var async = require("async");
-var	mysql = require('./mysql'),
-	category = require('../../models/category'),
+var	category = require('../../models/category'),
 	location = require('../../models/location');
 
 /**
@@ -9,20 +8,14 @@ var	mysql = require('./mysql'),
  *
  * @param  response     The reponse to be given to the client
  * @param  args         Arguments to be given to the page
- * @param  db           The database connection to use if there already is one
- *                      open.
  */
-module.exports = function(request, response, args, db) {
+module.exports = function(request, response, args) {
 	var closeDB = false;
 	var common = [];
 
 	/* Protect un-initialized variables */
 	if(!args.bodyid) args.bodyid = "";
 	if(!args.data) args.data = "";
-
-	/* Check if any database connection was specified. If no database connection
-	 * was specified, so create one */
-	if(!db) db = mysql.connect();
 
 	/* Setup data for our asynchronous tasks */
 	var tasks = [{
@@ -59,9 +52,6 @@ module.exports = function(request, response, args, db) {
 			categories: common["categories"],
 			locations: common["locations"]
 		});
-
-		/* Clean up! */
-		db.end();
 	}
 
 	/* Perform the asynchronous tasks to get the locations and categories */

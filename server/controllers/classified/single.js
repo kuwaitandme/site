@@ -1,5 +1,4 @@
 var classified = require('../../models/classified'),
-	mysql = require('../helpers/mysql'),
 	render = require('../helpers/render');
 
 /**
