@@ -1,0 +1,12 @@
+extends ../../layout.jade
+
+block content
+	h1= __('page.glogin.hello')
+
+	p= __('page.glogin.butok')
+	a(href="/guest/post")
+		div.input.submit= __('page.glogin.post')
+
+	p= __('page.glogin.or')
+	a(href="/auth/login")
+		.input.submit= __('page.glogin.login')

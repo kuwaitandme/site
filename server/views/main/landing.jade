@@ -5,7 +5,7 @@ block content
 	section#top-classifieds
 		each classified in data.topClassifieds
 			div
-				a(href="/classified/single/" + classified.id)= classified.title
+				a(href="/classified/single/" + classified._id)= classified.title
 
 	//- Render the list of classifieds
 	section#masonry-container.hide-for-small-only
@@ -35,9 +35,9 @@ block content
 
 	//- JS Template for the top classified list
 	script(id="top-classifieds-template", type="text/template")
-		|  <a href="/classified/single/<%= id %>">
-		|  <% if(thumb) { %>
-		|    <div class="top-c has-thumb" style="background-image: url('/uploads/thumb/<%= thumb %>')">
+		|  <a href="/classified/single/<%= _id %>">
+		|  <% if(images.length > 0) { %>
+		|    <div class="top-c has-thumb" style="background-image: url('/uploads/thumb/<%= images[0] %>')">
 		|  <% } else { %>
 		|    <div class="top-c">
 		|  <% } %>

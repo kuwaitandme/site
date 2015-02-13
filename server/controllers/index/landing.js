@@ -23,7 +23,7 @@ module.exports = {
 		parallelTasks = [
 			/* Get the top classifieds */
 			function(callback) {
-				classified.getTopClassifieds(db, function (result) {
+				classified.getTopClassifieds(function (result) {
 					topClassifieds = result;
 					callback();
 				});

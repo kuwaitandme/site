@@ -5,17 +5,36 @@ var async = require('async'),
 var Schema = mongoose.Schema,
 	ObjectId = Schema.ObjectId;
 
+/**
+ * Helper function to create a random hash
+ *
+ * @return    Returns a random hash with a GUID type format.
+ */
+function randomHash() {
+	function s4() {
+		return Math.floor((1 + Math.random()) * 0x10000)
+			.toString(16)
+			.substring(1);
+	}
+	return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+	s4() + '-' + s4() + s4() + s4();
+}
+
 
 module.exports = {
 	model: mongoose.model('classified', {
 		title: String,
-		owner: ObjectId,
 		description: String,
+
+		owner: ObjectId,
+		authHash: String,
+		guest: Boolean,
 
 		category: Number,
 		created: Date,
-		guest: Boolean,
+		flaggersIP: [String],
 		images: [String],
+		price: Number,
 		saleby: Number, /* 1:Owner,2:Distributer */
 		status: Number, /* 0:Inactive,1:Active,2:Archived,3:Banned,4:Expired */
 		type: Number,   /* 0:Sale,1:Want */
@@ -29,6 +48,46 @@ module.exports = {
 			address2: String
 		}
 	}),
+
+
+	/**
+	 * Creates a classified from the POST parameters passed from the request.
+	 *
+	 * @param  request     The request object with the POST data
+	 * @param  callback    The callback function to call with the new classified
+	 */
+	createFromPOST: function(request, isGuest, callback) {
+		var classified = new this.model();
+		var data = request.body;
+
+		classified.category = data.category;
+		classified.contact.address1 = data.address1;
+		classified.contact.address2 = data.address2;
+		classified.contact.email = data.email;
+		classified.contact.location = data.location;
+		classified.contact.phone = data.phone;
+		classified.created = Date.now();
+		classified.description = data.description;
+		classified.price = data.price;
+		classified.saleby = data.saleby;
+		classified.status = 0;
+		classified.title = data.title;
+		classified.type = data.type;
+
+		/* If you are logged in, then we will make you the owner of this
+		 * classified; Otherwise we will label this classified as a guest
+		 * classified. */
+		if(request.user && !isGuest) {
+			classified.owner = request.user._id;
+			classified.guest = false;
+		} else {
+			classified.guest = true;
+			classified.authHash = randomHash();
+		}
+
+		classified.save();
+		callback(classified);
+	},
 
 
 	/* Table names */
@@ -45,48 +104,12 @@ module.exports = {
 	 * @param  callback  The callback function to call once the query is
 	 *                   finished.
 	 */
-	getTopClassifieds: function(db, callback) {
-		var that = this;
-		var results = [];
-		var query = util.format(
-			"SELECT * FROM %s \
-				WHERE status = 2 \
-				ORDER BY id DESC \
-				LIMIT 10",
-			this.table.main
-		);
+	getTopClassifieds: function(callback) {
+		var query = this.model.find({}).sort({created: -1}).limit(10);
 
-
-		/* The callback function once the SQL query gets executed */
-		var querySolver = function (error, rows, fields) {
-			if (error) throw error;
-			results = rows;
-
-			/*! Now we asynchronously make queries to get the images for each
-			 *  of the classifieds */
-
-			/* Perform the asynchronous tasks to get the locations and
-			 * categories */
-			async.each(results, asyncJob, asyncComplete);
-		}
-
-		/* Function to run on each task setup for the async */
-		var asyncJob = function (result, callback) {
-			/* Send the query to ther DB */
-			that.getImages(db, result.id, function(images) {
-				/* Save the result */
-				if(images && images.length > 0) result.thumb = images[0].url;
-
-				/* Async call is done, alert via callback */
-				callback();
-			});
-		}
-
-		/* Function to run once the async is done it's jobs. */
-		var asyncComplete = function (error) { callback(results); }
-
-		/* Execute the query */
-		db.query(query, querySolver);
+		query.exec(function(err, result) {
+			callback(result);
+		});
 	},
 
 

@@ -2,6 +2,7 @@ var bCrypt = require('bcrypt-nodejs');
 
 /**
  * Generates a hash using bCrypt
+ *
  * @param  {[type]} password [description]
  * @return {[type]}          [description]
  */

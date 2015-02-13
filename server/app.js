@@ -8,8 +8,8 @@ var bodyParser = require('body-parser'),
 	mongoose = require('mongoose'),
 	passport = require('passport'),
 	path = require('path');
-
 var routes = require('./routes/index');
+
 
 var app = express();
 
@@ -29,6 +29,9 @@ app.set('view engine', 'jade');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
+/* to support JSON/URL-encoded bodies */
+// app.use(express.json());
+// app.use(express.urlencoded());
 
 /* Setup static path and favicon */
 app.use(express.static(path.join(__dirname, 'public')));

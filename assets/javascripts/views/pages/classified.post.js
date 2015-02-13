@@ -179,7 +179,7 @@ module.exports = Backbone.View.extend({
 	 */
 	catSelected: function(e) {
 		var id = this.$parCategory.find(":selected").data("id");
-		var categories = window.categories;
+		var categories = app.helpers.category.rearrange(window.categories);
 
 		for(var i=0; i<categories.length; i++)
 			if(categories[i].id == id) {

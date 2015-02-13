@@ -1,5 +1,4 @@
 var classified = require('../../models/classified'),
-    guest = require('../../models/guest'),
 	render = require('../helpers/render');
 
 module.exports = {
@@ -25,11 +24,8 @@ module.exports = {
 	 * Controller to create the new classified
 	 */
 	post: function(request, response, next) {
-		classified = new classified.model();
-		classified.save();
-
-		guest.createWithClassified(classified._id, function(authHash) {
-			response.redirect('/guest/finish/' + authHash);
+		classified.createFromPOST(request, true, function(classified) {
+			response.redirect('/guest/finish/' + classified.authHash);
 		});
 	}
 }
