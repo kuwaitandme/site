@@ -35,14 +35,14 @@ module.exports = Backbone.View.extend({
 
 	render: function () {
 		var listTemplate = _.template($("#list-template").html());
-		var $classifiedList =  $(".classified-list .row");
+		var $classifiedList =  $(".classified-list ul");
 
 		/* Clear out the classified list */
 		$classifiedList.html("");
 
 		/* For each classified, apply the template and append it into the
 		 * container */
-		_.each(window.classifieds, function(post) {
+		_.each(window.data.classifieds, function(post) {
 			var html = listTemplate(post)
 			$classifiedList.append(html);
 		});

@@ -42,8 +42,8 @@ block content
 		| </ul>
 		| <ul class="c-meta">
 		|   <li><%
-		|     var cat = app.helpers.category.find(category);
-		|     if(category) {
+		|     if(this.category) {
+		|       var cat = app.helpers.category.find(category);
 		|       print("#{__("page.csingle.cat")} ");
 		|       print(cat.parent + ", " + cat.child);
 		|     }

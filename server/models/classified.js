@@ -91,11 +91,6 @@ module.exports = {
 	},
 
 
-	/* Table names */
-	table: {
-		main: "classified",
-		images: "classified_image"
-	},
 
 	/**
 	 * Returns the top classifieds. Usually the ones that should be displayed on
@@ -145,35 +140,22 @@ module.exports = {
 
 		this.model.aggregate(agg, function(err, result){
 	    	if (err)  throw err;
-
 			callback(result);
 		});
 	},
 
 
 	/**
-	 * Returns an array of image ids for the given classified.
+	 * Finds all the classifieds with the given parameters
 	 *
-	 * @param  db        The database connection object.
-	 * @param  id        The id of the classified to find.
-	 * @param  callback  The callback function to call once the query is
-	 *                   finished.
+	 * @param  {[type]}   parameters [description]
+	 * @param  {Function} callback [description]
+	 * @return {[type]}            [description]
 	 */
-	getImages: function(db, id, callback) {
-		var query = util.format(
-			"SELECT url \
-				FROM %s \
-				WHERE cid = '%s';",
-			this.table.images, id);
-
-		/* The callback function once the SQL query gets executed */
-		var querySolver = function (error, rows, fields) {
-			if (error) throw error;
-			callback(rows);
-		}
-
-		/* Execute the query */
-		db.query(query, querySolver);
+	search: function(parameters, callback) {
+		this.model.find(parameters, function(err, results) {
+			if(err) throw err;
+			callback(results);
+		});
 	}
-
 }

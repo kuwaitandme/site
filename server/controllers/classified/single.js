@@ -13,7 +13,6 @@ module.exports = {
 	get: function(request, response, next) {
 		/* Get the classified */
 		classified.get(request.param("id"), function(classified) {
-
 			if(!classified) redirect("/404");
 
 			/* Generate the response */

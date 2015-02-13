@@ -6,7 +6,7 @@ module.exports = {
         var location = window.locations;
 
         for(var i=0; i<location.length; i++) {
-            if(location[i].id == id) return location[i];
+            if(location[i]._id == id) return location[i];
         }
     }
 };

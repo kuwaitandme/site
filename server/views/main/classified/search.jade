@@ -4,26 +4,27 @@ block content
 	//- Raw HTML for bots to crawl
 	section.classified-list
 		//- Check if there are any classifieds to print
-		if(!classifieds || classifieds.length == 0)
+		if(!data.classifieds || data.classifieds.length == 0)
 			//- There wasn't, so print a "No classifieds message"
 			.noclassifieds-title #{__('page.csearch.noclassifieds')}
 		else
 			//- There were classifieds, print them one by one
 			ul
-				li
-					a(href="/classified/single/#{1}") Title
+				each classified in data.classifieds
+					li
+						a(href="/classified/single/#{classified._id}")= classified.title
 
 	//- JS Template for each classified in the list
 	script(id="list-template", type="text/template")
 		| <%
 		|   var nothumb = "";
-		|   if(!thumbnail) nothumb = "no-thumb";
+		|   if(!images || images.length == 0) nothumb = "no-thumb";
 		| %>
-		| <a href="http://kuwaitandme.com/en/classified/single/<%= id %>">
+		| <a href="/classified/single/<%= _id %>">
 		|   <li class="<%= nothumb %>">
 		|     <div class="thumb">
-		|       <% if(thumbnail) { %>
-		|         <img src="http://kuwaitandme.com/uploads/thumb/<%= thumbnail %>" alt="<%= title %>"/>
+		|       <% if(images.length > 0) { %>
+		|         <img src="/uploads/thumb/<%= images[0] %>" alt="<%= title %>"/>
 		|       <% } %>
 		|     </div>
 		|     <div class="c-info">
@@ -36,12 +37,12 @@ block content
 		|           else print(price + " KD");
 		|         %>
 		|         </span>
-		|         <span class="c-meta"><%= prettydate.format(daycreated) %></span>
-		|         <% if(location && location != 0) { %>
-		|           <span class="c-meta"><%
+		|         <span class="c-meta"><%= prettydate.format(created) %></span>
+		|         <% if(location && location != 0) {
 		|               var loc = app.helpers.location.find(location);
-		|               print(loc.name);
-		|             %></span>
+		|               if(loc) { %>
+		|                <span class="c-meta"><%= loc.name %></span>
+		|            <% } %>
 		|         <% } %>
 		|       </div>
 		|     </div>
