@@ -3,7 +3,7 @@ var async = require('async'),
 	util = require('util');
 
 var Schema = mongoose.Schema,
-    ObjectId = Schema.ObjectId;
+	ObjectId = Schema.ObjectId;
 
 
 module.exports = {

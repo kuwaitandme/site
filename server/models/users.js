@@ -1,6 +1,5 @@
 var mongoose = require('mongoose');
 
-
 module.exports = {
 	model: mongoose.model('Users', {
 		username: String,
