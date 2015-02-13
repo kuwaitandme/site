@@ -1,4 +1,3 @@
-var render = require('../helpers/render');
 var mongoose = require('mongoose'),
 	passport = require('passport'),
 	LocalStrategy = require('passport-local').Strategy;
@@ -12,11 +11,20 @@ var	render = require('../helpers/render');
  * If registration was successful, redirect to the classified posting page so
  * that the user can start posting his/her classified.
  */
-module.exports = function(request, response, next) {
-	/* Generate the response */
-	render(request, response, {
-		bodyid: 'auth-signup',
-		page: 'auth/signup',
-		title: response.__('title.auth.signup')
-	});
+module.exports = {
+	/* Display the signup page */
+	get: function(request, response, next) {
+		render(request, response, {
+			bodyid: 'auth-signup',
+			page: 'auth/signup',
+			title: response.__('title.auth.signup')
+		});
+	},
+
+	/* On POST request, use passport's authentication mechanism to register the
+	 * user */
+	post: passport.authenticate('signup', {
+		successRedirect: '/auth/login',
+		failureRedirect: '/auth/signup'
+	})
 }

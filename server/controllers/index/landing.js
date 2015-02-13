@@ -13,46 +13,48 @@ var description = "Sell things that you don't want. Buy things at bargain "
  * Controller for the landing page. Displays the front-page with the top
  * classifieds and categories to choose from.
  */
-module.exports = function(request, response, next) {
-	/* Connect to the database and submit the queries */
-	var db = mysql.connect();
-	var topClassifieds = [], categoryCount = [];
+module.exports = {
+	get: function(request, response, next) {
+		/* Connect to the database and submit the queries */
+		var db = mysql.connect();
+		var topClassifieds = [], categoryCount = [];
 
-	/* Prepare the DB queries to be run parallely */
-	parallelTasks = [
-		/* Get the top classifieds */
-		function(callback) {
-			model.getTopClassifieds(db, function (result) {
-				topClassifieds = result;
-				callback();
-			});
-		},
+		/* Prepare the DB queries to be run parallely */
+		parallelTasks = [
+			/* Get the top classifieds */
+			function(callback) {
+				model.getTopClassifieds(db, function (result) {
+					topClassifieds = result;
+					callback();
+				});
+			},
 
-		/* Get the number of classifieds per category */
-		function(callback) {
-			model.classifiedsPerCategory(db, function (result) {
-				categoryCount = result;
-				callback();
-			});
-		}
-	];
-
-	/* Function to be run once done */
-	asyncFinish = function () {
-		/* Generate the response */
-		render(request, response, {
-			bodyid: "landing",
-			description: description,
-			page: 'landing',
-			title: response.__('title.landing'),
-
-			data: {
-				categoryCount: categoryCount,
-				topClassifieds: topClassifieds
+			/* Get the number of classifieds per category */
+			function(callback) {
+				model.classifiedsPerCategory(db, function (result) {
+					categoryCount = result;
+					callback();
+				});
 			}
-		}, db);
-	}
+		];
 
-	/* Run the tasks in parallel */
-	async.parallel(parallelTasks, asyncFinish);
+		/* Function to be run once done */
+		asyncFinish = function () {
+			/* Generate the response */
+			render(request, response, {
+				bodyid: "landing",
+				description: description,
+				page: 'landing',
+				title: response.__('title.landing'),
+
+				data: {
+					categoryCount: categoryCount,
+					topClassifieds: topClassifieds
+				}
+			}, db);
+		}
+
+		/* Run the tasks in parallel */
+		async.parallel(parallelTasks, asyncFinish);
+	}
 }

@@ -6,13 +6,15 @@ var render = require('../helpers/render');
  *
  * DESCRIBE EACH PARAMETER HERE
  */
-module.exports = function(request, response, next) {
+module.exports = {
+	get: function(request, response, next) {
 
-	/* Generate the response */
-	render(request, response, {
-		bodyid: 'classified-search',
-		description: null,
-		page: 'classified/search',
-		title: response.__('title.classified.search')
-	});
+		/* Generate the response */
+		render(request, response, {
+			bodyid: 'classified-search',
+			description: null,
+			page: 'classified/search',
+			title: response.__('title.classified.search')
+		});
+	}
 }

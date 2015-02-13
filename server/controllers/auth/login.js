@@ -11,11 +11,20 @@ var	render = require('../helpers/render');
  * If successful, redirect to the account page or else stay in the login page
  * and display an error
  */
-module.exports = function(request, response, next) {
-	/* Generate the response */
-	render(request, response, {
-		bodyid: 'auth-login',
-		page: 'auth/login',
-		title: response.__('title.auth.login')
-	});
+module.exports = {
+	/* Display the login page */
+	get: function(request, response, next) {
+		render(request, response, {
+			bodyid: 'auth-login',
+			page: 'auth/login',
+			title: response.__('title.auth.login')
+		});
+	},
+
+	/* On POST request, use passport's authentication mechanism to log the
+	 * user in. */
+	post: passport.authenticate('login', {
+		successRedirect: '/account/manage',
+		failureRedirect: '/auth/login'
+	})
 }
