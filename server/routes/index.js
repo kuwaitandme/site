@@ -37,4 +37,6 @@ router.post('/classified/single/:id', controllers.classified.single.get);
 router.post('/classified/edit', isAuthenticated, controllers.landing.get);
 router.post('/classified/post', isAuthenticated, controllers.classified.post.post);
 
+/* Guest URLs */
+router.get('/guest/finish/:hash', controllers.guest.finish.get);
 module.exports = router;
