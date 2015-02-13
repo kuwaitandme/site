@@ -9,19 +9,19 @@ block content
 			.tab-content
 
 				//- Title field
-				.hint #{__('page.cform.hint.title')}
+				.hint !{__('page.cform.hint.title')}
 				input(name="title", placeholder="#{__('page.cform.title.info')}")
 				.seperator
 
 				//- Classified type field
-				.hint #{__('page.cform.hint.type')}
+				.hint !{__('page.cform.hint.type')}
 				select(name="type")
 					option(value="0", selected) #{__('page.cform.placeholder.type.offering')}
 					option(value="1") #{__('page.cform.placeholder.type.wanted')}
 				.seperator
 
 				//- Category and Sub-Category boxes
-				.hint #{__('page.cform.hint.cat')}
+				.hint !{__('page.cform.hint.cat')}
 				select#cat-selector(name="parent-category", required)
 					option(data-id="-1", disabled, selected) #{__('page.cform.placeholder.category')}
 				select#subcat-selector(name="category", required)
@@ -29,12 +29,12 @@ block content
 				.seperator
 
 				//- Price field
-				.hint #{__('page.cform.hint.price')}
+				.hint !{__('page.cform.hint.price')}
 				input(name="price", placeholder="#{__('page.cform.placeholder.price')}")
 				.seperator
 
 				//- Description
-				.hint #{__('page.cform.hint.desc')}
+				.hint !{__('page.cform.hint.desc')}
 				textarea(name="description", placeholder="#{__('page.cform.placeholder.description')}", required)
 
 		//- Form section for photos and videos
@@ -43,7 +43,7 @@ block content
 			.tab-content
 
 				//- Drag and drop container
-				.hint #{__('page.cform.hint.img')}
+				.hint !{__('page.cform.hint.img')}
 				#image-upload #{__('page.cform.hint.drag-drop')}
 				ul#image-upload-preview
 
@@ -53,21 +53,21 @@ block content
 			.tab-content
 
 				//- Email
-				.hint #{__('page.cform.hint.email')}
+				.hint !{__('page.cform.hint.email')}
 				input(name="email", placeholder="#{__('page.cform.placeholder.email')}", required)
 				.seperator
 
 				//- Contact phone
-				.hint #{__('page.cform.hint.phone')}
+				.hint !{__('page.cform.hint.phone')}
 				input(name="phone", placeholder="#{__('page.cform.placeholder.phone')}")
 				.seperator
 
 				//- Location selection box
-				.hint #{__('page.cform.hint.loc')}
+				.hint !{__('page.cform.hint.loc')}
 				select#locations(name="location", required)
 					option(value="", disabled, selected) #{__('page.cform.placeholder.location')}
 					option(value="0") #{__('page.cform.placeholder.location.none')}
 
 				//- Finally the submit button
-				.hint #{__('page.cform.disclaimer')}
+				.hint !{__('page.cform.disclaimer')}
 				input.submit(type="submit", value="#{__('page.cform.placeholder.submit')}")

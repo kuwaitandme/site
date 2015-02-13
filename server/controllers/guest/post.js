@@ -1,4 +1,6 @@
-var render = require('../helpers/render');
+var guest = require('../../models/guest'),
+	render = require('../helpers/render');
+
 module.exports = {
 
 	/**
@@ -9,14 +11,12 @@ module.exports = {
 	 * account page or else stay in the same page and display an error
 	 */
 	get: function(request, response, next) {
-		// if (!request.isAuthenticated()) response.redirect('/auth/guest');
-
 		/* Generate the response */
 		render(request, response, {
-			bodyid: 'classified-post',
+			bodyid: 'guest-post',
 			description: null,
-			page: 'classified/post',
-			title: response.__('title.classified.post')
+			page: 'guest/post',
+			title: response.__('title.guest.post')
 		});
 	},
 
@@ -24,6 +24,8 @@ module.exports = {
 	 * Controller to create the new classified
 	 */
 	post: function(request, response, next) {
-
+		guest.createWithClassified("SDf", function(authHash) {
+			response.redirect('/guest/finish/' + authHash);
+		});
 	}
 }

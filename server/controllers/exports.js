@@ -10,6 +10,11 @@ module.exports = {
 		search: require('./classified/search'),
 		single: require('./classified/single')
 	},
+	guest: {
+		finish: require('./guest/finish'),
+		post: require('./guest/post'),
+		single: require('./guest/single')
+	},
 	landing: require('./index/landing'),
 	privacy: require('./index/privacy'),
 	terms: require('./index/terms')
