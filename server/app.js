@@ -1,11 +1,12 @@
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 var express = require('express');
+var expressSession = require('express-session');
 var favicon = require('serve-favicon');
+var i18n = require("i18n");
 var logger = require('morgan');
 var passport = require('passport');
 var path = require('path');
-var i18n = require("i18n");
 var routes = require('./routes/index');
 
 var app = express();
@@ -25,6 +26,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(expressSession({secret: 'mySecretKey'}));
 app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(i18n.init);
 app.use(logger('dev'));
@@ -33,6 +35,10 @@ app.use(passport.session());
 
 /* Setup the different routes */
 app.use('/', routes);
+
+/* Initialize Passport Strategies */
+var initPassport = require('./controllers/auth/passport/init');
+initPassport(passport);
 
 /* catch 404 and forward to error handler */
 app.use(function(req, res, next) {
