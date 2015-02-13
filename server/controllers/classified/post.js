@@ -9,7 +9,7 @@ module.exports = {
 	 * account page or else stay in the same page and display an error
 	 */
 	get: function(request, response, next) {
-		if (!req.isAuthenticated()) res.redirect('/auth/guest');
+		if (!request.isAuthenticated()) response.redirect('/auth/guest');
 
 		/* Generate the response */
 		render(request, response, {

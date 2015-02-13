@@ -5,11 +5,11 @@ var express = require('express'),
 
 /* Helper function to check if the user is authenticated. If not, then
  * redirect to the login page */
-var isAuthenticated = function (req, res, next) {
+var isAuthenticated = function (request, response, next) {
     /* As with any middleware it is quintessential to call next()
      * if the user is authenticated */
-	if (req.isAuthenticated()) return next();
-	res.redirect('/auth/login');
+	if (request.isAuthenticated()) return next();
+	response.redirect('/auth/login');
 }
 
 /* Index URLs */
