@@ -1,5 +1,5 @@
 var async = require("async"),
-	model = require('../../models/classifieds'),
+	classified = require('../../models/classified'),
 	mysql = require('../helpers/mysql'),
 	render = require('../helpers/render');
 
@@ -23,7 +23,7 @@ module.exports = {
 		parallelTasks = [
 			/* Get the top classifieds */
 			function(callback) {
-				model.getTopClassifieds(db, function (result) {
+				classified.getTopClassifieds(db, function (result) {
 					topClassifieds = result;
 					callback();
 				});
@@ -31,7 +31,7 @@ module.exports = {
 
 			/* Get the number of classifieds per category */
 			function(callback) {
-				model.classifiedsPerCategory(db, function (result) {
+				classified.classifiedsPerCategory(db, function (result) {
 					categoryCount = result;
 					callback();
 				});

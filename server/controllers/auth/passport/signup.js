@@ -2,7 +2,7 @@ var bCrypt = require('bcrypt-nodejs'),
 	mongoose = require('mongoose'),
 	LocalStrategy = require('passport-local').Strategy;
 
-var	Users = require('../../../models/users').model;
+var	User = require('../../../models/user').model;
 
 
 /**
@@ -30,14 +30,14 @@ module.exports = function(passport) {
 
 			findOrCreateUser = function() {
 				/* Find a user in Mongo with provided username */
-				Users.findOne({'username': username}, function(err, user) {
+				User.findOne({'username': username}, function(err, user) {
 					if (err) return done(err);
 
 					/* User already exists */
 					if (user) return done(null, false, null);
 
 					/* If there is no user with that email, create the user */
-					var newUser = new Users();
+					var newUser = new User();
 
 					/* set the user's local credentials */
 					newUser.username = username;

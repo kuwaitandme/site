@@ -1,7 +1,7 @@
 module.exports = Backbone.View.extend({
 	events: {
 		"click .dz-preview .delete div" : "removeFile",
-		"click .submit" : "submit",
+		// "click .submit" : "submit",
 		"change #cat-selector" : "catSelected",
 		"change #price-selector" : "priceSelected"
 	},

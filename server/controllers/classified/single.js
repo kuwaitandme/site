@@ -1,4 +1,4 @@
-var model = require('../../models/classifieds'),
+var classified = require('../../models/classified'),
 	mysql = require('../helpers/mysql'),
 	render = require('../helpers/render');
 
@@ -15,7 +15,7 @@ module.exports = {
 		var db = mysql.connect();
 
 		/* Get the classified */
-		model.get(db,  request.param("id"), function(classified) {
+		classified.get(db,  request.param("id"), function(classified) {
 
 			/* Generate the response */
 			render(request, response, {

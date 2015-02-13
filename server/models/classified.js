@@ -7,7 +7,7 @@ var Schema = mongoose.Schema,
 
 
 module.exports = {
-	model: mongoose.model('Classified', {
+	model: mongoose.model('classified', {
 		title: String,
 		owner: ObjectId,
 		description: String,

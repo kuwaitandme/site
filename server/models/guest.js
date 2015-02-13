@@ -20,7 +20,7 @@ function randomHash() {
 }
 
 module.exports = {
-	model: mongoose.model('Guest', {
+	model: mongoose.model('guest', {
 		classified: ObjectId,
 		hash: String
 	}),
@@ -51,7 +51,7 @@ module.exports = {
 		var guest = new this.model();
 
 		/* set the user's local credentials */
-		guset.classified = classifiedId;
+		guest.classified = classifiedId;
 		guest.hash = randomHash();
 
 		/* save the guest */

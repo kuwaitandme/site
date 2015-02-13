@@ -1,4 +1,4 @@
-var model = require('../../models/classifieds'),
+var classified = require('../../models/classified'),
 	mysql = require('../helpers/mysql'),
 	render = require('../helpers/render');
 
@@ -12,20 +12,19 @@ var model = require('../../models/classifieds'),
 module.exports = {
 	get: function(request, response, next) {
 		/* Connect to the database to submit the queries */
-		var db = mysql.connect();
+		// var db = mysql.connect();
 
 		/* Get the classified */
-		model.get(db,  request.param("id"), function(classified) {
+		// model.get(db,  request.param("id"), function(classified) {
 
 			/* Generate the response */
 			render(request, response, {
 				bodyid: 'classified-single',
-				description: null,
 				page: 'classified/single',
-				title: classified.title,
+				title: ""//classified.title,
 
-				data: { classified: classified }
-			}, db);
-		});
+				// data: { classified: classified }
+			});
+		// });
 	}
 }

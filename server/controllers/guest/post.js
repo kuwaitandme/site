@@ -1,4 +1,5 @@
-var guest = require('../../models/guest'),
+var classified = require('../../models/classified'),
+    guest = require('../../models/guest'),
 	render = require('../helpers/render');
 
 module.exports = {
@@ -15,7 +16,7 @@ module.exports = {
 		render(request, response, {
 			bodyid: 'guest-post',
 			description: null,
-			page: 'guest/post',
+			page: 'classified/post',
 			title: response.__('title.guest.post')
 		});
 	},
@@ -24,7 +25,10 @@ module.exports = {
 	 * Controller to create the new classified
 	 */
 	post: function(request, response, next) {
-		guest.createWithClassified("SDf", function(authHash) {
+		classified = new classified.model();
+		classified.save();
+
+		guest.createWithClassified(classified._id, function(authHash) {
 			response.redirect('/guest/finish/' + authHash);
 		});
 	}

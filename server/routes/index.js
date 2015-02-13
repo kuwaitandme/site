@@ -38,5 +38,10 @@ router.post('/classified/edit', isAuthenticated, controllers.landing.get);
 router.post('/classified/post', isAuthenticated, controllers.classified.post.post);
 
 /* Guest URLs */
+router.get('/guest/edit/:hash', controllers.guest.single.get);
 router.get('/guest/finish/:hash', controllers.guest.finish.get);
+router.get('/guest/post', controllers.guest.post.get);
+router.get('/guest/single/:hash', controllers.guest.single.get);
+router.post('/guest/edit/:hash', controllers.guest.single.get);
+router.post('/guest/post', controllers.guest.post.post);
 module.exports = router;
