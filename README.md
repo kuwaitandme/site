@@ -39,12 +39,9 @@ If you want to set up a virtual host, then linked here are sample scripts for [a
 #### 3. Set up a local Database
 Create a new database in the MySQL server using the following details
 
-    Database Name: kuwaitandme
-    Username: kme
-    Password: kme
+Once created, populate the database schema by importing the [`populate.js`](server/db/populate.js) file. You can simply run this command to do so.
 
-
-Once created, import the database schema by importing the [`schema.sql`](www/codeigniter/db/schema.sql) file. Then populate the tables by importing the [`populate.sql`](www/codeigniter/db/populate.sql) file.
+    mongo kuwaitandme ./
 
 You can use a interface like [phpmyadmin](http://www.phpmyadmin.net/home_page/index.php) to perform the above operations. You can also copy-paste the following commands.
 

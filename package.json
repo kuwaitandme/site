@@ -8,7 +8,8 @@
     "url": "git://github.com/st3ven/kuwait-and-me.git"
   },
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "populate-db": "mongo ./server/db/populate.js"
   },
   "dependencies": {
     "async": "*",

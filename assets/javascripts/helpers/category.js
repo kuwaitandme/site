@@ -8,7 +8,14 @@ module.exports = {
 		for(var i=0; i<categories.length; i++) {
 			var category = categories[i];
 
-			if(category.id == id) return category;
+			for(var j=0; j<category.children.length; j++) {
+				var child = category.children[j];
+
+				if(child._id == id) return {
+					child: child.name,
+					parent: category.name
+				};
+			}
 		}
 	},
 

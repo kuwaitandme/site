@@ -1,6 +1,4 @@
-var guest = require('../../models/guest'),
-	mysql = require('../helpers/mysql'),
-	render = require('../helpers/render');
+var render = require('../helpers/render');
 
 /**
  * Controller for the classified posting page. Creates a new classified and

@@ -179,17 +179,17 @@ module.exports = Backbone.View.extend({
 	 */
 	catSelected: function(e) {
 		var id = this.$parCategory.find(":selected").data("id");
-		var categories = app.helpers.category.rearrange(window.categories);
+		var categories = window.categories;
 
 		for(var i=0; i<categories.length; i++)
-			if(categories[i].id == id) {
+			if(categories[i]._id == id) {
 				var children = categories[i].children;
 
 				this.$subCategory.html(
 					this.generateOption(0, "Choose a sub-category", true)
 				);
 				for(var j=0; j<children.length; j++) {
-					var html = this.generateOption(children[j].id,
+					var html = this.generateOption(children[j]._id,
 						children[j].name);
 					this.$subCategory.append(html);
 				}
@@ -205,7 +205,7 @@ module.exports = Backbone.View.extend({
 	initCategories: function() {
 		var categories = window.categories;
 		for(var i=0; i<categories.length; i++) {
-			var html = this.generateOption(categories[i].id, categories[i].name);
+			var html = this.generateOption(categories[i]._id, categories[i].name);
 			this.$parCategory.append(html);
 		}
 	},
@@ -217,7 +217,7 @@ module.exports = Backbone.View.extend({
 	initLocations: function () {
 		var locations = window.locations;
 		for(var i=0; i<locations.length; i++) {
-			var html = this.generateOption(locations[i].id, locations[i].name);
+			var html = this.generateOption(locations[i]._id, locations[i].name);
 			this.$locations.append(html);
 		}
 	},

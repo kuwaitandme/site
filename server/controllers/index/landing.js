@@ -31,7 +31,7 @@ module.exports = {
 
 			/* Get the number of classifieds per category */
 			function(callback) {
-				classified.classifiedsPerCategory(db, function (result) {
+				classified.classifiedsPerCategory(function (result) {
 					categoryCount = result;
 					callback();
 				});

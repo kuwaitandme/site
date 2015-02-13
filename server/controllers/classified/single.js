@@ -11,11 +11,10 @@ var classified = require('../../models/classified'),
  */
 module.exports = {
 	get: function(request, response, next) {
-		/* Connect to the database to submit the queries */
-		var db = mysql.connect();
-
 		/* Get the classified */
-		classified.get(db,  request.param("id"), function(classified) {
+		classified.get(request.param("id"), function(classified) {
+
+			if(!classified) redirect("/404");
 
 			/* Generate the response */
 			render(request, response, {
@@ -25,7 +24,7 @@ module.exports = {
 				title: classified.title,
 
 				data: { classified: classified }
-			}, db);
+			});
 		});
 	}
 }

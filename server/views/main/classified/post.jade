@@ -44,7 +44,7 @@ block content
 
 				//- Drag and drop container
 				.hint !{__('page.cform.hint.img')}
-				#image-upload #{__('page.cform.hint.drag-drop')}
+				#image-upload !{__('page.cform.hint.drag-drop')}
 				ul#image-upload-preview
 
 		//- Form section for contact information
@@ -66,7 +66,6 @@ block content
 				.hint !{__('page.cform.hint.loc')}
 				select#locations(name="location", required)
 					option(value="", disabled, selected) #{__('page.cform.placeholder.location')}
-					option(value="0") #{__('page.cform.placeholder.location.none')}
 
 				//- Finally the submit button
 				.hint !{__('page.cform.disclaimer')}

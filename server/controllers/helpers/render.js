@@ -1,5 +1,7 @@
 var async = require("async");
-var	mysql = require('./mysql');
+var	mysql = require('./mysql'),
+	category = require('../../models/category'),
+	location = require('../../models/location');
 
 /**
  * A helper function to render the page properly with the right parameters and
@@ -12,7 +14,6 @@ var	mysql = require('./mysql');
  */
 module.exports = function(request, response, args, db) {
 	var closeDB = false;
-
 	var common = [];
 
 	/* Protect un-initialized variables */
@@ -25,19 +26,18 @@ module.exports = function(request, response, args, db) {
 
 	/* Setup data for our asynchronous tasks */
 	var tasks = [{
-		name: "locations",
-		query: "SELECT * FROM location"
-	}, {
-		name: "categories",
-		query: "SELECT * FROM category"
-	}];
+			model: category,
+			name: "categories"
+		},{
+			model: location,
+			name: "locations"
+		}
+	];
 
 	/* Function to run on each task setup for the async */
 	var asyncJob = function (job, callback) {
-		/* Send the query to ther DB */
-		db.query(job.query, function (error, rows, fields) {
-			/* Save the result in the 'common' variable */
-			common[job.name] = rows;
+		job.model.getAll(function(result) {
+			common[job.name] = result;
 
 			/* Async call is done, alert via callback */
 			callback();
