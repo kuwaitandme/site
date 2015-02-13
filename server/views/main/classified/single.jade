@@ -44,9 +44,9 @@ block content
 		|   <li><%
 		|     var cat = app.helpers.category.find(category);
 		|     if(cat) {
-		|       print("#{__("page.csingle.cat")} ?> ");
+		|       print("#{__("page.csingle.cat")} ");
 		|       var subcat = app.helpers.category.find(cat.parent);
-		|       if(subcat) print(cat.name + " / " + subcat.name);
+		|       if(subcat) print(cat.name + ", " + subcat.name);
 		|       else print(cat.name);
 		|     }
 		|   %></li>
@@ -73,4 +73,4 @@ block content
 		|   <li><%= address1 %>; <%=address2 %></li>
 		| <% } %>
 		| </ul>
-		| <div class="c-disclaimer">#{__("page.csingle.disclaimer")}</div>
+		| <div class="c-disclaimer">!{__("page.csingle.disclaimer")}</div>

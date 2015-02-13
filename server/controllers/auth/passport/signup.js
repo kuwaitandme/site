@@ -1,16 +1,34 @@
 var bCrypt = require('bcrypt-nodejs'),
 	mongoose = require('mongoose'),
 	LocalStrategy = require('passport-local').Strategy;
-var Users = require('../../../models/users').model,
-	crypt = require('../../helpers/crypt');
 
+var	crypt = require('../../helpers/crypt'),
+	dbConfig = require('../../helpers/mongodb'),
+	Users = require('../../../models/users').model;
+
+
+/**
+ * Creates a salted hash from the given password.
+ */
+function createHash(password){
+	return bCrypt.hashSync(password, bCrypt.genSaltSync(10), null);
+}
+
+
+/**
+ * A Passport strategy to register a new user. It checks if the username exists
+ * first, and if not then creates the user with the user name and hashes
+ * password.
+ */
 module.exports = function(passport) {
 	/* The passport strategy to create a user */
-	passport.use('signup', new LocalStrategy({
-			passReqToCallback : true
-		},
+	passport.use('signup', new LocalStrategy({ passReqToCallback : true },
+
+		/**
+		 * The main function that checks for the user and creates it.
+		 */
 		function(req, username, password, done) {
-			mongoose.connect('localhost', 'kuwaitandme');
+			mongoose.connect(dbConfig.url);
 
 			findOrCreateUser = function() {
 				/* Find a user in Mongo with provided username */
@@ -39,8 +57,4 @@ module.exports = function(passport) {
 			process.nextTick(findOrCreateUser);
 		})
 	);
-}
-
-var createHash = function(password){
-	return bCrypt.hashSync(password, bCrypt.genSaltSync(10), null);
 }

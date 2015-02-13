@@ -1,7 +1,35 @@
-var async = require('async');
-var util = require('util');
+var async = require('async'),
+	mongoose =require('mongoose'),
+	util = require('util');
+
+var Schema = mongoose.Schema,
+    ObjectId = Schema.ObjectId;
+
 
 module.exports = {
+	model: mongoose.model('Classified', {
+		title: String,
+		owner: ObjectId,
+		description: String,
+
+		category: Number,
+		created: Date,
+		guest: Boolean,
+		images: [String],
+		saleby: Number, /* 1:Owner,2:Distributer */
+		status: Number, /* 0:Inactive,1:Active,2:Archived,3:Banned,4:Expired */
+		type: Number,   /* 0:Sale,1:Want */
+		adminReason: String,
+
+		contact: {
+			email: String,
+			phone: String,
+			location: Number,
+			address1: String,
+			address2: String
+		}
+	}),
+
 
 	/* Table names */
 	table: {

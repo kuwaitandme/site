@@ -7,37 +7,48 @@ var i18n = require("i18n");
 var logger = require('morgan');
 var passport = require('passport');
 var path = require('path');
+
 var routes = require('./routes/index');
+var initPassport = require('./controllers/auth/passport/init');
 
 var app = express();
+// app.use(logger('dev'));
 
+/* International langauge support */
 i18n.configure({
 	cookie: 'lang',
 	defaultLocale: 'en',
 	directory: __dirname + '/locales',
 	locales:['en', 'ar', 'in']
 });
+app.use(i18n.init);
 
 /* view engine setup */
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
-
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
+
+/* Setup static path and favicon */
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(expressSession({secret: 'mySecretKey'}));
 app.use(favicon(__dirname + '/public/favicon.ico'));
-app.use(i18n.init);
-app.use(logger('dev'));
-app.use(passport.initialize());
-app.use(passport.session());
+
+/* Cookie and sessions */
+app.use(cookieParser());
+app.use(expressSession({
+	secret: 'e2nURBBjy1ieSbWP',
+	name: 'sess',
+	proxy: true,
+	resave: true,
+	saveUninitialized: true
+}));
 
 /* Setup the different routes */
 app.use('/', routes);
 
-/* Initialize Passport Strategies */
-var initPassport = require('./controllers/auth/passport/init');
+/* Initialize Passport */
+app.use(passport.initialize());
+app.use(passport.session());
 initPassport(passport);
 
 /* catch 404 and forward to error handler */
@@ -47,7 +58,7 @@ app.use(function(req, res, next) {
 	next(err);
 });
 
-
+/* Setup environment specific functions */
 if (app.get('env') === 'development') {
 	app.locals.pretty = true;
 
