@@ -79,7 +79,7 @@
 	"page.csingle.disclaimer": "<b>Disclaimer</b> This site is never involved in any transaction, and does not handle payments, shipping, guarantee transactions, provide escrow services, or offer \"buyer protection\" or \"seller certification\". It is your duty to ensure safety and authenticity while dealing with any buyer/sellers. For more info, read our <a href='/terms'>terms &amp, condition</a> and <a href='/privacy'> privacy policy</a>.",
 	"page.gfinish.congrat": "Congratulations! Your classified has been submitted",
 	"page.gfinish.instr": "To edit, archive or repost your classified at any time, use this link.",
-	"page.gfinish.since": "Since we can't verify your identity, We will have to, review your classified before publishing it.",
+	"page.gfinish.since": "Since we can't verify your identity, We will have to review your classified before publishing it.",
 	"page.gfinish.warn": "<b>Warning:</b> Do not share this link with anyone else. If you lose this link, you cannot delete this classified.",
 	"page.glogin.butok": "But that's Ok, you can publish a classified by",
 	"page.glogin.hello": "Hey there! You don't seemed to be logged in",
