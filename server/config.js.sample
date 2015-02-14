@@ -1,0 +1,12 @@
+module.exports = {
+	port: 3000,
+	hostname: 'localhost',
+
+	mode: 'production', // 'production' or 'development'
+
+	/* See https://github.com/aldipower/nodejs-recaptcha */
+	reCaptcha: {
+		site: 'site-key-here',
+		secret: 'secret-key-here'
+	}
+}

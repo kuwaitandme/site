@@ -11,3 +11,6 @@
 /server/public/uploads
 /server/public/javascripts
 /server/public/stylesheets
+
+# Hide server configuration file
+/server/config.js
