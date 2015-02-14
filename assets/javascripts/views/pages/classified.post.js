@@ -127,41 +127,6 @@ module.exports = Backbone.View.extend({
 
 
 	/**
-	 * Hides the price range boxes
-	 */
-	hidePrice: function() {
-		this.$el.find("#price-container").hide();
-	},
-
-
-	/**
-	 * Shows the price range boxes
-	 */
-	showPrice: function() {
-		this.$el.find("#price-container").show();
-	},
-
-
-	/**
-	 * Sets the price range boxes.
-	 */
-	setPrice: function(price) {
-		this.$el.find("input[name=\"price\"]").val(price);
-
-		if(price == 0) {
-			this.$priceSelector.val("Free");
-			this.hidePrice();
-		} else if(price == -1) {
-			this.$priceSelector.val("Contact Owner");
-			this.hidePrice();
-		} else if(price) {
-			this.$priceSelector.val("Range");
-			this.showPrice();
-		}
-	},
-
-
-	/**
 	 * Generates the HTML code for a select option.
 	 */
 	generateOption: function(id, name, disabled) {
