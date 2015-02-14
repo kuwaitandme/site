@@ -1,7 +1,6 @@
 var bCrypt = require('bcrypt-nodejs'),
-	mongoose = require('mongoose'),
 	LocalStrategy = require('passport-local').Strategy,
-	recaptcha = require('recaptcha-async').reCaptcha();
+	recaptchaAsync = require('recaptcha-async');
 
 var	User = require('../../../models/user').model;
 	config = require('../../../config');
@@ -21,27 +20,29 @@ function createHash(password){
  * password.
  */
 module.exports = function(passport) {
-	var useCaptcha = (config && config.reCaptcha ? true : false);
-
 	/* The passport strategy to create a user */
 	passport.use('signup', new LocalStrategy({ passReqToCallback : true },
 
 		/* The main function that checks for the user and creates it. */
-		function(req, username, password, done) {
+		function(request, username, password, done) {
+			var recaptcha = new recaptchaAsync.reCaptcha();
+
+			var useCaptcha = (config.reCaptcha ? true : false);
+			console.log(useCaptcha, config);
 
 			/* Set the captcha with it's callback function */
 			recaptcha.on('data', function (response) {
+				console.log(response);
 				if(response.is_valid) {
 					/* Delay the execution of findOrCreateUser and execute
 			 		 * the method in the next tick of the event loop */
-					process.nextTick(findOrCreateUser);
+					findOrCreateUser();
 				} else {
-					return done(response.error);
-					// return response.redirect('/auth/login?status=captchaFail');
+					return done(null, false, null);
 				}
 			 });
 
-			function findOrCreateUser() {
+			function findOrCreateUser () {
 				/* Find a user in Mongo with provided username */
 				User.findOne({'username': username}, function(err, user) {
 					if (err) return done(err);
@@ -63,18 +64,21 @@ module.exports = function(passport) {
 				});
 			}
 
-			/* Check the captcha, which then calls the function to create the
-			 * user */
-			if(useCaptcha) {
-				recaptcha.checkAnswer(config.reCaptcha.secret,
-					req.connection.remoteAddress,
-					req.body.recaptcha_challenge_field,
-					req.body.recaptcha_response_field);
-			} else {
-				/* Delay the execution of findOrCreateUser and execute
-			 	 * the method in the next tick of the event loop */
-				process.nextTick(findOrCreateUser);
-			}
+
+			/* Delay the execution and execute the method
+		 	 * in the next tick of the event loop */
+			process.nextTick(function() {
+				/* Check the captcha, which then calls the function to create the
+				 * user */
+				if(useCaptcha) {
+					recaptcha.checkAnswer(config.reCaptcha.secret,
+						request.connection.remoteAddress,
+						request.body.recaptcha_challenge_field,
+						request.body.recaptcha_response_field);
+				} else {
+					findOrCreateUser();
+				}
+			});
 		})
 	);
 }
