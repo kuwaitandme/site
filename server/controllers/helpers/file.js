@@ -48,7 +48,7 @@ module.exports = {
 	 *                    have been uploaded.
 	 */
 	upload: function(request, callback) {
-		var uploadedFiles = [];
+		var ret = {};
 		var asyncTasks = [];
 		var that = this;
 
@@ -65,6 +65,8 @@ module.exports = {
 
 		/* Start parsing the form */
 		form.parse(request, function(err, fields, files) {
+			ret = fields;
+			ret.images = [];
 			var files = files["files[]"];
 
 			/* Avoid reading empty file uploads */
@@ -87,7 +89,7 @@ module.exports = {
 				});
 
 				/* Add the file into our list of 'accpeted' files */
-				if(isValid) uploadedFiles.push(newFilename);
+				if(isValid) ret.images.push(newFilename);
 			}
 
 			/* Perform file operations to move the file from the temporary
@@ -99,7 +101,7 @@ module.exports = {
 			that.operate(asyncTasks);
 
 			/* Call the callback function with the list of uploaded files */
-			callback(uploadedFiles);
+			callback(ret);
 		});
 	},
 

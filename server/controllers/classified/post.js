@@ -34,17 +34,17 @@ module.exports = {
 	 */
 	post: function(request, response, next) {
 		var recaptcha = new recaptchaAsync.reCaptcha();
-
-		var useCaptcha = (config.reCaptcha ? true : false);
-		console.log(useCaptcha, config);
+		// var useCaptcha = (config.reCaptcha ? true : false);
+		var useCaptcha  = false;
 
 		function captachFail() {
-			response.end('/guest/post/?status="captchafail');
+			response.end('/classified/post/?status="captchafail');
 		}
 
 		function captachSuccess() {
-			file.upload(request, function(uploadedFiles) {
+			file.upload(request, function(POSTdata) {
 
+				request.body = POSTdata;
 				classified.createFromPOST(request, false, function(cl) {
 					/* Save the images */
 					cl.images = uploadedFiles;

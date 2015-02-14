@@ -26,23 +26,26 @@ module.exports = {
 		});
 	},
 
+
 	/**
 	 * Controller to create the new classified
 	 */
 	post: function(request, response, next) {
 		var recaptcha = new recaptchaAsync.reCaptcha();
-		var useCaptcha = (config.reCaptcha ? true : false);
+		// var useCaptcha = (config.reCaptcha ? true : false);
+		var useCaptcha = false;
 
 		function captachFail() {
 			response.end('/guest/post/?status="captchafail');
 		}
 
 		function captachSuccess() {
-			file.upload(request, function(uploadedFiles) {
+			file.upload(request, function(POSTdata) {
 
+				request.body = POSTdata;
 				classified.createFromPOST(request, true, function(cl) {
 					/* Save the images */
-					cl.images = uploadedFiles;
+					cl.images = POSTdata.images;
 					cl.save();
 
 					/* Write to the page the link to redirect. This gets picked
@@ -61,14 +64,13 @@ module.exports = {
 		});
 
 		/* Check the captcha! */
-		// if(useCaptcha) {
-		// 	recaptcha.checkAnswer(config.reCaptcha.secret,
-		// 		request.connection.remoteAddress,
-		// 		request.body.recaptcha_challenge_field,
-		// 		request.body.recaptcha_response_field);
-		// } else {
-		// 	captachSuccess();
-		// }
-		captachSuccess();
+		if(useCaptcha) {
+			recaptcha.checkAnswer(config.reCaptcha.secret,
+				request.connection.remoteAddress,
+				request.body.recaptcha_challenge_field,
+				request.body.recaptcha_response_field);
+		} else {
+			captachSuccess();
+		}
 	}
 }

@@ -27,7 +27,8 @@ module.exports = function(passport) {
 		function(request, username, password, done) {
 			var recaptcha = new recaptchaAsync.reCaptcha();
 
-			var useCaptcha = (config.reCaptcha ? true : false);
+			// var useCaptcha = (config.reCaptcha ? true : false);
+			var useCaptcha = false;
 
 			/* Set the captcha with it's callback function */
 			recaptcha.on('data', function (response) {
@@ -58,20 +59,16 @@ module.exports = function(passport) {
 			}
 
 
-			/* Delay the execution and execute the method
-		 	 * in the next tick of the event loop */
-			process.nextTick(function() {
-				/* Check the captcha, which then calls the function to create the
-				 * user */
-				if(useCaptcha) {
-					recaptcha.checkAnswer(config.reCaptcha.secret,
-						request.connection.remoteAddress,
-						request.body.recaptcha_challenge_field,
-						request.body.recaptcha_response_field);
-				} else {
-					findOrCreateUser();
-				}
-			});
+			/* Check the captcha, which then calls the function to create the
+			 * user */
+			if(useCaptcha) {
+				recaptcha.checkAnswer(config.reCaptcha.secret,
+					request.connection.remoteAddress,
+					request.body.recaptcha_challenge_field,
+					request.body.recaptcha_response_field);
+			} else {
+				findOrCreateUser();
+			}
 		})
 	);
 }
