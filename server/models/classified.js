@@ -5,6 +5,7 @@ var async = require('async'),
 var Schema = mongoose.Schema,
 	ObjectId = Schema.ObjectId;
 
+
 /**
  * Helper function to create a random hash
  *
@@ -101,7 +102,7 @@ module.exports = {
 	 *                   finished.
 	 */
 	getTopClassifieds: function(callback) {
-		var query = this.model.find({}).sort({created: -1}).limit(10);
+		var query = this.model.find({}, {authHash: 0}).sort({created: -1}).limit(10);
 
 		query.exec(function(err, result) {
 			callback(result);
@@ -117,7 +118,7 @@ module.exports = {
 	 *                   finished.
 	 */
 	get: function (id, callback) {
-		this.model.findOne({id: ObjectId(id)}, function(err, result) {
+		this.model.findOne({_id: id}, {authHash: 0}, function(err, result) {
 			callback(result);
 		});
 	},
@@ -148,12 +149,12 @@ module.exports = {
 	/**
 	 * Finds all the classifieds with the given parameters
 	 *
-	 * @param  {[type]}   parameters [description]
-	 * @param  {Function} callback [description]
-	 * @return {[type]}            [description]
+	 * @param  parameters  The parameters to use in the query
+	 * @param  callback    The callback function to call once the query is
+	 *                     finished.
 	 */
 	search: function(parameters, callback) {
-		this.model.find(parameters, function(err, results) {
+		this.model.find(parameters, {authHash: 0}, function(err, results) {
 			if(err) throw err;
 			callback(results);
 		});
