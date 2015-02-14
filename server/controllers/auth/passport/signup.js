@@ -28,19 +28,12 @@ module.exports = function(passport) {
 			var recaptcha = new recaptchaAsync.reCaptcha();
 
 			var useCaptcha = (config.reCaptcha ? true : false);
-			console.log(useCaptcha, config);
 
 			/* Set the captcha with it's callback function */
 			recaptcha.on('data', function (response) {
-				console.log(response);
-				if(response.is_valid) {
-					/* Delay the execution of findOrCreateUser and execute
-			 		 * the method in the next tick of the event loop */
-					findOrCreateUser();
-				} else {
-					return done(null, false, null);
-				}
-			 });
+				if(response.is_valid) findOrCreateUser();
+				else done(null, false, null);
+			});
 
 			function findOrCreateUser () {
 				/* Find a user in Mongo with provided username */

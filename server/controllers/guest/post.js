@@ -1,9 +1,11 @@
+var recaptchaAsync = require('recaptcha-async');
+
 var classified = require('../../models/classified'),
 	file = require('../helpers/file'),
 	render = require('../helpers/render');
 
-module.exports = {
 
+module.exports = {
 	/**
 	 * Controller for the classified posting page. Creates a new classified and
 	 * saves it to the database.
@@ -17,7 +19,10 @@ module.exports = {
 			bodyid: 'guest-post',
 			description: null,
 			page: 'classified/post',
-			title: response.__('title.guest.post')
+			title: response.__('title.guest.post'),
+			data: {
+				sitekey: config.reCaptcha.site
+			}
 		});
 	},
 
@@ -25,17 +30,35 @@ module.exports = {
 	 * Controller to create the new classified
 	 */
 	post: function(request, response, next) {
-		file.upload(request, function(uploadedFiles) {
+		var recaptcha = new recaptchaAsync.reCaptcha();
 
-			classified.createFromPOST(request, true, function(classified) {
-				/* Save the images */
-				classified.images = uploadedFiles;
-				classified.save();
+		var useCaptcha = (config.reCaptcha ? true : false);
+		console.log(useCaptcha, config);
 
-				/* Write to the page the link to redirect. This gets picked up
-				 * by our AJAX controller */
-				response.end('/guest/finish/' + classified.authHash);
+		function captachFail() {
+			response.end('/guest/post/?status="captchafail');
+		}
+
+		function captachSuccess() {
+			file.upload(request, function(uploadedFiles) {
+
+				classified.createFromPOST(request, true, function(cl) {
+					/* Save the images */
+					cl.images = uploadedFiles;
+					cl.save();
+
+					/* Write to the page the link to redirect. This gets picked
+					 * up by our AJAX controller */
+					response.end('/guest/finish/' + cl._id + '?hash=' +
+						cl.authHash);
+				});
 			});
+		}
+
+		/* Set the captcha with it's callback function */
+		recaptcha.on('data', function (response) {
+			if(response.is_valid) captachFail();
+			else captachSuccess();
 		});
 	}
 }

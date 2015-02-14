@@ -50,6 +50,7 @@ module.exports = Backbone.View.extend({
 
 			for(var i=0; i<data.topClassifieds.length; i++) {
 				var classified = data.topClassifieds[i];
+				classified.title = classified.title || "";
 
 				/* Protect the 'thumb' variable */
 				if(!classified.thumb) classified.thumb = null;

@@ -69,4 +69,5 @@ block content
 
 				//- Finally the submit button
 				.hint !{__('page.cform.disclaimer')}
+				.margin.g-recaptcha(data-sitekey="#{data.sitekey}")
 				input.submit(type="submit", value="#{__('page.cform.placeholder.submit')}")
