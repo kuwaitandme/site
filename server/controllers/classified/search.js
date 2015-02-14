@@ -13,9 +13,9 @@ module.exports = {
 
 		if(request.query.category) parameters["category"] = request.query.cat;
 
-		classified.search(parameters, function(classifieds) {
+		return classified.search(parameters, function(classifieds) {
 			/* Generate the response */
-			render(request, response, {
+			return render(request, response, {
 				bodyid: 'classified-search',
 				page: 'classified/search',
 				title: response.__('title.classified.search'),

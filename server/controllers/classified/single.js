@@ -11,11 +11,11 @@ var classified = require('../../models/classified'),
 module.exports = {
 	get: function(request, response, next) {
 		/* Get the classified */
-		classified.get(request.param("id"), function(classified) {
-			if(!classified) redirect("/404");
+		return classified.get(request.param("id"), function(classified) {
+			if(!classified) return redirect("/404");
 
 			/* Generate the response */
-			render(request, response, {
+			return render(request, response, {
 				bodyid: 'classified-single',
 				description: null,
 				page: 'classified/single',
