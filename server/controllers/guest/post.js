@@ -31,9 +31,7 @@ module.exports = {
 	 */
 	post: function(request, response, next) {
 		var recaptcha = new recaptchaAsync.reCaptcha();
-
 		var useCaptcha = (config.reCaptcha ? true : false);
-		console.log(useCaptcha, config);
 
 		function captachFail() {
 			response.end('/guest/post/?status="captchafail');
@@ -55,10 +53,22 @@ module.exports = {
 			});
 		}
 
+
 		/* Set the captcha with it's callback function */
 		recaptcha.on('data', function (response) {
 			if(response.is_valid) captachFail();
 			else captachSuccess();
 		});
+
+		/* Check the captcha! */
+		// if(useCaptcha) {
+		// 	recaptcha.checkAnswer(config.reCaptcha.secret,
+		// 		request.connection.remoteAddress,
+		// 		request.body.recaptcha_challenge_field,
+		// 		request.body.recaptcha_response_field);
+		// } else {
+		// 	captachSuccess();
+		// }
+		captachSuccess();
 	}
 }

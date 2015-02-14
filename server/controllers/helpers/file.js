@@ -1,9 +1,11 @@
 var async = require('async'),
 	fs = require('fs'),
+	easyimg = require('easyimage'),
 	formidable = require('formidable');
 
 module.exports = {
 	uploadDir: __dirname + '/../../public/uploads/',
+	thumbsDir: __dirname + '/../../public/uploads/thumb/',
 
 	/**
 	 * Returns the extension of the given filename
@@ -19,8 +21,8 @@ module.exports = {
 	 * the previous filename, and replacing all the characters before the
 	 * extension of it with a random string that is 14 characters long.
 	 *
-	 * This gives a probability of a filename collision to be 14^63 as per the
-	 * algorithm that is being used.
+	 * This gives a probability of a filename collision should be 14^63 as per
+	 * the algorithm that is being used.
 	 */
 	createUniqueFilename: function(filename) {
 		/* Creates a unique string, that is 'length' characters long. */
@@ -79,6 +81,7 @@ module.exports = {
 				asyncTasks.push({
 					oldPath: f.path,
 					newPath: uploadPath,
+					newFilename: newFilename,
 					isValid: isValid
 				});
 
@@ -92,33 +95,48 @@ module.exports = {
 			 * Note that this is done asynchronously. Which is quite neat since
 			 * we don't have to wait for the files to get uploaded and can
 			 * continue to continue performing operations on the DB. */
-			operate(asyncTasks);
+			that.operate(asyncTasks);
 
 			/* Call the callback function with the list of uploaded files */
 			callback(uploadedFiles);
 		});
+	},
 
 
-		/* Given the asynchronous tasks for this function, perform them. Delete
-		 * the temporary file if 'isValid' is false; Move the temporary file
-		 * into permanent storage if 'isValid' is true. */
-		function operate(tasks) {
-			for(var i=0; i<tasks.length; i++) {
-				var task = tasks[i];
+	/**
+	 * Given the asynchronous tasks for this function, perform them. Delete
+	 * the temporary file if 'isValid' is false; Move the temporary file
+	 * into permanent storage if 'isValid' is true.
+	 *
+	 * @param  tasks     An array of task objects defined in the above function.
+	 */
+	operate: function(tasks) {
+		var that = this;
 
-				if(task.isValid) {
-					/* Copy the file into the upload path if the file is valid */
-					fs.rename(task.oldPath, task.newPath, function(err) {
-						if (err) throw err;
+		for(var i=0; i<tasks.length; i++) {
+			var task = tasks[i];
+
+			if(task.isValid) {
+				/* Copy the file into the upload path if the file is valid */
+				fs.rename(task.oldPath, task.newPath, function(err) {
+					if (err) throw err;
+
+					console.log(that.thumbsDir + task.newFilename);
+					/* Create the thumbnails for the image */
+					easyimg.rescrop({
+						src: task.newPath,
+						dst: that.thumbsDir + task.newFilename,
+						width:150, height:150,
+						x:0, y:0
 					});
-				} else {
-					/* Delete the file from our temporary storage if it isin't
-					 * valid */
-					fs.unlink(task.oldPath, function(err) {
-						if (err) throw err;
-					});
-				}
+				});
+			} else {
+				/* Delete the file from our temporary storage if it isin't
+				 * valid */
+				fs.unlink(task.oldPath, function(err) {
+					if (err) throw err;
+				});
 			}
 		}
-	},
+	}
 }

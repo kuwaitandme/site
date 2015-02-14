@@ -274,7 +274,7 @@ module.exports = Backbone.View.extend({
 
 
 	initialize: function(obj) {
-		// var url = document.URL;
+		var url = document.URL;
 
 		/* Get the type of the classified. "classified" or "guest" */
 		var type = url.split("/")[4];
