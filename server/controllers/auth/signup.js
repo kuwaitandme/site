@@ -17,7 +17,10 @@ module.exports = {
 		return render(request, response, {
 			bodyid: 'auth-signup',
 			page: 'auth/signup',
-			title: response.__('title.auth.signup')
+			title: response.__('title.auth.signup'),
+			data: {
+				sitekey: '6LcTDQITAAAAADq3-8i6A_YIwuAbpzq9dHJceSem'
+			}
 		});
 	},
 
