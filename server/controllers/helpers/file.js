@@ -67,7 +67,8 @@ module.exports = {
 		form.parse(request, function(err, fields, files) {
 			var files = files["files[]"];
 
-			if(files.length == 0) return callback(null);
+			/* Avoid reading empty file uploads */
+			if(!files || files.length == 0) return callback(null);
 
 			for(var i=0; i<files.length; i++) {
 				var f = files[i];
@@ -108,35 +109,74 @@ module.exports = {
 	 * the temporary file if 'isValid' is false; Move the temporary file
 	 * into permanent storage if 'isValid' is true.
 	 *
+	 * We do this asynchronously and wait for all the files to be uploaded. Once
+	 * we are done we create another asynchronous task to start creating
+	 * thumbnails. For more explanation see below function.
+	 *
 	 * @param  tasks     An array of task objects defined in the above function.
 	 */
 	operate: function(tasks) {
 		var that = this;
 
-		for(var i=0; i<tasks.length; i++) {
-			var task = tasks[i];
-
+		/* Start analyzing each file and either upload or delete it */
+		asyncJob = function(task, finish) {
 			if(task.isValid) {
 				/* Copy the file into the upload path if the file is valid */
 				fs.rename(task.oldPath, task.newPath, function(err) {
 					if (err) throw err;
-
-					console.log(that.thumbsDir + task.newFilename);
-					/* Create the thumbnails for the image */
-					easyimg.rescrop({
-						src: task.newPath,
-						dst: that.thumbsDir + task.newFilename,
-						width:150, height:150,
-						x:0, y:0
-					});
+					finish();
 				});
 			} else {
 				/* Delete the file from our temporary storage if it isin't
 				 * valid */
 				fs.unlink(task.oldPath, function(err) {
 					if (err) throw err;
+					finish();
 				});
 			}
-		}
+		};
+
+		/* Now start creating the thumbnails asynchronously */
+		asyncFinish = function() {
+			that.createThumbnails(tasks);
+		};
+
+		async.each(tasks, asyncJob, asyncFinish);
+	},
+
+
+	/**
+	 * Creates the thumbnails asynchronously. We need to do this in async too
+	 * because the function that we use is single-threaded and does not support
+	 * callback functions. This is bad for us, so we work around by using the
+	 * async module.
+	 *
+	 * What's more is that we need to wait for all the files to be uploaded
+	 * before we start making the thumbnails, since we don't want to work on
+	 * empty files. So that's we needed to make another async call on the
+	 * previous function, to give us the signal that the file upload is over.
+	 *
+	 * @param  tasks     An array of task objects defined in the above function.
+	 */
+	createThumbnails: function(tasks) {
+		var that = this;
+
+		asyncJob = function(task, finish) {
+			if(task.isValid) {
+				/* Create the thumbnails for the image */
+				easyimg.rescrop({
+					src: task.newPath,
+					dst: that.thumbsDir + task.newFilename,
+					width:300, height:300,
+					cropwidth:150, cropheight:150,
+					x:0, y:0
+				});
+			}
+
+			finish();
+		};
+
+		asyncFinish = function() { };
+		async.each(tasks, asyncJob, asyncFinish);
 	}
 }
