@@ -1,7 +1,7 @@
 module.exports = Backbone.View.extend({
 	events: {
 		"click .dz-preview .delete div" : "removeFile",
-		// "click .submit" : "submit",
+		"click .submit" : "submit",
 		"change #cat-selector" : "catSelected",
 		"change #price-selector" : "priceSelected"
 	},
@@ -274,7 +274,7 @@ module.exports = Backbone.View.extend({
 
 
 	initialize: function(obj) {
-		var url = document.URL;
+		// var url = document.URL;
 
 		/* Get the type of the classified. "classified" or "guest" */
 		var type = url.split("/")[4];

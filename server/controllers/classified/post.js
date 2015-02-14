@@ -26,8 +26,17 @@ module.exports = {
 	 * Controller to create the new classified
 	 */
 	post: function(request, response, next) {
-		return classified.createFromPOST(request, false, function(classified) {
-			redirect("/classified/single/" + classified._id);
+		return file.upload(request, function(uploadedFiles) {
+
+			return classified.createFromPOST(request, false, function(classified) {
+				/* Save the images */
+				classified.images = uploadedFiles;
+				classified.save();
+
+				/* Write to the page the link to redirect. This gets picked up
+				 * by our AJAX controller */
+				return response.end("/classified/single/" + classified._id);
+			});
 		});
 	}
 }

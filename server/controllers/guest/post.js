@@ -1,4 +1,5 @@
 var classified = require('../../models/classified'),
+	file = require('../helpers/file'),
 	render = require('../helpers/render');
 
 module.exports = {
@@ -24,8 +25,17 @@ module.exports = {
 	 * Controller to create the new classified
 	 */
 	post: function(request, response, next) {
-		return classified.createFromPOST(request, true, function(classified) {
-			return response.redirect('/guest/finish/' + classified.authHash);
+		file.upload(request, function(uploadedFiles) {
+
+			classified.createFromPOST(request, true, function(classified) {
+				/* Save the images */
+				classified.images = uploadedFiles;
+				classified.save();
+
+				/* Write to the page the link to redirect. This gets picked up
+				 * by our AJAX controller */
+				response.end('/guest/finish/' + classified.authHash);
+			});
 		});
 	}
 }

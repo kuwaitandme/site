@@ -7,6 +7,7 @@
 /node_modules
 /npm-debug.log
 
-# Compiled CSS & JS files
+# Compiled CSS & JS files, Uploads folder
+/server/public/uploads
 /server/public/javascripts
 /server/public/stylesheets
