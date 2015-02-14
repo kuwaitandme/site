@@ -12,7 +12,7 @@ module.exports = {
 		var hash =  request.param("hash");
 
 		/* Generate the response */
-		render(request, response, {
+		return render(request, response, {
 			bodyid: 'guest-finish',
 			page: 'guest/finish',
 			title: response.__('title.guest.finish'),

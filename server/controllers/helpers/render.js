@@ -41,7 +41,7 @@ module.exports = function(request, response, args) {
 	 * Function to run once the async is done it's jobs.
 	 */
 	var asyncComplete = function (error) {
-		response.render("main/" + args.page, {
+		return response.render("main/" + args.page, {
 			title: args.title + " | Kuwait &amp; Me",
 			user: request.user,
 			bodyid: args.bodyid,
@@ -55,5 +55,5 @@ module.exports = function(request, response, args) {
 	}
 
 	/* Perform the asynchronous tasks to get the locations and categories */
-	async.each(tasks, asyncJob, asyncComplete);
+	return async.each(tasks, asyncJob, asyncComplete);
 }

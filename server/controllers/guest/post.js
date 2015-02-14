@@ -12,7 +12,7 @@ module.exports = {
 	 */
 	get: function(request, response, next) {
 		/* Generate the response */
-		render(request, response, {
+		return render(request, response, {
 			bodyid: 'guest-post',
 			description: null,
 			page: 'classified/post',
@@ -24,8 +24,8 @@ module.exports = {
 	 * Controller to create the new classified
 	 */
 	post: function(request, response, next) {
-		classified.createFromPOST(request, true, function(classified) {
-			response.redirect('/guest/finish/' + classified.authHash);
+		return classified.createFromPOST(request, true, function(classified) {
+			return response.redirect('/guest/finish/' + classified.authHash);
 		});
 	}
 }

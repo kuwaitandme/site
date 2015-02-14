@@ -10,20 +10,20 @@ var classified = require('../../models/classified'),
  */
 module.exports = {
 	get: function(request, response, next) {
-		/* Connect to the database to submit the queries */
-		// var db = mysql.connect();
+		return classified.getGuest(request.param("id"), request.query.auth,
+			function(classified) {
 
-		/* Get the classified */
-		// model.get(db,  request.param("id"), function(classified) {
+				return render(request, response, {
+					bodyid: 'classified-single',
+					page: 'classified/single',
+					title: classified.title,
 
-			/* Generate the response */
-			render(request, response, {
-				bodyid: 'classified-single',
-				page: 'classified/single',
-				title: ""//classified.title,
+					data: { classified: classified }
+				});
+		});
+	},
 
-				// data: { classified: classified }
-			});
-		// });
+	post: function(request, response, next) {
+
 	}
 }

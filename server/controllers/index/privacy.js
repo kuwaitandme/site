@@ -7,7 +7,7 @@ module.exports = {
 	get: function(request, response, next) {
 
 		/* Generate the response */
-		render(request, response, {
+		return render(request, response, {
 			bodyid: 'privacy',
 			page: 'privacy',
 			title: response.__('title.privacy'),

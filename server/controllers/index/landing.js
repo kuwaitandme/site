@@ -23,7 +23,7 @@ module.exports = {
 			function(callback) {
 				classified.getTopClassifieds(function (result) {
 					topClassifieds = result;
-					callback();
+					return callback();
 				});
 			},
 
@@ -31,7 +31,7 @@ module.exports = {
 			function(callback) {
 				classified.classifiedsPerCategory(function (result) {
 					categoryCount = result;
-					callback();
+					return callback();
 				});
 			}
 		];
@@ -39,7 +39,7 @@ module.exports = {
 		/* Function to be run once done */
 		asyncFinish = function () {
 			/* Generate the response */
-			render(request, response, {
+			return render(request, response, {
 				bodyid: "landing",
 				description: description,
 				page: 'landing',
@@ -53,6 +53,6 @@ module.exports = {
 		}
 
 		/* Run the tasks in parallel */
-		async.parallel(parallelTasks, asyncFinish);
+		return async.parallel(parallelTasks, asyncFinish);
 	}
 }

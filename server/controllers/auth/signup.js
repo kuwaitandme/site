@@ -14,7 +14,7 @@ var	render = require('../helpers/render');
 module.exports = {
 	/* Display the signup page */
 	get: function(request, response, next) {
-		render(request, response, {
+		return render(request, response, {
 			bodyid: 'auth-signup',
 			page: 'auth/signup',
 			title: response.__('title.auth.signup')

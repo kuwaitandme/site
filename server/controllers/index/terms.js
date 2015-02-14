@@ -8,7 +8,7 @@ module.exports = {
 	get: function(request, response, next) {
 
 		/* Generate the response */
-		render(request, response, {
+		return render(request, response, {
 			bodyid: "terms",
 			page: 'terms',
 			title: response.__('title.terms'),
