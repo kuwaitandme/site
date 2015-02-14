@@ -10,7 +10,6 @@ var	category = require('../../models/category'),
  * @param  args         Arguments to be given to the page
  */
 module.exports = function(request, response, args) {
-	var closeDB = false;
 	var common = [];
 
 	/* Protect un-initialized variables */
@@ -31,7 +30,6 @@ module.exports = function(request, response, args) {
 	var asyncJob = function (job, callback) {
 		job.model.getAll(function(result) {
 			common[job.name] = result;
-
 			/* Async call is done, alert via callback */
 			callback();
 		});

@@ -27,7 +27,6 @@ module.exports = {
 	 */
 	post: function(request, response, next) {
 		return file.upload(request, function(uploadedFiles) {
-
 			return classified.createFromPOST(request, false, function(classified) {
 				/* Save the images */
 				classified.images = uploadedFiles;
