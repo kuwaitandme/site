@@ -3,7 +3,7 @@ var mongoose = require('mongoose'),
 	LocalStrategy = require('passport-local').Strategy;
 
 var	render = require('../helpers/render');
-
+	config = require('../../config');
 
 /**
  * Controller for the Signup page. Attempts to register the user in.
@@ -19,7 +19,7 @@ module.exports = {
 			page: 'auth/signup',
 			title: response.__('title.auth.signup'),
 			data: {
-				sitekey: '6LcTDQITAAAAADq3-8i6A_YIwuAbpzq9dHJceSem'
+				sitekey: config.reCaptcha.site
 			}
 		});
 	},
