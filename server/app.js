@@ -4,7 +4,6 @@ var bodyParser = require('body-parser'),
 	expressSession = require('express-session'),
 	i18n = require("i18n"),
 	mongoose = require('mongoose'),
-	multer  = require('multer'),
 	passport = require('passport'),
 	path = require('path');
 
