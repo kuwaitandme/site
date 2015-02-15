@@ -18,7 +18,9 @@ router.get('/privacy', controllers.privacy.get);
 router.get('/terms', controllers.terms.get);
 
 /* Account URLs */
-router.get('/account/manage', isAuthenticated, controllers.landing.get);
+router.get('/account/', isAuthenticated, controllers.account.index.get);
+router.get('/account/profile', isAuthenticated, controllers.account.profile.get);
+router.get('/account/manage', isAuthenticated, controllers.account.manage.get);
 
 /* Authentication URLs */
 router.get('/auth/guest', controllers.auth.guest.get);

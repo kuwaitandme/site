@@ -1,0 +1,39 @@
+body#account {
+	background: #e8e8e8;
+
+	#account-container {
+		@extend .row;
+
+		.block {
+			@extend .columns;
+			@extend .medium-6;
+			@extend .large-4;
+			padding: 20px;
+
+			a { text-decoration: none; }
+			.content {
+				@include single-transition(background);
+				background: #FFF;
+				padding: 20px;
+
+				-webkit-box-shadow: 4px 4px 0 0 rgba(0,0,0,.1);
+				box-shadow: 4px 4px 0 0 rgba(0,0,0,.1);
+
+				&:hover {
+					background: #F6f6f6;
+				}
+
+				.title {
+					@extend .font-title;
+					font-size: 24px;
+					text-align: center;
+				}
+				.icon {
+					font-size: 50px;
+					margin-top: 20px;
+					text-align: center;
+				}
+			}
+		}
+	}
+}

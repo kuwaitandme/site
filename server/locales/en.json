@@ -30,6 +30,7 @@
 	"admin.single.publish": "Publish",
 	"admin.single.reject": "Reject",
 	"admin.single.repost": "Re-Post",
+	"title.account": "Account",
 	"title.account.manage": "Manage your classifieds",
 	"title.auth.guest": "Choose a guest account",
 	"title.auth.login": "Login",

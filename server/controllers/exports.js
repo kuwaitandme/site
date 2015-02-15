@@ -1,4 +1,9 @@
 module.exports = {
+	account: {
+		index: require('./account/index'),
+		manage: require('./account/manage'),
+		profile: require('./account/profile'),
+	},
 	auth: {
 		guest: require('./auth/guest'),
 		login: require('./auth/login'),
