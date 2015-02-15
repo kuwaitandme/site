@@ -1,17 +1,8 @@
-var bCrypt = require('bcrypt-nodejs'),
-	LocalStrategy = require('passport-local').Strategy;
+var	LocalStrategy = require('passport-local').Strategy;
 
 var	User = require('../../../models/user').model;
 	config = require('../../../config'),
 	reCaptcha = require('../../helpers/reCaptcha').Recaptcha;
-
-
-/**
- * Creates a salted hash from the given password.
- */
-function createHash(password){
-	return bCrypt.hashSync(password, bCrypt.genSaltSync(10), null);
-}
 
 
 /**
@@ -36,16 +27,11 @@ module.exports = function(passport) {
 					if (user) return done(null, false, null);
 
 					/* If there is no user with that email, create the user */
-					var newUser = new User();
+					User.create(username, password, function(err, user) {
+						if (err) throw err;
+					});
 
-					/* set the user's local credentials */
-					newUser.username = username;
-					newUser.password = createHash(password);
-
-					/* save the user */
-					newUser.save(function(err) { if (err) throw err; });
-
-					return done(null, newUser);
+					return done(null, true);
 				});
 			}
 
