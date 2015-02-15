@@ -1,5 +1,43 @@
 module.exports = Backbone.View.extend({
 
+	events: {
+		"click .cl-container" : "openClassified",
+		// "mouseleave .cl-container" : "closeClassified"
+	},
+
+
+	openClassified: function(e) {
+		this.closeClassified();
+
+		var that = this;
+		var $el = $(e.currentTarget);
+		var $list = $el.find('.cl-list');
+
+		$el.addClass('active');
+
+		$list.css('height', 'auto')
+		var height = $list.height();
+		this.bottomMasonry.layout();
+		$list.height(0);
+
+		$list.stop().animate({ height: height }, function() {
+			// that.bottomMasonry.layout();
+		});
+	},
+
+
+	closeClassified: function(e) {
+		var that = this;
+		var $el = $(".cl-container");
+		$el.removeClass('active');
+
+		var $list = $el.find('.cl-list');
+		$list.animate({ height: 0 }, function() {
+			// that.bottomMasonry.layout();
+		});
+	},
+
+
 	/**
 	 * Adds the post counters to each category.
 	 */
@@ -28,7 +66,7 @@ module.exports = Backbone.View.extend({
 		this.bottomMasonry = new Masonry(this.$categoryList[0], {
 			columnWidth: 10,
 			isFitWidth: true,
-			itemSelector: '.m-item'
+			itemSelector: '.cl-item'
 		});
 	},
 

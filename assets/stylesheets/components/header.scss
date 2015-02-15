@@ -28,7 +28,8 @@ header {
 			&.grabber {
 				@extend .font-awesome;
 				cursor: pointer;
-				font-size: 22px;
+				font-size: 20px;
+				margin-top: 5px;
 			}
 			&#nav-logo {
 				background: url(../images/kme-small.png);
@@ -43,6 +44,7 @@ header {
 
 	ul#slider-nav {
 		background: #111;
+		border-left: 1px solid #DDD;
 		color: #FFF;
 		height: 100%;
 		margin: 0;
@@ -59,20 +61,23 @@ header {
 			text-decoration: none;
 		}
 		li {
-			@include single-transition(background);
+			@include single-transition();
 			background: #000;
-			border-bottom: 1px solid #111;
+			border-bottom: 1px solid #333;
 			padding: 13px 23px;
 			padding-left: 40px;
 
 			&.grabber {
 				@extend .font-awesome;
 				cursor: pointer;
-				padding: 20px 23px;
-				font-size: 22px;
+				padding: 23px 23px 20px;
+				font-size: 20px;
 			}
 			&.gap { background: #111; }
-			&:hover { background: #090909; }
+			&:hover {
+				background: #FFF;
+				color: #000;
+			}
 		}
 	}
 }

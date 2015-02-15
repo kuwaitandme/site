@@ -8,30 +8,34 @@ block content
 				a(href="/classified/single/" + classified._id)= classified.title
 
 	//- Render the list of classifieds
-	section#masonry-container
+	ul#masonry-container
 		each category in categories
-			div
+			li
 				a(href="/classified/search?cat=" + category._id)= category.name
 
 
 	//- JS Template for the classified list
 	script(id="list-template", type="text/template")
-		| <div class="m-item classified-list-long">
-		|   <div class="cl-title"> <%= name %>
-		|     <div class="sprite <%= name %>"></div>
-		|   </div>
-		|   <ul>
+		| <li class="cl-item">
+		|   <div class="cl-container">
+		|     <div class="cl-title sprite <%= name %>"><%= name %></div>
+		|     <div class="cl-content">
+		|       <ul class="cl-list">
 		|   <% _.each(children, function(cat) { %>
-		|     <li data-id="<%= cat._id %>">
-		|       <a href="/classified/search?cat=<%= cat._id %>">
-		|         <span class="name"><%= cat.name %></span>
-		|         <span class="count"></span>
-		|       </a>
-		|     </li>
+		|         <a href="/classified/search?cat=<%= cat._id %>">
+		|           <li data-id="<%= cat._id %>">
+		|             <div class="name"><%= cat.name %></div>
+		|             <span class="count">12,321,312</span>
+		|           </li>
+		|         </a>
 		|   <% }); %>
-		|   </ul>
-		| </div>
-
+		|       </ul>
+		|       <div class="cl-footer">
+		|         <%= children.length %> categories &middot; 34 classifieds
+		|       </div>
+		|     </div>
+		|   </div>
+		| </li>
 
 	//- JS Template for the top classified list
 	script(id="top-classifieds-template", type="text/template")
