@@ -43,6 +43,7 @@ module.exports = Backbone.View.extend({
 		/* For each classified, apply the template and append it into the
 		 * container */
 		_.each(window.data.classifieds, function(post) {
+			post.created = app.helpers.date.prettify(post.created);
 			var html = listTemplate(post)
 			$classifiedList.append(html);
 		});

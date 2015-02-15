@@ -21,9 +21,10 @@ module.exports = {
 			{ threshold: Infinity, handler: createHandler(31536000, "year",      "ago" ) }
 		];
 
-		var arr = date_raw.split(/[- :]/),
-			date = new Date(arr[0], arr[1]-1, arr[2], arr[3], arr[4], arr[5]);
-			date.setHours(date.getHours() + 10);
+		// var arr = date_raw.split(/[- :]/),
+			// date = new Date(arr[0], arr[1]-1, arr[2], arr[3], arr[4], arr[5]);
+			// date.setHours(date.getHours() + 10);
+		date = new Date(date_raw);
 
 		var now = new Date();
 		var diff = ((now.getTime() - date.getTime()) / 1000);
