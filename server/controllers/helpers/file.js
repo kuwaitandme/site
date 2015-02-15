@@ -170,7 +170,7 @@ module.exports = {
 					src: task.newPath,
 					dst: that.thumbsDir + task.newFilename,
 					width:300, height:300,
-					cropwidth:150, cropheight:150,
+					// cropwidth:150, cropheight:150,
 					x:0, y:0
 				});
 			}

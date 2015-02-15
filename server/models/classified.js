@@ -64,6 +64,7 @@ module.exports = {
 		classified.category = data.category;
 		classified.created = Date.now();
 		classified.description = data.description;
+		classified.images = data.images;
 		classified.price = data.price;
 		classified.saleby = data.saleby;
 		classified.status = 0;
