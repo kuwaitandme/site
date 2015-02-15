@@ -1,5 +1,5 @@
 body#auth-guest, body#auth-login, body#auth-signup {
-	main {
+	#main-container {
 		border: none;
 		background: none;
 
@@ -40,6 +40,6 @@ body#auth-guest, body#auth-login, body#auth-signup {
 	}
 }
 
-body#auth-guest main {
+body#auth-guest #main-container {
 	padding: 20px;
 }

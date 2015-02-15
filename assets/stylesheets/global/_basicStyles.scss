@@ -107,25 +107,6 @@ body {
 	position: relative;
 }
 
-main {
-	min-height: 100%;
-	width: 100%;
-
-	> .container {
-		background: #FDFDFD;
-		border-left: 1px solid #EEE;
-		border-right: 1px solid #EEE;
-		margin: 0 auto;
-		padding: 30px;
-		width: 85%;
-	}
-}
-#main-container {
-	min-height: 90%;
-	// height: calc(100% - 140px);
-	position: relative;
-}
-
 h1, h2, h3, h4, h5, h6 {
 	@extend .font-title;
 	font-weight: 500;

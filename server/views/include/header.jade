@@ -3,30 +3,30 @@ header
 	section#messages
 		div.message
 
-	//- Language nav
-	section#subnav-container
-		unless user
-			ul.nav-sub.auth
-				a(href="/auth/login")
-					li login
-				a(href="/auth/signup")
-					li signup
-		else
-			ul.nav-sub.auth
-				a(href="/account/manage")
-					li account
-				a(href="/auth/logout")
-					li logout
 	//- Main nav
 	nav#main-nav
 		ul
 			a(href="/")
 				li#nav-logo
+			li.grabber#grabber-display &#xf0c9;
+
+	ul#slider-nav
+			li.grabber#grabber-hide &#xf0c9;
+
 			a(href="/classified/post")
-				li Post a classified
+				li Post a Classified
 			a(href="/classified/search")
-				li Search for a classified
-			li.form
-				form(action="classified/search", method="GET")
-					input(name="keywords")
-					span.icon.font-awesome &#xf002;
+				li.search Search
+
+			li.gap
+
+			unless user
+				a(href="/auth/signup")
+					li Signup
+				a(href="/auth/login")
+					li Login
+			else
+				a(href="/auth/logout")
+					li Logout
+				a(href="/account/manage")
+					li Account
