@@ -14,7 +14,7 @@ module.exports = Backbone.View.extend({
 			}
 
 			/* Add the map */
-			that.gmap = new google.maps.Map(this.$gmap[0], mapOptions);
+			that.gmap = new google.maps.Map(that.$gmap[0], mapOptions);
 
 			/* Add the marker */
 			that.gmarker = new google.maps.Marker({
@@ -38,15 +38,21 @@ module.exports = Backbone.View.extend({
 		$(".c-content").html(
 			singleTemplate(classified)
 		);
-		$(".c-gallery").html(
-			slideshowTemplate({ images: classified.images })
-		);
+		if(classified.images && classified.images.length > 0) {
+			$(".c-gallery").html(
+				slideshowTemplate({ images: classified.images })
+			);
+		} else {
+			$(".c-gallery").hide();
+		}
+
+		this.$gmap = this.$el.find("#map-canvas");
 
 		/* If there are google co-ordinates saved, load up google maps */
 		if(classified.meta && classified.meta.gmapX && classified.meta.gmapY) {
 			this.initMaps(classified.meta.gmapX, classified.meta.gmapY);
 		} else {
-			this.$el.find("#map-canvas").hide();
+			this.$gmap.hide();
 		}
 
 		/* Load FlexSlider (the slideshow), once the images in the slides have

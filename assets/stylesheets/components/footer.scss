@@ -1,6 +1,7 @@
 footer {
-	// background: #293A4A;
-	color: rgba(0, 0, 0, 0.5);
+	@extend .hide-for-medium;
+
+	color: rgba(0, 0, 0, 0.3);
 	font-size: 10px;
 	font-weight: 700;
 	margin: 0;

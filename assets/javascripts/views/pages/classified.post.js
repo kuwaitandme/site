@@ -259,7 +259,7 @@ module.exports = Backbone.View.extend({
 			});
 
 
-			google.maps.event.addListener(this.gmarker, 'dragend',
+			google.maps.event.addListener(that.gmarker, 'dragend',
 				function (event) {
 					/* Center the map on the position of the marker */
 					var latLng = that.gmarker.getPosition();
@@ -267,8 +267,9 @@ module.exports = Backbone.View.extend({
 
 					/* Set our hidden input fields so that the backend can catch
 					 * it */
-					that.gmapX.val(latLng.lat());
-					that.gmapY.val(latLng.lng());
+					that.$gmapX.val(latLng.lat());
+					that.$gmapY.val(latLng.lng());
+					console.log(that.$gmapX.val(), that.$gmapY.val());
 			});
 		}
 
@@ -290,8 +291,8 @@ module.exports = Backbone.View.extend({
 		this.$subCategory = this.$el.find("#subcat-selector");
 
 		this.$gmap = this.$el.find("#map-canvas");
-		this.$gmapX = this.$el.find("[name='gmap-x']");
-		this.$gmapY = this.$el.find("[name='gmap-y']");
+		this.$gmapX = this.$el.find("[name='gmapX']");
+		this.$gmapY = this.$el.find("[name='gmapY']");
 
 		/* Initialize parts of the form */
 		this.initCategories();

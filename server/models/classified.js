@@ -47,6 +47,11 @@ module.exports = {
 			email: String,
 			location: ObjectId,
 			phone: String
+		},
+
+		meta: {
+			gmapX: Number,
+			gmapY: Number
 		}
 	}),
 
@@ -70,6 +75,9 @@ module.exports = {
 		classified.status = 0;
 		classified.title = data.title;
 		classified.type = data.type;
+
+		classified.meta.gmapX = data.gmapX;
+		classified.meta.gmapY = data.gmapY;
 
 		classified.contact.address1 = data.address1;
 		classified.contact.address2 = data.address2;

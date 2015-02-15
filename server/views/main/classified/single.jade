@@ -11,67 +11,63 @@ block content
 	//- JS Template for the slideshow
 	script(id="slideshow-template", type="text/template")
 		| <% if(images) { %>
-		//- |   <div class="">
-		//- |     <ul class="slides">
 		|     <% _.each(images, function(img) {  %>
-		//- |       <li data-thumb="/uploads/thumb/<%= img %>" alt="<%= img %>">
+		|       <a href="/uploads/<%= img %>" alt="<%= img %>">
 		|         <img src="/uploads/thumb/<%= img %>" />
-		//- |       </li>
+		|       </a>
 		|     <% }); %>
-		//- |     </ul>
-		//- |   </div>
 		| <% } %>
 
 	//- JS Template for the single classified
 	script(id="single-template", type="text/template")
 		| <h1 class="c-title"><%=title %></h1>
 		| <pre class="c-description"><%=description %></pre>
-		| <% if(editable || superEditable != "0") { %>
-		| <ul class="c-meta">
-		|   </li><%
-		|     var cls="", text="";
-		|     switch(status) {
-		|       case 0: text = "#{__('post.status.aw')}"; cls="yellow"; break;
-		|       case 1: text = "#{__('post.status.active')}"; cls="green"; break;
-		|       case 2: text = "#{__('post.status.archive')}"; cls="red"; break;
-		|       case 3: text = "#{__('post.status.reject')}"; cls="red"; break;
-		|       case 4: text = "#{__('post.status.ban')}";  cls="red"; break;
-		|       default: break;
-		|     }
+		| <div class="c-meta">
+		|   <% if(editable || superEditable != "0") { %>
+		|   <ul>
+		|     </li><%
+		|       var cls="", text="";
+		|       switch(status) {
+		|         case 0: text = "#{__('post.status.aw')}"; cls="yellow"; break;
+		|         case 1: text = "#{__('post.status.active')}"; cls="green"; break;
+		|         case 2: text = "#{__('post.status.archive')}"; cls="red"; break;
+		|         case 3: text = "#{__('post.status.reject')}"; cls="red"; break;
+		|         case 4: text = "#{__('post.status.ban')}";  cls="red"; break;
+		|         default: break;
+		|       }
+		|     %>
+		|     <li class="box <%= cls %>"><%= text %></li>
+		|   </ul>
+		|   <% } %>
+		|   <ul>
+		|     <li><%
+		|       if(category) {
+		|         var cat = app.helpers.category.find(category);
+		|         print("#{__("page.csingle.cat")} ");
+		|         print(cat.parent + ", " + cat.child);
+		|       }
+		|     %></li>
+		|   </ul>
+		|   <ul>
+		|   <%
+		|     if(location &&location != "0") { /* Location */
+		|         var loc = app.helpers.location.find(location);
+		|         if(loc) { %>
+		|           <li><%= loc.name %></li>
+		|   <%    }
+		|     } if(contact.email && contact.email.length) { /* Email */
 		|   %>
-		|   <li class="box <%= cls %>"><%= text %></li>
-		| </ul>
-		| <% } %>
-		| <ul class="c-meta">
-		|   <li><%
-		|     if(this.category) {
-		|       var cat = app.helpers.category.find(category);
-		|       print("#{__("page.csingle.cat")} ");
-		|       print(cat.parent + ", " + cat.child);
-		|     }
-		|   %></li>
-		| </ul>
-		| <ul class="c-meta">
-		| <%
-		|   if(location &&location != "0") { /* Location */
-		| %>
-		|   <li><%
-		|       var loc = app.helpers.location.find(location);
-		|       if(loc) print(loc.name);
-		|    %></li>
-		| <%
-		|   } if(contact.email && contact.email.length) { /* Email */
-		| %>
-		|   <li><%= contact.email %></li>
-		| <%
-		|   } if(contact.phone && contact.phone.length) { /* Phone */
-		| %>
-		|   <li><%= contact.phone %></li>
-		| <%
-		|   } if(contact.address1 && contact.address1.length) { /* Address */
-		| %>
-		|   <li><%= contact.address1 %>; <%= contact.address2 %></li>
-		| <% } %>
-		| </ul>
+		|     <li><%= contact.email %></li>
+		|   <%
+		|     } if(contact.phone && contact.phone.length) { /* Phone */
+		|   %>
+		|     <li><%= contact.phone %></li>
+		|   <%
+		|     } if(contact.address1 && contact.address1.length) { /* Address */
+		|   %>
+		|     <li><%= contact.address1 %>; <%= contact.address2 %></li>
+		|   <% } %>
+		|   </ul>
+		| </div>
 		| <div id="map-canvas"></div>
 		| <div class="c-disclaimer">!{__("page.csingle.disclaimer")}</div>
