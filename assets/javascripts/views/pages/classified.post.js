@@ -1,4 +1,6 @@
 module.exports = Backbone.View.extend({
+	postURL: '/classified/post',
+
 	events: {
 		"click .dz-preview .delete div" : "removeFile",
 		"click .submit" : "submit",
@@ -72,9 +74,11 @@ module.exports = Backbone.View.extend({
 		if(!this.validate(data)) return;
 		var that = this;
 
+		var captcha = $("#g-recaptcha-response").val();
+
 		/* Send the AJAX request and redirect */
 		$.ajax({
-			url: document.URL,
+			url: this.postURL + "?captcha=" + captcha,
 			type: "POST",
 			data: data,
 			processData: false,

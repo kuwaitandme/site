@@ -1,5 +1,6 @@
 var classified = require('../../models/classified'),
 	config = require('../../config'),
+	file = require('../helpers/file'),
 	reCaptcha = require('../helpers/reCaptcha').Recaptcha,
 	render = require('../helpers/render');
 
@@ -37,7 +38,7 @@ module.exports = {
 		var useCaptcha = (config.reCaptcha ? true : false);
 
 		function captachFail() {
-			response.end('/classified/post/?status="captchafail');
+			response.end('/classified/post/?status=captchafail');
 		}
 
 		function captachSuccess() {
@@ -45,10 +46,6 @@ module.exports = {
 
 				request.body = POSTdata;
 				classified.createFromPOST(request, false, function(cl) {
-					/* Save the images */
-					cl.images = uploadedFiles;
-					cl.save();
-
 					/* Write to the page the link to redirect. This gets picked
 					 * up by our AJAX controller */
 					response.end("/classified/single/" + classified._id);
@@ -64,7 +61,7 @@ module.exports = {
 				config.reCaptcha.site,
 				config.reCaptcha.secret, {
 					'remoteip' : request.connection.remoteAddress,
-					'response' : request.body['g-recaptcha-response']
+					'response' : request.query.captcha
 				});
 
 			/* Send it to the google and create the user if successful */
