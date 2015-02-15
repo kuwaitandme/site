@@ -21,7 +21,11 @@ module.exports = {
 				page: 'classified/single',
 				title: classified.title,
 
-				data: { classified: classified }
+				data: {
+					classified: classified,
+					editable: false,
+					superEditable: false
+				}
 			});
 		});
 	}

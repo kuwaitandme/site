@@ -11,21 +11,22 @@ block content
 	//- JS Template for the slideshow
 	script(id="slideshow-template", type="text/template")
 		| <% if(images) { %>
-		|   <div class="flexslider">
-		|     <ul class="slides">
+		//- |   <div class="">
+		//- |     <ul class="slides">
 		|     <% _.each(images, function(img) {  %>
-		|       <li data-thumb="/uploads/thumb/<%= img %>" alt="<%= img %>">
-		|         <img src="/uploads/<%= img %>" />
-		|       </li>
+		//- |       <li data-thumb="/uploads/thumb/<%= img %>" alt="<%= img %>">
+		|         <img src="/uploads/thumb/<%= img %>" />
+		//- |       </li>
 		|     <% }); %>
-		|     </ul>
-		|   </div>
+		//- |     </ul>
+		//- |   </div>
 		| <% } %>
 
 	//- JS Template for the single classified
 	script(id="single-template", type="text/template")
 		| <h1 class="c-title"><%=title %></h1>
 		| <pre class="c-description"><%=description %></pre>
+		| <% if(editable || superEditable != "0") { %>
 		| <ul class="c-meta">
 		|   </li><%
 		|     var cls="", text="";
@@ -40,6 +41,7 @@ block content
 		|   %>
 		|   <li class="box <%= cls %>"><%= text %></li>
 		| </ul>
+		| <% } %>
 		| <ul class="c-meta">
 		|   <li><%
 		|     if(this.category) {
@@ -51,7 +53,6 @@ block content
 		| </ul>
 		| <ul class="c-meta">
 		| <%
-		|   console.log(contact);
 		|   if(location &&location != "0") { /* Location */
 		| %>
 		|   <li><%
@@ -72,4 +73,5 @@ block content
 		|   <li><%= contact.address1 %>; <%= contact.address2 %></li>
 		| <% } %>
 		| </ul>
+		| <div id="map-canvas"></div>
 		| <div class="c-disclaimer">!{__("page.csingle.disclaimer")}</div>

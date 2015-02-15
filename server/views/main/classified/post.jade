@@ -66,6 +66,11 @@ block content
 				.hint !{__('page.cform.hint.loc')}
 				select#locations(name="location", required)
 					option(value="", disabled, selected) #{__('page.cform.placeholder.location')}
+				.seperator
+
+				div#map-canvas
+				input(name="gmapX", type="hidden")
+				input(name="gmapY", type="hidden")
 
 				//- Finally the submit button
 				.hint !{__('page.cform.disclaimer')}

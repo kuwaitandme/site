@@ -10,9 +10,10 @@ block content
 		else
 			//- There were classifieds, print them one by one
 			ul
-				each classified in data.classifieds
-					li
-						a(href="/classified/single/#{classified._id}")= classified.title
+				div.hide
+					each classified in data.classifieds
+						li
+							a(href="/classified/single/#{classified._id}")= classified.title
 
 	//- JS Template for each classified in the list
 	script(id="list-template", type="text/template")

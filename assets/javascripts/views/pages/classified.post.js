@@ -241,6 +241,40 @@ module.exports = Backbone.View.extend({
 		return formData;
 	},
 
+	initMaps: function() {
+		var that = this;
+
+		function init() {
+			var myLatlng = new google.maps.LatLng(29.27985, 47.98448)
+			var mapOptions = {
+				zoom: 13,
+				center: myLatlng
+			}
+			that.gmap = new google.maps.Map(that.$gmap[0], mapOptions);
+
+			that.gmarker = new google.maps.Marker({
+				draggable: true,
+				map: that.gmap,
+				position: myLatlng
+			});
+
+
+			google.maps.event.addListener(this.gmarker, 'dragend',
+				function (event) {
+					/* Center the map on the position of the marker */
+					var latLng = that.gmarker.getPosition();
+					that.gmap.setCenter(latLng);
+
+					/* Set our hidden input fields so that the backend can catch
+					 * it */
+					that.gmapX.val(latLng.lat());
+					that.gmapY.val(latLng.lng());
+			});
+		}
+
+		google.maps.event.addDomListener(window, 'load', init);
+	},
+
 
 	initialize: function(obj) {
 		var url = document.URL;
@@ -255,11 +289,18 @@ module.exports = Backbone.View.extend({
 		this.$priceSelector = this.$el.find("#price-selector");
 		this.$subCategory = this.$el.find("#subcat-selector");
 
+		this.$gmap = this.$el.find("#map-canvas");
+		this.$gmapX = this.$el.find("[name='gmap-x']");
+		this.$gmapY = this.$el.find("[name='gmap-y']");
+
 		/* Initialize parts of the form */
 		this.initCategories();
 		this.initDropzone();
 		this.initLocations();
+		this.initMaps();
 	},
+
+
 
 
 	render: function() {

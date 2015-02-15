@@ -2,6 +2,11 @@ body#classified-post #main-container {
 	padding: 10px;
 	padding-bottom: 0;
 
+	#map-canvas {
+		height: 400px;
+		max-height: 100%;
+		width: 100%;
+	}
 	.error { border-color: #E74C3C; }
 	textarea { min-height: 200px; }
 	input {
