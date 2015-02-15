@@ -1,16 +1,12 @@
 body#landing {
+	background: #f9f9f9;
 
-	select {
-		background: #3498db;
-		color: #FFF;
-		padding: 10px;
-		border: 0;
-		margin: 5px 0;
-		border-bottom: 5px solid #2980b9;
+	h1 {
+		// padding: 10px;
+		// margin-top: 0;
+		text-align: center;
 	}
-
-
-	#masonry-container {
+	#masonry-container .content {
 		margin: 0 auto;
 		padding: 0;
 
@@ -21,7 +17,7 @@ body#landing {
 
 			.cl-container {
 				background: #FFF;
-				border: 1px solid #EEE;
+				border: 1px solid #DDD;
 				overflow: hidden;
 
 				-webkit-border-radius: 10px;
@@ -96,15 +92,23 @@ body#landing {
 	}
 
 	#top-classifieds {
-		padding: 0;
-		position: relative;
 		@extend .font-title;
+		padding-top: 1px;
+		background: #fdfdfd;
+		border-bottom: 3px solid #EEE;
+		position: relative;
 
 		.top-c {
 			@include single-transition(border-color);
 			background: #FFF;
 			border: 1px solid #EEE;
+			overflow: hidden;
 			max-width: 200px;
+			margin: 10px;
+
+			-webkit-border-radius: 5px;
+			-moz-border-radius: 5px;
+			border-radius: 5px;
 
 			.top-c-title {
 				padding: 10px;

@@ -1,8 +1,7 @@
 module.exports = Backbone.View.extend({
 
 	events: {
-		"click .cl-container" : "openClassified",
-		// "mouseleave .cl-container" : "closeClassified"
+		"click .cl-container" : "openClassified"
 	},
 
 
@@ -20,9 +19,7 @@ module.exports = Backbone.View.extend({
 		this.bottomMasonry.layout();
 		$list.height(0);
 
-		$list.stop().animate({ height: height }, function() {
-			// that.bottomMasonry.layout();
-		});
+		$list.stop().animate({ height: height });
 	},
 
 
@@ -32,9 +29,7 @@ module.exports = Backbone.View.extend({
 		$el.removeClass('active');
 
 		var $list = $el.find('.cl-list');
-		$list.animate({ height: 0 }, function() {
-			// that.bottomMasonry.layout();
-		});
+		$list.animate({ height: 0 });
 	},
 
 
@@ -71,8 +66,8 @@ module.exports = Backbone.View.extend({
 	},
 
 	initialize: function() {
-		this.$topClassifieds = $('#top-classifieds');
-		this.$categoryList = $('#masonry-container');
+		this.$topClassifieds = $('#top-classifieds .content');
+		this.$categoryList = $('#masonry-container .content');
 
 		this.render.topClassifieds(this);
 		this.render.categories(this);
@@ -106,6 +101,11 @@ module.exports = Backbone.View.extend({
 			that.$categoryList.html("");
 
 			var categories = window.categories;
+
+			categories = app.helpers.category.appendCounters(
+				categories,
+				window.data.categoryCount
+			);
 
 			for(var i=0; i<categories.length; i++) {
 				/* Render out the category */

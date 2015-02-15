@@ -3,15 +3,21 @@ extends ../layout.jade
 block content
 	//- Render raw the top classifieds section
 	section#top-classifieds
-		each classified in data.topClassifieds
-			div
-				a(href="/classified/single/" + classified._id)= classified.title
+		h1 Featured classifieds
+		div.content
+			div.hide
+				each classified in data.topClassifieds
+					div
+						a(href="/classified/single/" + classified._id)= classified.title
 
 	//- Render the list of classifieds
 	ul#masonry-container
-		each category in categories
-			li
-				a(href="/classified/search?cat=" + category._id)= category.name
+		h1 Search for a classified
+		div.content
+			div.hide
+				each category in categories
+					li
+						a(href="/classified/search?cat=" + category._id)= category.name
 
 
 	//- JS Template for the classified list
@@ -21,17 +27,17 @@ block content
 		|     <div class="cl-title sprite <%= name %>"><%= name %></div>
 		|     <div class="cl-content">
 		|       <ul class="cl-list">
-		|   <% _.each(children, function(cat) { %>
+		|       <% _.each(children, function(cat) { %>
 		|         <a href="/classified/search?cat=<%= cat._id %>">
 		|           <li data-id="<%= cat._id %>">
 		|             <div class="name"><%= cat.name %></div>
-		|             <span class="count">12,321,312</span>
+		|             <span class="count"><%= cat.count %></span>
 		|           </li>
 		|         </a>
-		|   <% }); %>
+		|       <% }); %>
 		|       </ul>
 		|       <div class="cl-footer">
-		|         <%= children.length %> categories &middot; 34 classifieds
+		|         <%= children.length %> categories &middot; <%= count %> classifieds
 		|       </div>
 		|     </div>
 		|   </div>

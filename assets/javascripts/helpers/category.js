@@ -19,27 +19,34 @@ module.exports = {
 		}
 	},
 
-	/**
-	 * Rearranges the category array into a parent-child type dictionary
-	 */
-	rearrange: function(categories) {
-		var result = [];
 
+	/**
+	 * Appends the counters into each of the category respectively.
+	 *
+	 * @param  {[type]} categories [description]
+	 * @param  {[type]} counters   [description]
+	 * @return {[type]}            [description]
+	 */
+	appendCounters: function(categories, counters) {
 		for(var i=0; i<categories.length; i++) {
 			var parentCat = categories[i];
+			var counter = 0;
 
-			if(!parentCat.parent) {
-				parentCat.children = [];
+			for(var j=0; j<parentCat.children.length; j++) {
+				var childCat = parentCat.children[j];
 
-				for(var j=0; j<categories.length; j++) {
-					var childCat = categories[j];
+				var categoryCount = _.where(window.data.categoryCount,
+					{_id: childCat._id})[0];
 
-					if(childCat.parent == parentCat.id)
-						parentCat.children.push(childCat);
+				if(categoryCount) {
+					counter += categoryCount.total;
+					parentCat.children[j].count = categoryCount.total;
+				} else {
+					parentCat.children[j].count = "";
 				}
-				result.push(parentCat);
 			}
+			categories[i].count = counter;
 		}
-		return result;
+		return categories;
 	}
 };
