@@ -9,7 +9,7 @@
   },
   "scripts": {
     "start": "node ./bin/www",
-    "populate-db": "mongo ./server/db/populate.js"
+    "populate-db": "mongo kuwaitandme ./server/db/populate.js"
   },
   "dependencies": {
     "async": "*",
