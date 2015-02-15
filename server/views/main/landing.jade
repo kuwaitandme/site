@@ -8,7 +8,7 @@ block content
 				a(href="/classified/single/" + classified._id)= classified.title
 
 	//- Render the list of classifieds
-	section#masonry-container.hide-for-small-only
+	section#masonry-container
 		each category in categories
 			div
 				a(href="/classified/search?cat=" + category._id)= category.name
