@@ -1,8 +1,9 @@
 var bCrypt = require('bcrypt-nodejs'),
-	mongoose = require('mongoose'),
 	LocalStrategy = require('passport-local').Strategy;
 
-var User = require('../../../models/user').model;
+var	User = require('../../../models/user').model;
+	config = require('../../../config'),
+	reCaptcha = require('../../helpers/reCaptcha').Recaptcha;
 
 
 /**
@@ -21,22 +22,44 @@ module.exports = function(passport) {
 		/**
 		 * The main function that validates the username and password
 		 */
-		function(req, username, password, done) {
+		function(request, username, password, done) {
+			var useCaptcha = (config.reCaptcha ? true : false);
 
-			/* Check in mongo if a user with username exists or not */
-			User.findOne({ 'username' :	username }, function(err, user) {
-				if (err) return done(err);
+			findUser = function() {
+				/* Check in mongo if a user with username exists or not */
+				User.findOne({ 'username' :	username }, function(err, user) {
+					if (err) return done(err);
 
-				/* Username does not exist or User exists but wrong
-				 * password */
-				if (!user || !isValidPassword(user, password))
-					return done(null, false, null);
+					/* Username does not exist or User exists but wrong
+					 * password */
+					if (!user || !isValidPassword(user, password))
+						return done(null, false, null);
 
 
-				/* User and password both match, return user from
-				 * done method which will be treated like success */
-				return done(null, user);
-			});
+					/* User and password both match, return user from
+					 * done method which will be treated like success */
+					return done(null, user);
+				});
+			}
+
+
+			/* Check the captcha, which then calls the function to create the
+			 * user */
+			if(useCaptcha) {
+				/* Create the reCapthca object */
+				var recaptcha = new reCaptcha(
+					config.reCaptcha.site,
+					config.reCaptcha.secret, {
+						'remoteip' : request.connection.remoteAddress,
+						'response' : request.body['g-recaptcha-response']
+					});
+
+				/* Send it to the google and create the user if successful */
+				recaptcha.verify(function (err, success) {
+					if(success) findUser();
+					else done(null, false, null);
+				});
+			} else { findUser(); }
 		})
 	);
 }

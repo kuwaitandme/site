@@ -1,9 +1,9 @@
 var bCrypt = require('bcrypt-nodejs'),
-	LocalStrategy = require('passport-local').Strategy,
-	recaptchaAsync = require('recaptcha-async');
+	LocalStrategy = require('passport-local').Strategy;
 
 var	User = require('../../../models/user').model;
-	config = require('../../../config');
+	config = require('../../../config'),
+	reCaptcha = require('../../helpers/reCaptcha').Recaptcha;
 
 
 /**
@@ -25,16 +25,7 @@ module.exports = function(passport) {
 
 		/* The main function that checks for the user and creates it. */
 		function(request, username, password, done) {
-			var recaptcha = new recaptchaAsync.reCaptcha();
-
-			// var useCaptcha = (config.reCaptcha ? true : false);
-			var useCaptcha = false;
-
-			/* Set the captcha with it's callback function */
-			recaptcha.on('data', function (response) {
-				if(response.is_valid) findOrCreateUser();
-				else done(null, false, null);
-			});
+			var useCaptcha = (config.reCaptcha ? true : false);
 
 			function findOrCreateUser () {
 				/* Find a user in Mongo with provided username */
@@ -62,13 +53,20 @@ module.exports = function(passport) {
 			/* Check the captcha, which then calls the function to create the
 			 * user */
 			if(useCaptcha) {
-				recaptcha.checkAnswer(config.reCaptcha.secret,
-					request.connection.remoteAddress,
-					request.body.recaptcha_challenge_field,
-					request.body.recaptcha_response_field);
-			} else {
-				findOrCreateUser();
-			}
+				/* Create the reCapthca object */
+				var recaptcha = new reCaptcha(
+					config.reCaptcha.site,
+					config.reCaptcha.secret, {
+						'remoteip' : request.connection.remoteAddress,
+						'response' : request.body['g-recaptcha-response']
+					});
+
+				/* Send it to the google and create the user if successful */
+				recaptcha.verify(function (err, success) {
+					if(success) findOrCreateUser();
+					else done(null, false, null);
+				});
+			} else { findOrCreateUser(); }
 		})
 	);
 }

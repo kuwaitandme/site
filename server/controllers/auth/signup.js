@@ -27,7 +27,7 @@ module.exports = {
 	/* On POST request, use passport's authentication mechanism to register the
 	 * user */
 	post: passport.authenticate('signup', {
-		successRedirect: '/auth/login',
-		failureRedirect: '/auth/signup'
+		successRedirect: '/auth/login?status=signupsucess',
+		failureRedirect: '/auth/signup?status=signupfail'
 	})
 }

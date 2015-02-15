@@ -2,7 +2,8 @@ var mongoose = require('mongoose'),
 	passport = require('passport'),
 	LocalStrategy = require('passport-local').Strategy;
 
-var	render = require('../helpers/render');
+var	render = require('../helpers/render'),
+	config = require('../../config');
 
 
 /**
@@ -17,7 +18,10 @@ module.exports = {
 		return render(request, response, {
 			bodyid: 'auth-login',
 			page: 'auth/login',
-			title: response.__('title.auth.login')
+			title: response.__('title.auth.login'),
+			data: {
+				sitekey: config.reCaptcha.site
+			}
 		});
 	},
 

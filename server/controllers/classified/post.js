@@ -1,7 +1,6 @@
-var recaptchaAsync = require('recaptcha-async');
-
 var classified = require('../../models/classified'),
-	file = require('../helpers/file'),
+	config = require('../../config'),
+	reCaptcha = require('../helpers/reCaptcha').Recaptcha,
 	render = require('../helpers/render');
 
 
@@ -33,9 +32,9 @@ module.exports = {
 	 * Controller to create the new classified
 	 */
 	post: function(request, response, next) {
-		var recaptcha = new recaptchaAsync.reCaptcha();
-		// var useCaptcha = (config.reCaptcha ? true : false);
-		var useCaptcha  = false;
+		if (!request.isAuthenticated()) return response.redirect('/auth/guest');
+
+		var useCaptcha = (config.reCaptcha ? true : false);
 
 		function captachFail() {
 			response.end('/classified/post/?status="captchafail');
@@ -57,10 +56,22 @@ module.exports = {
 			});
 		}
 
-		/* Set the captcha with it's callback function */
-		recaptcha.on('data', function (response) {
-			if(response.is_valid) captachFail();
-			else captachSuccess();
-		});
+		/* Check the captcha, which then calls the function to create the
+		 * user */
+		if(useCaptcha) {
+			/* Create the reCapthca object */
+			var recaptcha = new reCaptcha(
+				config.reCaptcha.site,
+				config.reCaptcha.secret, {
+					'remoteip' : request.connection.remoteAddress,
+					'response' : request.body['g-recaptcha-response']
+				});
+
+			/* Send it to the google and create the user if successful */
+			recaptcha.verify(function (err, success) {
+				if(success) captachSuccess();
+				else captachFail();
+			});
+		} else { captachSuccess(); }
 	}
 }
