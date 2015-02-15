@@ -11,7 +11,7 @@ module.exports = {
 	get: function(request, response, next) {
 		var parameters = { };
 
-		if(request.query.category) parameters["category"] = request.query.cat;
+		if(request.query.cat) parameters["category"] = request.query.cat;
 
 		classified.search(parameters, function(classifieds) {
 			/* Generate the response */
