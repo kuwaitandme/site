@@ -9,7 +9,7 @@ block content
 			.tab-content
 
 				//- Title field
-				.hint !{__('page.cform.hint.title')}
+				.hint !{__('page.cform.hint.title')} *
 				input(name="title", placeholder="#{__('page.cform.title.info')}")
 				.seperator
 
@@ -21,7 +21,7 @@ block content
 				.seperator
 
 				//- Category and Sub-Category boxes
-				.hint !{__('page.cform.hint.cat')}
+				.hint !{__('page.cform.hint.cat')} *
 				select#cat-selector(name="parent-category", required)
 					option(data-id="-1", disabled, selected) #{__('page.cform.placeholder.category')}
 				select#subcat-selector(name="category", required)
@@ -31,20 +31,23 @@ block content
 				//- Price field
 				.hint !{__('page.cform.hint.price')}
 				input(name="price", placeholder="#{__('page.cform.placeholder.price')}")
-				.seperator
 
+			.tab-content#description-tab
 				//- Description
-				.hint !{__('page.cform.hint.desc')}
+				.hint !{__('page.cform.hint.desc')} *
 				textarea(name="description", placeholder="#{__('page.cform.placeholder.description')}", required)
 
 		//- Form section for photos and videos
 		section.tab
-			.tab-title #{__('page.cform.title.photos-videos')}
+			.tab-title Photos
 			.tab-content
 
 				//- Drag and drop container
 				.hint !{__('page.cform.hint.img')}
 				#image-upload !{__('page.cform.hint.drag-drop')}
+
+			.tab-content#image-tab
+				.hint Selected images get displayed over here.
 				ul#image-upload-preview
 
 		//- Form section for contact information
@@ -53,7 +56,7 @@ block content
 			.tab-content
 
 				//- Email
-				.hint !{__('page.cform.hint.email')}
+				.hint !{__('page.cform.hint.email')} *
 				input(name="email", placeholder="#{__('page.cform.placeholder.email')}", required)
 				.seperator
 
@@ -63,16 +66,20 @@ block content
 				.seperator
 
 				//- Location selection box
-				.hint !{__('page.cform.hint.loc')}
+				.hint !{__('page.cform.hint.loc')} *
 				select#locations(name="location", required)
 					option(value="", disabled, selected) #{__('page.cform.placeholder.location')}
-				.seperator
 
+			.tab-content#map-tab
 				div#map-canvas
 				input(name="gmapX", type="hidden")
 				input(name="gmapY", type="hidden")
 
-				//- Finally the submit button
-				.hint !{__('page.cform.disclaimer')}
-				.margin.g-recaptcha(data-sitekey="#{data.sitekey}")
-				input.submit(type="submit", value="#{__('page.cform.placeholder.submit')}")
+
+		//- Finally the submit button
+		section.tab
+			.tab-title That's all, You're good to go!
+
+			.hint !{__('page.cform.disclaimer')}
+			.margin.g-recaptcha(data-sitekey="#{data.sitekey}")
+			input.submit(type="submit", value="#{__('page.cform.placeholder.submit')}")

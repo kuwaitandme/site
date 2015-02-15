@@ -1,23 +1,20 @@
 extends ../layout.jade
 
 block content
-	//- Render raw the top classifieds section
-	section#top-classifieds
-		h1 Featured classifieds
-		div.content
-			div.hide
-				each classified in data.topClassifieds
-					div
-						a(href="/classified/single/" + classified._id)= classified.title
 
-	//- Render the list of classifieds
-	ul#masonry-container
+	section#masonry-container
 		h1 Search for a classified
-		div.content
+		ul.content
 			div.hide
 				each category in categories
 					li
 						a(href="/classified/search?cat=" + category._id)= category.name
+
+	section#post-classified
+		h1 Post your free Classified now!
+		h3 it is super quick and easy
+		a(href="/guest/post")
+			.post-button Create Classified
 
 
 	//- JS Template for the classified list
@@ -42,15 +39,3 @@ block content
 		|     </div>
 		|   </div>
 		| </li>
-
-	//- JS Template for the top classified list
-	script(id="top-classifieds-template", type="text/template")
-		|  <a href="/classified/single/<%= _id %>">
-		|  <% if(images && images.length > 0) { %>
-		|    <div class="top-c has-thumb" style="background-image: url('/uploads/thumb/<%= images[0] %>')">
-		|  <% } else { %>
-		|    <div class="top-c">
-		|  <% } %>
-		|      <div class="top-c-title"><%= title %></div>
-		|    </div>
-		|  </a>

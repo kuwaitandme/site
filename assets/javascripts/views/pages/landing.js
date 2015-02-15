@@ -69,52 +69,31 @@ module.exports = Backbone.View.extend({
 		this.$topClassifieds = $('#top-classifieds .content');
 		this.$categoryList = $('#masonry-container .content');
 
-		this.render.topClassifieds(this);
-		this.render.categories(this);
+		this.render();
 		this.setupMasonry();
 	},
 
-	render: {
-		/* Render the top classifieds */
-		topClassifieds: function(that) {
-			var topClassifiedsTemplate = _.template(
-				$("#top-classifieds-template").html());
-			that.$topClassifieds.html("");
+	render: function(){
+		var that = this;
 
-			for(var i=0; i<data.topClassifieds.length; i++) {
-				var classified = data.topClassifieds[i];
-				classified.title = classified.title || "";
+		var categoriesTemplate = _.template(
+			$("#list-template").html());
+		that.$categoryList.html("");
 
-				/* Protect the 'thumb' variable */
-				if(!classified.thumb) classified.thumb = null;
+		var categories = window.categories;
 
-				/* Render out the top classifieds */
-				var html = topClassifiedsTemplate(classified);
-				that.$topClassifieds.append(html);
-			}
-		},
+		categories = app.helpers.category.appendCounters(
+			categories,
+			window.data.categoryCount
+		);
 
-		/* Render the category lists */
-		categories: function (that) {
-			var categoriesTemplate = _.template(
-				$("#list-template").html());
-			that.$categoryList.html("");
-
-			var categories = window.categories;
-
-			categories = app.helpers.category.appendCounters(
-				categories,
-				window.data.categoryCount
-			);
-
-			for(var i=0; i<categories.length; i++) {
-				/* Render out the category */
-				var html = categoriesTemplate(categories[i]);
-				that.$categoryList.append(html);
-			}
-
-			/* Add the post counts to the classifieds */
-			that.addCounters();
+		for(var i=0; i<categories.length; i++) {
+			/* Render out the category */
+			var html = categoriesTemplate(categories[i]);
+			that.$categoryList.append(html);
 		}
+
+		/* Add the post counts to the classifieds */
+		that.addCounters();
 	}
 });

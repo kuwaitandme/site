@@ -1,9 +1,9 @@
 header {
-	position: fixed;
 	// height: 100%;
-	width: 100%;
-	top: 0;
 	left: 0;
+	position: fixed;
+	top: 0;
+	width: 100%;
 	z-index: 1;
 
 	nav#main-nav {
@@ -44,16 +44,16 @@ header {
 
 	ul#slider-nav {
 		background: #111;
-		border-left: 1px solid #DDD;
+		border-left: 1px solid rgba(0, 0, 0, 0.1);
 		color: #FFF;
 		height: 100%;
 		margin: 0;
 		padding: 0;
 		position: fixed;
-		right: -170px;
+		right: -200px;
 		text-align: right;
 		top: 0;
-		width: 170px;
+		width: 200px;
 		z-index: 1;
 
 		a {

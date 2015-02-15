@@ -1,5 +1,5 @@
 module.exports = Backbone.View.extend({
-	sliderAnimateWidth: 170,
+	sliderAnimateWidth: 200,
 
 	events: {
 		"click #grabber-hide" : "hide",

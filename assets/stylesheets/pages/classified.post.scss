@@ -2,11 +2,6 @@ body#classified-post #main-container {
 	padding: 10px;
 	padding-bottom: 0;
 
-	#map-canvas {
-		height: 400px;
-		max-height: 100%;
-		width: 100%;
-	}
 	.error { border-color: #E74C3C; }
 	textarea { min-height: 200px; }
 	input {
@@ -27,6 +22,7 @@ body#classified-post #main-container {
 	}
 	select { background: #FFF; }
 	.tab {
+		@extend .row;
 		.tab-title {
 			@extend .font-title;
 			font-size: 24px;
@@ -35,6 +31,8 @@ body#classified-post #main-container {
 
 		}
 		.tab-content {
+			@extend .large-6;
+			@extend .columns;
 			background: #FFF;
 			border: 1px solid #CCC;
 			padding: 15px 0;
@@ -42,10 +40,29 @@ body#classified-post #main-container {
 		}
 	}
 	.seperator { background: #EEE;}
-	.hint { font-size: 12px; }
+	@media #{$large-up} {
+		#description-tab, #map-tab, #image-tab {
+			border-left: none;
+
+			textarea { height: 433px; }
+		}
+	}
+	#map-tab {
+		padding: 0;
+
+		#map-canvas {
+			height: 400px;
+			max-height: 100%;
+			width: 100%;
+		}
+	}
 	#image-upload-preview, #image-upload, .hint, input, textarea, select {
-		margin: 15px;
-		margin-bottom: 0;
+		margin: 0 15px;
+		// margin-bottom: 0;
+	}
+	.hint {
+		font-size: 12px;
+		margin-bottom: 15px;
 	}
 	#image-upload-preview, #image-upload, input, textarea, select {
 		@include single-transition(border-color);
@@ -58,7 +75,7 @@ body#classified-post #main-container {
 	}
 	#image-upload {
 		background: #f9f9f9;
-		border: 1px dotted #DDD;
+		border: 2px dotted #DDD;
 		color: rgba(0, 0, 0, 0.5);
 		min-height: 200px;
 		padding-top: 75px;
@@ -68,14 +85,17 @@ body#classified-post #main-container {
 	}
 	#image-upload-preview {
 		@include clearfix();
-		-webkit-transition-property: width, height; /* Safari */
-		-webkit-transition-duration: 1s; /* Safari */
-		transition-property: width, height;
-		transition-duration: 1s;
+		@include single-transition(border-color);
+		// -webkit-transition-property: width, height; /* Safari */
+		// -webkit-transition-duration: 1s; /* Safari */
+		// transition-property: width, height;
+		// transition-duration: 1s;
 
-		border-top: none;
+		min-height: 50px;
+		border: dotted 2px #EEE;
 		margin-top: 0;
 		padding: 0;
+		&:hover { border-color: #3498db; }
 
 		.dz-preview {
 			border-right: 1px solid #DDD;

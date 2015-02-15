@@ -44,8 +44,8 @@ module.exports = Backbone.View.extend({
 		status &= setError($description, isTextValid);
 
 		/* Check the email and phone */
-		status &= setError($phone, isTextValid) ||
-			setError($email, isTextValid);
+		// status &= setError($phone, isTextValid) ||
+		// 	setError($email, isTextValid);
 
 		/* Check the category boxes */
 		var catStatus = setError(this.$parCategory, isOptionValid) &&
