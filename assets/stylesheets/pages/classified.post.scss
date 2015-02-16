@@ -2,6 +2,21 @@ body#classified-post #main-container {
 	padding: 10px;
 	padding-bottom: 0;
 
+	.message {
+		font-size: 16px;
+		padding: 15px;
+		font-weight: bold;
+		border-bottom: 1px solid #EEE;
+		p {
+			margin: 0;
+		}
+
+		a {
+			text-decoration: none;
+			border-bottom: 2px solid #E74C3C;
+			color: #E74C3C;
+		}
+	}
 	.error { border-color: #E74C3C; }
 	textarea { min-height: 200px; }
 	input {

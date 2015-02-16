@@ -18,6 +18,7 @@ module.exports = {
 			page: 'classified/post',
 			title: response.__('title.guest.post'),
 			data: {
+				guest: true,
 				sitekey: config.reCaptcha.site
 			}
 		});

@@ -3,6 +3,16 @@ extends ../../layout.jade
 block content
 	form(action="", method="POST", enctype="multipart/form-data")
 
+		if data.guest
+			.message
+				p
+					| We are letting you post a classified as a guest. So we have to
+					| review your post before it gets published which can take upto
+					| 24 hours.
+				p
+					| You can avoid this delay, if you simply <a href="/auth/signup">
+					| signup</a> with us!
+
 		//- Form section for basic info
 		section.tab
 			.tab-title #{__('page.cform.title.info')}
@@ -47,7 +57,7 @@ block content
 				#image-upload !{__('page.cform.hint.drag-drop')}
 
 			.tab-content#image-tab
-				.hint Selected images get displayed over here.
+				.hint Selected images get displayed over here. If you want to remove an image, simply click on it below.
 				ul#image-upload-preview
 
 		//- Form section for contact information

@@ -35,11 +35,54 @@ body#auth-guest, body#auth-login, body#auth-signup {
 			text-align: center;
 			padding-top: 20px;
 
-			a { color: #27ae60; }
+			a {
+				color: #27ae60;
+				text-decoration: none;
+				border-bottom: 1px solid #27ae60;
+			}
 		}
 	}
 }
 
 body#auth-guest #main-container {
 	padding: 20px;
+
+	font-size: 14px;
+	p { font-size: 18px; }
+	a { text-decoration: none }
+	.box {
+		@include single-transition(background);
+		color: #FFF;
+		float: left;
+		margin: 20px;
+		margin-left: 0;
+		text-align: center;
+		width: 300px;
+
+		-webkit-border-radius: 3px;
+		-moz-border-radius: 3px;
+		border-radius: 3px;
+
+		.icon {
+			@extend .font-awesome;
+			font-size: 40px;
+			padding: 20px 0;
+		}
+
+		.title {
+			@extend .font-title;
+			font-size: 18px;
+			padding: 15px 0;
+		}
+
+		&.login-post { background-color: #27AE61; }
+		&.guest-post { background-color: #304861; }
+		&.signup-post { background-color: #3598DC; }
+
+		&:hover {
+			&.login-post { background-color: #219B56; }
+			&.guest-post { background-color: #25374A; }
+			&.signup-post { background-color: #2C82BA; }
+		}
+	}
 }
