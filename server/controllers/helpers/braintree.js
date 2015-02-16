@@ -1,4 +1,4 @@
-var braintree = require('braintree');
+// var braintree = require('braintree');
 
 var	config = require('../../config');
 
@@ -9,23 +9,24 @@ module.exports = {
 	],
 
 	createGateway: function() {
-		return braintree.connect({
-			environment: braintree.Environment.Sandbox,
-			merchantId: config.braintree.merchantId,
-			publicKey: config.braintree.publicKey,
-			privateKey: config.braintree.privateKey
-		});
+		// return braintree.connect({
+		// 	environment: braintree.Environment.Sandbox,
+		// 	merchantId: config.braintree.merchantId,
+		// 	publicKey: config.braintree.publicKey,
+		// 	privateKey: config.braintree.privateKey
+		// });
 	},
 
 
 	getClientToken: function(callback) {
 		var gateway = this.createGateway();
 
-		gateway.clientToken.generate({}, function (err, response) {
-			if(err) throw err;
+		callback();
+		// gateway.clientToken.generate({}, function (err, response) {
+		// 	if(err) throw err;
 
-			callback(response.clientToken);
-		});
+		// 	callback(response.clientToken);
+		// });
 	},
 
 

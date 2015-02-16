@@ -1,4 +1,5 @@
 module.exports = {
+	_2checkout: "//www.2checkout.com/checkout/api/2co.min.js",
 	braintree: "//js.braintreegateway.com/v2/braintree.js",
 	dropzone: "//cdnjs.cloudflare.com/ajax/libs/dropzone/4.0.1/min/dropzone.min.js",
 	flexslider: "//cdnjs.cloudflare.com/ajax/libs/flexslider/2.2.2/jquery.flexslider-min.js",

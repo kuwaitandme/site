@@ -1,45 +1,52 @@
-
 var classified = require('../../models/classified'),
 	config = require('../../config'),
-	braintree = require('../helpers/braintree'),
-	file = require('../helpers/file'),
-	reCaptcha = require('../helpers/reCaptcha').Recaptcha,
+	_2checkout = require('../helpers/_2checkout'),
 	render = require('../helpers/render');
 
 
 module.exports = {
 	/**
-	 * Controller for the guest posting page. Creates a new classified and
-	 * saves it to the database.
+	 * [get description]
 	 */
 	get: function(request, response, next) {
-		braintree.getClientToken(function(braintreeToken) {
-
-			return render(request, response, {
+		classified.get(request.param("id"), function(classified) {
+			render(request, response, {
 				bodyid: 'classified-finish',
 				description: null,
 				page: 'classified/finish',
 				title: response.__('title.guest.finish'),
-				scripts: ['braintree', 'qrcode'],
+				scripts: ['_2checkout', 'qrcode'],
 
 				data: {
-					braintreeToken: braintreeToken,
+					classified: classified,
+					_2checkout: {
+						sid: config._2checkout.sid,
+						publicKey: config._2checkout.publicKey
+					},
 					sitekey: config.reCaptcha.site
 				}
 			});
-
 		});
+
 	},
 
 
 	/**
-	 * Controller to create the new classified
+	 * [post description]
 	 */
 	post: function(request, response, next) {
+		_2checkout.processTransaction(request.body, function(err, data) {
+			if(!data.exception) {
+				var _id = request.body._id;
 
-		braintree.performTransaction(request, function() {
+				/* Success! Add perks to the classified */
+				if(request.body.perks[0]) classified.makeUrgent(_id);
+				if(request.body.perks[1]) classified.promote(_id);
 
-		})
-
+				response.end(JSON.stringify({ status: "success" }));
+			} else {
+				response.end(JSON.stringify(data.exception));
+			}
+		});
 	}
 }

@@ -12,6 +12,8 @@
     "populate-db": "mongo kuwaitandme ./server/db/populate.js"
   },
   "dependencies": {
+    "2checkout-node": "0.0.1",
+    "2co": "0.0.4",
     "async": "*",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "~1.10.2",

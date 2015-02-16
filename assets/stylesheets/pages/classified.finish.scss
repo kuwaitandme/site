@@ -42,8 +42,12 @@ body#classified-finish {
 	}
 
 	.tab {
-		margin-top: 15px;
+		// @include clearfix();
 		border-top: 1px solid #DDD;
+		// display: inline-block;
+		margin: 0 auto;
+		margin-top: 15px;
+		text-align: center;
 
 		.tab-title {
 			@extend .font-title;
@@ -55,7 +59,7 @@ body#classified-finish {
 		.tab-perk {
 			background: #FFF;
 			border: 1px solid #CCC;
-			float: left;
+			display: inline-block;
 			margin: 10px;
 			overflow: hidden;
 			text-align: left;
@@ -65,8 +69,10 @@ body#classified-finish {
 			-moz-border-radius: 03px;
 			border-radius: 03px;
 
-
-			&#tab-payment { display: none }
+			&#tab-payment {
+				display: none;
+				margin: 0 auto;
+			}
 			.perk-title {
 				@extend .font-title;
 				font-size: 18px;
@@ -78,7 +84,7 @@ body#classified-finish {
 				margin-left: 0;
 				margin-top: 0;
 			}
-			.price, .total {
+			.price,{
 				@extend .font-title;
 				@include single-transition(background);
 				background: #1abc9c;
@@ -96,7 +102,14 @@ body#classified-finish {
 				&:hover { background: #c0392b; }
 			}
 			.total {
+				padding: 10px;
+				span {
+					font-weight: bold;
+				}
+			}
+			.submit {
 				background: #3498db;
+				width: 100%;
 				&:hover { background: #2980b9; }
 			}
 		}

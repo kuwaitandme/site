@@ -12,21 +12,23 @@ block content
 		a(href="#")
 			.gplus &#xf0d5;
 
-
-	form.tab(action="", method="POST")
+	.tab
 		.tab-title Or add some perks and boost your audience
 		.tab-perk
 			.perk-title Urgent Classified
 			.hint Need to sell something urgently? We will make your classified stand out from others giving you more attention than regular classifieds
 			.price(data-val=0) 5 KWD
-			input(type='hidden',name='perk-0',val="false")
 
 		.tab-perk
 			.perk-title Top Classified
 			.hint Need alot of attention? Then this perk will fit you well. Make your classified stay on the top page of it's category for three days.
 			.price(data-val=1) 15 KWD
-			input(type='hidden',name='perk-1',val="false")
 
 		.tab-perk#tab-payment
-			#payment-container
-			input.total(type='submit', value="Buy for 15 KWD")
+			form
+				input#ccc(type="text", placeholder='Credit Card #')
+				input#ccv(type="text", placeholder='CCV code')
+				input#cmdate(type="text", placeholder='MM')
+				input#cydate(type="text", placeholder='YY')
+				.total Total: <span>123</span> KWD
+				input.submit(type='submit', value="Buy perks!")
