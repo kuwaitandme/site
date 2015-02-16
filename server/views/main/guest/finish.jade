@@ -1,18 +1,30 @@
 extends ../../layout.jade
 
 block content
-		//- Disclaimer message
-		h1.guest-title= __('page.gfinish.congrat')
-		p= __('page.gfinish.since')
 
-		//- Instructions for the guest
-		p= __('page.gfinish.instr')
+	.congratz Great! Your classified has been submitted!
+	.sub-title We will review it and publish it within 24 hours.
+	.sub-title Keep the link/QRcode below in a safe place
 
-		//- Container for the QR code
+	a(href="#")#qrlink
 		#qrcode
 
-		h2
-			a(href="/guest/single/" + data.hash) URL
+	.sub-title With this link, you can archive/edit your classified at any time
 
-		//- Warning
-		p.warn  !{__('page.gfinish.warn')}
+	form.tab(action="", method="POST")
+		.tab-title Why not add some perks? This will boost your audience by 10x
+		.tab-perk
+			.perk-title Urgent Classified
+			.hint Need to sell something urgently? We will make your classified stand out from others giving you more attention than regular classifieds
+			.price(data-val=0) 5 KWD
+			input(type='hidden',name='perk-0',val="false")
+
+		.tab-perk
+			.perk-title Top Classified
+			.hint Need alot of attention? Then this perk will fit you well. Make your classified stay on the top page of it's category for three days.
+			.price(data-val=1) 15 KWD
+			input(type='hidden',name='perk-1',val="false")
+
+		.tab-perk#tab-payment
+			#payment-container
+			input.total(type='submit', value="Buy for 15 KWD")

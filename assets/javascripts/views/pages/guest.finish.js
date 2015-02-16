@@ -7,7 +7,10 @@ module.exports = Backbone.View.extend({
 		/* Generate the QR code. The QR code will contain the link edit to the
 		 *  guest classified.
 		 */
-		var qrcode = new QRCode("qrcode");
-		qrcode.makeCode(window.url);
+		var url = document.URL;
+		url = url.replace("finish", "edit")
+
+		$("#qrcode").qrcode(url);
+		$("#qrlink").attr('href', url);
 	}
 });
