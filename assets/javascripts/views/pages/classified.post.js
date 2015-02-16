@@ -5,7 +5,8 @@ module.exports = Backbone.View.extend({
 		"click .dz-preview .delete div" : "removeFile",
 		"click .submit" : "submit",
 		"change #cat-selector" : "catSelected",
-		"change #price-selector" : "priceSelected"
+		"change #price-selector" : "priceSelected",
+		"change #locations" : "unlockMapAndAddress"
 	},
 
 
@@ -115,16 +116,16 @@ module.exports = Backbone.View.extend({
 		var val =  this.$priceSelector.find(":selected").val();
 		switch(val) {
 			case "Free":
-				this.setPrice(0);
-				this.hidePrice();
+				this.$priceField.val(0);
+				this.$priceField.hide();
 				break;
 			case "Custom":
-				this.setPrice(null);
-				this.showPrice();
+				this.$priceField.val(null);
+				this.$priceField.show();
 				break;
 			case "Contact Owner":
-				this.setPrice(-1);
-				this.hidePrice();
+				this.$priceField.val(-1);
+				this.$priceField.hide();
 				break;
 		}
 	},
@@ -150,6 +151,9 @@ module.exports = Backbone.View.extend({
 		var id = this.$parCategory.find(":selected").data("id");
 		var categories = window.categories;
 
+		this.$subCategory.show();
+		this.$subCategory.removeAttr("disabled");
+
 		for(var i=0; i<categories.length; i++)
 			if(categories[i]._id == id) {
 				var children = categories[i].children;
@@ -169,9 +173,31 @@ module.exports = Backbone.View.extend({
 
 
 	/**
+	 * Unlocks the map and address fields.
+	 */
+	unlockMapAndAddress: function(e) {
+		var lastVal = this.$locations.find('option:last-child').val();
+
+		/* Check if we selected the last option or not. If we have, then disable
+		 * the map and the address fields */
+		if(this.$locations.val() != lastVal) {
+			$("[name='address1']").removeAttr("disabled");
+			$("[name='address2']").removeAttr("disabled");
+			$("#map-overlay").hide();
+		} else {
+			$("[name='address1']").attr("disabled", "");
+			$("[name='address2']").attr("disabled", "");
+			$("#map-overlay").show();
+		}
+	},
+
+
+	/**
 	 * Initializes the categories option.
 	 */
 	initCategories: function() {
+		this.$subCategory.hide();
+
 		var categories = window.categories;
 		for(var i=0; i<categories.length; i++) {
 			var html = this.generateOption(categories[i]._id, categories[i].name);
@@ -241,6 +267,10 @@ module.exports = Backbone.View.extend({
 		return formData;
 	},
 
+
+	/**
+	 * Initializes Google maps
+	 */
 	initMaps: function() {
 		var that = this;
 
@@ -278,15 +308,11 @@ module.exports = Backbone.View.extend({
 
 
 	initialize: function(obj) {
-		var url = document.URL;
-
-		/* Get the type of the classified. "classified" or "guest" */
-		var type = url.split("/")[4];
-
 		/* Setup our DOM variables */
 		this.$filePreview = this.$el.find("#image-upload-preview");
 		this.$parCategory = this.$el.find("#cat-selector");
 		this.$locations = this.$el.find("#locations");
+		this.$priceField = this.$el.find('#price-field');
 		this.$priceSelector = this.$el.find("#price-selector");
 		this.$subCategory = this.$el.find("#subcat-selector");
 
@@ -295,17 +321,10 @@ module.exports = Backbone.View.extend({
 		this.$gmapY = this.$el.find("[name='gmapY']");
 
 		/* Initialize parts of the form */
+		this.priceSelected();
 		this.initCategories();
 		this.initDropzone();
 		this.initLocations();
 		this.initMaps();
-	},
-
-
-
-
-	render: function() {
-		this.setPrice(null);
-		if(this.getValues) this.getValues();
 	}
 });

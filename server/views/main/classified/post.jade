@@ -34,13 +34,17 @@ block content
 				.hint !{__('page.cform.hint.cat')} *
 				select#cat-selector(name="parent-category", required)
 					option(data-id="-1", disabled, selected) #{__('page.cform.placeholder.category')}
-				select#subcat-selector(name="category", required)
+				select#subcat-selector(name="category", required, disabled)
 					option(data-id="-1", disabled, selected) #{__('page.cform.placeholder.subcategory')}
 				.seperator
 
 				//- Price field
 				.hint !{__('page.cform.hint.price')}
-				input(name="price", placeholder="#{__('page.cform.placeholder.price')}")
+				select#price-selector(name="price-option")
+					option Free
+					option Custom
+					option Contact Owner
+				input#price-field(name="price", value=0, placeholder="#{__('page.cform.placeholder.price')}", required)
 
 			.tab-content#description-tab
 				//- Description
@@ -76,14 +80,25 @@ block content
 				.seperator
 
 				//- Location selection box
-				.hint !{__('page.cform.hint.loc')} *
+				.hint !{__('page.cform.hint.loc')} This helps us find buyers closer to you. *
 				select#locations(name="location", required)
 					option(value="", disabled, selected) #{__('page.cform.placeholder.location')}
+				.seperator
+
+				//- Address lines 1 &2
+				.hint If you want to be more specific about your address, list it down here. You must first choose a location to enable this fields.
+				input(name="address1", placeholder="address line 1", disabled)
+				input(name="address2", placeholder="address line 2", disabled)
+
 
 			.tab-content#map-tab
-				div#map-canvas
+				#map-overlay Choose a location to activate the map
+				#map-canvas
 				input(name="gmapX", type="hidden")
 				input(name="gmapY", type="hidden")
+
+		section.tab
+			.tab-title Add some perks
 
 
 		//- Finally the submit button

@@ -64,6 +64,22 @@ body#classified-post #main-container {
 	}
 	#map-tab {
 		padding: 0;
+		position: relative;
+
+		#map-overlay {
+			@extend .font-title;
+			background: rgba(0, 0, 0, 0.8);
+			color: #FFF;
+			font-size: 17px;
+			height: 100%;
+			left: 0;
+			padding: 30px;
+			position: absolute;
+			text-align: center;
+			top: 0;
+			width: 100%;
+			z-index: 1;
+		}
 
 		#map-canvas {
 			height: 400px;
