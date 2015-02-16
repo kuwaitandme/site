@@ -64,15 +64,16 @@ initPassport(passport);
 /* Setup the different routes */
 app.use('/', routes);
 
-/* catch 404  */
+/* None of the URL matched, so return 404  */
 app.use(function(req, res, next) {
-	return res.render('error', {
-		message: "404"
-	});
+	var fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
+	return res.render('404', { path: fullUrl });
 });
+
 
 /* Connect to the database */
 mongoose.connect('mongodb://localhost/kuwaitandme');
+
 
 /* Setup environment specific functions */
 if (app.config.mode == 'development') {

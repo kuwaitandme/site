@@ -22,3 +22,27 @@ body#error {
 		@extend .font-title;
 	}
 }
+
+body#four-o-four {
+	background: #0A0B77;
+	color: #FEFEFE;
+	padding: 20px;
+	// font-family: 'VT323';
+
+	> section {
+		border: 1px solid #FEFEFE;
+		padding: 20px;
+
+		.title {
+			font-size: 20px;
+			padding: 5px 20px;
+			display: inline-block;
+			background: #FEFEFE;
+			color: #0A0B77;
+		}
+
+		.trace {
+
+		}
+	}
+}
