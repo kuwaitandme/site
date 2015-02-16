@@ -223,6 +223,8 @@ module.exports = Backbone.View.extend({
 	 * Initializes the drop-zone.
 	 */
 	initDropzone: function() {
+		Dropzone.autoDiscover = false;
+
 		/* Create the dropzone */
 		var $el = this.$el.find("#image-upload").eq(0).dropzone({ url: "/" });
 		this.dropzone = $el[0].dropzone;

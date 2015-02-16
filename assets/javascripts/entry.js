@@ -12,9 +12,6 @@ window.app = {
 	 * This function sets up the different variables
 	 */
 	setup: function() {
-		/* Basic assignments */
-		Dropzone.autoDiscover = false;
-
 		/* Initialize the header. */
 		this.header = new this.views.components.header({ el: "header" });
 

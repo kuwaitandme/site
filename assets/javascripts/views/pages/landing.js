@@ -51,12 +51,6 @@ module.exports = Backbone.View.extend({
 	 */
 	setupMasonry: function() {
 		var that = this;
-		this.topMasonry = new Masonry(this.$topClassifieds[0], {
-			columnWidth: 1,
-			// isFitWidth true,
-			itemSelector: '.top-c'
-		});
-		imagesLoaded(this.$topClassifieds, function() { that.topMasonry.layout(); });
 
 		this.bottomMasonry = new Masonry(this.$categoryList[0], {
 			columnWidth: 10,
