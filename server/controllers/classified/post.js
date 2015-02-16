@@ -22,6 +22,8 @@ module.exports = {
 			description: null,
 			page: 'classified/post',
 			title: response.__('title.classified.post'),
+			scripts: ['googleMaps', 'dropzone', 'reCaptcha'],
+
 			data: {
 				sitekey: config.reCaptcha.site
 			}

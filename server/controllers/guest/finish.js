@@ -16,6 +16,7 @@ module.exports = {
 			bodyid: 'guest-finish',
 			page: 'guest/finish',
 			title: response.__('title.guest.finish'),
+			scripts: ['braintree', 'qrcode'],
 
 			data: { hash: hash }
 		});

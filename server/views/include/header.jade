@@ -11,30 +11,28 @@ header
 			li.grabber#grabber-display &#xf0c9;
 
 	ul#slider-nav
-			li.grabber#grabber-hide &#xf0c9;
+		li.grabber#grabber-hide &#xf0c9;
 
-			li.gap
+		li.gap
 
-			a(href="/classified/post")
-				li Post a Classified
-			a(href="/classified/post")
-				li Privacy Policy
-			a(href="/classified/post")
-				li Terms &amp; Conditions
+		a(href="/classified/post")
+			li Post a Classified
+		a(href="/privacy")
+			li Privacy Policy
+		a(href="/terms")
+			li Terms &amp; Conditions
+		//- a(href="/classified/search")
+		//- 	li.search Search
 
+		li.gap
 
-			//- a(href="/classified/search")
-			//- 	li.search Search
-
-			li.gap
-
-			unless user
-				a(href="/auth/signup")
-					li Signup
-				a(href="/auth/login")
-					li Login
-			else
-				a(href="/auth/logout")
-					li Logout
-				a(href="/account/manage")
-					li Account
+		unless user
+			a(href="/auth/signup")
+				li Signup
+			a(href="/auth/login")
+				li Login
+		else
+			a(href="/auth/logout")
+				li Logout
+			a(href="/account/")
+				li Account

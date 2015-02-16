@@ -20,6 +20,8 @@ module.exports = {
 				description: null,
 				page: 'classified/post',
 				title: response.__('title.guest.post'),
+				scripts: ['googleMaps', 'dropzone', 'reCaptcha'],
+
 				data: {
 					braintreeToken: braintreeToken,
 					guest: true,

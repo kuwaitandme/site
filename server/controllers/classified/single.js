@@ -20,6 +20,7 @@ module.exports = {
 				description: null,
 				page: 'classified/single',
 				title: classified.title,
+				scripts: ['googleMaps'],
 
 				data: {
 					classified: classified,

@@ -20,6 +20,8 @@ module.exports = {
 				description: null,
 				page: 'classified/finish',
 				title: response.__('title.guest.finish'),
+				scripts: ['braintree', 'qrcode'],
+
 				data: {
 					braintreeToken: braintreeToken,
 					sitekey: config.reCaptcha.site

@@ -17,6 +17,7 @@ module.exports = {
 					bodyid: 'classified-single',
 					page: 'classified/single',
 					title: classified.title,
+					scripts: ['googleMaps'],
 
 					data: { classified: classified }
 				});

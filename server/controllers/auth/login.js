@@ -19,6 +19,8 @@ module.exports = {
 			bodyid: 'auth-login',
 			page: 'auth/login',
 			title: response.__('title.auth.login'),
+			scripts: ['reCaptcha'],
+
 			data: {
 				sitekey: config.reCaptcha.site
 			}

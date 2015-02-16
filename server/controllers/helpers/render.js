@@ -1,6 +1,8 @@
 var async = require("async");
 var	category = require('../../models/category'),
+	externalScripts = require('../helpers/externalScripts'),
 	location = require('../../models/location');
+
 
 /**
  * A helper function to render the page properly with the right parameters and
@@ -15,6 +17,7 @@ module.exports = function(request, response, args) {
 	/* Protect un-initialized variables */
 	if(!args.bodyid) args.bodyid = "";
 	if(!args.data) args.data = "";
+	if(!args.scripts) args.scripts = [];
 
 	/* Setup data for our asynchronous tasks */
 	var tasks = [{
@@ -30,20 +33,27 @@ module.exports = function(request, response, args) {
 	var asyncJob = function (job, callback) {
 		job.model.getAll(function(result) {
 			common[job.name] = result;
+
 			/* Async call is done, alert via callback */
 			callback();
 		});
 	}
 
-	/**
-	 * Function to run once the async is done it's jobs.
-	 */
+	/* Load up each of the external scripts */
+	for(var i=0; i<args.scripts.length; i++) {
+		args.scripts[i] = externalScripts[args.scripts[i]];
+	}
+
+	console.log(args)
+
+	/* Function to run once the async is done it's jobs. */
 	var asyncComplete = function (error) {
 		return response.render("main/" + args.page, {
-			title: args.title + " | Kuwait &amp; Me",
-			user: request.user,
 			bodyid: args.bodyid,
 			description: args.description,
+			externalScripts: args.scripts,
+			title: args.title + " | Kuwait &amp; Me",
+			user: request.user,
 
 			data: args.data,
 

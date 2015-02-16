@@ -18,6 +18,8 @@ module.exports = {
 			bodyid: 'auth-signup',
 			page: 'auth/signup',
 			title: response.__('title.auth.signup'),
+			scripts: ['reCaptcha'],
+
 			data: {
 				sitekey: config.reCaptcha.site
 			}

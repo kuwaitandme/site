@@ -38,12 +38,14 @@ module.exports = {
 
 		/* Function to be run once done */
 		asyncFinish = function () {
+
 			/* Generate the response */
 			return render(request, response, {
 				bodyid: "landing",
 				description: description,
 				page: 'landing',
 				title: response.__('title.landing'),
+				scripts: ['masonry', 'imagesLoaded'],
 
 				data: {
 					categoryCount: categoryCount,

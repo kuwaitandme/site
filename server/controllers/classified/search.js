@@ -19,6 +19,7 @@ module.exports = {
 				bodyid: 'classified-search',
 				page: 'classified/search',
 				title: response.__('title.classified.search'),
+				scripts: ['masonry', 'imagesLoaded'],
 
 				data: { classifieds: classifieds }
 			});
