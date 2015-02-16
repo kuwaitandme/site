@@ -43,13 +43,13 @@ app.use(express.static(__dirname + '/public', { maxAge: cacheTime }));
 
 /* Cookie and sessions */
 app.use(cookieParser());
-app.use(expressSession({
-	name: 'sess',
-	proxy: true,
-	resave: true,
-	saveUninitialized: true,
-	secret: 'e2nURBBjy1ieSbWP'
-}));
+// app.use(expressSession({
+// 	name: 'sess',
+// 	proxy: true,
+// 	resave: true,
+// 	saveUninitialized: true,
+// 	secret: 'e2nURBBjy1ieSbWP'
+// }));
 
 /* Initialize Passport */
 app.use(passport.initialize());
