@@ -96,24 +96,6 @@ block content
 				input(name="gmapX", type="hidden")
 				input(name="gmapY", type="hidden")
 
-		section.tab
-			.tab-title Add a perk
-			.tab-perk
-				.perk-title Urgent Classified
-				.hint Need to sell something urgently? We will make your classified stand out from others giving you more attention than regular classifieds
-				.price(data-val=0) 5 KWD
-				input(type='hidden',name='perk-0',val="false")
-
-			.tab-perk
-				.perk-title Top Classified
-				.hint Need alot of attention? Then this perk will fit you well. Make your classified stay on the top page of it's category for three days.
-				.price(data-val=1) 15 KWD
-				input(type='hidden',name='perk-1',val="false")
-
-			.tab-perk#tab-payment
-				#payment-container
-				.total(data-val=1) <span>15</span> KWD
-
 		//- Finally the submit button
 		section.tab
 			.tab-title That's all, You're good to go!

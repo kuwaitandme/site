@@ -1,0 +1,21 @@
+extends ../../layout.jade
+
+block content
+
+	form.tab(action="", method="POST")
+		.tab-title Add a perk
+		.tab-perk
+			.perk-title Urgent Classified
+			.hint Need to sell something urgently? We will make your classified stand out from others giving you more attention than regular classifieds
+			.price(data-val=0) 5 KWD
+			input(type='hidden',name='perk-0',val="false")
+
+		.tab-perk
+			.perk-title Top Classified
+			.hint Need alot of attention? Then this perk will fit you well. Make your classified stay on the top page of it's category for three days.
+			.price(data-val=1) 15 KWD
+			input(type='hidden',name='perk-1',val="false")
+
+		.tab-perk#tab-payment
+			#payment-container
+			input(type='submit', value="Buy for 15 KWD")

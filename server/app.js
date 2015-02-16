@@ -34,16 +34,12 @@ app.use(i18n.init);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 app.use(bodyParser.json());
-// app.use(express.bodyParser({uploadDir:'./uploads'}));
 app.use(bodyParser.urlencoded({ extended: false }));
 
-/* to support JSON/URL-encoded bodies */
-// app.use(express.json());
-// app.use(express.urlencoded());
 
-/* Setup static path and favicon */
-app.use(express.static(path.join(__dirname, 'public')));
-// app.use(favicon(__dirname + '/public/favicon.ico'));
+/* Setup static path and cache (7 days) */
+var cacheTime = 86400000*7;
+app.use(express.static(__dirname + '/public', { maxAge: cacheTime }));
 
 /* Cookie and sessions */
 app.use(cookieParser());

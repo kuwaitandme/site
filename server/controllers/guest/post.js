@@ -35,7 +35,7 @@ module.exports = {
 	 */
 	post: function(request, response, next) {
 		var useCaptcha = (config.reCaptcha ? true : false);
-
+		console.log(request.body);
 		function captachFail() {
 			response.end('/guest/post/?status=captchafail');
 		}

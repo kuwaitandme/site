@@ -31,14 +31,15 @@ router.post('/auth/login', controllers.auth.login.post);
 router.post('/auth/signup', controllers.auth.signup.post);
 
 /* Classified URLs */
-router.get('/classified/perk', controllers.classified.perk.get);
 router.get('/classified/edit', isAuthenticated, controllers.landing.get);
+router.get('/classified/finish', controllers.classified.finish.get);
 router.get('/classified/post', controllers.classified.post.get);
 router.get('/classified/search', controllers.classified.search.get);
 router.get('/classified/single/:id', controllers.classified.single.get);
-router.post('/classified/single/:id', controllers.classified.single.get);
 router.post('/classified/edit', isAuthenticated, controllers.landing.get);
+router.post('/classified/finish', controllers.classified.finish.post);
 router.post('/classified/post', isAuthenticated, controllers.classified.post.post);
+router.post('/classified/single/:id', controllers.classified.single.get);
 
 /* Guest URLs */
 router.get('/guest/edit/:hash', controllers.guest.single.get);

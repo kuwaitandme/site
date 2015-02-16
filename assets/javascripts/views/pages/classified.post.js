@@ -10,10 +10,6 @@ module.exports = Backbone.View.extend({
 		"change #locations" : "unlockMapAndAddress"
 	},
 
-	perkPrices: [
-		{ price:5, toggled: false},
-		{ price:15, toggled: false}
-	],
 
 	/**
 	 * Validates the form data and returns true, iff the form data is valid for
@@ -68,40 +64,12 @@ module.exports = Backbone.View.extend({
 		return status;
 	},
 
-	managePayment: function(e) {
-		var $el = $(e.currentTarget);
-		var type = $el.data().val;
-
-		var perk = this.perkPrices[type];
-		perk.toggled = !perk.toggled;
-
-		$("[name='perk-" + type + "'").val(perk.toggled);
-
-		$el.parent().toggleClass('active', perk.toggled)
-		this.perkPrices[type]= perk;
-
-		this.managePriceBox();
-	},
-
-
-	managePriceBox: function() {
-		var price = 0;
-
-		if(this.perkPrices[0].toggled) price += this.perkPrices[0].price;
-		if(this.perkPrices[1].toggled) price += this.perkPrices[1].price;
-
-		if(price == 0) this.$tabPayment.hide();
-		else this.$tabPayment.show();
-
-		this.$tabPayment.find('.total span').html(price);
-	},
-
 
 	/**
 	 * Sends the AJAX request to the back-end
 	 */
 	submit: function(event) {
-		event.preventDefault();
+		// event.preventDefault();
 
 		/* Get and validate the form data */
 		var data = this.getFormData();
@@ -119,7 +87,7 @@ module.exports = Backbone.View.extend({
 			contentType: false,
 			success: function(response) {
 				/* 'response' contains the string URL to redirect to */
-				// window.location.href = response;
+				window.location.href = response;
 			}
 		});
 	},
@@ -339,17 +307,6 @@ module.exports = Backbone.View.extend({
 		google.maps.event.addDomListener(window, 'load', init);
 	},
 
-
-	initBraintree: function() {
-		braintree.setup(data.braintreeToken, "dropin", {
-			container: $("#payment-container"),
-				paymentMethodNonceReceived: function (event, nonce) {
-					console.log(nonce);
-				}
-		});
-	},
-
-
 	initialize: function(obj) {
 		/* Setup our DOM variables */
 		this.$filePreview = this.$el.find("#image-upload-preview");
@@ -358,7 +315,6 @@ module.exports = Backbone.View.extend({
 		this.$priceField = this.$el.find('#price-field');
 		this.$priceSelector = this.$el.find("#price-selector");
 		this.$subCategory = this.$el.find("#subcat-selector");
-		this.$tabPayment = this.$el.find("#tab-payment");
 
 		this.$gmap = this.$el.find("#map-canvas");
 		this.$gmapX = this.$el.find("[name='gmapX']");
@@ -370,6 +326,5 @@ module.exports = Backbone.View.extend({
 		this.initDropzone();
 		this.initLocations();
 		this.initMaps();
-		this.initBraintree();
 	}
 });

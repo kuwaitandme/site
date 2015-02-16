@@ -4,6 +4,7 @@ module.exports = {
 	"auth-post":         require("./auth.post"),
 	"auth-signup":       require("./auth.signup"),
 	"classified-edit":   require("./classified.edit"),
+	"classified-finish": require("./classified.finish"),
 	"classified-post":   require("./classified.post"),
 	"classified-search": require("./classified.search"),
 	"classified-single": require("./classified.single"),
