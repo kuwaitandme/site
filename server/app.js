@@ -63,15 +63,15 @@ initPassport(passport);
 
 
 /* If we are in production mode, redirect all URLs to https */
-if (app.config.mode == 'production') {
-	app.use(function(req, res, next) {
-		if (req.protocol === 'http') {
-			var newUrl = 'https://' + req.get('host') + req.originalUrl;
-			return res.redirect(newUrl);
-		}
-		next();
-	});
-}
+// if (app.config.mode != 'production') {
+// 	app.use(function(req, res, next) {
+// 		if (req.protocol === 'http') {
+// 			var newUrl = 'https://' + req.get('host') + req.originalUrl;
+// 			return res.redirect(newUrl);
+// 		}
+// 		next();
+// 	});
+// }
 
 
 /* Setup the different routes */
