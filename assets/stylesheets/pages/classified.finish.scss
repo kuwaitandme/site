@@ -1,57 +1,103 @@
 body#classified-finish {
+	text-align: center;
+
+	.congratz {
+		@extend .font-title;
+		font-size: 30px;
+		text-align: center;
+		padding: 10px;
+	}
+	.sub-title {
+		font-size: 18px;
+		text-align: center;
+		padding: 5px;
+	}
+
+	.social {
+		@include clearfix();
+		display: inline-block;
+		margin-bottom: 30px;
+		margin: 0 auto;
+		overflow: hidden;
+		text-align: center;
+
+		div {
+			@extend .font-awesome;
+			color: #FFF;
+			float: left;
+			font-size: 20px;
+			padding: 10px 0;
+			margin: 20px 10px;
+			text-align: center;
+			width: 50px;
+
+			-webkit-border-radius: 25px;
+			-moz-border-radius: 25px;
+			border-radius: 25px;
+
+			&.facebook {background: #3B5390;}
+			&.twitter {background: #00AFEB;}
+			&.gplus {background: #CC4534;}
+		}
+	}
+
 	.tab {
-		@extend .row;
+		border-top: 1px solid #DDD;
+
 		.tab-title {
 			@extend .font-title;
 			font-size: 24px;
-			color: #000;
-			padding: 10px;
-
-		}
-	}
-	.tab-perk {
-		background: #FFF;
-		border: 1px solid #CCC;
-		margin: 10px;
-		width: 400px;
-		overflow: hidden;
-		float: left;
-
-		-webkit-border-radius: 03px;
-		-moz-border-radius: 03px;
-		border-radius: 03px;
-
-		&#tab-payment { display: none }
-		.perk-title {
-			padding: 10px;
-			@extend .font-title;
-			font-size: 18px;
-		}
-		.hint {
-			padding: 10px;
-			margin-left: 0;
-			margin-top: 0;
-		}
-		.price, .total {
-			@extend .font-title;
-			@include single-transition(background);
-			background: #1abc9c;
-			color: #FFF;
-			cursor: pointer;
-			font-size: 16px;
-			padding: 10px;
 			text-align: center;
-			width: 100%;
+			color: #000;
+			padding: 15px;
+		}
+		.tab-perk {
+			background: #FFF;
+			border: 1px solid #CCC;
+			float: left;
+			margin: 10px;
+			overflow: hidden;
+			text-align: left;
+			width: 300px;
 
-			&:hover { background: #16a085; }
-		}
-		&.active .price {
-			background: #e74c3c;
-			&:hover { background: #c0392b; }
-		}
-		.total {
-			background: #3498db;
-			&:hover { background: #2980b9; }
+			-webkit-border-radius: 03px;
+			-moz-border-radius: 03px;
+			border-radius: 03px;
+
+
+			&#tab-payment { display: none }
+			.perk-title {
+				@extend .font-title;
+				font-size: 18px;
+				padding: 10px;
+				text-align: center;
+			}
+			.hint {
+				padding: 10px;
+				margin-left: 0;
+				margin-top: 0;
+			}
+			.price, .total {
+				@extend .font-title;
+				@include single-transition(background);
+				background: #1abc9c;
+				color: #FFF;
+				cursor: pointer;
+				font-size: 16px;
+				padding: 10px;
+				text-align: center;
+				width: 100%;
+
+				&:hover { background: #16a085; }
+			}
+			&.active .price {
+				background: #e74c3c;
+				&:hover { background: #c0392b; }
+			}
+			.total {
+				background: #3498db;
+				&:hover { background: #2980b9; }
+			}
 		}
 	}
 }
