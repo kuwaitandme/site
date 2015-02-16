@@ -67,22 +67,6 @@ module.exports = function (grunt) {
 
 
 		uglify: {
-			libs: {
-				files: {
-					"server/public/javascripts/libs.min.js" : [
-						"assets/javascripts/libs/jquery.min.js",
-						"assets/javascripts/libs/jquery.cookie.js",
-						"assets/javascripts/libs/jquery.flexslider.js",
-						"assets/javascripts/libs/jquery.masonry.min.js",
-						"assets/javascripts/libs/qrcode.js",
-						"assets/javascripts/libs/dropzone.js",
-						"assets/javascripts/libs/imagesloaded.min.js",
-						"assets/javascripts/libs/underscore.min.js",
-						"assets/javascripts/libs/backbone.min.js",
-						"assets/javascripts/libs/prettydate.js",
-					]
-				}
-			},
 			app: {
 				files: {
 					"server/public/javascripts/app.min.js" : [
