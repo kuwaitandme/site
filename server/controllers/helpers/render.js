@@ -44,8 +44,6 @@ module.exports = function(request, response, args) {
 		args.scripts[i] = externalScripts[args.scripts[i]];
 	}
 
-	console.log(args)
-
 	/* Function to run once the async is done it's jobs. */
 	var asyncComplete = function (error) {
 		return response.render("main/" + args.page, {

@@ -34,7 +34,8 @@ module.exports = Backbone.View.extend({
 		if(price == 0) this.$tabPayment.hide();
 		else this.$tabPayment.show();
 
-		this.$tabPayment.find('.total span').html(price);
+		var text = "Buy perks for " + price + " KWD"
+		this.$tabPayment.find('.total').val(text);
 	},
 
 
