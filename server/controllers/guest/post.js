@@ -1,5 +1,6 @@
 var classified = require('../../models/classified'),
 	config = require('../../config'),
+	braintree = require('../helpers/braintree'),
 	file = require('../helpers/file'),
 	reCaptcha = require('../helpers/reCaptcha').Recaptcha,
 	render = require('../helpers/render');
@@ -11,16 +12,20 @@ module.exports = {
 	 * saves it to the database.
 	 */
 	get: function(request, response, next) {
-		/* Generate the response */
-		return render(request, response, {
-			bodyid: 'guest-post',
-			description: null,
-			page: 'classified/post',
-			title: response.__('title.guest.post'),
-			data: {
-				guest: true,
-				sitekey: config.reCaptcha.site
-			}
+		braintree.getClientToken(function(braintreeToken) {
+
+			/* Generate the response */
+			render(request, response, {
+				bodyid: 'guest-post',
+				description: null,
+				page: 'classified/post',
+				title: response.__('title.guest.post'),
+				data: {
+					braintreeToken: braintreeToken,
+					guest: true,
+					sitekey: config.reCaptcha.site
+				}
+			});
 		});
 	},
 
@@ -36,21 +41,25 @@ module.exports = {
 		}
 
 		function captachSuccess() {
+			/* Upload the images */
 			file.upload(request, function(POSTdata) {
-
-				request.body = POSTdata;
-				classified.createFromPOST(request, true, function(cl) {
-					/* Write to the page the link to redirect. This gets picked
-					 * up by our AJAX controller */
-					response.end('/guest/finish/' + cl._id + '?hash=' +
-						cl.authHash);
-				});
+				/* Perform any transactions */
+				braintree.performTransaction(POSTdata, function() {
+					/* Create the classified */
+					request.body = POSTdata;
+					classified.createFromPOST(POSTdata, true, function(cl) {
+						/* Write to the page the link to redirect. This gets picked
+						 * up by our AJAX controller */
+						response.end('/guest/finish/' + cl._id + '?hash=' +
+							cl.authHash);
+					});
+				})
 			});
 		}
 
 		/* Check the captcha, which then calls the function to create the
 		 * user */
-		if(useCaptcha) {
+		if(useCaptcha && false) {
 			/* Create the reCapthca object */
 			var recaptcha = new reCaptcha(
 				config.reCaptcha.site,

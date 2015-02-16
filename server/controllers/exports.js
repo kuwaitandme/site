@@ -11,6 +11,7 @@ module.exports = {
 		signup: require('./auth/signup')
 	},
 	classified: {
+		perk: require('./classified/perk'),
 		post: require('./classified/post'),
 		search: require('./classified/search'),
 		single: require('./classified/single')

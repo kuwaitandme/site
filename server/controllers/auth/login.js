@@ -28,7 +28,7 @@ module.exports = {
 	/* On POST request, use passport's authentication mechanism to log the
 	 * user in. */
 	post: passport.authenticate('login', {
-		successRedirect: '/account/manage',
+		successRedirect: '/account/',
 		failureRedirect: '/auth/login'
 	})
 }

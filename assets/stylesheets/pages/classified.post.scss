@@ -157,6 +157,51 @@ body#classified-post #main-container {
 			&:hover .delete { opacity: 1; }
 		}
 	}
+	.tab-perk {
+		background: #FFF;
+		border: 1px solid #CCC;
+		margin: 10px;
+		width: 400px;
+		overflow: hidden;
+		float: left;
+
+		-webkit-border-radius: 03px;
+		-moz-border-radius: 03px;
+		border-radius: 03px;
+
+		&#tab-payment { display: none }
+		.perk-title {
+			padding: 10px;
+			@extend .font-title;
+			font-size: 18px;
+		}
+		.hint {
+			padding: 10px;
+			margin-left: 0;
+			margin-top: 0;
+		}
+		.price, .total {
+			@extend .font-title;
+			@include single-transition(background);
+			background: #1abc9c;
+			color: #FFF;
+			cursor: pointer;
+			font-size: 16px;
+			padding: 10px;
+			text-align: center;
+			width: 100%;
+
+			&:hover { background: #16a085; }
+		}
+		&.active .price {
+			background: #e74c3c;
+			&:hover { background: #c0392b; }
+		}
+		.total {
+			background: #3498db;
+			&:hover { background: #2980b9; }
+		}
+	}
 	#subcat-selector {
 		margin-top: 0;
 		border-top: none;
