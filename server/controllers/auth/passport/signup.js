@@ -1,6 +1,6 @@
 var	LocalStrategy = require('passport-local').Strategy;
 
-var	User = require('../../../models/user').model;
+var	User = require('../../../models/user');
 	config = require('../../../config'),
 	reCaptcha = require('../../helpers/reCaptcha').Recaptcha;
 
@@ -20,7 +20,8 @@ module.exports = function(passport) {
 
 			function findOrCreateUser () {
 				/* Find a user in Mongo with provided username */
-				User.findOne({'username': username}, function(err, user) {
+				User.model.findOne({'username': username}, function(err, user) {
+					console.log(err, user);
 					if (err) return done(err);
 
 					/* User already exists */
@@ -29,16 +30,15 @@ module.exports = function(passport) {
 					/* If there is no user with that email, create the user */
 					User.create(username, password, function(err, user) {
 						if (err) throw err;
+						done(null, user);
 					});
-
-					return done(null, true);
 				});
 			}
 
 
 			/* Check the captcha, which then calls the function to create the
 			 * user */
-			if(useCaptcha) {
+			if(useCaptcha && false) {
 				/* Create the reCapthca object */
 				var recaptcha = new reCaptcha(
 					config.reCaptcha.site,

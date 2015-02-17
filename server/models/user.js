@@ -43,7 +43,7 @@ module.exports = {
 	 */
 	create: function(username, password, callback) {
 		/* If there is no user with that email, create the user */
-		var newUser = new User();
+		var newUser = new this.model();
 
 		/* set the user's local credentials */
 		newUser.username = username;
