@@ -46,11 +46,11 @@ module.exports = {
 		function captachSuccess() {
 			file.upload(request, function(POSTdata) {
 
-				request.body = POSTdata;
-				classified.createFromPOST(request, false, function(cl) {
+				console.log(POSTdata);
+				classified.createFromPOST(POSTdata, request.user, function(cl) {
 					/* Write to the page the link to redirect. This gets picked
 					 * up by our AJAX controller */
-					response.end("/classified/single/" + classified._id);
+					response.end("/classified/single/" + cl._id);
 				});
 			});
 		}

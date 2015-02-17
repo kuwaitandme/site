@@ -59,12 +59,12 @@ module.exports = {
 	/**
 	 * Creates a classified from the POST parameters passed from the request.
 	 *
-	 * @param  request     The request object with the POST data
+	 * @param  data        The object with the POST data
+	 * @param  user        The currently logged in user's object.
 	 * @param  callback    The callback function to call with the new classified
 	 */
-	createFromPOST: function(request, isGuest, callback) {
+	createFromPOST: function(data, user, callback) {
 		var classified = new this.model();
-		var data = request.body;
 
 		classified.category = data.category;
 		classified.created = Date.now();
@@ -88,8 +88,8 @@ module.exports = {
 		/* If you are logged in, then we will make you the owner of this
 		 * classified; Otherwise we will label this classified as a guest
 		 * classified. */
-		if(request.user && !isGuest) {
-			classified.owner = request.user._id;
+		if(user) {
+			classified.owner = user._id;
 			classified.guest = false;
 		} else {
 			classified.guest = true;

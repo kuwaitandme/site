@@ -1,6 +1,5 @@
 var classified = require('../../models/classified'),
 	config = require('../../config'),
-	braintree = require('../helpers/braintree'),
 	file = require('../helpers/file'),
 	reCaptcha = require('../helpers/reCaptcha').Recaptcha,
 	render = require('../helpers/render');
@@ -23,7 +22,6 @@ module.exports = {
 				scripts: ['googleMaps', 'dropzone', 'reCaptcha'],
 
 				data: {
-					braintreeToken: braintreeToken,
 					guest: true,
 					sitekey: config.reCaptcha.site
 				}
@@ -37,7 +35,7 @@ module.exports = {
 	 */
 	post: function(request, response, next) {
 		var useCaptcha = (config.reCaptcha ? true : false);
-		console.log(request.body);
+
 		function captachFail() {
 			response.end('/guest/post/?status=captchafail');
 		}
@@ -46,16 +44,15 @@ module.exports = {
 			/* Upload the images */
 			file.upload(request, function(POSTdata) {
 				/* Perform any transactions */
-				braintree.performTransaction(POSTdata, function() {
+				// braintree.performTransaction(POSTdata, function() {
 					/* Create the classified */
-					request.body = POSTdata;
 					classified.createFromPOST(POSTdata, true, function(cl) {
 						/* Write to the page the link to redirect. This gets picked
 						 * up by our AJAX controller */
 						response.end('/guest/finish/' + cl._id + '?hash=' +
 							cl.authHash);
 					});
-				})
+				// })
 			});
 		}
 
