@@ -57,7 +57,7 @@ module.exports = {
 
 		/* Check the captcha, which then calls the function to create the
 		 * user */
-		if(useCaptcha) {
+		if(useCaptcha && false) {
 			/* Create the reCapthca object */
 			var recaptcha = new reCaptcha(
 				config.reCaptcha.site,
