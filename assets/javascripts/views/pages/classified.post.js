@@ -69,7 +69,7 @@ module.exports = Backbone.View.extend({
 	 * Sends the AJAX request to the back-end
 	 */
 	submit: function(event) {
-		// event.preventDefault();
+		event.preventDefault();
 
 		/* Get and validate the form data */
 		var data = this.getFormData();
