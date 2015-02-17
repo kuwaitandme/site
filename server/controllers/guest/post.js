@@ -11,7 +11,7 @@ module.exports = {
 	 * saves it to the database.
 	 */
 	get: function(request, response, next) {
-		braintree.getClientToken(function(braintreeToken) {
+		// braintree.getClientToken(function(braintreeToken) {
 
 			/* Generate the response */
 			render(request, response, {
@@ -26,7 +26,7 @@ module.exports = {
 					sitekey: config.reCaptcha.site
 				}
 			});
-		});
+		// });
 	},
 
 
