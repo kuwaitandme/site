@@ -10,18 +10,13 @@ var bodyParser = require('body-parser'),
 var config = require('./config'),
 	routes = require('./routes/index');
 
+/* Force JADE and Express to work based on the mode set in our config
+ * parameter */
 if(config) process.env.NODE_ENV = config.mode;
 
 var app = express();
 
-/* Setup settings from the configuration file */
-if(config) app.config = config;
-else app.config = {
-	port: 3000,
-	hostname: "localhost",
-}
-
-
+/** Start initializing different middlewares **/
 /* International language support */
 i18n.configure({
 	cookie: 'lang',
@@ -41,7 +36,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 /* Setup static path and cache (7 days) */
 var cacheTime = 86400000*7;
-app.use(express.static(__dirname + '/public', { maxAge: cacheTime }));
+app.use(express.static(__dirname + '/public', { /*maxAge: cacheTime*/ }));
 
 
 /* Cookie and sessions */
@@ -62,18 +57,6 @@ var initPassport = require('./controllers/auth/passport/init');
 initPassport(passport);
 
 
-/* If we are in production mode, redirect all URLs to https */
-// if (app.config.mode != 'production') {
-// 	app.use(function(req, res, next) {
-// 		if (req.protocol === 'http') {
-// 			var newUrl = 'https://' + req.get('host') + req.originalUrl;
-// 			return res.redirect(newUrl);
-// 		}
-// 		next();
-// 	});
-// }
-
-
 /* Setup the different routes */
 app.use('/', routes);
 
@@ -90,7 +73,7 @@ mongoose.connect('mongodb://localhost/kuwaitandme');
 
 
 /* Setup environment specific functions */
-if (app.config.mode == 'production') {
+if (config.mode == 'production') {
 	/* production error handler, no stacktraces leaked to user */
 	app.use(function(err, req, res, next) {
 		res.status(err.status || 500);
