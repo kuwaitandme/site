@@ -1,21 +1,48 @@
 module.exports = Backbone.View.extend({
-	defaultDelay: 5000,
+	template: _.template('<li class="<%= type %>">\
+		<b class="title"><%= title %></b>&nbsp;\
+		<span class="content"><%= text %></span>\
+	</li>'),
+
 
 	initialize: function() {
-		this.$message = this.$el.find(".message");
+		this.$message = this.$el.find('.content');
+		this.$title = this.$el.find('.title');
 	},
 
 
-	/**
-	 * Displays the message on the message box, with the given delay. If no
-	 * delay is mentioned, then the defalu delay is used (5 sec).
-	 */
-	shout: function(text, delay) {
-		/* Set the delay to default, if none has been passed */
-		if(!delay) delay = this.defaultDelay;
+	succes: function(text, title) {
+		var html = this.template({
+			text: text,
+			title: title || 'Success!',
+			type: 'success'
+		});
 
 		/* Animate the message box */
-		this.$message.text(text);
-		this.$el.stop().fadeIn().delay(delay).fadeOut();
+		this.$el.append(html);
+	},
+
+
+	error: function(text, title) {
+		var html = this.template({
+			text: text,
+			title: title || 'Error!',
+			type: 'error'
+		});
+
+		/* Append to the message box */
+		this.$el.append(html);
+	},
+
+
+	warn: function(text, title) {
+		var html = this.template({
+			text: text,
+			title: title || 'Warning!',
+			type: 'warning'
+		});
+
+		/* Animate the message box */
+		this.$el.append(html);
 	}
 });

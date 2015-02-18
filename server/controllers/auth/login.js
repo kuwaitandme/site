@@ -1,9 +1,8 @@
 var mongoose = require('mongoose'),
-	passport = require('passport'),
-	LocalStrategy = require('passport-local').Strategy;
+	passport = require('passport');
 
-var	render = require('../helpers/render'),
-	config = require('../../config');
+var	config = require('../../config'),
+	render = require('../helpers/render');
 
 
 /**
@@ -19,11 +18,10 @@ module.exports = {
 			bodyid: 'auth-login',
 			page: 'auth/login',
 			title: response.__('title.auth.login'),
-			scripts: ['reCaptcha', '_2checkout'],
 
-			data: {
-				sitekey: config.reCaptcha.site
-			}
+			scripts: ['reCaptcha'],
+
+			data: { sitekey: config.reCaptcha.site }
 		});
 	},
 
@@ -31,6 +29,6 @@ module.exports = {
 	 * user in. */
 	post: passport.authenticate('login', {
 		successRedirect: '/account/',
-		failureRedirect: '/auth/login'
+		failureRedirect: '/auth/login?error=incorrect'
 	})
 }

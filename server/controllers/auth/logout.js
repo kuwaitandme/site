@@ -5,6 +5,6 @@
 module.exports = {
 	get: function(request, response, next) {
 		request.logout();
-		return response.redirect('/auth/login?status=loggedout');
+		return response.redirect('/auth/login?status=logout');
 	}
 }

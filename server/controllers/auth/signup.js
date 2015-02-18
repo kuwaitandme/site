@@ -1,9 +1,9 @@
 var mongoose = require('mongoose'),
-	passport = require('passport'),
-	LocalStrategy = require('passport-local').Strategy;
+	passport = require('passport');
 
-var	render = require('../helpers/render');
-	config = require('../../config');
+var	config = require('../../config'),
+	render = require('../helpers/render');
+
 
 /**
  * Controller for the Signup page. Attempts to register the user in.
@@ -18,6 +18,7 @@ module.exports = {
 			bodyid: 'auth-signup',
 			page: 'auth/signup',
 			title: response.__('title.auth.signup'),
+
 			scripts: ['reCaptcha'],
 
 			data: {
@@ -29,7 +30,7 @@ module.exports = {
 	/* On POST request, use passport's authentication mechanism to register the
 	 * user */
 	post: passport.authenticate('signup', {
-		successRedirect: '/auth/login?status=signupsucess',
-		failureRedirect: '/auth/signup?status=signupfail'
+		successRedirect: '/auth/login?success=signup_sucess',
+		failureRedirect: '/auth/signup?error=signup_fail'
 	})
 }
