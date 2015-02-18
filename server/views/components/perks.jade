@@ -1,0 +1,21 @@
+.tab-perk
+	.perk-title Urgent Classified
+	.hint Need to sell something urgently? We will make your classified stand out from others giving you more attention than regular classifieds
+	.price(data-val=0) 5 KWD
+
+.tab-perk
+	.perk-title Top Classified
+	.hint Need alot of attention? Then this perk will fit you well. Make your classified stay on the top page of it's category for three days.
+	.price(data-val=1) 15 KWD
+
+.tab-perk#tab-payment
+	form
+		input#cc(type='text', placeholder='Credit Card #')
+		input#cvv(type='text', placeholder='CVV code')
+		input#cmdate(type='text', placeholder='MM')
+		input#cydate(type='text', placeholder='YY')
+		.total Total: <span></span> KWD
+		input.submit(type='submit', value='Buy perks!')
+
+script(id='list-template', type='text/template')
+	include script-templates/search.jade
