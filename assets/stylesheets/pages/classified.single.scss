@@ -85,18 +85,13 @@ body#classified-single {
 						padding: 0;
 					}
 				}
-
-				.box {
-					padding: 5px 10px;
-					background: #e74c3c;
-					color: #FFF;
-					margin-top: -5px;
-
-					&.yellow { background: #F67F00; }
-					&.green { background: #27AE60; }
-
-				}
 			}
+		}
+		.c-action {
+			padding: 5px;
+			border: 1px solid #DDD;
+
+			a {text-decoration: none;}
 		}
 		.c-description {
 			font-size: 16px;

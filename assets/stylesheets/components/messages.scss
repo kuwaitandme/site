@@ -1,19 +1,18 @@
-#messages {
-	display: none;
-
-	left: 0%;
-	position: fixed;
+ul#messages {
+	@extend .font-title;
+	color: #FFF;
+	color: rgba(0, 0, 0, 0.5);
+	margin: 0;
+	padding: 0;
 	text-align: center;
-	top: 10px;
 	width: 100%;
-	z-index: 20;
 
-	.message {
-		background: #2ecc71;
-		border-bottom: 5px solid #27ae60;
-		color: rgba(0, 0, 0, 0.7);
-		display: inline-block;
-		overflow: hidden;
-		padding: 5px 15px;
+	li {
+		background: #DE2D1E;
+		padding: 10px;
+
+		&.warning { background: #FD8603; }
+		&.success { background: #2ecc71; }
+		&.error { color: rgba(255, 255, 255, 0.75)}
 	}
 }

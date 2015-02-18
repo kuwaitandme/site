@@ -6,6 +6,10 @@ module.exports = Backbone.View.extend({
 		// Do something with the GET parameters here..
 
 		this.render();
+		this.setupMasonry();
+
+		/* Reload every time window is resized */
+		$(window).resize(this.setupMasonry);
 	},
 
 	/**
@@ -15,12 +19,12 @@ module.exports = Backbone.View.extend({
 		var that = this;
 
 		/* Add masonry to the objects */
-		var $container = $('.classified-list ul');
+		var $container = $('ul.classified-list');
+		var prefWidth =
 			$container.ready(function() {
 				that.masonry = new Masonry($container[0], {
-					columnWidth: 1,
-					// isFitWidth: true,
-					itemSelector: 'li'
+					isFitWidth: true,
+					itemSelector: 'li.classified'
 				}
 			);
 		});
@@ -35,7 +39,7 @@ module.exports = Backbone.View.extend({
 
 	render: function () {
 		var listTemplate = _.template($("#list-template").html());
-		var $classifiedList =  $(".classified-list ul");
+		var $classifiedList =  $("ul.classified-list");
 
 		/* Clear out the classified list */
 		$classifiedList.html("");
@@ -47,7 +51,5 @@ module.exports = Backbone.View.extend({
 			var html = listTemplate(post)
 			$classifiedList.append(html);
 		});
-
-		this.setupMasonry();
 	}
 });
