@@ -38,7 +38,7 @@ module.exports = {
 		images: [String],
 		price: Number,
 		saleby: Number, /* 1:Owner,2:Distributer */
-		status: Number, /* 0:Inactive,1:Active,2:Archived,3:Banned,4:Expired */
+		status: Number, /* 0:Inactive,1:Active,2:Rejected,3:Archived,4:Banned */
 		type: Number,   /* 0:Sale,1:Want */
 
 		contact: {

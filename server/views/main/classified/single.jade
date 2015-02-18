@@ -22,19 +22,6 @@ block content
 		h1.c-title <%= title %>
 		pre.c-description <%= description %>
 		div.c-meta
-			//- Post status
-			ul
-				|<% var cls="", text="";
-				|   switch(status) {
-				|     case 0: text = "#{__('post.status.aw')}"; cls="yellow"; break;
-				|     case 1: text = "#{__('post.status.active')}"; cls="green"; break;
-				|     case 2: text = "#{__('post.status.archive')}"; cls="red"; break;
-				|     case 3: text = "#{__('post.status.reject')}"; cls="red"; break;
-				|     case 4: text = "#{__('post.status.ban')}";  cls="red"; break;
-				|     default: break;
-				|   } %>
-				li(class!="box <%= cls %>") <%= text %>
-
 			//- Category
 			ul
 				li
