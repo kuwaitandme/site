@@ -12,19 +12,5 @@ block content
 	.sub-title With this link, you can archive/edit your classified at any time
 
 	form.tab(action="", method="POST")
-		.tab-title Why not add some perks? This will boost your audience by 10x
-		.tab-perk
-			.perk-title Urgent Classified
-			.hint Need to sell something urgently? We will make your classified stand out from others giving you more attention than regular classifieds
-			.price(data-val=0) 5 KWD
-			input(type='hidden',name='perk-0',val="false")
-
-		.tab-perk
-			.perk-title Top Classified
-			.hint Need alot of attention? Then this perk will fit you well. Make your classified stay on the top page of it's category for three days.
-			.price(data-val=1) 15 KWD
-			input(type='hidden',name='perk-1',val="false")
-
-		.tab-perk#tab-payment
-			#payment-container
-			input.total(type='submit', value="Buy for 15 KWD")
+		.tab-title Why not add some perks? Get a boost with audience
+		include ../../components/perks.jade

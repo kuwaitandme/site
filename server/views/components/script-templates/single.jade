@@ -1,0 +1,45 @@
+h1.c-title <%= title %>
+pre.c-description <%= description %>
+//- Category
+ul.c-meta
+	li
+		| <% if(category) {
+		|	var cat = app.helpers.category.find(category);
+		|	print("#{__("page.csingle.cat")} ");
+		|	print(cat.parent + ", " + cat.child);
+		| } %>
+ul.c-meta
+	//- Location
+	|<% if(location &&location != "0") {
+	|	var loc = app.helpers.location.find(location);
+	|	if(loc) { %>
+	li <%= loc.name %>
+	|<% } %>
+
+	//- Email
+	| <% } if(contact.email && contact.email.length) { %>
+	li <%= contact.email %>
+
+	//- Phone
+	|<% } if(contact.phone && contact.phone.length) { %>
+	li <%= contact.phone %>
+
+	//- Address
+	|<% } if(contact.address1 && contact.address1.length) { %>
+	li <%= contact.address1 %>; <%= contact.address2 %>
+	|<% } %>
+
+//- Google Maps
+#map-canvas
+
+//- Post print/report
+ul.c-meta
+	li.c-action.share
+		a(href="#") Share
+	li.c-action.print
+		a(href="javascript:window.print()") Print
+	li.c-action.report
+		a(href="#") Report
+
+//- Disclaimer
+.c-disclaimer !{__("page.csingle.disclaimer")}

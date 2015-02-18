@@ -8,15 +8,15 @@ ul.classified-list {
 	> li {
 		@extend .large-3;
 		@extend .medium-6;
-		padding: 7px;
 		float: left;
 		max-width: 350px;
+		padding: 7px;
 
 		.container {
 			@include single-transition(border-color);
 			background: #FFF;
-			overflow: hidden;
 			border: 1px solid #DDD;
+			overflow: hidden;
 
 			-webkit-border-radius: 3px;
 			-moz-border-radius: 3px;
@@ -26,33 +26,25 @@ ul.classified-list {
 			-moz-box-shadow: 1px 1px 3px 0px rgba(0,0,0,0.2);
 			box-shadow: 1px 1px 3px 0px rgba(0,0,0,0.2);
 		}
-
-		&:hover { border-color: #BBB; }
 		.heading { font-size: 20px; }
 		.thumb {
 			overflow: hidden;
 			background: #000;
 
-			img {
-				width: 100%;
-				background: #000;
-			}
+			img { width: 100%; background: #000; }
 		}
 		.c-info {
-			.c-meta, .c-title, .c-excerpt {
-				padding: 10px 20px;
-			}
 			> ul.c-meta{
-				font-size: 13px;
-				color: #999;
-				margin: 0;
 				@include clearfix();
+				color: #999;
+				font-size: 13px;
+				margin: 0;
 
 				> li {
-					margin: 0;
-					padding: 0;
 					@include single-transition(color);
 					float: left;
+					margin: 0;
+					padding: 0;
 
 					&:after {
 						content: '\b7\a0';
@@ -65,17 +57,24 @@ ul.classified-list {
 			.c-title {
 				@extend .font-title;
 				font-size: 16px;
-				overflow: hidden;
 				line-height: 24px;
-
-				border-bottom: 1px solid #EEE;
+				overflow: hidden;
 			}
-			.c-excerpt {
-				border-bottom: 1px solid #EEE;
-			}
+			.c-title, .c-excerpt { border-bottom: 1px solid #EEE; }
+			.c-title, .c-excerpt, .c-meta { padding: 10px 20px; }
 		}
-		// &.no-thumb {
-		// 	.thumb { display: none; }
-		// }
+		.urgent-banner {
+			background: #FA2A00;
+			color: #FFF;
+			display: none;
+			padding: 5px;
+			text-align: center;
+			text-transform: uppercase;
+		}
+		&.perk-urgent .container {
+			border: 1px solid #FA2A00;
+			.urgent-banner { display: block; }
+		}
+		&:hover { border-color: #BBB; }
 	}
 }

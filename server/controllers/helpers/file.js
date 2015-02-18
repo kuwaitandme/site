@@ -169,7 +169,7 @@ module.exports = {
 				easyimg.rescrop({
 					src: task.newPath,
 					dst: that.thumbsDir + task.newFilename,
-					width:300, height:300,
+					width: 350,
 					// cropwidth:150, cropheight:150,
 					x:0, y:0
 				});

@@ -1,4 +1,6 @@
-config = require('../../config');
+var Twocheckout = require('2checkout-node');
+var config = require('../../config');
+
 
 module.exports = {
 	getObject: function() {

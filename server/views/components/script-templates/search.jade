@@ -1,0 +1,28 @@
+|<%
+|  var classes = "";
+|  if(!images || images.length == 0) classes = "no-thumb ";
+|  if(perks) {
+|	  if(perks.urgent) classes += "perk-urgent ";
+|     if(perks.promoted) classes += "perk-promoted ";
+|  }
+|%>
+li(class!="<%= classes %>").classified
+	a(href!="/classified/single/<%= _id %>")
+		.container
+			.urgent-banner Urgent
+			.thumb
+				|<% if(images.length > 0) { %>
+				img(src!="/uploads/thumb/<%= images[0] %>", alt!="<%= title %>")
+				|<% } %>
+			.c-info
+				.c-title <%= title %>
+				.c-excerpt <%= description %>
+				ul.c-meta
+					li <%= price %>
+					li <%= created %>
+					|<% if(location) {
+					|     var loc = app.helpers.location.find(location);
+					|     if(loc && loc.name != "None") { %>
+					li <%= loc.name %>
+					|   <% }
+					| } %>

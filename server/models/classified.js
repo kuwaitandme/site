@@ -41,6 +41,11 @@ module.exports = {
 		status: Number, /* 0:Inactive,1:Active,2:Rejected,3:Archived,4:Banned */
 		type: Number,   /* 0:Sale,1:Want */
 
+		perks: {
+			urgent: Boolean,
+			promote: Boolean
+		},
+
 		contact: {
 			address1: String,
 			address2: String,
@@ -75,6 +80,9 @@ module.exports = {
 		classified.status = 0;
 		classified.title = data.title;
 		classified.type = data.type;
+
+		classified.perks.urgent = false;
+		classified.perks.promote = false;
 
 		classified.meta.gmapX = data.gmapX;
 		classified.meta.gmapY = data.gmapY;
@@ -167,5 +175,25 @@ module.exports = {
 			if(err) throw err;
 			callback(results);
 		});
+	},
+
+	makeUrgent: function(id) {
+		this.model.findOne({_id: id}, function(err, classified) {
+			if(err) throw err;
+
+			classified.perks.urgent = true;
+			classified.save();
+		});
+	},
+
+	promote: function(id) {
+		this.model.findOne({_id: id}, function(err, classified) {
+			if(err) throw err;
+
+			classified.perks.promote = true;
+			classified.save();
+		});
 	}
+
+
 }

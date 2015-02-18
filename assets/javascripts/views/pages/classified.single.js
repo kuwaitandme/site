@@ -73,7 +73,7 @@ module.exports = Backbone.View.extend({
 
 		/* If there are google co-ordinates saved, load up google maps */
 		if(this.classified.meta && this.classified.meta.gmapX && this.classified.meta.gmapY) {
-			this.init(this.classified.meta.gmapX, this.classified.meta.gmapY);
+			init(this.classified.meta.gmapX, this.classified.meta.gmapY);
 			google.maps.event.addDomListener(window, 'load', init);
 		} else { this.$gmap.hide(); }
 	},

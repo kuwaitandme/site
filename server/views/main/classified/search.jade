@@ -17,31 +17,4 @@ block content
 
 	//- JS Template for each classified in the list
 	script(id="list-template", type="text/template")
-		|<%
-		|  var nothumb = "";
-		|  if(!images || images.length == 0) nothumb = "no-thumb";
-		|%>
-		li(class!="classified <%= nothumb %>")
-			a(href!="/classified/single/<%= _id %>")
-				.container
-					.thumb
-						|<% if(images.length > 0) { %>
-						img(src!="/uploads/thumb/<%= images[0] %>", alt="<%= title %>")
-						|<% } %>
-					.c-info
-						.c-title <%= title %>
-						.c-excerpt <%= description %>
-						ul.c-meta
-							li
-								|<%
-								|  if(price && price == 0) print("Free");
-								|  else if(price && price == -1) print("Contact Owner");
-								|  else print(price + " KD");
-								|%>
-							li <%= created %>
-							|<% if(location) {
-							|     var loc = app.helpers.location.find(location);
-							|     if(loc && loc.name != "None") { %>
-							li <%= loc.name %>
-							|   <% }
-							| } %>
+		include ../../components/script-templates/search.jade
