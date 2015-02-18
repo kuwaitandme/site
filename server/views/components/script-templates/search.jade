@@ -1,8 +1,9 @@
 |<%
 |  var classes = "";
 |  if(!images || images.length == 0) classes = "no-thumb ";
+|  console.log(obj);
 |  if(perks) {
-|	  if(perks.urgent) classes += "perk-urgent ";
+|     if(perks.urgent) classes += "perk-urgent ";
 |     if(perks.promoted) classes += "perk-promoted ";
 |  }
 |%>
