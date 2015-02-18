@@ -1,12 +1,20 @@
 module.exports = {
-	port: 3000,
-	hostname: 'localhost',
+	/* 'production' or 'development' */
+	mode: 'production',
 
-	mode: 'production', // 'production' or 'development'
+	/* $ openssl rand -base64 32 */
+	SessionSecret: '',
 
 	/* See https://github.com/aldipower/nodejs-recaptcha */
 	reCaptcha: {
-		site: 'site-key-here',
-		secret: 'secret-key-here'
+		site: '',
+		secret: ''
+	},
+
+	/* 2checkout for accepting payments */
+	_2checkout: {
+		sid: '',
+		publicKey: '',
+		privateKey: ''
 	}
 }
