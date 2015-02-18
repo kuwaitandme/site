@@ -49,7 +49,7 @@ module.exports = Backbone.View.extend({
 		_.each(window.data.classifieds, function(post) {
 			post.price = that.formatPrice(post.price);
 			post.created = app.helpers.date.prettify(post.created);
-			post.perks = null || post.perks;
+			if(!post.perks) post.perks = {};
 
 			var html = listTemplate(post)
 			$classifiedList.append(html);
