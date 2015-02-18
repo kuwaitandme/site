@@ -152,7 +152,7 @@ db.categories.insert([
 		{ _id: ObjectId(), name:'Other' }
 	]},
 	{ name:'Personal', children: [
-		{ _id: ObjectId(), name:'Lifetime Partner' },
+		{ _id: ObjectId(), name:'Matrimonial' },
 		{ _id: ObjectId(), name:'Casual/Friends' },
 		// { _id: ObjectId(), name:'Missed Connections' },
 		{ _id: ObjectId(), name:'Penpals' },
