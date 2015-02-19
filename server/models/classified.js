@@ -62,6 +62,7 @@ module.exports = {
 		}
 	}),
 
+	classifiedPerPage: 1,
 
 	/**
 	 * Creates a classified from the POST parameters passed from the request.
@@ -70,9 +71,11 @@ module.exports = {
 	 * @param  user        The currently logged in user's object.
 	 * @param  callback    The callback function to call with the new classified
 	 */
-	createFromPOST: function(data, user, callback) {
-		this._doFiles(request, function(POSTdata) {
-			this._doData(POSTdata, user, callback);
+	createFromPOST: function(request, user, callback) {
+		var that = this;
+
+		that._doFiles(request, function(POSTdata) {
+			that._doData(POSTdata, user, callback);
 		});
 	},
 
@@ -199,10 +202,16 @@ module.exports = {
 	 * @param  callback    The callback function to call once the query is
 	 *                     finished.
 	 */
-	search: function(parameters, callback) {
-		this.model.find(parameters, {authHash: 0}, function(err, results) {
+	search: function(parameters, callback, page) {
+		if(!page) page = 1;
+
+		var query = this.model.find(parameters, {authHash: 0})
+			.skip(page > 0 ? ((page - 1) * this.classifiedPerPage) : 0)
+			.limit(this.classifiedPerPage);
+
+		query.exec(function(err, result) {
 			if(err) throw err;
-			callback(results);
+			callback(result);
 		});
 	},
 

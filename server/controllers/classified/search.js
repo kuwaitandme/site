@@ -33,8 +33,6 @@ module.exports = {
 		if(request.query.cat) parameters["category"] = request.query.cat;
 		if(request.query.page) page = request.query.page;
 
-		console.log(parameters);
-
 		classified.search(parameters, function(classifieds) {
 			response.end(JSON.stringify({ classifieds: classifieds }));
 		}, page);

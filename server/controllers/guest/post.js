@@ -32,15 +32,12 @@ module.exports = {
 	post: function(request, response, next) {
 		response.setHeader('Content-Type', 'application/json');
 
-		if (!request.isAuthenticated()) return response.end(
-			JSON.stringify({ status: "unauthorized" }));
-
 		function captachFail() {
 			return response.end(JSON.stringify({ status: "captchafail" }));
 		}
 
 		function captachSuccess() {
-			classified.createFromPOST(request, request.user, function(cl) {
+			classified.createFromPOST(request, null, function(cl) {
 				/* Write to the page the link to redirect. This gets picked
 				 * up by our AJAX controller */
 				if(cl) {

@@ -2,8 +2,9 @@ module.exports = Backbone.View.extend({
 	initialize: function() {
 		var that = this;
 		this.listTemplate = _.template($("#list-template").html());
-		this.pageIndex = 0
+		this.pageIndex = 1;
 		this.ajaxLock = false;
+		this.ajaxDisable = false;
 
 		// Do something with the GET parameters here..
 		// var url = document.URL;
@@ -22,14 +23,11 @@ module.exports = Backbone.View.extend({
 	},
 
 	ajaxLoadClassifieds: function() {
-		if(this.ajaxLock) return;
-
+		if(this.ajaxLock || this.ajaxDisable) return;
 		var that = this;
-		var delay = 500;
 
 		this.ajaxLock = true;
 		this.showSpinner();
-
 		this.pageIndex += 1;
 
 		$.ajax({
@@ -37,13 +35,25 @@ module.exports = Backbone.View.extend({
 			type: 'post',
 			dataType: 'json',
 			success: function (data) {
-				setTimeout(function(){
+				/* Add the classifieds and remove the lock after a delay of
+				 * 500ms. This is because we want to avoid the AJAX request being
+				 * fired again as masonry is still aligning the elements */
+				if(data.classifieds && data.classifieds.length > 0) {
 					that.addClassifieds(data.classifieds);
+				} else {
+					that.showClassifiedsEnd();
+				}
+
+				setTimeout(function() {
 					that.hideSpinner();
 					that.ajaxLock = false;
-				}, delay);
+				}, 500);
 			}
 		});
+	},
+
+	showClassifiedsEnd: function() {
+		this.ajaxDisable = true;
 	},
 
 	setupSpinner: function() {
@@ -92,7 +102,7 @@ module.exports = Backbone.View.extend({
 			columnWidth: 300,
 			itemSelector: '.classified',
 
-			isFitWidth: true,
+			// isFitWidth: true,
 			isAnimated: true
 		});
 	},

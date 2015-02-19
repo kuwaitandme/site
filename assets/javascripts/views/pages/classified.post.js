@@ -86,9 +86,18 @@ module.exports = Backbone.View.extend({
 			processData: false,
 			contentType: false,
 			success: function(response) {
-				/* 'response' contains the string URL to redirect to */
-				console.log(response);
-				// window.location.href = response;
+				switch(response.status) {
+					case "success":
+						/* Create the finish URL */
+						var href = "/guest/finish/" + response.id;
+						if(response.authHash) href += "?authHash=" + response.authHash;
+
+						/* Redirect to this URL */
+						window.location.href = href;
+						break;
+					default:
+						/* Handle errors here */
+				}
 			}
 		});
 	},
