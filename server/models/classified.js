@@ -62,7 +62,7 @@ module.exports = {
 		}
 	}),
 
-	classifiedPerPage: 1,
+	classifiedPerPage: 30,
 
 	/**
 	 * Creates a classified from the POST parameters passed from the request.
