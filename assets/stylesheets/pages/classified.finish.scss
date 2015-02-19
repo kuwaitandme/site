@@ -114,4 +114,14 @@ body#classified-finish {
 			}
 		}
 	}
+
+	#classified-sample {
+		text-align: left;
+		@extend .classified-list;
+
+		> li {
+			float: none !important;
+			margin: 0 auto;
+		}
+	}
 }

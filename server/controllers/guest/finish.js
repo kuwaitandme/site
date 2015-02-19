@@ -1,4 +1,5 @@
 var render = require('../helpers/render');
+var classifiedFinish = require('../classified/finish');
 
 /**
  * Controller for the classified posting page. Creates a new classified and
@@ -20,5 +21,7 @@ module.exports = {
 
 			data: { hash: hash }
 		});
-	}
+	},
+
+	post: classifiedFinish.post
 }

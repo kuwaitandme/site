@@ -7,5 +7,6 @@ module.exports = {
 	footer:      require("./footer"),
 	header:      require("./header"),
 	messages:    require("./messages"),
+	spinner:     require("./spinner"),
 	pagenav:     require("./pagenav")
 };

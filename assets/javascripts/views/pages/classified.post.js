@@ -87,7 +87,8 @@ module.exports = Backbone.View.extend({
 			contentType: false,
 			success: function(response) {
 				/* 'response' contains the string URL to redirect to */
-				window.location.href = response;
+				console.log(response);
+				// window.location.href = response;
 			}
 		});
 	},

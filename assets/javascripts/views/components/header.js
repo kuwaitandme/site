@@ -35,10 +35,10 @@ module.exports = Backbone.View.extend({
 	expandMain: function() {
 		var width = this.$window.width();
 		var that = this;
-		this.$main.stop().animate({width: width}, function() {
+		this.$main.stop().animate({marginLeft: 0}, function() {
 
 			/* Remove the width style set by jQuery's animate. */
-			that.$main.css("width", "");
+			that.$main.css("marginLeft", "");
 		});
 	},
 
@@ -48,7 +48,7 @@ module.exports = Backbone.View.extend({
 	 */
 	shirnkMain: function() {
 		var width = this.$window.width();
-		this.$main.stop().animate({ width: width - this.sliderAnimateWidth});
+		this.$main.stop().animate({ marginLeft: -1 * this.sliderAnimateWidth});
 	},
 
 

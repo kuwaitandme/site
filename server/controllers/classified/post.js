@@ -35,42 +35,32 @@ module.exports = {
 	 * Controller to create the new classified
 	 */
 	post: function(request, response, next) {
-		if (!request.isAuthenticated()) return response.redirect('/auth/guest');
+		response.setHeader('Content-Type', 'application/json');
 
-		var useCaptcha = (config.reCaptcha ? true : false);
+		if (!request.isAuthenticated()) return response.end(
+			JSON.stringify({ status: "unauthorized" }));
 
 		function captachFail() {
-			response.end('/classified/post/?status=captchafail');
+			return response.end(JSON.stringify({ status: "captchafail" }));
 		}
 
 		function captachSuccess() {
-			file.upload(request, function(POSTdata) {
+			classified.createFromPOST(request, request.user, function(cl) {
+				/* Write to the page the link to redirect. This gets picked
+				 * up by our AJAX controller */
+				if(cl) {
+					/* Write to the page the link to redirect. This gets
+					 * picked up by our AJAX controller */
+					return response.end(JSON.stringify({
+						status: "success",
+						id: cl._id
+					}));
+				}
 
-				console.log(POSTdata);
-				classified.createFromPOST(POSTdata, request.user, function(cl) {
-					/* Write to the page the link to redirect. This gets picked
-					 * up by our AJAX controller */
-					response.end("/classified/single/" + cl._id);
-				});
+				return response.end(JSON.stringify({ status: "notsaved" }));
 			});
 		}
 
-		/* Check the captcha, which then calls the function to create the
-		 * user */
-		if(useCaptcha && false) {
-			/* Create the reCapthca object */
-			var recaptcha = new reCaptcha(
-				config.reCaptcha.site,
-				config.reCaptcha.secret, {
-					'remoteip' : request.connection.remoteAddress,
-					'response' : request.query.captcha
-				});
-
-			/* Send it to the google and create the user if successful */
-			recaptcha.verify(function (err, success) {
-				if(success) captachSuccess();
-				else captachFail();
-			});
-		} else { captachSuccess(); }
+		reCaptcha.verify(request, captachSuccess, captachFail, false);
 	}
 }

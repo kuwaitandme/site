@@ -1,3 +1,5 @@
+var config = require('../../config');
+
 /*!
  * node-recaptcha
  * Copyright(c) 2010 Michael Hampton <mirhampt+github@gmail.com>
@@ -153,3 +155,21 @@ Recaptcha.prototype.verify = function(callback) {
 	request.write(data_qs, 'utf8');
 	request.end();
 };
+
+exports.verify = function(request, captachSuccess, captachFail, enabled) {
+	if(enabled == false) return captachSuccess(request);
+
+	/* Create the reCapthca object */
+	var recaptcha = new Recaptcha(
+		config.reCaptcha.site,
+		config.reCaptcha.secret, {
+			'remoteip' : request.connection.remoteAddress,
+			'response' : request.query.captcha
+		});
+
+	/* Send captcha to google and create the user if successful */
+	recaptcha.verify(function (err, success) {
+		if(success) captachSuccess();
+		else captachFail();
+	});
+}

@@ -1,13 +1,12 @@
 |<%
 |  var classes = "";
 |  if(!images || images.length == 0) classes = "no-thumb ";
-|  console.log(obj);
-|  if(perks) {
+|  if(obj.perks) {
 |     if(perks.urgent) classes += "perk-urgent ";
 |     if(perks.promoted) classes += "perk-promoted ";
 |  }
 |%>
-li(class!="<%= classes %>").classified
+li.classified
 	a(href!="/classified/single/<%= _id %>")
 		.container
 			.urgent-banner Urgent

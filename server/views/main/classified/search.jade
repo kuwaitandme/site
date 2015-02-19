@@ -9,12 +9,13 @@ block content
 			.noclassifieds-title #{__('page.csearch.noclassifieds')}
 		else
 			//- There were classifieds, print them one by one
-			ul.classified-list
-				div.hide
-					each classified in data.classifieds
-						li
-							a(href="/classified/single/#{classified._id}")= classified.title
-
+			ul#classified-search.classified-list
+				//- div.hide
+				//- 	each classified in data.classifieds
+				//- 		li
+				//- 			a(href="/classified/single/#{classified._id}")= classified.title
+	#ajax-spinner
+		.spinner
 	//- JS Template for each classified in the list
 	script(id="list-template", type="text/template")
 		include ../../components/script-templates/search.jade

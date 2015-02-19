@@ -1,6 +1,6 @@
 module.exports = Backbone.View.extend({
 	events: {
-		"click .price" : "managePayment",
+		"click .price.enabled" : "managePayment",
 		"click .submit" : "makePurchase"
 	},
 
@@ -23,8 +23,12 @@ module.exports = Backbone.View.extend({
 		$el.parent().toggleClass('active', perk.toggled)
 		this.perkPrices[type]= perk;
 
-		if(this.perkPrices[0].toggled) price += this.perkPrices[0].price;
+		if(this.perkPrices[0].toggled) {
+			price += this.perkPrices[0].price;
+		}
 		if(this.perkPrices[1].toggled) price += this.perkPrices[1].price;
+
+		$("#classified-sample li").toggleClass('perk-urgent', this.perkPrices[0].toggled);
 
 		if(price == 0) this.$tabPayment.hide();
 		else this.$tabPayment.show();
@@ -39,9 +43,9 @@ module.exports = Backbone.View.extend({
 	getCreditDetails: function() {
 		return {
 			cc: "4000000000000002",
-			cvv: "585",
-			month: "08",
-			year: "16"
+			cvv: "522",
+			month: "02",
+			year: "12"
 		};
 		return {
 			cc: $("#cc").val(),
@@ -150,5 +154,17 @@ module.exports = Backbone.View.extend({
 		/* Save the window data */
 		this.data = window.data;
 		this.$tabPayment = this.$el.find("#tab-payment");
+
+		this.render();
+	},
+
+	render: function() {
+		var template = _.template($("#list-template").html());
+
+		var post = window.data.classified
+		post.created = app.helpers.date.prettify(post.created);
+		var html = template(post);
+
+		$("#classified-sample").html(html);
 	}
 });

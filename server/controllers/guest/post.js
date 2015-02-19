@@ -1,7 +1,6 @@
 var classified = require('../../models/classified'),
-	config = require('../../config'),
 	file = require('../helpers/file'),
-	reCaptcha = require('../helpers/reCaptcha').Recaptcha,
+	reCaptcha = require('../helpers/reCaptcha'),
 	render = require('../helpers/render');
 
 
@@ -11,22 +10,19 @@ module.exports = {
 	 * saves it to the database.
 	 */
 	get: function(request, response, next) {
-		// braintree.getClientToken(function(braintreeToken) {
+		/* Generate the response */
+		render(request, response, {
+			bodyid: 'guest-post',
+			description: null,
+			page: 'classified/post',
+			title: response.__('title.guest.post'),
+			scripts: ['googleMaps', 'dropzone', 'reCaptcha'],
 
-			/* Generate the response */
-			render(request, response, {
-				bodyid: 'guest-post',
-				description: null,
-				page: 'classified/post',
-				title: response.__('title.guest.post'),
-				scripts: ['googleMaps', 'dropzone', 'reCaptcha'],
-
-				data: {
-					guest: true,
-					sitekey: config.reCaptcha.site
-				}
-			});
-		// });
+			data: {
+				guest: true,
+				sitekey: config.reCaptcha.site
+			}
+		});
 	},
 
 
@@ -34,45 +30,33 @@ module.exports = {
 	 * Controller to create the new classified
 	 */
 	post: function(request, response, next) {
-		var useCaptcha = (config.reCaptcha ? true : false);
+		response.setHeader('Content-Type', 'application/json');
+
+		if (!request.isAuthenticated()) return response.end(
+			JSON.stringify({ status: "unauthorized" }));
 
 		function captachFail() {
-			response.end('/guest/post/?status=captchafail');
+			return response.end(JSON.stringify({ status: "captchafail" }));
 		}
 
 		function captachSuccess() {
-			/* Upload the images */
-			file.upload(request, function(POSTdata) {
-				/* Perform any transactions */
-				// braintree.performTransaction(POSTdata, function() {
-					/* Create the classified */
-					classified.createFromPOST(POSTdata, true, function(cl) {
-						/* Write to the page the link to redirect. This gets picked
-						 * up by our AJAX controller */
-						response.end('/guest/finish/' + cl._id + '?hash=' +
-							cl.authHash);
-					});
-				// })
+			classified.createFromPOST(request, request.user, function(cl) {
+				/* Write to the page the link to redirect. This gets picked
+				 * up by our AJAX controller */
+				if(cl) {
+					/* Write to the page the link to redirect. This gets
+					 * picked up by our AJAX controller */
+					return response.end(JSON.stringify({
+						status: "success",
+						id: cl._id,
+						authHash: cl.authHash
+					}));
+				}
+
+				return response.end(JSON.stringify({ status: "notsaved" }));
 			});
 		}
 
-		/* Check the captcha, which then calls the function to create the
-		 * user */
-		if(useCaptcha && false) {
-			/* Create the reCapthca object */
-			var recaptcha = new reCaptcha(
-				config.reCaptcha.site,
-				config.reCaptcha.secret, {
-					'remoteip' : request.connection.remoteAddress,
-					'response' : request.query.captcha
-				});
-
-			/* Send it to the google and create the user if successful */
-			recaptcha.verify(function (err, success) {
-				console.log(err, success);
-				if(success) captachSuccess();
-				else captachFail();
-			});
-		} else { captachSuccess(); }
+		reCaptcha.verify(request, captachSuccess, captachFail, false);
 	}
 }

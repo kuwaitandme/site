@@ -2,6 +2,8 @@ var async = require('async'),
 	mongoose =require('mongoose'),
 	util = require('util');
 
+var file = require('../controllers/helpers/file');
+
 var Schema = mongoose.Schema,
 	ObjectId = Schema.ObjectId;
 
@@ -69,45 +71,72 @@ module.exports = {
 	 * @param  callback    The callback function to call with the new classified
 	 */
 	createFromPOST: function(data, user, callback) {
+		this._doFiles(request, function(POSTdata) {
+			this._doData(POSTdata, user, callback);
+		});
+	},
+
+
+	/**
+	 * Helper function used to upload the files
+	 *
+	 * @param  request
+	 * @param  callback    The callback function to call with the new POST data.
+	 */
+	_doFiles: function(request, callback) {
+		file.upload(request, function(POSTdata) {
+			callback(POSTdata);
+		});
+	},
+
+
+	/**
+	 * Helper function used to fill up the data of the classified object.
+	 *
+	 * @param  POSTdata    The object with the POST data
+	 * @param  user        The currently logged in user's object.
+	 * @param  callback    The callback function to call with the new classified
+	 */
+	_doData: function(POSTdata, user, callback) {
 		var classified = new this.model();
 
-		classified.category = data.category;
+		classified.category = POSTdata.category;
 		classified.created = Date.now();
-		classified.description = data.description;
-		classified.images = data.images;
-		classified.price = data.price;
-		classified.saleby = data.saleby;
+		classified.description = POSTdata.description;
+		classified.images = POSTdata.images;
+		classified.price = POSTdata.price;
+		classified.saleby = POSTdata.saleby;
 		classified.status = 0;
-		classified.title = data.title;
-		classified.type = data.type;
+		classified.title = POSTdata.title;
+		classified.type = POSTdata.type;
 
 		classified.perks.urgent = false;
 		classified.perks.promote = false;
 
-		classified.meta.gmapX = data.gmapX;
-		classified.meta.gmapY = data.gmapY;
+		classified.meta.gmapX = POSTdata.gmapX;
+		classified.meta.gmapY = POSTdata.gmapY;
 
-		classified.contact.address1 = data.address1;
-		classified.contact.address2 = data.address2;
-		classified.contact.email = data.email;
-		classified.contact.location = data.location;
-		classified.contact.phone = data.phone;
+		classified.contact.address1 = POSTdata.address1;
+		classified.contact.address2 = POSTdata.address2;
+		classified.contact.email = POSTdata.email;
+		classified.contact.location = POSTdata.location;
+		classified.contact.phone = POSTdata.phone;
+
+		classified.authHash = randomHash();
 
 		/* If you are logged in, then we will make you the owner of this
 		 * classified; Otherwise we will label this classified as a guest
 		 * classified. */
-		if(user) {
+		if(user && user._id) {
 			classified.owner = user._id;
 			classified.guest = false;
 		} else {
 			classified.guest = true;
-			classified.authHash = randomHash();
 		}
 
 		classified.save();
 		callback(classified);
 	},
-
 
 
 	/**
@@ -177,6 +206,13 @@ module.exports = {
 		});
 	},
 
+
+	/**
+	 * [makeUrgent description]
+	 *
+	 * @param  {[type]} id [description]
+	 * @return {[type]}    [description]
+	 */
 	makeUrgent: function(id) {
 		this.model.findOne({_id: id}, function(err, classified) {
 			if(err) throw err;
@@ -186,6 +222,13 @@ module.exports = {
 		});
 	},
 
+
+	/**
+	 * [promote description]
+	 *
+	 * @param  {[type]} id [description]
+	 * @return {[type]}    [description]
+	 */
 	promote: function(id) {
 		this.model.findOne({_id: id}, function(err, classified) {
 			if(err) throw err;
@@ -194,6 +237,4 @@ module.exports = {
 			classified.save();
 		});
 	}
-
-
 }

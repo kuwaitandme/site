@@ -24,5 +24,19 @@ module.exports = {
 				data: { classifieds: classifieds }
 			});
 		});
+	},
+
+	post: function(request, response, next) {
+		var parameters = { };
+		var page = 0;
+
+		if(request.query.cat) parameters["category"] = request.query.cat;
+		if(request.query.page) page = request.query.page;
+
+		console.log(parameters);
+
+		classified.search(parameters, function(classifieds) {
+			response.end(JSON.stringify({ classifieds: classifieds }));
+		}, page);
 	}
 }

@@ -8,8 +8,8 @@ ul.classified-list {
 	> li {
 		@extend .large-3;
 		@extend .medium-6;
-		float: left;
-		max-width: 350px;
+		// float: left;
+		// max-width: 350px;
 		padding: 7px;
 
 		.container {
@@ -17,6 +17,7 @@ ul.classified-list {
 			background: #FFF;
 			border: 1px solid #DDD;
 			overflow: hidden;
+			position: relative;
 
 			-webkit-border-radius: 3px;
 			-moz-border-radius: 3px;

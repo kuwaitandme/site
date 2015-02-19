@@ -38,7 +38,8 @@ router.get('/classified/search', controllers.classified.search.get);
 router.get('/classified/single/:id', controllers.classified.single.get);
 router.post('/classified/edit', isAuthenticated, controllers.landing.get);
 router.post('/classified/finish/:id', controllers.classified.finish.post);
-router.post('/classified/post', isAuthenticated, controllers.classified.post.post);
+router.post('/classified/post', controllers.classified.post.post);
+router.post('/classified/search', controllers.classified.search.post);
 router.post('/classified/single/:id', controllers.classified.single.get);
 
 /* Guest URLs */
