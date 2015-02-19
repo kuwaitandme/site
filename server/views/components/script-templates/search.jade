@@ -6,7 +6,7 @@
 |     if(perks.promoted) classes += "perk-promoted ";
 |  }
 |%>
-li.classified
+li.classified(class!="<%= classes %>")
 	a(href!="/classified/single/<%= _id %>")
 		.container
 			.urgent-banner Urgent

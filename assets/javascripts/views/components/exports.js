@@ -8,5 +8,6 @@ module.exports = {
 	header:      require("./header"),
 	messages:    require("./messages"),
 	spinner:     require("./spinner"),
-	pagenav:     require("./pagenav")
+	pagenav:     require("./pagenav"),
+	modal:       require("./modal")
 };

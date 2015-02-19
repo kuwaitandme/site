@@ -69,7 +69,7 @@ module.exports = {
 			if(perks) {
 				/* Success! Add perks to the classified */
 				if(perks[0]) classified.makeUrgent(_id);
-				if(perks[1]) classified.promote(_id);
+				// if(perks[1]) classified.promote(_id);
 			}
 
 			response.end(JSON.stringify({ status: 'success' }));

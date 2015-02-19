@@ -1,6 +1,6 @@
 module.exports = Backbone.View.extend({
 	events: {
-		"click .price.enabled" : "managePayment",
+		"click .enabled .preview" : "managePayment",
 		"click .submit" : "makePurchase"
 	},
 
@@ -9,11 +9,25 @@ module.exports = Backbone.View.extend({
 		{ price:15, toggled: false}
 	],
 
+	initialize: function(obj) {
+		/* Save the window data */
+		this.data = window.data;
+		this.$tabPayment = this.$el.find("#tab-payment");
+
+		this.post = window.data.classified;
+		this.post.created = app.helpers.date.prettify(this.post.created);
+
+		this.render();
+		this.generateSocialLinks();
+	},
+
 
 	managePayment: function(e) {
 		var $el = $(e.currentTarget);
 		var type = $el.data().val;
 		var price = 0;
+
+		$el.parent().toggleClass('switch');
 
 		var perk = this.perkPrices[type];
 		perk.toggled = !perk.toggled;
@@ -38,11 +52,30 @@ module.exports = Backbone.View.extend({
 
 
 	/**
+	 * [generateSocialLinks description]
+	 */
+	generateSocialLinks: function() {
+		var url = "https://" + window.location.hostname + "/classified/single/"
+			+ this.post._id;
+
+		var tweet = "Check out my classified at " + url;
+
+		var facebook = "https://www.facebook.com/sharer/sharer.php?u=" + url;
+		var twitter = "https://twitter.com/home?status=" + encodeURI(tweet);
+		var gplus = "https://plus.google.com/share?url=" + url;
+
+		$(".social .facebook").attr('href', facebook);
+		$(".social .twitter").attr('href', twitter);
+		$(".social .gplus").attr('href', gplus);
+	},
+
+
+	/**
 	 * [getCreditDetails description]
 	 */
 	getCreditDetails: function() {
 		return {
-			cc: "4000000000000002",
+			cc: "40000000c00000002",
 			cvv: "522",
 			month: "02",
 			year: "12"
@@ -119,7 +152,7 @@ module.exports = Backbone.View.extend({
 	 */
 	sendTokenBackend: function(token) {
 		var data = {
-			_id: this.data.classified._id,
+			_id: this.post._id,
 			perks: [this.perkPrices[0].toggled, this.perkPrices[1].toggled],
 			token: token,
 
@@ -149,22 +182,10 @@ module.exports = Backbone.View.extend({
 	},
 
 
-
-	initialize: function(obj) {
-		/* Save the window data */
-		this.data = window.data;
-		this.$tabPayment = this.$el.find("#tab-payment");
-
-		this.render();
-	},
-
 	render: function() {
 		var template = _.template($("#list-template").html());
 
-		var post = window.data.classified
-		post.created = app.helpers.date.prettify(post.created);
-		var html = template(post);
-
+		var html = template(this.post);
 		$("#classified-sample").html(html);
 	}
 });

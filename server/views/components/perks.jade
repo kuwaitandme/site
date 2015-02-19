@@ -1,23 +1,43 @@
-.tab-perk
-	.perk-title Urgent Classified
-	.hint Need to sell something urgently? We will make your classified stand out from others giving you more attention than regular classifieds
-	.price.enabled(data-val=0) 5 KWD
+.tab
+	.tab-title Here are some perks that can boost your audience!
+	.tab-perk.enabled
+		.perk-title Urgent Classified
+		.hint Need to sell something urgently? We will make your classified stand out from others giving you more attention than regular classifieds
+		.preview.active(data-val=0) Preview
+		a(href="#modal-purchase")
+			.price(data-val=0) Buy for 5 KWD
 
-.tab-perk
-	.perk-title Top Classified
-	.hint Need alot of attention? Then this perk will fit you well. Make your classified stay on the top page of it's category for three days.
-	.price(data-val=1) Coming soon
+	.tab-perk.disable
+		.perk-title Top Classified
+		.hint Need alot of attention? Then this perk will fit you well. Make your classified stay on the top page of it's category for three days.
+		.preview(data-val=1).active Coming soon
 
-ul#classified-sample
+	section.modal--show#modal-purchase(tabindex='-1', role='dialog', aria-labelledby='modal-label', aria-hidden='true')
+		.modal-inner
+			.title Buy this perk
 
-.tab-perk#tab-payment
-	form
-		input#cc(type='text', placeholder='Credit Card #')
-		input#cvv(type='text', placeholder='CVV code')
-		input#cmdate(type='text', placeholder='MM')
-		input#cydate(type='text', placeholder='YY')
-		.total Total: <span></span> KWD
-		input.submit(type='submit', value='Buy perks!')
+			form
+				input#cc(type='text', placeholder='Credit Card #')
+				input#cvv(type='text', placeholder='CVV code').by-three
+				input#cmdate(type='text', placeholder='MM').by-three
+				input#cydate(type='text', placeholder='YY').by-three
+				input#cname(type='text', placeholder="Name as on your card")
+				input#caddr(type='text', placeholder="Address Line 1")
+				input#cstate(type='text', placeholder="State").by-three
+				input#cname(type='text', placeholder="City").by-three
+				input#czip(type='text', placeholder="Zip Code").by-three
+				input#ccountry(type='text', placeholder="Country").by-three
+				input#cemail(type='email', placeholder="Email").by-three
+				input#cphone(type='tel', placeholder="Phone").by-three
+			.button.submit Make Purchase
+		a.modal-close(href='#!', title='Cancel Purchase', data-close='Close', data-dismiss='modal') ?
 
-script(id='list-template', type='text/template')
-	include script-templates/search.jade
+.tab#classified-preview
+	.tab-title.preview Preview
+	ul#classified-sample
+	//- .tab-perk#tab-payment
+	//- 		.total Total: <span></span> KWD
+	//- 		input.submit(type='submit', value='Buy perks!')
+
+	script(id='list-template', type='text/template')
+		include script-templates/search.jade

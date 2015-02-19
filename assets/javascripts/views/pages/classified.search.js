@@ -100,10 +100,9 @@ module.exports = Backbone.View.extend({
 		// console.log(this.$classifiedList.html());
 		this.$classifiedList.masonry({
 			columnWidth: 300,
+			gutter: 0,
+			isAnimated: true,
 			itemSelector: '.classified',
-
-			// isFitWidth: true,
-			isAnimated: true
 		});
 	},
 

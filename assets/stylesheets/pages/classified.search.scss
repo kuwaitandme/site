@@ -2,15 +2,15 @@ body#classified-search {
 	background: #EEE;
 	background: url(/images/patterns/p6.png);
 
-    .noclassifieds-title {
-        @extend .font-title;
-        padding: 20px;
-        text-align: center;
-        font-size: 30px;
-    }
-    #ajax-spinner {
-    	position: relative;
-    	height: 50px;
-    	margin: 0 auto;
-    }
+	.noclassifieds-title {
+		@extend .font-title;
+		padding: 20px;
+		text-align: center;
+		font-size: 30px;
+	}
+	#ajax-spinner {
+		position: relative;
+		height: 50px;
+		margin: 0 auto;
+	}
 }
