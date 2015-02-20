@@ -7,8 +7,9 @@ block content
 		ul.content
 			div.hide
 				each category in categories
-					li
-						a(href="/classified/search?cat=" + category._id)= category.name
+					each child in category.children
+						li
+							a(href="/classified/search?cat=" + child._id)= child.name
 
 	section#post-classified
 		h1 Post your free Classified now!

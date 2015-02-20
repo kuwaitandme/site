@@ -37,7 +37,7 @@ module.exports = function(request, response, args) {
 		/* Check the redis DB to see if our queries are cached or not */
 		client.get(job.name, function (err, result) {
 			if (result) {
-				common[job.name] = result;
+				common[job.name] = JSON.parse(result);
 
 				return finish();
 			}
@@ -45,8 +45,9 @@ module.exports = function(request, response, args) {
 			/* If we reach here, then the query was not cached. Execute the
 			 * query and cache it for next time */
 			job.model.getAll(function(result) {
+				common[job.name] = result;
+
 				var json = JSON.stringify(result);
-				common[job.name] = json;
 				client.set(job.name, json);
 
 				finish();
@@ -60,7 +61,9 @@ module.exports = function(request, response, args) {
 	}
 
 	/* Function to run once the async is done it's jobs. */
-	var asyncComplete = function (error) {
+	var asyncComplete = function (err) {
+		if(err) throw err;
+
 		return response.render("main/" + args.page, {
 			bodyid: args.bodyid,
 			description: args.description,

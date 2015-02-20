@@ -1,17 +1,17 @@
 footer
-	section
-		div Copyright &copy; Kuwait &amp; Me
-		div
-			a(href="/privacy") Privacy Policy
-		div
-			a(href="/terms") Terms &amp; Conditions
-		div
-			a(href="/about") About
+	//- section
+	div Copyright &copy; Kuwait &amp; Me
+		//- div
+		//- 	a(href="/privacy") Privacy Policy
+		//- div
+		//- 	a(href="/terms") Terms &amp; Conditions
+		//- div
+		//- 	a(href="/about") About
 
 	section#scripts
 		script.
-			window.categories = !{categories};
-			window.locations = !{locations};
+			window.categories = !{JSON.stringify(categories)};
+			window.locations = !{JSON.stringify(locations)};
 			window.page = !{JSON.stringify(bodyid)};
 			window.data = !{JSON.stringify(data)};
 
