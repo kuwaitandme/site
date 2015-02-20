@@ -4,7 +4,9 @@ header
 		ul
 			a(href="/")
 				li#nav-logo
-			li.grabber#grabber-display &#xf0c9;
+			li.grabber#grabber-display
+				.title Menu
+				.icon &#xf0c9;
 
 	ul#slider-nav
 		li.grabber#grabber-hide &#xf0c9;
@@ -13,12 +15,8 @@ header
 
 		a(href="/classified/post")
 			li Post a Classified
-		a(href="/privacy")
-			li Privacy Policy
-		a(href="/terms")
-			li Terms &amp; Conditions
-		//- a(href="/classified/search")
-		//- 	li.search Search
+		a(href="/classified/search")
+			li.search Search
 
 		li.gap
 
@@ -32,3 +30,12 @@ header
 				li Logout
 			a(href="/account/")
 				li Account
+
+		li.gap
+
+		a(href="/privacy")
+			li Privacy Policy
+		a(href="/terms")
+			li Terms &amp; Conditions
+		a(href="/about")
+			li About

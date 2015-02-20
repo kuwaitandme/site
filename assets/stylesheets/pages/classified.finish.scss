@@ -187,7 +187,10 @@ body#classified-finish {
 		}
 	}
 
-
+	#ajax-spinner {
+		width: 100px;
+		height: 100px;
+	}
 	#classified-sample {
 		text-align: left;
 		@extend .classified-list;

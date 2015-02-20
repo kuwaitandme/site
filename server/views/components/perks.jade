@@ -15,24 +15,25 @@
 
 	section.modal--show#modal-purchase(tabindex='-1', role='dialog', aria-labelledby='modal-label', aria-hidden='true')
 		.modal-inner
-			.panel.hide
+			.panel
 				.title Buy this perk
 				form
-					input#cc(type='text', placeholder='Credit Card #')
-					input#cvv(type='text', placeholder='CVV code').by-three
-					input#cmdate(type='text', placeholder='MM').by-three
-					input#cydate(type='text', placeholder='YY').by-three
-					input#cname(type='text', placeholder="Name as on your card")
-					input#caddr(type='text', placeholder="Address Line 1")
-					input#cstate(type='text', placeholder="State").by-three
-					input#cname(type='text', placeholder="City").by-three
-					input#czip(type='text', placeholder="Zip Code").by-three
-					input#ccountry(type='text', placeholder="Country").by-three
-					input#cemail(type='email', placeholder="Email").by-three
-					input#cphone(type='tel', placeholder="Phone").by-three
+					input#ccc(required, type='text', placeholder='Credit Card #')
+					input#cvv(required, type='text', placeholder='CVV code').by-three
+					input#cmdate(required, type='text', placeholder='MM').by-three
+					input#cydate(required, type='text', placeholder='YY').by-three
+					input#cname(required, type='text', placeholder="Name as on your card")
+					input#caddr(required, type='text', placeholder="Address Line 1")
+					input#cstate(required, type='text', placeholder="State").by-three
+					input#ccity(required, type='text', placeholder="City").by-three
+					input#czip(required, type='text', placeholder="Zip Code").by-three
+					input#ccountry(required, type='text', placeholder="Country").by-three
+					input#cemail(required, type='email', placeholder="Email").by-three
+					input#cphone(required, type='tel', placeholder="Phone").by-three
 				.button.submit Make Purchase
-			.panel
+			.panel.hide
 				#ajax-spinner
+					.spinner
 				.message Processing... Do not leave this page
 		a.modal-close(href='#!', title='Cancel Purchase', data-close='Close', data-dismiss='modal') ?
 
@@ -41,7 +42,7 @@
 	ul#classified-sample
 	//- .tab-perk#tab-payment
 	//- 		.total Total: <span></span> KWD
-	//- 		input.submit(type='submit', value='Buy perks!')
+	//- 		input.required, submit(type='submit', value='Buy perks!')
 
 	script(id='list-template', type='text/template')
 		include script-templates/search.jade

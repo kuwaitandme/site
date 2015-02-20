@@ -7,3 +7,7 @@ main {
 		position: relative;
 	}
 }
+
+@media print {
+	main { margin-top: 0; }
+}

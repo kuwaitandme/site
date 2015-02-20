@@ -1,6 +1,25 @@
 body#classified-single {
 	background: #FFF;
 
+	#report-modal {
+		.title {
+			@extend .font-title;
+			padding: 20px 0;
+			font-size: 16px;
+			text-align: center;
+		}
+		input[type='submit'] {
+			@extend .font-title;
+			background: #FD8603;
+			color: #FFF;
+		}
+		textarea {
+			border-top: 1px solid #CCC;
+			height: 300px;
+			max-height: 50%;
+		}
+	}
+
 	#admin-controls {
 		border: 1px solid #ff7302;
 		display: inline-block;

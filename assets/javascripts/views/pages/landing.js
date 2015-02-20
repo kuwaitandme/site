@@ -1,7 +1,7 @@
 module.exports = Backbone.View.extend({
 
 	events: {
-		"click .cl-container" : "openClassified"
+		"click .cl-title" : "openClassified"
 	},
 
 
@@ -9,7 +9,7 @@ module.exports = Backbone.View.extend({
 		this.closeClassified();
 
 		var that = this;
-		var $el = $(e.currentTarget);
+		var $el = $(e.currentTarget).parent();
 		var $list = $el.find('.cl-list');
 
 		$el.addClass('active');

@@ -114,17 +114,28 @@ module.exports = Backbone.View.extend({
 	 * [getCreditDetails description]
 	 */
 	getCreditDetails: function() {
+		// return {
+		// 	cc: "40000000c00000002",
+		// 	cvv: "522",
+		// 	month: "02",
+		// 	year: "12"
+		// };
 		return {
-			cc: "40000000c00000002",
-			cvv: "522",
-			month: "02",
-			year: "12"
-		};
-		return {
-			cc: $("#cc").val(),
+			ccNo: $("#ccc").val(),
 			cvv: $("#cvv").val(),
-			month: $("#cmdate").val(),
-			year: $("#cydate").val()
+			expMonth: $("#cmdate").val(),
+			expYear: $("#cydate").val(),
+
+			billingAddr: {
+				city: $("#ccity").val(),
+				addrLine1: $("#caddr").val(),
+				country: $("#ccountry").val(),
+				email: $("#cemail").val(),
+				name: $("#cname").val(),
+				phoneNumber: $("#cphone").val(),
+				state: $("#cstate").val(),
+				zipCode: $("#czip").val(),
+			}
 		};
 	},
 
@@ -133,6 +144,7 @@ module.exports = Backbone.View.extend({
 	 * [validateCreditDetails description]
 	 */
 	validateCreditDetails: function(credit) {
+		console.log(credit);
 		return true;
 	},
 
@@ -144,42 +156,36 @@ module.exports = Backbone.View.extend({
 		e.preventDefault();
 		_2checkout = this.data._2checkout;
 		var that = this;
+		var credit = this.getCreditDetails();
 
 		/* Called when token creation fails. */
 		var errorCallback = function(response) {
+			console.error("Could not get a transaction token" + response.errorMsg);
 			if (response.errorCode === 200) {
 				/* This error code indicates that the ajax call failed.
 				 * Recommend to retry the token request. */
-			} else {
-				console.log(response.errorMsg);
 			}
 		};
 
 		/* Called when token creation was successful */
 		var successCallback = function(data) {
-			console.log(data);
 			var token = data.response.token.token;
-			that.sendTokenBackend(token);
+			credit.token = token;
+
+			that.sendTokenBackend(credit);
 		};
 
 		/* Get the credit card details */
-		var credit = this.getCreditDetails();
 		if(this.validateCreditDetails(credit)) {
-			var args = {
-				sellerId: _2checkout.sid,
-				publishableKey: _2checkout.publicKey,
+			credit.sellerId = _2checkout.sid;
+			credit.publishableKey = _2checkout.publicKey;
 
-				ccNo: credit.cc,
-				cvv: credit.cvv,
-				expMonth: credit.month,
-				expYear: credit.year,
-			};
+			$("#modal-purchase .panel").toggleClass('hide');
 
-			console.log(args);
 			/* Load the public key */
 			TCO.loadPubKey("sandbox", function() {
 				/* Request for the token and then send it to the backend */
-				TCO.requestToken(successCallback, errorCallback, args);
+				TCO.requestToken(successCallback, errorCallback, credit);
 			});
 		} else {
 			console.log("invalid credit details");
@@ -190,22 +196,12 @@ module.exports = Backbone.View.extend({
 	/**
 	 * [sendTokenBackend description]
 	 */
-	sendTokenBackend: function(token) {
+	sendTokenBackend: function(credit) {
 		var data = {
 			_id: this.post._id,
+			billingAddr: credit.billingAddr,
 			perks: [this.perkPrices[0].toggled, this.perkPrices[1].toggled],
-			token: token,
-
-			billingAddr: {
-				name: "Testing Tester",
-				addrLine1: "123 Test St",
-				city: "Columbus",
-				state: "Ohio",
-				zipCode: "43123",
-				country: "USA",
-				email: "example@2co.com",
-				phoneNumber: "5555555555"
-			}
+			token: credit.token
 		};
 
 		/* Perform AJAX call */
@@ -215,8 +211,8 @@ module.exports = Backbone.View.extend({
 			data: data,
 			dataType: 'json',
 			success: function(response) {
-				if(response.status == "success") console.log("all cool");
-				else console.log("Payment could not be processed");
+				if(response.status == "success") window.location = "#?success=perkpaid";
+				else console.error("Payment could not be processed", response);
 			},
 		});
 	},

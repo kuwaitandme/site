@@ -1,4 +1,7 @@
 var async = require("async");
+	redis = require('redis'),
+	client = redis.createClient(null, null, { detect_buffers: true });
+
 var	category = require('../../models/category'),
 	externalScripts = require('../helpers/externalScripts'),
 	location = require('../../models/location');
@@ -30,12 +33,24 @@ module.exports = function(request, response, args) {
 	];
 
 	/* Function to run on each task setup for the async */
-	var asyncJob = function (job, callback) {
-		job.model.getAll(function(result) {
-			common[job.name] = result;
+	var asyncJob = function (job, finish) {
+		/* Check the redis DB to see if our queries are cached or not */
+		client.get(job.name, function (err, result) {
+			if (result) {
+				common[job.name] = result;
 
-			/* Async call is done, alert via callback */
-			callback();
+				return finish();
+			}
+
+			/* If we reach here, then the query was not cached. Execute the
+			 * query and cache it for next time */
+			job.model.getAll(function(result) {
+				var json = JSON.stringify(result);
+				common[job.name] = json;
+				client.set(job.name, json);
+
+				finish();
+			});
 		});
 	}
 

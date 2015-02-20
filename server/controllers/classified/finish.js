@@ -9,10 +9,9 @@ module.exports = {
 	 * [get description]
 	 */
 	get: function(request, response, next) {
-		classified.get(request.param('id'), function(classified) {
+		classified.get(request.params.id, function(classified) {
 			render(request, response, {
 				bodyid: 'classified-finish',
-				description: null,
 				page: 'classified/finish',
 				title: response.__('title.guest.finish'),
 				scripts: ['_2checkout', 'qrcode'],
@@ -37,34 +36,38 @@ module.exports = {
 		var POSTdata = request.body;
 		var perks = request.body["perks[]"];
 		var price = 0;
+		perks[0] = true;
+		perks[1] = false;
 
-		if(perks[0]) price += 5;
-		if(perks[1]) price += 15;
+		if(perks[0]) price += 15;
+		if(perks[1]) price += 45;
 
 		POSTdata = {
 			sellerId: config._2checkout.sid,
 			privateKey: config._2checkout.privateKey,
-			merchantOrderId: (Math.random() * 100).toString(),
 			token: request.body.token,
 			perks: request.body["perks[]"],
 			currency: 'USD',
 			total: price,
 
 			billingAddr: {
-				name: "Testing Tester",
-				addrLine1: "123 Test St",
-				city: "Columbus",
-				state: "Ohio",
-				zipCode: "43123",
-				country: "USA",
-				email: "example@2co.com",
-				phoneNumber: "5555555555"
+				addrLine1: request.body['billingAddr[addrLine1]'],
+				city: request.body['billingAddr[city]'],
+				country: request.body['billingAddr[country]'],
+				email: request.body['billingAddr[email]'],
+				name: request.body['billingAddr[name]'],
+				phoneNumber: request.body['billingAddr[phoneNumber]'],
+				state: request.body['billingAddr[state]'],
+				zipCode: request.body['billingAddr[zipCode]']
 			}
 		};
-		_2checkout.processTransaction(POSTdata, function(err, data) {
-			if(err) return response.end(JSON.stringify(err));
 
-			var _id = request.body._id;
+		var _id = request.body._id;
+		_2checkout.processTransaction(_id, POSTdata, function(err, data, transaction) {
+			if(err) return response.end(JSON.stringify({
+				data: data,
+				error: err
+			}));
 
 			if(perks) {
 				/* Success! Add perks to the classified */
@@ -72,7 +75,10 @@ module.exports = {
 				// if(perks[1]) classified.promote(_id);
 			}
 
-			response.end(JSON.stringify({ status: 'success' }));
+			response.end(JSON.stringify({
+				status: 'success',
+				transaction: transaction
+			}));
 		});
 	}
 }

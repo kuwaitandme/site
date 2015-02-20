@@ -1,7 +1,7 @@
 var classified = require('../../models/classified'),
 	config = require('../../config'),
 	file = require('../helpers/file'),
-	reCaptcha = require('../helpers/reCaptcha').Recaptcha,
+	reCaptcha = require('../helpers/reCaptcha'),
 	render = require('../helpers/render');
 
 

@@ -8,6 +8,16 @@ block content
 		h1.c-title= data.classified.title
 		pre.c-description= data.classified.description
 
+	section.modal--show#report-modal(tabindex='-1', role='dialog', aria-labelledby='modal-label', aria-hidden='true')
+		.modal-inner
+			.title Report this classified
+			form(action="#?success=reportsent", method="POST")
+				input(type="hidden", name="action", value="report")
+				textarea(name="content", placeholder='Write your reason here')
+				input(type="submit", value="Send report")
+		a.modal-close(href='#!', title='Cancel Report', data-close='Close', data-dismiss='modal') ?
+
+
 	//- JS Template for the slideshow
 	script(id="slideshow-template", type="text/template")
 		include ../../components/script-templates/slideshow.jade

@@ -25,11 +25,21 @@ header {
 			margin: 0 15px;
 			padding: 8px;
 
-			&.grabber {
-				@extend .font-awesome;
+			&.grabber{
+				@include clearfix();
 				cursor: pointer;
-				font-size: 20px;
-				margin-top: 5px;
+
+				.title {
+					float: left;
+					margin-top: 9px;
+					padding: 0 15px;
+				}
+				.icon{
+					@extend .font-awesome;
+					float: right;
+					font-size: 20px;
+					margin-top: 5px;
+				}
 			}
 			&#nav-logo {
 				background: url(../images/kme-small.png);
@@ -80,4 +90,8 @@ header {
 			}
 		}
 	}
+}
+
+@media print {
+	header { display: none; }
 }

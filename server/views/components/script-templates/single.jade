@@ -3,11 +3,11 @@ pre.c-description <%= description %>
 //- Category
 ul.c-meta
 	li
-		| <% if(category) {
+		|<% if(category) {
 		|	var cat = app.helpers.category.find(category);
 		|	print("#{__("page.csingle.cat")} ");
 		|	print(cat.parent + ", " + cat.child);
-		| } %>
+		|} %>
 ul.c-meta
 	//- Location
 	|<% if(location &&location != "0") {
@@ -17,7 +17,7 @@ ul.c-meta
 	|<% } %>
 
 	//- Email
-	| <% } if(contact.email && contact.email.length) { %>
+	|<% } if(contact.email && contact.email.length) { %>
 	li <%= contact.email %>
 
 	//- Phone
@@ -34,12 +34,12 @@ ul.c-meta
 
 //- Post print/report
 ul.c-meta
-	li.c-action.share
-		a(href="#") Share
+	//- li.c-action.share
+	//- 	a(href="#") Share
 	li.c-action.print
 		a(href="javascript:window.print()") Print
 	li.c-action.report
-		a(href="#") Report
+		a(href="#report-modal") Report
 
 //- Disclaimer
 .c-disclaimer !{__("page.csingle.disclaimer")}
