@@ -5,7 +5,8 @@ var bodyParser = require('body-parser'),
 	i18n = require("i18n"),
 	mongoose = require('mongoose'),
 	passport = require('passport'),
-	path = require('path');
+	path = require('path'),
+	redisStore = require('connect-redis')(expressSession);
 
 var config = require('./config'),
 	routes = require('./routes/index');
@@ -40,15 +41,14 @@ app.use(express.static(__dirname + '/public', { /*maxAge: cacheTime*/ }));
 
 
 /* Cookie and sessions */
+// var RedisStore = redisStore(express);
 app.use(cookieParser());
 app.use(expressSession({
-	name: 'sess',
-	proxy: true,
 	resave: true,
 	saveUninitialized: true,
-	secret: config.SessionSecret
+	secret: config.sessionSecret,
+	store: new redisStore(config.redis)
 }));
-
 
 /* Initialize Passport User authentication */
 app.use(passport.initialize());

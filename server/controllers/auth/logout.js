@@ -4,7 +4,7 @@
  */
 module.exports = {
 	get: function(request, response, next) {
-		request.logout();
-		return response.redirect('/auth/login?status=logout');
+		request.session.destroy();
+		return response.redirect('/auth/login?success=logout');
 	}
 }
