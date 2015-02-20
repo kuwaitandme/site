@@ -104,7 +104,7 @@ body#classified-finish {
 				margin-left: 0;
 				margin-top: 0;
 			}
-			.price, .preview {
+			.price, .button {
 				@extend .font-title;
 				@include single-transition(background);
 				color: #FFF;
@@ -118,23 +118,20 @@ body#classified-finish {
 
 				&.active { display: block; }
 			}
-			&.enabled {
-				.price, .preview {
-					background: #1abc9c;
-					// &:hover { background: #16a085; }
-				}
+			&.enabled .button {
+				background: #1abc9c;
+				// &:hover { background: #16a085; }
 			}
-			&.switch {
-				.preview, .price {
-					display: block;
-					&.active { display: none; }
-				}
+			&.switch .button{
+				display: block;
+				&.active { display: none; }
 			}
-			&.active {
-				.price, .preview {
-					background: #3B99D9;
-					&:hover { background: #2379B6e; }
-				}
+			&.active .button {
+				background: #3B99D9;
+				&:hover { background: #2379B6e; }
+			}
+			.button.cancel {
+				background: #e74c3c;
 			}
 			.total {
 				padding: 10px;
@@ -184,7 +181,12 @@ body#classified-finish {
 			width: 100%;
 			&:hover { background: #2980b9; }
 		}
+		.message {
+			font-size: 16px;
+			padding: 15px;
+		}
 	}
+
 
 	#classified-sample {
 		text-align: left;

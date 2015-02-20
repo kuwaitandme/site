@@ -3,33 +3,37 @@
 	.tab-perk.enabled
 		.perk-title Urgent Classified
 		.hint Need to sell something urgently? We will make your classified stand out from others giving you more attention than regular classifieds
-		.preview.active(data-val=0) Preview
+		.button.active(data-val=0) Preview
+		.button.cancel(data-val=0) Cancel
 		a(href="#modal-purchase")
-			.price(data-val=0) Buy for 5 KWD
+			.button.price(data-val=0) Buy for 5 KWD
 
 	.tab-perk.disable
 		.perk-title Top Classified
 		.hint Need alot of attention? Then this perk will fit you well. Make your classified stay on the top page of it's category for three days.
-		.preview(data-val=1).active Coming soon
+		.button(data-val=1).active Coming soon
 
 	section.modal--show#modal-purchase(tabindex='-1', role='dialog', aria-labelledby='modal-label', aria-hidden='true')
 		.modal-inner
-			.title Buy this perk
-
-			form
-				input#cc(type='text', placeholder='Credit Card #')
-				input#cvv(type='text', placeholder='CVV code').by-three
-				input#cmdate(type='text', placeholder='MM').by-three
-				input#cydate(type='text', placeholder='YY').by-three
-				input#cname(type='text', placeholder="Name as on your card")
-				input#caddr(type='text', placeholder="Address Line 1")
-				input#cstate(type='text', placeholder="State").by-three
-				input#cname(type='text', placeholder="City").by-three
-				input#czip(type='text', placeholder="Zip Code").by-three
-				input#ccountry(type='text', placeholder="Country").by-three
-				input#cemail(type='email', placeholder="Email").by-three
-				input#cphone(type='tel', placeholder="Phone").by-three
-			.button.submit Make Purchase
+			.panel.hide
+				.title Buy this perk
+				form
+					input#cc(type='text', placeholder='Credit Card #')
+					input#cvv(type='text', placeholder='CVV code').by-three
+					input#cmdate(type='text', placeholder='MM').by-three
+					input#cydate(type='text', placeholder='YY').by-three
+					input#cname(type='text', placeholder="Name as on your card")
+					input#caddr(type='text', placeholder="Address Line 1")
+					input#cstate(type='text', placeholder="State").by-three
+					input#cname(type='text', placeholder="City").by-three
+					input#czip(type='text', placeholder="Zip Code").by-three
+					input#ccountry(type='text', placeholder="Country").by-three
+					input#cemail(type='email', placeholder="Email").by-three
+					input#cphone(type='tel', placeholder="Phone").by-three
+				.button.submit Make Purchase
+			.panel
+				#ajax-spinner
+				.message Processing... Do not leave this page
 		a.modal-close(href='#!', title='Cancel Purchase', data-close='Close', data-dismiss='modal') ?
 
 .tab#classified-preview

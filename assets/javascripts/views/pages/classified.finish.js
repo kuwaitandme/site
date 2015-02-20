@@ -1,6 +1,7 @@
 module.exports = Backbone.View.extend({
 	events: {
-		"click .enabled .preview" : "managePayment",
+		"click .enabled .active" : "managePayment",
+		"click .enabled .cancel" : "managePayment",
 		"click .submit" : "makePurchase"
 	},
 
@@ -19,8 +20,47 @@ module.exports = Backbone.View.extend({
 
 		this.render();
 		this.generateSocialLinks();
+
+		this.setupSpinner();
+		this.showSpinner();
 	},
 
+
+	setupSpinner: function() {
+		var spinner = app.views.components.spinner;
+		var opts = {
+			className: 'spinner', // The CSS class to assign to the spinner
+			color: '#000', // #rgb or #rrggbb or array of colors
+			corners: 1, // Corner roundness (0..1)
+			direction: 1, // 1: clockwise, -1: counterclockwise
+			hwaccel: false, // Whether to use hardware acceleration
+			left: '50%', // Left position relative to parent
+			length: 5, // The length of each line
+			lines: 12, // The number of lines to draw
+			radius: 7, // The radius of the inner circle
+			rotate: 36, // The rotation offset
+			shadow: false, // Whether to render a shadow
+			speed: 1.7, // Rounds per second
+			top: '50%', // Top position relative to parent
+			trail: 64, // Afterglow percentage
+			width: 3, // The line thickness
+			zIndex: 2e9, // The z-index (defaults to 2000000000)
+		};
+		this.spinner = new spinner(opts);
+		this.$spinner = $("#ajax-spinner .spinner");
+	},
+
+	showSpinner: function() {
+		this.spinner.spin();
+		this.$spinner.hide();
+		this.$spinner.html(this.spinner.el);
+		this.$spinner.stop().fadeIn();
+	},
+
+	hideSpinner: function() {
+		var that = this;
+		this.$spinner.stop().fadeOut(function(){ that.spinner.stop(); });
+	},
 
 	managePayment: function(e) {
 		var $el = $(e.currentTarget);
