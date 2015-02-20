@@ -13,8 +13,8 @@ ul.c-meta
 		|} %>
 ul.c-meta
 	//- Location
-	|<% if(location) {
-	|	var loc = app.helpers.location.find(location);
+	|<% if(contact.location) {
+	|	var loc = app.helpers.location.find(contact.location);
 	|   if(loc && loc.name != "None") { %>
 	li
 		b Location:&nbsp;

@@ -10,7 +10,7 @@ var classified = require('../../models/classified'),
  */
 module.exports = {
 	get: function(request, response, next) {
-		return classified.getGuest(request.param("id"), request.query.auth,
+		return classified.getGuest(request.params.id, request.query.auth,
 			function(classified) {
 
 				return render(request, response, {

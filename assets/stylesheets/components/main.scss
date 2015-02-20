@@ -9,5 +9,5 @@ main {
 }
 
 @media print {
-	main { margin-top: 0; }
+	main { padding-top: 0 !important; }
 }

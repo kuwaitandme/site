@@ -24,10 +24,13 @@ body#auth-guest, body#auth-login, body#auth-signup {
 
 				&.submit {
 					border: 0;
-					border-bottom: 5px solid #27ae60;
+					// border-bottom: 5px solid #27ae60;
 					background: #2ecc71;
 					color: #FFF;
 					font-weight: 700;
+					@include single-transition(background);
+
+					&:hover { background: #27ae60; }
 				}
 			}
 		}

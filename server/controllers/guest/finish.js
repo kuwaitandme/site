@@ -10,7 +10,7 @@ var classifiedFinish = require('../classified/finish');
  */
 module.exports = {
 	get: function(request, response, next) {
-		var hash =  request.param("hash");
+		var hash =  request.params.hash;
 
 		/* Generate the response */
 		return render(request, response, {

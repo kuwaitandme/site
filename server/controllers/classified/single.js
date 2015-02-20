@@ -11,7 +11,7 @@ var classified = require('../../models/classified'),
 module.exports = {
 	get: function(request, response, next) {
 		/* Get the classified */
-		classified.get(request.param("id"), function(classified) {
+		classified.get(request.params.id, function(classified) {
 			if(!classified) return next();
 
 			/* Generate the response */

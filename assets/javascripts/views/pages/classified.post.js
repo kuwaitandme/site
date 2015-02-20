@@ -294,6 +294,7 @@ module.exports = Backbone.View.extend({
 				mapTypeControl: false,
 				mapTypeId: google.maps.MapTypeId.ROADMAP,
 				scrollwheel: false,
+				draggable: false,
 				zoom: 13,
 			}
 			that.gmap = new google.maps.Map(that.$gmap[0], mapOptions);
