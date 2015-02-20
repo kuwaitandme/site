@@ -290,8 +290,11 @@ module.exports = Backbone.View.extend({
 		function init() {
 			var myLatlng = new google.maps.LatLng(29.27985, 47.98448)
 			var mapOptions = {
+				center: myLatlng,
+				mapTypeControl: false,
+				mapTypeId: google.maps.MapTypeId.ROADMAP,
+				scrollwheel: false,
 				zoom: 13,
-				center: myLatlng
 			}
 			that.gmap = new google.maps.Map(that.$gmap[0], mapOptions);
 
@@ -312,11 +315,9 @@ module.exports = Backbone.View.extend({
 					 * it */
 					that.$gmapX.val(latLng.lat());
 					that.$gmapY.val(latLng.lng());
-					console.log(that.$gmapX.val(), that.$gmapY.val());
 			});
 		}
-
-		google.maps.event.addDomListener(window, 'load', init);
+		init();
 	},
 
 	initialize: function(obj) {

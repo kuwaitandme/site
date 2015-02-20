@@ -66,6 +66,14 @@ ol{ > li{list-style: decimal}}
 
 .blue { color: blue; }
 
+@media all {
+	.page-break	{ display: none; }
+}
+
+@media print {
+	.page-break	{ display: block; page-break-before: always; }
+}
+
 .clearfix {@include clearfix();}
 
 .seperator{

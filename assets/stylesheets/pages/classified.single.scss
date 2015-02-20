@@ -54,43 +54,28 @@ body#classified-single {
 			}
 		}
 	}
+	#map-canvas {
+		height: 400px;
+		max-height: 100%;
+		width: 100%;
+	}
 	.c-content {
 		margin: 30px auto;
-		width: 90%;
+		width: 95%;
 		padding-top: 1px;
 		margin: 0 auto;
 
 		h1 { font-size: 40px; }
-		#map-canvas {
-			height: 400px;
-			max-height: 100%;
-			width: 90%;
-			margin: 20px auto;
 
-			overflow: hidden;
-			border: 4px solid #FFF;
-
-			-webkit-border-radius: 4px;
-			-moz-border-radius: 4px;
-			-o-border-radius: 4px;
-			border-radius: 4px;
-
-			-webkit-box-shadow: 0 1px 4px rgba(0,0,0,.5);
-			-moz-box-shadow: 0 1px 4px rgba(0,0,0,.5);
-			-o-box-shadow: 0 1px 4px rgba(0,0,0,.5);
-			box-shadow: 0 1px 4px rgba(0,0,0,.5);
-		}
 		.c-meta, .c-description {
-			border-bottom: 1px solid #EEE;
+			// border-bottom: 1px solid #EEE;
 		}
 		ul.c-meta {
 			@include clearfix();
-			padding: 10px;
-			margin: 0;
 			color: #000;
 			font-size: 12px;
-			text-transform: uppercase;
-
+			margin: 0;
+			padding: 5px 0;
 			li {
 				float: left;
 
@@ -115,6 +100,7 @@ body#classified-single {
 			font-size: 16px;
 			line-height: 28px;
 			margin-bottom: 0;
+			padding-bottom: 60px;
 			min-height: 200px;
 
 			white-space: pre-wrap;       /* CSS 3 */
@@ -127,7 +113,7 @@ body#classified-single {
 	.c-gallery {
 		border-bottom: 1px solid #CCC;
 		margin: 0;
-		background: #f6f6f6;
+		background: #fcfcfc;
 		padding-top: 1px;
 		padding: 15px;
 		text-align: center;
@@ -154,6 +140,16 @@ body#classified-single {
 	.c-disclaimer {
 		font-size: 12px;
 		margin: 25px 0;
-		color: #999;
+		color: #000;
+	}
+}
+
+@media print {
+	.c-gallery {
+		border-bottom: none !important;
+		background: #FFF !important;
+	}
+	.c-action {
+		display: none !important;
 	}
 }

@@ -1,45 +1,54 @@
 h1.c-title <%= title %>
 pre.c-description <%= description %>
+
+.page-break
+
 //- Category
 ul.c-meta
 	li
+		b Categorized under:&nbsp;
 		|<% if(category) {
 		|	var cat = app.helpers.category.find(category);
-		|	print("#{__("page.csingle.cat")} ");
 		|	print(cat.parent + ", " + cat.child);
 		|} %>
 ul.c-meta
 	//- Location
-	|<% if(location &&location != "0") {
+	|<% if(location) {
 	|	var loc = app.helpers.location.find(location);
-	|	if(loc) { %>
-	li <%= loc.name %>
+	|   if(loc && loc.name != "None") { %>
+	li
+		b Location:&nbsp;
+		<%= loc.name %>
 	|<% } %>
 
 	//- Email
 	|<% } if(contact.email && contact.email.length) { %>
-	li <%= contact.email %>
+	li
+		b Email:&nbsp;
+		<%= contact.email %>
 
 	//- Phone
 	|<% } if(contact.phone && contact.phone.length) { %>
-	li <%= contact.phone %>
+	li
+		b Phone:&nbsp;
+		<%= contact.phone %>
 
 	//- Address
 	|<% } if(contact.address1 && contact.address1.length) { %>
-	li <%= contact.address1 %>; <%= contact.address2 %>
+	li
+		b Address:&nbsp;<%= contact.address1 %>; <%= contact.address2 %>
 	|<% } %>
-
-//- Google Maps
-#map-canvas
 
 //- Post print/report
 ul.c-meta
 	//- li.c-action.share
 	//- 	a(href="#") Share
 	li.c-action.print
-		a(href="javascript:window.print()") Print
+		b
+			a(href="javascript:window.print()") Print
 	li.c-action.report
-		a(href="#report-modal") Report
+		b
+			a(href="#report-modal") Report
 
 //- Disclaimer
 .c-disclaimer !{__("page.csingle.disclaimer")}

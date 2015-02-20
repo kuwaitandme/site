@@ -16,3 +16,7 @@ ul#messages {
 		&.error { color: rgba(255, 255, 255, 0.75)}
 	}
 }
+
+@media print {
+	ul#messages { display: none !important; }
+}

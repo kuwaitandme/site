@@ -59,7 +59,13 @@ module.exports = Backbone.View.extend({
 		/* Initializes the map with the latitude and longitude given */
 		function init(lat, lng) {
 			var myLatlng = new google.maps.LatLng(lat, lng);
-			var mapOptions = { zoom: 13, center: myLatlng };
+			var mapOptions = {
+				center: myLatlng,
+				mapTypeControl: false,
+				mapTypeId: google.maps.MapTypeId.ROADMAP,
+				scrollwheel: false,
+				zoom: 13,
+			};
 
 			/* Add the map */
 			that.gmap = new google.maps.Map(that.$gmap[0], mapOptions);
@@ -74,7 +80,8 @@ module.exports = Backbone.View.extend({
 		/* If there are google co-ordinates saved, load up google maps */
 		if(this.classified.meta && this.classified.meta.gmapX && this.classified.meta.gmapY) {
 			init(this.classified.meta.gmapX, this.classified.meta.gmapY);
-			google.maps.event.addDomListener(window, 'load', init);
+
+			// google.maps.event.addDomListener(window, 'load', init);
 		} else { this.$gmap.hide(); }
 	},
 
