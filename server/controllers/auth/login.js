@@ -1,4 +1,5 @@
-var mongoose = require('mongoose'),
+var flash = require('connect-flash'),
+	mongoose = require('mongoose'),
 	passport = require('passport');
 
 var	config = require('../../config'),
@@ -14,14 +15,17 @@ var	config = require('../../config'),
 module.exports = {
 	/* Display the login page */
 	get: function(request, response, next) {
-		return render(request, response, {
+		render(request, response, {
 			bodyid: 'auth-login',
 			page: 'auth/login',
 			title: response.__('title.auth.login'),
 
 			scripts: ['reCaptcha'],
 
-			data: { sitekey: config.reCaptcha.site }
+			data: {
+				sitekey: config.reCaptcha.site,
+				flashError: request.flash("error")
+			}
 		});
 	},
 
@@ -29,6 +33,7 @@ module.exports = {
 	 * user in. */
 	post: passport.authenticate('login', {
 		successRedirect: '/account/',
-		failureRedirect: '/auth/login?error=incorrect'
+		failureRedirect: '/auth/login',
+		failureFlash: true
 	})
 }

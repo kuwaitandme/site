@@ -5,11 +5,13 @@ block content
 	form(method="POST")
 		section
 			div
-				input(type="email", name="username", placeholder="email", required)
+				input(type="email", name="username", placeholder="email", required)#auth-username
 			div
-				input(type="password", name="password", placeholder="password", required)
+				input(type="password", name="password", placeholder="password", required)#auth-password
 			div
 				input(type="submit", class="submit", value="Login")
+		div
+			.g-recaptcha(data-sitekey!="#{data.sitekey}")
 		div.extra-links
 			| Is this your first time here? <a href="/auth/signup">Sign up!</a>
 		//- div.extra-links

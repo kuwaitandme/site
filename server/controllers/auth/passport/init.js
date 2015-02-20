@@ -1,6 +1,6 @@
 var login = require('./login'),
 	signup = require('./signup'),
-	User = require('../../../models/user').model;
+	users = require('../../../models/user');
 
 module.exports = function(passport){
 	/* Passport needs to be able to serialize and deserialize users to support
@@ -9,7 +9,7 @@ module.exports = function(passport){
 		done(null, user._id);
 	});
 	passport.deserializeUser(function(id, done) {
-		User.findById(id, function(err, user) {
+		users.model.findById(id, function(err, user) {
 			done(err, user);
 		});
 	});

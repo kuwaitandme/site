@@ -2,8 +2,7 @@ var bCrypt = require('bcrypt-nodejs'),
 	LocalStrategy = require('passport-local').Strategy;
 
 var	User = require('../../../models/user').model;
-	// config = require('../../../config'),
-	// reCaptcha = require('../../helpers/reCaptcha').Recaptcha;
+	reCaptcha = require('../../helpers/reCaptcha');
 
 
 /**
@@ -23,21 +22,33 @@ module.exports = function(passport) {
 		 * The main function that validates the username and password
 		 */
 		function(request, username, password, done) {
+			console.log(username, password);
 
-			/* Check in mongo if a user with username exists or not */
-			User.findOne({ 'username' :	username }, function(err, user) {
-				if (err) return done(err);
+			var captachFail = function(err, response) {
+				console.log(err, response);
+				done(null, false, { message: "captchaFail" });
+			}
 
-				/* Username does not exist or User exists but wrong
-				 * password */
-				if (!user || !isValidPassword(user, password))
-					return done(null, false, null);
+			var captachSuccess = function(err) {
+				/* Check in Mongo if a user with username exists or not */
+				User.findOne({ 'username' :	username }, function(err, user) {
+					if (err) return done(err);
+
+					/* Username does not exist or User exists but wrong
+					 * password */
+					if (!user || !isValidPassword(user, password))
+						return done(null, false, { message: "incorrect" });
 
 
-				/* User and password both match, return user from
-				 * done method which will be treated like success */
-				return done(null, user);
-			});
+					/* User and password both match, return user from
+					 * done method which will be treated like success */
+					return done(null, user);
+				});
+			}
+
+			/* Check the captcha, which then calls the function to login the
+			 * user */
+			reCaptcha.verify(request, captachSuccess, captachFail);
 		})
 	);
 }

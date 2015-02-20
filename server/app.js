@@ -4,6 +4,7 @@ var bodyParser = require('body-parser'),
 	expressSession = require('express-session'),
 	i18n = require("i18n"),
 	mongoose = require('mongoose'),
+	flash = require('connect-flash'),
 	passport = require('passport'),
 	path = require('path'),
 	redisStore = require('connect-redis')(expressSession);
@@ -49,6 +50,8 @@ app.use(expressSession({
 	secret: config.sessionSecret,
 	store: new redisStore(config.redis)
 }));
+app.use(flash());
+
 
 /* Initialize Passport User authentication */
 app.use(passport.initialize());

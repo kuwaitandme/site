@@ -1,8 +1,7 @@
 var	LocalStrategy = require('passport-local').Strategy;
 
-var	User = require('../../../models/user');
-	config = require('../../../config'),
-	reCaptcha = require('../../helpers/reCaptcha').Recaptcha;
+var	User = require('../../../models/user'),
+	reCaptcha = require('../../helpers/reCaptcha');
 
 
 /**
@@ -16,16 +15,17 @@ module.exports = function(passport) {
 
 		/* The main function that checks for the user and creates it. */
 		function(request, username, password, done) {
-			var useCaptcha = (config.reCaptcha ? true : false);
+			var captachFail = function() {
+				done(null, false, { message: "captchaFail" });
+			}
 
-			function findOrCreateUser () {
+			var captachSuccess = function() {
 				/* Find a user in Mongo with provided username */
 				User.model.findOne({'username': username}, function(err, user) {
-					console.log(err, user);
-					if (err) return done(err);
+					if (err) return done(err, false);
 
 					/* User already exists */
-					if (user) return done(null, false, null);
+					if (user) return done(null, false, { message: "signup_taken" });
 
 					/* If there is no user with that email, create the user */
 					User.create(username, password, function(err, user) {
@@ -35,24 +35,9 @@ module.exports = function(passport) {
 				});
 			}
 
-
 			/* Check the captcha, which then calls the function to create the
 			 * user */
-			if(useCaptcha && false) {
-				/* Create the reCapthca object */
-				var recaptcha = new reCaptcha(
-					config.reCaptcha.site,
-					config.reCaptcha.secret, {
-						'remoteip' : request.connection.remoteAddress,
-						'response' : request.body['g-recaptcha-response']
-					});
-
-				/* Send it to the google and create the user if successful */
-				recaptcha.verify(function (err, success) {
-					if(success) findOrCreateUser();
-					else done(null, false, null);
-				});
-			} else { findOrCreateUser(); }
-		})
-	);
+			reCaptcha.verify(request, captachSuccess, captachFail);
+		}
+	));
 }

@@ -1,3 +1,3 @@
-ClassifiedSingle = require("./classified.single");
+classifiedSingle = require("./classified.single");
 
-module.exports = ClassifiedSingle.extend({});
+module.exports = classifiedSingle.extend({});

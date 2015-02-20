@@ -159,17 +159,20 @@ Recaptcha.prototype.verify = function(callback) {
 exports.verify = function(request, captachSuccess, captachFail, enabled) {
 	if(enabled == false) return captachSuccess(request);
 
+	var captchaResponse = request.query.captcha ||
+		request.body["g-recaptcha-response"];
+
 	/* Create the reCapthca object */
 	var recaptcha = new Recaptcha(
 		config.reCaptcha.site,
 		config.reCaptcha.secret, {
 			'remoteip' : request.connection.remoteAddress,
-			'response' : request.query.captcha
+			'response' : captchaResponse
 		});
 
 	/* Send captcha to google and create the user if successful */
 	recaptcha.verify(function (err, success) {
-		if(success) captachSuccess();
-		else captachFail();
+		if(success) captachSuccess(err, success);
+		else captachFail(err, success);
 	});
 }
