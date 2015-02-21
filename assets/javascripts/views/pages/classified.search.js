@@ -96,12 +96,10 @@ module.exports = Backbone.View.extend({
 	 * Sets up the Masonry objects
 	 */
 	setupMasonry: function () {
-		// this.masonry = this.$classifiedList.masonry;
-		// console.log(this.$classifiedList.html());
 		this.$classifiedList.masonry({
 			columnWidth: 290,
 			// gutter: 0,
-			isAnimated: true,
+			// isAnimated: true,
 			itemSelector: '.classified',
 		});
 	},

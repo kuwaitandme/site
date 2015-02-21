@@ -128,15 +128,15 @@ module.exports = Backbone.View.extend({
 		switch(val) {
 			case "Free":
 				this.$priceField.val(0);
-				this.$priceField.hide();
+				this.$priceField.addClass('hide');
 				break;
 			case "Custom":
 				this.$priceField.val(null);
-				this.$priceField.show();
+				this.$priceField.removeClass('hide');
 				break;
 			case "Contact Owner":
 				this.$priceField.val(-1);
-				this.$priceField.hide();
+				this.$priceField.addClass('hide');
 				break;
 		}
 	},
@@ -192,13 +192,17 @@ module.exports = Backbone.View.extend({
 		/* Check if we selected the last option or not. If we have, then disable
 		 * the map and the address fields */
 		if(this.$locations.val() != lastVal) {
-			$("[name='address1']").removeAttr("disabled");
-			$("[name='address2']").removeAttr("disabled");
-			$("#map-overlay").hide();
+			$("[name='address1']").removeClass("hide");
+			$("[name='address2']").removeClass("hide");
+			$("#page-4").removeClass("hide");
+			$("#page-4-prev, #page-4-next").attr('href', '#page-4');
+			this.initMaps();
 		} else {
-			$("[name='address1']").attr("disabled", "");
-			$("[name='address2']").attr("disabled", "");
-			$("#map-overlay").show();
+			$("[name='address1']").addClass('hide');
+			$("[name='address2']").addClass('hide');
+			$("#page-4").addClass("hide");
+			$("#page-4-prev").attr('href', '#page-3');
+			$("#page-4-next").attr('href', '#page-5');
 		}
 	},
 
@@ -329,16 +333,21 @@ module.exports = Backbone.View.extend({
 		this.$priceField = this.$el.find('#price-field');
 		this.$priceSelector = this.$el.find("#price-selector");
 		this.$subCategory = this.$el.find("#subcat-selector");
-
+		this.$description = this.$el.find("#description");
 		this.$gmap = this.$el.find("#map-canvas");
 		this.$gmapX = this.$el.find("[name='gmapX']");
 		this.$gmapY = this.$el.find("[name='gmapY']");
 
 		/* Initialize parts of the form */
-		this.priceSelected();
+		this.render();
 		this.initCategories();
 		this.initDropzone();
 		this.initLocations();
-		this.initMaps();
+		this.$description.redactor();
+		app.views.components.smoothScroll.init();
+	},
+
+	render: function() {
+		$(".page").css("min-height", $(window).height());
 	}
 });

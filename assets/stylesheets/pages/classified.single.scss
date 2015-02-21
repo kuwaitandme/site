@@ -98,6 +98,7 @@ body#classified-single {
 		}
 		.c-description {
 			font-size: 16px;
+			@extend .font-title;
 			line-height: 28px;
 			margin-bottom: 0;
 			padding-bottom: 60px;

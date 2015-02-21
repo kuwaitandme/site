@@ -2,104 +2,145 @@ extends ../../layout.jade
 
 block content
 	form(action="", method="POST", enctype="multipart/form-data")
-		if data.guest
+		section.tab.page#page-0
+			h1 You are about to post a classified!
 			.message
 				p
-					| We are letting you post a classified as a guest. So we have to
-					| review your post before it gets published which can take upto
-					| 24 hours.
-				p
-					| You can avoid this delay, if you simply <a href="/auth/signup">
-					| signup</a> with us!
+					| Use the 'next' and 'previous' buttons below to navigate
+					| between the forms. Fields marked with a '*' are compulsary
+					| and must be filled.
+
+			if data.guest
+				.message
+					p
+						| We are letting you post a classified as a guest. So we have to
+						| review your post before it gets published which can take upto
+						| 24 hours.
+					p
+						| You can avoid this delay, if you simply <a href="/auth/signup">
+						| signup</a> with us!
+			else
+				.message
+					p
+						| This classified will be published immediately and can be edited/archived
+						| by accessing your account page.
+
+			.seperator
+			.post-nav
+				a(href="#page-1", data-scroll) Next
 
 		//- Form section for basic info
-		section.tab
-			.tab-title #{__('page.cform.title.info')}
-			.tab-content
+		section.page#page-1
+			h1 Give the content for your classified
+			.hint
+				| Here you give the title and the content for your classified. Describe your classified
+				| giving as much detail as you can!
+				br
+				| You can mention other details like the price, location, contact info in the next page.
+			//- .tab-title #{__('page.cform.title.info')}
+			input(name="title", placeholder="Your title goes here")
 
-				//- Title field
-				.hint !{__('page.cform.hint.title')} *
-				input(name="title", placeholder="#{__('page.cform.title.info')}")
-				.seperator
+			textarea#description(name='description')
+				| <p><b>Your description goes here</b></p>
+				| <p>You have a lot of options to make you classified look pretty and appealing! Choose from any of the formatting options above.</p>
+				| <p>Avoid writing contact details and the price for your classified as we will let you mention them in the next page.</p>
 
-				//- Classified type field
-				.hint !{__('page.cform.hint.type')}
-				select(name="type")
-					option(value="0", selected) #{__('page.cform.placeholder.type.offering')}
-					option(value="1") #{__('page.cform.placeholder.type.wanted')}
-				.seperator
+			.seperator
+			.post-nav
+				a(href="#page-0", data-scroll) Previous
+				| &nbsp; &middot; &nbsp;
+				a(href="#page-2", data-scroll) Next
 
-				//- Category and Sub-Category boxes
-				.hint !{__('page.cform.hint.cat')} *
-				select#cat-selector(name="parent-category", required)
-					option(data-id="-1", disabled, selected) #{__('page.cform.placeholder.category')}
-				select#subcat-selector(name="category", required, disabled)
-					option(data-id="-1", disabled, selected) #{__('page.cform.placeholder.subcategory')}
-				.seperator
+		section.page#page-2
+			h1 Details about your classified
+			.hint
+				| Here you'll mention things like the price, location, category of your classified.
+				br
+				| This will help make your classified more visible and easily searchable.
 
-				//- Price field
-				.hint !{__('page.cform.hint.price')}
-				select#price-selector(name="price-option")
-					option Free
-					option Custom
-					option Contact Owner
-				input#price-field(name="price", value=0, placeholder="#{__('page.cform.placeholder.price')}", required)
+			select#price-selector(name="price-option")
+				option(disabled, selected) The price for your classified *
+				option Free
+				option Custom
+				option Contact Owner
+			input#price-field(name="price", value=0, placeholder="Your price in KWD", required).hide
 
-			.tab-content#description-tab
-				//- Description
-				.hint !{__('page.cform.hint.desc')} *
-				textarea(name="description", placeholder="#{__('page.cform.placeholder.description')}", required)
+			select(name="type", required)
+				option(value="-1", disabled, selected) What is this classified supposed to do? *
+				option(value="0") I want it to offer something
+				option(value="1") I want it to request for something
+
+			select#cat-selector(name="parent-category", required)
+				option(data-id="-1", disabled, selected) Choose a category for your classified *
+			select#subcat-selector(name="category", required, disabled)
+				option(data-id="-1", disabled, selected) Choose a subcategory for this classified *
+
+			.seperator
+
+			input(name="email", placeholder="The email that should be displayed *", required)
+			input(name="phone", placeholder="A contact phone number (not required)")
+			select#locations(name="location", required)
+				option(value="", disabled, selected) Choose a location for your classified *
+			input#address1(name="address1", placeholder="You can write the contact address for").hide
+			input#address2(name="address2", placeholder="your classified here").hide
+
+			.seperator
+			.post-nav
+				a(href="#page-1", data-scroll) Previous
+				| &nbsp; &middot; &nbsp;
+				a(href="#page-3", data-scroll) Next
 
 		//- Form section for photos and videos
-		section.tab
-			.tab-title Photos
-			.tab-content
+		section.page#page-3
+			h1 Upload some images
 
-				//- Drag and drop container
-				.hint !{__('page.cform.hint.img')}
-				#image-upload !{__('page.cform.hint.drag-drop')}
+			//- Drag and drop container
+			.hint
+				b Get at least twice the number of views by uploading images
+				| . Upload upto 10 images with each image having a maximum size of 4 MB and a dimension of 6000x4000.
+				br
+				| Add your images here, by dragging and dropping them into the box below or by clicking on it.
 
-			.tab-content#image-tab
-				.hint Selected images get displayed over here. If you want to remove an image, simply click on it below.
-				ul#image-upload-preview
+			#image-upload
+				span.heading Drag &amp; Drop your images here
+				br
+				span or just click/tap.
 
-		//- Form section for contact information
-		section.tab
-			.tab-title #{__('page.cform.title.contact')}
-			.tab-content
+			.hint Selected images get displayed over here. If you want to remove an image, simply click on it below.
+			ul#image-upload-preview
 
-				//- Email
-				.hint !{__('page.cform.hint.email')} *
-				input(name="email", placeholder="#{__('page.cform.placeholder.email')}", required)
-				.seperator
+			.seperator
+			.post-nav
+				a(href="#page-2", data-scroll) Previous
+				| &nbsp; &middot; &nbsp;
+				a(href="#page-5", data-scroll)#page-4-next Next
 
-				//- Contact phone
-				.hint !{__('page.cform.hint.phone')}
-				input(name="phone", placeholder="#{__('page.cform.placeholder.phone')}")
-				.seperator
+		section.page#page-4.hide
+			h1 Help people navigate to you!
+			.hint
+				| Most people have a hard time finding their way to you. Show them exactly where you want to meet by&nbsp;
+				b dragging and dropping the pointer below&nbsp;
+				| to the location of your meeting point.
+			#map-canvas
+			input(name="gmapX", type="hidden")
+			input(name="gmapY", type="hidden")
 
-				//- Location selection box
-				.hint !{__('page.cform.hint.loc')} This helps us find buyers closer to you. *
-				select#locations(name="location", required)
-					option(value="", disabled, selected) #{__('page.cform.placeholder.location')}
-				.seperator
-
-				//- Address lines 1 &2
-				.hint If you want to be more specific about your address, list it down here. You must first choose a location to enable this fields.
-				input(name="address1", placeholder="address line 1", disabled)
-				input(name="address2", placeholder="address line 2", disabled)
-
-
-			.tab-content#map-tab
-				#map-overlay Choose a location to activate the map
-				#map-canvas
-				input(name="gmapX", type="hidden")
-				input(name="gmapY", type="hidden")
+			.post-nav
+				a(href="#page-3", data-scroll) Previous
+				| &nbsp; &middot; &nbsp;
+				a(href="#page-5", data-scroll) Next
 
 		//- Finally the submit button
-		section.tab
-			.tab-title That's all, You're good to go!
-
+		section.page#page-5
+			h1 That's all, You're good to go!
+			.hint
+				| Wasn't that easy? Your classified is now going to go live as soon as you click on the button below.
 			.hint !{__('page.cform.disclaimer')}
-			.margin.g-recaptcha(data-sitekey="#{data.sitekey}")
-			input.submit(type="submit", value="#{__('page.cform.placeholder.submit')}")
+
+			.g-recaptcha(data-sitekey="#{data.sitekey}")
+			.submit-container
+				input.submit(type="submit", value="#{__('page.cform.placeholder.submit')}")
+
+			.seperator
+			.post-nav
+				a(href="#page-3", data-scroll)#page-4-prev Previous
