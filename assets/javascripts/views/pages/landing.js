@@ -19,10 +19,8 @@ module.exports = Backbone.View.extend({
 		this.catMasonry.layout();
 		$list.height(0);
 
-		$list.stop().animate({ height: height }, function() {
-			setTimeout(function() {
-				that.catMasonry.layout();
-			}, 500);
+		$list.stop().transition({ height: height }, function() {
+			that.catMasonry.layout();
 		});
 	},
 
@@ -33,7 +31,7 @@ module.exports = Backbone.View.extend({
 		$el.removeClass('active');
 
 		var $list = $el.find('.cl-list');
-		$list.animate({ height: 0 });
+		$list.transition({ height: 0 });
 	},
 
 
