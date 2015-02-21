@@ -1,9 +1,12 @@
-module.exports = Backbone.View.extend({
-	initialize: function(obj) {
-		this.render();
-	},
+var classifiedFinish = require('./classified.finish');
 
+module.exports = classifiedFinish.extend({
 	render: function() {
+		var template = _.template($("#list-template").html());
+
+		var html = template(this.post);
+		$("#classified-sample").html(html);
+
 		/* Generate the QR code. The QR code will contain the link edit to the
 		 *  guest classified.
 		 */

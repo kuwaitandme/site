@@ -17,6 +17,7 @@ module.exports = Backbone.View.extend({
 
 		this.post = window.data.classified;
 		this.post.created = app.helpers.date.prettify(this.post.created);
+		this.post.price = this.formatPrice(this.post.price);
 
 		this.render();
 		this.generateSocialLinks();
@@ -27,7 +28,7 @@ module.exports = Backbone.View.extend({
 
 
 	setupSpinner: function() {
-		var spinner = app.views.components.spinner;
+		var spinner = app.libs.spinner;
 		var opts = {
 			className: 'spinner', // The CSS class to assign to the spinner
 			color: '#000', // #rgb or #rrggbb or array of colors
@@ -223,5 +224,12 @@ module.exports = Backbone.View.extend({
 
 		var html = template(this.post);
 		$("#classified-sample").html(html);
+	},
+
+	formatPrice: function(price) {
+		if(price == 0) return "Free"
+		if(price == -1) return "Contact Owner";
+		if(price) return price.toString()
+			.replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " KD";
 	}
 });

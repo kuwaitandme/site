@@ -57,7 +57,7 @@ module.exports = Backbone.View.extend({
 	},
 
 	setupSpinner: function() {
-		var spinner = app.views.components.spinner;
+		var spinner = app.libs.spinner;
 		var opts = {
 			className: 'spinner', // The CSS class to assign to the spinner
 			color: '#000', // #rgb or #rrggbb or array of colors

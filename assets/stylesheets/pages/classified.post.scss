@@ -36,7 +36,9 @@ body#classified-post #main-container {
 			color: #E74C3C;
 		}
 	}
-	.error { border-color: #E74C3C; }
+	.error {
+		border-bottom: 2px solid #E74C3C !important;
+	}
 	textarea { min-height: 200px; }
 	.submit {
 		@extend .font-title;

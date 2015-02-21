@@ -1,4 +1,8 @@
-var render = require('../helpers/render');
+var classified = require('../../models/classified'),
+	config = require('../../config'),
+	_2checkout = require('../helpers/_2checkout'),
+	render = require('../helpers/render');
+
 var classifiedFinish = require('../classified/finish');
 
 /**
@@ -10,16 +14,22 @@ var classifiedFinish = require('../classified/finish');
  */
 module.exports = {
 	get: function(request, response, next) {
-		var hash =  request.params.hash;
+		classified.get(request.params.id, function(classified) {
+			render(request, response, {
+				bodyid: 'guest-finish',
+				page: 'guest/finish',
+				title: response.__('title.guest.finish'),
+				scripts: ['_2checkout', 'qrcode'],
 
-		/* Generate the response */
-		return render(request, response, {
-			bodyid: 'guest-finish',
-			page: 'guest/finish',
-			title: response.__('title.guest.finish'),
-			scripts: ['braintree', 'qrcode'],
-
-			data: { hash: hash }
+				data: {
+					classified: classified,
+					_2checkout: {
+						sid: config._2checkout.sid,
+						publicKey: config._2checkout.publicKey
+					},
+					sitekey: config.reCaptcha.site
+				}
+			});
 		});
 	},
 

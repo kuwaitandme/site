@@ -43,10 +43,10 @@ router.post('/classified/search', controllers.classified.search.post);
 router.post('/classified/single/:id', controllers.classified.single.get);
 
 /* Guest URLs */
-router.get('/guest/edit/:hash', controllers.guest.single.get);
-router.get('/guest/finish/:hash', controllers.guest.finish.get);
+router.get('/guest/edit/:id', controllers.guest.single.get);
+router.get('/guest/finish/:id', controllers.guest.finish.get);
 router.get('/guest/post', controllers.guest.post.get);
-router.get('/guest/single/:hash', controllers.guest.single.get);
-router.post('/guest/edit/:hash', controllers.guest.single.get);
+router.get('/guest/single/:id', controllers.guest.single.get);
+router.post('/guest/edit/:id', controllers.guest.single.get);
 router.post('/guest/post', controllers.guest.post.post);
 module.exports = router;
