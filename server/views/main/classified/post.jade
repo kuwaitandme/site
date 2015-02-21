@@ -1,6 +1,7 @@
 extends ../../layout.jade
 
 block content
+	link(rel='stylesheet', href='/stylesheets/redactor.css')
 	form(action="", method="POST", enctype="multipart/form-data")
 		section.tab.page#page-0
 			h1 You are about to post a classified!
@@ -38,8 +39,7 @@ block content
 				br
 				| You can mention other details like the price, location, contact info in the next page.
 			//- .tab-title #{__('page.cform.title.info')}
-			input(name="title", placeholder="Your title goes here")
-
+			input(name="title", placeholder="Classified title", title="Choose a title for your classified. The best titles are clear, meaningful and short", required)
 			textarea#description(name='description')
 				| <p><b>Your description goes here</b></p>
 				| <p>You have a lot of options to make you classified look pretty and appealing! Choose from any of the formatting options above.</p>
@@ -49,7 +49,7 @@ block content
 			.post-nav
 				a(href="#page-0", data-scroll) Previous
 				| &nbsp; &middot; &nbsp;
-				a(href="#page-2", data-scroll) Next
+				a(href="#page-2").nav-next Next
 
 		section.page#page-2
 			h1 Details about your classified
@@ -58,37 +58,37 @@ block content
 				br
 				| This will help make your classified more visible and easily searchable.
 
-			select#price-selector(name="price-option")
+			select#price-selector(name="price-option", title="Choose a price. If you want people to contact you for a quote, choose the 'Contact Owner' option.", required)
 				option(disabled, selected) The price for your classified *
 				option Free
 				option Custom
 				option Contact Owner
 			input#price-field(name="price", value=0, placeholder="Your price in KWD", required).hide
 
-			select(name="type", required)
-				option(value="-1", disabled, selected) What is this classified supposed to do? *
-				option(value="0") I want it to offer something
-				option(value="1") I want it to request for something
+			select(name="type", required, title="If you choose 'Offering', then you are offering something. If you choose 'Wanted', then you are requesting for something.")
+				option(value="-1", disabled, selected) What kind of classified is this? *
+				option(value="0") Offering
+				option(value="1") Wanted
 
-			select#cat-selector(name="parent-category", required)
-				option(data-id="-1", disabled, selected) Choose a category for your classified *
+			select#cat-selector(name="parent-category", required, title="Choose the categories that best fit your classified")
+				option(data-id="-1", disabled, selected) Choose a category *
 			select#subcat-selector(name="category", required, disabled)
-				option(data-id="-1", disabled, selected) Choose a subcategory for this classified *
+				option(data-id="-1", disabled, selected) Choose a subcategory *
 
 			.seperator
 
-			input(name="email", placeholder="The email that should be displayed *", required)
-			input(name="phone", placeholder="A contact phone number (not required)")
-			select#locations(name="location", required)
-				option(value="", disabled, selected) Choose a location for your classified *
-			input#address1(name="address1", placeholder="You can write the contact address for").hide
-			input#address2(name="address2", placeholder="your classified here").hide
+			input(name="email", title="The email address that should be displayed on the classified", placeholder="Contact email *", required)
+			input(name="phone", title="A contact phone number (not required)", placeholder="Contact phone number")
+			select#locations(name="location", required, title="Choose the location for your classified. Click on 'None' if a location is not required.")
+				option(value="", disabled, selected) Choose a location *
+			input#address1(name="address1", title="You can write the contact address for your classified here", placeholder="Address line 1").hide
+			input#address2(name="address2", placeholder="Address line 2").hide
 
 			.seperator
 			.post-nav
 				a(href="#page-1", data-scroll) Previous
 				| &nbsp; &middot; &nbsp;
-				a(href="#page-3", data-scroll) Next
+				a(href="#page-3").nav-next Next
 
 		//- Form section for photos and videos
 		section.page#page-3
@@ -106,14 +106,13 @@ block content
 				br
 				span or just click/tap.
 
-			.hint Selected images get displayed over here. If you want to remove an image, simply click on it below.
-			ul#image-upload-preview
+			ul#image-upload-preview(title="Selected images get displayed over here. If you want to remove an image, simply click on it.")
 
 			.seperator
 			.post-nav
 				a(href="#page-2", data-scroll) Previous
 				| &nbsp; &middot; &nbsp;
-				a(href="#page-5", data-scroll)#page-4-next Next
+				a(href="#page-5").nav-next#page-4-next Next
 
 		section.page#page-4.hide
 			h1 Help people navigate to you!
@@ -128,7 +127,7 @@ block content
 			.post-nav
 				a(href="#page-3", data-scroll) Previous
 				| &nbsp; &middot; &nbsp;
-				a(href="#page-5", data-scroll) Next
+				a(href="#page-5").nav-next Next
 
 		//- Finally the submit button
 		section.page#page-5

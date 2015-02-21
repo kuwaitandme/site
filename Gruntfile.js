@@ -27,6 +27,7 @@ module.exports = function (grunt) {
 			style: {
 				files: {
 					"server/public/stylesheets/style.css" : "assets/stylesheets/style.scss",
+					"server/public/stylesheets/redactor.css" : "assets/stylesheets/redactor.scss",
 				},
 				options: { style: "compressed" },
 			},

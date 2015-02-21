@@ -5,63 +5,92 @@ module.exports = Backbone.View.extend({
 		"click .dz-preview .delete div" : "removeFile",
 		"click .submit" : "submit",
 		"click .price" : "managePayment",
+		"click .nav-next" : "validatePage",
 		"change #cat-selector" : "catSelected",
 		"change #price-selector" : "priceSelected",
 		"change #locations" : "unlockMapAndAddress"
 	},
 
+	initialize: function(obj) {
+		/* Setup our DOM variables */
+		this.$filePreview = this.$el.find("#image-upload-preview");
+		this.$parCategory = this.$el.find("#cat-selector");
+		this.$locations = this.$el.find("#locations");
+		this.$priceField = this.$el.find('#price-field');
+		this.$priceSelector = this.$el.find("#price-selector");
+		this.$subCategory = this.$el.find("#subcat-selector");
+		this.$description = this.$el.find("#description");
+		this.$gmap = this.$el.find("#map-canvas");
+		this.$gmapX = this.$el.find("[name='gmapX']");
+		this.$gmapY = this.$el.find("[name='gmapY']");
+
+		/* Initialize parts of the form */
+		this.render();
+		this.initCategories();
+		this.initDropzone();
+		this.initLocations();
+		this.$description.redactor();
+
+		app.libs.smoothScroll.init();
+	},
+
+	render: function() {
+		$(".page").css("min-height", $(window).height());
+	},
+
+
+	/**
+	 * Checks all the required fields in that particular page and prevents the
+	 * page from scrolling if any of the fields are empty.
+	 *
+	 * @param  {[type]} e [description]
+	 * @return {[type]}   [description]
+	 */
+	validatePage: function (e) {
+		e.preventDefault();
+
+		var $el = $(e.currentTarget);
+		var $parent = $el.parent().parent();
+		var $els = $parent.find("[required]");
+		var valid = true;
+
+		$els.each(function(i) {
+			var $el = $els.eq(i);
+			var val = $el.val();
+
+			$el.removeClass('error');
+			if(!val || val == '') {
+				valid = false;
+				$el.addClass('error');
+			}
+		});
+
+		if(valid) app.libs.smoothScroll.animateScroll(null, $el.attr('href'))
+	},
 
 	/**
 	 * Validates the form data and returns true, iff the form data is valid for
 	 * submission.
 	 */
-	validate: function(data) {
-		var $el;
-		var status = true;
-		var that = this;
+	validateForm: function(data) {
+		var $els = this.$el.find("[required]");
+		var valid = true;
 
-		var $description = this.$el.find("[name=description]"),
-			$email = this.$el.find("[name=email]"),
-			$location = this.$el.find("[name=location]"),
-			$phone = this.$el.find("[name=phone]"),
-			$title = this.$el.find("[name=title]");
+		$els.each(function(i) {
+			var $el = $els.eq(i);
+			var val = $el.val();
 
-		/* Shorthand function to display the error class */
-		function setError($el, validatingFn) {
-			var status = validatingFn($el);
+			$el.removeClass('error');
+			if(!val || val == '') {
+				valid = false;
+				$el.addClass('error');
+			}
+		});
 
-			if(!status) $el.addClass("error");
-			else $el.removeClass('error');
+		var $captcha = $('.g-recaptcha-response');
+		if($captcha.val().length <= 0) valid = false;
 
-			return status;
-		}
-
-		/* Shorthand function to see if a field is empty or not */
-		function isTextValid($el) { return $el.val().trim().length > 0; }
-		/* Shorthand function to see if the category is empty or not */
-		function isOptionValid($el) { return $el.val() != null; }
-
-		/* Check the title and description */
-		status &= setError($title, isTextValid);
-		status &= setError($description, isTextValid);
-
-		/* Check the email and phone */
-		// status &= setError($phone, isTextValid) ||
-		// 	setError($email, isTextValid);
-
-		/* Check the category boxes */
-		var catStatus = setError(this.$parCategory, isOptionValid) &&
-			setError(this.$subCategory, isOptionValid);
-		status &= catStatus;
-
-		/* Check if the location option has been filled out or not */
-		status &= setError($location, isOptionValid);
-
-		/* Everything else should be fine as it is. So now check our status and
-		 * hopefully it should be false if one the fields failed to validate */
-		if(!status) app.messages.shout("Some fields are required. Please fill" +
-			" the highlighted fields");
-		return status;
+		return valid;
 	},
 
 
@@ -73,7 +102,7 @@ module.exports = Backbone.View.extend({
 
 		/* Get and validate the form data */
 		var data = this.getFormData();
-		if(!this.validate(data)) return;
+		if(!this.validateForm(data)) return;
 		var that = this;
 
 		var captcha = $("#g-recaptcha-response").val();
@@ -324,30 +353,4 @@ module.exports = Backbone.View.extend({
 		}
 		init();
 	},
-
-	initialize: function(obj) {
-		/* Setup our DOM variables */
-		this.$filePreview = this.$el.find("#image-upload-preview");
-		this.$parCategory = this.$el.find("#cat-selector");
-		this.$locations = this.$el.find("#locations");
-		this.$priceField = this.$el.find('#price-field');
-		this.$priceSelector = this.$el.find("#price-selector");
-		this.$subCategory = this.$el.find("#subcat-selector");
-		this.$description = this.$el.find("#description");
-		this.$gmap = this.$el.find("#map-canvas");
-		this.$gmapX = this.$el.find("[name='gmapX']");
-		this.$gmapY = this.$el.find("[name='gmapY']");
-
-		/* Initialize parts of the form */
-		this.render();
-		this.initCategories();
-		this.initDropzone();
-		this.initLocations();
-		this.$description.redactor();
-		app.views.components.smoothScroll.init();
-	},
-
-	render: function() {
-		$(".page").css("min-height", $(window).height());
-	}
 });
