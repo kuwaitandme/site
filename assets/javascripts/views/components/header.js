@@ -1,6 +1,14 @@
 module.exports = Backbone.View.extend({
 	sliderAnimateWidth: 200,
 
+	initialize: function() {
+		this.shown = false;
+		this.$main = $("main");
+		this.$window = $(window);
+		this.$sliderNav = $("#slider-nav");
+	},
+
+
 	events: {
 		"click #grabber-hide" : "hide",
 		"click #grabber-display" : "show"
@@ -12,7 +20,7 @@ module.exports = Backbone.View.extend({
 	 */
 	hide: function() {
 		this.shown = false;
-		this.$sliderNav.stop().animate({ right: -1 * this.sliderAnimateWidth });
+		this.$sliderNav.transition({ x: 1 * this.sliderAnimateWidth });
 
 		this.expandMain();
 	},
@@ -23,7 +31,7 @@ module.exports = Backbone.View.extend({
 	 */
 	show: function() {
 		this.shown = true;
-		this.$sliderNav.stop().animate({ right: 0 });
+		this.$sliderNav.transition({ x: 0 });
 
 		this.shirnkMain();
 	},
@@ -35,11 +43,7 @@ module.exports = Backbone.View.extend({
 	expandMain: function() {
 		var width = this.$window.width();
 		var that = this;
-		this.$main.stop().animate({marginLeft: 0}, function() {
-
-			/* Remove the width style set by jQuery's animate. */
-			that.$main.css("marginLeft", "");
-		});
+		this.$main.transition({ x: 0 });
 	},
 
 
@@ -48,16 +52,7 @@ module.exports = Backbone.View.extend({
 	 */
 	shirnkMain: function() {
 		var width = this.$window.width();
-		this.$main.stop().animate({ marginLeft: -1 * this.sliderAnimateWidth});
-	},
-
-
-	initialize: function() {
-		this.shown = false;
-		this.$main = $("main");
-		this.$window = $(window);
-		this.$sliderNav = $("#slider-nav");
-
-		// this.$window.on("resize", this.hide);
+		this.$main.transition({ x: -1 * this.sliderAnimateWidth });
+		// this.$main.stop().animate({ marginLeft: });
 	}
 });

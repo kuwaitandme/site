@@ -60,7 +60,8 @@ header {
 		margin: 0;
 		padding: 0;
 		position: fixed;
-		right: -200px;
+		right: -0;
+		transform: translate(200px, 0px);
 		text-align: right;
 		top: 0;
 		width: 200px;
