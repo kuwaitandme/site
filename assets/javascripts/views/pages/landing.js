@@ -16,10 +16,14 @@ module.exports = Backbone.View.extend({
 
 		$list.css('height', 'auto')
 		var height = $list.height();
-		this.bottomMasonry.layout();
+		this.catMasonry.layout();
 		$list.height(0);
 
-		$list.stop().animate({ height: height });
+		$list.stop().animate({ height: height }, function() {
+			setTimeout(function() {
+				that.catMasonry.layout();
+			}, 500);
+		});
 	},
 
 
@@ -52,7 +56,7 @@ module.exports = Backbone.View.extend({
 	setupMasonry: function() {
 		var that = this;
 
-		this.bottomMasonry = new Masonry(this.$categoryList[0], {
+		this.catMasonry = new Masonry(this.$categoryList[0], {
 			columnWidth: 10,
 			isFitWidth: true,
 			itemSelector: '.cl-item'
