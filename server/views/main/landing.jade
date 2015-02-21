@@ -2,8 +2,14 @@ extends ../layout.jade
 
 block content
 
+	section#search-classified
+		h1.shadow Search for a classified
+		form(action="/classified/search")
+			input(type="text", name="keywords", placeholder="Keywords").search-bar
+			button(type="submit").search-button &#xf002;
+
 	section#masonry-container
-		h1 Search for a classified
+		h1 Search by category
 		ul.content
 			div.hide
 				each category in categories
@@ -12,8 +18,8 @@ block content
 							a(href="/classified/search?cat=" + child._id)= child.name
 
 	section#post-classified
-		h1 Post your free Classified now!
-		h3 it's super quick and easy
+		h1.shadow Post your free Classified now!
+		h3.shadow it's super quick and easy
 		a(href="/guest/post")
 			.post-button Create Classified
 

@@ -11,7 +11,21 @@ module.exports = {
 	get: function(request, response, next) {
 		var parameters = { };
 
-		if(request.query.cat) parameters["category"] = request.query.cat;
+		if(request.query.cat) parameters.category = request.query.cat;
+		if(request.query.keywords) {
+			var keywords = request.query.keywords.split(' ');
+			var regex = [];
+
+			for(var i=0; i<keywords.length; i++)
+				regex.push(new RegExp(keywords[i], "i"));
+
+			parameters.$or = [
+				{ title:  { $in: regex } },
+				{ description:  { $in: regex } },
+			];
+			// parameters.description = parameters.title;
+		}
+		console.log(parameters);
 
 		classified.search(parameters, function(classifieds) {
 			/* Generate the response */
@@ -28,7 +42,7 @@ module.exports = {
 
 	post: function(request, response, next) {
 		var parameters = { };
-		var page = 0;
+		var page = 1;
 
 		if(request.query.cat) parameters["category"] = request.query.cat;
 		if(request.query.page) page = request.query.page;

@@ -206,6 +206,7 @@ module.exports = {
 		if(!page) page = 1;
 
 		var query = this.model.find(parameters, {authHash: 0})
+			.sort( { created: -1 } )
 			.skip(page > 0 ? ((page - 1) * this.classifiedPerPage) : 0)
 			.limit(this.classifiedPerPage);
 
