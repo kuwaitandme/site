@@ -33,6 +33,7 @@ window.app = {
 		 * can refer to these modules by doing a 'app.modulename', since 'app'
 		 * is a global variable */
 		this.helpers = require("./helpers/exports");
+		this.libs = require("./libs/exports");
 		this.views = require("./views/exports");
 
 		this.setup();
