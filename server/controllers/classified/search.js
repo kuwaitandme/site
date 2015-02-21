@@ -23,9 +23,7 @@ module.exports = {
 				{ title:  { $in: regex } },
 				{ description:  { $in: regex } },
 			];
-			// parameters.description = parameters.title;
 		}
-		console.log(parameters);
 
 		classified.search(parameters, function(classifieds) {
 			/* Generate the response */

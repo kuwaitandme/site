@@ -35,6 +35,9 @@ module.exports = {
 			return text;
 		}
 
+		var extension = this.getExtension(filename);
+		if(!extension) return false;
+
 		return makeUniqueId(14) + "." + this.getExtension(filename);
 	},
 
@@ -76,6 +79,8 @@ module.exports = {
 				var f = files[i];
 				var newFilename = that.createUniqueFilename(f.path);
 				var uploadPath = that.uploadDir + newFilename;
+
+				if(!newFilename) continue;
 
 				/* Set this accordingly */
 				var isValid = true;

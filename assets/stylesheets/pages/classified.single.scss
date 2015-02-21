@@ -150,7 +150,6 @@ body#classified-single {
 		border-bottom: none !important;
 		background: #FFF !important;
 	}
-	.c-action {
-		display: none !important;
-	}
+	.page { min-height: 0 !important; }
+	.c-action { display: none !important; }
 }

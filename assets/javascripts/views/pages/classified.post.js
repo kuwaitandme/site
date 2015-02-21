@@ -4,7 +4,6 @@ module.exports = Backbone.View.extend({
 	events: {
 		"click .dz-preview .delete div" : "removeFile",
 		"click .submit" : "submit",
-		"click .price" : "managePayment",
 		"click .nav-next" : "validatePage",
 		"change #cat-selector" : "catSelected",
 		"change #price-selector" : "priceSelected",
@@ -19,6 +18,7 @@ module.exports = Backbone.View.extend({
 		this.$priceField = this.$el.find('#price-field');
 		this.$priceSelector = this.$el.find("#price-selector");
 		this.$subCategory = this.$el.find("#subcat-selector");
+		this.$submit = this.$el.find(".submit");
 		this.$description = this.$el.find("#description");
 		this.$gmap = this.$el.find("#map-canvas");
 		this.$gmapX = this.$el.find("[name='gmapX']");
@@ -29,6 +29,7 @@ module.exports = Backbone.View.extend({
 		this.initCategories();
 		this.initDropzone();
 		this.initLocations();
+		this.setupSpinner();
 		this.$description.redactor();
 
 		app.libs.smoothScroll.init();
@@ -87,12 +88,47 @@ module.exports = Backbone.View.extend({
 			}
 		});
 
-		var $captcha = $('.g-recaptcha-response');
+		var $captcha = $('#g-recaptcha-response');
 		if($captcha.val().length <= 0) valid = false;
 
 		return valid;
 	},
 
+
+	setupSpinner: function() {
+		var spinner = app.libs.spinner;
+		var opts = {
+			className: 'spinner', // The CSS class to assign to the spinner
+			color: '#000', // #rgb or #rrggbb or array of colors
+			corners: 1, // Corner roundness (0..1)
+			direction: 1, // 1: clockwise, -1: counterclockwise
+			hwaccel: false, // Whether to use hardware acceleration
+			left: '50%', // Left position relative to parent
+			length: 5, // The length of each line
+			lines: 12, // The number of lines to draw
+			radius: 7, // The radius of the inner circle
+			rotate: 36, // The rotation offset
+			shadow: false, // Whether to render a shadow
+			speed: 1.7, // Rounds per second
+			top: '50%', // Top position relative to parent
+			trail: 64, // Afterglow percentage
+			width: 3, // The line thickness
+			zIndex: 2e9, // The z-index (defaults to 2000000000)
+		};
+		this.spinner = new spinner(opts);
+		this.$spinner = $("#ajax-spinner .spinner");
+	},
+
+	showSpinner: function() {
+		this.spinner.spin();
+		this.$spinner.html(this.spinner.el);
+		this.$spinner.parent().show();
+	},
+
+	hideSpinner: function() {
+		this.$spinner.parent().hide();
+		this.$spinner.stop();
+	},
 
 	/**
 	 * Sends the AJAX request to the back-end
@@ -103,9 +139,14 @@ module.exports = Backbone.View.extend({
 		/* Get and validate the form data */
 		var data = this.getFormData();
 		if(!this.validateForm(data)) return;
-		var that = this;
 
+		this.$submit.hide();
+
+		/* Start submitting the form */
+		var that = this;
 		var captcha = $("#g-recaptcha-response").val();
+
+		this.showSpinner();
 
 		/* Send the AJAX request and redirect */
 		$.ajax({
@@ -127,6 +168,8 @@ module.exports = Backbone.View.extend({
 					default:
 						/* Handle errors here */
 				}
+				that.$submit.show();
+				that.hideSpinner();
 			}
 		});
 	},

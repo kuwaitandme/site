@@ -96,5 +96,6 @@ module.exports = Backbone.View.extend({
 		if(this.classified.images && this.classified.images.length > 0) $(".c-gallery").html(
 			slideshowTemplate({ images: this.classified.images }));
 		else $(".c-gallery").hide();
+		$(".page").css("min-height", $(window).height() - 100);
 	}
 });

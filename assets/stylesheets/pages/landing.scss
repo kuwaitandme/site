@@ -2,7 +2,7 @@ body#landing {
 	background: #f9f9f9;
 	background: url('/images/patterns/geometry2.png');
 
-	h1 { text-align: center; padding: 1px;}
+	h1, h3 { text-align: center; padding: 1px;}
 
 	.shadow {
 		text-shadow: 0px 4px 3px rgba(0,0,0,0.4),
@@ -13,13 +13,13 @@ body#landing {
 		background: url('/images/patterns/collage.png');
 		border-bottom: 1px solid #DDD;
 		color: #FFF;
-		padding: 1px;
+		padding: 30px;
 		padding-bottom: 60px;
 
 		form {
 			font-size: 23px;
 			font-weight: bold;
-			padding: 10px 30px;
+			padding: 40px 30px;
 			padding-right: 70px;
 			position: relative;
 

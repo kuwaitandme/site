@@ -117,7 +117,9 @@ module.exports = Backbone.View.extend({
 		_.each(classifieds, function(post) {
 			post.price = that.formatPrice(post.price);
 			post.created = app.helpers.date.prettify(post.created);
+
 			if(!post.perks) post.perks = {};
+			if(!post.title) post.title = '';
 
 			var html = that.listTemplate(post);
 
