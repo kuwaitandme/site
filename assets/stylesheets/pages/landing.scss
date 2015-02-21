@@ -141,20 +141,24 @@ body#landing {
 				}
 			}
 
-			.sprite {
-				background: url("/images/landing/giftly.png");
-
-				&.Classes { background-image: url("/images/landing/classes.png") }
-				&.Community { background-image: url("/images/landing/community.png") }
-				&.Jobs { background-image: url("/images/landing/jobs.png") }
-				&.Personal { background-image: url("/images/landing/personal.png") }
-				&.Pets { background-image: url("/images/landing/pets.png") }
-				&.Real { background-image: url("/images/landing/realestate.png") }
-				&.Rent { background-image: url("/images/landing/rent.png") }
-				&.Sale { background-image: url("/images/landing/sale.png") }
-				&.Services { background-image: url("/images/landing/services.png") }
-				&.Vehicles { background-image: url("/images/landing/vehicle.png") }
+			.sprite-cat {
+				&.Classes {background-position: 0 0;}
+				&.Community {background-position: 0 -133px;}
+				&.Jobs {background-position: 0 -266px;}
+				&.Personal {background-position: 0 -399px;}
+				&.Pets {background-position: 0 -532px;}
+				&.Real {background-position: 0 -665px;}
+				&.Rent {background-position: 0 -798px;}
+				&.Sale {background-position: 0 -931px;}
+				&.Services {background-position: 0 -1064px;}
+				&.Vehicles {background-position: 0 -1197px;}
 			}
 		}
 	}
+}
+
+.sprite-cat {
+	background-image: url(/images/cat-spritesheet.png);
+	background-repeat: repeat-x;
+	display: block;
 }
