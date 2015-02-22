@@ -2,6 +2,33 @@ var classified = require("../../models/classified"),
 	render = require('../helpers/render');
 
 /**
+ * [getQueryParameters description]
+ *
+ * @param  Object  request [description]
+ * @return Object          [description]
+ */
+var getQueryParameters = function(request) {
+	var parameters = { };
+
+	parameters.status = 1;
+	if(request.query.cat) parameters.category = request.query.cat;
+	if(request.query.keywords) {
+		var keywords = request.query.keywords.split(' ');
+		var regex = [];
+
+		for(var i=0; i<keywords.length; i++)
+			regex.push(new RegExp(keywords[i], "i"));
+
+		parameters.$or = [
+			{ title:  { $in: regex } },
+			{ description:  { $in: regex } },
+		];
+	}
+
+	return parameters;
+}
+
+/**
  * Controller for the classified search page. Searches for classifieds with
  * some search parameters passed on as GET variables.
  */
@@ -19,6 +46,7 @@ module.exports = {
 	get: function(request, response, next) {
 		var parameters = getQueryParameters(request);
 
+		console.log(parameters);
 		classified.search(parameters, function(classifieds) {
 			/* Generate the response */
 			render(request, response, {
@@ -50,31 +78,4 @@ module.exports = {
 			response.end(JSON.stringify({ classifieds: classifieds }));
 		}, page);
 	}
-}
-
-
-/**
- * [getQueryParameters description]
- *
- * @param  Object  request [description]
- * @return Object          [description]
- */
-getQueryParameters = function(request) {
-	var parameters = { };
-
-	if(request.query.cat) parameters.category = request.query.cat;
-	if(request.query.keywords) {
-		var keywords = request.query.keywords.split(' ');
-		var regex = [];
-
-		for(var i=0; i<keywords.length; i++)
-			regex.push(new RegExp(keywords[i], "i"));
-
-		parameters.$or = [
-			{ title:  { $in: regex } },
-			{ description:  { $in: regex } },
-		];
-	}
-
-	return parameters;
 }

@@ -148,8 +148,19 @@ body#classified-finish {
 	}
 	.modal-inner {
 		padding: 15px;
-		padding-top: 45px;
+		// padding-top: 45px;
 
+		#payment-errors {
+			background: #FA2A00;
+			padding: 10px;
+			display: none;
+			margin: 5px 0;
+			color: #FFF;
+
+			-webkit-border-radius: 3px;
+			-moz-border-radius: 3px;
+			border-radius: 3px;
+		}
 		.title {
 			@extend .font-title;
 			font-size: 18px;
@@ -162,16 +173,21 @@ body#classified-finish {
 			border-top: 1px solid $border-color;
 			border-left: 1px solid $border-color;
 
-			input {
-				border-right: 1px solid $border-color;
-				border-bottom: 1px solid $border-color;
+		input, select {
+				height: 43px;
 				@extend .columns;
 				@extend .medium-12;
+				background: #FFF;
+				border-bottom: 1px solid $border-color;
+				border-right: 1px solid $border-color;
 
-				&.by-three {
-					@extend .medium-4;
-				}
+				&.by-three { @extend .medium-4;}
+				&.by-two { @extend .medium-6;}
 			}
+		}
+		.order {
+			font-size: 13px;
+			padding: 15px 0;
 		}
 		.button {
 			background: #3498db;
@@ -186,7 +202,6 @@ body#classified-finish {
 			padding: 15px;
 		}
 	}
-
 	#ajax-spinner {
 		width: 100px;
 		height: 100px;
@@ -199,6 +214,12 @@ body#classified-finish {
 			float: none !important;
 			margin: 0 auto;
 		}
+	}
+	#panel-1 {display: block}
+	#panel-2 {display: none}
+	.switch {
+		#panel-2 {display: block !important}
+		#panel-1 {display: none !important}
 	}
 	@media #{$small-only} {
 		.modal-inner {

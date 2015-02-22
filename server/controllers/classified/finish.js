@@ -42,16 +42,20 @@ module.exports = {
 		if(perks[0]) price += 15;
 		if(perks[1]) price += 45;
 
+
+		console.log(request.body);
+
 		POSTdata = {
 			sellerId: config._2checkout.sid,
 			privateKey: config._2checkout.privateKey,
 			token: request.body.token,
-			perks: request.body["perks[]"],
+			// perks: request.body["perks[]"],
 			currency: 'USD',
 			total: price,
 
 			billingAddr: {
 				addrLine1: request.body['billingAddr[addrLine1]'],
+				addrLine2: request.body['billingAddr[addrLine2]'],
 				city: request.body['billingAddr[city]'],
 				country: request.body['billingAddr[country]'],
 				email: request.body['billingAddr[email]'],
@@ -66,14 +70,17 @@ module.exports = {
 		_2checkout.processTransaction(_id, POSTdata, function(err, data, transaction) {
 			if(err) return response.end(JSON.stringify({
 				data: data,
-				error: err
+				error: err,
+				transaction: transaction,
 			}));
 
-			if(perks) {
-				/* Success! Add perks to the classified */
-				if(perks[0]) classified.makeUrgent(_id);
-				// if(perks[1]) classified.promote(_id);
-			}
+			classified.makeUrgent(_id);
+
+			// if(perks) {
+			// 	/* Success! Add perks to the classified */
+			// 	if(perks[0]) classified.makeUrgent(_id);
+			// 	// if(perks[1]) classified.promote(_id);
+			// }
 
 			response.end(JSON.stringify({
 				status: 'success',

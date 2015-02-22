@@ -11,7 +11,7 @@ module.exports = Backbone.View.extend({
 	},
 
 
-	succes: function(text, title) {
+	success: function(text, title) {
 		var html = this.template({
 			text: text,
 			title: title || 'Success!',

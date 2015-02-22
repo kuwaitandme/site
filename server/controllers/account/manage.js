@@ -1,8 +1,22 @@
 var classified = require("../../models/classified"),
 	render = require('../helpers/render');
+/**
+ * [getQueryParameters description]
+ *
+ * @param  Object  request [description]
+ * @return Object          [description]
+ */
+getGuestQueryParameters = function(request) {
+	var parameters = { };
+
+	if(request.user && request.user.isAdmin) parameters.status = 0;
+	else parameters.owner = request.user._id;
+
+	return parameters;
+}
 
 
-module.exports = {
+module.exports = controller = {
 	/**
 	 * [get description]
 	 *
@@ -11,7 +25,7 @@ module.exports = {
 	 * @param  {Function} next     [description]
 	 */
 	get: function(request, response, next) {
-		var parameters = getQueryParameters(request);
+		var parameters = getGuestQueryParameters(request);
 
 		classified.search(parameters, function(classifieds) {
 			render(request, response, {
@@ -34,7 +48,7 @@ module.exports = {
 	 * @param  {Function} next     [description]
 	 */
 	post: function(request, response, next) {
-		var parameters = getQueryParameters(request);
+		var parameters = getGuestQueryParameters(request);
 		var page = 1;
 
 		if(request.query.page) page = request.query.page;
@@ -45,18 +59,3 @@ module.exports = {
 	}
 }
 
-
-/**
- * [getQueryParameters description]
- *
- * @param  Object  request [description]
- * @return Object          [description]
- */
-getQueryParameters = function(request) {
-	var parameters = { };
-
-	if(request.user.isAdmin) parameters.status = 0;
-	else parameters.owner = request.user._id;
-
-	return parameters;
-}

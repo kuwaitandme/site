@@ -44,8 +44,11 @@ module.exports = {
 	 */
 	getParam: function(name) {
 		name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+		var url = window.location.search + window.location.hash;
+
+		console.log("[\\?&]" + name + "=([^&#]*)");
 		var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
-			results = regex.exec(location.search);
+			results = regex.exec(url);
 		return results === null ? "" : decodeURIComponent(
 			results[1].replace(/\+/g, " "));
 	},

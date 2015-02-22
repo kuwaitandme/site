@@ -9,6 +9,7 @@ module.exports = controller = Backbone.View.extend({
 		// Do something with the GET parameters here..
 		// var url = document.URL;
 		// this.get = app.helpers.url.getGETstring(url);
+		this.$classifiedList = $("ul#classified-search");
 
 		this.render();
 		this.setupMasonry();
@@ -22,9 +23,7 @@ module.exports = controller = Backbone.View.extend({
 	},
 
 
-	render: function () {
-		this.$classifiedList = $("ul#classified-search");
-	},
+	render: function () {},
 
 
 	/**

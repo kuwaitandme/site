@@ -1,10 +1,10 @@
 |<%
-|  var classes = "";
-|  if(!images || images.length == 0) classes = "no-thumb ";
-|  if(obj.perks) {
-|     if(perks.urgent) classes += "perk-urgent ";
-|     if(perks.promoted) classes += "perk-promoted ";
-|  }
+|var classes = "";
+|if(!images ||images.length == 0) classes = "no-thumb ";
+|if(obj.perks) {
+|   if(perks.urgent) classes += "perk-urgent ";
+|   if(perks.promoted) classes += "perk-promoted ";
+|}
 |%>
 li.classified(class!="<%= classes %>")
 	a(href!="/classified/single/<%= _id %>")
@@ -20,8 +20,19 @@ li.classified(class!="<%= classes %>")
 					li <%= price %>
 					li <%= created %>
 					|<% if(location) {
-					|     var loc = app.helpers.location.find(location);
-					|     if(loc && loc.name != "None") { %>
+					|   var loc = app.helpers.location.find(location);
+					|   if(loc && loc.name != "None") { %>
 					li <%= loc.name %>
-					|   <% }
-					| } %>
+					| <% }
+					|} %>
+			|<%
+			| var cl="", message="";
+			| switch(status) {
+			|	case 0: cl="warn"; message="Awaiting Moderation"; break;
+			|	case 1: cl=""; message="Active"; break;
+			|	case 2: cl="error"; message="Rejected"; break;
+			|	case 3: cl="error"; message="Archived"; break;
+			|	case 4: cl="error"; message="Banned"; break;
+			| }
+			|%>
+			.c-status(class!="<%= cl %>") <%= message %>

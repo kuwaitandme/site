@@ -15,14 +15,18 @@ module.exports = {
 		transaction = new transactions.model();
 
 		transaction.classified = id;
-		transaction.perks = params.perks;
+		// transaction.perks = params.perks;
 		transaction.success = false;
 		transaction.total = params.total;
 		params.merchantOrderId = transaction._id;
 
+		console.log(params);
+
 		var tco = this.getObject();
 		tco.checkout.authorize(params, function(err, data) {
 			if(err == null) transaction.success = true;
+
+			// console.log(err);
 
 			if(data && data.responseCode == 'APPROVED') {
 				transaction.twoCheckoutTransId = data.transactionId;

@@ -11,7 +11,7 @@ module.exports = classifiedFinish.extend({
 		 *  guest classified.
 		 */
 		var url = document.URL;
-		url = url.replace("finish", "edit")
+		url = url.replace("finish", "single")
 
 		$("#qrcode").qrcode(url);
 		$("#qrlink").attr('href', url);

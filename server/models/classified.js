@@ -36,7 +36,10 @@ module.exports = classifieds = {
 		adminReason: String,
 		category: ObjectId,
 		created: Date,
-		flaggersIP: [String],
+		flags: [{
+			reason: String,
+			ip: String
+		}],
 		images: [String],
 		price: Number,
 		saleby: Number, /* 1:Owner,2:Distributer */
@@ -171,7 +174,7 @@ module.exports = classifieds = {
 	 *                   finished.
 	 */
 	get: function (id, callback) {
-		this.model.findOne({_id: id}, {authHash: 0}, function(err, result) {
+		this.model.findOne({_id: id}, function(err, result) {
 			callback(result);
 		});
 	},
@@ -273,12 +276,35 @@ module.exports = classifieds = {
 		});
 	},
 
+	flag: function (id, reason, ip) {
+		this.model.findOne({_id: id}, function(err, classified) {
+			if(err) throw err;
+
+			var spam = false;
+			for(var i=0; i<classified.flags.length; i++)
+				if(classified.flags[i].ip == ip) spam = true;
+
+			if(spam) return;
+
+			classified.flags.push({
+				ip: ip,
+				reason: reason
+			});
+
+			if(classified.flags.length > 5) classified.status = this.status.FLAGGED;
+
+			classified.save();
+		});
+	},
+
 	status: {
 		INACTIVE: 0,
 		ACTIVE: 1,
 		REJECTED: 2,
 		ARCHIVED: 3,
 		BANNED: 4,
+		FLAGGED: 5,
+		VERIFIED: 6,
 
 		archive: function (id) {
 			var that = this;

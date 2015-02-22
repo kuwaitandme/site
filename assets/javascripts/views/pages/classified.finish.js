@@ -5,6 +5,10 @@ module.exports = Backbone.View.extend({
 		"click .submit" : "makePurchase"
 	},
 
+	messages: {
+		perkpaid: 'Your perk is now activated',
+	},
+
 	perkPrices: [
 		{ price:5, toggled: false},
 		{ price:15, toggled: false}
@@ -24,6 +28,8 @@ module.exports = Backbone.View.extend({
 
 		this.spinner = new app.views.components.spinner();
 		this.spinner.show();
+
+		this.parseURL();
 	},
 
 
@@ -32,6 +38,15 @@ module.exports = Backbone.View.extend({
 
 		var html = template(this.post);
 		$("#classified-sample").html(html);
+	},
+
+
+	parseURL: function () {
+		var msg = app.messages;
+		var getParam = app.helpers.url.getParam;
+		if(getParam('error')) msg.error(this.messages[getParam('error')]);
+		if(getParam('success')) msg.success(this.messages[getParam('success')]);
+		if(getParam('warn')) msg.warn(this.messages[getParam('warn')]);
 	},
 
 
@@ -101,7 +116,8 @@ module.exports = Backbone.View.extend({
 
 			billingAddr: {
 				city: $("#ccity").val(),
-				addrLine1: $("#caddr").val(),
+				addrLine1: $("#caddr1").val(),
+				addrLine2: $("#caddr2").val(),
 				country: $("#ccountry").val(),
 				email: $("#cemail").val(),
 				name: $("#cname").val(),
@@ -134,6 +150,9 @@ module.exports = Backbone.View.extend({
 		/* Called when token creation fails. */
 		var errorCallback = function(response) {
 			console.error("Could not get a transaction token" + response.errorMsg);
+			$("#modal-purchase").removeClass('switch');
+			that.showPaymentError("Some fields are missing");
+
 			if (response.errorCode === 200) {
 				/* This error code indicates that the ajax call failed.
 				 * Recommend to retry the token request. */
@@ -153,7 +172,7 @@ module.exports = Backbone.View.extend({
 			credit.sellerId = _2checkout.sid;
 			credit.publishableKey = _2checkout.publicKey;
 
-			$("#modal-purchase .panel").toggleClass('hide');
+			$("#modal-purchase").addClass('switch');
 
 			/* Load the public key */
 			TCO.loadPubKey("sandbox", function() {
@@ -165,6 +184,9 @@ module.exports = Backbone.View.extend({
 		}
 	},
 
+	showPaymentError: function(message) {
+		$("#payment-errors").show().html(message);
+	},
 
 	/**
 	 * [sendTokenBackend description]
@@ -176,6 +198,9 @@ module.exports = Backbone.View.extend({
 			perks: [this.perkPrices[0].toggled, this.perkPrices[1].toggled],
 			token: credit.token
 		};
+		var that = this;
+
+		$("#modal-purchase").addClass('switch');
 
 		/* Perform AJAX call */
 		$.ajax({
@@ -186,6 +211,12 @@ module.exports = Backbone.View.extend({
 			success: function(response) {
 				if(response.status == "success") window.location = "#?success=perkpaid";
 				else console.error("Payment could not be processed", response);
+
+				switch(response.error) {
+					case "Authorization Failed":
+					case "Unauthorized": that.showPaymentError("Your credit details could not be authorized"); break;
+				}
+				$("#modal-purchase").removeClass('switch');
 			},
 		});
 	}

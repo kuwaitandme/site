@@ -11,7 +11,7 @@ var classified = require('../../models/classified'),
  * If the post is successfully validated, create the post and redirect to the
  * account page or else stay in the same page and display an error
  */
-module.exports = route = {
+module.exports = controller = {
 	/**
 	 * [get description]
 	 *
@@ -25,7 +25,7 @@ module.exports = route = {
 		var editable = false;
 
 		/* Update the view counter asynchronously */
-		updateViewCount(request, id);
+		controller.updateViewCount(request, id);
 
 		/* Get the classified */
 		classified.get(id, function(classified) {
@@ -34,6 +34,9 @@ module.exports = route = {
 
 			if(classified.owner == request.user._id) editable = true;
 			if(request.user.isAdmin) editable = superEditable = true;
+
+			classified.authHash = "";
+
 
 			/* Generate the response */
 			render(request, response, {
@@ -68,7 +71,6 @@ module.exports = route = {
 				"=" + message);
 		}
 
-		console.log(request.user);
 
 		/* Only logged in users should be sending POST requests to this page */
 		if(request.user) {
@@ -85,85 +87,85 @@ module.exports = route = {
 				if(!editable && !superEditable) return finish('error', 'unpriv');
 
 				/* Perform the admin action respectively */
-				performAdmin(request, editable, superEditable, finish);
+				controller.performAdmin(request, editable, superEditable, finish);
+
 			});
 		} else { finish("error", "needlogin"); }
-	}
-}
+	},
+
+	/**
+	 * Asynchronously checks the session of the user and updates the view counter
+	 * for the classified with the given id.
+	 *
+	 * @param  Object request    The request object
+	 * @param  Number id         The id of the classified for which we want to
+	 *                           update the view counter.
+	 */
+	updateViewCount: function(request, id) {
+		async.series([function(finish){
+			/* Get the views object from the session */
+			var views = request.session.views;
+			if (!views) views = request.session.views = {};
+
+			/* Check if the user has visited this classified before */
+			if(typeof views[id] === 'undefined') {
+				/* If not, then increment the session counter by 1 */
+				classified.incrementViewCounter(id);
+
+				/* Let session know that the user has visited this page */
+				views[id] = true;
+			}
+
+			/* Tell async that we are done */
+			finish(null, null);
+		}]);
+	},
 
 
-/**
- * Asynchronously checks the session of the user and updates the view counter
- * for the classified with the given id.
- *
- * @param  Object request    The request object
- * @param  Number id         The id of the classified for which we want to
- *                           update the view counter.
- */
-function updateViewCount(request, id) {
-	async.series([function(finish){
-		/* Get the views object from the session */
-		var views = request.session.views;
-		if (!views) views = request.session.views = {};
+	/**
+	 * [performAdmin description]
+	 *
+	 * @param  {[type]}   request       [description]
+	 * @param  {[type]}   editable      [description]
+	 * @param  {[type]}   superEditable [description]
+	 * @param  {Function} callback      [description]
+	 * @return {[type]}                 [description]
+	 */
+	performAdmin: function(request, editable, superEditable, callback) {
+		var id = request.params.id;
+		var reason = request.params.reason;
 
-		/* Check if the user has visited this classified before */
-		if(typeof views[id] === 'undefined') {
-			/* If not, then increment the session counter by 1 */
-			classified.incrementViewCounter(id);
+		switch(request.body.action) {
+			/* These actions can only be performed by the classified owner */
+			case 'archive':
+				classified.status.archive(id);
+				return callback("success", "archived");
 
-			/* Let session know that the user has visited this page */
-			views[id] = true;
+			case 'publish':
+				classified.status.publish(id);
+				return callback("success", "published");
+
+			/* The actions below can only be performed by an admin */
+			case 'ban':
+				if(request.user.isAdmin) {
+					classified.status.ban(id, reason || "");
+					return callback("success", "banned");
+				}
+				return callback("error", "unpriv");
+
+			case 'reject':
+				if(request.user.isAdmin) {
+					classified.status.reject(id, reason || "");
+					return callback("success", "rejected");
+				}
+				return callback("error", "unpriv");
+
+			case 'repost':
+				if(request.user.isAdmin) {
+					classified.status.repost(id);
+					return callback("success", "reposted");
+				}
+				return callback("error", "unpriv");
 		}
-
-		/* Tell async that we are done */
-		finish(null, null);
-	}]);
-};
-
-
-/**
- * [performAdmin description]
- *
- * @param  {[type]}   request       [description]
- * @param  {[type]}   editable      [description]
- * @param  {[type]}   superEditable [description]
- * @param  {Function} callback      [description]
- * @return {[type]}                 [description]
- */
-function performAdmin(request, editable, superEditable, callback) {
-	var id = request.params.id;
-	var reason = request.params.reason;
-
-	switch(request.body.action) {
-		/* These actions can only be performed by the classified owner */
-		case 'archive':
-			classified.status.archive(id);
-			return callback("success", "archived");
-
-		case 'publish':
-			classified.status.publish(id);
-			return callback("success", "published");
-
-		/* The actions below can only be performed by an admin */
-		case 'ban':
-			if(request.user.isAdmin) {
-				classified.status.ban(id, reason || "");
-				return callback("success", "banned");
-			}
-			return callback("error", "unpriv");
-
-		case 'reject':
-			if(request.user.isAdmin) {
-				classified.status.reject(id, reason || "");
-				return callback("success", "rejected");
-			}
-			return callback("error", "unpriv");
-
-		case 'repost':
-			if(request.user.isAdmin) {
-				classified.status.repost(id);
-				return callback("success", "reposted");
-			}
-			return callback("error", "unpriv");
 	}
 }

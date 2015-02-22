@@ -77,4 +77,18 @@ ul.classified-list {
 		}
 		&:hover { border-color: #BBB; }
 	}
+	.c-status {
+		@extend .font-title;
+		background: green;
+		color: #FFF;
+		padding: 5px;
+		text-align: center;
+		display: none;
+
+		&.error { background: red; }
+		&.warn { background: orange; }
+	}
+	&.show-statuses {
+		.c-status { display: block; }
+	}
 }
