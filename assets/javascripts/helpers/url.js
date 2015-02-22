@@ -61,6 +61,30 @@ module.exports = {
 
 
 	/**
+	 * Inserts the given parameter properly into the URL.
+	 *
+	 * @param  {[type]} paramName   [description]
+	 * @param  {[type]} paramValue [description]
+	 */
+	insertParam: function(paramName, paramValue) {
+		var url = window.location.href;
+
+		if (url.indexOf(paramName + "=") >= 0) {
+			var prefix = url.substring(0, url.indexOf(paramName));
+			var suffix = url.substring(url.indexOf(paramName));
+			suffix = suffix.substring(suffix.indexOf("=") + 1);
+			suffix = (suffix.indexOf("&") >= 0) ? suffix.substring(suffix.indexOf("&")) : "";
+			url = prefix + paramName + "=" + paramValue + suffix;
+		} else {
+			if (url.indexOf("?") < 0) url += "?" + paramName + "=" + paramValue;
+			else url += "&" + paramName + "=" + paramValue;
+		}
+
+		return url;
+	},
+
+
+	/**
 	 * Returns a url with the language code embedded into it
 	 */
 	href: function(url) {

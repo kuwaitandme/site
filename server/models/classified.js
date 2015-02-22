@@ -63,7 +63,7 @@ module.exports = classifieds = {
 		}
 	}),
 
-	classifiedPerPage: 30,
+	classifiedPerPage: 3,
 
 
 	/**
@@ -206,11 +206,14 @@ module.exports = classifieds = {
 	 * @param  callback    The callback function to call once the query is
 	 *                     finished.
 	 */
-	search: function(parameters, callback, page) {
+	search: function(parameters, callback, page, reverse) {
+		var sort = -1;
+
 		if(!page) page = 1;
+		if(reverse) sort = 1;
 
 		var query = this.model.find(parameters, {authHash: 0})
-			.sort( { created: -1 } )
+			.sort( { created: sort } )
 			.skip(page > 0 ? ((page - 1) * this.classifiedPerPage) : 0)
 			.limit(this.classifiedPerPage);
 

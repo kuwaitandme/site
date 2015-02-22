@@ -17,52 +17,30 @@ module.exports = Backbone.View.extend({
 
 		this.post = window.data.classified;
 		this.post.created = app.helpers.date.prettify(this.post.created);
-		this.post.price = this.formatPrice(this.post.price);
+		this.post.price = app.helpers.price.format(this.post.price);
 
 		this.render();
 		this.generateSocialLinks();
 
-		this.setupSpinner();
-		this.showSpinner();
+		this.spinner = new app.views.components.spinner();
+		this.spinner.show();
 	},
 
 
-	setupSpinner: function() {
-		var spinner = app.libs.spinner;
-		var opts = {
-			className: 'spinner', // The CSS class to assign to the spinner
-			color: '#000', // #rgb or #rrggbb or array of colors
-			corners: 1, // Corner roundness (0..1)
-			direction: 1, // 1: clockwise, -1: counterclockwise
-			hwaccel: false, // Whether to use hardware acceleration
-			left: '50%', // Left position relative to parent
-			length: 5, // The length of each line
-			lines: 12, // The number of lines to draw
-			radius: 7, // The radius of the inner circle
-			rotate: 36, // The rotation offset
-			shadow: false, // Whether to render a shadow
-			speed: 1.7, // Rounds per second
-			top: '50%', // Top position relative to parent
-			trail: 64, // Afterglow percentage
-			width: 3, // The line thickness
-			zIndex: 2e9, // The z-index (defaults to 2000000000)
-		};
-		this.spinner = new spinner(opts);
-		this.$spinner = $("#ajax-spinner .spinner");
+	render: function() {
+		var template = _.template($("#list-template").html());
+
+		var html = template(this.post);
+		$("#classified-sample").html(html);
 	},
 
-	showSpinner: function() {
-		this.spinner.spin();
-		this.$spinner.hide();
-		this.$spinner.html(this.spinner.el);
-		this.$spinner.stop().fadeIn();
-	},
 
-	hideSpinner: function() {
-		var that = this;
-		this.$spinner.stop().fadeOut(function(){ that.spinner.stop(); });
-	},
-
+	/**
+	 * [managePayment description]
+	 *
+	 * @param  {[type]} e [description]
+	 * @return {[type]}   [description]
+	 */
 	managePayment: function(e) {
 		var $el = $(e.currentTarget);
 		var type = $el.data().val;
@@ -115,12 +93,6 @@ module.exports = Backbone.View.extend({
 	 * [getCreditDetails description]
 	 */
 	getCreditDetails: function() {
-		// return {
-		// 	cc: "40000000c00000002",
-		// 	cvv: "522",
-		// 	month: "02",
-		// 	year: "12"
-		// };
 		return {
 			ccNo: $("#ccc").val(),
 			cvv: $("#cvv").val(),
@@ -216,20 +188,5 @@ module.exports = Backbone.View.extend({
 				else console.error("Payment could not be processed", response);
 			},
 		});
-	},
-
-
-	render: function() {
-		var template = _.template($("#list-template").html());
-
-		var html = template(this.post);
-		$("#classified-sample").html(html);
-	},
-
-	formatPrice: function(price) {
-		if(price == 0) return "Free"
-		if(price == -1) return "Contact Owner";
-		if(price) return price.toString()
-			.replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " KD";
 	}
 });

@@ -11,18 +11,20 @@ module.exports = Backbone.View.extend({
 	},
 
 	initialize: function(obj) {
+		var that = this;
+
 		/* Setup our DOM variables */
+		this.$description = this.$el.find("#description");
 		this.$filePreview = this.$el.find("#image-upload-preview");
-		this.$parCategory = this.$el.find("#cat-selector");
+		this.$gmap = this.$el.find("#map-canvas");
+		this.$gmapX = this.$el.find("[name='gmapX']");
+		this.$gmapY = this.$el.find("[name='gmapY']");
 		this.$locations = this.$el.find("#locations");
+		this.$parCategory = this.$el.find("#cat-selector");
 		this.$priceField = this.$el.find('#price-field');
 		this.$priceSelector = this.$el.find("#price-selector");
 		this.$subCategory = this.$el.find("#subcat-selector");
 		this.$submit = this.$el.find(".submit");
-		this.$description = this.$el.find("#description");
-		this.$gmap = this.$el.find("#map-canvas");
-		this.$gmapX = this.$el.find("[name='gmapX']");
-		this.$gmapY = this.$el.find("[name='gmapY']");
 
 		/* Initialize parts of the form */
 		this.render();
@@ -32,14 +34,16 @@ module.exports = Backbone.View.extend({
 		this.$description.redactor();
 		this.spinner = new app.views.components.spinner();
 
+		/* Enable smooth scroll */
 		app.libs.smoothScroll.init();
+
+		/* Resize the pages whenever the window resizes */
+		$(window).resize(that.render);
 	},
 
 
 	/**
 	 * [render description]
-	 *
-	 * @return {[type]} [description]
 	 */
 	render: function() {
 		$(".page").css("min-height", $(window).height());
@@ -76,7 +80,7 @@ module.exports = Backbone.View.extend({
 		});
 
 		if(valid) app.libs.smoothScroll.animateScroll(null, $el.attr('href'));
-		else this.addError($page, "Some of the fields are missing!");
+		else this.addError($parent, "Some of the fields are missing");
 	},
 
 
@@ -87,6 +91,7 @@ module.exports = Backbone.View.extend({
 	validateForm: function(data) {
 		var $els = this.$el.find("[required]");
 		var $captcha = $('#g-recaptcha-response');
+		var $parent = $captcha.parent().parent().parent();
 		var valid = true;
 
 		/* First clear off all the errors */
@@ -104,11 +109,9 @@ module.exports = Backbone.View.extend({
 		});
 
 
-		if(!valid) this.addError($captcha.parent().parent(),
-			"Please fill in the missing fields");
+		if(!valid) this.addError($parent, "Please fill in the missing fields");
 		if($captcha.val().length <= 0) {
-			this.addError($captcha.parent().parent().parent(),
-				"The captcha failed to pass");
+			this.addError($parent, "The captcha failed to pass");
 			valid = false;
 		}
 

@@ -9,7 +9,7 @@ var isAuthenticated = function (request, response, next) {
     /* As with any middleware it is quintessential to call next()
      * if the user is authenticated */
 	if (request.isAuthenticated()) return next();
-	response.redirect('/auth/login');
+	response.redirect('/auth/login?error=need_login');
 }
 
 /* Index URLs */
@@ -19,8 +19,9 @@ router.get('/terms', controllers.terms.get);
 
 /* Account URLs */
 router.get('/account/', isAuthenticated, controllers.account.index.get);
-router.get('/account/profile', isAuthenticated, controllers.account.profile.get);
 router.get('/account/manage', isAuthenticated, controllers.account.manage.get);
+router.get('/account/profile', isAuthenticated, controllers.account.profile.get);
+router.post('/account/manage', isAuthenticated, controllers.account.manage.post);
 
 /* Authentication URLs */
 router.get('/auth/guest', controllers.auth.guest.get);
@@ -49,4 +50,5 @@ router.get('/guest/post', controllers.guest.post.get);
 router.get('/guest/single/:id', controllers.guest.single.get);
 router.post('/guest/edit/:id', controllers.guest.single.get);
 router.post('/guest/post', controllers.guest.post.post);
+
 module.exports = router;

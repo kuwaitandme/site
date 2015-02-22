@@ -1,4 +1,4 @@
-module.exports = Backbone.View.extend({
+module.exports = controller = Backbone.View.extend({
 	initialize: function() {
 		var that = this;
 		this.listTemplate = _.template($("#list-template").html());
@@ -15,13 +15,37 @@ module.exports = Backbone.View.extend({
 		this.addClassifieds(window.data.classifieds);
 		this.spinner = new app.views.components.spinner();
 
+		this.fireAjaxEvent();
 		$(window).scroll(function() {
-			if ($(window).scrollTop() >= ($(document).height() - $(window).height())*0.9) {
-				that.ajaxLoadClassifieds();
-			}
+			that.fireAjaxEvent();
 		});
 	},
 
+
+	render: function () {
+		this.$classifiedList = $("ul#classified-search");
+	},
+
+
+	/**
+	 * [fireAjaxEvent description]
+	 *
+	 * @return {[type]} [description]
+	 */
+	fireAjaxEvent: function() {
+		if ($(window).scrollTop() >= ($(document).height() - $(window).height())*0.9) {
+			this.ajaxLoadClassifieds();
+		}
+	},
+
+
+
+
+	/**
+	 * [ajaxLoadClassifieds description]
+	 *
+	 * @return {[type]} [description]
+	 */
 	ajaxLoadClassifieds: function() {
 		if(this.ajaxLock || this.ajaxDisable) return;
 		var that = this;
@@ -30,8 +54,10 @@ module.exports = Backbone.View.extend({
 		this.spinner.show();
 		this.pageIndex += 1;
 
+		var url = app.helpers.url.insertParam("page", this.pageIndex);
+		console.log(url);
 		$.ajax({
-			url: document.URL + "&page=" + this.pageIndex,
+			url: url,
 			type: 'post',
 			dataType: 'json',
 			success: function (data) {
@@ -47,11 +73,19 @@ module.exports = Backbone.View.extend({
 				setTimeout(function() {
 					that.spinner.hide();
 					that.ajaxLock = false;
+
+					/* Fire the AJAX event again! */
+					that.fireAjaxEvent();
 				}, 500);
 			}
 		});
 	},
 
+
+	/**
+	 * [showClassifiedsEnd description]
+	 * @return {[type]} [description]
+	 */
 	showClassifiedsEnd: function() {
 		this.ajaxDisable = true;
 	},
@@ -70,6 +104,11 @@ module.exports = Backbone.View.extend({
 	},
 
 
+	/**
+	 * [addClassifieds description]
+	 *
+	 * @param {[type]} classifieds [description]
+	 */
 	addClassifieds: function(classifieds) {
 		var that = this;
 		var elems;
@@ -80,7 +119,7 @@ module.exports = Backbone.View.extend({
 		/* For each classified, apply the template and append it into the
 		 * container */
 		_.each(classifieds, function(post) {
-			post.price = that.formatPrice(post.price);
+			post.price = app.helpers.price.format(post.price);
 			post.created = app.helpers.date.prettify(post.created);
 
 			if(!post.perks) post.perks = {};
@@ -102,17 +141,5 @@ module.exports = Backbone.View.extend({
 			that.$classifiedList.masonry();
 		};
 		imagesLoaded(this.$classifiedList, reloadMasonry);
-	},
-
-	render: function () {
-		this.$classifiedList = $("ul#classified-search");
-		// this.$classifiedList.html("");
-	},
-
-	formatPrice: function(price) {
-		if(price == 0) return "Free"
-		if(price == -1) return "Contact Owner";
-		if(price) return price.toString()
-			.replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " KD";
 	}
 });
