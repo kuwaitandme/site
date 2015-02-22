@@ -29,12 +29,18 @@ module.exports = Backbone.View.extend({
 		this.initCategories();
 		this.initDropzone();
 		this.initLocations();
-		this.setupSpinner();
 		this.$description.redactor();
+		this.spinner = new app.views.components.spinner();
 
 		app.libs.smoothScroll.init();
 	},
 
+
+	/**
+	 * [render description]
+	 *
+	 * @return {[type]} [description]
+	 */
 	render: function() {
 		$(".page").css("min-height", $(window).height());
 	},
@@ -55,6 +61,9 @@ module.exports = Backbone.View.extend({
 		var $els = $parent.find("[required]");
 		var valid = true;
 
+		/* First clear off all the errors */
+		this.removeErrors();
+
 		$els.each(function(i) {
 			var $el = $els.eq(i);
 			var val = $el.val();
@@ -66,8 +75,10 @@ module.exports = Backbone.View.extend({
 			}
 		});
 
-		if(valid) app.libs.smoothScroll.animateScroll(null, $el.attr('href'))
+		if(valid) app.libs.smoothScroll.animateScroll(null, $el.attr('href'));
+		else this.addError($page, "Some of the fields are missing!");
 	},
+
 
 	/**
 	 * Validates the form data and returns true, iff the form data is valid for
@@ -75,7 +86,11 @@ module.exports = Backbone.View.extend({
 	 */
 	validateForm: function(data) {
 		var $els = this.$el.find("[required]");
+		var $captcha = $('#g-recaptcha-response');
 		var valid = true;
+
+		/* First clear off all the errors */
+		this.removeErrors();
 
 		$els.each(function(i) {
 			var $el = $els.eq(i);
@@ -88,47 +103,42 @@ module.exports = Backbone.View.extend({
 			}
 		});
 
-		var $captcha = $('#g-recaptcha-response');
-		if($captcha.val().length <= 0) valid = false;
+
+		if(!valid) this.addError($captcha.parent().parent(),
+			"Please fill in the missing fields");
+		if($captcha.val().length <= 0) {
+			this.addError($captcha.parent().parent().parent(),
+				"The captcha failed to pass");
+			valid = false;
+		}
 
 		return valid;
 	},
 
 
-	setupSpinner: function() {
-		var spinner = app.libs.spinner;
-		var opts = {
-			className: 'spinner', // The CSS class to assign to the spinner
-			color: '#000', // #rgb or #rrggbb or array of colors
-			corners: 1, // Corner roundness (0..1)
-			direction: 1, // 1: clockwise, -1: counterclockwise
-			hwaccel: false, // Whether to use hardware acceleration
-			left: '50%', // Left position relative to parent
-			length: 5, // The length of each line
-			lines: 12, // The number of lines to draw
-			radius: 7, // The radius of the inner circle
-			rotate: 36, // The rotation offset
-			shadow: false, // Whether to render a shadow
-			speed: 1.7, // Rounds per second
-			top: '50%', // Top position relative to parent
-			trail: 64, // Afterglow percentage
-			width: 3, // The line thickness
-			zIndex: 2e9, // The z-index (defaults to 2000000000)
-		};
-		this.spinner = new spinner(opts);
-		this.$spinner = $("#ajax-spinner .spinner");
+	/**
+	 * [addError description]
+	 *
+	 * @param {[type]} $el     [description]
+	 * @param {[type]} message [description]
+	 */
+	addError: function($el, message) {
+		$el.find("ul.error-message").append(
+			"<li>" + message + "</li>"
+		);
 	},
 
-	showSpinner: function() {
-		this.spinner.spin();
-		this.$spinner.html(this.spinner.el);
-		this.$spinner.parent().show();
+
+	/**
+	 * [removeErrors description]
+	 *
+	 * @param  {[type]} $el [description]
+	 * @return {[type]}     [description]
+	 */
+	removeErrors: function($el) {
+		this.$el.find("ul.error-message li").remove();
 	},
 
-	hideSpinner: function() {
-		this.$spinner.parent().hide();
-		this.$spinner.stop();
-	},
 
 	/**
 	 * Sends the AJAX request to the back-end
@@ -146,7 +156,7 @@ module.exports = Backbone.View.extend({
 		var that = this;
 		var captcha = $("#g-recaptcha-response").val();
 
-		this.showSpinner();
+		this.spinner.show();
 
 		/* Send the AJAX request and redirect */
 		$.ajax({
@@ -169,11 +179,10 @@ module.exports = Backbone.View.extend({
 						/* Handle errors here */
 				}
 				that.$submit.show();
-				that.hideSpinner();
+				that.spinner.hide();
 			}
 		});
 	},
-
 
 
 	/**
@@ -284,6 +293,7 @@ module.exports = Backbone.View.extend({
 	 */
 	initCategories: function() {
 		this.$subCategory.hide();
+		this.$parCategory.val(0);
 
 		var categories = window.categories;
 		for(var i=0; i<categories.length; i++) {
@@ -363,37 +373,38 @@ module.exports = Backbone.View.extend({
 	initMaps: function() {
 		var that = this;
 
-		function init() {
-			var myLatlng = new google.maps.LatLng(29.27985, 47.98448)
-			var mapOptions = {
-				center: myLatlng,
-				mapTypeControl: false,
-				mapTypeId: google.maps.MapTypeId.ROADMAP,
-				scrollwheel: false,
-				draggable: false,
-				zoom: 13,
-			}
-			that.gmap = new google.maps.Map(that.$gmap[0], mapOptions);
+		/* The default co-ordinates to which we will center the map */
+		var myLatlng = new google.maps.LatLng(29.27985, 47.98448)
 
-			that.gmarker = new google.maps.Marker({
-				draggable: true,
-				map: that.gmap,
-				position: myLatlng
-			});
+		/* Initialize the map */
+		that.gmap = new google.maps.Map(that.$gmap[0], {
+			center: myLatlng,
+			mapTypeControl: false,
+			mapTypeId: google.maps.MapTypeId.ROADMAP,
+			scrollwheel: false,
+			draggable: false,
+			zoom: 13,
+		});
 
+		/* Initialize the marker */
+		that.gmarker = new google.maps.Marker({
+			draggable: true,
+			map: that.gmap,
+			position: myLatlng
+		});
 
-			google.maps.event.addListener(that.gmarker, 'dragend',
-				function (event) {
-					/* Center the map on the position of the marker */
-					var latLng = that.gmarker.getPosition();
-					that.gmap.setCenter(latLng);
+		/* Add a listener to center the map on the marker whenever the
+		 * marker has been dragged */
+		google.maps.event.addListener(that.gmarker, 'dragend',
+			function (event) {
+				/* Center the map on the position of the marker */
+				var latLng = that.gmarker.getPosition();
+				that.gmap.setCenter(latLng);
 
-					/* Set our hidden input fields so that the backend can catch
-					 * it */
-					that.$gmapX.val(latLng.lat());
-					that.$gmapY.val(latLng.lng());
-			});
-		}
-		init();
+				/* Set our hidden input fields so that the backend can catch
+				 * it */
+				that.$gmapX.val(latLng.lat());
+				that.$gmapY.val(latLng.lng());
+		});
 	},
 });

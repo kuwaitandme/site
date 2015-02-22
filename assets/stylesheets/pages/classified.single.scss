@@ -159,7 +159,9 @@ body#classified-single {
 	.c-gallery {
 		border-bottom: none !important;
 		background: #FFF !important;
+
+		img { max-width: 45% !important; }
 	}
 	.page { min-height: 0 !important; }
-	.c-action { display: none !important; }
+	.post-nav, .c-action { display: none !important; }
 }

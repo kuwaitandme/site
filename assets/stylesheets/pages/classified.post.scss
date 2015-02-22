@@ -14,7 +14,20 @@ body#classified-post #main-container {
 		display: none;
 		margin: 0 70px;
 	}
+	ul.error-message {
+		padding: 0;
+		margin: 0;
+		li {
+			color: #FFF;
+			background: #E74C3C;
+			padding: 10px;
+			margin: 10px 0;
 
+			-webkit-border-radius: 3px;
+			-moz-border-radius: 3px;
+			border-radius: 3px;
+		}
+	}
 	.seperator { margin: 20px 0; }
 	.page {
 		padding: 20px 0;
@@ -26,7 +39,8 @@ body#classified-post #main-container {
 	#price-field, #address2, #subcat-selector { margin-top: 0; }
 
 	.submit-container, .message, h1, .g-recaptcha, .post-nav, .redactor-box,
-	#image-upload-preview, #image-upload, .hint, input, textarea, select {
+	ul.error-message li, #image-upload-preview, #image-upload, .hint, input,
+	textarea, select {
 		margin: 15px auto;
 		width: 90%;
 		display: block;

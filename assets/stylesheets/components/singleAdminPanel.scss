@@ -61,3 +61,6 @@
 		}
 	}
 }
+@media print {
+	#admin-single { display: none !important; }
+}

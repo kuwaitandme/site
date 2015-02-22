@@ -27,6 +27,8 @@ block content
 						| by accessing your account page.
 
 			.seperator
+
+			ul.error-message
 			.post-nav
 				a(href="#page-1", data-scroll) Next
 
@@ -46,10 +48,13 @@ block content
 				| <p>Avoid writing contact details and the price for your classified as we will let you mention them in the next page.</p>
 
 			.seperator
+
+			ul.error-message
 			.post-nav
 				a(href="#page-0", data-scroll) Previous
 				| &nbsp; &middot; &nbsp;
 				a(href="#page-2").nav-next Next
+
 
 		section.page#page-2
 			h1 Details about your classified
@@ -71,7 +76,7 @@ block content
 				option(value="1") Wanted
 
 			select#cat-selector(name="parent-category", required, title="Choose the categories that best fit your classified")
-				option(data-id="-1", disabled, selected) Choose a category *
+				option(value="0", data-id="-1", disabled, selected) Choose a category *
 			select#subcat-selector(name="category", required, disabled)
 				option(data-id="-1", disabled, selected) Choose a subcategory *
 
@@ -85,10 +90,13 @@ block content
 			input#address2(name="address2", placeholder="Address line 2").hide
 
 			.seperator
+
+			ul.error-message
 			.post-nav
 				a(href="#page-1", data-scroll) Previous
 				| &nbsp; &middot; &nbsp;
 				a(href="#page-3").nav-next Next
+
 
 		//- Form section for photos and videos
 		section.page#page-3
@@ -109,10 +117,13 @@ block content
 			ul#image-upload-preview(title="Selected images get displayed over here. If you want to remove an image, simply click on it.")
 
 			.seperator
+
+			ul.error-message
 			.post-nav
 				a(href="#page-2", data-scroll) Previous
 				| &nbsp; &middot; &nbsp;
 				a(href="#page-5").nav-next#page-4-next Next
+
 
 		section.page#page-4.hide
 			h1 Help people navigate to you!
@@ -124,10 +135,12 @@ block content
 			input(name="gmapX", type="hidden")
 			input(name="gmapY", type="hidden")
 
+			ul.error-message
 			.post-nav
 				a(href="#page-3", data-scroll) Previous
 				| &nbsp; &middot; &nbsp;
 				a(href="#page-5").nav-next Next
+
 
 		//- Finally the submit button
 		section.page#page-5
@@ -145,5 +158,7 @@ block content
 				input.submit(type="submit", value="#{__('page.cform.placeholder.submit')}")
 
 			.seperator
+
+			ul.error-message
 			.post-nav
 				a(href="#page-3", data-scroll)#page-4-prev Previous
