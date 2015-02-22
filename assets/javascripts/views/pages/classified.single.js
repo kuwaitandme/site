@@ -88,6 +88,10 @@ module.exports = Backbone.View.extend({
 	render: function () {
 		var slideshowTemplate = _.template($("#slideshow-template").html());
 		var singleTemplate = _.template($("#single-template").html());
+		var adminTemplate = _.template($("#admin-template").html());
+
+		/* Add the admin template */
+		// $("#admin-single").html(adminTemplate(this.classified));
 
 		/* Add the main template */
 		$(".c-content").html(singleTemplate(this.classified));

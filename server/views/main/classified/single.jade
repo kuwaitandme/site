@@ -1,6 +1,10 @@
 extends ../../layout.jade
 
 block content
+	//- Container for the admin panel
+	#admin-single
+
+	//- Container for the slideshow
 	section.c-gallery
 
 	//- Raw HTML version so that bots can crawl it's contents
@@ -11,6 +15,7 @@ block content
 	//- Google Maps
 	#map-canvas
 
+	//- Modal to report the classified
 	section.modal--show#report-modal(tabindex='-1', role='dialog', aria-labelledby='modal-label', aria-hidden='true')
 		.modal-inner
 			.title Report this classified
@@ -20,6 +25,10 @@ block content
 				input(type="submit", value="Send report")
 		a.modal-close(href='#!', title='Cancel Report', data-close='Close', data-dismiss='modal') ?
 
+
+	//- JS template for the admin panel
+	script(id="admin-template", type="text/template")
+		include ../../components/script-templates/admin-single.jade
 
 	//- JS Template for the slideshow
 	script(id="slideshow-template", type="text/template")

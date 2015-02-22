@@ -24,7 +24,7 @@ module.exports = {
 
 				data: {
 					classified: classified,
-					editable: false,
+					editable: true,
 					superEditable: false
 				}
 			});

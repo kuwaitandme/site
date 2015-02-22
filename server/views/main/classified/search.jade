@@ -7,13 +7,16 @@ block content
 		if(!data.classifieds || data.classifieds.length == 0)
 			//- There wasn't, so print a "No classifieds message"
 			.noclassifieds-title #{__('page.csearch.noclassifieds')}
+
 		else
 			//- There were classifieds, print them one by one
 			ul#classified-search.classified-list
-				//- div.hide
-				//- 	each classified in data.classifieds
-				//- 		li
-				//- 			a(href="/classified/single/#{classified._id}")= classified.title
+				div.hide
+					each classified in data.classifieds
+						li
+							a(href="/classified/single/#{classified._id}")= classified.title
+
+	//- A spinner that gets displayed during AJAX loads
 	#ajax-spinner
 		.spinner
 

@@ -1,4 +1,4 @@
-#singleAdminPanel {
+#admin-single {
 	@include clearfix();
 	background: #000;
 	color: #FFF;
@@ -13,7 +13,6 @@
 		border: none;
 		padding: 0;
 	}
-
 	.item {
 		cursor: pointer;
 		display: inline-block;
@@ -61,4 +60,4 @@
 			}
 		}
 	}
-}
+}0

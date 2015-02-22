@@ -2,6 +2,7 @@
 	h1.c-title <%= title %>
 	.c-description <%= description %>
 
+//- Page break for print-mode
 .page-break
 
 //- Category
@@ -12,6 +13,7 @@ ul.c-meta
 		|	var cat = app.helpers.category.find(category);
 		|	print(cat.parent + ", " + cat.child);
 		|} %>
+
 ul.c-meta
 	//- Location
 	|<% if(contact.location) {
