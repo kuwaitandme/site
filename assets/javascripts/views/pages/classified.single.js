@@ -7,7 +7,10 @@ module.exports = Backbone.View.extend({
 		if(this.classified.status != 3 && this.classified.status != 4) {
 			this.render();
 			this.initMaps();
+			app.libs.smoothScroll.init();
 		}
+
+		this.renderAdminbar();
 	},
 
 
@@ -38,6 +41,7 @@ module.exports = Backbone.View.extend({
 			case 2:
 				app.messages.error("This classified has been rejected by a moderator", "");
 				app.messages.error(this.classified.adminReason, "Reason:");
+				break;
 			case 3:
 				app.messages.error("This classified has been deleted by it's owner", "Archived!");
 				break;
@@ -88,10 +92,6 @@ module.exports = Backbone.View.extend({
 	render: function () {
 		var slideshowTemplate = _.template($("#slideshow-template").html());
 		var singleTemplate = _.template($("#single-template").html());
-		var adminTemplate = _.template($("#admin-template").html());
-
-		/* Add the admin template */
-		// $("#admin-single").html(adminTemplate(this.classified));
 
 		/* Add the main template */
 		$(".c-content").html(singleTemplate(this.classified));
@@ -100,6 +100,13 @@ module.exports = Backbone.View.extend({
 		if(this.classified.images && this.classified.images.length > 0) $(".c-gallery").html(
 			slideshowTemplate({ images: this.classified.images }));
 		else $(".c-gallery").hide();
-		$(".page").css("min-height", $(window).height() - 100);
+		$(".page").css("min-height", $(window).height());
+	},
+
+	renderAdminbar: function () {
+		var adminTemplate = _.template($("#admin-template").html());
+
+		/* Add the admin template */
+		$("#admin-single").html(adminTemplate(this.classified));
 	}
 });

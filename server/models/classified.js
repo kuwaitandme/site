@@ -24,7 +24,7 @@ function randomHash() {
 }
 
 
-module.exports = {
+module.exports = classifieds = {
 	model: mongoose.model('classified', {
 		description: String,
 		title: String,
@@ -42,6 +42,7 @@ module.exports = {
 		saleby: Number, /* 1:Owner,2:Distributer */
 		status: Number, /* 0:Inactive,1:Active,2:Rejected,3:Archived,4:Banned */
 		type: Number,   /* 0:Sale,1:Want */
+		views: Number,
 
 		perks: {
 			urgent: Boolean,
@@ -63,6 +64,7 @@ module.exports = {
 	}),
 
 	classifiedPerPage: 30,
+
 
 	/**
 	 * Creates a classified from the POST parameters passed from the request.
@@ -109,9 +111,9 @@ module.exports = {
 		classified.images = POSTdata.images;
 		classified.price = POSTdata.price;
 		classified.saleby = POSTdata.saleby;
-		classified.status = 0;
 		classified.title = POSTdata.title;
 		classified.type = POSTdata.type;
+		classified.views = 0;
 
 		classified.perks.urgent = false;
 		classified.perks.promote = false;
@@ -133,7 +135,9 @@ module.exports = {
 		if(user && user._id) {
 			classified.owner = user._id;
 			classified.guest = false;
+			classified.status = this.status.ACTIVE;
 		} else {
+			classified.status = this.status.INACTIVE;
 			classified.guest = true;
 		}
 
@@ -246,5 +250,87 @@ module.exports = {
 			classified.perks.promote = true;
 			classified.save();
 		});
+	},
+
+
+	/**
+	 * [incrementViewCounter description]
+	 *
+	 * @param  {[type]} id [description]
+	 * @return {[type]}    [description]
+	 */
+	incrementViewCounter: function (id) {
+		this.model.findOne({_id: id}, function(err, classified) {
+			if(err) throw err;
+
+			if(!classified.views) classified.views = 1;
+			else classified.views += 1;
+
+			classified.save();
+		});
+	},
+
+	status: {
+		INACTIVE: 0,
+		ACTIVE: 1,
+		REJECTED: 2,
+		ARCHIVED: 3,
+		BANNED: 4,
+
+		archive: function (id) {
+			var that = this;
+			classifieds.model.findOne({_id: id}, function(err, classified) {
+				if(err) throw err;
+
+				if(classified.status == that.BANNED) return;
+
+				classified.status = that.ARCHIVED;
+				classified.save();
+			});
+		},
+		ban: function (id, reason) {
+			var that = this;
+			classifieds.model.findOne({_id: id}, function(err, classified) {
+				if(err) throw err;
+
+				classified.status = that.BANNED;
+				classified.adminReason = reason;
+				classified.save();
+			});
+		},
+		repost: function (id) {
+			var that = this;
+			classifieds.model.findOne({_id: id}, function(err, classified) {
+				if(err) throw err;
+
+				if(classified.status == that.BANNED ||
+					classified.status == that.REJECTED) return;
+
+				if(classified.guest) classified.status = that.INACTIVE;
+				else classified.status = that.ACTIVE;
+
+				classified.save();
+			});
+		},
+		publish: function (id) {
+			var that = this;
+			classifieds.model.findOne({_id: id}, function(err, classified) {
+				if(err) throw err;
+
+				console.log(this);
+				classified.status = that.ACTIVE;
+				classified.save();
+			});
+		},
+		reject: function (id, reason) {
+			var that = this;
+			classifieds.model.findOne({_id: id}, function(err, classified) {
+				if(err) throw err;
+
+				classified.status = that.REJECTED;
+				classified.adminReason = reason;
+				classified.save();
+			});
+		}
 	}
 }

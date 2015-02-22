@@ -45,7 +45,7 @@ app.use(express.static(__dirname + '/public', { /*maxAge: cacheTime*/ }));
 // var RedisStore = redisStore(express);
 app.use(cookieParser());
 app.use(expressSession({
-	resave: true,
+	resave: false,
 	saveUninitialized: true,
 	secret: config.sessionSecret,
 	store: new redisStore(config.redis)

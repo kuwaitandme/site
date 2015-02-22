@@ -1,6 +1,18 @@
 body#classified-single {
 	background: #FFF;
 
+	.post-nav {
+		color: #999;
+		font-size: 12px;
+		// margin-top: 30px;
+		text-transform: uppercase;
+
+		a {
+			text-decoration: none;
+			&:hover { color: #000; }
+		}
+	}
+
 	#report-modal {
 		.title {
 			@extend .font-title;
@@ -97,12 +109,10 @@ body#classified-single {
 			a {text-decoration: none;}
 		}
 		.c-description {
-			font-size: 16px;
 			@extend .font-title;
+			font-size: 16px;
 			line-height: 28px;
-			margin-bottom: 0;
-			padding-bottom: 60px;
-			min-height: 200px;
+			padding-bottom: 20px;
 
 			white-space: pre-wrap;       /* CSS 3 */
 			white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
