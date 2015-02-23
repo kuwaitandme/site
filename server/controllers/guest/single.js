@@ -17,7 +17,6 @@ module.exports = {
 		/* Get the classified */
 		classified.get(id, function(classified) {
 
-			console.log(classified, request.query)
 			/* Display 404 page if classified is not found */
 			if(!classified) return next();
 

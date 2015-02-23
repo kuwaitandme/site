@@ -33,6 +33,7 @@ li.classified(class!="<%= classes %>")
 			|	case 2: cl="error"; message="Rejected"; break;
 			|	case 3: cl="error"; message="Archived"; break;
 			|	case 4: cl="error"; message="Banned"; break;
+			|	case 5: cl="error"; message="Flagged"; break;
 			| }
 			|%>
 			.c-status(class!="<%= cl %>") <%= message %>

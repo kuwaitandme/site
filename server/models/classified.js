@@ -276,7 +276,15 @@ module.exports = classifieds = {
 		});
 	},
 
-	flag: function (id, reason, ip) {
+
+	/**
+	 * [report description]
+	 *
+	 * @param  {[type]} id     [description]
+	 * @param  {[type]} reason [description]
+	 * @param  {[type]} ip     [description]
+	 */
+	report: function (id, reason, ip) {
 		this.model.findOne({_id: id}, function(err, classified) {
 			if(err) throw err;
 
@@ -291,7 +299,7 @@ module.exports = classifieds = {
 				reason: reason
 			});
 
-			if(classified.flags.length > 5) classified.status = this.status.FLAGGED;
+			if(classified.flags.length > 3) classified.status = this.status.FLAGGED;
 
 			classified.save();
 		});
@@ -311,7 +319,8 @@ module.exports = classifieds = {
 			classifieds.model.findOne({_id: id}, function(err, classified) {
 				if(err) throw err;
 
-				if(classified.status == that.BANNED) return;
+				if(classified.status == that.BANNED ||
+					classified.status == that.FLAGGED) return;
 
 				classified.status = that.ARCHIVED;
 				classified.save();
@@ -333,6 +342,7 @@ module.exports = classifieds = {
 				if(err) throw err;
 
 				if(classified.status == that.BANNED ||
+					classified.status == that.FLAGGED ||
 					classified.status == that.REJECTED) return;
 
 				if(classified.guest) classified.status = that.INACTIVE;

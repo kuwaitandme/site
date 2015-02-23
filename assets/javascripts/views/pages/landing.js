@@ -1,16 +1,63 @@
 module.exports = Backbone.View.extend({
-
 	events: {
-		"click .cl-title" : "openClassified"
+		"click .cl-title" : "toggleClassified"
+	},
+
+	initialize: function() {
+		this.$topClassifieds = $('#top-classifieds .content');
+		this.$categoryList = $('#masonry-container .content');
+
+		this.render();
+		this.setupMasonry();
+	},
+
+	render: function(){
+		var that = this;
+		var categories = window.categories;
+
+		var categoriesTemplate = _.template(
+			$("#list-template").html());
+		that.$categoryList.html("");
+
+		categories = app.helpers.category.appendCounters(
+			categories,
+			window.data.categoryCount
+		);
+
+		/* Render out each of the categories */
+		for(var i=0; i<categories.length; i++) {
+			var html = categoriesTemplate(categories[i]);
+			that.$categoryList.append(html);
+		}
+
+		/* Add the post counts to the classifieds */
+		that.addCounters();
 	},
 
 
-	openClassified: function(e) {
-		this.closeClassified();
-
-		var that = this;
+	/**
+	 * [toggleClassified description]
+	 *
+	 * @param  {[type]} e [description]
+	 */
+	toggleClassified: function (e) {
 		var $el = $(e.currentTarget).parent();
-		var $list = $el.find('.cl-list');
+
+		var $list = $el.find(".cl-list");
+		if($list.height() == 0) this.openClassified($el, $list);
+		else this.closeClassified();
+	},
+
+
+	/**
+	 * [openClassified description]
+	 *
+	 * @param  {[type]} $el   [description]
+	 * @param  {[type]} $list [description]
+	 */
+	openClassified: function($el, $list) {
+		var that = this;
+		this.closeClassified();
 
 		$el.addClass('active');
 
@@ -25,13 +72,18 @@ module.exports = Backbone.View.extend({
 	},
 
 
-	closeClassified: function(e) {
+	/**
+	 * [closeClassified description]
+	 */
+	closeClassified: function() {
 		var that = this;
 		var $el = $(".cl-container");
 		$el.removeClass('active');
 
 		var $list = $el.find('.cl-list');
-		$list.transition({ height: 0 });
+		$list.stop().transition({ height: 0 }, function() {
+			that.catMasonry.layout();
+		});
 	},
 
 
@@ -60,36 +112,4 @@ module.exports = Backbone.View.extend({
 			itemSelector: '.cl-item'
 		});
 	},
-
-	initialize: function() {
-		this.$topClassifieds = $('#top-classifieds .content');
-		this.$categoryList = $('#masonry-container .content');
-
-		this.render();
-		this.setupMasonry();
-	},
-
-	render: function(){
-		var that = this;
-
-		var categoriesTemplate = _.template(
-			$("#list-template").html());
-		that.$categoryList.html("");
-
-		var categories = window.categories;
-
-		categories = app.helpers.category.appendCounters(
-			categories,
-			window.data.categoryCount
-		);
-
-		for(var i=0; i<categories.length; i++) {
-			/* Render out the category */
-			var html = categoriesTemplate(categories[i]);
-			that.$categoryList.append(html);
-		}
-
-		/* Add the post counts to the classifieds */
-		that.addCounters();
-	}
 });

@@ -32,8 +32,10 @@ module.exports = controller = {
 			/* Display 404 page if classified is not found */
 			if(!classified) return next();
 
-			if(classified.owner == request.user._id) editable = true;
-			if(request.user.isAdmin) editable = superEditable = true;
+			if(request.user) {
+				if(classified.owner == request.user._id) editable = true;
+				if(request.user.isAdmin) editable = superEditable = true;
+			}
 
 			classified.authHash = "";
 
@@ -65,20 +67,29 @@ module.exports = controller = {
 	 */
 	post: function(request, response, next) {
 		var id = request.params.id;
+		var action = request.body.action;
 
 		function finish(status, message) {
-			response.redirect("/classified/single/" + id + "?" + status +
-				"=" + message);
+			if(request.user && request.user.isAdmin)
+				response.redirect("/account/manage/");
+			else
+				response.redirect("/classified/single/" + id + "?" + status +
+					"=" + message);
 		}
 
 
-		/* Only logged in users should be sending POST requests to this page */
-		if(request.user) {
+		/* Only logged in users should be sending POST requests to this page or
+		 * POST request to report a classified are allowed.
+		 */
+		if(request.user || action == "report") {
 			var superEditable = false;
 			var editable = false;
 
 			classified.get(id, function(classified) {
 				if(!classified) return finish("error", "notfound");
+
+				if(action == "report")
+					return controller.reportClassified(id, request, finish);
 
 				/* Check user privileges and give an error message if the user
 				 * doesn't have any privileges */
@@ -92,6 +103,21 @@ module.exports = controller = {
 			});
 		} else { finish("error", "needlogin"); }
 	},
+
+
+	/**
+	 * [reportClassified description]
+	 *
+	 * @param  {[type]} id      [description]
+	 * @param  {[type]} request [description]
+	 * @param  {[type]} finish  [description]
+	 */
+	reportClassified: function(id, request, finish) {
+		classified.report(id, request.body.reason,
+			request.connection.remoteAddress);
+		finish('success', 'reported');
+	},
+
 
 	/**
 	 * Asynchronously checks the session of the user and updates the view counter
@@ -133,7 +159,7 @@ module.exports = controller = {
 	 */
 	performAdmin: function(request, editable, superEditable, callback) {
 		var id = request.params.id;
-		var reason = request.params.reason;
+		var reason = request.body.reason;
 
 		switch(request.body.action) {
 			/* These actions can only be performed by the classified owner */

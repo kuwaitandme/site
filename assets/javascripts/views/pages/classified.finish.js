@@ -1,4 +1,4 @@
-module.exports = Backbone.View.extend({
+var controller = module.exports = Backbone.View.extend({
 	events: {
 		"click .enabled .active" : "managePayment",
 		"click .enabled .cancel" : "managePayment",
@@ -18,6 +18,9 @@ module.exports = Backbone.View.extend({
 		/* Save the window data */
 		this.data = window.data;
 		this.$tabPayment = this.$el.find("#tab-payment");
+		this.$paymentErrors = $("#payment-errors");
+		this.$modal = $("#modal-purchase");
+
 
 		this.post = window.data.classified;
 		this.post.created = app.helpers.date.prettify(this.post.created);
@@ -25,6 +28,7 @@ module.exports = Backbone.View.extend({
 
 		this.render();
 		this.generateSocialLinks();
+
 
 		this.spinner = new app.views.components.spinner();
 		this.spinner.show();
@@ -41,9 +45,13 @@ module.exports = Backbone.View.extend({
 	},
 
 
+	/**
+	 * [parseURL description]
+	 */
 	parseURL: function () {
 		var msg = app.messages;
 		var getParam = app.helpers.url.getParam;
+
 		if(getParam('error')) msg.error(this.messages[getParam('error')]);
 		if(getParam('success')) msg.success(this.messages[getParam('success')]);
 		if(getParam('warn')) msg.warn(this.messages[getParam('warn')]);
@@ -106,6 +114,8 @@ module.exports = Backbone.View.extend({
 
 	/**
 	 * [getCreditDetails description]
+	 *
+	 * @return {[type]} [description]
 	 */
 	getCreditDetails: function() {
 		return {
@@ -133,7 +143,6 @@ module.exports = Backbone.View.extend({
 	 * [validateCreditDetails description]
 	 */
 	validateCreditDetails: function(credit) {
-		console.log(credit);
 		return true;
 	},
 
@@ -150,7 +159,7 @@ module.exports = Backbone.View.extend({
 		/* Called when token creation fails. */
 		var errorCallback = function(response) {
 			console.error("Could not get a transaction token" + response.errorMsg);
-			$("#modal-purchase").removeClass('switch');
+			$modal.removeClass('switch');
 			that.showPaymentError("Some fields are missing");
 
 			if (response.errorCode === 200) {
@@ -172,7 +181,7 @@ module.exports = Backbone.View.extend({
 			credit.sellerId = _2checkout.sid;
 			credit.publishableKey = _2checkout.publicKey;
 
-			$("#modal-purchase").addClass('switch');
+			$modal.addClass('switch');
 
 			/* Load the public key */
 			TCO.loadPubKey("sandbox", function() {
@@ -184,12 +193,22 @@ module.exports = Backbone.View.extend({
 		}
 	},
 
+
+	/**
+	 * [showPaymentError description]
+	 *
+	 * @param  {[type]} message [description]
+	 */
 	showPaymentError: function(message) {
-		$("#payment-errors").show().html(message);
+		$paymentErrors.show().html(message);
 	},
+
 
 	/**
 	 * [sendTokenBackend description]
+	 *
+	 * @param  {[type]} credit [description]
+	 * @return {[type]}        [description]
 	 */
 	sendTokenBackend: function(credit) {
 		var data = {
@@ -200,7 +219,7 @@ module.exports = Backbone.View.extend({
 		};
 		var that = this;
 
-		$("#modal-purchase").addClass('switch');
+		$modal.addClass('switch');
 
 		/* Perform AJAX call */
 		$.ajax({
@@ -209,14 +228,14 @@ module.exports = Backbone.View.extend({
 			data: data,
 			dataType: 'json',
 			success: function(response) {
-				if(response.status == "success") window.location = "#?success=perkpaid";
-				else console.error("Payment could not be processed", response);
-
-				switch(response.error) {
-					case "Authorization Failed":
-					case "Unauthorized": that.showPaymentError("Your credit details could not be authorized"); break;
+				if(response.status == "success") {
+					window.location = "?success=perkpaid#";
+				} else {
+					console.error("Payment could not be processed", response, error);
+					that.showPaymentError("Your credit details could not be authorized");
 				}
-				$("#modal-purchase").removeClass('switch');
+
+				$modal.removeClass('switch');
 			},
 		});
 	}

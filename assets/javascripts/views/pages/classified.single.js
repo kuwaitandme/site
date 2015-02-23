@@ -1,4 +1,14 @@
 module.exports = Backbone.View.extend({
+	messages: {
+		reported: "Your report has been successfully submitted",
+		notfound: "Classified was not found",
+		needlogin: "You need to be logged in to make such requests",
+		unpriv: "You are not allowed to make such bogus requests",
+		rejected: "This classified has been rejected by a moderator",
+		banned: "This classified has been banned by a moderator",
+		archived: "This classified has been deleted",
+	},
+
 	initialize: function() {
 		this.classified = this.getClassified();
 		this.displayMessage();
@@ -29,6 +39,13 @@ module.exports = Backbone.View.extend({
 	 * Display a message based on the classified's status.
 	 */
 	displayMessage: function() {
+		/* Parse the URL and give out the appropriate message based on it. */
+		var msg = app.messages;
+		var getParam = app.helpers.url.getParam;
+		if(getParam('error')) msg.error(this.messages[getParam('error')]);
+		if(getParam('success')) msg.success(this.messages[getParam('success')]);
+		if(getParam('warn')) msg.warn(this.messages[getParam('warn')]);
+
 		if(this.classified.guest && this.classified.status == 0) {
 			app.messages.warn("This classified was posted anonymously and is yet to be reviewed");
 		} else if(!this.classified.editable && this.classified.status == 0) {
@@ -39,15 +56,18 @@ module.exports = Backbone.View.extend({
 
 		switch(this.classified.status) {
 			case 2:
-				app.messages.error("This classified has been rejected by a moderator", "");
+				app.messages.error(this.messages.rejected, "");
 				app.messages.error(this.classified.adminReason, "Reason:");
 				break;
 			case 3:
-				app.messages.error("This classified has been deleted by it's owner", "Archived!");
+				app.messages.error(this.messages.archived, "Archived!");
 				break;
 			case 4:
-				app.messages.error("This classified has been banned by an admin", "");
+				app.messages.error(this.messages.banned, "");
 				app.messages.error(this.classified.adminReason, "Reason:");
+				break;
+			case 5:
+				app.messages.error("This classified has been reported too many times and is under review", "");
 				break;
 		}
 	},

@@ -19,12 +19,29 @@ block content
 	section.modal--show#report-modal(tabindex='-1', role='dialog', aria-labelledby='modal-label', aria-hidden='true')
 		.modal-inner
 			.title Report this classified
-			form(action="#?success=reportsent", method="POST")
+			form(action="?success=reportsent#", method="POST")
 				input(type="hidden", name="action", value="report")
-				textarea(name="content", placeholder='Write your reason here')
+				textarea(name="reason", placeholder='Write your reason here')
 				input(type="submit", value="Send report")
 		a.modal-close(href='#!', title='Cancel Report', data-close='Close', data-dismiss='modal') ?
 
+	section.modal--show#ban-modal(tabindex='-1', role='dialog', aria-labelledby='modal-label', aria-hidden='true')
+		.modal-inner
+			.title Ban this classified
+			form(method="POST")
+				input(type="hidden", name="action", value="ban")
+				textarea(name="reason", placeholder='Write your reason here')
+				input(type="submit", value="Send report")
+		a.modal-close(href='#!', title='Cancel Report', data-close='Close', data-dismiss='modal') ?
+
+	section.modal--show#reject-modal(tabindex='-1', role='dialog', aria-labelledby='modal-label', aria-hidden='true')
+		.modal-inner
+			.title Reject this classified
+			form(method="POST")
+				input(type="hidden", name="action", value="reject")
+				textarea(name="reason", placeholder='Write your reason here')
+				input(type="submit", value="Send report")
+		a.modal-close(href='#!', title='Cancel Report', data-close='Close', data-dismiss='modal') ?
 
 	//- JS template for the admin panel
 	script(id="admin-template", type="text/template")

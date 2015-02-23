@@ -3,12 +3,10 @@
 form(method="POST").item
 	input(type="hidden", name="action", value="publish")
 	input(type="submit", value="Publish")
-form(method="POST").item
-	input(type="hidden", name="action", value="reject")
-	input(type="submit", value="Reject")
-form(method="POST").item
-	input(type="hidden", name="action", value="ban")
-	input(type="submit", value="Ban")
+.item
+	a(href="#reject-modal") Reject
+.item
+	a(href="#ban-modal") Ban
 | <% } %>
 form(method="POST").item
 	input(type="hidden", name="action", value="archive")
@@ -16,7 +14,6 @@ form(method="POST").item
 form(method="POST").item
 	input(type="hidden", name="action", value="repost")
 	input(type="submit", value="Re-post")
-//- form(method="GET", action="/classified/edit")
-//- 	input(type="hidden", name="action", value="edit")
-//- 	input(type="submit", value="Edit")
+//- .item
+//- 	a(href="#ban-modal") Edit
 | <% } %>

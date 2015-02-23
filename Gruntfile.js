@@ -1,5 +1,6 @@
 module.exports = function (grunt) {
 	"use strict";
+
 	/*! Load grunt modules */
 	grunt.loadNpmTasks("grunt-browserify");
 	grunt.loadNpmTasks("grunt-contrib-concat");

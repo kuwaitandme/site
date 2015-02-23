@@ -13,7 +13,7 @@ body#classified-single {
 		}
 	}
 
-	#report-modal {
+	.modal--show {
 		.title {
 			@extend .font-title;
 			padding: 20px 0;
@@ -22,7 +22,7 @@ body#classified-single {
 		}
 		input[type='submit'] {
 			@extend .font-title;
-			background: #FD8603;
+			background: #27AAE2;
 			color: #FFF;
 		}
 		textarea {

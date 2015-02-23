@@ -9,7 +9,8 @@ var classified = require("../../models/classified"),
 getGuestQueryParameters = function(request) {
 	var parameters = { };
 
-	if(request.user && request.user.isAdmin) parameters.status = 0;
+	if(request.user && request.user.isAdmin)
+		parameters.status = [classified.status.FLAGGED, classified.status.INACTIVE];
 	else parameters.owner = request.user._id;
 
 	return parameters;
