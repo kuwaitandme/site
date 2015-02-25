@@ -6,6 +6,8 @@ block content
 		input(type="hidden", name="_csrf", value="#{csrfToken}")
 		section
 			div
+				input(type="text", name="fullname", placeholder="your name", required)
+			div
 				input(type="email", name="username", placeholder="email", required)
 			div
 				input(type="password", name="password", placeholder="password", required)

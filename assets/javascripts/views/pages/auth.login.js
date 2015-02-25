@@ -26,6 +26,7 @@ module.exports = Backbone.View.extend({
 		reset_sent: 'Password reset has been sent to your email',
 		send_again: 'Your account is not activated, check your email',
 		signup_fail: 'Something went wrong while registering you',
+		signup_invalid: 'Some of the fields are invalid',
 		signup_success: 'Check your email to activate your account',
 		signup_taken: 'That account name has already been taken!'
 	}

@@ -1,4 +1,5 @@
-var mongoose = require('mongoose'),
+var flash = require('connect-flash'),
+	mongoose = require('mongoose'),
 	passport = require('passport');
 
 var	config = require('../../config'),
@@ -22,7 +23,8 @@ var controller = module.exports = {
 			scripts: ['reCaptcha'],
 
 			data: {
-				sitekey: config.reCaptcha.site
+				sitekey: config.reCaptcha.site,
+				flashError: request.flash("error")
 			}
 		});
 	},
@@ -30,7 +32,8 @@ var controller = module.exports = {
 	/* On POST request, use passport's authentication mechanism to register the
 	 * user */
 	post: passport.authenticate('signup', {
-		successRedirect: '/auth/login?success=signup_sucess',
-		failureRedirect: '/auth/signup?error=signup_fail'
+		successRedirect: '/auth/login?success=signup_success',
+		failureRedirect: '/auth/signup',
+		failureFlash: true
 	})
 }

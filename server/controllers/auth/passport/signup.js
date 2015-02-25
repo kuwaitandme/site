@@ -20,6 +20,24 @@ var controller = module.exports = function(passport) {
 			}
 
 			var captachSuccess = function() {
+				var fullname = request.body.fullname;
+				var repassword = request.body.repassword;
+
+				var reName = /^[\d\s\w]+$/;
+				var reEmail = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+				/* Check for any missing fields */
+				if(!fullname || !repassword || !password || !username)
+					return done(null, false, { message: "signup_invalid" });
+
+				/* Check for password mis-match */
+				if(password != repassword)
+					done(null, false, { message: "signup_invalid" });
+
+				/* Check for invalid characters */
+				if(!reEmail.test(username) || !reName.test(fullname))
+					done(null, false, { message: "signup_invalid" });
+
 				/* Find a user in Mongo with provided username */
 				User.model.findOne({'username': username}, function(err, user) {
 					if (err) return done(err, false);
@@ -28,7 +46,7 @@ var controller = module.exports = function(passport) {
 					if (user) return done(null, false, { message: "signup_taken" });
 
 					/* If there is no user with that email, create the user */
-					User.create(username, password, function(err, user) {
+					User.create(fullname, username, password, function(err, user) {
 						if (err) throw err;
 						done(null, user);
 					});

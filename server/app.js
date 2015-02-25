@@ -51,7 +51,12 @@ app.use(expressSession({
 	secret: config.sessionSecret,
 	store: new redisStore(config.redis)
 }));
-app.use(csrf({ cookie: true }))
+app.use(csrf())
+// app.use(function (req, res, next) {
+// 	res.cookie('XSRF-TOKEN', req.csrfToken());
+// 	res.locals.csrftoken = req.csrfToken();
+// 	next();
+// })
 app.use(flash());
 
 
