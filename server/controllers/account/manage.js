@@ -1,23 +1,8 @@
 var classified = require("../../models/classified"),
 	render = require('../helpers/render');
-/**
- * [getQueryParameters description]
- *
- * @param  Object  request [description]
- * @return Object          [description]
- */
-getGuestQueryParameters = function(request) {
-	var parameters = { };
-
-	if(request.user && request.user.isAdmin)
-		parameters.status = classified.status.INACTIVE;//[classified.status.FLAGGED, classified.status.INACTIVE];
-	else parameters.owner = request.user._id;
-
-	return parameters;
-}
 
 
-module.exports = controller = {
+var controller = module.exports = {
 	/**
 	 * [get description]
 	 *
@@ -26,7 +11,7 @@ module.exports = controller = {
 	 * @param  {Function} next     [description]
 	 */
 	get: function(request, response, next) {
-		var parameters = getGuestQueryParameters(request);
+		var parameters = controller.getQueryParameters(request);
 
 		classified.search(parameters, function(classifieds) {
 			render(request, response, {
@@ -49,7 +34,7 @@ module.exports = controller = {
 	 * @param  {Function} next     [description]
 	 */
 	post: function(request, response, next) {
-		var parameters = getGuestQueryParameters(request);
+		var parameters = controller.getQueryParameters(request);
 		var page = 1;
 
 		if(request.query.page) page = request.query.page;
@@ -57,6 +42,22 @@ module.exports = controller = {
 		classified.search(parameters, function(classifieds) {
 			response.end(JSON.stringify({ classifieds: classifieds }));
 		}, page, true);
+	},
+
+
+	/**
+	 * [getQueryParameters description]
+	 *
+	 * @param  Object  request [description]
+	 * @return Object          [description]
+	 */
+	getQueryParameters: function(request) {
+		var parameters = { };
+
+		if(request.user && request.user.isAdmin)
+			parameters.status = classified.status.INACTIVE;//[classified.status.FLAGGED, classified.status.INACTIVE];
+		else parameters.owner = request.user._id;
+
+		return parameters;
 	}
 }
-

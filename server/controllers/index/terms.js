@@ -4,7 +4,7 @@ var render = require('../helpers/render');
  * Controller for the terms and conditions page. Simply displays the 'terms and
  * conditions' view.
  */
-module.exports = {
+var controller = module.exports = {
 	get: function(request, response, next) {
 
 		/* Generate the response */

@@ -11,7 +11,7 @@ var	config = require('../../config'),
  * If registration was successful, redirect to the classified posting page so
  * that the user can start posting his/her classified.
  */
-module.exports = {
+var controller = module.exports = {
 	/* Display the signup page */
 	get: function(request, response, next) {
 		return render(request, response, {

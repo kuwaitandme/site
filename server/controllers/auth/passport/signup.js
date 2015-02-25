@@ -9,7 +9,7 @@ var	User = require('../../../models/user'),
  * first, and if not then creates the user with the user name and hashes
  * password.
  */
-module.exports = function(passport) {
+var controller = module.exports = function(passport) {
 	/* The passport strategy to create a user */
 	passport.use('signup', new LocalStrategy({ passReqToCallback : true },
 

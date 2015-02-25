@@ -3,7 +3,7 @@ var async = require('async'),
 	easyimg = require('easyimage'),
 	formidable = require('formidable');
 
-module.exports = {
+var file = module.exports = {
 	uploadDir: __dirname + '/../../public/uploads/',
 	thumbsDir: __dirname + '/../../public/uploads/thumb/',
 
@@ -53,7 +53,6 @@ module.exports = {
 	upload: function(request, callback) {
 		var ret = {};
 		var asyncTasks = [];
-		var that = this;
 
 		/* Initialize formidable */
 		var form = new formidable.IncomingForm();
@@ -77,8 +76,8 @@ module.exports = {
 
 			for(var i=0; i<files.length; i++) {
 				var f = files[i];
-				var newFilename = that.createUniqueFilename(f.path);
-				var uploadPath = that.uploadDir + newFilename;
+				var newFilename = file.createUniqueFilename(f.path);
+				var uploadPath = file.uploadDir + newFilename;
 
 				if(!newFilename) continue;
 
@@ -103,7 +102,7 @@ module.exports = {
 			 * Note that this is done asynchronously. Which is quite neat since
 			 * we don't have to wait for the files to get uploaded and can
 			 * continue to continue performing operations on the DB. */
-			that.operate(asyncTasks);
+			file.operate(asyncTasks);
 
 			/* Call the callback function with the list of uploaded files */
 			callback(ret);
@@ -123,8 +122,6 @@ module.exports = {
 	 * @param  tasks     An array of task objects defined in the above function.
 	 */
 	operate: function(tasks) {
-		var that = this;
-
 		/* Start analyzing each file and either upload or delete it */
 		asyncJob = function(task, finish) {
 			if(task.isValid) {
@@ -145,7 +142,7 @@ module.exports = {
 
 		/* Now start creating the thumbnails asynchronously */
 		asyncFinish = function() {
-			that.createThumbnails(tasks);
+			file.createThumbnails(tasks);
 		};
 
 		async.each(tasks, asyncJob, asyncFinish);
@@ -166,14 +163,12 @@ module.exports = {
 	 * @param  tasks     An array of task objects defined in the above function.
 	 */
 	createThumbnails: function(tasks) {
-		var that = this;
-
 		asyncJob = function(task, finish) {
 			if(task.isValid) {
 				/* Create the thumbnails for the image */
 				easyimg.rescrop({
 					src: task.newPath,
-					dst: that.thumbsDir + task.newFilename,
+					dst: file.thumbsDir + task.newFilename,
 					width: 350,
 					// cropwidth:150, cropheight:150,
 					x:0, y:0

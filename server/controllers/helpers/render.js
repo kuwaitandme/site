@@ -3,6 +3,7 @@ var async = require("async");
 	client = redis.createClient(null, null, { detect_buffers: true });
 
 var	category = require('../../models/category'),
+	config = require('../../config');
 	externalScripts = require('../helpers/externalScripts'),
 	location = require('../../models/location');
 
@@ -66,11 +67,12 @@ module.exports = function(request, response, args) {
 
 		return response.render("main/" + args.page, {
 			bodyid: args.bodyid,
+			csrfToken: request.csrfToken(),
 			description: args.description,
 			externalScripts: args.scripts,
+			ga: config.ga,
 			title: args.title + " | Kuwait &amp; Me",
 			user: request.user,
-			csrfToken: request.csrfToken(),
 
 			data: args.data,
 

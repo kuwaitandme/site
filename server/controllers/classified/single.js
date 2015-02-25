@@ -11,7 +11,7 @@ var classified = require('../../models/classified'),
  * If the post is successfully validated, create the post and redirect to the
  * account page or else stay in the same page and display an error
  */
-module.exports = controller = {
+var controller = module.exports = {
 	/**
 	 * [get description]
 	 *

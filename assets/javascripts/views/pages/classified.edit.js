@@ -1,6 +1,6 @@
-classified_Post = require("./classified.post");
+var classifiedPost = require("./classified.post");
 
-module.exports = classified_Post.extend({
+module.exports = classifiedPost.extend({
 	/**
 	 * Sets the category boxes to the given category
 	 */

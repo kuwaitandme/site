@@ -3,7 +3,7 @@ var render = require('../helpers/render');
 /**
  * Controller for the privacy page. Simply displays the privacy policy view.
  */
-module.exports = {
+var controller = module.exports = {
 	get: function(request, response, next) {
 
 		/* Generate the response */

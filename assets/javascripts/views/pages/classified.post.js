@@ -1,6 +1,4 @@
 module.exports = Backbone.View.extend({
-	postURL: '/classified/post',
-
 	events: {
 		"click .dz-preview .delete div" : "removeFile",
 		"click .submit" : "submit",
@@ -11,34 +9,34 @@ module.exports = Backbone.View.extend({
 	},
 
 	initialize: function(obj) {
-		var that = this;
+		window.controller = this;
 
 		/* Setup our DOM variables */
-		this.$description = this.$el.find("#description");
-		this.$filePreview = this.$el.find("#image-upload-preview");
-		this.$gmap = this.$el.find("#map-canvas");
-		this.$gmapX = this.$el.find("[name='gmapX']");
-		this.$gmapY = this.$el.find("[name='gmapY']");
-		this.$locations = this.$el.find("#locations");
-		this.$parCategory = this.$el.find("#cat-selector");
-		this.$priceField = this.$el.find('#price-field');
-		this.$priceSelector = this.$el.find("#price-selector");
-		this.$subCategory = this.$el.find("#subcat-selector");
-		this.$submit = this.$el.find(".submit");
+		controller.$description = controller.$el.find("#description");
+		controller.$filePreview = controller.$el.find("#image-upload-preview");
+		controller.$gmap = controller.$el.find("#map-canvas");
+		controller.$gmapX = controller.$el.find("[name='gmapX']");
+		controller.$gmapY = controller.$el.find("[name='gmapY']");
+		controller.$locations = controller.$el.find("#locations");
+		controller.$parCategory = controller.$el.find("#cat-selector");
+		controller.$priceField = controller.$el.find('#price-field');
+		controller.$priceSelector = controller.$el.find("#price-selector");
+		controller.$subCategory = controller.$el.find("#subcat-selector");
+		controller.$submit = controller.$el.find(".submit");
 
 		/* Initialize parts of the form */
-		this.render();
-		this.initCategories();
-		this.initDropzone();
-		this.initLocations();
-		this.$description.redactor();
-		this.spinner = new app.views.components.spinner();
+		controller.render();
+		controller.initCategories();
+		controller.initDropzone();
+		controller.initLocations();
+		controller.$description.redactor();
+		controller.spinner = new app.views.components.spinner();
 
 		/* Enable smooth scroll */
 		app.libs.smoothScroll.init();
 
 		/* Resize the pages whenever the window resizes */
-		$(window).resize(that.render);
+		$(window).resize(controller.render);
 	},
 
 
@@ -66,7 +64,7 @@ module.exports = Backbone.View.extend({
 		var valid = true;
 
 		/* First clear off all the errors */
-		this.removeErrors();
+		controller.removeErrors();
 
 		$els.each(function(i) {
 			var $el = $els.eq(i);
@@ -80,7 +78,7 @@ module.exports = Backbone.View.extend({
 		});
 
 		if(valid) app.libs.smoothScroll.animateScroll(null, $el.attr('href'));
-		else this.addError($parent, "Some of the fields are missing");
+		else controller.addError($parent, "Some of the fields are missing");
 	},
 
 
@@ -89,13 +87,13 @@ module.exports = Backbone.View.extend({
 	 * submission.
 	 */
 	validateForm: function(data) {
-		var $els = this.$el.find("[required]");
+		var $els = controller.$el.find("[required]");
 		var $captcha = $('#g-recaptcha-response');
 		var $parent = $captcha.parent().parent().parent();
 		var valid = true;
 
 		/* First clear off all the errors */
-		this.removeErrors();
+		controller.removeErrors();
 
 		$els.each(function(i) {
 			var $el = $els.eq(i);
@@ -109,9 +107,9 @@ module.exports = Backbone.View.extend({
 		});
 
 
-		if(!valid) this.addError($parent, "Please fill in the missing fields");
+		if(!valid) controller.addError($parent, "Please fill in the missing fields");
 		if($captcha.val().length <= 0) {
-			this.addError($parent, "The captcha failed to pass");
+			controller.addError($parent, "The captcha failed to pass");
 			valid = false;
 		}
 
@@ -139,7 +137,7 @@ module.exports = Backbone.View.extend({
 	 * @return {[type]}     [description]
 	 */
 	removeErrors: function($el) {
-		this.$el.find("ul.error-message li").remove();
+		controller.$el.find("ul.error-message li").remove();
 	},
 
 
@@ -150,41 +148,60 @@ module.exports = Backbone.View.extend({
 		event.preventDefault();
 
 		/* Get and validate the form data */
-		var data = this.getFormData();
-		if(!this.validateForm(data)) return;
-
-		this.$submit.hide();
+		var data = controller.getFormData();
+		// if(!controller.validateForm(data)) return;
 
 		/* Start submitting the form */
-		var that = this;
-		var captcha = $("#g-recaptcha-response").val();
+		var $captcha = $('#g-recaptcha-response');
+		var $parent = $captcha.parent().parent().parent();
 
-		this.spinner.show();
+		controller.$submit.hide();
+		controller.spinner.show();
 
 		/* Send the AJAX request and redirect */
 		$.ajax({
-			url: this.postURL + "?captcha=" + captcha,
-			type: "POST",
+			url: document.URL,
+			beforeSend: function (request) {
+				request.setRequestHeader("g-captcha", $captcha.val());
+				request.setRequestHeader("xsrf-token", window._csrf);
+            },
+			contentType: false,
 			data: data,
 			processData: false,
-			contentType: false,
+			type: "POST",
 			success: function(response) {
-				switch(response.status) {
-					case "success":
-						/* Create the finish URL */
-						var href = "/guest/finish/" + response.id;
-						if(response.authHash) href += "?authHash=" + response.authHash;
+				console.log(response);
 
-						/* Redirect to this URL */
-						window.location.href = href;
-						break;
-					default:
-						/* Handle errors here */
-				}
-				that.$submit.show();
-				that.spinner.hide();
+				switch(response.status) {
+					case "success": controller.ajaxSuccess(response); break;
+					case "notsaved": controller.addError($parent, 'The classified was not saved. Some of the fields are invalid'); break;
+					default: /* Handle errors here */
+				};
+
+				controller.$submit.show();
+				controller.spinner.hide();
+			},
+			error: function(response) {
+				controller.addError($parent, 'Something went wrong');
+				controller.$submit.show();
+				controller.spinner.hide();
 			}
 		});
+	},
+
+
+	/**
+	 *
+	 * @param  {[type]} response [description]
+	 * @return {[type]}          [description]
+	 */
+	ajaxSuccess: function(response) {
+		/* Create the finish URL */
+		var href = "/classified/finish/" + response.id;
+		if(response.authHash) href += "?authHash=" + response.authHash;
+
+		/* Redirect to this URL */
+		window.location.href = href;
 	},
 
 
@@ -197,10 +214,10 @@ module.exports = Backbone.View.extend({
 		var index = $el.parent().parent().index();
 
 		/* Remove it from the DOM */
-		this.$filePreview.find("li").eq(index).remove();
+		controller.$filePreview.find("li").eq(index).remove();
 
 		/* Remove it from the file Queue */
-		this.dropzone.files[index].status = "delete";
+		controller.dropzone.files[index].status = "delete";
 	},
 
 
@@ -208,19 +225,19 @@ module.exports = Backbone.View.extend({
 	 * Handler function to change the price boxes
 	 */
 	priceSelected: function(event) {
-		var val =  this.$priceSelector.find(":selected").val();
+		var val =  controller.$priceSelector.find(":selected").val();
 		switch(val) {
 			case "Free":
-				this.$priceField.val(0);
-				this.$priceField.addClass('hide');
+				controller.$priceField.val(0);
+				controller.$priceField.addClass('hide');
 				break;
 			case "Custom":
-				this.$priceField.val(null);
-				this.$priceField.removeClass('hide');
+				controller.$priceField.val(null);
+				controller.$priceField.removeClass('hide');
 				break;
 			case "Contact Owner":
-				this.$priceField.val(-1);
-				this.$priceField.addClass('hide');
+				controller.$priceField.val(-1);
+				controller.$priceField.addClass('hide');
 				break;
 		}
 	},
@@ -243,23 +260,23 @@ module.exports = Backbone.View.extend({
 	 * select option.
 	 */
 	catSelected: function(e) {
-		var id = this.$parCategory.find(":selected").data("id");
+		var id = controller.$parCategory.find(":selected").data("id");
 		var categories = window.categories;
 
-		this.$subCategory.show();
-		this.$subCategory.removeAttr("disabled");
+		controller.$subCategory.show();
+		controller.$subCategory.removeAttr("disabled");
 
 		for(var i=0; i<categories.length; i++)
 			if(categories[i]._id == id) {
 				var children = categories[i].children;
 
-				this.$subCategory.html(
-					this.generateOption(0, "Choose a sub-category", true)
+				controller.$subCategory.html(
+					controller.generateOption(0, "Choose a sub-category", true)
 				);
 				for(var j=0; j<children.length; j++) {
-					var html = this.generateOption(children[j]._id,
+					var html = controller.generateOption(children[j]._id,
 						children[j].name);
-					this.$subCategory.append(html);
+					controller.$subCategory.append(html);
 				}
 
 				return;
@@ -271,16 +288,16 @@ module.exports = Backbone.View.extend({
 	 * Unlocks the map and address fields.
 	 */
 	unlockMapAndAddress: function(e) {
-		var lastVal = this.$locations.find('option:last-child').val();
+		var lastVal = controller.$locations.find('option:last-child').val();
 
 		/* Check if we selected the last option or not. If we have, then disable
 		 * the map and the address fields */
-		if(this.$locations.val() != lastVal) {
+		if(controller.$locations.val() != lastVal) {
 			$("[name='address1']").removeClass("hide");
 			$("[name='address2']").removeClass("hide");
 			$("#page-4").removeClass("hide");
 			$("#page-4-prev, #page-4-next").attr('href', '#page-4');
-			this.initMaps();
+			controller.initMaps();
 		} else {
 			$("[name='address1']").addClass('hide');
 			$("[name='address2']").addClass('hide');
@@ -295,13 +312,13 @@ module.exports = Backbone.View.extend({
 	 * Initializes the categories option.
 	 */
 	initCategories: function() {
-		this.$subCategory.hide();
-		this.$parCategory.val(0);
+		controller.$subCategory.hide();
+		controller.$parCategory.val(0);
 
 		var categories = window.categories;
 		for(var i=0; i<categories.length; i++) {
-			var html = this.generateOption(categories[i]._id, categories[i].name);
-			this.$parCategory.append(html);
+			var html = controller.generateOption(categories[i]._id, categories[i].name);
+			controller.$parCategory.append(html);
 		}
 	},
 
@@ -312,8 +329,8 @@ module.exports = Backbone.View.extend({
 	initLocations: function () {
 		var locations = window.locations;
 		for(var i=0; i<locations.length; i++) {
-			var html = this.generateOption(locations[i]._id, locations[i].name);
-			this.$locations.append(html);
+			var html = controller.generateOption(locations[i]._id, locations[i].name);
+			controller.$locations.append(html);
 		}
 	},
 
@@ -325,12 +342,12 @@ module.exports = Backbone.View.extend({
 		Dropzone.autoDiscover = false;
 
 		/* Create the dropzone */
-		var $el = this.$el.find("#image-upload").eq(0).dropzone({ url: "/" });
-		this.dropzone = $el[0].dropzone;
-		this.dropzone.previewsContainer = this.$filePreview[0];
+		var $el = controller.$el.find("#image-upload").eq(0).dropzone({ url: "/" });
+		controller.dropzone = $el[0].dropzone;
+		controller.dropzone.previewsContainer = controller.$filePreview[0];
 
 		/* Setup each of the custom options for the drop-zone */
-		var options = this.dropzone.options
+		var options = controller.dropzone.options
 		options.autoProcessQueue = false;
 		options.paramName = "files";
 		options.uploadMultiple = true;
@@ -349,10 +366,10 @@ module.exports = Backbone.View.extend({
 	 * it.
 	 */
 	getFormData: function() {
-		var $form = this.$el.find("form");
+		var $form = controller.$el.find("form");
 
 		/* Get the files and perform a nice little hack on the AJAX upload */
-		var files = this.dropzone.getQueuedFiles();
+		var files = controller.dropzone.getQueuedFiles();
 		if(files.length == 0) $form.append('<input name="files[]" type="file" class="hide" />');
 
 		/* Create the form data object */
@@ -374,13 +391,11 @@ module.exports = Backbone.View.extend({
 	 * Initializes Google maps
 	 */
 	initMaps: function() {
-		var that = this;
-
 		/* The default co-ordinates to which we will center the map */
 		var myLatlng = new google.maps.LatLng(29.27985, 47.98448)
 
 		/* Initialize the map */
-		that.gmap = new google.maps.Map(that.$gmap[0], {
+		controller.gmap = new google.maps.Map(controller.$gmap[0], {
 			center: myLatlng,
 			mapTypeControl: false,
 			mapTypeId: google.maps.MapTypeId.ROADMAP,
@@ -390,24 +405,24 @@ module.exports = Backbone.View.extend({
 		});
 
 		/* Initialize the marker */
-		that.gmarker = new google.maps.Marker({
+		controller.gmarker = new google.maps.Marker({
 			draggable: true,
-			map: that.gmap,
+			map: controller.gmap,
 			position: myLatlng
 		});
 
 		/* Add a listener to center the map on the marker whenever the
 		 * marker has been dragged */
-		google.maps.event.addListener(that.gmarker, 'dragend',
+		google.maps.event.addListener(controller.gmarker, 'dragend',
 			function (event) {
 				/* Center the map on the position of the marker */
-				var latLng = that.gmarker.getPosition();
-				that.gmap.setCenter(latLng);
+				var latLng = controller.gmarker.getPosition();
+				controller.gmap.setCenter(latLng);
 
-				/* Set our hidden input fields so that the backend can catch
+				/* Set our hidden input fields so that thecontroller. backend can catch
 				 * it */
-				that.$gmapX.val(latLng.lat());
-				that.$gmapY.val(latLng.lng());
+				controller.$gmapX.val(latLng.lat());
+				controller.$gmapY.val(latLng.lng());
 		});
 	},
 });

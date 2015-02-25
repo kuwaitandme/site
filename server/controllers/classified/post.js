@@ -5,7 +5,7 @@ var classified = require('../../models/classified'),
 	render = require('../helpers/render');
 
 
-module.exports = {
+var controller = module.exports = {
 	/**
 	 * Controller for the classified posting page. Creates a new classified and
 	 * saves it to the database.

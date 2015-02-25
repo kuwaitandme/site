@@ -4,7 +4,7 @@ var classified = require('../../models/classified'),
 	render = require('../helpers/render');
 
 
-module.exports = {
+var controller = module.exports = {
 	/**
 	 * [get description]
 	 */

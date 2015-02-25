@@ -12,7 +12,7 @@ var	config = require('../../config'),
  * If successful, redirect to the account page or else stay in the login page
  * and display an error
  */
-module.exports = {
+var controller = module.exports = {
 	/* Display the login page */
 	get: function(request, response, next) {
 		render(request, response, {

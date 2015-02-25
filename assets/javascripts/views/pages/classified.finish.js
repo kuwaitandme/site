@@ -153,14 +153,13 @@ var controller = module.exports = Backbone.View.extend({
 	makePurchase: function(e) {
 		e.preventDefault();
 		_2checkout = this.data._2checkout;
-		var that = this;
 		var credit = this.getCreditDetails();
 
 		/* Called when token creation fails. */
 		var errorCallback = function(response) {
 			console.error("Could not get a transaction token" + response.errorMsg);
-			that.$modal.removeClass('switch');
-			that.showPaymentError("Some fields are missing");
+			controller.$modal.removeClass('switch');
+			controller.showPaymentError("Some fields are missing");
 
 			if (response.errorCode === 200) {
 				/* This error code indicates that the ajax call failed.
@@ -173,7 +172,7 @@ var controller = module.exports = Backbone.View.extend({
 			var token = data.response.token.token;
 			credit.token = token;
 
-			that.sendTokenBackend(credit);
+			controller.sendTokenBackend(credit);
 		};
 
 		/* Get the credit card details */
@@ -181,7 +180,7 @@ var controller = module.exports = Backbone.View.extend({
 			credit.sellerId = _2checkout.sid;
 			credit.publishableKey = _2checkout.publicKey;
 
-			that.$modal.addClass('switch');
+			controller.$modal.addClass('switch');
 
 			/* Load the public key */
 			TCO.loadPubKey("sandbox", function() {
@@ -218,9 +217,8 @@ var controller = module.exports = Backbone.View.extend({
 			perks: [this.perkPrices[0].toggled, this.perkPrices[1].toggled],
 			token: credit.token
 		};
-		var that = this;
 
-		that.$modal.addClass('switch');
+		controller.$modal.addClass('switch');
 
 		/* Perform AJAX call */
 		$.ajax({
@@ -233,10 +231,10 @@ var controller = module.exports = Backbone.View.extend({
 					window.location = "?success=perkpaid#";
 				} else {
 					console.error("Payment could not be processed", response, error);
-					that.showPaymentError("Your credit details could not be authorized");
+					controller.showPaymentError("Your credit details could not be authorized");
 				}
 
-				that.$modal.removeClass('switch');
+				controller.$modal.removeClass('switch');
 			},
 		});
 	}

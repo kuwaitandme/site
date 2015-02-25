@@ -16,7 +16,7 @@ function isValidPassword(user, password){
 /**
  * Registers a passport strategy to authenticate a user into the backend.
  */
-module.exports = function(passport) {
+var controller = module.exports = function(passport) {
 	passport.use('login', new LocalStrategy({ passReqToCallback : true },
 		/**
 		 * The main function that validates the username and password

@@ -1,3 +1,1 @@
-authLogin = require('./auth.login');
-
-module.exports = authLogin.extend({});
+module.exports = require('./auth.login');

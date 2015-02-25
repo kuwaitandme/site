@@ -12,49 +12,23 @@ var description = "Sell things that you don't want. Buy things at bargain "
  * Controller for the landing page. Displays the front-page with the top
  * classifieds and categories to choose from.
  */
-module.exports = {
+var controller = module.exports = {
 	get: function(request, response, next) {
-		/* Connect to the database and submit the queries */
-		var topClassifieds = [], categoryCount = [];
 
-		/* Prepare the DB queries to be run parallely */
-		parallelTasks = [
-			/* Get the top classifieds */
-			function(callback) {
-				classified.getTopClassifieds(function (result) {
-					topClassifieds = result;
-					return callback();
-				});
-			},
-
-			/* Get the number of classifieds per category */
-			function(callback) {
-				classified.classifiedsPerCategory(function (result) {
-					categoryCount = result;
-					return callback();
-				});
-			}
-		];
-
-		/* Function to be run once done */
-		asyncFinish = function () {
+		/* Get the number of classifieds per category */
+		classified.classifiedsPerCategory(function (result) {
+			var categoryCount = result;
 
 			/* Generate the response */
 			return render(request, response, {
 				bodyid: "landing",
 				description: description,
 				page: 'landing',
-				title: response.__('title.landing'),
 				scripts: ['masonry', 'imagesLoaded'],
+				title: response.__('title.landing'),
 
-				data: {
-					categoryCount: categoryCount,
-					// topClassifieds: topClassifieds
-				}
+				data: { categoryCount: categoryCount }
 			});
-		}
-
-		/* Run the tasks in parallel */
-		return async.parallel(parallelTasks, asyncFinish);
+		});
 	}
 }

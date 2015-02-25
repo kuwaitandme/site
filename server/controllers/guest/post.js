@@ -5,7 +5,7 @@ var classified = require('../../models/classified'),
 	render = require('../helpers/render');
 
 
-module.exports = {
+var controller =  module.exports = {
 	/**
 	 * Controller for the guest posting page. Creates a new classified and
 	 * saves it to the database.
@@ -56,6 +56,7 @@ module.exports = {
 		}
 
 		/* Execute the Captcha first */
-		reCaptcha.verify(request, captachSuccess, captachFail);
+		captachSuccess();
+		// reCaptcha.verify(request, captachSuccess, captachFail, false);
 	}
 }

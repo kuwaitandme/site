@@ -1,7 +1,6 @@
 module.exports = {
 	"account-manage":    require("./account.manage"),
 	"auth-login":        require("./auth.login"),
-	"auth-post":         require("./auth.post"),
 	"auth-signup":       require("./auth.signup"),
 	"classified-edit":   require("./classified.edit"),
 	"classified-finish": require("./classified.finish"),
