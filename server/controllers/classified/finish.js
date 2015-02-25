@@ -9,7 +9,13 @@ module.exports = {
 	 * [get description]
 	 */
 	get: function(request, response, next) {
-		classified.get(request.params.id, function(classified) {
+		var id = request.params.id;
+		if(!/^[0-9A-F]*$/i.test(id)) return next();
+
+		classified.get(id, function(classified) {
+			/* Display 404 page if classified is not found */
+			if(!classified) return next();
+
 			render(request, response, {
 				bodyid: 'classified-finish',
 				page: 'classified/finish',
@@ -33,7 +39,13 @@ module.exports = {
 	 * [post description]
 	 */
 	post: function(request, response, next) {
+		var id = request.params.id;
 		var POSTdata = request.body;
+
+		if(!request.body || request.body.length == 0) return next();
+		if(!request.body.token) return next();
+		if(!/^[0-9A-F]*$/i.test(id)) return next();
+
 		var perks = request.body["perks[]"];
 		var price = 0;
 		perks[0] = true;
@@ -41,9 +53,6 @@ module.exports = {
 
 		if(perks[0]) price += 15;
 		if(perks[1]) price += 45;
-
-
-		console.log(request.body);
 
 		POSTdata = {
 			sellerId: config._2checkout.sid,
@@ -66,21 +75,18 @@ module.exports = {
 			}
 		};
 
-		var _id = request.body._id;
-		_2checkout.processTransaction(_id, POSTdata, function(err, data, transaction) {
+		_2checkout.processTransaction(id, POSTdata, function(err, data, transaction) {
 			if(err) return response.end(JSON.stringify({
 				data: data,
 				error: err,
 				transaction: transaction,
 			}));
 
-			classified.makeUrgent(_id);
-
-			// if(perks) {
-			// 	/* Success! Add perks to the classified */
-			// 	if(perks[0]) classified.makeUrgent(_id);
-			// 	// if(perks[1]) classified.promote(_id);
-			// }
+			/* Success! Add perks to the classified */
+			if(perks) {
+				if(perks[0]) classified.makeUrgent(_id);
+				// if(perks[1]) classified.promote(_id);
+			}
 
 			response.end(JSON.stringify({
 				status: 'success',

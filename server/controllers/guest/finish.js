@@ -14,7 +14,13 @@ var classifiedFinish = require('../classified/finish');
  */
 module.exports = {
 	get: function(request, response, next) {
-		classified.get(request.params.id, function(classified) {
+		var id = request.params.id;
+		if(!/^[0-9A-F]*$/i.test(id)) return next();
+
+		classified.get(id, function(classified) {
+			/* Display 404 page if classified is not found */
+			if(!classified) return next();
+
 			render(request, response, {
 				bodyid: 'guest-finish',
 				page: 'guest/finish',
