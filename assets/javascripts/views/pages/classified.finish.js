@@ -159,7 +159,7 @@ var controller = module.exports = Backbone.View.extend({
 		/* Called when token creation fails. */
 		var errorCallback = function(response) {
 			console.error("Could not get a transaction token" + response.errorMsg);
-			$modal.removeClass('switch');
+			that.$modal.removeClass('switch');
 			that.showPaymentError("Some fields are missing");
 
 			if (response.errorCode === 200) {
@@ -181,7 +181,7 @@ var controller = module.exports = Backbone.View.extend({
 			credit.sellerId = _2checkout.sid;
 			credit.publishableKey = _2checkout.publicKey;
 
-			$modal.addClass('switch');
+			that.$modal.addClass('switch');
 
 			/* Load the public key */
 			TCO.loadPubKey("sandbox", function() {
@@ -219,7 +219,7 @@ var controller = module.exports = Backbone.View.extend({
 		};
 		var that = this;
 
-		$modal.addClass('switch');
+		that.$modal.addClass('switch');
 
 		/* Perform AJAX call */
 		$.ajax({
@@ -235,7 +235,7 @@ var controller = module.exports = Backbone.View.extend({
 					that.showPaymentError("Your credit details could not be authorized");
 				}
 
-				$modal.removeClass('switch');
+				that.$modal.removeClass('switch');
 			},
 		});
 	}
