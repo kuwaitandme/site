@@ -10,10 +10,11 @@ footer
 
 	section#scripts
 		script.
+			window._csrf = !{JSON.stringify(csrfToken)};
 			window.categories = !{JSON.stringify(categories)};
+			window.data = !{JSON.stringify(data)};
 			window.locations = !{JSON.stringify(locations)};
 			window.page = !{JSON.stringify(bodyid)};
-			window.data = !{JSON.stringify(data)};
 
 		//- Main libraries
 		script(src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js")

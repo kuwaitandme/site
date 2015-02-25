@@ -38,8 +38,6 @@ module.exports = controller = Backbone.View.extend({
 	},
 
 
-
-
 	/**
 	 * [ajaxLoadClassifieds description]
 	 *
@@ -54,10 +52,11 @@ module.exports = controller = Backbone.View.extend({
 		this.pageIndex += 1;
 
 		var url = app.helpers.url.insertParam("page", this.pageIndex);
-		console.log(url);
+
 		$.ajax({
 			url: url,
-			type: 'post',
+			type: 'POST',
+			data: { _csrf: window._csrf },
 			dataType: 'json',
 			success: function (data) {
 				/* Add the classifieds and remove the lock after a delay of

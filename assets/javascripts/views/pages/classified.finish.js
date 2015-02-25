@@ -212,6 +212,7 @@ var controller = module.exports = Backbone.View.extend({
 	 */
 	sendTokenBackend: function(credit) {
 		var data = {
+			_csrf: window._csrf,
 			_id: this.post._id,
 			billingAddr: credit.billingAddr,
 			perks: [this.perkPrices[0].toggled, this.perkPrices[1].toggled],
