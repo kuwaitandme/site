@@ -14,6 +14,7 @@ form(method="POST").item
 	input(type="hidden", name="action", value="archive")
 	input(type="submit", value="Archive")
 form(method="POST").item
+	input(type="hidden", name="_csrf", value="#{csrfToken}")
 	input(type="hidden", name="action", value="repost")
 	input(type="submit", value="Re-post")
 //- .item
