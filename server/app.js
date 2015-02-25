@@ -20,8 +20,6 @@ if(config) process.env.NODE_ENV = config.mode;
 
 var app = express();
 
-app.use(logger('dev'));
-
 /** Start initializing different middlewares **/
 /* International language support */
 i18n.configure({
@@ -94,6 +92,7 @@ if (config.mode == 'production') {
 		});
 	});
 } else {
+	app.use(logger('dev'));
 	app.locals.pretty = true;
 
 	/* development error handler will print stacktrace */
