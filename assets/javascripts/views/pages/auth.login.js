@@ -27,7 +27,7 @@ module.exports = Backbone.View.extend({
 		send_again: 'Your account is not activated, check your email',
 		signup_fail: 'Something went wrong while registering you',
 		signup_invalid: 'Some of the fields are invalid',
-		signup_success: 'Check your email to activate your account',
+		signup_success: 'Your account has been created, login below',
 		signup_taken: 'That account name has already been taken!'
 	}
 });

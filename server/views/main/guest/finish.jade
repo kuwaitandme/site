@@ -2,13 +2,15 @@ extends ../../layout.jade
 
 block content
 
-	.congratz Great! Your classified has been submitted!
-	.sub-title We will review it and publish it within 24 hours.
-	.sub-title Keep the link/QRcode below in a safe place
+	.page
+		.congratz Great! Your classified has been submitted!
+		.sub-title We will review it and publish it within 24 hours.
+		.sub-title Keep the link/QRcode below in a safe place
 
-	a(href="#")#qrlink
-		#qrcode
+		a(href="#")#qrlink
+			#qrcode
 
-	.sub-title With this link, you can archive/edit your classified at any time
+		.sub-title With this link, you can archive/edit your classified at any time
 
-	include ../../components/perks.jade
+	.page
+		include ../../components/perks.jade

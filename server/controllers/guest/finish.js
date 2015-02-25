@@ -6,7 +6,7 @@ var classified = require('../../models/classified'),
 var classifiedFinish = require('../classified/finish');
 
 /**
- * Controller for the classified posting page. Creates a new classified and
+ * Controller for the classified finish page. Creates a new classified and
  * saves it to the database.
  *
  * If the post is successfully validated, create the post and redirect to the
@@ -15,6 +15,8 @@ var classifiedFinish = require('../classified/finish');
 var controller = module.exports = {
 	get: function(request, response, next) {
 		var id = request.params.id;
+
+		/* Check if the id is valid */
 		if(!/^[0-9A-Z]*$/i.test(id)) return next();
 
 		classified.get(id, function(classified) {
@@ -39,5 +41,6 @@ var controller = module.exports = {
 		});
 	},
 
+	/* Inherit from the classified's post function */
 	post: classifiedFinish.post
 }

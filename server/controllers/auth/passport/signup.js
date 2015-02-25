@@ -23,6 +23,7 @@ var controller = module.exports = function(passport) {
 				var fullname = request.body.fullname;
 				var repassword = request.body.repassword;
 
+				/* Regex to check for email and name */
 				var reName = /^[\d\s\w]+$/;
 				var reEmail = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
