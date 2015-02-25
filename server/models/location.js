@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 
 
-module.exports = {
+var locations = module.exports = {
 	model: mongoose.model('locations', {
 		name: String,
 	}),

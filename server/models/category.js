@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 
-module.exports = {
+var categories = module.exports = {
 	model: mongoose.model('categories', {
 		name: String,
 		children: {

@@ -33,7 +33,6 @@ var classifieds = module.exports  = {
 		description: String,
 		images: [String],
 		price: Number,
-		saleby: Number, /* 1:Owner,2:Distributer */
 		status: Number, /* 0:Inactive,1:Active,2:Rejected,3:Archived,4:Banned */
 		title: String,
 		type: Number,   /* 0:Sale,1:Want */
@@ -113,11 +112,11 @@ var classifieds = module.exports  = {
 		var classified = new this.model();
 
 		var hexRegex = /^[0-9A-F]*$/i;
-		var numberRegex = /^[0-9.]*$/i;
+		var numberRegex = /^[0-9.-]*$/i;
 
 		/* Check for any empty fields */
 		if(!POSTdata || !POSTdata.category || !POSTdata.description ||
-			!POSTdata.price || !POSTdata.saleby || !POSTdata.title ||
+			!POSTdata.price || !POSTdata.title ||
 			!POSTdata.type || !POSTdata.email || !POSTdata.location)
 			return callback(null);
 
@@ -125,7 +124,6 @@ var classifieds = module.exports  = {
 		if (!hexRegex.test(POSTdata.category) ||
 			!hexRegex.test(POSTdata.location) ||
 			!numberRegex.test(POSTdata.price) ||
-			!numberRegex.test(POSTdata.saleby) ||
 			!numberRegex.test(POSTdata.type) ||
 			!numberRegex.test(POSTdata.gmapX) ||
 			!numberRegex.test(POSTdata.gmapY) ||
@@ -170,8 +168,10 @@ var classifieds = module.exports  = {
 		}
 
 		/* Commit to the database and call the callback function */
-		classified.save();
-		callback(classified);
+		classified.save(function (err) {
+			if (err) throw err;
+			callback(classified);
+		});
 	},
 
 
