@@ -1,9 +1,11 @@
 var bodyParser = require('body-parser'),
 	cookieParser = require('cookie-parser'),
+	csrf = require('csurf')
 	express = require('express'),
 	expressSession = require('express-session'),
 	i18n = require("i18n"),
 	mongoose = require('mongoose'),
+	logger = require('morgan'),
 	flash = require('connect-flash'),
 	passport = require('passport'),
 	path = require('path'),
@@ -17,6 +19,8 @@ var config = require('./config'),
 if(config) process.env.NODE_ENV = config.mode;
 
 var app = express();
+
+app.use(logger('dev'));
 
 /** Start initializing different middlewares **/
 /* International language support */
@@ -42,7 +46,6 @@ app.use(express.static(__dirname + '/public', { /*maxAge: cacheTime*/ }));
 
 
 /* Cookie and sessions */
-// var RedisStore = redisStore(express);
 app.use(cookieParser());
 app.use(expressSession({
 	resave: false,
@@ -50,6 +53,7 @@ app.use(expressSession({
 	secret: config.sessionSecret,
 	store: new redisStore(config.redis)
 }));
+app.use(csrf({ cookie: true }))
 app.use(flash());
 
 
@@ -66,13 +70,17 @@ app.use('/', routes);
 
 /* None of the URL matched, so return 404  */
 app.use(function(req, res, next) {
-	var fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
-	return res.render('404', { path: fullUrl });
+    var err = new Error('Not Found');
+    err.status = 404;
+	// var fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
+	// res.status(404);
+	next(err);
 });
 
 
 /* Connect to the database */
-mongoose.connect('mongodb://localhost/kuwaitandme');
+mongoose.connect('mongodb://' + config.mongodb.username +
+	':' + config.mongodb.password + '@localhost/kuwaitandme');
 
 
 /* Setup environment specific functions */
@@ -80,7 +88,7 @@ if (config.mode == 'production') {
 	/* production error handler, no stacktraces leaked to user */
 	app.use(function(err, req, res, next) {
 		res.status(err.status || 500);
-		return res.render('error', {
+		res.render('error', {
 			message: err.message,
 			error: {}
 		});
@@ -90,8 +98,9 @@ if (config.mode == 'production') {
 
 	/* development error handler will print stacktrace */
 	app.use(function(err, req, res, next) {
+		if (err.code == 'EBADCSRFTOKEN') console.log("CSRF");
 		res.status(err.status || 500);
-		return res.render('error', {
+		res.render('error', {
 			message: err.message,
 			error: err
 		});

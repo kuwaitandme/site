@@ -20,6 +20,7 @@ block content
 		.modal-inner
 			.title Report this classified
 			form(action="?success=reportsent#", method="POST")
+				input(type="hidden", name="_csrf", value="#{csrfToken}")
 				input(type="hidden", name="action", value="report")
 				textarea(name="reason", placeholder='Write your reason here')
 				input(type="submit", value="Send report")
@@ -29,6 +30,7 @@ block content
 		.modal-inner
 			.title Ban this classified
 			form(method="POST")
+				input(type="hidden", name="_csrf", value="#{csrfToken}")
 				input(type="hidden", name="action", value="ban")
 				textarea(name="reason", placeholder='Write your reason here')
 				input(type="submit", value="Send report")
@@ -38,6 +40,7 @@ block content
 		.modal-inner
 			.title Reject this classified
 			form(method="POST")
+				input(type="hidden", name="_csrf", value="#{csrfToken}")
 				input(type="hidden", name="action", value="reject")
 				textarea(name="reason", placeholder='Write your reason here')
 				input(type="submit", value="Send report")

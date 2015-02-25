@@ -1,6 +1,7 @@
 | <% if(editable) { %>
 | <% if(superEditable) { %>
 form(method="POST").item
+	input(type="hidden", name="_csrf", value="#{csrfToken}")
 	input(type="hidden", name="action", value="publish")
 	input(type="submit", value="Publish")
 .item
@@ -9,6 +10,7 @@ form(method="POST").item
 	a(href="#ban-modal") Ban
 | <% } %>
 form(method="POST").item
+	input(type="hidden", name="_csrf", value="#{csrfToken}")
 	input(type="hidden", name="action", value="archive")
 	input(type="submit", value="Archive")
 form(method="POST").item

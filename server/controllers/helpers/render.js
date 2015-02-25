@@ -70,6 +70,7 @@ module.exports = function(request, response, args) {
 			externalScripts: args.scripts,
 			title: args.title + " | Kuwait &amp; Me",
 			user: request.user,
+			csrfToken: request.csrfToken(),
 
 			data: args.data,
 

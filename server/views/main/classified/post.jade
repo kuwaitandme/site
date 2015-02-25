@@ -23,7 +23,7 @@ block content
 			else
 				.message
 					p
-						| This classified will be published immediately and can be archived
+						| This classified will be published immediately and can bea rchived
 						| by accessing your account page.
 
 			.seperator
@@ -155,6 +155,7 @@ block content
 				.spinner
 
 			.submit-container
+				input(type="hidden", name="_csrf", value="#{csrfToken}")
 				input.submit(type="submit", value="#{__('page.cform.placeholder.submit')}")
 
 			.seperator

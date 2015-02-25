@@ -20,6 +20,7 @@
 				.order Order for <b>'Urgent Classified'</b> perk: 15 USD (~5 KWD)
 				#payment-errors
 				form
+					input(type="hidden", name="_csrf", value="#{csrfToken}")
 					input#ccc(required, type='text', placeholder='Credit Card #').by-two
 					input#cname(required, type='text', placeholder="Name as on your card").by-two
 					input#cvv(required, type='text', placeholder='CVV code').by-three
