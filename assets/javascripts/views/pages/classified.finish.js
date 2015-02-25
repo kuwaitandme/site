@@ -200,7 +200,7 @@ var controller = module.exports = Backbone.View.extend({
 	 * @param  {[type]} message [description]
 	 */
 	showPaymentError: function(message) {
-		$paymentErrors.show().html(message);
+		this.$paymentErrors.show().html(message);
 	},
 
 
