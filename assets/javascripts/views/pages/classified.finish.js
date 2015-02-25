@@ -42,6 +42,8 @@ var controller = module.exports = Backbone.View.extend({
 
 		var html = template(this.post);
 		$("#classified-sample").html(html);
+
+		$(".page").css('min-height', $(window).height() * 0.7 - 90);
 	},
 
 

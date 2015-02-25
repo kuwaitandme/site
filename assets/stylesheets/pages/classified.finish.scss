@@ -5,7 +5,9 @@ body#classified-finish {
 		@extend body#classified-search;
 		padding-bottom: 30px;
 	}
-
+	.page {
+		padding: 20px;
+	}
 	.congratz {
 		@extend .font-title;
 		font-size: 30px;

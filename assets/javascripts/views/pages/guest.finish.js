@@ -7,6 +7,8 @@ module.exports = classifiedFinish.extend({
 		var html = template(this.post);
 		$("#classified-sample").html(html);
 
+		$(".page").css('min-height', $(window).height() * 0.7 - 90);
+
 		/* Generate the QR code. The QR code will contain the link edit to the
 		 *  guest classified.
 		 */
