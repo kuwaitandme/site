@@ -13,6 +13,10 @@ var classifiedSingle = require('../classified/single'),
 module.exports = {
 	get: function(request, response, next) {
 		var id = request.params.id;
+		var authHash = request.query.authHash;
+
+		if(!/^[0-9A-F]*$/i.test(id)) return next();
+		if(!/^[0-9A-Za-z-]*$/.test(authHash)) return next();
 
 		/* Get the classified */
 		classified.get(id, function(classified) {
@@ -24,7 +28,7 @@ module.exports = {
 			if(!classified.guest) return next();
 
 			/* Display 404 if the authentication hash does not match */
-			if(classified.authHash != request.query.authHash) return next();
+			if(classified.authHash != authHash) return next();
 
 			/* Generate the response */
 			render(request, response, {
@@ -46,6 +50,9 @@ module.exports = {
 	post: function(request, response, next) {
 		var id = request.params.id;
 		var authHash = request.query.authHash;
+
+		if(!/^[0-9A-F]*$/i.test(id)) return next();
+		if(!/^[0-9A-Za-z-]*$/.test(authHash)) return next();
 
 		function finish(status, message) {
 			response.redirect("/guest/single/" + id + "?"

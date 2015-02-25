@@ -24,6 +24,8 @@ module.exports = controller = {
 		var superEditable = false;
 		var editable = false;
 
+		if(!/^[0-9A-F]*$/i.test(id)) return next();
+
 		/* Update the view counter asynchronously */
 		controller.updateViewCount(request, id);
 
@@ -68,6 +70,8 @@ module.exports = controller = {
 	post: function(request, response, next) {
 		var id = request.params.id;
 		var action = request.body.action;
+
+		if(!/^[0-9A-F]*$/i.test(id)) return next();
 
 		function finish(status, message) {
 			if(request.user && request.user.isAdmin)

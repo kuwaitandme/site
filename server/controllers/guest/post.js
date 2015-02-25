@@ -51,10 +51,11 @@ module.exports = {
 					}));
 				}
 
-				return response.end(JSON.stringify({ status: "notsaved" }));
+				response.end(JSON.stringify({ status: "notsaved" }));
 			});
 		}
 
-		reCaptcha.verify(request, captachSuccess, captachFail, false);
+		/* Execute the Captcha first */
+		reCaptcha.verify(request, captachSuccess, captachFail);
 	}
 }

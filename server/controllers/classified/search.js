@@ -11,13 +11,17 @@ var getQueryParameters = function(request) {
 	var parameters = { };
 
 	parameters.status = 1;
-	if(request.query.cat) parameters.category = request.query.cat;
+
+	if(request.query.cat && /^[0-9A-F]*$/i.test(request.query.cat))
+		parameters.category = request.query.cat;
+
 	if(request.query.keywords) {
 		var keywords = request.query.keywords.split(' ');
 		var regex = [];
 
 		for(var i=0; i<keywords.length; i++)
-			regex.push(new RegExp(keywords[i], "i"));
+			if(/^[0-9A-Z]*$/i.test(keywords[i]))
+				regex.push(new RegExp(keywords[i], "i"));
 
 		parameters.$or = [
 			{ title:  { $in: regex } },
@@ -46,7 +50,6 @@ module.exports = {
 	get: function(request, response, next) {
 		var parameters = getQueryParameters(request);
 
-		console.log(parameters);
 		classified.search(parameters, function(classifieds) {
 			/* Generate the response */
 			render(request, response, {

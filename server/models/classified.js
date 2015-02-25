@@ -1,6 +1,7 @@
 var async = require('async'),
 	mongoose =require('mongoose'),
-	util = require('util');
+	util = require('util'),
+	xss = require('xss');
 
 var file = require('../controllers/helpers/file');
 
@@ -108,13 +109,33 @@ module.exports = classifieds = {
 	_doData: function(POSTdata, user, callback) {
 		var classified = new this.model();
 
+		var hexRegex = /^[0-9A-F]*$/i;
+		var numberRegex = /^[0-9.]*$/i;
+
+		/* Check for any empty fields */
+		if(!POSTdata || !POSTdata.category || !POSTdata.description ||
+			!POSTdata.price || !POSTdata.saleby || !POSTdata.title ||
+			!POSTdata.type || !POSTdata.email || !POSTdata.location)
+			return callback(null);
+
+		/* Check for any invalid fields */
+		if (!hexRegex.test(POSTdata.category) ||
+			!hexRegex.test(POSTdata.location) ||
+			!numberRegex.test(POSTdata.price) ||
+			!numberRegex.test(POSTdata.saleby) ||
+			!numberRegex.test(POSTdata.type) ||
+			!numberRegex.test(POSTdata.gmapX) ||
+			!numberRegex.test(POSTdata.gmapY) ||
+			!numberRegex.test(POSTdata.phone))
+			return callback(null);
+
 		classified.category = POSTdata.category;
 		classified.created = Date.now();
-		classified.description = POSTdata.description;
+		classified.description = xss(POSTdata.description);
 		classified.images = POSTdata.images;
 		classified.price = POSTdata.price;
 		classified.saleby = POSTdata.saleby;
-		classified.title = POSTdata.title;
+		classified.title = xss(POSTdata.title);
 		classified.type = POSTdata.type;
 		classified.views = 0;
 
@@ -124,10 +145,10 @@ module.exports = classifieds = {
 		classified.meta.gmapX = POSTdata.gmapX;
 		classified.meta.gmapY = POSTdata.gmapY;
 
-		classified.contact.address1 = POSTdata.address1;
-		classified.contact.address2 = POSTdata.address2;
-		classified.contact.email = POSTdata.email;
-		classified.contact.location = POSTdata.location;
+		classified.contact.address1 = xss(POSTdata.address1);
+		classified.contact.address2 = xss(POSTdata.address2);
+		classified.contact.email = xss(POSTdata.email);
+		classified.contact.location = xss(POSTdata.location);
 		classified.contact.phone = POSTdata.phone;
 
 		classified.authHash = randomHash();
@@ -161,6 +182,7 @@ module.exports = classifieds = {
 		var query = this.model.find({}, {authHash: 0}).sort({created: -1}).limit(10);
 
 		query.exec(function(err, result) {
+			if (err)  throw err;
 			callback(result);
 		});
 	},
@@ -175,6 +197,7 @@ module.exports = classifieds = {
 	 */
 	get: function (id, callback) {
 		this.model.findOne({_id: id}, function(err, result) {
+			if (err)  throw err;
 			callback(result);
 		});
 	},
@@ -356,7 +379,6 @@ module.exports = classifieds = {
 			classifieds.model.findOne({_id: id}, function(err, classified) {
 				if(err) throw err;
 
-				console.log(this);
 				classified.status = that.ACTIVE;
 				classified.save();
 			});

@@ -22,10 +22,13 @@ module.exports = function(passport) {
 		 * The main function that validates the username and password
 		 */
 		function(request, username, password, done) {
-			console.log(username, password);
+
+			/* Validate the username & password */
+			var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+			if(!re.test(username) || !password)
+				return done(null, false, { message: "badlogin" });
 
 			var captachFail = function(err, response) {
-				console.log(err, response);
 				done(null, false, { message: "captchaFail" });
 			}
 

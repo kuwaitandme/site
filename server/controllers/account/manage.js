@@ -10,7 +10,7 @@ getGuestQueryParameters = function(request) {
 	var parameters = { };
 
 	if(request.user && request.user.isAdmin)
-		parameters.status = [classified.status.FLAGGED, classified.status.INACTIVE];
+		parameters.status = classified.status.INACTIVE;//[classified.status.FLAGGED, classified.status.INACTIVE];
 	else parameters.owner = request.user._id;
 
 	return parameters;
