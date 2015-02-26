@@ -252,6 +252,7 @@ var classifieds = module.exports  = {
 	makeUrgent: function(id) {
 		this.model.findOne({_id: id}, function(err, classified) {
 			if(err) throw err;
+			if(!classified) return;
 
 			classified.perks.urgent = true;
 			classified.save();
@@ -267,6 +268,7 @@ var classifieds = module.exports  = {
 	promote: function(id) {
 		this.model.findOne({_id: id}, function(err, classified) {
 			if(err) throw err;
+			if(!classified) return;
 
 			classified.perks.promote = true;
 			classified.save();
@@ -282,6 +284,7 @@ var classifieds = module.exports  = {
 	incrementViewCounter: function (id) {
 		this.model.findOne({_id: id}, function(err, classified) {
 			if(err) throw err;
+			if(!classified) return;
 
 			if(!classified.views) classified.views = 1;
 			else classified.views += 1;
@@ -303,6 +306,7 @@ var classifieds = module.exports  = {
 	report: function (id, reason, ip) {
 		this.model.findOne({_id: id}, function(err, classified) {
 			if(err) throw err;
+			if(!classified) return;
 
 			/* Check if the same ip is flagging the classified or not, to avoid
 			 * spam */
@@ -348,6 +352,7 @@ var classifieds = module.exports  = {
 			var that = this;
 			classifieds.model.findOne({_id: id}, function(err, classified) {
 				if(err) throw err;
+				if(!classified) return;
 
 				if(classified.status == that.BANNED ||
 					classified.status == that.FLAGGED) return;
@@ -367,6 +372,7 @@ var classifieds = module.exports  = {
 			var that = this;
 			classifieds.model.findOne({_id: id}, function(err, classified) {
 				if(err) throw err;
+				if(!classified) return;
 
 				classified.status = that.BANNED;
 				classified.adminReason = reason;
@@ -387,6 +393,7 @@ var classifieds = module.exports  = {
 			var that = this;
 			classifieds.model.findOne({_id: id}, function(err, classified) {
 				if(err) throw err;
+				if(!classified) return;
 
 				if(classified.status == that.BANNED ||
 					classified.status == that.FLAGGED ||
@@ -409,6 +416,7 @@ var classifieds = module.exports  = {
 			var that = this;
 			classifieds.model.findOne({_id: id}, function(err, classified) {
 				if(err) throw err;
+				if(!classified) return;
 
 				classified.status = that.ACTIVE;
 				classified.save();
@@ -426,6 +434,7 @@ var classifieds = module.exports  = {
 			var that = this;
 			classifieds.model.findOne({_id: id}, function(err, classified) {
 				if(err) throw err;
+				if(!classified) return;
 
 				classified.status = that.REJECTED;
 				classified.adminReason = reason;
