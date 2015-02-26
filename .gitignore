@@ -14,3 +14,6 @@
 
 # Hide server configuration file
 /server/config.js
+
+# hide log files
+/*.log
