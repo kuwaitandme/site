@@ -1,4 +1,6 @@
 module.exports = controller = Backbone.View.extend({
+	gridMinimumSize: 250,
+
 	initialize: function() {
 		var that = this;
 		this.listTemplate = _.template($("#list-template").html());
@@ -11,19 +13,36 @@ module.exports = controller = Backbone.View.extend({
 		// this.get = app.helpers.url.getGETstring(url);
 		this.$classifiedList = $("ul#classified-search");
 
-		this.render();
 		this.setupMasonry();
-		this.addClassifieds(window.data.classifieds);
+		this.render();
 		this.spinner = new app.views.components.spinner();
 
 		this.fireAjaxEvent();
 		$(window).scroll(function() {
 			that.fireAjaxEvent();
 		});
+		$(window).resize(function() {
+			that.resizeClassifieds();
+		});
 	},
 
 
-	render: function () {},
+	render: function () {
+		this.addClassifieds(window.data.classifieds);
+		this.resizeClassifieds();
+	},
+
+	resizeClassifieds: function () {
+		/* Calculate the width of a single 1x1 sqaure. Subtract 5px from the
+		 * window's width to compensate for the scroll bar */
+		var windowWidth = $(window).width() - 50;
+		var columns = Math.floor(windowWidth / this.gridMinimumSize);
+		var excessSpace = windowWidth - (this.gridMinimumSize * columns);
+		var finalSize = Math.floor(this.gridMinimumSize + (excessSpace / columns));
+
+		/* Set each of the blocks with the right size */
+		this.$el.find(".classified").width(finalSize);
+	},
 
 
 	/**
@@ -94,9 +113,10 @@ module.exports = controller = Backbone.View.extend({
 	 */
 	setupMasonry: function () {
 		this.$classifiedList.masonry({
-			columnWidth: 290,
+			// columnWidth: 290,
 			// gutter: 0,
-			// isAnimated: true,
+			isFitWidth: true,
+			isAnimated: true,
 			itemSelector: '.classified',
 		});
 	},

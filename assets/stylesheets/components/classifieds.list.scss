@@ -9,7 +9,7 @@ ul.classified-list {
 		@extend .large-3;
 		@extend .medium-6;
 		padding: 7px;
-		max-width: #{300 - 15}px;
+		// max-width: #{300 - 15}px;
 
 		.container {
 			@include single-transition(border-color);

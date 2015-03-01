@@ -24,6 +24,7 @@ module.exports = Backbone.View.extend({
 			window.data.categoryCount
 		);
 
+
 		/* Render out each of the categories */
 		for(var i=0; i<categories.length; i++) {
 			var html = categoriesTemplate(categories[i]);
