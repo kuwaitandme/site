@@ -1,5 +1,5 @@
 var classified = require('../../models/classified'),
-	config = require('../../config'),
+	config = require('../../../var/config'),
 	_2checkout = require('../helpers/_2checkout'),
 	render = require('../helpers/render');
 

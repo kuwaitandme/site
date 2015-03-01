@@ -3,7 +3,7 @@ var async = require("async");
 	client = redis.createClient(null, null, { detect_buffers: true });
 
 var	category = require('../../models/category'),
-	config = require('../../config');
+	config = require('../../../var/config');
 	externalScripts = require('../helpers/externalScripts'),
 	location = require('../../models/location');
 

@@ -1,6 +1,6 @@
 var classified = require('../../models/classified'),
 	file = require('../helpers/file'),
-	config = require('../../config'),
+	config = require('../../../var/config'),
 	reCaptcha = require('../helpers/reCaptcha'),
 	render = require('../helpers/render');
 

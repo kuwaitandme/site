@@ -12,7 +12,7 @@ var bodyParser = require('body-parser'),
 	path = require('path'),
 	redisStore = require('connect-redis')(expressSession);
 
-var config = require('./config'),
+var config = require('../var/config'),
 	routes = require('./routes/index');
 
 /* Force JADE and Express to work based on the mode set in our config
@@ -86,7 +86,7 @@ mongoose.connect('mongodb://' + config.mongodb.username +
 
 
 /* Function to log the error into a file */
-var error = fs.createWriteStream('error.log', { flags: 'a' });
+var error = fs.createWriteStream('var/error.log', { flags: 'a' });
 var logError = function(err, request) {
 	var fullUrl = request.connection.remoteAddress + "@" + request.method + ":"
 		+ request.protocol + '://' + request.get('host') + request.originalUrl;

@@ -1,5 +1,5 @@
 var Twocheckout = require('2checkout-node');
-var config = require('../../config');
+var config = require('../../../var/config');
 var transactions = require('../../models/transactions');
 
 module.exports = {
