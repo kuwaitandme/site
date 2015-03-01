@@ -39,6 +39,7 @@ classified.model.find({ status: classified.status.INACTIVE },
 
 		var fn = jade.compileFile(__dirname + '/../server/views/email/daily-report.jade');
 
+
 		// Render the function
 		var html = fn({
 			classifieds: classifieds,
@@ -60,8 +61,9 @@ classified.model.find({ status: classified.status.INACTIVE },
 			attachment: [
 				{ data: html, alternative:true },
 			]
-		}, function(err, message) { console.log(err || message); });
-
-		process.exit();
+		}, function(err, message) {
+			console.log(err || message);
+			process.exit();
+		});
 	}
 );
