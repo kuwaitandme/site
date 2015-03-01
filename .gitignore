@@ -13,7 +13,7 @@
 /server/public/stylesheets
 
 # Hide server configuration file
-/server/config.js
+/var/config.js
 
 # hide log files
-/*.log
+/var/*.log
