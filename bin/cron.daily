@@ -1,0 +1,48 @@
+#!/usr/bin/env node
+var email   = require("emailjs"),
+	mongoose = require('mongoose'),
+	util = require('util');
+
+var config = require("../var/config"),
+	classified = require("../server/models/classified");
+
+
+mongoose.connect('mongodb://' + config.mongodb.username +
+	':' + config.mongodb.password + '@localhost/kuwaitandme');
+
+
+classified.model.find({ status: classified.status.INACTIVE },
+	function(err, classifieds) {
+		/* Don't send the report if there are no unpublished classifieds */
+		if(classified.length == 0) return;
+
+		var text = "";
+		var i=0;
+		for(; i<classifieds.length; i++) {
+			var cl = classifieds[i];
+			var textFragment = util.format('%d.\t<a href="%s">%s</a><br/>\n',
+				i + 1, 'classified/single/' + cl._id, cl.title);
+
+			text += textFragment;
+		}
+
+		var header = util.format(
+			"<h2>%d  unpublished classified(s) for review today</h2><br/>\n", i);
+
+		var messageBody = header + text;
+
+		/* Start sending the message */
+		var server  = email.server.connect({
+			user: config.email.smtp.username,
+			password: config.email.smtp.password,
+			host: config.email.smtp.hostname,
+			ssl: config.email.smtp.ssl
+		});
+		server.send({
+			text: messageBody,
+			from: config.email.fromAddress,
+			to: config.email.reportAddress,
+			subject: "Kuwait & Me - Daily report",
+		}, function(err, message) { console.log(err || message); });
+	}
+);
