@@ -1,68 +1,83 @@
 #!/usr/bin/env node
 
+/**
+ * This file is responsible for sending an email to all the moderators everyday
+ * with list of all the classifieds that have to be reviewed.
+ *
+ * It sends an email to all moderators as well as CCs the site admins in the
+ * mail.
+ *
+ * Ideally, you would want to link the file inside of the /etc/cron.daily folder
+ * so that cron runs it once every day.
+ *
+ * ln -s `pwd`/bin/cron.daily /etc/cron.daily/kuwaitandme
+ */
+
+
 var email   = require("emailjs"),
 	jade = require('jade'),
 	mongoose = require('mongoose'),
 	util = require('util');
+var classified = require("../server/models/classified");
+	config = require("../var/config"),
 
-var config = require("../var/config"),
-	classified = require("../server/models/classified");
 
-
+/* Setup the database connection */
 mongoose.connect('mongodb://' + config.mongodb.username +
 	':' + config.mongodb.password + '@localhost/kuwaitandme');
 
 
+/* Query for all the inactive classifieds */
 classified.model.find({ status: classified.status.INACTIVE },
 	function(err, classifieds) {
+
 		/* Don't send the report if there are no unpublished classifieds */
 		if(classifieds.length == 0) return;
 
-		var text = "";
-		var i=0;
-
 		/* Prepare the plain-text body */
+		var text = "", i = 0;
 		for(; i<classifieds.length; i++) {
 			var cl = classifieds[i];
-			var textFragment = util.format('%d.\t %s \n \t %s\n\n',
+			text += util.format('%d.\t %s \n \t %s\n\n',
 				i + 1,
 				cl.title,
-				'http://kuwaitandme.com/classified/single/' + cl._id);
+				'http://kuwaitandme.com/classified/single/' + cl._id
+			);
 
-			text += textFragment;
 		}
+
+		/* Prepare the plain-text header */
 		var header = util.format(
 			"%d  unpublished classified(s) for review today\n", i);
 		header += "-----------------------------------------------\n";
-		var messageBody = header + text;
 
 
-		var fn = jade.compileFile(__dirname + '/../server/views/email/daily-report.jade');
-
-
-		// Render the function
-		var html = fn({
+		/* Render the HTML version of the email */
+		var template = jade.compileFile(__dirname + '/../server/views/email/daily-report.jade');
+		var html = template({
 			classifieds: classifieds,
 			host: "https://kuwaitandme.com"
 		});
 
-		/* Start sending the message */
+		/* Connect to the SMTP server */
 		var server  = email.server.connect({
 			user: config.email.smtp.username,
 			password: config.email.smtp.password,
 			host: config.email.smtp.hostname,
 			ssl: config.email.smtp.ssl
 		});
+
+		/* Start sending the message */
 		server.send({
-			text: messageBody,
+			attachment: [ { data: html, alternative:true } ],
 			from: config.email.fromAddress,
-			to: config.email.reportAddress,
 			subject: "Kuwait & Me - Daily report",
-			attachment: [
-				{ data: html, alternative:true },
-			]
+			text: header + text,
+			to: config.email.reportAddress
 		}, function(err, message) {
 			console.log(err || message);
+
+			/* All done. Signal node to exit */
 			process.exit();
 		});
 	}
