@@ -12,9 +12,10 @@ var bodyParser = require('body-parser'),
 	path = require('path'),
 	redisStore = require('connect-redis')(expressSession);
 
+/* Setup some globals */
 global.config = require('../var/config');
 global.models = require('./models');
-
+global.root = __dirname;
 
 /* Force JADE and Express to work based on the mode set in our config
  * parameter */
@@ -56,9 +57,6 @@ app.use(expressSession({
 app.use(csrf())
 app.use(flash());
 
-
-global.root = __dirname;
-
 /* Initialize Passport User authentication */
 app.use(passport.initialize());
 app.use(passport.session());
@@ -98,7 +96,6 @@ var logError = function(err, request) {
 var _404 = function(request, response) {
 	var fullUrl = request.protocol + '://' + request.get('host')
 		+ request.originalUrl;
-
 	response.render('404', { path: fullUrl });
 }
 
@@ -120,6 +117,7 @@ if (global.config.mode == 'production') {
 		});
 	});
 } else {
+	/* Use the logger and prettify the HTML output */
 	app.use(logger('dev'));
 	app.locals.pretty = true;
 
@@ -137,5 +135,6 @@ if (global.config.mode == 'production') {
 		});
 	});
 }
+
 
 module.exports = app;
