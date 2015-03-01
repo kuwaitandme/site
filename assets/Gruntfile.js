@@ -13,10 +13,10 @@ module.exports = function (grunt) {
 		/*! JS browserify options */
 		browserify: {
 			app: {
-				dest: "server/public/javascripts/app.js",
-				src: "assets/javascripts/entry.js",
+				dest: "../server/public/javascripts/app.js",
+				src: "javascripts/entry.js",
 				options: {
-					basedir: "assets/javascripts/",
+					basedir: "javascripts/",
 					browserifyOptions : { debug: true, }
 				},
 			}
@@ -27,8 +27,8 @@ module.exports = function (grunt) {
 		sass: {
 			style: {
 				files: {
-					"server/public/stylesheets/style.css" : "assets/stylesheets/style.scss",
-					"server/public/stylesheets/redactor.css" : "assets/stylesheets/redactor.scss",
+					"../server/public/stylesheets/style.css" : "stylesheets/style.scss",
+					"../server/public/stylesheets/redactor.css" : "stylesheets/redactor.scss",
 				},
 				options: { style: "compressed" },
 			},
@@ -38,12 +38,12 @@ module.exports = function (grunt) {
 		/*! Grunt watch rules */
 		watch: {
 			css: {
-				files: ["assets/stylesheets/**/*.scss"],
+				files: ["stylesheets/**/*.scss"],
 				options: { livereload: true },
 				tasks: ["css", "notify_hooks", "notify:css"],
 			},
 			js: {
-				files: ["assets/javascripts/**/*.js", "assets/javascripts/**/*.html"],
+				files: ["javascripts/**/*.js", "javascripts/**/*.html"],
 				tasks: ["js", "notify_hooks", "notify:js"]
 			}
 		},
@@ -52,17 +52,17 @@ module.exports = function (grunt) {
 		/*! Add LICENSE(s) to the Javascripts/CSS files */
 		concat: {
 			css: {
-				dest: "server/public/stylesheets/style.css",
+				dest: "../server/public/stylesheets/style.css",
 				src: [
-					"assets/LICENSE",
-					"server/public/stylesheets/style.css",
+					"LICENSE",
+					"../server/public/stylesheets/style.css",
 				]
 			},
 			js: {
-				dest: "server/public/javascripts/app.min.js",
+				dest: "../server/public/javascripts/app.min.js",
 				src: [
-					"assets/LICENSE",
-					"server/public/javascripts/app.min.js",
+					"LICENSE",
+					"../server/public/javascripts/app.min.js",
 				]
 			}
 		},
@@ -71,8 +71,8 @@ module.exports = function (grunt) {
 		uglify: {
 			app: {
 				files: {
-					"server/public/javascripts/app.min.js" : [
-						"server/public/javascripts/app.js",
+					"../server/public/javascripts/app.min.js" : [
+						"../server/public/javascripts/app.js",
 					]
 				}
 			}
@@ -95,7 +95,7 @@ module.exports = function (grunt) {
 			},
 			all: {
 				options: {
-					title: "All Assets Compiled",
+					title: "All Compiled",
 					message: "Javascript & SASS files compiled successfully",
 				}
 			},
@@ -117,7 +117,7 @@ module.exports = function (grunt) {
 		grunt.task.run(["browserify"]);
 	});
 
-	/*! This task is for creating the files minified for the production server */
+	/*! This task is for creating the files minified for the production ../server */
 	grunt.registerTask("deploy", "Creates all the files for production",
 		function() {
 			grunt.task.run(["default", "uglify", "concat"]);
