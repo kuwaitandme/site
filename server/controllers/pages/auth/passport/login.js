@@ -1,8 +1,8 @@
 var bCrypt = require('bcrypt-nodejs'),
 	LocalStrategy = require('passport-local').Strategy;
 
-var	User = require('../../../models/user').model;
-	reCaptcha = require('../../helpers/reCaptcha');
+var	User = global.models.user.model;
+	reCaptcha = require('../../../reCaptcha');
 
 
 /**

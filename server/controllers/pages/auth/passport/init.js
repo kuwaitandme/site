@@ -1,6 +1,6 @@
 var login = require('./login'),
 	signup = require('./signup'),
-	users = require('../../../models/user');
+	users = global.models.user;
 
 var controller = module.exports = function(passport){
 	/* Passport needs to be able to serialize and deserialize users to support

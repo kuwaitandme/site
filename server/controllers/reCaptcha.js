@@ -1,4 +1,4 @@
-var config = require('../../../var/config');
+var config = global.config;
 
 /*!
  * node-recaptcha

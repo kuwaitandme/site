@@ -1,7 +1,7 @@
 var	LocalStrategy = require('passport-local').Strategy;
 
-var	User = require('../../../models/user'),
-	reCaptcha = require('../../helpers/reCaptcha');
+var	User = global.models.user.model;
+	reCaptcha = require('../../../reCaptcha');
 
 
 /**

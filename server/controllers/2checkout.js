@@ -1,6 +1,6 @@
 var Twocheckout = require('2checkout-node');
-var config = require('../../../var/config');
-var transactions = require('../../models/transactions');
+var config = global.config;
+var transactions = global.model.transactions;
 
 module.exports = {
 	/**

@@ -1,5 +1,5 @@
 var async = require("async"),
-	classified = require('../../models/classified'),
+	classified = global.models.classified,
 	render = require('../helpers/render');
 
 /* Description for the meta tag */
@@ -30,5 +30,12 @@ var controller = module.exports = {
 				data: { categoryCount: categoryCount }
 			});
 		});
-	}
+	},
+
+	account: require('./account'),
+	auth: require('./auth'),
+	classified: require('./classified'),
+	guest: require('./guest'),
+	privacy: require('./privacy'),
+	terms: require('./terms')
 }

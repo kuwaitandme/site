@@ -1,4 +1,4 @@
-var render = require('../helpers/render');
+var render = require('../../helpers/render');
 
 /**
  * Controller for the privacy page. Simply displays the privacy policy view.

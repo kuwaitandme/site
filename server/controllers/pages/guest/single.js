@@ -1,6 +1,6 @@
 var classifiedSingle = require('../classified/single'),
-	classified = require('../../models/classified'),
-	render = require('../helpers/render');
+	classified = global.models.classified,
+	render = require('../../helpers/render');
 
 
 /**

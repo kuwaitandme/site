@@ -1,7 +1,7 @@
-var classified = require('../../models/classified'),
-	config = require('../../../var/config'),
-	_2checkout = require('../helpers/_2checkout'),
-	render = require('../helpers/render');
+var classified = global.models.classified,
+	config = global.config,
+	_2checkout = require('../../2checkout'),
+	render = require('../../helpers/render');
 
 var classifiedFinish = require('../classified/finish');
 

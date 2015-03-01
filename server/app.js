@@ -12,12 +12,12 @@ var bodyParser = require('body-parser'),
 	path = require('path'),
 	redisStore = require('connect-redis')(expressSession);
 
-var config = require('../var/config'),
-	routes = require('./routes/index');
+global.config = require('../var/config');
+global.models = require('./models');
 
 /* Force JADE and Express to work based on the mode set in our config
  * parameter */
-if(config) process.env.NODE_ENV = config.mode;
+if(global.config) process.env.NODE_ENV = global.config.mode;
 
 var app = express();
 
@@ -49,27 +49,24 @@ app.use(cookieParser());
 app.use(expressSession({
 	resave: false,
 	saveUninitialized: true,
-	secret: config.sessionSecret,
-	store: new redisStore(config.redis)
+	secret: global.config.sessionSecret,
+	store: new redisStore(global.config.redis)
 }));
 app.use(csrf())
-// app.use(function (req, res, next) {
-// 	res.cookie('XSRF-TOKEN', req.csrfToken());
-// 	res.locals.csrftoken = req.csrfToken();
-// 	next();
-// })
 app.use(flash());
 
+
+global.root = __dirname;
 
 /* Initialize Passport User authentication */
 app.use(passport.initialize());
 app.use(passport.session());
-var initPassport = require('./controllers/auth/passport/init');
+var initPassport = require('./controllers/pages/auth/passport/init');
 initPassport(passport);
 
 
 /* Setup the different routes */
-app.use('/', routes);
+app.use('/', require('./routes'));
 
 
 /* None of the URL matched, so return 404  */
@@ -81,8 +78,8 @@ app.use(function(req, res, next) {
 
 
 /* Connect to the database */
-mongoose.connect('mongodb://' + config.mongodb.username +
-	':' + config.mongodb.password + '@localhost/kuwaitandme');
+mongoose.connect('mongodb://' + global.config.mongodb.username +
+	':' + global.config.mongodb.password + '@localhost/kuwaitandme');
 
 
 /* Function to log the error into a file */
@@ -106,7 +103,7 @@ var _404 = function(request, response) {
 
 
 /* Setup environment specific functions */
-if (config.mode == 'production') {
+if (global.config.mode == 'production') {
 	/* production error handler, no stacktraces leaked to user */
 	app.use(function(err, req, res, next) {
 		res.status(err.status || 500);

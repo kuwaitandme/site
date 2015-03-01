@@ -1,9 +1,7 @@
-var classified = require('../../models/classified'),
-	file = require('../helpers/file'),
-	config = require('../../../var/config'),
-	reCaptcha = require('../helpers/reCaptcha'),
-	render = require('../helpers/render');
-
+var classified = global.models.classified,
+	file = require('../../helpers/file'),
+	reCaptcha = require('../../reCaptcha'),
+	render = require('../../helpers/render');
 
 var controller =  module.exports = {
 	/**

@@ -1,4 +1,4 @@
-var render = require('../helpers/render');
+var render = require('../../helpers/render');
 
 /**
  * Controller for the guest page. Prompts to create a guest user, if so then

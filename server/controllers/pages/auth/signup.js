@@ -2,8 +2,8 @@ var flash = require('connect-flash'),
 	mongoose = require('mongoose'),
 	passport = require('passport');
 
-var	config = require('../../../var/config'),
-	render = require('../helpers/render');
+var	config = global.config,
+	render = require('../../helpers/render');
 
 
 /**

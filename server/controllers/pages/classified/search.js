@@ -1,10 +1,16 @@
-var classified = require("../../models/classified"),
-	render = require('../helpers/render');
+var classified = global.model.classified,
+	render = require('../../helpers/render');
 
-
+/**
+ * Controller for the classified search page. Searches for classifieds with
+ * some search parameters passed on as GET variables.
+ */
 var controller = module.exports = {
+
 	/**
 	 * [get description]
+	 *
+	 * DESCRIBE EACH PARAMETER HERE
 	 *
 	 * @param  {[type]}   request  [description]
 	 * @param  {[type]}   response [description]
@@ -14,15 +20,16 @@ var controller = module.exports = {
 		var parameters = controller.getQueryParameters(request);
 
 		classified.search(parameters, function(classifieds) {
+			/* Generate the response */
 			render(request, response, {
-				bodyid: 'account-manage',
+				bodyid: 'classified-search',
 				page: 'classified/search',
-				scripts: ['masonry', 'imagesLoaded'],
 				title: response.__('title.classified.search'),
+				scripts: ['masonry', 'imagesLoaded'],
 
 				data: { classifieds: classifieds }
 			});
-		}, 1, true);
+		}, 1);
 	},
 
 
@@ -35,13 +42,13 @@ var controller = module.exports = {
 	 */
 	post: function(request, response, next) {
 		var parameters = controller.getQueryParameters(request);
-		var page = 1;
 
+		var page = 1;
 		if(request.query.page) page = request.query.page;
 
 		classified.search(parameters, function(classifieds) {
 			response.end(JSON.stringify({ classifieds: classifieds }));
-		}, page, true);
+		}, page);
 	},
 
 
@@ -54,9 +61,24 @@ var controller = module.exports = {
 	getQueryParameters: function(request) {
 		var parameters = { };
 
-		if(request.user && request.user.isAdmin)
-			parameters.status = classified.status.INACTIVE;//[classified.status.FLAGGED, classified.status.INACTIVE];
-		else parameters.owner = request.user._id;
+		parameters.status = 1;
+
+		if(request.query.cat && /^[0-9A-F]*$/i.test(request.query.cat))
+			parameters.category = request.query.cat;
+
+		if(request.query.keywords) {
+			var keywords = request.query.keywords.split(' ');
+			var regex = [];
+
+			for(var i=0; i<keywords.length; i++)
+				if(/^[0-9A-Z]*$/i.test(keywords[i]))
+					regex.push(new RegExp(keywords[i], "i"));
+
+			parameters.$or = [
+				{ title:  { $in: regex } },
+				{ description:  { $in: regex } },
+			];
+		}
 
 		return parameters;
 	}
