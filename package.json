@@ -25,6 +25,7 @@
     "csurf": "^1.7.0",
     "debug": "~2.1.1",
     "easyimage": "^1.2.2",
+    "emailjs": "^0.3.12",
     "express": "~4.11.1",
     "express-session": "^1.10.2",
     "formidable": "^1.0.17",
