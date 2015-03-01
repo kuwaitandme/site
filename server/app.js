@@ -15,6 +15,7 @@ var bodyParser = require('body-parser'),
 global.config = require('../var/config');
 global.models = require('./models');
 
+
 /* Force JADE and Express to work based on the mode set in our config
  * parameter */
 if(global.config) process.env.NODE_ENV = global.config.mode;

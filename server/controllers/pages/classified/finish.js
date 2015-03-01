@@ -1,4 +1,4 @@
-var classified = global.model.classified,
+var classified = global.models.classified,
 	config = global.config,
 	_2checkout = require('../../2checkout'),
 	render = require('../../helpers/render');

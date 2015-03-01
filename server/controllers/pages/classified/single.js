@@ -1,6 +1,6 @@
 var async = require('async');
 
-var classified = global.model.classified,
+var classified = global.models.classified,
 	render = require('../../helpers/render');
 
 
