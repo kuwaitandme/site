@@ -1,5 +1,7 @@
 #!/usr/bin/env node
+
 var email   = require("emailjs"),
+	jade = require('jade'),
 	mongoose = require('mongoose'),
 	util = require('util');
 
@@ -14,22 +16,34 @@ mongoose.connect('mongodb://' + config.mongodb.username +
 classified.model.find({ status: classified.status.INACTIVE },
 	function(err, classifieds) {
 		/* Don't send the report if there are no unpublished classifieds */
-		if(classified.length == 0) return;
+		if(classifieds.length == 0) return;
 
 		var text = "";
 		var i=0;
+
+		/* Prepare the plain-text body */
 		for(; i<classifieds.length; i++) {
 			var cl = classifieds[i];
-			var textFragment = util.format('%d.\t<a href="%s">%s</a><br/>\n',
-				i + 1, 'classified/single/' + cl._id, cl.title);
+			var textFragment = util.format('%d.\t %s \n \t %s\n\n',
+				i + 1,
+				cl.title,
+				'http://kuwaitandme.com/classified/single/' + cl._id);
 
 			text += textFragment;
 		}
-
 		var header = util.format(
-			"<h2>%d  unpublished classified(s) for review today</h2><br/>\n", i);
-
+			"%d  unpublished classified(s) for review today\n", i);
+		header += "-----------------------------------------------\n";
 		var messageBody = header + text;
+
+
+		var fn = jade.compileFile(__dirname + '/../server/views/email/daily-report.jade');
+
+		// Render the function
+		var html = fn({
+			classifieds: classifieds,
+			host: "https://kuwaitandme.com"
+		});
 
 		/* Start sending the message */
 		var server  = email.server.connect({
@@ -43,6 +57,11 @@ classified.model.find({ status: classified.status.INACTIVE },
 			from: config.email.fromAddress,
 			to: config.email.reportAddress,
 			subject: "Kuwait & Me - Daily report",
+			attachment: [
+				{ data: html, alternative:true },
+			]
 		}, function(err, message) { console.log(err || message); });
+
+		process.exit();
 	}
 );
