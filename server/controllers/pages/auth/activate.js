@@ -19,8 +19,11 @@ var controller = module.exports = {
 
 		/* Try and activate the user */
 		User.activate(id, token, function(err, success) {
+			if(err) return response.redirect(failUrl);
 			if(success) return response.redirect(successUrl);
-			response.redirect(failUrl);
+
+			/* Show 404 if activation failed */
+			next();
 		});
 	}
 }

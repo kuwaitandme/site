@@ -24,12 +24,16 @@ router.get('/account/profile', isAuthenticated, pages.account.profile.get);
 router.post('/account/manage', isAuthenticated, pages.account.manage.post);
 
 /* Authentication URLs */
-router.get('/auth/guest', pages.auth.guest.get);
 router.get('/auth/activate/:id', pages.auth.activate.get);
+router.get('/auth/forgot', pages.auth.forgot.get);
+router.get('/auth/guest', pages.auth.guest.get);
 router.get('/auth/login', pages.auth.login.get);
 router.get('/auth/logout', pages.auth.logout.get);
+router.get('/auth/reset/:id', pages.auth.reset.get);
 router.get('/auth/signup', pages.auth.signup.get);
+router.post('/auth/forgot', pages.auth.forgot.post);
 router.post('/auth/login', pages.auth.login.post);
+router.post('/auth/reset/:id', pages.auth.reset.post);
 router.post('/auth/signup', pages.auth.signup.post);
 
 /* Classified URLs */

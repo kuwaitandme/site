@@ -37,6 +37,7 @@ var users = module.exports = {
 		isAdmin: Boolean,
 		language: Number,
 		lastLogin: [String],
+		resetToken: String,
 		status: Number, /* 0:Inactive,1:Active,2:Banned */
 
 		/* Personal information */
@@ -98,6 +99,9 @@ var users = module.exports = {
 		this.model.findOne({ _id: id}, function(err, user) {
 			if(err) throw err;
 
+			/* Check if user exists */
+			if(!user) return callback(null, false);
+
 			/* Check the activation token */
 			if(user.activationToken != token) return callback(null, false);
 
@@ -107,4 +111,41 @@ var users = module.exports = {
 			user.save(function(err) { callback(err, true); });
 		});
 	},
+
+	createResetToken: function(email, callback) {
+		this.model.findOne({ email: email }, function(err, user) {
+			if(err) throw err;
+
+			/* Check if the user exists */
+			if(!user) return callback(null, null);
+
+			/* Check if the user is activated */
+			if(user.status != users.status.ACTIVE) callback(null, null);
+
+			/* Generate a reset token */
+			user.resetToken = randomHash();
+			user.save(function(err) { callback(err, user); });
+		});
+	},
+
+	resetPassword: function(id, token, password, callback) {
+		this.model.findOne({ _id: id}, function(err, user) {
+			if(err) throw err; /* Check cast error */
+
+			/* Check if user exists */
+			if(!user) return callback(null, false);
+
+			/* Check if a password request was set or not */
+			if(!user.resetToken) return callback(null, false);
+
+
+			/* Check the reset token */
+			if(user.resetToken != token) return callback(null, false);
+
+			/* Reset the user password and get rid of reset token */
+			user.password = createHash(password);
+			user.resetToken = null;
+			user.save(function(err) { callback(err, true); });
+		});
+	}
 }

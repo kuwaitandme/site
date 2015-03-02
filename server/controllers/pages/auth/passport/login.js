@@ -60,7 +60,7 @@ var controller = module.exports = function(passport) {
 
 			/* Check the captcha, which then calls the function to login the
 			 * user */
-			reCaptcha.verify(request, captachSuccess, captachFail, false);
+			reCaptcha.verify(request, captachSuccess, captachFail);
 		})
 	);
 }

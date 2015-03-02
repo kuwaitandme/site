@@ -1,0 +1,14 @@
+extends ../../layout.jade
+
+block content
+	div.auth-title Reset your password
+	form(method="POST")
+		input(type="hidden", name="_csrf", value="#{csrfToken}")
+		section
+			div
+				input(type="password", name="password", placeholder="password", required)#auth-password1
+				input(type="password", name="repassword", placeholder="re-enter password", required)#auth-password2
+			div
+				input(type="submit", class="submit", value="Reset your password")
+		div
+			.g-recaptcha(data-sitekey!="#{data.sitekey}")
