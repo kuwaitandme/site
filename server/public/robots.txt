@@ -1,2 +1,7 @@
 User-agent: *
 Disallow:
+/account/
+/auth/
+/classified/edit/
+/classified/post/
+/guest/
