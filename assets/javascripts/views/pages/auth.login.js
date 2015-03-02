@@ -19,6 +19,7 @@ module.exports = Backbone.View.extend({
 		activate_fail: 'Something went wrong while activating your account',
 		activate_success: 'Your account is successfully activated',
 		captchaFail: 'Please enter the captcha properly!',
+		inactive: 'Your account is not activated! Check your inbox (and junk email) for an activation email',
 		incorrect: 'Your login credentials are invalid',
 		logout: 'You have been logged out successfully',
 		need_login: 'You need to be logged in in to view that page',
@@ -27,7 +28,7 @@ module.exports = Backbone.View.extend({
 		send_again: 'Your account is not activated, check your email',
 		signup_fail: 'Something went wrong while registering you',
 		signup_invalid: 'Some of the fields are invalid',
-		signup_success: 'Your account has been created, login below',
+		signup_success: 'Your account has been created, Check your inbox (and junk email) for an activation email',
 		signup_taken: 'That account name has already been taken!'
 	}
 });

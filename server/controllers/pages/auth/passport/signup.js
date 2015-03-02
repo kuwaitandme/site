@@ -1,6 +1,7 @@
 var	LocalStrategy = require('passport-local').Strategy;
 
-var	User = global.models.user.model;
+var	User = global.models.user;
+	Email = global.controllers.email,
 	reCaptcha = require('../../../reCaptcha');
 
 
@@ -8,6 +9,9 @@ var	User = global.models.user.model;
  * A Passport strategy to register a new user. It checks if the username exists
  * first, and if not then creates the user with the user name and hashes
  * password.
+ *
+ * If the user has passed validation, then an activation email is sent to the
+ * user.
  */
 var controller = module.exports = function(passport) {
 	/* The passport strategy to create a user */
@@ -39,7 +43,7 @@ var controller = module.exports = function(passport) {
 				if(!reEmail.test(username) || !reName.test(fullname))
 					done(null, false, { message: "signup_invalid" });
 
-				/* Find a user in Mongo with provided username */
+				/* Find a user in the database with provided username */
 				User.model.findOne({'username': username}, function(err, user) {
 					if (err) return done(err, false);
 
@@ -49,6 +53,12 @@ var controller = module.exports = function(passport) {
 					/* If there is no user with that email, create the user */
 					User.create(fullname, username, password, function(err, user) {
 						if (err) throw err;
+
+						/* Send activation email and return */
+						Email.sendTemplate(user.email, 'activate', {
+							subject: "Account activation",
+							user: user
+						});
 						done(null, user);
 					});
 				});

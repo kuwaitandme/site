@@ -1,1 +1,11 @@
-activate.jade
+html
+	h2 Welcome to Kuwait &amp; Me! #{user.name}
+	br
+	br
+	| Activate your account by clicking on this
+	a(href="#{host}/auth/activate/#{user._id}/?token=#{user.activationToken}") link.
+	br
+	| We hope that you will have a great experience with us :)
+	br
+	| Sincerely,
+	| The Kuwait &amp; Me team

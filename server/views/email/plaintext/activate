@@ -1,0 +1,4 @@
+|Welcome to the Kuwait & Me community!
+| 
+|Use the link below to activate your account
+|#{host}/auth/activate/#{user._id}/?token=#{user.activationToken}

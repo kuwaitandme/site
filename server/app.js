@@ -14,7 +14,8 @@ var bodyParser = require('body-parser'),
 
 /* Setup some globals */
 global.config = require('../var/config');
-global.models = require('./models');
+global.models = require('./models')
+global.controllers = require('./controllers');
 global.root = __dirname;
 
 /* Force JADE and Express to work based on the mode set in our config

@@ -32,6 +32,7 @@ module.exports = controller = Backbone.View.extend({
 		this.resizeClassifieds();
 	},
 
+
 	resizeClassifieds: function () {
 		/* Calculate the width of a single 1x1 sqaure. Subtract 5px from the
 		 * window's width to compensate for the scroll bar */

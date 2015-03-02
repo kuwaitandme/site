@@ -25,6 +25,7 @@ router.post('/account/manage', isAuthenticated, pages.account.manage.post);
 
 /* Authentication URLs */
 router.get('/auth/guest', pages.auth.guest.get);
+router.get('/auth/activate/:id', pages.auth.activate.get);
 router.get('/auth/login', pages.auth.login.get);
 router.get('/auth/logout', pages.auth.logout.get);
 router.get('/auth/signup', pages.auth.signup.get);
