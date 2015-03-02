@@ -103,7 +103,7 @@ var users = module.exports = {
 
 			/* Activate the user */
 			user.activationToken = "";
-			user.status = this.status.ACTIVE;
+			user.status = users.status.ACTIVE;
 			user.save(function(err) { callback(err, true); });
 		});
 	},

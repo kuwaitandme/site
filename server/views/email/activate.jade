@@ -1,11 +1,12 @@
 html
-	h2 Welcome to Kuwait &amp; Me! #{user.name}
+	h2 Welcome to Kuwait &amp; Me #{user.personal.name}!
 	br
-	br
-	| Activate your account by clicking on this
+	| Activate your account by clicking on this&nbsp;
 	a(href="#{host}/auth/activate/#{user._id}/?token=#{user.activationToken}") link.
 	br
+	br
 	| We hope that you will have a great experience with us :)
+	br
 	br
 	| Sincerely,
 	| The Kuwait &amp; Me team
