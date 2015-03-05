@@ -53,7 +53,7 @@ module.exports = {
 	 * @param  Object   arguments    An object containing properties that gets
 	 *                               passed on to the new view.
 	 */
-	setView: function(view, arguments) {
+	setView: function(view, arguments, reverse) {
 		console.debug("[debug] setting view to '" + view +
 			"' with arguments:", arguments);
 
@@ -72,7 +72,6 @@ module.exports = {
 
 			var $nextPage = this.createNextPage();
 			var html = this.fetchHTML(view, arguments.url);
-			console.log(html);
 			$nextPage.html(html);
 			$nextPage.attr('id', view);
 
@@ -81,7 +80,7 @@ module.exports = {
 				$el: $nextPage
 			});
 
-			window.nextPage();
+			window.nextPage(reverse);
 		} else {
 			console.debug("[debug] no view saved before. Initializing first view");
 			/* Else load set the currentView directly without any transition
@@ -131,17 +130,16 @@ module.exports = {
 	 * @return {[type]}      [description]
 	 */
 	fetchHTML: function(view, url) {
-		console.log(url);
 		var html = app.getCachedViewHTML(view);
 		if(html) return html;
 
+		console.debug("[debug] fetching HTML via AJAX", url);
 		$.ajax({
 			type: "GET",
 			url: url,
 			async: false,
 			success: function(response) {
 				html = $(response).find("#current-page").html();
-				console.debug("Fetching HTML", url, html);
 			}, error: function(e) {
 				console.error("Error sending GET request", e);
 			},
@@ -149,25 +147,6 @@ module.exports = {
 		return html;
 	},
 
-	animateNextPage: function() {
-		console.debug("[debug] animating next page");
-		var $curpage = this.$currentPage;
-		var $nextpage = this.$nextPage;
-
-		window.nextPage();
-		// this.$currentPage.hide();
-		// this.$nextPage.show();
-
-		this.$currentPage.attr("id", "prev-page");
-		this.$nextPage.attr("id", "current-page");
-		this.$previousPage.attr("id", "next-page");
-
-		this.$currentPage = this.$nextPage;
-		this.$nextPage = this.$previousPage;
-		this.$previousPage = $curpage;
-
-		this.$nextPage.html("");
-	},
 
 	/**
 	 * Function to safely call the Google analytics script

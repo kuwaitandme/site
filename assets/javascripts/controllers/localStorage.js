@@ -62,7 +62,7 @@ var controller = module.exports = function() {
 		if(localStorage.getItem(view)) return;
 
 		/* If we reach here, then get the HTML we need to cache and store it */
-		console.log("[debug] saving current view to cache");
+		console.debug("[debug] saving current view to cache");
 		var html = app.views.currentView.$el.find(".html5-cache").html();
 
 		/* Avoid caching empty html */
@@ -85,7 +85,7 @@ var controller = module.exports = function() {
 
 		var cache = localStorage.getItem("page-" + view);
 
-		if(cache) console.log("[debug] fetched HTML from cache");
+		if(cache) console.debug("[debug] fetched HTML from cache");
 		return cache;
 	}
 }

@@ -23,11 +23,14 @@ var controller = module.exports = function() {
 			return;
 		}
 
+		/* Trigger our pophistory function on the 'popstate' event */
+		onpopstate = this.popHistory;
+
 		/* Modify the current history event to maintain consistency with
 	 	 * history pop events */
 		var currentState = {
-			arguments: null,
-			view: app.currentPage,
+			arguments: { url: document.URL },
+			view: window.viewid,
 			url: document.URL
 		};
 		history.replaceState(currentState, "", document.URL);
@@ -95,7 +98,8 @@ var controller = module.exports = function() {
 		if(!currentState) return;
 
 		console.debug("[debug] HTML5 history pop", currentState);
-		app.setView(currentState.view, currentState.arguments);
+		currentState.arguments = currentState.arguments || { url: url };
+		app.setView(currentState.view, currentState.arguments, true);
 	};
 
 

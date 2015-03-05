@@ -10,6 +10,7 @@ module.exports = Backbone.View.extend({
 	},
 
 	render: function(){
+		console.log("[render] view landing");
 		var that = this;
 		var categories = window.categories;
 

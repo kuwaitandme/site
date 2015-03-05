@@ -9,6 +9,7 @@ ul.classified-list {
 		@extend .large-3;
 		@extend .medium-6;
 		padding: 7px;
+		float: left;
 		// max-width: #{300 - 15}px;
 
 		.container {

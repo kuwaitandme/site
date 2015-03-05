@@ -35,6 +35,7 @@ window.app = {
 		this.views.initialize(this.config);
 
 		require("./globals");
+		console.groupEnd()
 	},
 
 	/* Forward function to different app components. This way we can avoid
@@ -45,8 +46,8 @@ window.app = {
 	reattachRouter: function() {
 		return this.controllers.router.reattachRouter()
 	},
-	setView: function(page, arguments) {
-		return this.views.setView(page, arguments);
+	setView: function(page, arguments, reverse) {
+		return this.views.setView(page, arguments, reverse);
 	},
 	cacheCurrentView: function() {
 		return this.controllers.localStorage.cacheCurrentView();

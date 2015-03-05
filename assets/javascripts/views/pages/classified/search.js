@@ -5,9 +5,8 @@ module.exports = controller = Backbone.View.extend({
 
 	initialize: function(objs) {
 		var that = this;
-
 		if(objs.$el) this.$el = objs.$el;
-		console.log(objs, this.$el, this.$el.html());
+
 		this.pageIndex = 1;
 		this.ajaxLock = false;
 		this.ajaxDisable = false;
@@ -17,7 +16,7 @@ module.exports = controller = Backbone.View.extend({
 		// this.get = app.helpers.url.getGETstring(url);
 		this.$classifiedList = this.$el.find("ul#classified-search");
 
-		this.setupMasonry();
+		// this.setupMasonry();
 		this.render();
 		// this.spinner = new app.views.components.spinner();
 
@@ -122,7 +121,7 @@ module.exports = controller = Backbone.View.extend({
 		this.$classifiedList.masonry({
 			// columnWidth: 290,
 			// gutter: 0,
-			isFitWidth: true,
+			// isFitWidth: true,
 			isAnimated: true,
 			itemSelector: '.classified',
 		});
@@ -158,13 +157,13 @@ module.exports = controller = Backbone.View.extend({
 		});
 
 		that.$classifiedList.append(elems);
-		that.$classifiedList.masonry("appended", elems);
-		that.$classifiedList.masonry();
+		// that.$classifiedList.masonry("appended", elems);
+		// that.$classifiedList.masonry();
 
 		/* Reload, every time an image has been loaded */
 		var reloadMasonry = function() {
 			that.$classifiedList.masonry();
 		};
-		imagesLoaded(this.$classifiedList, reloadMasonry);
+		// imagesLoaded(this.$classifiedList, reloadMasonry);
 	}
 });
