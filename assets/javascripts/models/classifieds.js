@@ -1,3 +1,5 @@
+var ajax = app.helpers.ajax;
+
 module.exports = Backbone.Collection.extend({
 	model: require('./classified'),
 
@@ -15,7 +17,7 @@ module.exports = Backbone.Collection.extend({
 			dataType: "json",
 			beforeSend: ajax.setHeaders,
 			success: function(response) {
-				console.debug("Fetching collections", response);
+				console.debug("[model:classifieds] fetching collections", response);
 				var newModels = [];
 
 				/* For each classified convert it into a Backbone.Model and
@@ -33,7 +35,7 @@ module.exports = Backbone.Collection.extend({
 				 * classifieds */
 				that.trigger("ajax:done", newModels);
 			}, error: function(e) {
-				console.error("Error fetching collections", e);
+				console.error("[model:classifieds] error fetching collections", e);
 			},
 		});
 	},

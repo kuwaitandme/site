@@ -15,7 +15,7 @@ var controller = module.exports = function() {
 	 * Also, if the browser does not support localStorage use fallback methods.
 	 */
 	controller.prototype.initialize = function(config) {
-		console.log("[init] localstorage");
+		console.log("[controller:localstorage] initializing");
 
 		/* Check for localStorage */
 		if(typeof(Storage) !== "undefined") {
@@ -37,8 +37,8 @@ var controller = module.exports = function() {
 		} else {
 			/* Setup fallback methods */
 			this.fallback = true;
-			console.warn("[warn] localstorage not supported. Using fallback methods");
-			console.warn("[warn] no fallback methods for localstorage have been implemented so far");
+			console.warn("[controller:localstorage] HTML5 Storage not supported. Using fallback methods");
+			console.warn("[controller:localstorage] no fallback methods for localstorage have been implemented so far");
 		}
 	},
 
@@ -62,7 +62,7 @@ var controller = module.exports = function() {
 		if(localStorage.getItem(view)) return;
 
 		/* If we reach here, then get the HTML we need to cache and store it */
-		console.debug("[debug] saving current view to cache");
+		console.log("[controller:localstorage] saving current view to cache");
 		var html = app.views.currentView.$el.find(".html5-cache").html();
 
 		/* Avoid caching empty html */
@@ -85,7 +85,7 @@ var controller = module.exports = function() {
 
 		var cache = localStorage.getItem("page-" + view);
 
-		if(cache) console.debug("[debug] fetched HTML from cache");
+		if(cache) console.log("[controller:localstorage] fetched HTML from cache");
 		return cache;
 	}
 }

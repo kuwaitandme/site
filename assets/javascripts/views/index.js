@@ -12,7 +12,7 @@ module.exports = {
 	 * the header, currentView and other components.
 	 */
 	initialize: function() {
-		console.group("initialize views");
+		console.group("[view] initializing");
 
 		this.$body = $("body");
 		this.$currentPage = $("#current-page");
@@ -56,7 +56,7 @@ module.exports = {
 	 *                               should be shown or not.
 	 */
 	setView: function(view, arguments, reverse) {
-		console.debug("[debug] setting view to '" + view +
+		console.debug("[view] setting view to '" + view +
 			"' with arguments:", arguments);
 		var that = this;
 
@@ -76,29 +76,35 @@ module.exports = {
 			var $nextPage = this.createNextPage();
 			var html = this.fetchHTML(view, arguments.url);
 			$nextPage.html(html);
-			$nextPage.attr('id', view);
+			$nextPage.addClass(view);
 
 			this.currentView = new currentView({
 				arguments: arguments,
-				$el: $nextPage
+				el: $nextPage
 			});
 
-			window.nextPage(reverse, function() {
-				if(that.currentView.postAnimation)
-					that.currentView.postAnimation();
-			});
-			that.postAnimation();
+			app.transition(function() {
+				// that.postAnimation();
+				// if(that.currentView.postAnimation) that.currentView.postAnimation();
+				// app.reattachRouter();
+			}, { reverse: reverse });
+
 		} else {
-			console.debug("[debug] no view saved before. Initializing first view");
+			console.debug("[view] no view saved before. initializing first view");
 			/* Else load set the currentView directly without any transition
 			 * animations */
 			this.currentView = new currentView({
 				arguments: arguments,
 				el: ".pt-page-current"
 			});
-			this.postAnimation();
-			that.currentView.postAnimation();
+
 		}
+
+		this.postAnimation();
+		if(that.currentView.postAnimation) that.currentView.postAnimation();
+
+		/* Reattach the event handlers for the router */
+		app.reattachRouter();
 	},
 
 
@@ -112,15 +118,6 @@ module.exports = {
 		/* Now render the page and attach the events to it*/
 		this.currentView.render();
 		this.currentView.delegateEvents();
-
-		/* Signal the view to run any 'starting' animations */
-		if(this.currentView.onEnter) this.currentView.onEnter();
-
-		/* Give the body the right id, so that we can apply the right CSS
-		 * styles */
-		this.$body.attr("id", this.currentViewName);
-
-		/* Reattach the event handlers for the router */
 		app.reattachRouter();
 
 		/* Recall google Analytics */
@@ -150,7 +147,7 @@ module.exports = {
 	 * @return {[type]}      [description]
 	 */
 	fetchHTML: function(view, url) {
-		console.log("[view] trying to find HTML in cache for view", view);
+		console.log("[view] trying to find HTML in cache for view:", view);
 		var html = app.getCachedViewHTML(view);
 		if(html) return html;
 

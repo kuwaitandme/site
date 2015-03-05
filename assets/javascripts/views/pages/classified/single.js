@@ -9,18 +9,45 @@ module.exports = Backbone.View.extend({
 		archived: "This classified has been deleted",
 	},
 
-	initialize: function() {
-		this.classified = this.getClassified();
-		this.displayMessage();
-
-		/* Render the classified only if it's not banned or archived */
-		if(this.classified.status != 3 && this.classified.status != 4) {
-			this.render();
-			this.initMaps();
-			app.libs.smoothScroll.init();
+	initialize: function(obj) {
+		var that = this;
+		if(obj && obj.model) this.model = obj.model;
+		else {
+			var href = document.URL;
+			var id = href.substr(href.lastIndexOf('/') + 1);
+			this.model = new app.models.classified;
+			this.model.fetch(id);
 		}
 
-		this.renderAdminbar();
+		// this.displayMessage();
+
+		/* Render the classified only if it's not banned or archived */
+		// if(this.classified.status != 3 && this.classified.status != 4) {
+		// 	this.render();
+
+		// }
+
+	},
+
+
+	render: function () {
+		var slideshowTemplate = _.template(this.$el.find("#slideshow-template").html());
+		var singleTemplate = _.template(this.$el.find("#single-template").html());
+
+		/* Add the main template */
+		$(".c-content").html(singleTemplate(this.model.toJSON()));
+
+		/* Add the image templates */
+		var images = this.model.get("images");
+		if(images.length > 0)
+			this.$el.find(".c-gallery").html(slideshowTemplate({ images: images }));
+		else
+			this.$el.find(".c-gallery").hide();
+		this.$el.find(".page").css("min-height", $(window).height());
+
+		this.initMaps();
+		// app.libs.smoothScroll.init();
+		// this.renderAdminbar();
 	},
 
 
@@ -102,31 +129,19 @@ module.exports = Backbone.View.extend({
 		}
 
 		/* If there are google co-ordinates saved, load up google maps */
-		if(this.classified.meta && this.classified.meta.gmapX && this.classified.meta.gmapY) {
-			init(this.classified.meta.gmapX, this.classified.meta.gmapY);
+		var meta = this.model.get("meta");
+		if(meta && meta.gmapX && meta.gmapY) {
+			init(meta.gmapX, meta.gmapY);
 
 			// google.maps.event.addDomListener(window, 'load', init);
 		} else { this.$gmap.hide(); }
 	},
 
-	render: function () {
-		var slideshowTemplate = _.template($("#slideshow-template").html());
-		var singleTemplate = _.template($("#single-template").html());
-
-		/* Add the main template */
-		$(".c-content").html(singleTemplate(this.classified));
-
-		/* Add the image templates */
-		if(this.classified.images && this.classified.images.length > 0) $(".c-gallery").html(
-			slideshowTemplate({ images: this.classified.images }));
-		else $(".c-gallery").hide();
-		$(".page").css("min-height", $(window).height());
-	},
 
 	renderAdminbar: function () {
-		var adminTemplate = _.template($("#admin-template").html());
+		var adminTemplate = _.template(this.$el.find("#admin-template").html());
 
 		/* Add the admin template */
-		$("#admin-single").html(adminTemplate(this.classified));
+		this.$el.find("#admin-single").html(adminTemplate(this.classified));
 	}
 });

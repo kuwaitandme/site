@@ -3,6 +3,5 @@ module.exports = {
 	redactor:    require("./redactor"),
 	smoothScroll: require("./smoothScroll"),
 	spinner:     require("./spinner"),
-	tooltip:     require("./tooltip"),
-	pageTransistion: require("./pageTransistion")
+	tooltip:     require("./tooltip")
 };

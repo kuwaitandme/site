@@ -73,6 +73,7 @@ module.exports = Backbone.Model.extend({
 			url: url,
 			dataType: "json",
 			crossDomain: true,
+			async: false,
 			beforeSend: ajax.setHeaders,
 
 			/**
@@ -81,7 +82,7 @@ module.exports = Backbone.Model.extend({
 			 * not.
 			 */
 			success: function(response) {
-				console.debug("Fetching classified details", response);
+				console.debug("[model:classified] fetching classified details", response);
 
 				response.classified.editable = response.editable;
 				response.classified.superEditable = response.superEditable;
@@ -93,7 +94,7 @@ module.exports = Backbone.Model.extend({
 				that.trigger("ajax:done", that);
 			},
 			error: function(e) {
-				console.error("Error fetching classified details", e);
+				console.error("[model:classified] error fetching classified details", e);
 			},
 		});
 	},
@@ -141,7 +142,7 @@ module.exports = Backbone.Model.extend({
 	 *                               that is to be sent with the request.
 	 */
 	uploadServer: function(captcha) {
-		console.debug("Uploading classified details to server", this);
+		console.debug("[model:classified] uploading classified details to server", this);
 
 		var that = this;
 		var url = app.config.host + "/classified/post/";
@@ -168,7 +169,7 @@ module.exports = Backbone.Model.extend({
 			 */
 			success: function(response) {
 				if(!response._id) {
-					console.error("Error uploading classified", response);
+					console.error("[model:classified] error uploading classified", response);
 					return that.trigger("ajax:error", response);
 				}
 
@@ -184,7 +185,7 @@ module.exports = Backbone.Model.extend({
 				that.uploadFiles();
 			},
 			error: function(e) {
-				console.error("Error uploading classified details", e);
+				console.error("[model:classified] error uploading classified details", e);
 				that.trigger('ajax:error', e);
 			},
 		});
@@ -201,7 +202,7 @@ module.exports = Backbone.Model.extend({
 	 * object in the files:[] attribute of this model.
 	 */
 	uploadFiles: function() {
-		console.debug("Uploading image files to server", this.attributes.files);
+		console.debug("[model:classified] uploading image files to server", this.attributes.files);
 		var that = this;
 
 		/* Helper function to check if a file is valid or not */
@@ -209,7 +210,7 @@ module.exports = Backbone.Model.extend({
 
 		/* Start analyzing each file and if valid then upload it */
 		asyncJob = function(file, finish) {
-			console.debug("Uploading file ", file);
+			console.debug("[model:classified] uploading file ", file);
 			if(!validateFile(file)) return finish();
 
 			/* A progress handler function to show how much of the file
@@ -260,7 +261,7 @@ module.exports = Backbone.Model.extend({
 				},
 
 				error: function(e) {
-					console.error("Error uploading file", file, e);
+					console.error("[model:classified] error uploading file", file, e);
 					that.trigger('ajax:error', e);
 
 					finish();
@@ -271,7 +272,7 @@ module.exports = Backbone.Model.extend({
 		/* Once we are done, signal any listeners that we are completely done
 		 * uploading this classified */
 		asyncFinish = function() {
-			console.log('classified has been fully uploaded');
+			console.log('[model:classified] classified has been fully uploaded');
 			that.trigger("ajax:done");
 		};
 

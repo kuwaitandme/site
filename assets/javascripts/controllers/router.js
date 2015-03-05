@@ -2,7 +2,7 @@ var controller = module.exports = function() {
 	historyIndex: 0,
 
 	controller.prototype.initialize = function() {
-		console.log("[init] router");
+		console.log("[controller:router] initializing");
 
 		/* Start HTML5 history */
 		this.initializeHTML5history();
@@ -16,8 +16,9 @@ var controller = module.exports = function() {
 	 * Initializes the HTML5 history API
 	 */
 	controller.prototype.initializeHTML5history = function() {
+		var that = this;
 		if (typeof history.pushState === 'undefined') {
-			console.warn("HTML 5 History not available. Using fallback mode");
+			console.warn("[controller:router] HTML 5 History not available. Using fallback mode");
 			this.fallback = true;
 			return;
 		}
@@ -25,7 +26,9 @@ var controller = module.exports = function() {
 		this.historyIndex = 0;
 
 		/* Trigger our pophistory function on the 'popstate' event */
-		onpopstate = this.popHistory;
+		onpopstate = function(e) {
+			that.popHistory(e);
+		};
 
 		/* Modify the current history event to maintain consistency with
 	 	 * history pop events */
@@ -46,6 +49,7 @@ var controller = module.exports = function() {
 	 * href will contain the url which should be displayed in the browser.
 	 */
 	controller.prototype.hrefEventHandler = function(event){
+		console.debug("[controller:router] router captured href event", event);
 		if (this.fallback) return;
 		event.preventDefault();
 
@@ -87,7 +91,7 @@ var controller = module.exports = function() {
 			url: url
 		};
 
-		console.log("[history] HTML5 history push", currentState);
+		console.debug("[controller:router] HTML5 history push", currentState);
 		history.pushState(currentState, currentState.view, url);
 	};
 
@@ -109,8 +113,8 @@ var controller = module.exports = function() {
 		if(currentState.index > this.historyIndex) reverse = false;
 		this.historyIndex = currentState.index;
 
-		console.log("[history] HTML5 history pop:", currentState);
-		console.debug("[history] HTML5 popstate event:", e);
+		console.log("[controller:router] HTML5 history pop:", currentState);
+		console.debug("[controller:router] HTML5 popstate event:", e);
 		currentState.arguments = currentState.arguments ||
 			{ url: currentState.url };
 		app.setView(currentState.view, currentState.arguments, reverse);

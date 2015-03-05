@@ -1,7 +1,6 @@
-// var idleController = require('./idleController');
 var localStorage = require('./localStorage');
+var pageTransition = require("./pageTransition");
 var router = require('./router');
-// var webSocket = require('./webSocket');
 
 
 module.exports = {
@@ -12,16 +11,14 @@ module.exports = {
 	 *                           of the controller.
 	 */
 	initialize: function(config) {
-		console.group("initialize controllers");
+		console.group("[controller] initializing");
 
-		// this.idleController = new idleController();
 		this.localStorage = new localStorage();
+		this.pageTransition = new pageTransition();
 		this.router = new router();
-		// this.webSocket = new webSocket();
 
-		// this.idleController.initialize(config.idleController);
+		this.pageTransition.initialize(config.pageTransition);
 		this.localStorage.initialize(config.localStorage);
-		// this.webSocket.initialize(config.webSocket);
 		this.router.initialize(config.router);
 
 		console.groupEnd()

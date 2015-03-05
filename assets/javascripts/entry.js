@@ -12,8 +12,7 @@ window.app = {
 	 * This function starts up the app.
 	 */
 	start: function() {
-		console.group("initialize app");
-		console.log("[init] app");
+		console.group("[app] initializing");
 
 		/* Start attaching the module components here, so that other components
 		 * can refer to these modules by doing a 'app.modulename', since 'app'
@@ -44,7 +43,7 @@ window.app = {
 		return this.controllers.router.goto(url, view, args);
 	},
 	reattachRouter: function() {
-		return this.controllers.router.reattachRouter()
+		// return this.controllers.router.reattachRouter()
 	},
 	setView: function(page, arguments, reverse) {
 		return this.views.setView(page, arguments, reverse);
@@ -54,6 +53,9 @@ window.app = {
 	},
 	getCachedViewHTML: function(view) {
 		return this.controllers.localStorage.getCachedViewHTML(view);
+	},
+	transition: function(callback, options) {
+		return this.controllers.pageTransition.transition(callback, options);
 	}
 };
 

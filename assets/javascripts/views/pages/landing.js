@@ -4,21 +4,21 @@ module.exports = Backbone.View.extend({
 	},
 
 	initialize: function(objs) {
-		console.log("[init] view landing");
+		console.log("[view:landing] initializing");
 		if(objs.$el) this.$el = objs.$el;
 
-		this.$topClassifieds = $('#top-classifieds .content');
-		this.$categoryList = $('#masonry-container .content');
+		this.$topClassifieds = this.$el.find('#top-classifieds .content');
+		this.$categoryList = this.$el.find('#masonry-container .content');
 		this.$categoryList.hide();
 	},
 
 	render: function(){
-		console.log("[render] view landing");
+		console.log("[view:landing] rendering");
 		var that = this;
 		var categories = window.categories;
 
 		var categoriesTemplate = _.template(
-			$("#list-template").html());
+			this.$el.find("#list-template").html());
 		that.$categoryList.html("");
 
 		categories = app.helpers.category.appendCounters(
@@ -42,6 +42,7 @@ module.exports = Backbone.View.extend({
 		this.$categoryList.fadeIn();
 		this.setupMasonry();
 	},
+
 
 	/**
 	 * [toggleClassified description]
@@ -99,12 +100,12 @@ module.exports = Backbone.View.extend({
 	 * Adds the post counters to each category.
 	 */
 	addCounters: function() {
-		var counters = window.data.categoryCount;
-		for(var i=0; i<counters.length; i++) {
-			$("li[data-id='" + counters[i]._id + "'] .count").html(
-				"(" + app.helpers.numbers.withCommas(counters[i].total) + ")"
-			);
-		}
+		// var counters = window.data.categoryCount;
+		// for(var i=0; i<counters.length; i++) {
+		// 	$("li[data-id='" + counters[i]._id + "'] .count").html(
+		// 		"(" + app.helpers.numbers.withCommas(counters[i].total) + ")"
+		// 	);
+		// }
 	},
 
 
