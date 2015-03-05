@@ -3,10 +3,13 @@ module.exports = Backbone.View.extend({
 		"click .cl-title" : "toggleClassified"
 	},
 
-	initialize: function() {
+	initialize: function(objs) {
 		console.log("[init] view landing");
+		if(objs.$el) this.$el = objs.$el;
+
 		this.$topClassifieds = $('#top-classifieds .content');
 		this.$categoryList = $('#masonry-container .content');
+		this.$categoryList.hide();
 	},
 
 	render: function(){
@@ -32,9 +35,13 @@ module.exports = Backbone.View.extend({
 
 		/* Add the post counts to the classifieds */
 		that.addCounters();
-		this.setupMasonry();
 	},
 
+
+	postAnimation: function() {
+		this.$categoryList.fadeIn();
+		this.setupMasonry();
+	},
 
 	/**
 	 * [toggleClassified description]
@@ -64,11 +71,11 @@ module.exports = Backbone.View.extend({
 
 		$list.css('height', 'auto')
 		var height = $list.height();
-		this.catMasonry.layout();
+		that.$categoryList.masonry();
 		$list.height(0);
 
 		$list.stop().transition({ height: height }, function() {
-			that.catMasonry.layout();
+			that.$categoryList.masonry();
 		});
 	},
 
@@ -83,7 +90,7 @@ module.exports = Backbone.View.extend({
 
 		var $list = $el.find('.cl-list');
 		$list.stop().transition({ height: 0 }, function() {
-			that.catMasonry.layout();
+			that.$categoryList.masonry();
 		});
 	},
 
@@ -107,8 +114,9 @@ module.exports = Backbone.View.extend({
 	setupMasonry: function() {
 		var that = this;
 
-		this.catMasonry = new Masonry(this.$categoryList[0], {
+		this.$categoryList.masonry({
 			columnWidth: 10,
+			isAnimated: true,
 			isFitWidth: true,
 			itemSelector: '.cl-item'
 		});

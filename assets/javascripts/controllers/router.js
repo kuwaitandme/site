@@ -1,12 +1,11 @@
-var self;
-
 var controller = module.exports = function() {
+	historyIndex: 0,
+
 	controller.prototype.initialize = function() {
 		console.log("[init] router");
-		self = this;
 
 		/* Start HTML5 history */
-		self.initializeHTML5history();
+		this.initializeHTML5history();
 
 		/* Start backbone history (Essential for Backbone routers). */
 		Backbone.history.start();
@@ -19,9 +18,11 @@ var controller = module.exports = function() {
 	controller.prototype.initializeHTML5history = function() {
 		if (typeof history.pushState === 'undefined') {
 			console.warn("HTML 5 History not available. Using fallback mode");
-			self.fallback = true;
+			this.fallback = true;
 			return;
 		}
+
+		this.historyIndex = 0;
 
 		/* Trigger our pophistory function on the 'popstate' event */
 		onpopstate = this.popHistory;
@@ -29,6 +30,7 @@ var controller = module.exports = function() {
 		/* Modify the current history event to maintain consistency with
 	 	 * history pop events */
 		var currentState = {
+			index: this.historyIndex,
 			arguments: { url: document.URL },
 			view: window.viewid,
 			url: document.URL
@@ -44,7 +46,7 @@ var controller = module.exports = function() {
 	 * href will contain the url which should be displayed in the browser.
 	 */
 	controller.prototype.hrefEventHandler = function(event){
-		if (self.fallback) return;
+		if (this.fallback) return;
 		event.preventDefault();
 
 		/* Start collecting data */
@@ -53,7 +55,7 @@ var controller = module.exports = function() {
 		var view = $el.data().view;
 
 		/* Signal the app's view controllers to move to the new view ... */
-		self.goto(url, view, null);
+		this.goto(url, view, null);
 	};
 
 
@@ -62,10 +64,10 @@ var controller = module.exports = function() {
 	 */
 	controller.prototype.goto = function(url, view, args) {
 		/* Check if we are in fallback mode or not */
-		if(self.fallback) return (window.location = url);
+		if(this.fallback) return (window.location = url);
 
 		/* Manually append the data for this request into the History API */
-		self.pushHistory(url, view, args);
+		this.pushHistory(url, view, args);
 
 		/* Set the url in the arguments list and send to the view controller */
 		args = args || { url: url };
@@ -77,13 +79,15 @@ var controller = module.exports = function() {
 	 * Pushes the given url to the HTML5 history api.
 	 */
 	controller.prototype.pushHistory = function(url, view, arguments) {
+		this.historyIndex += 1;
 		var currentState = {
+			index: this.historyIndex,
 			arguments: arguments,
 			view: view,
 			url: url
 		};
 
-		console.debug("[debug] HTML5 history push", currentState);
+		console.log("[history] HTML5 history push", currentState);
 		history.pushState(currentState, currentState.view, url);
 	};
 
@@ -94,12 +98,22 @@ var controller = module.exports = function() {
 	 * state.
 	 */
 	controller.prototype.popHistory = function(e) {
+		var reverse = true;
+
+		/* Get the state of this history event. If there isn't any, then
+		 * return */
 		var currentState = history.state;
 		if(!currentState) return;
 
-		console.debug("[debug] HTML5 history pop", currentState);
-		currentState.arguments = currentState.arguments || { url: url };
-		app.setView(currentState.view, currentState.arguments, true);
+		/* Check if we are moving forwards or backwards in time */
+		if(currentState.index > this.historyIndex) reverse = false;
+		this.historyIndex = currentState.index;
+
+		console.log("[history] HTML5 history pop:", currentState);
+		console.debug("[history] HTML5 popstate event:", e);
+		currentState.arguments = currentState.arguments ||
+			{ url: currentState.url };
+		app.setView(currentState.view, currentState.arguments, reverse);
 	};
 
 
@@ -108,12 +122,13 @@ var controller = module.exports = function() {
 	 * is only attached to anchor tag with the [data-view] attribute.
 	 */
 	controller.prototype.reattachRouter = function() {
+		var that = this;
 		$("a[data-view]")
 			.unbind("click", function(event) {
-				self.hrefEventHandler(event);
+				that.hrefEventHandler(event);
 			})
 			.bind("click", function(event) {
-				self.hrefEventHandler(event);
+				that.hrefEventHandler(event);
 			});
 	};
 }

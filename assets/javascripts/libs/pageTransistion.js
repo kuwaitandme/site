@@ -30,7 +30,7 @@ var PageTransitions = (function() {
 		window.nextPage = nextPage;
 	}
 
-	function nextPage(reverse) {
+	function nextPage(reverse, callback) {
 		$pages = $main.children( 'div.pt-page' );
 		$pages.each( function() {
 			var $page = $(this);
@@ -45,7 +45,7 @@ var PageTransitions = (function() {
 
 		/* Don't animate if we are in the last page */
 		if(current < pagesCount - 1) ++current;
-		else return;
+		else if(callback) return callback();
 
 		var $nextPage = $pages.eq( current ).addClass( 'pt-page-current' ),
 			outClass = '', inClass = '';
@@ -62,27 +62,31 @@ var PageTransitions = (function() {
 			$currPage.off(animEndEventName);
 			endCurrPage = true;
 
-			if(endNextPage)  onEndAnimation($currPage, $nextPage);
+			if(endNextPage) onEndAnimation($currPage, $nextPage, callback);
 		});
 
 		$nextPage.addClass(inClass).on(animEndEventName, function() {
 			$nextPage.off(animEndEventName);
 			endNextPage = true;
 
-			if(endCurrPage) onEndAnimation( $currPage, $nextPage );
+			if(endCurrPage) onEndAnimation($currPage, $nextPage, callback);
 		});
 
-		if(!support) onEndAnimation( $currPage, $nextPage );
+		if(!support) onEndAnimation($currPage, $nextPage, callback);
 	}
 
-	function onEndAnimation( $outpage, $inpage ) {
+	function onEndAnimation($outpage, $inpage, callback) {
 		endCurrPage = false;
 		endNextPage = false;
 		resetPage($outpage, $inpage);
 		isAnimating = false;
+
+			if(callback) callback();
+		// setTimeout(function(){
+		// }, 500);
 	}
 
-	function resetPage( $outpage, $inpage ) {
+	function resetPage($outpage, $inpage) {
 		$outpage.attr('class', $outpage.data('originalClassList'));
 		$inpage.attr('class', $inpage.data('originalClassList') + ' pt-page-current');
 	}

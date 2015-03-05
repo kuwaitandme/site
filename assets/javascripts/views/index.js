@@ -52,10 +52,13 @@ module.exports = {
 	 *                               view that we must switch to.
 	 * @param  Object   arguments    An object containing properties that gets
 	 *                               passed on to the new view.
+	 * @param  Boolean  reverse      A boolean that decides if the previous
+	 *                               should be shown or not.
 	 */
 	setView: function(view, arguments, reverse) {
 		console.debug("[debug] setting view to '" + view +
 			"' with arguments:", arguments);
+		var that = this;
 
 		/* Get the view first */
 		this.currentViewName = view;
@@ -80,7 +83,11 @@ module.exports = {
 				$el: $nextPage
 			});
 
-			window.nextPage(reverse);
+			window.nextPage(reverse, function() {
+				if(that.currentView.postAnimation)
+					that.currentView.postAnimation();
+			});
+			that.postAnimation();
 		} else {
 			console.debug("[debug] no view saved before. Initializing first view");
 			/* Else load set the currentView directly without any transition
@@ -89,8 +96,16 @@ module.exports = {
 				arguments: arguments,
 				el: ".pt-page-current"
 			});
+			this.postAnimation();
+			that.currentView.postAnimation();
 		}
+	},
 
+
+	/**
+	 * [postAnimation description]
+	 */
+	postAnimation: function() {
 		/* Attempt to cache the HTML */
 		app.cacheCurrentView();
 
@@ -112,6 +127,11 @@ module.exports = {
 		this.googleAnalyticsSend();
 	},
 
+
+	/**
+	 * [createNextPage description]
+	 * @return {[type]} [description]
+	 */
 	createNextPage: function() {
 		var $el = $("<div class='pt-page'></div>");
 		$("#pt-main").append($el);
@@ -130,18 +150,19 @@ module.exports = {
 	 * @return {[type]}      [description]
 	 */
 	fetchHTML: function(view, url) {
+		console.log("[view] trying to find HTML in cache for view", view);
 		var html = app.getCachedViewHTML(view);
 		if(html) return html;
 
-		console.debug("[debug] fetching HTML via AJAX", url);
+		console.debug("[view] no HTML in cache, fetching HTML via AJAX", url);
 		$.ajax({
 			type: "GET",
 			url: url,
 			async: false,
 			success: function(response) {
-				html = $(response).find("#current-page").html();
+				html = $(response).find(".pt-page").html();
 			}, error: function(e) {
-				console.error("Error sending GET request", e);
+				console.error("[error] error sending GET request", e);
 			},
 		});
 		return html;
