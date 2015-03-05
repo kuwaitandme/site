@@ -24,6 +24,7 @@ var controller = module.exports = function() {
 		}
 
 		this.historyIndex = 0;
+		this.disabled = false;
 
 		/* Trigger our pophistory function on the 'popstate' event */
 		onpopstate = function(e) {
@@ -48,9 +49,8 @@ var controller = module.exports = function() {
 	 * contains the name of the view that we should look for, and the
 	 * href will contain the url which should be displayed in the browser.
 	 */
-	controller.prototype.hrefEventHandler = function(event){
-		console.debug("[controller:router] router captured href event", event);
-		if (this.fallback) return;
+	controller.prototype.hrefEventHandler = function(event) {
+		if (this.fallback && this.disabled) return;
 		event.preventDefault();
 
 		/* Start collecting data */
@@ -83,6 +83,8 @@ var controller = module.exports = function() {
 	 * Pushes the given url to the HTML5 history api.
 	 */
 	controller.prototype.pushHistory = function(url, view, arguments) {
+		if (this.fallback && this.disabled) return;
+
 		this.historyIndex += 1;
 		var currentState = {
 			index: this.historyIndex,
@@ -102,6 +104,8 @@ var controller = module.exports = function() {
 	 * state.
 	 */
 	controller.prototype.popHistory = function(e) {
+		// if (this.fallback && this.disabled) return;
+
 		var reverse = true;
 
 		/* Get the state of this history event. If there isn't any, then
@@ -113,8 +117,8 @@ var controller = module.exports = function() {
 		if(currentState.index > this.historyIndex) reverse = false;
 		this.historyIndex = currentState.index;
 
-		console.log("[controller:router] HTML5 history pop:", currentState);
 		console.debug("[controller:router] HTML5 popstate event:", e);
+		console.debug("[controller:router] HTML5 popstate state:", currentState);
 		currentState.arguments = currentState.arguments ||
 			{ url: currentState.url };
 		app.setView(currentState.view, currentState.arguments, reverse);
@@ -127,10 +131,9 @@ var controller = module.exports = function() {
 	 */
 	controller.prototype.reattachRouter = function() {
 		var that = this;
+		console.log("[controller:router] reattaching href event handlers");
 		$("a[data-view]")
-			.unbind("click", function(event) {
-				that.hrefEventHandler(event);
-			})
+			.unbind("click")
 			.bind("click", function(event) {
 				that.hrefEventHandler(event);
 			});

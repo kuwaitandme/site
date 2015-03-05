@@ -24,9 +24,6 @@ module.exports = controller = Backbone.View.extend({
 		/* Setup of local dom variables */
 		this.$classifiedList = this.$el.find("ul#classified-search");
 
-		/* Render the page */
-		this.render();
-
 		/* Fire the AJAX event for the first time to load the first set of
 		 * classifieds */
 		this.fireAjaxEvent();
@@ -44,13 +41,11 @@ module.exports = controller = Backbone.View.extend({
 		console.log("[view:classifieds-search] rendering")
 		var that = this;
 
-		// $("#main-container").fadeIn();
-
 		this.setupMasonry();
 		// this.spinner = new app.views.components.spinner();
 
-		this.resizeClassifieds();
-		$(window).resize(function() { that.resizeClassifieds(); });
+		// this.resizeClassifieds();
+		$(window).resize(function() { that.resizeClassifieds(); }).resize();
 	},
 
 
@@ -135,6 +130,9 @@ module.exports = controller = Backbone.View.extend({
 
 		/* Reload Masonry once for all the elements */
 		this.$classifiedList.masonry();
+
+		/* Reattach the event handlers for the router */
+		app.reattachRouter();
 
 		/* Reload Masonry again for every-time a new image has been loaded */
 		var reloadMasonry = function() { that.$classifiedList.masonry(); };

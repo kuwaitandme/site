@@ -1,5 +1,4 @@
-var async = require("async");
-	redis = require('redis'),
+var redis = require('redis'),
 	client = redis.createClient(null, null, { detect_buffers: true });
 
 var	category = global.models.category,
@@ -22,7 +21,7 @@ module.exports = function(request, response, args) {
 	 * out only the main content */
 	if(request.headers['x-ajax']) {
 		response.contentType('application/json');
-		return response.end(args.data);
+		return response.end(JSON.stringify(args.data));
 	}
 
 	/* Protect un-initialized variables */
@@ -30,67 +29,25 @@ module.exports = function(request, response, args) {
 	if(!args.data) args.data = "";
 	if(!args.scripts) args.scripts = [];
 
-	/* Setup data for our asynchronous tasks */
-	var tasks = [{
-			model: category,
-			name: "categories"
-		},{
-			model: location,
-			name: "locations"
-		}
-	];
-
-	/* Function to run on each task setup for the async */
-	var asyncJob = function (job, finish) {
-		/* Check the redis DB to see if our queries are cached or not */
-		client.get(job.name, function (err, result) {
-			if (result) {
-				common[job.name] = JSON.parse(result);
-
-				return finish();
-			}
-
-			/* If we reach here, then the query was not cached. Execute the
-			 * query and cache it for next time */
-			job.model.getAll(function(result) {
-				common[job.name] = result;
-
-				var json = JSON.stringify(result);
-				client.set(job.name, json);
-
-				finish();
-			});
-		});
-	}
 
 	/* Load up each of the external scripts */
 	for(var i=0; i<args.scripts.length; i++) {
 		args.scripts[i] = externalScripts[args.scripts[i]];
 	}
 
-	/* Function to run once the async is done it's jobs. */
-	var asyncComplete = function (err) {
-		if(err) throw err;
 
-		var csrfToken = "";
-		if(request.csrfToken) csrfToken = request.csrfToken();
+	var csrfToken = "";
+	if(request.csrfToken) csrfToken = request.csrfToken();
 
-		return response.render("main/" + args.page, {
-			bodyid: args.bodyid,
-			csrfToken: csrfToken,
-			description: args.description,
-			externalScripts: args.scripts,
-			ga: config.ga,
-			title: args.title + " | Kuwait &amp; Me",
-			user: request.user,
+	return response.render("main/" + args.page, {
+		bodyid: args.bodyid,
+		csrfToken: csrfToken,
+		description: args.description,
+		externalScripts: args.scripts,
+		ga: config.ga,
+		title: args.title + " | Kuwait &amp; Me",
+		user: request.user,
 
-			data: args.data,
-
-			categories: common["categories"],
-			locations: common["locations"]
-		});
-	}
-
-	/* Perform the asynchronous tasks to get the locations and categories */
-	return async.each(tasks, asyncJob, asyncComplete);
+		data: args.data,
+	});
 }

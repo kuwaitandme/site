@@ -83,11 +83,7 @@ module.exports = {
 				el: $nextPage
 			});
 
-			app.transition(function() {
-				// that.postAnimation();
-				// if(that.currentView.postAnimation) that.currentView.postAnimation();
-				// app.reattachRouter();
-			}, { reverse: reverse });
+			app.transition({ reverse: reverse });
 
 		} else {
 			console.debug("[view] no view saved before. initializing first view");
@@ -100,28 +96,21 @@ module.exports = {
 
 		}
 
-		this.postAnimation();
-		if(that.currentView.postAnimation) that.currentView.postAnimation();
-
-		/* Reattach the event handlers for the router */
-		app.reattachRouter();
-	},
-
-
-	/**
-	 * [postAnimation description]
-	 */
-	postAnimation: function() {
 		/* Attempt to cache the HTML */
 		app.cacheCurrentView();
 
 		/* Now render the page and attach the events to it*/
 		this.currentView.render();
-		this.currentView.delegateEvents();
+		// this.currentView.delegateEvents();
+
+		/* Reattach the event handlers for the router */
 		app.reattachRouter();
 
 		/* Recall google Analytics */
 		this.googleAnalyticsSend();
+
+		if(that.currentView.postAnimation) that.currentView.postAnimation();
+
 	},
 
 

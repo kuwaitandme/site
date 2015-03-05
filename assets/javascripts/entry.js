@@ -21,6 +21,8 @@ window.app = {
 		this.helpers = require("./helpers");
 		this.libs = require("./libs");
 
+		require("./globals");
+
 		/* Initialize the controllers */
 		this.controllers = require("./controllers");
 		this.controllers.initialize(this.config);
@@ -33,7 +35,6 @@ window.app = {
 		this.views = require("./views");
 		this.views.initialize(this.config);
 
-		require("./globals");
 		console.groupEnd()
 	},
 
@@ -43,7 +44,7 @@ window.app = {
 		return this.controllers.router.goto(url, view, args);
 	},
 	reattachRouter: function() {
-		// return this.controllers.router.reattachRouter()
+		return this.controllers.router.reattachRouter()
 	},
 	setView: function(page, arguments, reverse) {
 		return this.views.setView(page, arguments, reverse);
@@ -54,8 +55,8 @@ window.app = {
 	getCachedViewHTML: function(view) {
 		return this.controllers.localStorage.getCachedViewHTML(view);
 	},
-	transition: function(callback, options) {
-		return this.controllers.pageTransition.transition(callback, options);
+	transition: function(options) {
+		return this.controllers.pageTransition.transition(options);
 	}
 };
 

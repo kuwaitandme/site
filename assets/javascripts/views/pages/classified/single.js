@@ -10,6 +10,7 @@ module.exports = Backbone.View.extend({
 	},
 
 	initialize: function(obj) {
+		console.log("[view:classifieds-single] initializing");
 		var that = this;
 		if(obj && obj.model) this.model = obj.model;
 		else {
@@ -31,6 +32,7 @@ module.exports = Backbone.View.extend({
 
 
 	render: function () {
+		console.log("[view:classifieds-single] rendering");
 		var slideshowTemplate = _.template(this.$el.find("#slideshow-template").html());
 		var singleTemplate = _.template(this.$el.find("#single-template").html());
 
