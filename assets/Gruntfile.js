@@ -13,7 +13,7 @@ module.exports = function (grunt) {
 		/*! JS browserify options */
 		browserify: {
 			app: {
-				dest: "../server/public/javascripts/app.js",
+				dest: "../server/public/javascripts/build/app.js",
 				src: "javascripts/entry.js",
 				options: {
 					basedir: "javascripts/",
@@ -27,8 +27,8 @@ module.exports = function (grunt) {
 		sass: {
 			style: {
 				files: {
-					"../server/public/stylesheets/style.css" : "stylesheets/style.scss",
-					"../server/public/stylesheets/redactor.css" : "stylesheets/redactor.scss",
+					"../server/public/stylesheets/build/style.css" : "stylesheets/style.scss",
+					"../server/public/stylesheets/build/redactor.css" : "stylesheets/redactor.scss",
 				},
 				options: { style: "compressed" },
 			},
@@ -52,17 +52,17 @@ module.exports = function (grunt) {
 		/*! Add LICENSE(s) to the Javascripts/CSS files */
 		concat: {
 			css: {
-				dest: "../server/public/stylesheets/style.css",
+				dest: "../server/public/stylesheets/build/style.css",
 				src: [
 					"LICENSE",
-					"../server/public/stylesheets/style.css",
+					"../server/public/stylesheets/build/style.css",
 				]
 			},
 			js: {
-				dest: "../server/public/javascripts/app.min.js",
+				dest: "../server/public/javascripts/build/app.min.js",
 				src: [
 					"LICENSE",
-					"../server/public/javascripts/app.min.js",
+					"../server/public/javascripts/build/app.min.js",
 				]
 			}
 		},
@@ -71,8 +71,8 @@ module.exports = function (grunt) {
 		uglify: {
 			app: {
 				files: {
-					"../server/public/javascripts/app.min.js" : [
-						"../server/public/javascripts/app.js",
+					"../server/public/javascripts/build/app.min.js" : [
+						"../server/public/javascripts/build/app.js",
 					]
 				}
 			}
