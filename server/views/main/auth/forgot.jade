@@ -1,13 +1,14 @@
 extends ../../layout.jade
 
 block content
-	div.auth-title Reset your password
-	form(method="POST")
-		input(type="hidden", name="_csrf", value="#{csrfToken}")
-		section
+	.html5-cache
+		.auth-title Reset your password
+		form(method="POST")
+			input(type="hidden", name="_csrf", value="#{csrfToken}")
+			section
+				div
+					input(type="email", name="email", placeholder="your email", required)#auth-username
+				div
+					input(type="submit", class="submit", value="Reset your password")
 			div
-				input(type="email", name="email", placeholder="your email", required)#auth-username
-			div
-				input(type="submit", class="submit", value="Reset your password")
-		div
-			.g-recaptcha(data-sitekey!="#{data.sitekey}")
+				.g-recaptcha(data-sitekey!="#{data.sitekey}")

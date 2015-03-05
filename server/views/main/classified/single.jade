@@ -1,59 +1,62 @@
 extends ../../layout.jade
 
 block content
-	//- Container for the admin panel
-	#admin-single
-
-	//- Container for the slideshow
-	section.c-gallery
-
-	//- Raw HTML version so that bots can crawl it's contents
-	section.c-content
+	.hide
 		h1.c-title= data.classified.title
 		pre.c-description= data.classified.description
 
-	//- Google Maps
-	#map-canvas
+	.html5-cache
+		//- Container for the admin panel
+		#admin-single
 
-	//- Modal to report the classified
-	section.modal--show#report-modal(tabindex='-1', role='dialog', aria-labelledby='modal-label', aria-hidden='true')
-		.modal-inner
-			.title Report this classified
-			form(action="?success=reportsent#", method="POST")
-				input(type="hidden", name="_csrf", value="#{csrfToken}")
-				input(type="hidden", name="action", value="report")
-				textarea(name="reason", placeholder='Write your reason here')
-				input(type="submit", value="Send report")
-		a.modal-close(href='#!', title='Cancel Report', data-close='Close', data-dismiss='modal') ?
+		//- Container for the slideshow
+		section.c-gallery
 
-	section.modal--show#ban-modal(tabindex='-1', role='dialog', aria-labelledby='modal-label', aria-hidden='true')
-		.modal-inner
-			.title Ban this classified
-			form(method="POST")
-				input(type="hidden", name="_csrf", value="#{csrfToken}")
-				input(type="hidden", name="action", value="ban")
-				textarea(name="reason", placeholder='Write your reason here')
-				input(type="submit", value="Send report")
-		a.modal-close(href='#!', title='Cancel Report', data-close='Close', data-dismiss='modal') ?
+		//- Raw HTML version so that bots can crawl it's contents
+		section.c-content
 
-	section.modal--show#reject-modal(tabindex='-1', role='dialog', aria-labelledby='modal-label', aria-hidden='true')
-		.modal-inner
-			.title Reject this classified
-			form(method="POST")
-				input(type="hidden", name="_csrf", value="#{csrfToken}")
-				input(type="hidden", name="action", value="reject")
-				textarea(name="reason", placeholder='Write your reason here')
-				input(type="submit", value="Send report")
-		a.modal-close(href='#!', title='Cancel Report', data-close='Close', data-dismiss='modal') ?
+		//- Google Maps
+		#map-canvas
 
-	//- JS template for the admin panel
-	script(id="admin-template", type="text/template")
-		include ../../components/script-templates/admin-single.jade
+		//- Modal to report the classified
+		section.modal--show#report-modal(tabindex='-1', role='dialog', aria-labelledby='modal-label', aria-hidden='true')
+			.modal-inner
+				.title Report this classified
+				form(action="?success=reportsent#", method="POST")
+					input(type="hidden", name="_csrf", value="#{csrfToken}")
+					input(type="hidden", name="action", value="report")
+					textarea(name="reason", placeholder='Write your reason here')
+					input(type="submit", value="Send report")
+			a.modal-close(href='#!', title='Cancel Report', data-close='Close', data-dismiss='modal') ?
 
-	//- JS Template for the slideshow
-	script(id="slideshow-template", type="text/template")
-		include ../../components/script-templates/slideshow.jade
+		section.modal--show#ban-modal(tabindex='-1', role='dialog', aria-labelledby='modal-label', aria-hidden='true')
+			.modal-inner
+				.title Ban this classified
+				form(method="POST")
+					input(type="hidden", name="_csrf", value="#{csrfToken}")
+					input(type="hidden", name="action", value="ban")
+					textarea(name="reason", placeholder='Write your reason here')
+					input(type="submit", value="Send report")
+			a.modal-close(href='#!', title='Cancel Report', data-close='Close', data-dismiss='modal') ?
 
-	//- JS Template for the single classified
-	script(id="single-template", type="text/template")
-		include ../../components/script-templates/single.jade
+		section.modal--show#reject-modal(tabindex='-1', role='dialog', aria-labelledby='modal-label', aria-hidden='true')
+			.modal-inner
+				.title Reject this classified
+				form(method="POST")
+					input(type="hidden", name="_csrf", value="#{csrfToken}")
+					input(type="hidden", name="action", value="reject")
+					textarea(name="reason", placeholder='Write your reason here')
+					input(type="submit", value="Send report")
+			a.modal-close(href='#!', title='Cancel Report', data-close='Close', data-dismiss='modal') ?
+
+		//- JS template for the admin panel
+		script(id="admin-template", type="text/template")
+			include ../../components/script-templates/admin-single.jade
+
+		//- JS Template for the slideshow
+		script(id="slideshow-template", type="text/template")
+			include ../../components/script-templates/slideshow.jade
+
+		//- JS Template for the single classified
+		script(id="single-template", type="text/template")
+			include ../../components/script-templates/single.jade

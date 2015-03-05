@@ -1,19 +1,20 @@
 extends ../../layout.jade
 
 block content
-	div.auth-title Login
-	form(method="POST")
-		input(type="hidden", name="_csrf", value="#{csrfToken}")
-		section
+	.html5-cache
+		.auth-title Login
+		form(method="POST")
+			input(type="hidden", name="_csrf", value="#{csrfToken}")
+			section
+				div
+					input(type="email", name="username", placeholder="email", required)#auth-username
+				div
+					input(type="password", name="password", placeholder="password", required)#auth-password
+				div
+					input(type="submit", class="submit", value="Login")
 			div
-				input(type="email", name="username", placeholder="email", required)#auth-username
-			div
-				input(type="password", name="password", placeholder="password", required)#auth-password
-			div
-				input(type="submit", class="submit", value="Login")
-		div
-			.g-recaptcha(data-sitekey!="#{data.sitekey}")
-		div.extra-links
-			| Is this your first time here? <a href="/auth/signup">Sign up!</a>
-		div.extra-links
-			| Forgot your password? Click <a href="/auth/forgot">here</a>, to reset it.
+				.g-recaptcha(data-sitekey!="#{data.sitekey}")
+			.extra-links
+				| Is this your first time here? <a href="/auth/signup">Sign up!</a>
+			.extra-links
+				| Forgot your password? Click <a href="/auth/forgot">here</a>, to reset it.

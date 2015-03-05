@@ -1,49 +1,45 @@
 extends ../../layout.jade
 
 block content
-	//- Raw HTML for bots to crawl
-	section.classified-list
-		//- Check if there are any classifieds to print
-		if(!data.classifieds || data.classifieds.length == 0)
-			//- There wasn't, so print a "No classifieds message"
-			.noclassifieds-title #{__('page.csearch.noclassifieds')}
-		else
-			//- There were classifieds, print them one by one
-			ul
-				each classified in data.classifieds
-					li
-						a(href="/classified/single/#{classified._id}")= classified.title
+	.hide
+		//- Raw HTML for bots to crawl
+		each classified in data.classifieds
+			a(href="/classified/single/#{classified._id}")= classified.title
 
-	//- JS Template for each classified in the list
-	script(id="list-template", type="text/template")
-		|  <%
-		|    var nothumb = "";
-		|    if(!thumbnail) nothumb = "no-thumb";
-		|  %>
-		|  <a href="<?= site_url('classified/single/<%= id %>') ?>">
-		|    <li class="<%= nothumb %>">
-		|      <div class="thumb">
-		|        <% if(thumbnail) { %>
-		|          <img src="<?= site_url('/uploads/thumb/<%= thumbnail %>') ?>" alt="<%= title %>"/>
-		|        <% } %>
-		|      </div>
-		|      <div class="c-info">
-		|        <div class="c-title"><%= title %></div>
-		|        <div>
-		|          <span class="c-meta"><%= prettydate.format(daycreated) %></span>
-		|        </div>
-		|          <%
-		|            var cls="", text="";
-		|            switch(status) {
-		|              case "0": text = "#{__('post.status.aw')}"; cls="yellow"; break;
-		|              case "1": text = "#{__('post.status.active')}"; cls="green"; break;
-		|              case "2": text = "#{__('post.status.archive')}"; cls="red"; break;
-		|              case "3": text = "#{__('post.status.reject')}"; cls="red"; break;
-		|              case "4": text = "#{__('post.status.ban')}";  cls="red"; break;
-		|              default: break;
-		|            }
-		|          %>
-		|        <div class="box <%= cls %>"><%= text %></div>
-		|      </div>
-		|    </li>
-		|  </a>
+	.html5-cache
+		section.classified-list
+			ul
+
+		//- JS Template for each classified in the list
+		script(id="list-template", type="text/template")
+			|  <%
+			|    var nothumb = "";
+			|    if(!thumbnail) nothumb = "no-thumb";
+			|  %>
+			|  <a href="<?= site_url('classified/single/<%= id %>') ?>">
+			|    <li class="<%= nothumb %>">
+			|      <div class="thumb">
+			|        <% if(thumbnail) { %>
+			|          <img src="<?= site_url('/uploads/thumb/<%= thumbnail %>') ?>" alt="<%= title %>"/>
+			|        <% } %>
+			|      </div>
+			|      <div class="c-info">
+			|        <div class="c-title"><%= title %></div>
+			|        <div>
+			|          <span class="c-meta"><%= prettydate.format(daycreated) %></span>
+			|        </div>
+			|          <%
+			|            var cls="", text="";
+			|            switch(status) {
+			|              case "0": text = "#{__('post.status.aw')}"; cls="yellow"; break;
+			|              case "1": text = "#{__('post.status.active')}"; cls="green"; break;
+			|              case "2": text = "#{__('post.status.archive')}"; cls="red"; break;
+			|              case "3": text = "#{__('post.status.reject')}"; cls="red"; break;
+			|              case "4": text = "#{__('post.status.ban')}";  cls="red"; break;
+			|              default: break;
+			|            }
+			|          %>
+			|        <div class="box <%= cls %>"><%= text %></div>
+			|      </div>
+			|    </li>
+			|  </a>

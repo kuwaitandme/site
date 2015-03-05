@@ -1,21 +1,22 @@
 extends ../../layout.jade
 
 block content
-	div.auth-title Sign Up!
-	form(method="POST")
-		input(type="hidden", name="_csrf", value="#{csrfToken}")
-		section
+	.html5-cache
+		.auth-title Sign Up!
+		form(method="POST")
+			input(type="hidden", name="_csrf", value="#{csrfToken}")
+			section
+				div
+					input(type="text", name="fullname", placeholder="your name", required)
+				div
+					input(type="email", name="username", placeholder="email", required)
+				div
+					input(type="password", name="password", placeholder="password", required)
+				div
+					input(type="password", name="repassword", placeholder="re-enter password", required)
+				div
+					input(type="submit", class="submit", value="Sign-up")
 			div
-				input(type="text", name="fullname", placeholder="your name", required)
-			div
-				input(type="email", name="username", placeholder="email", required)
-			div
-				input(type="password", name="password", placeholder="password", required)
-			div
-				input(type="password", name="repassword", placeholder="re-enter password", required)
-			div
-				input(type="submit", class="submit", value="Sign-up")
-		div
-			.g-recaptcha(data-sitekey="#{data.sitekey}")
-		div.extra-links
-			| Already have an account? Login <a href="/auth/login">here</a>
+				.g-recaptcha(data-sitekey="#{data.sitekey}")
+			.extra-links
+				| Already have an account? Login <a href="/auth/login">here</a>
