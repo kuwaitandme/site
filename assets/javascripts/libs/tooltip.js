@@ -191,7 +191,7 @@
 		options = options || {};
 		this.each(function() {
 			var el = $(this);
-			var title = el.attr('title');
+			var title = el.attr('tooltip');
 			if(!title) return;
 			var animating = false;
 			var state;
@@ -203,11 +203,11 @@
 					var margin    = getDefault('margin', options, el, 0);
 					var slide     = getDefault('slide', options, el, 10);
 					var direction = getDefault('direction', options, el, 'top');
-					var t         = el.attr('title');
+					var t         = el.attr('tooltip');
 					if(t) {
 						title = t;
 					}
-					el.removeAttr('title');
+					el.removeAttr('tooltip');
 					setContent(el, options.html || title);
 					state = getState(el, options);
 					checkBounds(state, direction, margin, slide);
@@ -242,7 +242,7 @@
 		win     = $(window);
 		arrowWidth = arrow.width();
 		arrowHeight = arrow.height();
-		$('[title]').tooltip();
+		$('[tooltip]').tooltip();
 	});
 
 })(jQuery);

@@ -41,20 +41,19 @@ var controller = module.exports = {
 
 			classified.authHash = "";
 
+			var data = {
+				classified: classified,
+				editable: editable,
+				superEditable: superEditable
+			};
 
-			/* Generate the response */
 			render(request, response, {
 				bodyid: 'classified-single',
+				data: data,
 				description: classified.description,
 				page: 'classified/single',
 				scripts: ['googleMaps'],
-				title: classified.title,
-
-				data: {
-					classified: classified,
-					editable: editable,
-					superEditable: superEditable
-				}
+				title: classified.title
 			});
 		});
 	},

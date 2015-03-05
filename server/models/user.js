@@ -138,7 +138,6 @@ var users = module.exports = {
 			/* Check if a password request was set or not */
 			if(!user.resetToken) return callback(null, false);
 
-
 			/* Check the reset token */
 			if(user.resetToken != token) return callback(null, false);
 

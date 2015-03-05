@@ -11,16 +11,11 @@ var controller = module.exports = {
 	 * [get description]
 	 *
 	 * DESCRIBE EACH PARAMETER HERE
-	 *
-	 * @param  {[type]}   request  [description]
-	 * @param  {[type]}   response [description]
-	 * @param  {Function} next     [description]
 	 */
 	get: function(request, response, next) {
 		var parameters = controller.getQueryParameters(request);
 
 		classified.search(parameters, function(classifieds) {
-			/* Generate the response */
 			render(request, response, {
 				bodyid: 'classified-search',
 				page: 'classified/search',
@@ -35,10 +30,6 @@ var controller = module.exports = {
 
 	/**
 	 * [post description]
-	 *
-	 * @param  {[type]}   request  [description]
-	 * @param  {[type]}   response [description]
-	 * @param  {Function} next     [description]
 	 */
 	post: function(request, response, next) {
 		var parameters = controller.getQueryParameters(request);
@@ -47,7 +38,8 @@ var controller = module.exports = {
 		if(request.query.page) page = request.query.page;
 
 		classified.search(parameters, function(classifieds) {
-			response.end(JSON.stringify({ classifieds: classifieds }));
+			response.contentType('application/json');
+			response.end(JSON.stringify(classifieds));
 		}, page);
 	},
 

@@ -110,6 +110,10 @@ var file = module.exports = {
 	},
 
 
+	validate: function(file) {
+		return true;
+	},
+
 	/**
 	 * Given the asynchronous tasks for this function, perform them. Delete
 	 * the temporary file if 'isValid' is false; Move the temporary file

@@ -80,8 +80,8 @@ var classifieds = module.exports  = {
 	createFromPOST: function(request, user, callback) {
 		var that = this;
 
-		that._doFiles(request, function(POSTdata) {
-			that._doData(POSTdata, user, callback);
+		that._doFiles(request, function(data) {
+			// that._doData(data, user, callback);
 		});
 	},
 
@@ -93,9 +93,16 @@ var classifieds = module.exports  = {
 	 * @param  Function  callback    The callback function to call with the new
 	 *                               POST data.
 	 */
-	_doFiles: function(request, callback) {
-		file.upload(request, function(POSTdata) {
-			callback(POSTdata);
+	addFiles: function(id, files) {
+		this.model.findOne({_id: id}, function(err, classified) {
+			if(err) throw err;
+			if(!classified) return;
+
+			classified.perks.urgent = true;
+			classified.save();
+		});
+		file.upload(request, function(data) {
+			callback(data);
 		});
 	},
 
@@ -103,48 +110,54 @@ var classifieds = module.exports  = {
 	/**
 	 * Helper function used to fill up the data of the classified object.
 	 *
-	 * @param  Object    POSTdata    The object with the POST data
+	 * @param  Object    data        The object with the POST data
 	 * @param  Object    user        The currently logged in user's object.
 	 * @param  Function  callback    The callback function to call with the new
 	 *                               classified
 	 */
-	_doData: function(POSTdata, user, callback) {
+	create: function(data, user, callback) {
 		var classified = new this.model();
 
-		var hexRegex = /^[0-9A-F]*$/i;
-		var numberRegex = /^[0-9.-]*$/i;
+		var hexRegex = /^[0-9a-f]*$/;
+		var numberRegex = /^[0-9\.-]*$/i;
+		var requiredRegex = /^.+$/;
 
 		/* Check for any empty fields */
-		if(!POSTdata || !POSTdata.category || !POSTdata.description ||
-			!POSTdata.price || !POSTdata.title ||
-			!POSTdata.type || !POSTdata.email || !POSTdata.location)
+		if(!data ||
+			!requiredRegex.test(data.category) ||
+			!requiredRegex.test(data.contact.email) ||
+			!requiredRegex.test(data.description) ||
+			!requiredRegex.test(data.price) ||
+			!requiredRegex.test(data.title) ||
+			!requiredRegex.test(data.type) ||
+			!requiredRegex.test(data.contact.location))
 			return callback(null);
 
 		/* Check for any invalid fields */
-		if (!hexRegex.test(POSTdata.category) ||
-			!hexRegex.test(POSTdata.location) ||
-			!numberRegex.test(POSTdata.price) ||
-			!numberRegex.test(POSTdata.type) ||
-			!numberRegex.test(POSTdata.gmapX) ||
-			!numberRegex.test(POSTdata.gmapY) ||
-			!numberRegex.test(POSTdata.phone))
+		if (!hexRegex.test(data.category) ||
+			!hexRegex.test(data.contact.location) ||
+			!numberRegex.test(data.contact.phone) ||
+			(data.meta.gmapX && !numberRegex.test(data.meta.gmapX)) ||
+			(data.meta.gmapY && !numberRegex.test(data.meta.gmapY)) ||
+			!numberRegex.test(data.price) ||
+			!numberRegex.test(data.type))
 			return callback(null);
 
 		/* Start saving the fields one by one */
-		classified.category = POSTdata.category;
-		classified.contact.address1 = xss(POSTdata.address1);
-		classified.contact.address2 = xss(POSTdata.address2);
-		classified.contact.email = xss(POSTdata.email);
-		classified.contact.location = xss(POSTdata.location);
-		classified.contact.phone = POSTdata.phone;
-		classified.description = xss(POSTdata.description);
-		classified.images = POSTdata.images;
-		classified.meta.gmapX = POSTdata.gmapX;
-		classified.meta.gmapY = POSTdata.gmapY;
-		classified.price = POSTdata.price;
-		classified.saleby = POSTdata.saleby;
-		classified.title = xss(POSTdata.title);
-		classified.type = POSTdata.type;
+		classified.category = data.category;
+		classified.contact.address1 = xss(data.contact.address1);
+		classified.contact.address2 = xss(data.contact.address2);
+		classified.contact.email = xss(data.contact.email);
+		classified.contact.location = xss(data.contact.location);
+		classified.contact.phone = data.contact.phone;
+		classified.description = xss(data.description);
+		classified.images = data.images;
+		classified.meta.gmapX = data.meta.gmapX;
+		classified.meta.gmapY = data.meta.gmapY;
+		classified.price = data.price;
+		classified.saleby = data.saleby;
+		classified.title = xss(data.title);
+		classified.type = data.type;
 
 		/* Set up some defaults */
 		classified.created = Date.now();
@@ -152,7 +165,7 @@ var classifieds = module.exports  = {
 		classified.perks.urgent = false;
 		classified.views = 0;
 
-		/* Create a random hash for guest classifieds */
+		/* Create a random hash which will be used by guest classifieds */
 		classified.authHash = randomHash();
 
 		/* If you are logged in, then we will make you the owner of this
@@ -341,6 +354,7 @@ var classifieds = module.exports  = {
 		BANNED: 4,
 		FLAGGED: 5,
 		VERIFIED: 6,
+		EXPIRED: 7,
 
 
 		/**

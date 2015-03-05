@@ -161,7 +161,7 @@ exports.verify = function(request, captachSuccess, captachFail, enabled) {
 
 	var captchaResponse = request.query.captcha ||
 		request.body["g-recaptcha-response"] ||
-		request.headers['g-captcha'];
+		request.headers['x-gcaptcha'];
 
 	/* Create the reCapthca object */
 	var recaptcha = new Recaptcha(

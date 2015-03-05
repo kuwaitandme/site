@@ -15,7 +15,6 @@ header
 		unless user
 			a(href="/guest/post")
 				li Post a Classified
-			li.gap
 			a(href="/auth/signup")
 				li Signup
 			a(href="/auth/login")
@@ -23,12 +22,10 @@ header
 		else
 			a(href="/classified/post")
 				li Post a Classified
-			li.gap
 			a(href="/auth/logout")
 				li Logout
 			a(href="/account/")
 				li Account
-		li.gap
 		a(href="/privacy")
 			li Privacy Policy
 		a(href="/terms")

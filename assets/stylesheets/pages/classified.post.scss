@@ -30,6 +30,8 @@ body#classified-post #main-container {
 	}
 	.seperator { margin: 20px 0; }
 	.page {
+		opacity: 0;
+		display: none;
 		padding: 20px 0;
 		min-height: 100%;
 	}
@@ -161,5 +163,32 @@ body#classified-post #main-container {
 			}
 			&:hover .delete { opacity: 1; }
 		}
+	}
+	.social {
+		@include clearfix();
+		// display: inline-block;
+		// margin-bottom: 30px;
+		// margin: 0 auto;
+		overflow: hidden;
+		text-align: center;
+
+		div {
+			@extend .font-awesome;
+			color: #FFF;
+			float: left;
+			font-size: 20px;
+			padding: 10px 0;
+			margin: 20px 10px;
+			text-align: center;
+			width: 50px;
+
+			-webkit-border-radius: 25px;
+			-moz-border-radius: 25px;
+			border-radius: 25px;
+
+		}
+		.facebook div {background: #3B5390;}
+		.twitter div {background: #00AFEB;}
+		.gplus div {background: #CC4534;}
 	}
 }

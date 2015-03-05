@@ -46,10 +46,11 @@ html(lang="en")
 		main
 			//- Message container
 			ul#messages
-
-			//- Site content
-			#main-container
-				block content
+			#pt-main.pt-perspective
+				//- Site content
+				.pt-page(class="#{bodyid}")
+					block content
+				//- #next-page.pt-page
 
 		//- Include site footer
 		include ./include/footer.jade

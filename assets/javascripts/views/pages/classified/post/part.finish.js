@@ -1,4 +1,4 @@
-var controller = module.exports = Backbone.View.extend({
+module.exports = Backbone.View.extend({
 	events: {
 		"click .enabled .active" : "managePayment",
 		"click .enabled .cancel" : "managePayment",
@@ -15,35 +15,26 @@ var controller = module.exports = Backbone.View.extend({
 	],
 
 	initialize: function(obj) {
-		/* Save the window data */
-		this.data = window.data;
+		this.model = obj.model;
+
 		this.$tabPayment = this.$el.find("#tab-payment");
-		this.$paymentErrors = $("#payment-errors");
-		this.$modal = $("#modal-purchase");
-
-
-		this.post = window.data.classified;
-		this.post.created = app.helpers.date.prettify(this.post.created);
-		this.post.price = app.helpers.price.format(this.post.price);
-
-		this.render();
-		this.generateSocialLinks();
-
+		this.$paymentErrors = this.$el.find("#payment-errors");
+		this.$modal = this.$el.find("#modal-purchase");
 
 		this.spinner = new app.views.components.spinner();
 		this.spinner.show();
-
-		this.parseURL();
 	},
 
+	validate: function() { return true; },
 
 	render: function() {
-		var template = _.template($("#list-template").html());
+		this.generateSocialLinks();
+		// var template = _.template($("#list-template").html());
 
-		var html = template(this.post);
-		$("#classified-sample").html(html);
+		// var html = template(this.post);
+		// $("#classified-sample").html(html);
 
-		$(".page").css('min-height', $(window).height() * 0.7 - 90);
+		// $(".page").css('min-height', $(window).height() * 0.7 - 90);
 	},
 
 
@@ -99,8 +90,10 @@ var controller = module.exports = Backbone.View.extend({
 	 * [generateSocialLinks description]
 	 */
 	generateSocialLinks: function() {
-		var url = "https://" + window.location.hostname + "/classified/single/"
-			+ this.post._id;
+		var href = window.location.href;
+		var urlParts = href.split('/');
+		urlParts[4] = 'finish/';
+		var url = href.join('/') + this.model.get('_id');
 
 		var tweet = "Check out my classified at " + url;
 
@@ -108,6 +101,7 @@ var controller = module.exports = Backbone.View.extend({
 		var twitter = "https://twitter.com/home?status=" + encodeURI(tweet);
 		var gplus = "https://plus.google.com/share?url=" + url;
 
+		$("#finish-link").attr('href', url);
 		$(".social .facebook").attr('href', facebook);
 		$(".social .twitter").attr('href', twitter);
 		$(".social .gplus").attr('href', gplus);

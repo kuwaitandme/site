@@ -2,8 +2,8 @@ extends ../../layout.jade
 
 block content
 	link(rel='stylesheet', href='/stylesheets/redactor.css')
-	form(action="", method="POST", enctype="multipart/form-data")
-		section.tab.page#page-0
+	form(action="", method="POST")
+		section.tab.page#page-begin
 			h1 You are about to post a classified!
 			.message
 				p
@@ -23,17 +23,17 @@ block content
 			else
 				.message
 					p
-						| This classified will be published immediately and can bea rchived
+						| This classified will be published immediately and can be archived
 						| by accessing your account page.
 
 			.seperator
 
 			ul.error-message
 			.post-nav
-				a(href="#page-1", data-scroll) Next
+				a(href="#page-info", data-page-nav) Next
 
 		//- Form section for basic info
-		section.page#page-1
+		section.page#page-info
 			h1 Give the content for your classified
 			.hint
 				| Here you give the title and the content for your classified. Describe your classified
@@ -41,7 +41,7 @@ block content
 				br
 				| You can mention other details like the price, location, contact info in the next page.
 			//- .tab-title #{__('page.cform.title.info')}
-			input(name="title", placeholder="Classified title", title="Choose a title for your classified. The best titles are clear, meaningful and short", required)
+			input#title(name="title", placeholder="Classified title", tooltip="Choose a title for your classified. The best titles are clear, meaningful and short", required)
 			textarea#description(name='description')
 				| <p><b>Your description goes here</b></p>
 				| <p>You have a lot of options to make you classified look pretty and appealing! Choose from any of the formatting options above.</p>
@@ -51,55 +51,55 @@ block content
 
 			ul.error-message
 			.post-nav
-				a(href="#page-0", data-scroll) Previous
+				a(href="#page-begin", data-page-nav) Previous
 				| &nbsp; &middot; &nbsp;
-				a(href="#page-2").nav-next Next
+				a(href="#page-details", data-page-nav) Next
 
 
-		section.page#page-2
+		section.page#page-details
 			h1 Details about your classified
 			.hint
 				| Here you'll mention things like the price, location, category of your classified.
 				br
 				| This will help make your classified more visible and easily searchable.
 
-			select#price-selector(name="price-option", title="Choose a price. If you want people to contact you for a quote, choose the 'Contact Owner' option.", required)
+			select#price-selector(name="price-option", tooltip="Choose a price. If you want people to contact you for a quote, choose the 'Contact Owner' option.", required)
 				option(disabled, selected) The price for your classified *
 				option Free
 				option Custom
 				option Contact Owner
 			input#price-field(name="price", value=0, placeholder="Your price in KWD", required).hide
 
-			select(name="type", required, title="If you choose 'Offering', then you are offering something. If you choose 'Wanted', then you are requesting for something.")
+			select#ctype(name="type", required, tooltip="If you choose 'Offering', then you are offering something. If you choose 'Wanted', then you are requesting for something.")
 				option(value="-1", disabled, selected) What kind of classified is this? *
 				option(value="0") Offering
 				option(value="1") Wanted
 
-			select#cat-selector(name="parent-category", required, title="Choose the categories that best fit your classified")
+			select#cat-selector(name="parent-category", required, tooltip="Choose the categories that best fit your classified")
 				option(value="0", data-id="-1", disabled, selected) Choose a category *
 			select#subcat-selector(name="category", required, disabled)
 				option(data-id="-1", disabled, selected) Choose a subcategory *
 
 			.seperator
 
-			input(name="email", title="The email address that should be displayed on the classified", placeholder="Contact email *", required)
-			input(name="phone", title="A contact phone number (not required)", placeholder="Contact phone number")
-			select#locations(name="location", required, title="Choose the location for your classified. Click on 'None' if a location is not required.")
+			input#email(name="email", tooltip="The email address that should be displayed on the classified", placeholder="Contact email *", required)
+			input#phone(name="phone", tooltip="A contact phone number (not required)", placeholder="Contact phone number")
+			select#locations(name="location", required, tooltip="Choose the location for your classified. Click on 'None' if a location is not required.")
 				option(value="", disabled, selected) Choose a location *
-			input#address1(name="address1", title="You can write the contact address for your classified here", placeholder="Address line 1").hide
+			input#address1(name="address1", tooltip="You can write the contact address for your classified here", placeholder="Address line 1").hide
 			input#address2(name="address2", placeholder="Address line 2").hide
 
 			.seperator
 
 			ul.error-message
 			.post-nav
-				a(href="#page-1", data-scroll) Previous
+				a(href="#page-info", data-page-nav) Previous
 				| &nbsp; &middot; &nbsp;
-				a(href="#page-3").nav-next Next
+				a(href="#page-images", data-page-nav) Next
 
 
 		//- Form section for photos and videos
-		section.page#page-3
+		section.page#page-images
 			h1 Upload some images
 
 			//- Drag and drop container
@@ -109,44 +109,45 @@ block content
 				br
 				| Add your images here, by dragging and dropping them into the box below or by clicking on it.
 
-			#image-upload
-				span.heading Drag &amp; Drop your images here
-				br
-				span or just click/tap.
+			form#image-form
+				#image-upload
+					span.heading Drag &amp; Drop your images here
+					br
+					span or just click/tap.
 
-			ul#image-upload-preview(title="Selected images get displayed over here. If you want to remove an image, simply click on it.")
+			ul#image-upload-preview(tooltip="Selected images get displayed over here. If you want to remove an image, simply click on it.")
 
 			.seperator
 
 			ul.error-message
 			.post-nav
-				a(href="#page-2", data-scroll) Previous
+				a(href="#page-details", data-page-nav) Previous
 				| &nbsp; &middot; &nbsp;
-				a(href="#page-5").nav-next#page-4-next Next
+				a(href="#page-submit", data-page-nav)#page-4-next Next
 
 
-		section.page#page-4.hide
+		section.page#page-maps.hide
 			h1 Help people navigate to you!
 			.hint
 				| Most people have a hard time finding their way to you. Show them exactly where you want to meet by&nbsp;
 				b dragging and dropping the pointer below&nbsp;
 				| to the location of your meeting point.
 			#map-canvas
-			input(name="gmapX", type="hidden")
-			input(name="gmapY", type="hidden")
+			input#gmapX(name="gmapX", type="hidden")
+			input#gmapY(name="gmapY", type="hidden")
 
 			ul.error-message
 			.post-nav
-				a(href="#page-3", data-scroll) Previous
+				a(href="#page-images", data-page-nav) Previous
 				| &nbsp; &middot; &nbsp;
-				a(href="#page-5").nav-next Next
+				a(href="#page-submit", data-page-nav) Next
 
 
-		//- Finally the submit button
-		section.page#page-5
-			h1 That's all, You're good to go!
+		//- The submit page
+		section.page#page-submit
+			h1 Wasn't that simple? You're all set to go!
 			.hint
-				| Wasn't that easy? Your classified is now going to go live as soon as you click on the button below.
+				| Your classified is now ready to be uploaded as soon as you click on the button below.
 			.hint !{__('page.cform.disclaimer')}
 
 			.g-recaptcha(data-sitekey="#{data.sitekey}")
@@ -162,4 +163,19 @@ block content
 
 			ul.error-message
 			.post-nav
-				a(href="#page-3", data-scroll)#page-4-prev Previous
+				a(href="#page-details", data-page-nav)#page-4-prev Previous
+
+
+		//- The finish page
+		section.page#page-finish
+			h1 Awesome! Your classified is now up and running!
+			.hint You can view it <a href="#" id="finish-link"> here </a>
+			.hint In the mean time, bring attention to your classified by sharing on
+			.social.hint
+				a(href="#").facebook
+					div &#xf09a;
+				a(href="#").twitter
+					div &#xf099;
+				a(href="#").gplus
+					div &#xf0d5;
+			.seperator

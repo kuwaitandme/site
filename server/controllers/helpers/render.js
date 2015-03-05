@@ -18,6 +18,13 @@ var	category = global.models.category,
 module.exports = function(request, response, args) {
 	var common = [];
 
+	/* If the AJAX header is set, then set the response type to JSON and print
+	 * out only the main content */
+	if(request.headers['x-ajax']) {
+		response.contentType('application/json');
+		return response.end(args.data);
+	}
+
 	/* Protect un-initialized variables */
 	if(!args.bodyid) args.bodyid = "";
 	if(!args.data) args.data = "";
@@ -65,9 +72,12 @@ module.exports = function(request, response, args) {
 	var asyncComplete = function (err) {
 		if(err) throw err;
 
+		var csrfToken = "";
+		if(request.csrfToken) csrfToken = request.csrfToken();
+
 		return response.render("main/" + args.page, {
 			bodyid: args.bodyid,
-			csrfToken: request.csrfToken(),
+			csrfToken: csrfToken,
 			description: args.description,
 			externalScripts: args.scripts,
 			ga: config.ga,

@@ -1,4 +1,4 @@
-var classifiedPost = require("./classified.post");
+var classifiedPost = require("./post");
 
 module.exports = classifiedPost.extend({
 	/**

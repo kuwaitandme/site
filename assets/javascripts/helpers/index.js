@@ -1,4 +1,5 @@
 module.exports = {
+	ajax: require("./ajax"),
 	category: require("./category"),
 	date: require("./date"),
 	location: require("./location"),

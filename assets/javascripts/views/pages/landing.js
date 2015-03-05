@@ -4,11 +4,9 @@ module.exports = Backbone.View.extend({
 	},
 
 	initialize: function() {
+		console.log("[init] view landing");
 		this.$topClassifieds = $('#top-classifieds .content');
 		this.$categoryList = $('#masonry-container .content');
-
-		this.render();
-		this.setupMasonry();
 	},
 
 	render: function(){
@@ -33,6 +31,7 @@ module.exports = Backbone.View.extend({
 
 		/* Add the post counts to the classifieds */
 		that.addCounters();
+		this.setupMasonry();
 	},
 
 
