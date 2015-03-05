@@ -1,5 +1,5 @@
-body#auth-guest, body#auth-forgot, body#auth-login, body#auth-signup,
-body#auth-reset {
+.pt-page#auth-guest, .pt-page#auth-forgot, .pt-page#auth-login, .pt-page#auth-signup,
+.pt-page#auth-reset {
 	#main-container {
 		border: none;
 		background: none;
@@ -48,7 +48,7 @@ body#auth-reset {
 	}
 }
 
-body#auth-guest #main-container {
+.pt-page#auth-guest #main-container {
 	padding: 20px;
 
 	font-size: 14px;

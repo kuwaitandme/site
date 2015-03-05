@@ -26,7 +26,7 @@ module.exports = {
 		this.header = new components.header({ el: "header" });
 
 		/* Get and initialize the main view */
-		var view = this.$body.attr('id');
+		var view = window.viewid;
 		this.setView(view, {url: document.URL});
 
 		console.groupEnd();

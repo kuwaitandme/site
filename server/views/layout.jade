@@ -36,11 +36,10 @@ html(lang="en")
 		meta(charset="utf-8")
 		meta(http-equiv="content-type", content="text/html; charset=UTF-8")
 		meta(name="viewport", content="width=device-width, initial-scale=0.9")
-
-	body(id="#{bodyid}")
+		script window.viewid="#{bodyid}";
+	body
 		//- Include site header
 		include ./include/header.jade
-
 
 		//- Here goes the main content of the site
 		main
@@ -48,9 +47,8 @@ html(lang="en")
 			ul#messages
 			#pt-main.pt-perspective
 				//- Site content
-				.pt-page(class="#{bodyid}")
+				.pt-page(id="#{bodyid}")
 					block content
-				//- #next-page.pt-page
 
 		//- Include site footer
 		include ./include/footer.jade
