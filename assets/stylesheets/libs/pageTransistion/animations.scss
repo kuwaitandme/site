@@ -3,43 +3,43 @@
 /* move from / to  */
 
 .pt-page-moveToLeft {
-	-webkit-animation: moveToLeft .6s ease both;
-	animation: moveToLeft .6s ease both;
+	-webkit-animation: moveToLeft .3s ease both;
+	animation: moveToLeft .3s ease both;
 }
 
 .pt-page-moveFromLeft {
-	-webkit-animation: moveFromLeft .6s ease both;
-	animation: moveFromLeft .6s ease both;
+	-webkit-animation: moveFromLeft .3s ease both;
+	animation: moveFromLeft .3s ease both;
 }
 
 .pt-page-moveToRight {
-	-webkit-animation: moveToRight .6s ease both;
-	animation: moveToRight .6s ease both;
+	-webkit-animation: moveToRight .3s ease both;
+	animation: moveToRight .3s ease both;
 }
 
 .pt-page-moveFromRight {
-	-webkit-animation: moveFromRight .6s ease both;
-	animation: moveFromRight .6s ease both;
+	-webkit-animation: moveFromRight .3s ease both;
+	animation: moveFromRight .3s ease both;
 }
 
 .pt-page-moveToTop {
-	-webkit-animation: moveToTop .6s ease both;
-	animation: moveToTop .6s ease both;
+	-webkit-animation: moveToTop .3s ease both;
+	animation: moveToTop .3s ease both;
 }
 
 .pt-page-moveFromTop {
-	-webkit-animation: moveFromTop .6s ease both;
-	animation: moveFromTop .6s ease both;
+	-webkit-animation: moveFromTop .3s ease both;
+	animation: moveFromTop .3s ease both;
 }
 
 .pt-page-moveToBottom {
-	-webkit-animation: moveToBottom .6s ease both;
-	animation: moveToBottom .6s ease both;
+	-webkit-animation: moveToBottom .3s ease both;
+	animation: moveToBottom .3s ease both;
 }
 
 .pt-page-moveFromBottom {
-	-webkit-animation: moveFromBottom .6s ease both;
-	animation: moveFromBottom .6s ease both;
+	-webkit-animation: moveFromBottom .3s ease both;
+	animation: moveFromBottom .3s ease both;
 }
 
 /* fade */
@@ -130,11 +130,11 @@
 	from { -webkit-transform: translateX(-100%); transform: translateX(-100%); }
 }
 
-@-webkit-keyframes moveToRight { 
+@-webkit-keyframes moveToRight {
 	from { }
 	to { -webkit-transform: translateX(100%); }
 }
-@keyframes moveToRight { 
+@keyframes moveToRight {
 	from { }
 	to { -webkit-transform: translateX(100%); transform: translateX(100%); }
 }
@@ -598,50 +598,50 @@
 .pt-page-rotateCubeLeftOut {
 	-webkit-transform-origin: 100% 50%;
 	transform-origin: 100% 50%;
-	-webkit-animation: rotateCubeLeftOut .6s both ease-in;
-	animation: rotateCubeLeftOut .6s both ease-in;
+	-webkit-animation: rotateCubeLeftOut .3s both ease-in;
+	animation: rotateCubeLeftOut .3s both ease-in;
 }
 .pt-page-rotateCubeLeftIn {
 	-webkit-transform-origin: 0% 50%;
 	transform-origin: 0% 50%;
-	-webkit-animation: rotateCubeLeftIn .6s both ease-in;
-	animation: rotateCubeLeftIn .6s both ease-in;
+	-webkit-animation: rotateCubeLeftIn .3s both ease-in;
+	animation: rotateCubeLeftIn .3s both ease-in;
 }
 .pt-page-rotateCubeRightOut {
 	-webkit-transform-origin: 0% 50%;
 	transform-origin: 0% 50%;
-	-webkit-animation: rotateCubeRightOut .6s both ease-in;
-	animation: rotateCubeRightOut .6s both ease-in;
+	-webkit-animation: rotateCubeRightOut .3s both ease-in;
+	animation: rotateCubeRightOut .3s both ease-in;
 }
 .pt-page-rotateCubeRightIn {
 	-webkit-transform-origin: 100% 50%;
 	transform-origin: 100% 50%;
-	-webkit-animation: rotateCubeRightIn .6s both ease-in;
-	animation: rotateCubeRightIn .6s both ease-in;
+	-webkit-animation: rotateCubeRightIn .3s both ease-in;
+	animation: rotateCubeRightIn .3s both ease-in;
 }
 .pt-page-rotateCubeTopOut {
 	-webkit-transform-origin: 50% 100%;
 	transform-origin: 50% 100%;
-	-webkit-animation: rotateCubeTopOut .6s both ease-in;
-	animation: rotateCubeTopOut .6s both ease-in;
+	-webkit-animation: rotateCubeTopOut .3s both ease-in;
+	animation: rotateCubeTopOut .3s both ease-in;
 }
 .pt-page-rotateCubeTopIn {
 	-webkit-transform-origin: 50% 0%;
 	transform-origin: 50% 0%;
-	-webkit-animation: rotateCubeTopIn .6s both ease-in;
-	animation: rotateCubeTopIn .6s both ease-in;
+	-webkit-animation: rotateCubeTopIn .3s both ease-in;
+	animation: rotateCubeTopIn .3s both ease-in;
 }
 .pt-page-rotateCubeBottomOut {
 	-webkit-transform-origin: 50% 0%;
 	transform-origin: 50% 0%;
-	-webkit-animation: rotateCubeBottomOut .6s both ease-in;
-	animation: rotateCubeBottomOut .6s both ease-in;
+	-webkit-animation: rotateCubeBottomOut .3s both ease-in;
+	animation: rotateCubeBottomOut .3s both ease-in;
 }
 .pt-page-rotateCubeBottomIn {
 	-webkit-transform-origin: 50% 100%;
 	transform-origin: 50% 100%;
-	-webkit-animation: rotateCubeBottomIn .6s both ease-in;
-	animation: rotateCubeBottomIn .6s both ease-in;
+	-webkit-animation: rotateCubeBottomIn .3s both ease-in;
+	animation: rotateCubeBottomIn .3s both ease-in;
 }
 
 /* carousel */

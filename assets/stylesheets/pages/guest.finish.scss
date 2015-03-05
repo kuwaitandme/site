@@ -1,5 +1,5 @@
-.pt-page#guest-finish {
-	@extend .pt-page#classified-finish;
+.pt-page.guest-finish {
+	@extend .pt-page.classified-finish;
 
 	#qrcode {
 		background: #FFF;
