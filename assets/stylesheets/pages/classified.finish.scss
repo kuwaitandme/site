@@ -2,7 +2,7 @@
 	text-align: center;
 
 	#classified-preview {
-		@extend body#classified-search;
+		@extend .pt-page#classified-search;
 		padding-bottom: 30px;
 	}
 	.page {
