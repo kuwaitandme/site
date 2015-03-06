@@ -32,6 +32,7 @@ var controller = module.exports = {
 		});
 	},
 
+	api: require('./api'),
 	account: require('./account'),
 	auth: require('./auth'),
 	classified: require('./classified'),

@@ -180,6 +180,8 @@ var classifieds = module.exports  = {
 			classified.guest = true;
 		}
 
+		console.log(classified);
+
 		/* Commit to the database and call the callback function */
 		classified.save(function (err) {
 			if (err) throw err;
