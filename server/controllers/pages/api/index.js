@@ -11,5 +11,8 @@ var controller = module.exports = {
 			status : "online",
 			jsVersion: config.jsVersion,
 		}));
-	}
+	},
+
+	category: require("./category"),
+	location: require("./location")
 }

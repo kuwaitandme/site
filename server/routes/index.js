@@ -19,6 +19,8 @@ router.get('/terms', pages.terms.get);
 
 /* API URLs */
 router.get('/api/', pages.api.get);
+router.get('/api/category', pages.api.category.get);
+router.get('/api/location', pages.api.location.get);
 
 /* Account URLs */
 router.get('/account/', isAuthenticated, pages.account.get);
