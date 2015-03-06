@@ -85,8 +85,8 @@ module.exports = {
 			 * option. Here we make use of our two helper functions to properly
 			 * create the page while deleting any old ones and reusing recent
 			 * ones. */
-			var $targetPage, viewExists;
-			if(!reverse) viewExists = this.createNextPage(historyIndex);
+			var $targetPage, viewExists = false;
+			if(!reverse) this.createNextPage(historyIndex);
 			else viewExists = this.createPreviousPage(historyIndex);
 
 			/* Find the target page. Which is the last child */
@@ -136,6 +136,9 @@ module.exports = {
 		if(!viewExists) this.currentView.render();
 		else this.currentView.$el.scrollTop(this.currentView.scrollPosition);
 
+		 // Call a special postAnimation function which is
+		// if(this.currentView.postAnimation) this.currentView.postAnimation();
+
 		/* Reattach the event handlers for the router */
 		app.reattachRouter();
 
@@ -149,7 +152,8 @@ module.exports = {
 
 	/**
 	 * [createNextPage description]
-	 * @return {[type]} [description]
+	 *
+	 * @param  {[type]} historyIndex [description]
 	 */
 	createNextPage: function(historyIndex) {
 		var that = this;
@@ -166,15 +170,13 @@ module.exports = {
 			if(index != historyIndex - 1) $page.remove();
 		});
 		this.$ptMain.append($el);
-
-		return false;
 	},
 
 
 	/**
-	 * [createNextPage description]
-	 * @return Boolean    True iff there was a view already initialized in the
-	 *                    previous page.
+	 * [createPreviousPage description]
+	 *
+	 * @param  {[type]} historyIndex [description]
 	 */
 	createPreviousPage: function(historyIndex) {
 		var that = this;
@@ -227,7 +229,7 @@ module.exports = {
 			url: url,
 			async: false,
 			success: function(response) {
-				html = $(response).find(".pt-page").html();
+				html = $(response).find(".html5-cache").html();
 			}, error: function(e) {
 				console.error("[view] error sending GET request", e);
 			},

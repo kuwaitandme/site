@@ -18,14 +18,15 @@ var router = Backbone.Router.extend({
 		"page-info": "showPageInfo",
 		"page-maps": "showPageMaps",
 		"page-submit": "showPageSubmit",
-		// "*": "showPageBegin",
-		"*path": "showPageBegin",
+		"*path": "startup"
 	},
 
 
-	initialize: function(obj) {
+	initialize: function(options) {
+		console.log("[view:classified-post] initializing router")
 		var that = this;
-		this.model = obj.model;
+		this.model = options.model;
+		this.$el = options.$el;
 
 		this.listenTo(this.model, "ajax:done", function() {
 			that.navigate("page-finish", {trigger: true});
@@ -36,6 +37,17 @@ var router = Backbone.Router.extend({
 		});
 	},
 
+	close: function() {
+		this.$el.empty();
+		this.$el.off();
+		this.stopListening();
+	},
+
+	startup: function() {
+		console.log("[view:classified-post] redirecting to starting route");
+		this.showPageBegin();
+	},
+
 	displayError: function(message) {
 		this.currentView.$el.find("ul.error-message")
 			.hide()
@@ -44,66 +56,79 @@ var router = Backbone.Router.extend({
 	},
 
 
-	switchView: function(viewname, el) {
+	switchPage: function(viewname, el) {
 		var that = this;
-		var view;
+		console.group("[view:classified-post] switching to page:", viewname);
 
+		console.debug("[view:classified-post]", this.$el.find(el));
 		/* If the view wasn't initialized already, initialize it */
 		if(!this.views[viewname]) this.views[viewname] = new views[viewname]({
 			el: el,
 			model: this.model
 		});
-		view = this.views[viewname];
+		var view = this.views[viewname];
+
+		console.debug("[view:classified-post] using sub-view:", view);
 
 		/* Remove all error messages */
 		$("ul.error-message li").remove();
 
 		/* Set the current view variable */
-		if(!this.currentView) this.currentView = view;
+		if(this.currentView) {
+			/* If the view's validation function failed, stay in the same view */
+			if(this.currentView.validate && !this.currentView.validate())
+				return this.navigate(this.currentFragment, {trigger: false});
 
-		/* If the view's validation function failed, stay in the same view */
-		if(!this.currentView.validate())
-			return this.navigate(this.currentFragment, {trigger: false});
+			/* Animate and switch the DOM elements */
+			var $el = this.currentView.$el;
+			console.debug("[view:classified-post] animating previous view", view);
+			$el.transition({ opacity: 0 }, function() {
+				$el.hide();
+				that.currentFragment = Backbone.history.fragment;
+				that.currentView = view;
 
-		/* Animate and switch the DOM elements */
-		var $el = this.currentView.$el;
-		$el.transition({ opacity: 0 }, function() {
-			$el.hide();
+				that.currentView.render();
+				that.currentView.$el.show().transition({ opacity: 1 });
+			});
+		} else {
 			that.currentFragment = Backbone.history.fragment;
 			that.currentView = view;
 			that.currentView.render();
 			that.currentView.$el.show().transition({ opacity: 1 });
-		});
+		}
+
+
+		console.groupEnd();
 	},
 
 
 	showPageBegin: function () {
-		this.switchView("begin", "#page-begin");
+		this.switchPage("begin", "#page-begin");
 	},
 
 	showPageDetails: function () {
-		this.switchView("details", "#page-details");
+		this.switchPage("details", "#page-details");
 	},
 
 	showPageSubmit: function () {
-		this.switchView("submit", "#page-submit");
+		this.switchPage("submit", "#page-submit");
 	},
 
 	showPageImages: function () {
-		this.switchView("images", "#page-images");
+		this.switchPage("images", "#page-images");
 	},
 
 
 	showPageInfo: function () {
-		this.switchView("info", "#page-info");
+		this.switchPage("info", "#page-info");
 	},
 
 	showPageMaps: function () {
-		this.switchView("maps", "#page-maps");
+		this.switchPage("maps", "#page-maps");
 	},
 
 	showPageFinish: function() {
-		this.switchView("finish", "#page-finish");
+		this.switchPage("finish", "#page-finish");
 	}
 })
 
@@ -112,10 +137,30 @@ module.exports = Backbone.View.extend({
 	model: new app.models.classified,
 
 	initialize: function(obj) {
-		this.router = new router({ model: this.model });
+		console.log("[view:classified-post] initializing")
 	},
 
 	render: function() {
-		this.router.showPageBegin();
+		console.log("[view:classified-post] rendering");
+		/* I really don't like to do this.. but Backbone refuses to create
+		 * multiple instances of this router and new ones don't have any effect.
+		 * This hack is abit dirty and a solution should be found soon */
+		if(!window.router) window.router = new router({
+			$el: this.$el,
+			model: this.model
+		});
+		else {
+			window.router.$el = this.$el;
+			window.router.model = this.model;
+			window.router.views = [];
+		}
+		window.router.startup();
+	},
+
+	close: function() {
+		this.$el.empty();
+		this.$el.off();
+		this.stopListening();
+		this.router.close();
 	}
 });
