@@ -14,12 +14,12 @@ module.exports = {
 		console.group("[controller] initializing");
 
 		this.localStorage = new localStorage();
-		this.pageTransition = new pageTransition();
 		this.router = new router();
+		this.pageTransition = new pageTransition();
 
-		this.pageTransition.initialize(config.pageTransition);
 		this.localStorage.initialize(config.localStorage);
 		this.router.initialize(config.router);
+		this.pageTransition.initialize(config.pageTransition);
 
 		console.groupEnd()
 	}

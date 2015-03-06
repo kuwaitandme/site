@@ -23,7 +23,8 @@ var controller = module.exports = function() {
 			return;
 		}
 
-		this.historyIndex = 0;
+		this.historyIndex = window.history.length;
+		this.startingIndex = this.historyIndex;
 		this.disabled = false;
 
 		/* Trigger our pophistory function on the 'popstate' event */
@@ -69,6 +70,10 @@ var controller = module.exports = function() {
 
 	/**
 	 * Commands the app to load the given view, with the given URL.
+	 *
+	 * @param  {[type]} url  [description]
+	 * @param  {[type]} view [description]
+	 * @param  {[type]} args [description]
 	 */
 	controller.prototype.goto = function(url, view, args) {
 		/* Check if we are in fallback mode or not */
@@ -85,6 +90,10 @@ var controller = module.exports = function() {
 
 	/**
 	 * Pushes the given url to the HTML5 history api.
+	 *
+	 * @param  {[type]} url       [description]
+	 * @param  {[type]} view      [description]
+	 * @param  {[type]} arguments [description]
 	 */
 	controller.prototype.pushHistory = function(url, view, arguments) {
 		if (this.fallback && this.disabled) return;
@@ -107,7 +116,7 @@ var controller = module.exports = function() {
 	 * the history API and then requests the app to set the view based on that
 	 * state.
 	 */
-	controller.prototype.popHistory = function(e) {
+	controller.prototype.popHistory = function(event) {
 		/* Get the state of this history event. If there isn't any, then
 		 * return */
 		var currentState = history.state;
@@ -118,7 +127,7 @@ var controller = module.exports = function() {
 		this.historyIndex = currentState.index;
 
 		console.groupCollapsed("[controller:router] HTML5 popstate");
-		console.debug("[controller:router] popstate event:", e);
+		console.debug("[controller:router] popstate event:", event);
 		console.debug("[controller:router] popstate state:", currentState);
 
 		currentState.arguments = currentState.arguments ||

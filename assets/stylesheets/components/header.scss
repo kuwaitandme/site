@@ -1,5 +1,4 @@
 header {
-	// height: 100%;
 	left: 0;
 	position: absolute;
 	top: 0;
@@ -8,15 +7,16 @@ header {
 
 	nav#main-nav {
 		background: #FFF;
+		border-bottom: 2px solid #EEE;
 		height: 75px;
 		padding: 10px 0;
 		width: 100%;
-		border-bottom: 2px solid #EEE;
 
 		ul {
 			@include clearfix();
 			margin: 0;
 			padding: 0;
+			position: relative;
 			width: 100%;
 		}
 		li {
@@ -41,12 +41,29 @@ header {
 					margin-top: 5px;
 				}
 			}
+			&.nav {
+				@extend .font-awesome;
+				@include single-transition(color);
+				color: #DDD;
+				display: none;
+				float: left;
+				font-size: 18px;
+				margin-top: 8px;
+
+				&.active { color: #000; }
+				&.home {
+					color: #000;
+					font-size: 28px;
+					margin-top: 0;
+				}
+			}
 			&#nav-logo {
 				background: url(/images/kme-small.png);
 				float: left;
 				height: 45px;
-				margin-top: 10px;
-				margin-left: 30px;
+				left: 5px;
+				position: absolute;
+				top: 10px;
 				width: 131px;
 			}
 		}
@@ -81,8 +98,8 @@ header {
 			&.grabber {
 				@extend .font-awesome;
 				cursor: pointer;
-				padding: 23px 23px 20px;
 				font-size: 20px;
+				padding: 23px 23px 20px;
 			}
 			&.gap { background: #111; }
 			&:hover {

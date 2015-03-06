@@ -74,8 +74,7 @@ module.exports = {
 		if(this.currentView) {
 			/* Clean up the view before switching to the next one. Detach
 			 * all event handlers and signal the view to run any 'closing'
-			 * animations.
-			 */
+			 * animations. */
 			this.currentView.undelegateEvents();
 			if(this.currentView.onLeave) this.currentView.onLeave();
 
@@ -126,13 +125,15 @@ module.exports = {
 
 		}
 
+		/* Signal the header to update itself */
+		this.header.update();
+
 		/* Attempt to cache the HTML */
 		app.cacheCurrentView();
 
 		/* Now render signal the view to manipulate the DOM. */
 		if(!viewExists) this.currentView.render();
 		else this.currentView.$el.scrollTop(this.currentView.scrollPosition);
-		// this.currentView.delegateEvents();
 
 		/* Reattach the event handlers for the router */
 		app.reattachRouter();

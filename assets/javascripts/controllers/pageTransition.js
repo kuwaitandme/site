@@ -36,6 +36,7 @@ var controller = module.exports = function() {
 
 		this.$pages = this.$main.children('div.pt-page');
 		this.$pages.eq(this.currentPage).addClass('pt-page-current');
+		this.$pages.eq(this.currentPage).data("index", app.controllers.router.historyIndex);
 	};
 
 
