@@ -52,6 +52,5 @@ module.exports = Backbone.Collection.extend({
 				console.groupEnd();
 			},
 		});
-
 	}
 });

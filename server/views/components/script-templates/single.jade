@@ -24,7 +24,7 @@ ul.c-meta#page-meta
 ul.c-meta
 	//- Location
 	|<% if(contact.location) {
-	|	var loc = app.helpers.location.find(contact.location);
+	|	var loc = app.models.locations.findWhere({ _id: contact.location }).toJSON();
 	|   if(loc && loc.name != "None") { %>
 	li
 		b Location:&nbsp;
@@ -32,19 +32,19 @@ ul.c-meta
 	|<% } %>
 
 	//- Email
-	|<% } if(contact.email && contact.email.length) { %>
+	|<% } if(contact.email.length) { %>
 	li
 		b Email:&nbsp;
 		<%= contact.email %>
 
 	//- Phone
-	|<% } if(contact.phone && contact.phone.length) { %>
+	|<% } if(contact.phone.length) { %>
 	li
 		b Phone:&nbsp;
 		<%= contact.phone %>
 
 	//- Address
-	|<% } if(contact.address1 && contact.address1.length) { %>
+	|<% } if(contact.address1.length) { %>
 	li
 		b Address:&nbsp;<%= contact.address1 %>; <%= contact.address2 %>
 	|<% } %>
