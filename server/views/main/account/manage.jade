@@ -16,7 +16,7 @@ block content
 			|    var nothumb = "";
 			|    if(!thumbnail) nothumb = "no-thumb";
 			|  %>
-			|  <a href="<?= site_url('classified/single/<%= id %>') ?>">
+			|  <a href="<?= site_url('classified/single/<%= id %>') ?>", data-view="classified-single" >
 			|    <li class="<%= nothumb %>">
 			|      <div class="thumb">
 			|        <% if(thumbnail) { %>

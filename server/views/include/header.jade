@@ -2,7 +2,7 @@ header
 	//- Main nav
 	nav#main-nav
 		ul
-			a(href="/")
+			a(href="/", data-view="landing")
 				li#nav-logo
 			li.grabber#grabber-display
 				.title Menu
@@ -13,20 +13,20 @@ header
 		a(href="/")
 			li.search Home
 		unless user
-			a(href="/guest/post")
+			a(href="/guest/post", data-view="guest-post")
 				li Post a Classified
-			a(href="/auth/signup")
+			a(href="/auth/signup", data-view="auth-signup")
 				li Signup
-			a(href="/auth/login")
+			a(href="/auth/login", data-view="auth-login")
 				li Login
 		else
-			a(href="/classified/post")
+			a(href="/classified/post", data-view="classified-post")
 				li Post a Classified
-			a(href="/auth/logout")
+			a(href="/auth/logout", data-view="auth-logout")
 				li Logout
-			a(href="/account/")
+			a(href="/account/", data-view="account")
 				li Account
-		a(href="/privacy")
+		a(href="/privacy", data-view="privacy")
 			li Privacy Policy
-		a(href="/terms")
+		a(href="/terms", data-view="terms")
 			li Terms &amp; Conditions
