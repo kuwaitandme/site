@@ -12,7 +12,7 @@ window.app = {
 	 * This function starts up the app.
 	 */
 	start: function() {
-		console.group("[app] initializing");
+		console.groupCollapsed("[app] initializing");
 
 		/* Start attaching the module components here, so that other components
 		 * can refer to these modules by doing a 'app.modulename', since 'app'

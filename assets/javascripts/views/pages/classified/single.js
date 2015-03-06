@@ -11,7 +11,6 @@ module.exports = Backbone.View.extend({
 
 	initialize: function(obj) {
 		console.log("[view:classifieds-single] initializing");
-		var that = this;
 		if(obj && obj.model) this.model = obj.model;
 		else {
 			var href = document.URL;
@@ -43,8 +42,7 @@ module.exports = Backbone.View.extend({
 		var images = this.model.get("images");
 		if(images.length > 0)
 			this.$el.find(".c-gallery").html(slideshowTemplate({ images: images }));
-		else
-			this.$el.find(".c-gallery").hide();
+		else this.$el.find(".c-gallery").hide();
 		this.$el.find(".page").css("min-height", $(window).height());
 
 		this.initMaps();

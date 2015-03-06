@@ -92,7 +92,6 @@ module.exports = {
 			/* Find the target page. Which is the last child */
 			$targetPage = this.$ptMain.find(".pt-page:last-child");
 
-			console.log("view", viewExists)
 			if(!viewExists) {
 				/* Get and set the HTML for the target page */
 				var html = this.fetchHTML(view, arguments.url);
@@ -105,6 +104,7 @@ module.exports = {
 					el: $targetPage
 				});
 			} else {
+
 				this.currentView = this.targetView;
 			}
 
@@ -131,6 +131,7 @@ module.exports = {
 
 		/* Now render signal the view to manipulate the DOM. */
 		if(!viewExists) this.currentView.render();
+		else this.currentView.$el.scrollTop(this.currentView.scrollPosition);
 		// this.currentView.delegateEvents();
 
 		/* Reattach the event handlers for the router */
@@ -150,26 +151,21 @@ module.exports = {
 	 */
 	createNextPage: function(historyIndex) {
 		var that = this;
-		var viewExists = false;
 		var $el = $("<div></div>")
 			.addClass('pt-page')
 			.data('index', historyIndex);
 
 		this.previousView = this.currentView;
+		this.previousView.scrollPosition = this.currentView.$el.scrollTop();
+
 		$(".pt-page").each(function() {
 			var $page = $(this);
 			var index = $page.data('index') || 0;
-			if(index != historyIndex - 1) {
-				if(index != historyIndex) return $page.remove();
-
-				$el = $page;
-				that.targetView = that.nextView;
-				viewExists = true;
-			}
+			if(index != historyIndex - 1) $page.remove();
 		});
 		this.$ptMain.append($el);
 
-		return viewExists;
+		return false;
 	},
 
 
@@ -186,6 +182,8 @@ module.exports = {
 			.data('index', historyIndex);
 
 		this.nextView = this.currentView;
+		this.nextView.scrollPosition = this.currentView.$el.scrollTop();
+
 		$(".pt-page").each(function() {
 			var $page = $(this);
 			var index = $page.data('index') || 0;
@@ -193,7 +191,7 @@ module.exports = {
 				if(index != historyIndex) return $page.remove();
 
 				$el = $page;
-				that.targetView = that.previousView;
+				that.targetView = that.nextView;
 				viewExists = true;
 			}
 		});

@@ -28,6 +28,8 @@ module.exports = controller = Backbone.View.extend({
 		 * classifieds */
 		this.fireAjaxEvent();
 
+		this.setupMasonry();
+
 		/* Set to load new classifieds when we have scrolled to the end of the
 		 * page. */
 		$(window).scroll(function() {
@@ -40,12 +42,9 @@ module.exports = controller = Backbone.View.extend({
 	render: function () {
 		console.log("[view:classifieds-search] rendering")
 		var that = this;
-
-		this.setupMasonry();
 		// this.spinner = new app.views.components.spinner();
 
-		// this.resizeClassifieds();
-		$(window).resize(function() { that.resizeClassifieds(); }).resize();
+		this.resizeClassifieds();
 	},
 
 
@@ -72,6 +71,8 @@ module.exports = controller = Backbone.View.extend({
 	 */
 	fireAjaxEvent: function() {
 		if(!this.ajaxEnable || this.ajaxLock) return;
+
+		console.log("[view:classifieds-search] firing ajax event");
 
 		if($(window).scrollTop() >= ($(document).height() - $(window).height())
 			* 0.9) this.ajaxLoadClassifieds();
@@ -115,6 +116,11 @@ module.exports = controller = Backbone.View.extend({
 		// this.spinner.hide();
 		this.ajaxLock = false;
 
+		console.debug("[view:classifieds-search] adding classifieds", classifieds);
+
+		/* Reload Masonry once for all the elements */
+		this.$classifiedList.masonry();
+
 		/* Signal the ajax controller to stop polling the server */
 		if(classifieds.length == 0) this.ajaxEnable = false;
 
@@ -128,8 +134,6 @@ module.exports = controller = Backbone.View.extend({
 			that.$classifiedList.masonry("appended", elem);
 		});
 
-		/* Reload Masonry once for all the elements */
-		this.$classifiedList.masonry();
 
 		/* Reattach the event handlers for the router */
 		app.reattachRouter();
@@ -139,8 +143,7 @@ module.exports = controller = Backbone.View.extend({
 		// imagesLoaded(this.$classifiedList, reloadMasonry);
 
 		/* Fire the AJAX event again! In case we haven't filled up the rest
-		 * of the body yet.
-		 */
+		 * of the body yet. */
 		this.fireAjaxEvent();
 	},
 
