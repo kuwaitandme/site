@@ -26,7 +26,7 @@ module.exports = Backbone.Collection.extend({
 		if(cache) {
 			console.log("[model:categories] setting categories from cache");
 			console.groupEnd();
-			return this.set(cache);
+			return this.parseFetchResponse(cache);
 		}
 
 		/* If data wasn't cached, then request it by sending a AJAX request
@@ -39,7 +39,7 @@ module.exports = Backbone.Collection.extend({
 			beforeSend: ajax.setHeaders,
 			success: function(response) {
 				console.log("[model:categories] fetching category details");
-				that.set(JSON.parse(response));
+				that.parseFetchResponse(response);
 
 				/* Cache the results */
 				console.log("[model:categories] caching category details");
@@ -54,5 +54,41 @@ module.exports = Backbone.Collection.extend({
 				console.groupEnd();
 			},
 		});
+	},
+
+
+	/**
+	 * [parseFetchResponse description]
+	 *
+	 * @param  {[type]} response [description]
+	 * @return {[type]}          [description]
+	 */
+	parseFetchResponse: function(response) {
+		this.set(JSON.parse(response.categories));
+		this.setCounters(JSON.parse(response.count));
+	},
+
+
+	/**
+	 * Appends the counters into each of the category respectively.
+	 *
+	 * @param  {[type]} counters   [description]
+	 */
+	setCounters: function(counters) {
+		for(var i=0; i<this.length; i++) {
+			var parentCat = this.models[i].toJSON();
+
+			for(var j=0; j<parentCat.children.length; j++) {
+				var childCat = parentCat.children[j];
+
+				var categoryCount = _.where(counters, {_id: childCat._id})[0];
+
+				if(categoryCount) {
+					parentCat.count += categoryCount.total;
+					parentCat.children[j].count = categoryCount.total;
+				}
+			}
+			this.models[i].set(parentCat);
+		}
 	}
 });
