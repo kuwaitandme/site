@@ -4,10 +4,9 @@ footer
 	section#scripts
 		script.
 			window._csrf = !{JSON.stringify(csrfToken)};
-			//- window.categories = !{JSON.stringify(categories)};
 			window.data = !{JSON.stringify(data)};
-			//- window.locations = !{JSON.stringify(locations)};
 			window.page = !{JSON.stringify(bodyid)};
+			window.jsVersion = !{jsVersion};
 
 		//- If we are in production mode, load our libraries through a CDN and load the minified version of everything!
 		//- Also, load google analytics!

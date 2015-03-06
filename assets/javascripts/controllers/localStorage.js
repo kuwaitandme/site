@@ -19,25 +19,23 @@ var controller = module.exports = function() {
 
 		/* Check for localStorage */
 		if(typeof(Storage) !== "undefined") {
-			var remoteVersion = config.jsVersion;
-			var localVersion = localStorage.getItem("version");
+			var remoteVersion = window.jsVersion || 0;
+			var localVersion = localStorage.getItem("jsVersion");
 
 			/* Check if the versions are different or not */
-			// if(localVersion != remoteVersion) {
-			if(localVersion == remoteVersion) {
-				console.debug("[debug] local version [" + localVersion +
-					"] and remote version [" + remoteVersion + "] of Javascript " +
-					"are different");
-				console.debug("[debug] Flushing local cache");
+			if(localVersion != remoteVersion) {
+				console.debug("[controller:localstorage] local version", localVersion);
+				console.debug("[controller:localstorage] remote version", remoteVersion);
+				console.debug("[controller:localstorage] flushing local cache");
 
 				/* If it is, then clear the cache and set the new version */
 				localStorage.clear();
-				localStorage.setItem("version", remoteVersion);
+				localStorage.setItem("jsVersion", remoteVersion);
 			}
 		} else {
 			/* Setup fallback methods */
 			this.fallback = true;
-			console.warn("[controller:localstorage] HTML5 Storage not supported. Using fallback methods");
+			console.log("[controller:localstorage] HTML5 Storage not supported. Using fallback methods");
 			console.warn("[controller:localstorage] no fallback methods for localstorage have been implemented so far");
 		}
 	};

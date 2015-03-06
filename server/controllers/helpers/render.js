@@ -47,6 +47,7 @@ module.exports = function(request, response, args) {
 		ga: config.ga,
 		title: args.title + " | Kuwait &amp; Me",
 		user: request.user,
+		jsVersion: config.jsVersion,
 
 		data: args.data,
 	});

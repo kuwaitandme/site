@@ -23,8 +23,7 @@ var controller = module.exports = {
 
 		/* Check the redis DB to see if our queries are cached or not */
 		client.get("categories", function (err, result) {
-			if (result)
-				return getClassifiedPerCategory(JSON.parse(result));
+			if (result) return finish(JSON.parse(result));
 
 			/* If we reach here, then the query was not cached. Execute the
 			 * query and cache it for next time */
@@ -32,28 +31,22 @@ var controller = module.exports = {
 				var json = JSON.stringify(result);
 				client.set("categories", json);
 
-				getClassifiedPerCategory(JSON.parse(result));
+				finish(JSON.parse(result));
 			});
 		});
 
-		function getClassifiedPerCategory(categories) {
-			/* Get the number of classifieds per category */
-			classified.classifiedsPerCategory(function (result) {
-				var categoryCount = result;
+		finish = function (categories) {
+			/* Generate the response */
+			render(request, response, {
+				bodyid: "landing",
+				description: description,
+				page: 'landing',
+				scripts: ['masonry', 'imagesLoaded'],
+				title: response.__('title.landing'),
 
-				/* Generate the response */
-				render(request, response, {
-					bodyid: "landing",
-					description: description,
-					page: 'landing',
-					scripts: ['masonry', 'imagesLoaded'],
-					title: response.__('title.landing'),
-
-					data: {
-						categoryCount: categoryCount,
-						categories: categories
-					}
-				});
+				data: {
+					categories: categories
+				}
 			});
 		}
 	},
