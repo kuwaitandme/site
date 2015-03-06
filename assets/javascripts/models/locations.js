@@ -24,7 +24,7 @@ module.exports = Backbone.Collection.extend({
 		if(cache) {
 			console.log("[model:locations] setting locations from cache");
 			console.groupEnd();
-			return this.set(cache);
+			return this.set(JSON.parse(cache));
 		}
 
 		/* If data wasn't cached, then request it by sending a AJAX request
