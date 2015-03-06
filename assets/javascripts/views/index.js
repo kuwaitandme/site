@@ -136,8 +136,9 @@ module.exports = {
 		if(!viewExists) this.currentView.render();
 		else this.currentView.$el.scrollTop(this.currentView.scrollPosition);
 
-		 // Call a special postAnimation function which is
-		// if(this.currentView.postAnimation) this.currentView.postAnimation();
+		/* Re-attach events to the view */
+		this.currentView.undelegateEvents();
+		this.currentView.delegateEvents();
 
 		/* Reattach the event handlers for the router */
 		app.reattachRouter();
