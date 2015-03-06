@@ -29,7 +29,10 @@ var controller = module.exports = function() {
 		this.disabled = false;
 
 		/* Trigger our pophistory function on the 'popstate' event */
-		onpopstate = function(event) { that.popHistory(event); };
+		// onpopstate = function(event) {  };
+		$(window).bind("popstate", function(event) {
+		    that.popHistory(event);
+		});
 
 		/* Modify the current history event to maintain consistency with
 	 	 * history pop events */
