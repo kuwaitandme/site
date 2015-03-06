@@ -28,6 +28,7 @@ block content
 		//- JS Template for the classified list
 		script(id="list-template", type="text/template")
 			| <li class="cl-item">
+			|  <% console.log(obj); %>
 			|   <div class="cl-container">
 			|     <div class="cl-title sprite-cat <%= name %>"><%= name %></div>
 			|     <div class="cl-content">
@@ -36,7 +37,9 @@ block content
 			|         <a data-view="classified-search" href="/classified/search?cat=<%= cat._id %>">
 			|           <li data-id="<%= cat._id %>">
 			|             <div class="name"><%= cat.name %></div>
-			|             <span class="count"><%= cat.count %></span>
+			|             <% if(cat.count > 0) { %>
+			|             <span class="count">(<%= cat.count %>)</span>
+			|             <% } %>
 			|           </li>
 			|         </a>
 			|       <% }); %>

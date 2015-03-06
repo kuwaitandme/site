@@ -15,26 +15,18 @@ module.exports = Backbone.View.extend({
 	render: function(){
 		console.log("[view:landing] rendering");
 		var that = this;
-		var categories = window.categories;
 
-		var categoriesTemplate = _.template(
+		this.categories = app.models.categories.toJSON();
+
+		this.categoriesTemplate = _.template(
 			this.$el.find("#list-template").html());
 		that.$categoryList.html("");
 
-		categories = app.helpers.category.appendCounters(
-			categories,
-			window.data.categoryCount
-		);
-
-
 		/* Render out each of the categories */
-		for(var i=0; i<categories.length; i++) {
-			var html = categoriesTemplate(categories[i]);
-			that.$categoryList.append(html);
+		for(var i=0; i<this.categories.length; i++) {
+			var html = this.categoriesTemplate(this.categories[i]);
+			this.$categoryList.append(html);
 		}
-
-		/* Add the post counts to the classifieds */
-		that.addCounters();
 	},
 
 
@@ -93,19 +85,6 @@ module.exports = Backbone.View.extend({
 		$list.stop().transition({ height: 0 }, function() {
 			that.$categoryList.masonry();
 		});
-	},
-
-
-	/**
-	 * Adds the post counters to each category.
-	 */
-	addCounters: function() {
-		// var counters = window.data.categoryCount;
-		// for(var i=0; i<counters.length; i++) {
-		// 	$("li[data-id='" + counters[i]._id + "'] .count").html(
-		// 		"(" + app.helpers.numbers.withCommas(counters[i].total) + ")"
-		// 	);
-		// }
 	},
 
 

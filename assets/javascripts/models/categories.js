@@ -25,7 +25,6 @@ module.exports = Backbone.Collection.extend({
 		var cache = localStorage.get("categories");
 		if(cache) {
 			console.log("[model:categories] setting categories from cache");
-			console.groupEnd();
 			return this.parseFetchResponse(cache);
 		}
 
@@ -47,7 +46,6 @@ module.exports = Backbone.Collection.extend({
 
 				/* Signal any listeners that we are done loading this category */
 				that.trigger("ajax:done", that);
-				console.groupEnd();
 			},
 			error: function(e) {
 				console.error("[model:categories] error fetching category details", e);
@@ -67,6 +65,7 @@ module.exports = Backbone.Collection.extend({
 	parseFetchResponse: function(response) {
 		this.set(JSON.parse(response.categories));
 		this.setCounters(JSON.parse(response.count));
+		console.groupEnd();
 	},
 
 
