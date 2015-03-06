@@ -13,10 +13,9 @@ var controller = module.exports = function() {
 	controller.prototype.initialize = function(config) {
 		console.log("[controller:pagetransition] initializing");
 
-		/* Setup som defaults */
+		/* Setup some defaults */
 		this.$main = $('#pt-main');
 		this.currentPage = 0;
-		this.isAnimating = false;
 		this.endCurrentPage = false;
 		this.endTargetPage = false;
 		this.callbackCalled = false;
@@ -53,10 +52,6 @@ var controller = module.exports = function() {
 		/* Finish any existing animations if there are any */
 		this.finishAnimation();
 
-		/* Check if the animation is locked or not */
-		if(this.isAnimating) return false;
-		this.isAnimating = true;
-
 		/* Disable the router temporarily */
 		app.controllers.router.disabled = true;
 
@@ -71,9 +66,6 @@ var controller = module.exports = function() {
 			$page.data('originalClassList', $page.attr('class') );
 		});
 
-
-		/* Don't animate if we this.are in the last page */
-		// if(this.currentPage < pagesCount - 1) ++this.currentPage;
 
 		/* Get the target page and add the 'pt-page-current' class to it */
 		if(options.$targetPage) this.$targetPage = options.$targetPage;
@@ -135,7 +127,6 @@ var controller = module.exports = function() {
 		this.endCurrentPage = false;
 		this.endTargetPage = false;
 		this.resetPage();
-		this.isAnimating = false;
 
 		/* Re-enable the router */
 		app.controllers.router.disabled = false;
