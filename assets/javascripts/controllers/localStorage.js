@@ -40,7 +40,7 @@ var controller = module.exports = function() {
 			console.warn("[controller:localstorage] HTML5 Storage not supported. Using fallback methods");
 			console.warn("[controller:localstorage] no fallback methods for localstorage have been implemented so far");
 		}
-	},
+	};
 
 
 	/**
@@ -70,7 +70,7 @@ var controller = module.exports = function() {
 
 		/* If all went well, save the html */
 		localStorage.setItem(view, html);
-	},
+	};
 
 
 	/**
@@ -87,5 +87,37 @@ var controller = module.exports = function() {
 
 		if(cache) console.log("[controller:localstorage] fetched HTML from cache");
 		return cache;
-	}
+	};
+
+
+	/**
+	 * [cache description]
+	 *
+	 * @param  {[type]} key    [description]
+	 * @param  {[type]} object [description]
+	 */
+	controller.prototype.cache = function(key, object) {
+		if(this.fallback) return;
+
+		console.log("[controller:localstorage] setting '" + key +"' into cache");
+
+		var json = JSON.stringify(object);
+		localStorage.setItem(key, json);
+	};
+
+
+	/**
+	 * [get description]
+	 *
+	 * @param  {[type]} key [description]
+	 * @return {[type]}     [description]
+	 */
+	controller.prototype.get = function(key) {
+		if(this.fallback) return;
+
+		console.log("[controller:localstorage] retrieving '" + key +"' from cache");
+
+		var json = localStorage.getItem(key);
+		if(json) return JSON.parse(json);
+	};
 }
