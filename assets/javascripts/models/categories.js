@@ -58,10 +58,11 @@ module.exports = Backbone.Collection.extend({
 
 
 	/**
-	 * [parseFetchResponse description]
+	 * This function parses the response and saves it into the collection
+	 * properly.
 	 *
-	 * @param  {[type]} response [description]
-	 * @return {[type]}          [description]
+	 * @param  Object response   The response from the server API or from the
+	 *                           cache.
 	 */
 	parseFetchResponse: function(response) {
 		this.set(JSON.parse(response.categories));
@@ -72,23 +73,27 @@ module.exports = Backbone.Collection.extend({
 	/**
 	 * Appends the counters into each of the category respectively.
 	 *
-	 * @param  {[type]} counters   [description]
+	 * @param  Array  counters     An array contain category-counter pairs.
 	 */
 	setCounters: function(counters) {
+		console.log("[model:categories] setting counters to categories");
 		for(var i=0; i<this.length; i++) {
-			var parentCat = this.models[i].toJSON();
+			var category = this.models[i].toJSON();
 
-			for(var j=0; j<parentCat.children.length; j++) {
-				var childCat = parentCat.children[j];
+			for(var j=0; j<category.children.length; j++) {
+				var childCat = category.children[j];
 
+				/* Find the category in the counters array */
 				var categoryCount = _.where(counters, {_id: childCat._id})[0];
 
+				/* Append the counters properly if needed */
 				if(categoryCount) {
-					parentCat.count += categoryCount.total;
-					parentCat.children[j].count = categoryCount.total;
+					category.count += categoryCount.total;
+					category.children[j].count = categoryCount.total;
 				}
 			}
-			this.models[i].set(parentCat);
+
+			this.models[i].set(category);
 		}
 	}
 });

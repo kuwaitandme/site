@@ -147,7 +147,6 @@ module.exports = {
 		this.googleAnalyticsSend();
 
 		if(that.currentView.postAnimation) that.currentView.postAnimation();
-
 	},
 
 

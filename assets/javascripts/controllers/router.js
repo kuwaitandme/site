@@ -1,6 +1,6 @@
 var controller = module.exports = function() {
 	controller.prototype.initialize = function() {
-		console.log(" initializing");
+		console.log("[controller:router] initializing");
 
 		/* Start HTML5 history */
 		this.initializeHTML5history();
