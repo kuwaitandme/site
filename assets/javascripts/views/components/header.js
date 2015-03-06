@@ -9,6 +9,7 @@ module.exports = Backbone.View.extend({
 	initialize: function() {
 		console.log("[view:header] initializing");
 
+		/* Initialize DOM variables */
 		this.$main = $("main");
 		this.$sliderNav = this.$el.find("#slider-nav");
 		this.$mainNav = this.$el.find("#main-nav");
@@ -16,6 +17,8 @@ module.exports = Backbone.View.extend({
 		this.$navLinks = this.$mainNav.find('.nav');
 		this.$nextLink = this.$mainNav.find('.next');
 		this.$previousLink = this.$mainNav.find('.prev');
+
+		this.opened = false;
 	},
 
 
@@ -24,13 +27,17 @@ module.exports = Backbone.View.extend({
 	 * original position while at the same hiding the header sidebar.
 	 */
 	hide: function() {
-		console.log("[view:header] hiding sidebar if opened");
+		if(!this.opened) return;
+		this.opened = false;
+
+		console.log("[view:header] hiding sidebar");
 
 		/* Animate the header sidebar */
 		this.$sliderNav.transition({ x: 1 * this.sliderAnimateWidth });
 
 		/* Animate the main-body back to it's original position. */
 		this.$main.transition({ x: 0 });
+
 	},
 
 
@@ -39,6 +46,9 @@ module.exports = Backbone.View.extend({
 	 * space for the header sidebar which animates from the right.
 	 */
 	show: function() {
+		if(this.opened) return;
+		this.opened = true;
+
 		console.log("[view:header] displaying sidebar");
 
 		/* Animate the header sidebar */
@@ -58,8 +68,10 @@ module.exports = Backbone.View.extend({
 		var that = this;
 		var router = app.controllers.router;
 
+		/* Get a condition to decide if we are in the homepage or not */
 		var homepageCondition = document.URL.split("/").length <= 4;
 
+		/* Decide if we have to show the logo or work on the nav controls */
 		if(homepageCondition) {
 			console.log("[view:header] showing site logo");
 			this.$navLinks.fadeOut(function() { that.$navHome.fadeIn(); });

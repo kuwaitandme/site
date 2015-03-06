@@ -1,6 +1,4 @@
 var controller = module.exports = function() {
-	historyIndex: 0,
-
 	controller.prototype.initialize = function() {
 		console.log("[controller:router] initializing");
 
@@ -17,20 +15,21 @@ var controller = module.exports = function() {
 	 */
 	controller.prototype.initializeHTML5history = function() {
 		var that = this;
+
+		/* Check if HTML5 history is available or not */
 		if (typeof history.pushState === 'undefined') {
 			console.log("[controller:router] HTML 5 History not available. Using fallback mode");
 			this.fallback = true;
 			return;
 		}
 
+		/* Set defaults */
 		this.historyIndex = window.history.length;
 		this.startingIndex = this.historyIndex;
 		this.disabled = false;
 
 		/* Trigger our pophistory function on the 'popstate' event */
-		onpopstate = function(e) {
-			that.popHistory(e);
-		};
+		onpopstate = function(event) { that.popHistory(event); };
 
 		/* Modify the current history event to maintain consistency with
 	 	 * history pop events */
@@ -107,6 +106,7 @@ var controller = module.exports = function() {
 		};
 
 		console.debug("[controller:router] HTML5 history push", this.currentState);
+
 		history.pushState(this.currentState, this.currentState.view, url);
 	};
 
@@ -115,6 +115,8 @@ var controller = module.exports = function() {
 	 * Handles the pop history event. Gets the state of the requested page from
 	 * the history API and then requests the app to set the view based on that
 	 * state.
+	 *
+	 * @param {[type]} event      The popstate event.
 	 */
 	controller.prototype.popHistory = function(event) {
 		/* Get the state of this history event. If there isn't any, then
@@ -144,7 +146,9 @@ var controller = module.exports = function() {
 	 */
 	controller.prototype.reattachRouter = function() {
 		var that = this;
+
 		console.log("[controller:router] reattaching href event handlers");
+
 		$("a[data-view]")
 			.unbind("click")
 			.bind("click", function(event) {
