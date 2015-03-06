@@ -2,10 +2,16 @@ var async = require("async"),
 	classified = global.models.classified,
 	render = require('../helpers/render');
 
+var	redis = require('redis'),
+	client = redis.createClient(null, null, { detect_buffers: true });
+
 /* Description for the meta tag */
 var description = "Sell things that you don't want. Buy things at bargain "
 	+ "prices! Publishing free classifieds in Kuwait have never been so "
 	+ "quick and easy.";
+
+var	category = global.models.category,
+	config = global.config;
 
 
 /**
@@ -15,21 +21,41 @@ var description = "Sell things that you don't want. Buy things at bargain "
 var controller = module.exports = {
 	get: function(request, response, next) {
 
-		/* Get the number of classifieds per category */
-		classified.classifiedsPerCategory(function (result) {
-			var categoryCount = result;
+		/* Check the redis DB to see if our queries are cached or not */
+		client.get("categories", function (err, result) {
+			if (result)
+				return getClassifiedPerCategory(JSON.parse(result));
 
-			/* Generate the response */
-			return render(request, response, {
-				bodyid: "landing",
-				description: description,
-				page: 'landing',
-				scripts: ['masonry', 'imagesLoaded'],
-				title: response.__('title.landing'),
+			/* If we reach here, then the query was not cached. Execute the
+			 * query and cache it for next time */
+			category.getAll(function(result) {
+				var json = JSON.stringify(result);
+				client.set("categories", json);
 
-				data: { categoryCount: categoryCount }
+				getClassifiedPerCategory(JSON.parse(result));
 			});
 		});
+
+		function getClassifiedPerCategory(categories) {
+			/* Get the number of classifieds per category */
+			classified.classifiedsPerCategory(function (result) {
+				var categoryCount = result;
+
+				/* Generate the response */
+				render(request, response, {
+					bodyid: "landing",
+					description: description,
+					page: 'landing',
+					scripts: ['masonry', 'imagesLoaded'],
+					title: response.__('title.landing'),
+
+					data: {
+						categoryCount: categoryCount,
+						categories: categories
+					}
+				});
+			});
+		}
 	},
 
 	api: require('./api'),
