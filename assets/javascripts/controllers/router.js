@@ -18,7 +18,7 @@ var controller = module.exports = function() {
 	controller.prototype.initializeHTML5history = function() {
 		var that = this;
 		if (typeof history.pushState === 'undefined') {
-			console.warn("[controller:router] HTML 5 History not available. Using fallback mode");
+			console.log("[controller:router] HTML 5 History not available. Using fallback mode");
 			this.fallback = true;
 			return;
 		}
@@ -34,10 +34,10 @@ var controller = module.exports = function() {
 		/* Modify the current history event to maintain consistency with
 	 	 * history pop events */
 		var currentState = {
-			index: this.historyIndex,
 			arguments: { url: document.URL },
-			view: window.viewid,
-			url: document.URL
+			index: this.historyIndex,
+			url: document.URL,
+			view: window.viewid
 		};
 		history.replaceState(currentState, "", document.URL);
 	};
@@ -58,8 +58,10 @@ var controller = module.exports = function() {
 		var url = $el[0].href;
 		var view = $el.data().view;
 
+		console.groupCollapsed("[controller:router] navigating to page:", view);
 		/* Signal the app's view controllers to move to the new view ... */
 		this.goto(url, view, null);
+		console.groupEnd();
 	};
 
 
@@ -75,7 +77,7 @@ var controller = module.exports = function() {
 
 		/* Set the url in the arguments list and send to the view controller */
 		args = args || { url: url };
-		app.setView(view, args);
+		app.setView(view, args, this.currentState);
 	};
 
 
@@ -86,15 +88,15 @@ var controller = module.exports = function() {
 		if (this.fallback && this.disabled) return;
 
 		this.historyIndex += 1;
-		var currentState = {
-			index: this.historyIndex,
+		this.currentState = {
 			arguments: arguments,
-			view: view,
-			url: url
+			index: this.historyIndex,
+			url: url,
+			view: view
 		};
 
-		console.debug("[controller:router] HTML5 history push", currentState);
-		history.pushState(currentState, currentState.view, url);
+		console.debug("[controller:router] HTML5 history push", this.currentState);
+		history.pushState(this.currentState, this.currentState.view, url);
 	};
 
 
@@ -104,24 +106,24 @@ var controller = module.exports = function() {
 	 * state.
 	 */
 	controller.prototype.popHistory = function(e) {
-		// if (this.fallback && this.disabled) return;
-
-		var reverse = true;
-
 		/* Get the state of this history event. If there isn't any, then
 		 * return */
 		var currentState = history.state;
 		if(!currentState) return;
 
 		/* Check if we are moving forwards or backwards in time */
-		if(currentState.index > this.historyIndex) reverse = false;
+		if(currentState.index <= this.historyIndex) currentState.reverse = true;
 		this.historyIndex = currentState.index;
 
-		console.debug("[controller:router] HTML5 popstate event:", e);
-		console.debug("[controller:router] HTML5 popstate state:", currentState);
+		console.groupCollapsed("[controller:router] HTML5 popstate");
+		console.debug("[controller:router] popstate event:", e);
+		console.debug("[controller:router] popstate state:", currentState);
+
 		currentState.arguments = currentState.arguments ||
 			{ url: currentState.url };
-		app.setView(currentState.view, currentState.arguments, reverse);
+		app.setView(currentState.view, currentState.arguments, currentState);
+
+		console.groupEnd();
 	};
 
 

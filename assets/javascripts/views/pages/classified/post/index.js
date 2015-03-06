@@ -28,7 +28,6 @@ var router = Backbone.Router.extend({
 		this.model = obj.model;
 
 		this.listenTo(this.model, "ajax:done", function() {
-			console.log("s2");
 			that.navigate("page-finish", {trigger: true});
 		});
 
@@ -128,6 +127,7 @@ module.exports = Backbone.View.extend({
 
 	initialize: function(obj) {
 		this.router = new router({ model: this.model });
-		Backbone.history.start();
-	}
+	},
+
+	render: function() { }
 });

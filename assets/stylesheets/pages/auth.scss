@@ -1,8 +1,7 @@
 .pt-page.auth-guest, .pt-page.auth-forgot, .pt-page.auth-login, .pt-page.auth-signup,
 .pt-page.auth-reset {
-	#main-container {
+	// #main-container {
 		border: none;
-		background: none;
 
 		.auth-title {
 			@extend .font-title;
@@ -45,7 +44,7 @@
 				border-bottom: 1px solid #27ae60;
 			}
 		}
-	}
+	// }
 }
 
 .pt-page.auth-guest #main-container {

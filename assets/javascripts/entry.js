@@ -57,7 +57,16 @@ window.app = {
 	},
 	transition: function(options) {
 		return this.controllers.pageTransition.transition(options);
-	}
+	},
+	success: function(text, title) {
+		return this.views.messages.success(text, title);
+	},
+	error: function(text, title) {
+
+	},
+	warn: function(text, title) {
+
+	},
 };
 
 /* Kick start the App. Start back-tracing the app's execution over here, if you

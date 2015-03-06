@@ -13,14 +13,15 @@ var controller = module.exports = function() {
 	controller.prototype.initialize = function(config) {
 		console.log("[controller:pagetransition] initializing");
 
+		/* Setup som defaults */
 		this.$main = $('#pt-main');
 		this.currentPage = 0;
 		this.isAnimating = false;
-		this.endCurrPage = false;
-		this.endNextPage = false;
+		this.endCurrentPage = false;
+		this.endTargetPage = false;
 		this.callbackCalled = false;
 
-		/* Animation-end event name */
+		/* CSS animation-end event name */
 		this.animEndEventNames = {
 			'WebkitAnimation' : 'webkitAnimationEnd',
 			'OAnimation' : 'oAnimationEnd',
@@ -41,13 +42,15 @@ var controller = module.exports = function() {
 	/**
 	 * [transition description]
 	 *
-	 * @param  {Function} callback [description]
-	 * @param  {[type]}   reverse  [description]
-	 * @param  {[type]}   vertical [description]
+	 * @param  {[type]} options [description]
 	 */
 	controller.prototype.transition = function(options) {
 		console.debug("[controller:pagetransition] animating with parameters", options);
 		var that = this;
+		var outClass = '', inClass = '';
+
+		/* Finish any existing animations if there are any */
+		this.finishAnimation();
 
 		/* Check if the animation is locked or not */
 		if(this.isAnimating) return false;
@@ -59,8 +62,8 @@ var controller = module.exports = function() {
 		/* Setup some defaults */
 		options = options || {};
 		this.$pages = this.$main.children('div.pt-page');
+		this.$currPage = this.$pages.eq(this.currentPage);
 		var pagesCount = this.$pages.length;
-		var $currPage = this.$pages.eq(this.currentPage);
 
 		this.$pages.each( function() {
 			var $page = $(this);
@@ -69,53 +72,81 @@ var controller = module.exports = function() {
 
 
 		/* Don't animate if we this.are in the last page */
-		if(this.currentPage < pagesCount - 1) ++this.currentPage;
-		else if(callback) return callback();
+		// if(this.currentPage < pagesCount - 1) ++this.currentPage;
 
-		var $nextPage = this.$pages.eq(this.currentPage).addClass('pt-page-current'),
-			outClass = '', inClass = '';
+		/* Get the target page and add the 'pt-page-current' class to it */
+		if(options.$targetPage) this.$targetPage = options.$targetPage;
+		else this.$targetPage = this.$pages.eq(this.currentPage)
+		this.$targetPage.addClass('pt-page-current');
 
 		// if(options.vertical) {
 		// 	direction1 = 'pt-page-moveToRightEasing pt-page-ontop';
 		// 	direction2 = 'pt-page-moveFromLeft'
 		// }
-		if(options.reverse) {
-			outClass = 'pt-page-moveToRightEasing pt-page-ontop';
-			inClass = 'pt-page-moveFromLeft';
-		} else {
-			outClass = 'pt-page-moveToLeftEasing pt-page-ontop';
-			inClass = 'pt-page-moveFromRight';
+		switch(options.direction) {
+			case "fromBottom": break;
+			case "fromTop": break;
+			case "fromLeft":
+				outClass = 'pt-page-moveToRightEasing pt-page-ontop';
+				inClass = 'pt-page-moveFromLeft';
+				break;
+			case "fromRight":
+			default:
+				outClass = 'pt-page-moveToLeftEasing pt-page-ontop';
+				inClass = 'pt-page-moveFromRight';
 		}
 
-		$currPage.addClass(outClass).on(that.animEndEventName, function() {
-			$currPage.off(that.animEndEventName);
-			that.endCurrPage = true;
 
-			if(that.endNextPage) that.onAnimationEnd($currPage, $nextPage);
+		/* Setup callback functions when the animation ends on the current
+		 * page */
+		this.$currPage.addClass(outClass).on(that.animEndEventName, function() {
+			that.$currPage.off(that.animEndEventName);
+
+			that.endCurrentPage = true;
+			if(that.endTargetPage) that.finishAnimation();
 		});
 
-		$nextPage.addClass(inClass).on(that.animEndEventName, function() {
-			$nextPage.off(that.animEndEventName);
-			that.endNextPage = true;
 
-			if(that.endCurrPage) that.onAnimationEnd($currPage, $nextPage);
+		/* Setup callback functions when the animation ends on the target
+		 * page */
+		this.$targetPage.addClass(inClass).on(that.animEndEventName, function() {
+			that.$targetPage.off(that.animEndEventName);
+
+			that.endTargetPage = true;
+			if(that.endCurrentPage) that.finishAnimation();
 		});
 
-		if(!this.support) this.onAnimationEnd($currPage, $nextPage);
+		if(!this.support) this.finishAnimation();
 	};
 
-	controller.prototype.onAnimationEnd = function($outpage, $inpage) {
-		this.endCurrPage = false;
-		this.endNextPage = false;
-		this.resetPage($outpage, $inpage);
+
+	/**
+	 * This function is what gets called when the CSS animation finishes
+	 * animating the page transitions. This is also a neat way to force the
+	 * animation to stop.
+	 */
+	controller.prototype.finishAnimation = function() {
+		if(!this.endCurrentPage && !this.endTargetPage) return;
+		if(!this.$currPage && !this.$targetPage) return;
+
+		/* Setup some flags to signal that the animation is over */
+		this.endCurrentPage = false;
+		this.endTargetPage = false;
+		this.resetPage();
 		this.isAnimating = false;
 
 		/* Re-enable the router */
 		app.controllers.router.disabled = false;
 	};
 
-	controller.prototype.resetPage = function($outpage, $inpage) {
-		$outpage.attr('class', $outpage.data('originalClassList'));
-		$inpage.attr('class', $inpage.data('originalClassList') + ' pt-page-current');
+
+	/**
+	 * Resets the CSS styles for the pages that were being animated. This
+	 * way we stop the CSS animations and return the classes that were removed
+	 * back to the pages they were originally on.
+	 */
+	controller.prototype.resetPage = function() {
+		this.$currPage.attr('class', this.$currPage.data('originalClassList'));
+		this.$targetPage.attr('class', this.$targetPage.data('originalClassList') + ' pt-page-current');
 	};
 }

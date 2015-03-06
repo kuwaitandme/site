@@ -14,7 +14,9 @@ module.exports = {
 	initialize: function() {
 		console.group("[view] initializing");
 
+		/* Cache some DOM variables */
 		this.$body = $("body");
+		this.$ptMain = $("#pt-main");
 		this.$currentPage = $("#current-page");
 		this.$nextPage = $("#next-page");
 		this.$previousPage = $("#prev-page");
@@ -22,8 +24,9 @@ module.exports = {
 		/* Index all the views first */
 		this.views = pages;
 
-		/* Render the header */
+		/* Render different components */
 		this.header = new components.header({ el: "header" });
+		this.messages = new components.messages({ el: "#messages" });
 
 		/* Get and initialize the main view */
 		var view = window.viewid;
@@ -39,9 +42,7 @@ module.exports = {
 	 * @param  String          name  The name of the view to be found.
 	 * @return Backbone.View         The Backbone.View object of the view found.
 	 */
-	getView: function(name) {
-		return this.views[name];
-	},
+	getView: function(name) { return pages[name]; },
 
 
 	/**
@@ -52,15 +53,19 @@ module.exports = {
 	 *                               view that we must switch to.
 	 * @param  Object   arguments    An object containing properties that gets
 	 *                               passed on to the new view.
-	 * @param  Boolean  reverse      A boolean that decides if the previous
-	 *                               should be shown or not.
+	 * @param  Object   HistoryState An object that contains details about the
+	 *                               history event in context.
 	 */
-	setView: function(view, arguments, reverse) {
+	setView: function(view, arguments, HistoryState) {
 		console.debug("[view] setting view to '" + view +
-			"' with arguments:", arguments);
+			"' with history:", HistoryState);
 		var that = this;
+		HistoryState = HistoryState || {};
 
-		/* Get the view first */
+		var reverse = HistoryState.reverse || false;
+		var historyIndex = HistoryState.index || 0;
+
+		/* Get the view */
 		this.currentViewName = view;
 		var currentView = this.getView(view);
 
@@ -73,20 +78,36 @@ module.exports = {
 			this.currentView.undelegateEvents();
 			if(this.currentView.onLeave) this.currentView.onLeave();
 
-			var $nextPage = this.createNextPage();
-			var html = this.fetchHTML(view, arguments.url);
-			$nextPage.html(html);
-			$nextPage.addClass(view);
+			console.log("[view] creating buffer page to hold new view");
 
+			/* Create the target page (next or previous), based on the 'reverse'
+			 * option. Here we make use of our two helper functions to properly
+			 * create the page while deleting any old ones and reusing recent
+			 * ones. */
+			var $targetPage;
+			if(!reverse) $targetPage = this.createNextPage(historyIndex);
+			else $targetPage = this.createPreviousPage(historyIndex);
+
+			/* Get and set the HTML for the target page */
+			var html = this.fetchHTML(view, arguments.url);
+			$targetPage.html(html);
+			$targetPage.addClass(view);
+
+			/* Initialize the view for this page */
 			this.currentView = new currentView({
 				arguments: arguments,
-				el: $nextPage
+				el: $targetPage
 			});
 
-			app.transition({ reverse: reverse });
+			/* Signal the app to transition to the new page */
+			app.transition({
+				$targetPage: $targetPage,
+				reverse: reverse
+			});
 
 		} else {
-			console.debug("[view] no view saved before. initializing first view");
+			console.log("[view] initializing first view");
+
 			/* Else load set the currentView directly without any transition
 			 * animations */
 			this.currentView = new currentView({
@@ -99,7 +120,7 @@ module.exports = {
 		/* Attempt to cache the HTML */
 		app.cacheCurrentView();
 
-		/* Now render the page and attach the events to it*/
+		/* Now render signal the view to manipulate the DOM. */
 		this.currentView.render();
 		// this.currentView.delegateEvents();
 
@@ -118,9 +139,43 @@ module.exports = {
 	 * [createNextPage description]
 	 * @return {[type]} [description]
 	 */
-	createNextPage: function() {
-		var $el = $("<div class='pt-page'></div>");
-		$("#pt-main").append($el);
+	createNextPage: function(historyIndex) {
+		var $el = $("<div></div>")
+			.addClass('pt-page')
+			.data('index', historyIndex);
+
+
+		$(".pt-page").each(function() {
+			var $page = $(this);
+			// if(index >= historyIndex) $page.remove();
+			console.log("[deug]", $page.data('index'));
+			var index = $page.data('index') || 0;
+			if(historyIndex - 1 != index) $page.remove();
+		});
+		this.$ptMain.append($el);
+
+		return $el;
+	},
+
+	/**
+	 * [createNextPage description]
+	 * @return {[type]} [description]
+	 */
+	createPreviousPage: function(historyIndex) {
+		var $el = $("<div></div>")
+			.addClass('pt-page')
+			.data('index', historyIndex);
+
+		$(".pt-page").each(function() {
+			var $page = $(this);
+			var index = $page.data('index') || 0;
+			console.log("[deug]", index, historyIndex, $page);
+			if(index != historyIndex + 1) $page.remove();
+			// if(index == historyIndex) $el = $page;
+			// if(index - historyIndex > 1 ) $page.remove();
+		});
+		this.$ptMain.append($el);
+
 		return $el;
 	},
 
@@ -136,7 +191,7 @@ module.exports = {
 	 * @return {[type]}      [description]
 	 */
 	fetchHTML: function(view, url) {
-		console.log("[view] trying to find HTML in cache for view:", view);
+		console.log("[view] trying to find HTML in cache for view", view);
 		var html = app.getCachedViewHTML(view);
 		if(html) return html;
 
