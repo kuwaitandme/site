@@ -20,6 +20,9 @@ module.exports = Backbone.View.extend({
 		this.$subCategory = this.$el.find("#subcat-selector");
 		this.$type = this.$el.find("#ctype");
 
+		this.categories = app.models.categories.toJSON();
+		this.locations = app.models.locations.toJSON();
+
 		/* Initialize parts of the form */
 		this.initCategories();
 		this.initLocations();
@@ -95,14 +98,13 @@ module.exports = Backbone.View.extend({
 	 */
 	catSelected: function(e) {
 		var id = this.$parCategory.find(":selected").data("id");
-		var categories = window.categories;
 
 		this.$subCategory.show();
 		this.$subCategory.removeAttr("disabled");
 
-		for(var i=0; i<categories.length; i++)
-			if(categories[i]._id == id) {
-				var children = categories[i].children;
+		for(var i=0; i<this.categories.length; i++)
+			if(this.categories[i]._id == id) {
+				var children = this.categories[i].children;
 
 				this.$subCategory.html(
 					this.generateOption(0, "Choose a sub-category", true)
@@ -125,9 +127,9 @@ module.exports = Backbone.View.extend({
 		this.$subCategory.hide();
 		this.$parCategory.val(0);
 
-		var categories = window.categories;
-		for(var i=0; i<categories.length; i++) {
-			var html = this.generateOption(categories[i]._id, categories[i].name);
+		for(var i=0; i<this.categories.length; i++) {
+			var html = this.generateOption(this.categories[i]._id,
+				this.categories[i].name);
 			this.$parCategory.append(html);
 		}
 	},
@@ -137,9 +139,9 @@ module.exports = Backbone.View.extend({
 	 * Initializes the locations.
 	 */
 	initLocations: function () {
-		var locations = window.locations;
-		for(var i=0; i<locations.length; i++) {
-			var html = this.generateOption(locations[i]._id, locations[i].name);
+		for(var i=0; i<this.locations.length; i++) {
+			var html = this.generateOption(this.locations[i]._id,
+				this.locations[i].name);
 			this.$locations.append(html);
 		}
 	},

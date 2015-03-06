@@ -17,7 +17,7 @@ ul.c-meta#page-meta
 	li
 		b Categorized under:&nbsp;
 		|<% if(category) {
-		|	var cat = app.helpers.category.find(category);
+		|	var cat = app.models.categories.find(category);
 		|	print(cat.parent + ", " + cat.child);
 		|} %>
 

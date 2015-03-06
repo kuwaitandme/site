@@ -94,5 +94,28 @@ module.exports = Backbone.Collection.extend({
 
 			this.models[i].set(category);
 		}
-	}
+	},
+
+
+	/**
+	 * Finds a category, given it's id.
+	 *
+	 * @param   String   id    The id of the classified to be found
+	 */
+	find: function (id) {
+		var categories = this.toJSON();
+
+		for(var i=0; i<categories.length; i++) {
+			var category = categories[i];
+
+			for(var j=0; j<category.children.length; j++) {
+				var child = category.children[j];
+
+				if(child._id == id) return {
+					child: child.name,
+					parent: category.name
+				};
+			}
+		}
+	},
 });
