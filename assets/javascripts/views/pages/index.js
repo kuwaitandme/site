@@ -8,8 +8,7 @@ module.exports = {
 	"classified-post":   require("./classified/post"),
 	"classified-search": require("./classified/search"),
 	"classified-single": require("./classified/single"),
-	"guest-finish":      require("./guest/finish"),
-	"guest-single":      require("./guest/single"),
-	"guest-post":        require("./guest/post"),
+	"guest-single":      require("./classified/single"),
+	"guest-post":        require("./classified/post"),
 	"landing":           require("./landing")
 };
