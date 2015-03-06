@@ -20,6 +20,7 @@ module.exports = {
 		this.$currentPage = $("#current-page");
 		this.$nextPage = $("#next-page");
 		this.$previousPage = $("#prev-page");
+		this.previousView = this.nextView = null;
 
 		/* Index all the views first */
 		this.views = pages;
@@ -84,20 +85,28 @@ module.exports = {
 			 * option. Here we make use of our two helper functions to properly
 			 * create the page while deleting any old ones and reusing recent
 			 * ones. */
-			var $targetPage;
-			if(!reverse) $targetPage = this.createNextPage(historyIndex);
-			else $targetPage = this.createPreviousPage(historyIndex);
+			var $targetPage, viewExists;
+			if(!reverse) viewExists = this.createNextPage(historyIndex);
+			else viewExists = this.createPreviousPage(historyIndex);
 
-			/* Get and set the HTML for the target page */
-			var html = this.fetchHTML(view, arguments.url);
-			$targetPage.html(html);
-			$targetPage.addClass(view);
+			/* Find the target page. Which is the last child */
+			$targetPage = this.$ptMain.find(".pt-page:last-child");
 
-			/* Initialize the view for this page */
-			this.currentView = new currentView({
-				arguments: arguments,
-				el: $targetPage
-			});
+			console.log("view", viewExists)
+			if(!viewExists) {
+				/* Get and set the HTML for the target page */
+				var html = this.fetchHTML(view, arguments.url);
+				$targetPage.html(html);
+				$targetPage.addClass(view);
+
+				/* Initialize the view for this page */
+				this.currentView = new currentView({
+					arguments: arguments,
+					el: $targetPage
+				});
+			} else {
+				this.currentView = this.targetView;
+			}
 
 			/* Signal the app to transition to the new page */
 			app.transition({
@@ -121,7 +130,7 @@ module.exports = {
 		app.cacheCurrentView();
 
 		/* Now render signal the view to manipulate the DOM. */
-		this.currentView.render();
+		if(!viewExists) this.currentView.render();
 		// this.currentView.delegateEvents();
 
 		/* Reattach the event handlers for the router */
@@ -140,43 +149,57 @@ module.exports = {
 	 * @return {[type]} [description]
 	 */
 	createNextPage: function(historyIndex) {
+		var that = this;
+		var viewExists = false;
 		var $el = $("<div></div>")
 			.addClass('pt-page')
 			.data('index', historyIndex);
 
-
+		this.previousView = this.currentView;
 		$(".pt-page").each(function() {
 			var $page = $(this);
-			// if(index >= historyIndex) $page.remove();
-			console.log("[deug]", $page.data('index'));
 			var index = $page.data('index') || 0;
-			if(historyIndex - 1 != index) $page.remove();
+			if(index != historyIndex - 1) {
+				if(index != historyIndex) return $page.remove();
+
+				$el = $page;
+				that.targetView = that.nextView;
+				viewExists = true;
+			}
 		});
 		this.$ptMain.append($el);
 
-		return $el;
+		return viewExists;
 	},
+
 
 	/**
 	 * [createNextPage description]
-	 * @return {[type]} [description]
+	 * @return Boolean    True iff there was a view already initialized in the
+	 *                    previous page.
 	 */
 	createPreviousPage: function(historyIndex) {
+		var that = this;
+		var viewExists = false;
 		var $el = $("<div></div>")
 			.addClass('pt-page')
 			.data('index', historyIndex);
 
+		this.nextView = this.currentView;
 		$(".pt-page").each(function() {
 			var $page = $(this);
 			var index = $page.data('index') || 0;
-			console.log("[deug]", index, historyIndex, $page);
-			if(index != historyIndex + 1) $page.remove();
-			// if(index == historyIndex) $el = $page;
-			// if(index - historyIndex > 1 ) $page.remove();
+			if(index != historyIndex + 1) {
+				if(index != historyIndex) return $page.remove();
+
+				$el = $page;
+				that.targetView = that.previousView;
+				viewExists = true;
+			}
 		});
 		this.$ptMain.append($el);
 
-		return $el;
+		return viewExists;
 	},
 
 
@@ -187,13 +210,16 @@ module.exports = {
 	 * If the view wasn't cached, then the function loads the HTML via a AJAX
 	 * request.
 	 *
-	 * @param  {[type]} view [description]
-	 * @return {[type]}      [description]
+	 * @param  String view     The view identifier
+	 * @return String          The HTML code that was fetched
 	 */
 	fetchHTML: function(view, url) {
 		console.log("[view] trying to find HTML in cache for view", view);
 		var html = app.getCachedViewHTML(view);
-		if(html) return html;
+		if(html) {
+			console.log("[view] HTML found from cache!");
+			return html;
+		}
 
 		console.debug("[view] no HTML in cache, fetching HTML via AJAX", url);
 		$.ajax({
@@ -203,7 +229,7 @@ module.exports = {
 			success: function(response) {
 				html = $(response).find(".pt-page").html();
 			}, error: function(e) {
-				console.error("[error] error sending GET request", e);
+				console.error("[view] error sending GET request", e);
 			},
 		});
 		return html;

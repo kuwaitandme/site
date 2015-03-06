@@ -5,6 +5,7 @@
   "author": "Steven Enamakel",
   "dependencies": {
     "async": "^0.9.0",
+    "coffee-script": "^1.9.1",
     "grunt": "~0.4.5",
     "grunt-browserify": "*",
     "grunt-contrib-concat": "^0.4.0",
@@ -15,5 +16,8 @@
     "grunt-replace": "*",
     "grunt-template-module": "~0.2.0",
     "xss": "^0.1.20"
+  },
+  "devDependencies": {
+    "grunt-contrib-coffee": "^0.13.0"
   }
 }

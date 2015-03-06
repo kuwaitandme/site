@@ -11,7 +11,8 @@ module.exports = Backbone.View.extend({
 
 	events: {
 		"click #grabber-hide" : "hide",
-		"click #grabber-display" : "show"
+		"click #grabber-display" : "show",
+		"click ul a" : "hide"
 	},
 
 

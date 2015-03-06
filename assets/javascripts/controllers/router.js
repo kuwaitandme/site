@@ -59,8 +59,10 @@ var controller = module.exports = function() {
 		var view = $el.data().view;
 
 		console.groupCollapsed("[controller:router] navigating to page:", view);
+
 		/* Signal the app's view controllers to move to the new view ... */
 		this.goto(url, view, null);
+
 		console.groupEnd();
 	};
 
