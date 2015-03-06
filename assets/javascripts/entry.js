@@ -6,7 +6,6 @@
  *
  * This file bootstraps the front-end app. Main JS execution begins here.
  */
-require("./globals");
 
 window.app = {
 	/**
