@@ -139,7 +139,11 @@ var controller = module.exports = function() {
 	 * back to the pages they were originally on.
 	 */
 	controller.prototype.resetPage = function() {
-		this.$currPage.attr('class', this.$currPage.data('originalClassList'));
-		this.$targetPage.attr('class', this.$targetPage.data('originalClassList') + ' pt-page-current');
+		this.$currPage
+			.attr('class', this.$currPage.data('originalClassList'))
+			.removeClass('pt-page-current');
+		this.$targetPage
+			.attr('class', this.$targetPage.data('originalClassList'))
+			.addClass('pt-page-current');
 	};
 }
