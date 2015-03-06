@@ -3,10 +3,8 @@ module.exports = Backbone.View.extend({
 		"click .submit" : "submit"
 	},
 
-	initialize: function(obj) {
-		/* Setup our DOM variables */
+	initialize: function(options) {
 		this.$submit = this.$el.find(".submit");
-
 		this.listenTo(this.model, "ajax:error", this.ajaxError);
 	},
 

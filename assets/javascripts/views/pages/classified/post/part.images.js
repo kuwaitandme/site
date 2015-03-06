@@ -3,11 +3,8 @@ module.exports = Backbone.View.extend({
 		"click .dz-preview .delete div" : "removeFile",
 	},
 
-	initialize: function(obj) {
-		/* Set the model */
-		this.model = obj.model;
-
-		/* Setup our DOM variables */
+	initialize: function(options) {
+		this.model = options.model;
 		this.$filePreview = this.$el.find("#image-upload-preview");
 
 		/* Initialize the dropzone */

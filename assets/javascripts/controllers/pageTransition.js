@@ -84,6 +84,7 @@ var controller = module.exports = function() {
 		// 	direction1 = 'pt-page-moveToRightEasing pt-page-ontop';
 		// 	direction2 = 'pt-page-moveFromLeft'
 		// }
+		options.direction = (options.reverse ? "fromLeft" : "fromRight");
 		switch(options.direction) {
 			case "fromBottom": break;
 			case "fromTop": break;

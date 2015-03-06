@@ -6,6 +6,7 @@
  *
  * This file bootstraps the front-end app. Main JS execution begins here.
  */
+require("./globals");
 
 window.app = {
 	/**
@@ -21,7 +22,6 @@ window.app = {
 		this.helpers = require("./helpers");
 		this.libs = require("./libs");
 
-		require("./globals");
 
 		/* Initialize the controllers */
 		this.controllers = require("./controllers");

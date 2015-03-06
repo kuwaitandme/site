@@ -174,7 +174,7 @@ module.exports = Backbone.Model.extend({
 				}
 
 				/* Get the id from the response */
-				that.set("id", response._id);
+				that.set("_id", response._id);
 
 				/* Let listeners know that we have successfully uploaded the
 				 * classified details. */

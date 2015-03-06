@@ -38,11 +38,6 @@ var controller = module.exports = {
 	post: function(request, response, next) {
 		response.contentType('application/json');
 
-		if (!request.isAuthenticated()) {
-			response.status(401);
-			return response.end();
-		}
-
 		function captachFail() {
 			response.status(401);
 			response.end();

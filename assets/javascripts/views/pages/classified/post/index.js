@@ -18,7 +18,7 @@ var router = Backbone.Router.extend({
 		"page-info": "showPageInfo",
 		"page-maps": "showPageMaps",
 		"page-submit": "showPageSubmit",
-
+		// "*": "showPageBegin",
 		"*path": "showPageBegin",
 	},
 
@@ -44,15 +44,28 @@ var router = Backbone.Router.extend({
 	},
 
 
-	switchView: function(view) {
+	switchView: function(viewname, el) {
 		var that = this;
+		var view;
+
+		/* If the view wasn't initialized already, initialize it */
+		if(!this.views[viewname]) this.views[viewname] = new views[viewname]({
+			el: el,
+			model: this.model
+		});
+		view = this.views[viewname];
+
+		/* Remove all error messages */
 		$("ul.error-message li").remove();
 
+		/* Set the current view variable */
 		if(!this.currentView) this.currentView = view;
 
+		/* If the view's validation function failed, stay in the same view */
 		if(!this.currentView.validate())
 			return this.navigate(this.currentFragment, {trigger: false});
 
+		/* Animate and switch the DOM elements */
 		var $el = this.currentView.$el;
 		$el.transition({ opacity: 0 }, function() {
 			$el.hide();
@@ -63,61 +76,34 @@ var router = Backbone.Router.extend({
 		});
 	},
 
+
 	showPageBegin: function () {
-		if(!this.views.begin) this.views.begin = new views.begin({
-			el: "#page-begin",
-			model: this.model
-		});
-		this.switchView(this.views.begin);
+		this.switchView("begin", "#page-begin");
 	},
 
 	showPageDetails: function () {
-		if(!this.views.details) this.views.details = new views.details({
-			el: "#page-details",
-			model: this.model
-		});
-		this.switchView(this.views.details);
+		this.switchView("details", "#page-details");
 	},
 
 	showPageSubmit: function () {
-		if(!this.views.submit) this.views.submit = new views.submit({
-			el: "#page-submit",
-			model: this.model
-		});
-		this.switchView(this.views.submit);
+		this.switchView("submit", "#page-submit");
 	},
 
 	showPageImages: function () {
-		if(!this.views.images) this.views.images = new views.images({
-			el: "#page-images",
-			model: this.model
-		});
-		this.switchView(this.views.images);
+		this.switchView("images", "#page-images");
 	},
 
 
 	showPageInfo: function () {
-		if(!this.views.info) this.views.info = new views.info({
-			el: "#page-info",
-			model: this.model
-		});
-		this.switchView(this.views.info);
+		this.switchView("info", "#page-info");
 	},
 
 	showPageMaps: function () {
-		if(!this.views.maps) this.views.maps = new views.maps({
-			el: "#page-maps",
-			model: this.model
-		});
-		this.switchView(this.views.maps);
+		this.switchView("maps", "#page-maps");
 	},
 
 	showPageFinish: function() {
-		if(!this.views.finish) this.views.finish = new views.finish({
-			el: "#page-finish",
-			model: this.model
-		});
-		this.switchView(this.views.finish);
+		this.switchView("finish", "#page-finish");
 	}
 })
 
@@ -129,5 +115,7 @@ module.exports = Backbone.View.extend({
 		this.router = new router({ model: this.model });
 	},
 
-	render: function() { }
+	render: function() {
+		this.router.showPageBegin();
+	}
 });

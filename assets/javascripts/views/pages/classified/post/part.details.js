@@ -7,11 +7,8 @@ module.exports = Backbone.View.extend({
 		"change #price-selector" : "priceSelected",
 	},
 
-	initialize: function(obj) {
-		/* Set the model */
-		this.model = obj.model;
-
-		/* Initalize the DOM elements */
+	initialize: function(options) {
+		this.model = options.model;
 		this.$address1 = this.$el.find("#address1");
 		this.$address2 = this.$el.find("#address2");
 		this.$email = this.$el.find("#email");

@@ -1,11 +1,6 @@
 module.exports = Backbone.View.extend({
 	initialize: function(obj) {
-		/* Render the page */
-		this.render();
-	},
-
-
-	initDOM: function() {
+		this.model = options.model;
 		this.$gmap = this.$el.find("#map-canvas");
 		this.$gmapX = this.$el.find("#gmapX");
 		this.$gmapY = this.$el.find("#gmapY");

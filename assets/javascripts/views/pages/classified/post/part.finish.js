@@ -14,8 +14,8 @@ module.exports = Backbone.View.extend({
 		{ price:15, toggled: false}
 	],
 
-	initialize: function(obj) {
-		this.model = obj.model;
+	initialize: function(options) {
+		this.model = options.model;
 
 		this.$tabPayment = this.$el.find("#tab-payment");
 		this.$paymentErrors = this.$el.find("#payment-errors");
@@ -92,8 +92,8 @@ module.exports = Backbone.View.extend({
 	generateSocialLinks: function() {
 		var href = window.location.href;
 		var urlParts = href.split('/');
-		urlParts[4] = 'finish/';
-		var url = href.join('/') + this.model.get('_id');
+		urlParts[4] = 'single/';
+		var url = urlParts.join('/') + this.model.get('_id');
 
 		var tweet = "Check out my classified at " + url;
 

@@ -1,10 +1,8 @@
 var xss = require('xss');
 
 module.exports = Backbone.View.extend({
-	initialize: function(obj) {
-		this.model = obj.model;
-
-		/* Setup our DOM variables */
+	initialize: function(options) {
+		this.model = options.model;
 		this.$description = this.$el.find("#description");
 		this.$title = this.$el.find("#title");
 

@@ -22,8 +22,9 @@ module.exports = {
 		this.$previousPage = $("#prev-page");
 		this.previousView = this.nextView = null;
 
-		/* Index all the views first */
+		/* Set local variables */
 		this.views = pages;
+		this.components = components;
 
 		/* Render different components */
 		this.header = new components.header({ el: "header" });

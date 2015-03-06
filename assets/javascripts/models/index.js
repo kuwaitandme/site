@@ -1,3 +1,6 @@
+var categories = require("./categories");
+var locations = require("./locations");
+
 module.exports = {
 	/* Model parent classes to be referred here. This allows any other function
 	 * to easily instantiate the required model by just referencing from this
@@ -7,6 +10,8 @@ module.exports = {
 	// user: require("./user"),
 
 	initialize: function(config) {
+		console.group("[model] initializing");
+
 		/* Initialize the category and location model and populate them with
 		 * their values.
 		 *
@@ -15,7 +20,9 @@ module.exports = {
 		 *
 		 * Note that other models are not instantiated and only these ones are.
 		 */
-		// this.category = new require("./category")(config);
-		// this.location = new require("./location")(config);
+		this.categories = new categories(config);
+		this.locations = new locations(config);
+
+		console.groupEnd();
 	}
 }
