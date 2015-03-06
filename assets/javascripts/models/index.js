@@ -21,7 +21,9 @@ module.exports = {
 		 * Note that other models are not instantiated and only these ones are.
 		 */
 		this.categories = new categories(config);
+		this.categories.fetch();
 		this.locations = new locations(config);
+		this.locations.fetch();
 
 		console.groupEnd();
 	}
