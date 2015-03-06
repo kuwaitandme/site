@@ -141,12 +141,11 @@ module.exports = Backbone.Model.extend({
 	 * @param   String   captcha     A variable containing the capthca, if any
 	 *                               that is to be sent with the request.
 	 */
-	uploadServer: function(captcha) {
+	uploadServer: function(captcha, files) {
 		console.debug("[model:classified] uploading classified details to server", this);
 
 		var that = this;
 		var url = app.config.host + "/classified/post/";
-
 
 		/* Get the JSON to send in the first request. The first request should
 		 * not contain the files. The files will be uploaded asynchronously in
@@ -154,12 +153,31 @@ module.exports = Backbone.Model.extend({
 		var json = this.toJSON();
 		json.files = null;
 
+		/* A progress handler function to show how much of the file
+		 * upload is done. */
+		progressHandler = function(event) {
+			if(event.lengthComputable)
+				that.trigger("ajax:done:partial", event);
+				// $('progress').attr({value:e.loaded,max:e.total});
+		}
+
 		$.ajax({
 			beforeSend: ajax.setHeaders,
-			data: JSON.stringify(json),
-			contentType: "application/json",
+			data: this.getFormData(files),
+			processData: false,
+			contentType: false,
 			type: "POST",
 			url: url,
+			/* Create a custom XMLHttp request that has a progress
+			 * handler linked to it.
+			 */
+			xhr: function() {
+				var Xhr = $.ajaxSettings.xhr();
+				/* Attach the progress handler, if supported */
+				if(Xhr.upload) Xhr.upload.addEventListener('progress',
+					progressHandler, false);
+				return Xhr;
+			},
 
 			/**
 			 * On success, we should get the details of the new classified
@@ -177,12 +195,8 @@ module.exports = Backbone.Model.extend({
 				that.set("_id", response._id);
 
 				/* Let listeners know that we have successfully uploaded the
-				 * classified details. */
-				that.trigger("ajax:done:partial");
-
-				/* Start uploading the files (even if there aren't any). Once
-				 * done this function will emit the final 'ajax:done' event */
-				that.uploadFiles();
+				 * classified */
+				that.trigger("ajax:done");
 			},
 			error: function(e) {
 				console.error("[model:classified] error uploading classified details", e);
@@ -192,92 +206,19 @@ module.exports = Backbone.Model.extend({
 	},
 
 
-	/**
-	 * This function is responsible for asynchronously uploading all the images
-	 * in the file array to the server. This function is always called by
-	 * the 'uploadServer' function and is the function that emits the
-	 * 'ajax:done' event.
-	 *
-	 * The function expects the files to be uploaded to be saved as a 'File'
-	 * object in the files:[] attribute of this model.
-	 */
-	uploadFiles: function() {
-		console.debug("[model:classified] uploading image files to server", this.attributes.files);
-		var that = this;
 
-		/* Helper function to check if a file is valid or not */
-		validateFile = function(file) { return true; };
+	getFormData: function() {
+		var formdata = new FormData();
+		var data = this.toJSON();
+		var files = data.files;
+		delete data.files;
+		formdata.append('data', JSON.stringify(data));
 
-		/* Start analyzing each file and if valid then upload it */
-		asyncJob = function(file, finish) {
-			console.debug("[model:classified] uploading file ", file);
-			if(!validateFile(file)) return finish();
+		_.each(files, function(file) {
+			formdata.append('files[]', file);
+		});
 
-			/* A progress handler function to show how much of the file
-			 * upload is done. */
-			progressHandler = function(event) {
-				if(event.lengthComputable)
-					that.trigger("ajax:done:partial", e);
-					// $('progress').attr({value:e.loaded,max:e.total});
-			}
-
-			/* Perform the AJAX request */
-			$.ajax({
-				type: "PUT",
-				url: app.config.host + "/classified/single/" + this.get('id'),
-				beforeSend: ajax.setHeaders,
-				data: file,
-
-				/* Create a custom XMLHttp request that has a progress
-				 * handler linked to it.
-				 */
-				xhr: function() {
-					var Xhr = $.ajaxSettings.xhr();
-					/* Attach the progress handler, if supported */
-					if(Xhr.upload) Xhr.upload.addEventListener('progress',
-						progressHandler, false);
-					return Xhr;
-				},
-
-				/* On success, the file should be uploaded and we should get
-				 * a JSON from the server containing a 'status' variable which
-				 * will be true iff the server has accepted the file.
-				 *
-				 * If 'status' is not true, then the file got rejected and
-				 * 'status' will contain the reason for why the file was
-				 * rejected.
-				 */
-				success: function(response) {
-					if(response.status == 'uploaded')
-						/* Let listeners know that we have successfully uploaded the
-						 * one of the files. */
-						that.trigger("ajax:done:partial", response);
-					else
-						/* The file got rejected by the server for some reason
-						 * let any error listeners know about it */
-						that.trigger('ajax:error', response)
-
-					finish();
-				},
-
-				error: function(e) {
-					console.error("[model:classified] error uploading file", file, e);
-					that.trigger('ajax:error', e);
-
-					finish();
-				},
-			});
-		};
-
-		/* Once we are done, signal any listeners that we are completely done
-		 * uploading this classified */
-		asyncFinish = function() {
-			console.log('[model:classified] classified has been fully uploaded');
-			that.trigger("ajax:done");
-		};
-
-		/* Asynchronously  upload each file */
-		async.each(this.get('files'), asyncJob, asyncFinish);
+		return formdata;
 	},
 
 

@@ -1,5 +1,5 @@
-var classified = require('../../../models/classified'),
-	config = require('../../../../var/config'),
+var classified = global.models.classified,
+	config = global.config,
 	file = require('../../helpers/file'),
 	formidable = require('formidable'),
 	reCaptcha = require('../../reCaptcha'),
@@ -36,6 +36,7 @@ var controller = module.exports = {
 	 * Controller to create the new classified
 	 */
 	post: function(request, response, next) {
+		var that = this;
 		response.contentType('application/json');
 
 		function captachFail() {
@@ -44,19 +45,34 @@ var controller = module.exports = {
 		}
 
 		function captachSuccess() {
-			classified.create(request.body, request.user, function(cl) {
-				/* If a classified was saved, then return it to the client. The
-				 * returned classified will contain the id parameter which
-				 * wasn't there before. */
-				if(cl) return response.end(JSON.stringify(cl));
+			/* Initialize formidable */
+			var form = new formidable.IncomingForm();
+			form.keepExtensions = true;
+			form.multiples = true;
+			form.maxFieldsSize = 10 * 1024 * 1024; /* 10MB */
 
-				/* If no classified was returned, then nothing was saved. So
-				 * send a 400 Bad Request to the client */
-				response.status(400);
-				response.end();
+			/* Start parsing the form */
+			form.parse(request, function(err, fields, files) {
+				if(err) throw err;
+				var data = JSON.parse(fields.data);
+				var files = files["files[]"];
+
+				file.upload(files, function(files) {
+					data.images = files;
+					classified.create(data, request.user, function(cl) {
+						/* If a classified was saved, then return it to the client. The
+						 * returned classified will contain the id parameter which
+						 * wasn't there before. */
+						if(cl) return response.end(JSON.stringify(cl));
+
+						/* If no classified was returned, then nothing was saved. So
+						 * send a 400 Bad Request to the client */
+						response.status(400);
+						response.end();
+					});
+				});
 			});
 		}
-
 		reCaptcha.verify(request, captachSuccess, captachFail, false);
 	},
 
@@ -77,59 +93,5 @@ var controller = module.exports = {
 			// return controller.doUpload(request, response, next);
 
 		next();
-	},
-
-	doUpload: function(request, response, next) {
-		var asyncTasks = [], ret = {};
-
-		/* Initialize formidable */
-		var form = new formidable.IncomingForm();
-		form.keepExtensions = true;
-		form.multiples = true;
-		form.maxFieldsSize = 4 * 1024 * 1024; /* 4MB */
-
-		/* Start parsing the form */
-		form.parse(request, function(err, fields, files) {
-			ret = fields;
-			ret.images = [];
-			var files = files["files[]"];
-
-			/* Avoid reading empty file uploads */
-			if(!files || files.length == 0) return callback(null);
-
-			for(var i=0; i<files.length; i++) {
-				var f = files[i];
-				var newFilename = file.createUniqueFilename(f.path);
-				var uploadPath = file.uploadDir + newFilename;
-
-				/* Avoid uploading with invalid filenames */
-				if(!newFilename) continue;
-
-				/* Set this accordingly */
-				var isValid = file.validate(f);
-
-				/* Add a task to operate on this file */
-				asyncTasks.push({
-					oldPath: f.path,
-					newPath: uploadPath,
-					newFilename: newFilename,
-					isValid: isValid
-				});
-
-				/* Add the file into our list of 'accpeted' files */
-				if(isValid) ret.images.push(newFilename);
-			}
-
-			/* Perform file operations to move the file from the temporary
-			 * storage into the public uploads folder.
-			 *
-			 * Note that this is done asynchronously. Which is quite neat since
-			 * we don't have to wait for the files to get uploaded and can
-			 * continue to continue performing operations on the DB. */
-			file.operate(asyncTasks);
-
-			/* Call the callback function with the list of uploaded files */
-			response.end(JSON.stringify(ret));
-		});
 	}
 }

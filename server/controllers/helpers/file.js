@@ -43,70 +43,53 @@ var file = module.exports = {
 
 
 	/**
-	 * Starts the upload of files into the server. It makes sure that
+	 * Starts the upload of files into the server. It makes sure that//
+	 *
+	 * TOODODODOODODO
 	 *
 	 * @param  request    The 'request' variable containing the form file data.
 	 * @param  callback   The callback function to call once done. This function
 	 *                    takes in an array of new filenames of the files that
 	 *                    have been uploaded.
 	 */
-	upload: function(request, callback) {
-		var ret = {};
-		var asyncTasks = [];
+	upload: function(files, callback) {
+		/* Avoid reading empty file uploads */
+		if(!files || files.length == 0) return callback(null);
 
-		/* Initialize formidable */
-		var form = new formidable.IncomingForm();
-		form.keepExtensions = true;
-		form.multiples = true;
-		form.maxFieldsSize = 4 * 1024 * 1024; /* 4MB */
+		var asyncTasks = [], ret = [];
 
-		form.on('fileBegin', function(name, file) {
-			/* Perform some validation and upload the file */
-			// console.log(name, file);
-		});
+		for(var i=0; i<files.length; i++) {
+			var f = files[i];
+			var newFilename = file.createUniqueFilename(f.path);
+			var uploadPath = file.uploadDir + newFilename;
 
-		/* Start parsing the form */
-		form.parse(request, function(err, fields, files) {
-			ret = fields;
-			ret.images = [];
-			var files = files["files[]"];
+			if(!newFilename) continue;
 
-			/* Avoid reading empty file uploads */
-			if(!files || files.length == 0) return callback(null);
+			/* Set this accordingly */
+			var isValid = true;
 
-			for(var i=0; i<files.length; i++) {
-				var f = files[i];
-				var newFilename = file.createUniqueFilename(f.path);
-				var uploadPath = file.uploadDir + newFilename;
+			/* Add a task to operate on this file */
+			asyncTasks.push({
+				oldPath: f.path,
+				newPath: uploadPath,
+				newFilename: newFilename,
+				isValid: isValid
+			});
 
-				if(!newFilename) continue;
+			/* Add the file into our list of 'accpeted' files */
+			if(isValid) ret.push(newFilename);
+		}
 
-				/* Set this accordingly */
-				var isValid = true;
+		/* Perform file operations to move the file from the temporary
+		 * storage into the public uploads folder.
+		 *
+		 * Note that this is done asynchronously. Which is quite neat since
+		 * we don't have to wait for the files to get uploaded and can
+		 * continue to continue performing operations on the DB. */
+		file.operate(asyncTasks);
 
-				/* Add a task to operate on this file */
-				asyncTasks.push({
-					oldPath: f.path,
-					newPath: uploadPath,
-					newFilename: newFilename,
-					isValid: isValid
-				});
-
-				/* Add the file into our list of 'accpeted' files */
-				if(isValid) ret.images.push(newFilename);
-			}
-
-			/* Perform file operations to move the file from the temporary
-			 * storage into the public uploads folder.
-			 *
-			 * Note that this is done asynchronously. Which is quite neat since
-			 * we don't have to wait for the files to get uploaded and can
-			 * continue to continue performing operations on the DB. */
-			file.operate(asyncTasks);
-
-			/* Call the callback function with the list of uploaded files */
-			callback(ret);
-		});
+		/* Call the callback function with the list of uploaded files */
+		callback(ret);
 	},
 
 
