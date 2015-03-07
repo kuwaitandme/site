@@ -1,5 +1,9 @@
 module.exports = Backbone.View.extend({
 	initialize: function() {
+		console.log("[view:auth] initializing");
+
+		app.loadResource("reCaptcha");
+
 		/* Parse the URL and give out the appropriate message based on it. */
 		var msg = app.messages;
 		var getParam = app.helpers.url.getParam;
@@ -33,5 +37,9 @@ module.exports = Backbone.View.extend({
 		signup_invalid: 'Some of the fields are invalid',
 		signup_success: 'Your account has been created, Check your inbox (and junk email) for an activation email',
 		signup_taken: 'That account name has already been taken!'
+	},
+
+	render: function() {
+		console.log("[view:auth] rendering");
 	}
 });

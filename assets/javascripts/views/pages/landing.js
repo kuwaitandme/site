@@ -7,6 +7,8 @@ module.exports = Backbone.View.extend({
 		console.log("[view:landing] initializing");
 		if(objs.$el) this.$el = objs.$el;
 
+		app.loadResource("masonry");
+
 		this.$topClassifieds = this.$el.find('#top-classifieds .content');
 		this.$categoryList = this.$el.find('#masonry-container .content');
 		this.$categoryList.hide();

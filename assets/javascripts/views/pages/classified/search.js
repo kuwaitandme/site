@@ -11,6 +11,9 @@ module.exports = controller = Backbone.View.extend({
 		console.log("[view:classifieds-search] initializing")
 		var that = this;
 
+		app.loadResource("masonry");
+		app.loadResource("imagesLoaded");
+
 		/* Get the template */
 		this.listTemplate = _.template(this.$el.find("#list-template").html());
 
@@ -140,7 +143,7 @@ module.exports = controller = Backbone.View.extend({
 
 		/* Reload Masonry again for every-time a new image has been loaded */
 		var reloadMasonry = function() { that.$classifiedList.masonry(); };
-		// imagesLoaded(this.$classifiedList, reloadMasonry);
+		imagesLoaded(this.$classifiedList, reloadMasonry);
 
 		/* Fire the AJAX event again! In case we haven't filled up the rest
 		 * of the body yet. */

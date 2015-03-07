@@ -12,7 +12,7 @@ window.app = {
 	 * This function starts up the app.
 	 */
 	start: function() {
-		console.groupCollapsed("[app] initializing");
+		console.group("[app] initializing");
 
 		/* Start attaching the module components here, so that other components
 		 * can refer to these modules by doing a 'app.modulename', since 'app'
@@ -57,14 +57,17 @@ window.app = {
 	transition: function(options) {
 		return this.controllers.pageTransition.transition(options);
 	},
+	loadResource: function(resource) {
+		return this.controllers.resourceLoader.loadResource(resource);
+	},
 	success: function(text, title) {
 		return this.views.messages.success(text, title);
 	},
 	error: function(text, title) {
-
+		return this.views.messages.error(text, title);
 	},
 	warn: function(text, title) {
-
+		return this.views.messages.warn(text, title);
 	},
 };
 

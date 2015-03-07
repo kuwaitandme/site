@@ -137,7 +137,11 @@ module.exports = Backbone.View.extend({
 	model: new app.models.classified,
 
 	initialize: function(obj) {
-		console.log("[view:classified-post] initializing")
+		console.log("[view:classified-post] initializing");
+
+		app.loadResource("dropzone");
+		app.loadResource("googleMaps");
+		app.loadResource("reCaptcha");
 	},
 
 	render: function() {
