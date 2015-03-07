@@ -19,8 +19,8 @@ li.classified(class!="<%= classes %>")
 				ul.c-meta
 					li <%= price %>
 					li <%= created %>
-					|<% if(location) {
-					|   var loc = app.helpers.location.find(location);
+					|<% if(contact.location) {
+					|	var loc = app.models.locations.findWhere({ _id: contact.location }).toJSON();
 					|   if(loc && loc.name != "None") { %>
 					li <%= loc.name %>
 					| <% }
