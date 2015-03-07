@@ -17,7 +17,7 @@ module.exports = Backbone.Collection.extend({
 	},
 
 	fetch: function() {
-		console.groupCollapsed("[model:categories] fetching");
+		console.group("[model:categories] fetching");
 		var that = this;
 		var localStorage = app.controllers.localStorage;
 
