@@ -1,4 +1,5 @@
 module.exports = {
+	"account":           require("./account"),
 	"account-manage":    require("./account/manage"),
 	"auth-forgot":       require("./auth/login"),
 	"auth-login":        require("./auth/login"),
