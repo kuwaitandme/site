@@ -23,6 +23,11 @@ module.exports = Backbone.View.extend({
 	},
 
 
+	clear: function() {
+		this.$el.html("");
+	},
+
+
 	error: function(text, title) {
 		var html = this.template({
 			text: text,

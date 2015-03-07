@@ -67,6 +67,9 @@ module.exports = {
 		var reverse = HistoryState.reverse || false;
 		var historyIndex = HistoryState.index || 0;
 
+		/* Clear any messages */
+		this.messages.clear();
+
 		/* Get the view */
 		this.currentViewName = view;
 		var currentView = this.getView(view);

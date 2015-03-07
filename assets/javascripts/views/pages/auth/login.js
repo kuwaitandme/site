@@ -5,17 +5,16 @@ module.exports = Backbone.View.extend({
 		app.loadResource("reCaptcha");
 
 		/* Parse the URL and give out the appropriate message based on it. */
-		var msg = app.messages;
 		var getParam = app.helpers.url.getParam;
-		if(getParam('error')) msg.error(this.messages[getParam('error')]);
-		if(getParam('success')) msg.success(this.messages[getParam('success')]);
-		if(getParam('warn')) msg.warn(this.messages[getParam('warn')]);
+		if(getParam('error')) app.error(this.messages[getParam('error')]);
+		if(getParam('success')) app.success(this.messages[getParam('success')]);
+		if(getParam('warn')) app.warn(this.messages[getParam('warn')]);
 
 		/* Check for any server side flash messages */
 		var flashErrors = window.data.flashError;
 		if(flashErrors)
 			for(var i=0; i<flashErrors.length; i++)
-				msg.error(this.messages[flashErrors[i]]);
+				app.error(this.messages[flashErrors[i]]);
 
 	},
 
