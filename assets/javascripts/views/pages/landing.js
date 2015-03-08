@@ -1,6 +1,7 @@
 module.exports = Backbone.View.extend({
 	events: {
-		"click .cl-title" : "toggleClassified"
+		"click .cl-title" : "toggleClassified",
+		"click .search-button" : "submitSearch"
 	},
 
 	initialize: function(objs) {
@@ -35,6 +36,22 @@ module.exports = Backbone.View.extend({
 	postAnimation: function() {
 		this.$categoryList.fadeIn();
 		this.setupMasonry();
+	},
+
+
+	/**
+	 * [submitSearch description]
+	 *
+	 * @param  {[type]} events [description]
+	 */
+	submitSearch: function(event) {
+		event.preventDefault();
+		var $el = this.$el.find("[name='keywords']");
+		var text = $el.val();
+		text.replace(" ", "+");
+		console.log(text);
+
+		app.goto("/classified/search/?keywords=" + text, "classified-search", null);
 	},
 
 
