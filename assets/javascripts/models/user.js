@@ -32,6 +32,11 @@ module.exports = Backbone.Model.extend({
 	},
 
 
+	authenticate: function(username, password) {
+
+	},
+
+
 	/**
 	 * Fetches the details of the user with the given id and save it in this
 	 * model.

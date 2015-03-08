@@ -50,24 +50,24 @@ var controller = module.exports = function() {
 	 * Ideally, we would want to put code that never changes in those tags; eg.
 	 * Underscore templates.
 	 */
-	controller.prototype.cacheCurrentView = function() {
+	controller.prototype.cacheView = function(view, identifier) {
 		if(this.fallback) return;
 
 		/* Get the view identifier */
-		var view = "page-" + app.views.currentViewName;
+		var storageIdentifier = "page-" + identifier;
 
 		/* Check if this view has been cached or not */
 		if(localStorage.getItem(view)) return;
 
 		/* If we reach here, then get the HTML we need to cache and store it */
 		console.log("[controller:localstorage] saving current view to cache");
-		var html = app.views.currentView.$el.find(".html5-cache").html();
+		var html = view.$el.find(".html5-cache").html();
 
 		/* Avoid caching empty html */
 		if(!html || html == "") return console.warn("[warn] nothing was cached");
 
 		/* If all went well, save the html */
-		localStorage.setItem(view, html);
+		localStorage.setItem(storageIdentifier, html);
 	};
 
 
@@ -75,10 +75,10 @@ var controller = module.exports = function() {
 	 * This function returns the HTML code (if any) that is cached in the local
 	 * storage.
 	 *
-	 * @param  String   view         The view identifier
+	 * @param  String   identifier   The view identifier
 	 * @return String                The HTML that was cached.
 	 */
-	controller.prototype.getCachedViewHTML = function(view) {
+	controller.prototype.getCachedViewHTML = function(identifier) {
 		if(this.fallback) return;
 
 		var cache = localStorage.getItem("page-" + view);

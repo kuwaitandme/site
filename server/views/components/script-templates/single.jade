@@ -32,19 +32,19 @@ ul.c-meta
 	|<% } %>
 
 	//- Email
-	|<% } if(contact.email.length) { %>
+	|<% } if(contact.email) { %>
 	li
 		b Email:&nbsp;
 		<%= contact.email %>
 
 	//- Phone
-	|<% } if(contact.phone.length) { %>
+	|<% } if(contact.phone) { %>
 	li
 		b Phone:&nbsp;
 		<%= contact.phone %>
 
 	//- Address
-	|<% } if(contact.address1.length) { %>
+	|<% } if(contact.address1) { %>
 	li
 		b Address:&nbsp;<%= contact.address1 %>; <%= contact.address2 %>
 	|<% } %>

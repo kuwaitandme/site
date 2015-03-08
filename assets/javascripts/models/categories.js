@@ -1,4 +1,5 @@
-var ajax = app.helpers.ajax;
+var ajax = require("app-helpers").ajax;
+var localStorage = require("app-controllers").localStorage;
 
 var model = Backbone.Model.extend({
 	defaults: {
@@ -19,7 +20,7 @@ module.exports = Backbone.Collection.extend({
 	fetch: function() {
 		console.group("[model:categories] fetching");
 		var that = this;
-		var localStorage = app.controllers.localStorage;
+		// var localStorage = app.controllers.localStorage;
 
 		/* Attempt to load from HTML5 localStorage */
 		var cache = localStorage.get("categories");
