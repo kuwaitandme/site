@@ -1,6 +1,7 @@
 components = require('./components')
 pages = require('./pages')
 
+
 # EXPLAIN THIS MODULE
 #
 # @type {Object}
@@ -48,10 +49,13 @@ module.exports =
 		console.debug @consoleSlug, 'setting view to \'' + viewIdentifier +
 			'\' with history:', HistoryState
 
-		that = this
+		# Signal the header to update itself
+		@header.update()
+
 		HistoryState = HistoryState or {}
 		reverse = HistoryState.reverse or false
 		historyIndex = HistoryState.index or 0
+
 
 		# Clear any messages
 		@messages.clear()
@@ -108,9 +112,6 @@ module.exports =
 				arguments: arguments
 				el: '.pt-page-current')
 
-		# Signal the header to update itself
-		@header.update()
-
 		# Attempt to cache the HTML
 		app.cacheView(@currentView, @currentViewName)
 
@@ -127,7 +128,7 @@ module.exports =
 
 		# Recall google Analytics
 		@googleAnalyticsSend()
-		if that.currentView.postAnimation then that.currentView.postAnimation()
+		if @currentView.postAnimation then @currentView.postAnimation()
 
 
 	# [createNextPage description]
@@ -160,13 +161,15 @@ module.exports =
 		# If there was a view already set before this, then use that instead of
 		# creating a new one
 		if @previousView
-
 			console.debug @consoleSlug, "found previous view cached", @previousView
 
 			$el = @previousView.$el
 				.data 'index', historyIndex
 			@targetView = @previousView
 			viewExists = true
+
+			# Set this to null since we will only be storing one 'previousView'
+			@previousView = null
 
 		# Delete any view that is not needed
 		$('.pt-page').each ->

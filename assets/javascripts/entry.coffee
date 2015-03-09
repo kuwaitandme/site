@@ -46,4 +46,4 @@ window.app =
 
 # Kick start the App. Start back-tracing the app's execution over here, if you
 # are trying to understand my code.
-$(document).ready( -> app.start())
+$(window).load( -> app.start())

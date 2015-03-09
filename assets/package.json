@@ -19,12 +19,11 @@
     "xss": "^0.1.20"
   },
   "browser": {
-    "app-helpers": "./javascripts/helpers/index.coffee",
     "app-config": "./javascripts/config.coffee",
     "app-controllers": "./javascripts/controllers/index.coffee",
-    "app-models": "./javascripts/models/index.coffee",
+    "app-helpers": "./javascripts/helpers/index.coffee",
     "app-libs": "./javascripts/libs/index.coffee",
-    "app-views": "./javascripts/views/index.coffee",
-    "lib-googlemaps": ""
+    "app-models": "./javascripts/models/index.coffee",
+    "app-views": "./javascripts/views/index.coffee"
   }
 }
