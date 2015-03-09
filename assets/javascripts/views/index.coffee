@@ -9,7 +9,8 @@ module.exports =
 	# Setup the different views. ie. Initialize the different controllers for
 	# the header, currentView and other components.
 	initialize: ->
-		console.group '[view] initializing'
+		@consoleSlug = '[view]'
+		console.group @consoleSlug, 'initializing'
 
 		# Cache some DOM variables
 		@$body = $('body')
@@ -43,15 +44,10 @@ module.exports =
 
 	# Set's the currentView with all the proper animations and DOM
 	# manipulations.
-	#
-	# @param  String   view         A string containing the identifier of the
-	#                               view that we must switch to.
-	# @param  Object   arguments    An object containing properties that gets
-	#                               passed on to the new view.
-	# @param  Object   HistoryState An object that contains details about the
-	#                               history event in context.
-	setView: (view, args, HistoryState) ->
-		console.debug '[view] setting view to \'' + view + '\' with history:', HistoryState
+	setView: (viewIdentifier, args, HistoryState) ->
+		console.debug @consoleSlug, 'setting view to \'' + viewIdentifier +
+			'\' with history:', HistoryState
+
 		that = this
 		HistoryState = HistoryState or {}
 		reverse = HistoryState.reverse or false
@@ -61,8 +57,8 @@ module.exports =
 		@messages.clear()
 
 		# Get the view
-		@currentViewName = view
-		currentView = @getView(view)
+		@currentViewName = viewIdentifier
+		currentView = @getView(viewIdentifier)
 
 		# Check if there was a view before
 		if @currentView
@@ -73,7 +69,7 @@ module.exports =
 			@currentView.undelegateEvents()
 			if @currentView.onLeave then @currentView.onLeave()
 
-			console.log '[view] creating buffer page to hold new view'
+			console.log @consoleSlug, 'creating buffer page to hold new view'
 
 			# Create the target page (next or previous), based on the 'reverse'
 			# option. Here we make use of our two helper functions to properly
@@ -89,9 +85,9 @@ module.exports =
 
 			if not viewExists
 				# Get and set the HTML for the target page
-				html = @fetchHTML(view, args.url)
+				html = @fetchHTML(viewIdentifier, args.url)
 				$targetPage.html html
-				$targetPage.addClass view
+				$targetPage.addClass viewIdentifier
 
 				# Initialize the view for this page
 				@currentView = new currentView
@@ -104,7 +100,7 @@ module.exports =
 				$targetPage: $targetPage
 				reverse: reverse
 		else
-			console.log '[view] initializing first view'
+			console.log @consoleSlug, 'initializing first view'
 
 			# Else load set the currentView directly without any transition
 			# animations
@@ -132,44 +128,53 @@ module.exports =
 		# Recall google Analytics
 		@googleAnalyticsSend()
 		if that.currentView.postAnimation then that.currentView.postAnimation()
-		return
 
 
 	# [createNextPage description]
-	#
-	# @param  {[type]} historyIndex [description]
 	createNextPage: (historyIndex) ->
-		that = this
 		$el = $('<div></div>').addClass('pt-page').data('index', historyIndex)
+
+		# Save the current view as the previous page
 		@previousView = @currentView
 		@previousView.scrollPosition = @currentView.$el.scrollTop()
+
+		# Delete any view that is not needed
 		$('.pt-page').each ->
 			$page = $(this)
 			index = $page.data('index') or 0
-			if index != historyIndex - 1
-				$page.remove()
-			return
+			if index is not historyIndex - 1 then $page.remove()
+
 		@$ptMain.append $el
-		return
 
 
 	# [createNextPage description]
 	createPreviousPage: (historyIndex) ->
-		that = this
 		viewExists = false
+
 		$el = $('<div></div>').addClass('pt-page').data('index', historyIndex)
+
+		# Save the current view as the next page
 		@nextView = @currentView
 		@nextView.scrollPosition = @currentView.$el.scrollTop()
+
+		# If there was a view already set before this, then use that instead of
+		# creating a new one
+		if @previousView
+
+			console.debug @consoleSlug, "found previous view cached", @previousView
+
+			$el = @previousView.$el
+				.data 'index', historyIndex
+			@targetView = @previousView
+			viewExists = true
+
+		# Delete any view that is not needed
 		$('.pt-page').each ->
 			$page = $(this)
 			index = $page.data('index') or 0
-			if index != historyIndex + 1
-				if index != historyIndex
-					return $page.remove()
-				$el = $page
-				that.targetView = that.nextView
-				viewExists = true
-			return
+			if index is not historyIndex + 1 or index is not historyIndex
+				$page.remove()
+
 		@$ptMain.append $el
 		viewExists
 
@@ -180,25 +185,24 @@ module.exports =
 	# If the view wasn't cached, then the function loads the HTML via a AJAX
 	# request.
 	fetchHTML: (view, url) ->
-		console.log '[view] trying to find HTML in cache for view', view
+		console.log @consoleSlug, 'trying to find HTML in cache for view', view
 		html = app.getCachedViewHTML(view)
 
 		if html
-			console.log '[view] HTML found from cache!'
+			console.log @consoleSlug, 'HTML found from cache!'
 			return html
 
-		console.debug '[view] no HTML in cache, fetching HTML via AJAX', url
+		console.debug @consoleSlug, 'no HTML in cache, fetching HTML via AJAX', url
 		$.ajax
 			type: 'GET'
 			url: url
 			async: false
 			success: (response) ->
 				html = $(response).find('.html5-cache').html()
-				return
 			error: (e) ->
-				console.error '[view] error sending GET request', e
-				return
+				console.error @consoleSlug, 'error sending GET request', e
 		html
+
 
 	# Function to safely call the Google analytics script
 	googleAnalyticsSend: ->
