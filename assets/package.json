@@ -23,6 +23,7 @@
     "app-config": "./javascripts/config.coffee",
     "app-controllers": "./javascripts/controllers/index.coffee",
     "app-models": "./javascripts/models/index.coffee",
+    "app-libs": "./javascripts/libs/index.coffee",
     "app-views": "./javascripts/views/index.coffee",
     "lib-googlemaps": ""
   }
