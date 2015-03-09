@@ -5,6 +5,8 @@ dateHelper = (require 'app-helpers').date
 # A Backbone model representing a single classified. This model contains
 # methods to manipulate and sync with the server.
 module.exports = Backbone.Model.extend
+	consoleSlug: "[model:classified]"
+
 	defaults:
 		_id: null
 		adminReason: null
@@ -52,7 +54,7 @@ module.exports = Backbone.Model.extend
 			async: false
 			beforeSend: ajax.setHeaders
 			success: (response) ->
-				console.debug '[model:classified] fetching classified details', response
+				console.debug @consoleSlug, 'fetching classified details', response
 				response.classified.editable = response.editable
 				response.classified.superEditable = response.superEditable
 				that.set response.classified
@@ -60,7 +62,7 @@ module.exports = Backbone.Model.extend
 				# Signal any listeners that we are done loading this classified
 				that.trigger 'ajax:done', that
 			error: (e) ->
-				console.error '[model:classified] error fetching classified details', e
+				console.error @consoleSlug, 'error fetching classified details', e
 
 
 	parseVariables: ->
@@ -78,8 +80,9 @@ module.exports = Backbone.Model.extend
 
 
 	uploadServer: (captcha, files) ->
-		console.debug '[model:classified] uploading classified details to server', this
+		console.debug @consoleSlug, 'uploading classified details to server', this
 		that = this
+
 		url = app.config.host + '/classified/post/'
 
 		# Get the JSON to send in the first request. The first request should
@@ -112,8 +115,8 @@ module.exports = Backbone.Model.extend
 				Xhr
 
 			success: (response) ->
-				if !response._id
-					console.error '[model:classified] error uploading classified', response
+				if not response._id
+					console.error @consoleSlug, 'error uploading classified', response
 					return that.trigger('ajax:error', response)
 
 				# Get the id from the response
@@ -123,11 +126,12 @@ module.exports = Backbone.Model.extend
 				# classified
 				that.trigger 'ajax:done'
 
-			error: (e) ->
-				console.error '[model:classified] error uploading classified details', e
-				that.trigger 'ajax:error', e
+			error: (response) ->
+				console.error @consoleSlug, 'error uploading classified details', response
+				that.trigger 'ajax:error', response
 
 
+	# Creates for
 	getFormData: ->
 		formdata = new FormData
 		data = @toJSON()
