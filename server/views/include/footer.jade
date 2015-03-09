@@ -7,7 +7,7 @@ footer
 			window.data = !{JSON.stringify(data)};
 			window.page = !{JSON.stringify(bodyid)};
 			window.jsVersion = !{jsVersion};
-		if process.env.NODE_ENV != "production"
+		if process.env.NODE_ENV == "production"
 			script
 				include ../components/footer-scripts.prod.min.js
 			script.
