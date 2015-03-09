@@ -18,8 +18,7 @@ module.exports = function(gulp) {
 	}
 
 
-	/* run once and then watch */
-	// compile();
+	/* run once, then watch */
 	gulp.task('coffee', task);
 	gulp.watch('javascripts/**/*.coffee', ['coffee']);
 }

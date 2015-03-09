@@ -9,7 +9,6 @@ module.exports = prettify: (date_raw) ->
 		{
 			threshold: 1
 			handler: -> 'just now'
-
 		}
 		{
 			threshold: 60
