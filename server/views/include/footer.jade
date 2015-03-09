@@ -8,36 +8,41 @@ footer
 			window.page = !{JSON.stringify(bodyid)};
 			window.jsVersion = !{jsVersion};
 
+
+		#localstorage-scripts
+
+		//- script(src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js")
+		script
+			include ../components/footer-scripts.js
 		//- Load the libraries through a CDN in production mode or load the offline for
 		//- development
-		if process.env.NODE_ENV == "production"
-			script(src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js")
-			script(src="//cdnjs.cloudflare.com/ajax/libs/jquery.transit/0.9.12/jquery.transit.min.js")
-			script(src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore-min.js")
-			script(src="//cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js")
-			script(src="//ajax.aspnetcdn.com/ajax/modernizr/modernizr-2.6.2.js")
-		else
-			script(src="/javascripts/vendor/jquery.js")
-			script(src="/javascripts/vendor/jquery.transition.js")
-			script(src="/javascripts/vendor/underscore.js")
-			script(src="/javascripts/vendor/backbone.js")
-			script(src="/javascripts/vendor/modernizr.js")
-			script(src="/javascripts/vendor/masonry.js")
+		//- if process.env.NODE_ENV == "production"
+		//- 	script(data-name="jquery.transit" src="//cdnjs.cloudflare.com/ajax/libs/jquery.transit/0.9.12/jquery.transit.min.js")
+		//- 	script(data-name="underscore" src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore-min.js")
+		//- 	script(data-name="backbone" src="//cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js")
+		//- 	script(data-name="modernizr" src="//ajax.aspnetcdn.com/ajax/modernizr/modernizr-2.6.2.js")
+		//- else
+		//- 	script(src="/javascripts/vendor/jquery.js")
+		//- 	script(src="/javascripts/vendor/jquery.transition.js")
+		//- 	script(src="/javascripts/vendor/underscore.js")
+		//- 	script(src="/javascripts/vendor/backbone.js")
+		//- 	script(src="/javascripts/vendor/modernizr.js")
+		//- 	script(src="/javascripts/vendor/masonry.js")
 
-		//- Secondary core scripts are not important and hence need not be saved offline for development
-		script(data-name="2checkout", src="//www.2checkout.com/checkout/api/2co.min.js")
-		script(data-name="dropzone", src="//cdnjs.cloudflare.com/ajax/libs/dropzone/4.0.1/min/dropzone.min.js")
-		script(data-name="google.maps", src="//maps.googleapis.com/maps/api/js?v=3.exp")
-		script(data-name="google.recaptcha", src="//www.google.com/recaptcha/api.js")
-		script(data-name="jquery.imagesloaded", src="//cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/3.1.8/imagesloaded.min.js")
-		script(data-name="tinymce", src="//tinymce.cachefly.net/4.1/jquery.tinymce.min.js")
+		//- //- Secondary core scripts are not important and hence need not be saved offline for development
+		//- script(data-name="2checkout", src="//www.2checkout.com/checkout/api/2co.min.js")
+		//- script(data-name="dropzone", src="//cdnjs.cloudflare.com/ajax/libs/dropzone/4.0.1/min/dropzone.min.js")
+		//- script(data-name="google.maps", src="//maps.googleapis.com/maps/api/js?v=3.exp")
+		//- script(data-name="google.recaptcha", src="//www.google.com/recaptcha/api.js")
+		//- script(data-name="jquery.imagesloaded", src="//cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/3.1.8/imagesloaded.min.js")
+		//- script(data-name="tinymce", src="//tinymce.cachefly.net/4.1/jquery.tinymce.min.js")
 
 		//- Load the main app. Either the minified version (with ganalytics) for production or
 		//- the beautified version (with sourcemaps) for development
-		if process.env.NODE_ENV == "production"
-			script(src="/javascripts/build/app.min.js")
-			script.
-				(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-				ga('create', '!{ga}', 'auto');
-		else
-			script(src="/javascripts/build/app.js")
+		//- if process.env.NODE_ENV == "production"
+		//- 	script(src="/javascripts/build/app.min.js")
+		//- 	script.
+		//- 		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+		//- 		ga('create', '!{ga}', 'auto');
+		//- else
+		//- script(src="/javascripts/build/app.js")
