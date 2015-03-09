@@ -9,12 +9,17 @@ resourceLoader = require('./resourceLoader')
 #                           of the controller.
 module.exports = initialize: (config) ->
 	console.group '[controller] initializing'
+
+	# Instantiate first
 	@localStorage = new localStorage
 	@router = new router
 	@pageTransition = new pageTransition
 	@resourceLoader = new resourceLoader
+
+	# Initialize second
 	@localStorage.initialize config.localStorage
 	@router.initialize config.router
 	@pageTransition.initialize config.pageTransition
 	@resourceLoader.initialize config.resourceLoader
+
 	console.groupEnd()

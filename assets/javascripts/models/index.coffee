@@ -16,11 +16,11 @@ module.exports =
 		# Since these models never change, we instantiate them first and
 		# save their instance as properties of this module.
 		#
-		# Note that other models are not instantiated and only these ones are.
-		#
-
+		# NOTE: other models are not instantiated and only these ones are.
 		@categories = new categories(config)
-		@categories.fetch()
 		@locations = new locations(config)
+
+		@categories.fetch()
 		@locations.fetch()
+
 		console.groupEnd()

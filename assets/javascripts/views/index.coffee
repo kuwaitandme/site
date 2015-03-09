@@ -154,8 +154,6 @@ module.exports =
 
 
 	# [createNextPage description]
-	#
-	# @param  {[type]} historyIndex [description]
 	createPreviousPage: (historyIndex) ->
 		that = this
 		viewExists = false
@@ -181,15 +179,14 @@ module.exports =
 	# If the view has been cached, then it loads the HTML from it and returns.
 	# If the view wasn't cached, then the function loads the HTML via a AJAX
 	# request.
-	#
-	# @param  String view     The view identifier
-	# @return String          The HTML code that was fetched
 	fetchHTML: (view, url) ->
 		console.log '[view] trying to find HTML in cache for view', view
 		html = app.getCachedViewHTML(view)
+
 		if html
 			console.log '[view] HTML found from cache!'
 			return html
+
 		console.debug '[view] no HTML in cache, fetching HTML via AJAX', url
 		$.ajax
 			type: 'GET'
@@ -205,6 +202,4 @@ module.exports =
 
 	# Function to safely call the Google analytics script
 	googleAnalyticsSend: ->
-		if typeof ga != 'undefined'
-			ga 'send', 'pageview'
-		return
+		if typeof ga != 'undefined' then ga 'send', 'pageview'
