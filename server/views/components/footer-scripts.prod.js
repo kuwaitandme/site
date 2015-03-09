@@ -5,43 +5,43 @@
  */
 window.scripts = [{
 	name:"jquery",
-	remoteSrc: "/javascripts/vendor/jquery.min.js",
+	remoteSrc: "//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js",
 	localSrc: "/javascripts/vendor/jquery.min.js",
 },{
 	name:"jquery-transit",
-	remoteSrc: "/javascripts/vendor/jquery.transit.min.js",
+	remoteSrc: "//cdnjs.cloudflare.com/ajax/libs/jquery.transit/0.9.12/jquery.transit.min.js",
 	localSrc: "/javascripts/vendor/jquery.transit.min.js",
 },{
 	name:"underscore",
-	remoteSrc: "/javascripts/vendor/underscore.min.js",
+	remoteSrc: "//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore-min.js",
 	localSrc: "/javascripts/vendor/underscore.min.js",
 },{
 	name:"backbone",
-	remoteSrc: "/javascripts/vendor/backbone.min.js",
+	remoteSrc: "//cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js",
 	localSrc: "/javascripts/vendor/backbone.min.js",
 },{
 	name:"modernizr",
-	remoteSrc: "/javascripts/vendor/modernizr.min.js",
+	remoteSrc: "//cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js",
 	localSrc: "/javascripts/vendor/modernizr.min.js",
 },{
 	name:"2checkout",
-	remoteSrc: "/javascripts/vendor/2co.min.js",
+	remoteSrc: "//www.2checkout.com/checkout/api/2co.min.js",
 	localSrc: "/javascripts/vendor/2co.min.js",
 },{
 	name:"dropzone",
-	remoteSrc: "/javascripts/vendor/dropzone.min.js",
+	remoteSrc: "//cdnjs.cloudflare.com/ajax/libs/dropzone/4.0.1/min/dropzone.min.js",
 	localSrc: "/javascripts/vendor/dropzone.min.js",
 },{
 	name:"masonry",
-	remoteSrc: "/javascripts/vendor/masonry.pkgd.min.js",
+	remoteSrc: "//cdnjs.cloudflare.com/ajax/libs/masonry/3.2.2/masonry.pkgd.min.js",
 	localSrc: "/javascripts/vendor/masonry.pkgd.min.js",
 },{
 	name:"jquery-imagesloaded",
-	remoteSrc: "/javascripts/vendor/imagesloaded.min.js",
+	remoteSrc: "//cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/3.1.8/imagesloaded.pkgd.min.js",
 	localSrc: "/javascripts/vendor/imagesloaded.min.js",
 },{
 	name:"tinymce",
-	remoteSrc: "/javascripts/vendor/jquery.tinymce.min.js",
+	remoteSrc: "//tinymce.cachefly.net/4.1/jquery.tinymce.min.js",
 	localSrc: "/javascripts/vendor/jquery.tinymce.min.js",
 },{
 	name:"app",
