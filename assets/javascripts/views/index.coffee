@@ -81,7 +81,7 @@ module.exports =
 			# ones.
 			$targetPage = undefined
 			viewExists = false
-			if not reverse @createNextPage historyIndex
+			if not reverse then @createNextPage historyIndex
 			else viewExists = @createPreviousPage(historyIndex)
 
 			# Find the target page. Which is the last child
@@ -101,7 +101,7 @@ module.exports =
 
 			# Signal the app to transition to the new page
 			app.transition
-				$targetPage: $targtPage
+				$targetPage: $targetPage
 				reverse: reverse
 		else
 			console.log '[view] initializing first view'
@@ -116,10 +116,10 @@ module.exports =
 		@header.update()
 
 		# Attempt to cache the HTML
-		app.cacheCurrentView()
+		app.cacheView(@currentView, @currentViewName)
 
 		# Now render signal the view to manipulate the DOM. ###
-		if not viewExists @currentView.render()
+		if not viewExists then @currentView.render()
 		else @currentView.$el.scrollTop @currentView.scrollPosition
 
 		# Re-attach events to the view

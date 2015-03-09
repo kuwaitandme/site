@@ -14,7 +14,7 @@ window.app =
 		# is a global variable
 		this.config = require "app-config"
 		this.helpers = require "app-helpers"
-		# this.libs = require "app-libs"
+		this.libs = require "app-libs"
 
 		# Initialize the controllers
 		this.controllers = require "app-controllers"
@@ -31,27 +31,17 @@ window.app =
 		console.groupEnd
 
 	# Forward  to different app components. This way we can avoid
-	# writing long names for s that are used often.
-	goto: (url, view, args) ->
-		@controllers.router.goto url, view, args
-	reattachRouter: ->
-		@controllers.router.reattachRouter()
-	setView: (page, args, reverse) ->
-		@views.setView(page, args, reverse)
-	cacheCurrentView: ->
-		@controllers.localStorage.cacheCurrentView()
-	getCachedViewHTML: (view) ->
-		@controllers.localStorage.getCachedViewHTML(view)
-	transition: (options) ->
-		@controllers.pageTransition.transition(options)
-	loadResource: (resource) ->
-		@controllers.resourceLoader.loadResource(resource)
-	success: (text, title) ->
-		@views.messages.success(text, title)
-	error: (text, title) ->
-		@views.messages.error(text, title)
-	warn: (text, title) ->
-		@views.messages.warn(text, title)
+	# writing long names for functions that we will be using often.
+	cacheView: (view, identifier) -> @controllers.localStorage.cacheView(view, identifier)
+	error: (text, title) -> @views.messages.error(text, title)
+	getCachedViewHTML: (view) -> @controllers.localStorage.getCachedViewHTML(view)
+	goto: (url, view, args) -> @controllers.router.goto url, view, args
+	loadResource: (resource) -> @controllers.resourceLoader.loadResource(resource)
+	reattachRouter: -> @controllers.router.reattachRouter()
+	setView: (page, args, reverse) -> @views.setView(page, args, reverse)
+	success: (text, title) -> @views.messages.success(text, title)
+	transition: (options) -> @controllers.pageTransition.transition(options)
+	warn: (text, title) -> @views.messages.warn(text, title)
 
 
 # Kick start the App. Start back-tracing the app's execution over here, if you

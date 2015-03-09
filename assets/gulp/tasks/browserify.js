@@ -1,6 +1,6 @@
 var gulp = require('gulp');
 
-var cache = require('gulp-cached');
+// var cache = require('gulp-caced');
 var coffee = require('gulp-coffee');
 var coffeeify = require('gulp-coffeeify');
 var gutil = require('gulp-util');
