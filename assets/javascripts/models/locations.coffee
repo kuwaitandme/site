@@ -6,7 +6,7 @@ model = Backbone.Model.extend
 		name: ''
 
 
-module.exports = Backbone.Collection.extend(
+module.exports = Backbone.Collection.extend
 	model: model
 
 	initialize: (config) ->
