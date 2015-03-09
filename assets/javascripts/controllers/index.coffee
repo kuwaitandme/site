@@ -8,18 +8,12 @@ resourceLoader = require('./resourceLoader')
 # @param  Object   config   The config object containing settings for each
 #                           of the controller.
 module.exports = initialize: (config) ->
-	console.group '[controller] initializing'
+	@consoleSlug = '[controller]'
+	console.group @consoleSlug, 'initializing'
 
-	# Instantiate first
 	@localStorage = new localStorage
 	@router = new router
 	@pageTransition = new pageTransition
 	@resourceLoader = new resourceLoader
-
-	# Initialize second
-	@localStorage.initialize config.localStorage
-	@router.initialize config.router
-	@pageTransition.initialize config.pageTransition
-	@resourceLoader.initialize config.resourceLoader
 
 	console.groupEnd()

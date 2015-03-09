@@ -3,7 +3,7 @@
 # This way, we can avoid having the server returning huge responses which
 # contain HTML code and instead have the server communicate with JSON
 # objects which contain data.
-module.exports = controller = ->
+module.exports = class controller
 	consoleSlug = '[controller:localstorage]'
 
 	# Checks the JS version from the server side and setups the local storage
@@ -22,9 +22,9 @@ module.exports = controller = ->
 
 			# Check if the versions are different or not
 			if localVersion is not remoteVersion
-				console.debug '[controller:localstorage] local version', localVersion
-				console.debug '[controller:localstorage] remote version', remoteVersion
-				console.debug '[controller:localstorage] flushing local cache'
+				console.debug consoleSlug, 'local version', localVersion
+				console.debug consoleSlug, 'remote version', remoteVersion
+				console.debug consoleSlug, 'flushing local cache'
 
 				# If it is, then clear the cache and set the new version
 				localStorage.clear()
@@ -33,8 +33,8 @@ module.exports = controller = ->
 		else
 			# Setup fallback methods
 			@fallback = true
-			console.log '[controller:localstorage] HTML5 Storage not supported. Using fallback methods'
-			console.warn '[controller:localstorage] no fallback methods for localstorage have been implemented so far'
+			console.log consoleSlug, 'HTML5 Storage not supported. Using fallback methods'
+			console.warn consoleSlug, 'no fallback methods for localstorage have been implemented so far'
 		return
 
 
@@ -52,16 +52,15 @@ module.exports = controller = ->
 		storageIdentifier = 'page-' + identifier
 
 		# Check if this view has been cached or not
-
-		if localStorage.getItem(view) then return
+		if localStorage.getItem(storageIdentifier) then return
 
 		# If we reach here, then get the HTML we need to cache and store it
-		console.log '[controller:localstorage] saving current view to cache'
+		console.log consoleSlug, 'saving current view to cache'
 		html = view.$el.find('.html5-cache').html()
 
 		# Avoid caching empty html
 		if !html or html == ''
-			return console.warn('[warn] nothing was cached')
+			return console.warn(consoleSlug, 'nothing was cached')
 
 		# If all went well, save the html
 		localStorage.setItem storageIdentifier, html
@@ -72,17 +71,17 @@ module.exports = controller = ->
 	controller::getCachedViewHTML = (identifier) ->
 		if @fallback
 			return
-		cache = localStorage.getItem('page-' + view)
-		if cache
-			console.log '[controller:localstorage] fetched HTML from cache'
-		cache
+		storageIdentifier = localStorage.getItem('page-' + identifier)
+		if storageIdentifier
+			console.log consoleSlug, 'fetched HTML from cache'
+		storageIdentifier
 
 
 	# [cache description]
 	controller::cache = (key, object) ->
 		if @fallback then return
 
-		console.log '[controller:localstorage] setting \'' + key + '\' into cache'
+		console.log consoleSlug, 'setting \'' + key + '\' into cache'
 		json = JSON.stringify(object)
 		localStorage.setItem key, json
 
@@ -91,6 +90,8 @@ module.exports = controller = ->
 	controller::get = (key) ->
 		if @fallback then return
 
-		console.log '[controller:localstorage] retrieving \'' + key + '\' from cache'
+		console.log consoleSlug, 'retrieving \'' + key + '\' from cache'
 		json = localStorage.getItem(key)
 		if json then return JSON.parse(json)
+
+	@
