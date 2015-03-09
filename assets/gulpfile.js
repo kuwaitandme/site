@@ -1,18 +1,17 @@
 var gulp = require('./gulp')([
 	'coffee',
-	// 'sass',
+	'sass'
 	// 'minify'
-	//
 	// 'compass',
 	// 'images',
 	// 'open',
 	// 'watch',
-	// 'serve'
+	// 'serve']);
 ]);
 
-gulp.task('css', [/*'sass'*/]);
+gulp.task('css', ['sass']);
 gulp.task('js', ['coffee']);
-gulp.task('license', [ ]);
+// gulp.task('license', [ ]);
 
 // gulp.task('build', ['js', 'css', 'minify', 'license']);
 gulp.task('build', ['js', 'css']);
