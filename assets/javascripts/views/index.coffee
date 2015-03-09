@@ -33,14 +33,6 @@ module.exports =
 		view = window.viewid
 		@setView view, url: document.URL
 		console.groupEnd()
-		return
-
-
-	# Finds the view with the given name and returns it's object.
-	#
-	# @param  String          name  The name of the view to be found.
-	# @return Backbone.View         The Backbone.View object of the view found.
-	getView: (name) -> pages[name]
 
 
 	# Set's the currentView with all the proper animations and DOM
@@ -48,6 +40,8 @@ module.exports =
 	setView: (viewIdentifier, args, HistoryState) ->
 		console.debug @consoleSlug, 'setting view to \'' + viewIdentifier +
 			'\' with history:', HistoryState
+
+		@displayMouseLoader(true)
 
 		# Signal the header to update itself
 		@header.update()
@@ -130,6 +124,7 @@ module.exports =
 		@googleAnalyticsSend()
 		if @currentView.postAnimation then @currentView.postAnimation()
 
+		@displayMouseLoader(false)
 
 	# [createNextPage description]
 	createNextPage: (historyIndex) ->
@@ -205,6 +200,14 @@ module.exports =
 			error: (e) ->
 				console.error @consoleSlug, 'error sending GET request', e
 		html
+
+
+	displayMouseLoader: (shown=true) ->
+		$("body").toggleClass("wait", shown)
+
+
+	# Finds the view with the given name and returns it's object.
+	getView: (viewIdentifier) -> pages[viewIdentifier]
 
 
 	# Function to safely call the Google analytics script
