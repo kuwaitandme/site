@@ -10,8 +10,10 @@ block content
 
 		//- A spinner that gets displayed during AJAX loads
 		#ajax-spinner
-			.spinner
+			img(src="/images/loader.gif")
 
 		//- JS Template for each classified in the list
 		script(id="list-template", type="text/template")
 			include ../../components/script-templates/search.jade
+
+		#ajax-finish No classifieds

@@ -16,7 +16,7 @@ block content
 					input(type="password", name="repassword", placeholder="re-enter password", required)
 				div
 					input(type="submit", class="submit", value="Sign-up")
-			div
+			.captcha-container
 				.g-recaptcha(data-sitekey="#{data.sitekey}")
 			.extra-links
 				| Already have an account? Login <a href="/auth/login" data-view="auth-login">here</a>

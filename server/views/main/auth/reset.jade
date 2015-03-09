@@ -11,5 +11,5 @@ block content
 					input(type="password", name="repassword", placeholder="re-enter password", required)#auth-password2
 				div
 					input(type="submit", class="submit", value="Reset your password")
-			div
+			.captcha-container
 				.g-recaptcha(data-sitekey!="#{data.sitekey}")

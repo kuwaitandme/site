@@ -52,9 +52,15 @@ module.exports = Backbone.View.extend
 	# This function decides if the header should show the nav icons instead of
 	# the main site logo. If we are in the homepage, then the sitelogo is
 	# displayed, otherwise the nav-options are displayed.
+	#
+	# Also, this function forces the header to close. Usually this function is
+	# called whenever you move to a new page, so in most cases the user will
+	# want the header closed.
 	update: ->
-		that = this
+		that = @
 		router = app.controllers.router
+
+		@hide();
 
 		# Get a condition to decide if we are in the homepage or not
 		homepageCondition = document.URL.split('/').length <= 4

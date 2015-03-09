@@ -1,22 +1,8 @@
 module.exports = Backbone.View.extend
-	initialize: ->
-		console.log '[view:auth] initializing'
-		app.loadResource 'reCaptcha'
+	consoleSlug: "[view:auth-login]"
 
-		# Parse the URL and give out the appropriate message based on it.
-
-		getParam = app.helpers.url.getParam
-		if getParam('error') then app.error @messages[getParam('error')]
-		if getParam('success') then app.success @messages[getParam('success')]
-		if getParam('warn') then app.warn @messages[getParam('warn')]
-
-		# Check for any server side flash messages
-		flashErrors = window.data.flashError
-		if flashErrors
-			i = 0
-			while i < flashErrors.length
-				app.error @messages[flashErrors[i]]
-				i++
+	events:
+		'click .submit': 'submit'
 
 	messages:
 		activate_fail: 'Something went wrong while activating your account'
@@ -37,5 +23,56 @@ module.exports = Backbone.View.extend
 		signup_success: 'Your account has been created, Check your inbox (and junk email) for an activation email'
 		signup_taken: 'That account name has already been taken!'
 
+
+	initialize: ->
+		console.log @consoleSlug, 'initializing'
+		app.loadResource 'reCaptcha'
+
+		# Initialize dom elements
+		@$submit = @$el.find(".submit")
+		@$captcha = @$el.find(".captcha-container")
+
+		# Parse the URL and give out the appropriate message based on it.
+		getParam = app.helpers.url.getParam
+		if getParam('error') then app.error @messages[getParam('error')]
+		if getParam('success') then app.success @messages[getParam('success')]
+		if getParam('warn') then app.warn @messages[getParam('warn')]
+
+		# Check for any server side flash messages
+		flashErrors = window.data.flashError
+		for error in flashErrors
+			app.error @messages[error]
+
+
 	render: ->
-		console.log '[view:auth] rendering'
+		console.log @consoleSlug, 'rendering'
+		@resetCaptcha
+
+
+	# Validates the form before and displays any error messages if needed
+	validate: ->
+		status = true
+		console.debug @consoleSlug, 'form validation status', status
+		status
+
+
+	resetCaptcha: ->
+		console.log @consoleSlug, 'setting captcha'
+		@$captcha.show()
+		# grecaptcha.reset
+		# 	opt_widget_id: @el
+
+
+	# Sends the AJAX request to the back-end
+	submit: (event) ->
+		console.log @consoleSlug, 'submitting form'
+		event.preventDefault()
+		if !@validate() then return
+
+		# Hide the submit button, captcha and show the loader
+		@$submit.hide()
+		@$captcha.hide()
+		@$spinner.fadeIn()
+
+
+		# @model.uploadServer()

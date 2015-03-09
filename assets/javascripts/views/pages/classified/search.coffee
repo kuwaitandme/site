@@ -20,10 +20,12 @@ module.exports = controller = Backbone.View.extend
 
 		# Do something with the GET parameters here..
 		# var url = document.URL;
-		# this.get = app.helpers.url.getGETstring(url);
+		# @get = app.helpers.url.getGETstring(url);
 
 		# Setup of local DOM variables
 		@$classifiedList = @$el.find('ul#classified-search')
+		@$spinner = @$el.find('#ajax-spinner')
+		@$ajaxfinish = @$el.find("#ajax-finish")
 
 		# Fire the AJAX event for the first time to load the first set of
 		# classifieds
@@ -38,7 +40,6 @@ module.exports = controller = Backbone.View.extend
 	render: ->
 		console.log '[view:classifieds-search] rendering'
 		that = this
-		# this.spinner = new app.views.components.spinner();
 		@resizeClassifieds()
 
 
@@ -72,7 +73,7 @@ module.exports = controller = Backbone.View.extend
 		@ajaxLock = true
 
 		# Show the spinner while loading
-		# this.spinner.show();
+		@$spinner.fadeIn();
 
 		# Obtain the parameters to be sent to the back-end
 		@pageIndex += 1
@@ -93,15 +94,18 @@ module.exports = controller = Backbone.View.extend
 		that = this
 
 		# All done. Hide the spinner and disable the lock
-		# this.spinner.hide();
+		@$spinner.fadeOut();
 		@ajaxLock = false
 		console.debug '[view:classifieds-search] adding classifieds', classifieds
 
 		# Reload Masonry once for all the elements
 		@$classifiedList.masonry()
 
-		# Signal the ajax controller to stop polling the server
-		if classifieds.length == 0 then  @ajaxEnable = false
+		# Signal the ajax controller to stop polling the server and show the
+		# no classified message
+		if classifieds.length == 0
+			@ajaxEnable = false
+			@$ajaxfinish.fadeIn()
 
 		# Add each classified into the DOM
 		_.each classifieds, (classified) ->
@@ -111,7 +115,6 @@ module.exports = controller = Backbone.View.extend
 			# Append element into DOM and reload Masonry
 			that.$classifiedList.append elem
 			that.$classifiedList.masonry 'appended', elem
-			return
 
 		# Reattach the event handlers for the router
 		app.reattachRouter()

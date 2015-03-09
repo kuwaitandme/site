@@ -9,7 +9,17 @@
 		font-size: 30px;
 	}
 	#ajax-spinner {
-		height: 50px;
-		margin: 0 auto;
+		text-align: center;
+		margin: 10px;
+	}
+	#ajax-finish {
+		@extend .font-title;
+		border-top: #EEE 1px solid;
+		color: #666;
+		display: none;
+		margin: 20px;
+		padding: 20px;
+		text-align: center;
+		text-transform: uppercase;
 	}
 }
