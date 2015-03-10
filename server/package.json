@@ -4,7 +4,7 @@
   "private": "true",
   "author": "Steven Enamakel",
   "scripts": {
-    "start": "node ./bin/www",
+    "start": "node ../bin/www",
     "populate-db": "mongo kuwaitandme ./server/db/populate.js"
   },
   "dependencies": {

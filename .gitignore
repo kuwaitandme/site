@@ -11,9 +11,9 @@
 /npm-debug.log
 
 # Compiled CSS & JS files, Uploads folder
-/server/public/uploads
-/server/public/javascripts/build
-/server/public/stylesheets/build
+/public/uploads
+/public/javascripts/build
+/public/stylesheets/build
 
 # Hide server configuration file
 /var/config.js

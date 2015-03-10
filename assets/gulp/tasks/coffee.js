@@ -14,7 +14,7 @@ module.exports = function(gulp) {
 				}
 			}).on('error', gutil.log))
 			.pipe(rename('app.js'))
-			.pipe(gulp.dest('../server/public/javascripts/build'));
+			.pipe(gulp.dest('../public/javascripts/build'));
 	}
 
 

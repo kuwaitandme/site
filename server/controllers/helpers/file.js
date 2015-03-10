@@ -4,8 +4,8 @@ var async = require('async'),
 	formidable = require('formidable');
 
 var file = module.exports = {
-	uploadDir: __dirname + '/../../public/uploads/',
-	thumbsDir: __dirname + '/../../public/uploads/thumb/',
+	uploadDir: __dirname + '/../../../public/uploads/',
+	thumbsDir: __dirname + '/../../../public/uploads/thumb/',
 
 	/**
 	 * Returns the extension of the given filename

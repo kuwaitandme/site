@@ -48,7 +48,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 /* Setup static path and cache (7 days) */
 var cacheTime = 86400000*7;
-app.use(express.static(__dirname + '/public', { /*maxAge: cacheTime*/ }));
+app.use(express.static(__dirname + '/../public'));
 
 
 /* Cookie and sessions */
