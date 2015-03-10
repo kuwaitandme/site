@@ -1,5 +1,5 @@
 module.exports = {
-	// footer:      require("./footer"),
+	filterBox:      require("./filterBox"),
 	header:      require("./header"),
 	messages:    require("./messages"),
 	// pagenav:     require("./pagenav"),

@@ -20,8 +20,8 @@ var controller = module.exports = {
 			}
 
 			/* Else return a 404 Not found */
-			response.status(404);
-			return response.end();
+			// response.status(404);
+			return response.end("{}");
 		}
 
 		global.models.user.get(id, function(err, user) {

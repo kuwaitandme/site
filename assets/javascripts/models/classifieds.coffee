@@ -3,19 +3,17 @@ ajax = app.helpers.ajax
 module.exports = Backbone.Collection.extend
 	model: require('./classified')
 
-	fetch: (parameters) ->
+	fetch: (parameters = {}) ->
 		that = this
 
-		# Prepare the URL
-		if !parameters
-			parameters = ''
-		url = app.config.host + '/classified/search/' + parameters
+		url = app.config.host + '/classified/search?' + $.param(parameters)
 
 		# Send the AJAX request
 		$.ajax
 			type: 'POST'
 			url: url
 			dataType: 'json'
+			# data: parameters
 			beforeSend: ajax.setHeaders
 			success: (response) ->
 				console.debug '[model:classifieds] fetching collections', response

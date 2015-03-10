@@ -1,15 +1,9 @@
 header {
 	left: 0;
-	position: absolute;
-	top: 0;
 	width: 100%;
 	z-index: 2;
 
 	nav#main-nav {
-		background: #FFF;
-		border-bottom: 2px solid #EEE;
-		height: 75px;
-		padding: 10px 0;
 		width: 100%;
 
 		ul {
@@ -20,45 +14,32 @@ header {
 			width: 100%;
 		}
 		li {
-			color: #000;
+			@extend .font-title;
+			@include single-transition();
+			color: #777;
 			float: right;
-			margin: 0 15px;
-			padding: 8px;
+			font-size: 13px;
+			padding: 5px 10px;
+			border-bottom: 2px solid transparent;
 
-			&.grabber{
-				@include clearfix();
-				cursor: pointer;
-
-				.title {
-					float: left;
-					margin-top: 9px;
-					padding: 0 15px;
-				}
-				.icon{
-					@extend .font-awesome;
-					float: right;
-					font-size: 20px;
-					margin-top: 5px;
-				}
+			&.active, &:hover {
+				color: #000;
+				border-bottom-color: #FF6600;
 			}
 			&.nav {
-				@extend .font-awesome;
-				@include single-transition(color);
 				color: #DDD;
-				display: none;
 				float: left;
 				font-size: 18px;
 				margin-top: 8px;
 
-				&.active { color: #000; }
-				&.home {
-					color: #000;
-					font-size: 28px;
-					margin-top: 0;
-				}
+			}
+			&.left { float: left; }
+			&.right { float: right; }
+			&.home {
+				@extend .font-awesome;
+				&:hover { border-bottom-color: transparent }
 			}
 			&#nav-logo {
-				background: url(/images/kme-small.png);
 				float: left;
 				height: 45px;
 				left: 5px;
@@ -110,6 +91,4 @@ header {
 	}
 }
 
-@media print {
-	header { display: none; }
-}
+@media print { header { display: none; } }

@@ -1,82 +1,75 @@
 .pt-page.auth-guest, .pt-page.auth-forgot, .pt-page.auth-login, .pt-page.auth-signup,
 .pt-page.auth-reset {
-	// #main-container {
-		border: none;
+	border: none;
 
-		#ajax-spinner {
-			display: none;
-			text-align: center;
-			padding: 20px;
-		}
-		.auth-title {
-			@extend .font-title;
-			padding: 25px;
-			text-align: center;
-			font-size: 30px;
-		}
-		ul#auth-messages {
-			padding: 0;
-			margin: 0;
+	#ajax-spinner {
+		display: none;
+		text-align: center;
+		padding: 20px;
+	}
+	.auth-title {
+		@extend .font-title;
 
-			li {
+		padding: 40px 0;
+		text-align: center;
+		font-size: 30px;
+	}
+	ul#auth-messages {
+		padding: 0;
+		margin: 0;
+
+		li {
+			color: #FFF;
+			background: #E74C3C;
+			padding: 10px;
+			text-align: center;
+
+			&.warning { background: #FD8603; }
+			&.success { background: #2ecc71; }
+			&.error { color: rgba(255, 255, 255, 0.75)}
+		}
+	}
+	form {
+		margin: 0 auto;
+		width: 300px;
+		> section {
+			margin-bottom: 10px;
+			overflow: hidden;
+		}
+		input {
+			@include single-transition();
+			border: 0;
+			border-bottom: 1px solid #DDD;
+			width: 100%;
+			padding: 10px;
+			margin: 5px 0;
+
+			&:active, &:focus { outline: none }
+			&:hover, &:active, &:focus {
+				border-bottom: 1px solid #999;
+			}
+
+			&.submit {
+				background: #2ecc71;
 				color: #FFF;
-				background: #E74C3C;
-				padding: 10px;
-				text-align: center;
+				margin-top: 10px;
+				@include single-transition(background);
 
-				&.warning { background: #FD8603; }
-				&.success { background: #2ecc71; }
-				&.error { color: rgba(255, 255, 255, 0.75)}
-
-				-webkit-border-radius: 3px;
-				-moz-border-radius: 3px;
-				border-radius: 3px;
+				&:hover { background: #27ae60; }
 			}
 		}
-		form {
-			margin: 0 auto;
-			width: 300px;
-			> section {
-				margin-bottom: 10px;
-				overflow: hidden;
+	}
 
-				-webkit-border-radius: 3px;
-				-moz-border-radius: 3px;
-				border-radius: 3px;
-			}
-			input {
-				border: 1px solid #DDD;
-				border-bottom: 0;
-				width: 100%;
-				padding: 10px;
+	.extra-links {
+		text-align: center;
+		padding-top: 20px;
 
-				&#auth-password {
-					border-bottom: 1px solid #DDD;
-				}
-				&.submit {
-					border: 0;
-					// border-bottom: 5px solid #27ae60;
-					background: #2ecc71;
-					color: #FFF;
-					font-weight: 700;
-					@include single-transition(background);
-
-					&:hover { background: #27ae60; }
-				}
-			}
+		a {
+			color: #27ae60;
+			text-decoration: none;
+			border-bottom: 1px solid #27ae60;
 		}
-
-		.extra-links {
-			text-align: center;
-			padding-top: 20px;
-
-			a {
-				color: #27ae60;
-				text-decoration: none;
-				border-bottom: 1px solid #27ae60;
-			}
-		}
-	// }
+	}
 }
 
 .pt-page.auth-guest #main-container {

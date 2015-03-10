@@ -1,7 +1,22 @@
 .pt-page.classified-search {
-	background: #F9FAFB;
+	// padding-top: 76px;
+	// overflow-y: hidden;
+	// background: #F9FAFB;
+	height: 100%;
 	// background: url(/images/patterns/p6.png);
 
+	// .html5-cache {
+	// 	height: 100%;
+	// }
+	// #search-results {
+	// 	overflow-y: auto;
+	// 	height: 100%;
+	// }
+	#filterbox-help {
+		@extend .font-title;
+		// text-align: center;
+		margin: 20px;
+	}
 	.noclassifieds-title {
 		@extend .font-title;
 		padding: 20px;

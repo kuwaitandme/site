@@ -1,16 +1,16 @@
 module.exports = controller = Backbone.View.extend
-	ajaxEnable: true
+	ajaxEnable: false
 	ajaxLock: false
 	gridMinimumSize: 250
 	pageIndex: 0
 
+	consoleSlug: '[view:classifieds-search]'
+
 	collection: new (app.models.classifieds)
 
 	initialize: ->
-		console.log '[view:classifieds-search] initializing'
-		that = this
-		app.loadResource 'masonry'
-		app.loadResource 'imagesLoaded'
+		console.log @consoleSlug, 'initializing'
+		that = @
 
 		# Get the template
 		@listTemplate = _.template(@$el.find('#list-template').html())
@@ -18,19 +18,17 @@ module.exports = controller = Backbone.View.extend
 		# Attach a listener to our collection model
 		@listenTo @collection, 'ajax:done', @addClassifieds
 
-		# Do something with the GET parameters here..
-		# var url = document.URL;
-		# @get = app.helpers.url.getGETstring(url);
-
 		# Setup of local DOM variables
-		@$classifiedList = @$el.find('ul#classified-search')
-		@$spinner = @$el.find('#ajax-spinner')
-		@$ajaxfinish = @$el.find("#ajax-finish")
+		@$ajaxfinish = @$el.find "#ajax-finish"
+		@$classifiedList = @$el.find 'ul#classified-search'
+		@$filerboxHelp = @$el.find '#filterbox-help'
+		@$filterbox = @$el.find '#filter-box'
+		@$spinner = @$el.find '#ajax-spinner'
 
-		# Fire the AJAX event for the first time to load the first set of
-		# classifieds
-		@fireAjaxEvent()
-		@setupMasonry()
+		@filterbox = new app.views.components.filterBox
+			$el: @$filterbox
+
+		@listenTo @filterbox, 'changed', @newQuery
 
 		# Set to load new classifieds when we have scrolled to the end of the
 		# page.
@@ -38,8 +36,36 @@ module.exports = controller = Backbone.View.extend
 
 
 	render: ->
-		console.log '[view:classifieds-search] rendering'
-		that = this
+		console.log @consoleSlug, 'rendering'
+		@$spinner.hide()
+		@$classifiedList.hide()
+		@$filerboxHelp.hide()
+
+		@filterbox.render()
+
+		@setupMasonry()
+		@newQuery()
+
+	newQuery: ->
+		# Blank out all the classifieds we have so far
+		$classifieds = @$ ".classified"
+		@$classifiedList.masonry( 'remove', $classifieds)
+		# @$classifiedList.html("")
+
+		# Iff we have something to query, enable AJAX and hide the instructions
+		if not @filterbox.isQueryEmpty()
+			@ajaxEnable = true
+			@$classifiedList.stop().fadeIn()
+			@$filerboxHelp.stop().fadeOut()
+		else
+			@ajaxEnable = false
+			@$classifiedList.stop().fadeOut()
+			@$filerboxHelp.stop().fadeIn()
+
+		# Fire the AJAX event for the first time to load the first set of
+		# classifieds
+		@fireAjaxEvent()
+
 		@resizeClassifieds()
 
 
@@ -55,13 +81,13 @@ module.exports = controller = Backbone.View.extend
 		finalSize = Math.floor(@gridMinimumSize + excessSpace / columns)
 
 		# Set each of the blocks with the right size
-		@$el.find('.classified').width finalSize
+		@$('.classified').width finalSize
 
 
 	fireAjaxEvent: ->
 		if !@ajaxEnable or @ajaxLock then return
 
-		console.log '[view:classifieds-search] firing ajax event'
+		console.log @consoleSlug, 'firing ajax event'
 		if $(window).scrollTop() >= ($(document).height() - $(window).height()) * 0.9
 			@ajaxLoadClassifieds()
 
@@ -78,7 +104,7 @@ module.exports = controller = Backbone.View.extend
 		# Obtain the parameters to be sent to the back-end
 		@pageIndex += 1
 		url = app.helpers.url.insertParam('page', @pageIndex)
-		parameters = app.helpers.url.getGETstring(url)
+		parameters = @filterbox.getQuery()
 
 		# Fetch the classifieds from the back-end
 		@collection.fetch parameters
@@ -87,16 +113,13 @@ module.exports = controller = Backbone.View.extend
 	# This function gets called whenever a new model has been added into our
 	# collection. This function is responsible for adding the classified
 	# into the DOM while properly taking care of aligning it too.
-	#
-	# @param  [Backbone.Model]  classifieds   An array containing the new
-	#                                         classifieds if any.
 	addClassifieds: (classifieds) ->
 		that = this
 
 		# All done. Hide the spinner and disable the lock
 		@$spinner.fadeOut();
 		@ajaxLock = false
-		console.debug '[view:classifieds-search] adding classifieds', classifieds
+		console.debug @consoleSlug, 'adding classifieds', classifieds
 
 		# Reload Masonry once for all the elements
 		@$classifiedList.masonry()
@@ -126,7 +149,11 @@ module.exports = controller = Backbone.View.extend
 
 		# Fire the AJAX event again! In case we haven't filled up the res
 		# of the body yet.
-		@fireAjaxEvent()
+		# @fireAjaxEvent()
+
+
+	updateQuery: (query) ->
+		console.debug @consoleSlug, 'updating query', query
 
 
 	# Sets up the Masonry objects

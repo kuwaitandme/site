@@ -89,16 +89,8 @@ module.exports = Backbone.Collection.extend
 	# Finds a category, given it's id
 	find: (id) ->
 		categories = @toJSON()
-		i = 0
-		while i < categories.length
-			category = categories[i]
-			j = 0
-			while j < category.children.length
-				child = category.children[j]
-				if child._id is id
-					return {
-						child: child.name
-						parent: category.name
-					}
-				j++
-			i++
+
+		for category in categories
+			if category._id is id then return category
+			for childCategory in category.children
+				if childCategory._id is id then return childCategory

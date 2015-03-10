@@ -16,12 +16,12 @@ module.exports = class controller
 		console.log @consoleSlug, 'initializing'
 
 		# Check if localStorage is supported
-		if typeof Storage != 'undefined'
+		if typeof Storage == 'undefined'
 			remoteVersion = window.jsVersion or 0
 			localVersion = localStorage.getItem('jsVersion')
 
 			# Check if the versions are different or not
-			if localVersion is not remoteVersion
+			if localVersion is remoteVersion
 				console.debug @consoleSlug, 'local version', localVersion
 				console.debug @consoleSlug, 'remote version', remoteVersion
 				console.debug @consoleSlug, 'flushing local cache'

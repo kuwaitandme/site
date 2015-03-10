@@ -41,7 +41,7 @@ module.exports = Backbone.Model.extend
 				console.debug that.consoleSlug, 'got user data', response
 
 				# Save the data from the server
-				@set response
+				that.set response
 
 				# Signal any listeners that we are done loading the user
 				that.trigger 'ajax:done', response

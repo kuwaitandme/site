@@ -77,15 +77,13 @@ ol{ > li{list-style: decimal}}
 
 .clearfix {@include clearfix();}
 
-.seperator{
+.seperator {
 	background: $global-border-colour;
 	height: 1px;
 	margin: $global-margin 0;
 	width: 100%;
 
-	&.white{
-		background: rgba(255, 255, 255, .3);
-	}
+	&.white { background: rgba(255, 255, 255, .3); }
 }
 .radii {
 	-webkit-border-radius: 4px;
@@ -110,9 +108,10 @@ ol{ > li{list-style: decimal}}
 	border-bottom-left-radius: 5px;
 }
 body {
-	background: #FDFDFD;
+	background: #FFF;
 	font-size: 14px;
 	margin: 0;
+	overflow-y: hidden;
 	position: relative;
 }
 

@@ -8,9 +8,8 @@ ul.classified-list {
 	> li {
 		@extend .large-3;
 		@extend .medium-6;
-		padding: 7px;
 		float: left;
-		// max-width: #{300 - 15}px;
+		padding: 7px;
 
 		.container {
 			@include single-transition(border-color);

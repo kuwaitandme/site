@@ -1,14 +1,13 @@
 main {
 	height: 100%;
-	overflow: auto;
+	overflow: hidden;
 	position: relative;
-	padding-top: 75px;
 	-webkit-perspective: 1200px;
 	-moz-perspective: 1200px;
 	perspective: 1200px;
 
 	.pt-page {
-		background: #FDFDFD;
+		background: #FFF;
 		overflow-y: auto;
 	}
 
@@ -16,7 +15,6 @@ main {
 		position: relative;
 	}
 }
+
 html { overflow: auto; }
-@media print {
-	main { padding-top: 0 !important; }
-}
+@media print { main { padding-top: 0 !important; } }

@@ -3,28 +3,31 @@ header
 	nav#main-nav.show-nav
 		ul
 			a(href="/", data-view="landing")
-				li#nav-logo
-			li.grabber#grabber-display
+				li.left.home &#xf015;
+			a(href="/classified/search", data-view="classified-search")
+				li.left Search classifieds
+			a(href="/guest/post", data-view="guest-post")
+				li.left Post Classified
+			a(href="/auth/signup", data-view="auth-signup")
+				li Signup
+			a(href="/auth/login", data-view="auth-login")
+				li Login
+
+			//- li.grabber#grabber-display
 				.title Menu
 				.icon &#xf0c9;
-			a(href="javascript:history.back()")
-				li.nav.prev &#xf060;
-			a(href="/", data-view="landing")
-				li.nav.home &#xf015;
-			a(href="javascript:history.forward()")
-				li.nav.next &#xf061;
+			//- a(href="javascript:history.back()")
+			//- 	li.nav.prev &#xf060;
+			//- a(href="/", data-view="landing")
+			//- 	li.nav.home &#xf015;
+			//- a(href="javascript:history.forward()")
+			//- 	li.nav.next &#xf061;
 
 	ul#slider-nav
 		li.grabber#grabber-hide &#xf0c9;
 		a(href="/", data-view="landing")
 			li Home
 		unless user
-			a(href="/guest/post", data-view="guest-post")
-				li Post a Classified
-			a(href="/auth/signup", data-view="auth-signup")
-				li Signup
-			a(href="/auth/login", data-view="auth-login")
-				li Login
 		else
 			a(href="/classified/post", data-view="classified-post")
 				li Post a Classified

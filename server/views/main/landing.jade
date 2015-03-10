@@ -8,44 +8,15 @@ block content
 
 	.html5-cache
 		section#search-classified
-			h1.shadow Search for a classified!
-			h3.shadow Get what you want, super-quick!
+			//- h1.shadow Search for a classified!
+			//- h3.shadow Get what you want, super-quick!
+			#landing-logo
+				img(src='/images/kme-logo.png')
 			form(action="/classified/search")
-				input(type="text", name="keywords", placeholder="Keywords").search-bar
+				input(type="text", name="keywords", placeholder="Search classifieds").search-bar
 				button(type="submit").search-button &#xf002;
-
-		section#masonry-container
-			h1 Search by category
-			ul.content
-
-		section#post-classified
-			h1.shadow Post your free Classified now!
-			h3.shadow it's super quick and easy
-			a(href="/guest/post", data-view="guest-post")
-				.post-button Create Classified
-
-
-		//- JS Template for the classified list
-		script(id="list-template", type="text/template")
-			| <li class="cl-item">
-			|   <div class="cl-container">
-			|     <div class="cl-title sprite-cat <%= name %>"><%= name %></div>
-			|     <div class="cl-content">
-			|       <ul class="cl-list">
-			|       <% _.each(children, function(cat) { %>
-			|         <a data-view="classified-search" href="/classified/search?cat=<%= cat._id %>">
-			|           <li data-id="<%= cat._id %>">
-			|             <div class="name"><%= cat.name %></div>
-			|             <% if(cat.count > 0) { %>
-			|             <span class="count">(<%= cat.count %>)</span>
-			|             <% } %>
-			|           </li>
-			|         </a>
-			|       <% }); %>
-			|       </ul>
-			|       <div class="cl-footer">
-			|         <%= children.length %> categories &middot; <%= count %> classifieds
-			|       </div>
-			|     </div>
-			|   </div>
-			| </li>
+			ul#landing-extra
+				a(href="/guest/post", data-view="guest-post")
+					li Post a classified
+				a(href="/classified/search", data-view="classified-search")
+					li Advanced Search

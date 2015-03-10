@@ -4,10 +4,7 @@
 
 # node files
 /assets/.sass-cache
-/assets/node_modules
-/assets/npm-debug.log
-/server/node_modules
-/server/npm-debug.log
+/node_modules
 /npm-debug.log
 
 # Compiled CSS & JS files, Uploads folder

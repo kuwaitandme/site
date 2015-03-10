@@ -16,6 +16,7 @@ module.exports = Backbone.View.extend
 		captchaFail: 'Please enter the captcha properly!'
 		inactive: 'Your account is not activated! Check your inbox (and junk email) for an activation email'
 		incorrect: 'Your login credentials are invalid'
+		account_banned: 'Your account has been banned'
 		logout: 'You have been logged out successfully'
 		need_login: 'You need to be logged in in to view that page'
 		reset_error: 'Something went wrong while resetting your password'
@@ -148,13 +149,8 @@ module.exports = Backbone.View.extend
 
 				that.hideLoading()
 				switch error.status
-					when 404
-						that.addMessage 'Your login is wrong'
-						# console.error that.consoleSlug, 'invalid user'
-					when 400
-						that.addMessage 'There are invalid fields or the captcha has failed'
-					when 401
-						that.addMessage "Your account is not activated, check your inbox (and junk mail) for the activation email", 'warning'
-					when 403
-						that.addMessage 'Your account has been banned'
-						that.addMessage 'Admin message: '
+					when 404 that.addMessage that.messages.incorrect
+					when 400 that.addMessage that.messages.captchaFail
+					when 401 that.addMessage that.messages.inactive, 'warning'
+					when 403 that.addMessage that.messages.account_banned
+						# that.addMessage 'Admin message: '

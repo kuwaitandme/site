@@ -16,17 +16,17 @@ module.exports = Backbone.View.extend
 
 	render: ->
 		console.log '[view:landing] rendering'
-		that = this
-		@categories = app.models.categories.toJSON()
-		@categoriesTemplate = _.template(@$el.find('#list-template').html())
-		that.$categoryList.html ''
+		# that = this
+		# @categories = app.models.categories.toJSON()
+		# @categoriesTemplate = _.template(@$el.find('#list-template').html())
+		# that.$categoryList.html ''
 
-		# Render out each of the categories
-		i = 0
-		while i < @categories.length
-			html = @categoriesTemplate(@categories[i])
-			@$categoryList.append html
-			i++
+		# # Render out each of the categories
+		# i = 0
+		# while i < @categories.length
+		# 	html = @categoriesTemplate(@categories[i])
+		# 	@$categoryList.append html
+		# 	i++
 
 
 	postAnimation: ->
