@@ -2,6 +2,7 @@ ajax = app.helpers.ajax
 
 module.exports = Backbone.Collection.extend
 	model: require('./classified')
+
 	fetch: (parameters) ->
 		that = this
 

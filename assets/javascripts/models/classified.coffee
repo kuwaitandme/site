@@ -1,6 +1,7 @@
-ajax = app.helpers.ajax
+helpers = require 'app-helpers'
+dateHelper = helpers.date
+ajax = helpers.ajax
 async = require 'async'
-dateHelper = (require 'app-helpers').date
 
 # A Backbone model representing a single classified. This model contains
 # methods to manipulate and sync with the server.
@@ -44,7 +45,7 @@ module.exports = Backbone.Model.extend
 
 
 	fetch: (id) ->
-		that = this
+		that = @
 		url = app.config.host + '/classified/single/' + id
 		$.ajax
 			type: 'GET'
@@ -54,7 +55,7 @@ module.exports = Backbone.Model.extend
 			async: false
 			beforeSend: ajax.setHeaders
 			success: (response) ->
-				console.debug @consoleSlug, 'fetching classified details', response
+				console.debug that.consoleSlug, 'fetching classified details', response
 				response.classified.editable = response.editable
 				response.classified.superEditable = response.superEditable
 				that.set response.classified

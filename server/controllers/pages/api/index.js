@@ -14,5 +14,6 @@ var controller = module.exports = {
 	},
 
 	category: require("./category"),
-	location: require("./location")
+	location: require("./location"),
+	user: require("./user")
 }

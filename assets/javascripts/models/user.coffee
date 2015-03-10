@@ -1,4 +1,9 @@
-module.exports = Backbone.Model.extend(
+helpers = require 'app-helpers'
+ajax = helpers.ajax
+
+module.exports = Backbone.Model.extend
+	consoleSlug: "[model:classified]"
+
 	defaults:
 		username: ''
 		email: ''
@@ -24,16 +29,16 @@ module.exports = Backbone.Model.extend(
 	authenticate: (username, password) ->
 
 
-	fetch: (id) ->
-		console.debug 'Fetching user data'
+	fetch: (id="") ->
+		console.debug @consoleSlug, 'fetching currently loggedin user data'
 		that = this
 		$.ajax
-			type: 'POST'
-			url: app.config.host + '/user/' + id
+			type: 'GET'
+			url: app.config.host + '/api/user/' + id
 			dataType: 'json'
 			beforeSend: ajax.setHeaders
 			success: (response) ->
-				console.debug 'Got user data', response
+				console.debug that.consoleSlug, 'got user data', response
 
 				# Save the data from the server
 				@set response

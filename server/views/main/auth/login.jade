@@ -3,7 +3,7 @@ extends ../../layout.jade
 block content
 	.html5-cache
 		.auth-title Login
-		form(method="POST")
+		form(method="POST")#login-form
 			input(type="hidden", name="_csrf", value="#{csrfToken}")
 			section
 				div
@@ -14,6 +14,12 @@ block content
 					input(type="submit", class="submit", value="Login")
 			.captcha-container
 				.g-recaptcha(data-sitekey!="#{data.sitekey}")
+
+			ul#auth-messages
+
+			#ajax-spinner
+				img(src="/images/loader.gif")
+
 			.extra-links
 				| Is this your first time here? <a href="/auth/signup" data-view="auth-signup">Sign up!</a>
 			.extra-links

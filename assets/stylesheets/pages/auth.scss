@@ -3,24 +3,56 @@
 	// #main-container {
 		border: none;
 
+		#ajax-spinner {
+			display: none;
+			text-align: center;
+			padding: 20px;
+		}
 		.auth-title {
 			@extend .font-title;
 			padding: 25px;
 			text-align: center;
 			font-size: 30px;
 		}
+		ul#auth-messages {
+			padding: 0;
+			margin: 0;
 
+			li {
+				color: #FFF;
+				background: #E74C3C;
+				padding: 10px;
+				text-align: center;
+
+				&.warning { background: #FD8603; }
+				&.success { background: #2ecc71; }
+				&.error { color: rgba(255, 255, 255, 0.75)}
+
+				-webkit-border-radius: 3px;
+				-moz-border-radius: 3px;
+				border-radius: 3px;
+			}
+		}
 		form {
 			margin: 0 auto;
 			width: 300px;
+			> section {
+				margin-bottom: 10px;
+				overflow: hidden;
 
-			> section { margin-bottom: 10px; }
+				-webkit-border-radius: 3px;
+				-moz-border-radius: 3px;
+				border-radius: 3px;
+			}
 			input {
 				border: 1px solid #DDD;
 				border-bottom: 0;
 				width: 100%;
 				padding: 10px;
 
+				&#auth-password {
+					border-bottom: 1px solid #DDD;
+				}
 				&.submit {
 					border: 0;
 					// border-bottom: 5px solid #27ae60;

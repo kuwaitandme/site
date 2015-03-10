@@ -12,21 +12,24 @@ window.app =
 		# Start attaching the module components here, so that other components
 		# can refer to these modules by doing a 'app.modulename', since 'app'
 		# is a global variable
-		this.config = require "app-config"
-		this.helpers = require "app-helpers"
-		this.libs = require "app-libs"
+		@config = require "app-config"
+		@helpers = require "app-helpers"
+		@libs = require "app-libs"
 
 		# Initialize the controllers
-		this.controllers = require "app-controllers"
-		this.controllers.initialize this.config
+		@controllers = require "app-controllers"
+		@controllers.initialize @config
 
 		# Initialize the models
-		this.models = require "app-models"
-		this.models.initialize this.config
+		@models = require "app-models"
+		@models.initialize @config
+
+		@currentUser = new @models.user
+		@currentUser.fetch()
 
 		# Initialize the views
-		this.views = require "./views"
-		this.views.initialize this.config
+		@views = require "./views"
+		@views.initialize @config
 
 		console.groupEnd
 

@@ -146,5 +146,13 @@ var users = module.exports = {
 			user.resetToken = null;
 			user.save(function(err) { callback(err, true); });
 		});
+	},
+
+	get: function(id, callback) {
+		this.model.findOne({ _id: id}, function(err, user) {
+			if(err) throw err; /* Check cast error */
+
+			callback(null, user);
+		});
 	}
 }

@@ -52,8 +52,10 @@ app.use(express.static(__dirname + '/public', { /*maxAge: cacheTime*/ }));
 
 
 /* Cookie and sessions */
+app.set('trust proxy', 1) // trust first proxy
 app.use(cookieParser());
 app.use(expressSession({
+	// cookie: { secure: true },
 	resave: false,
 	saveUninitialized: true,
 	secret: global.config.sessionSecret,

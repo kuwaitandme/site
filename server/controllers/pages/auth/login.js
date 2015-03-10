@@ -31,9 +31,21 @@ var controller = module.exports = {
 
 	/* On POST request, use passport's authentication mechanism to log the
 	 * user in. */
-	post: passport.authenticate('login', {
-		successRedirect: '/account/',
-		failureRedirect: '/auth/login',
-		failureFlash: true
-	})
+	post: function(request, response, next) {
+		console.log(request.body);
+		passport.authenticate('login',  function(err, user, info) {
+			response.contentType('application/json');
+			if (err) return next(err);
+
+			if (!user) {
+				response.status(info.ecode || 404);
+				return response.end();
+			}
+
+			request.logIn(user, function(err) {
+	  			if (err) return next(err);
+	  			response.end(JSON.stringify(user));
+			});
+  		})(request, response, next);
+	}
 }

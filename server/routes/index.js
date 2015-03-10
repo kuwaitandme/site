@@ -21,6 +21,8 @@ router.get('/terms', pages.terms.get);
 router.get('/api/', pages.api.get);
 router.get('/api/category', pages.api.category.get);
 router.get('/api/location', pages.api.location.get);
+// router.get('/api/user/', pages.api.user.get);
+router.get('/api/user/:id?', pages.api.user.get);
 
 /* Account URLs */
 router.get('/account/', isAuthenticated, pages.account.get);
