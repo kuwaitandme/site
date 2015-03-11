@@ -1,3 +1,5 @@
+# Need to change all the keys
+
 module.exports =
 
 	# 'production' or 'development'
@@ -11,7 +13,7 @@ module.exports =
 
 	# See https://github.com/aldipower/nodejs-recaptcha
 	reCaptcha:
-		enabled: true
+		enabled: false
 		site: '6LcTDQITAAAAADq3-8i6A_YIwuAbpzq9dHJceSem'
 		secret: '6LcTDQITAAAAAHUWGVN30aVv-OCfxd3HLKcegNXG'
 
