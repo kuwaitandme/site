@@ -18,17 +18,11 @@ controller = module.exports =
 		response.contentType 'application/json'
 
 		finish (error, user, info) ->
-			if error then  return next error
+			if error then return next error
 			if not user
 				response.status info.ecode or 404
 				return response.end()
 
-			request.logIn user, (error) ->
-				if error then return next error
-				response.end (JSON.stringify user)
+			response.end (JSON.stringify user)
 
-		(passport.authenticate 'login', finish) request, response, next
-	# post: passport.authenticate('signup',
-	# 	successRedirect: '/auth/login?success=signup_success'
-	# 	failureRedirect: '/auth/signup'
-	# 	failureFlash: true)
+		(passport.authenticate 'signup', finish) request, response, next
