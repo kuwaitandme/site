@@ -156,8 +156,8 @@ Recaptcha.prototype.verify = function(callback) {
 	request.end();
 };
 
-exports.verify = function(request, captachSuccess, captachFail, enabled) {
-	if(enabled == false) return captachSuccess(request);
+exports.verify = function(request, captachSuccess, captachFail) {
+	if(config.reCaptcha.enabled == false) return captachSuccess(request);
 
 	var captchaResponse = request.query.captcha ||
 		request.body["g-recaptcha-response"] ||

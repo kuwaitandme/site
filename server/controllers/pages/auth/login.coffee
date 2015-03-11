@@ -1,5 +1,5 @@
-mongoose = require('mongoose')
-passport = require('passport')
+mongoose = require 'mongoose'
+passport = require 'passport'
 config = global.config
 
 # Controller for the login page. Attempts to log the user in.

@@ -1,4 +1,4 @@
-passport = require('passport')
+passport = require 'passport'
 
 # Controller for the Signup page. Attempts to register the user in.
 #
