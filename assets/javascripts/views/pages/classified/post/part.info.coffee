@@ -7,7 +7,7 @@ module.exports = Backbone.View.extend
 		@$title = @$el.find('#title')
 
 		# Initialize redactor
-		@$description.redactor()
+		# @$description.redactor()
 
 
 	render: ->

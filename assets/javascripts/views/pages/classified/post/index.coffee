@@ -1,64 +1,69 @@
 views =
-	begin:   require './part.begin'
-	details: require './part.details'
-	finish:  require './part.finish'
-	images:  require './part.images'
-	info:    require './part.info'
-	maps:    require './part.maps'
-	submit:  require './part.submit'
+	"#page-begin":   require './part.begin'
+	"#page-details": require './part.details'
+	"#page-finish":  require './part.finish'
+	"#page-images":  require './part.images'
+	"#page-info":    require './part.info'
+	"#page-maps":    require './part.maps'
+	"#page-submit":  require './part.submit'
 
-
-router = Backbone.Router.extend
+module.exports = Backbone.View.extend
+	consoleSlug: '[view:classified-post]'
 	views: {}
-	routes:
-		'page-begin': 'showPageBegin'
-		'page-details': 'showPageDetails'
-		'page-finish': 'showPageFinish'
-		'page-images': 'showPageImages'
-		'page-info': 'showPageInfo'
-		'page-maps': 'showPageMaps'
-		'page-submit': 'showPageSubmit'
-		'*path': 'startup'
 
+	model: new (app.models.classified)
+
+	events: 'click a[data-page-nav]' : 'clickHandler'
 
 	initialize: (options) ->
-		console.log '[view:classified-post] initializing router'
-		@model = options.model
-		@$el = options.$el
+		console.log @consoleSlug, 'initializing'
+		if options.$el then	@$el = options.$el
 
-		@listenTo @model, 'ajax:done', @navigate 'page-finish', trigger: true
+		that = @
+		@listenTo @model, 'ajax:done', ->
+			that.navigate '#page-finish', trigger: true
 		@listenTo @model, 'post:error', @displayError
 
 
-	close: ->
-		# @$el.empty().off()
-		# @stopListening()
+	render: ->
+		console.log @consoleSlug, 'rendering'
+		@navigate "#page-begin"
 
+	checkRedirect: -> false
 
-	startup: ->
-		console.log '[view:classified-post] redirecting to starting route'
-		@showPageBegin()
-
-
+	# function to display an error message in the current view
 	displayError: (message) ->
-		@currentView.$el.find('ul.error-message').hide().append('<li>' + message + '</li>').fadeIn()
+		@currentView.$el.find('ul.error-message')
+			.hide()
+			.append("<li>#{message}</li>")
+			.fadeIn()
 
 
-	switchPage: (viewname, el) ->
-		that = this
-		console.group '[view:classified-post] switching to page:', viewname
-		console.debug '[view:classified-post]', @$el.find(el)
+	# Function to get the view to navigate to from the anchor tag.
+	clickHandler: (event) ->
+		event.preventDefault()
+		href = ($ event.currentTarget).attr 'href'
+		@navigate(href)
+
+
+	# Function to navigate to the view pointed by the href tag
+	navigate: (href) ->
+		console.log @consoleSlug, 'navigating to', href
+
+		event.preventDefault()
+		that = @
 
 		# If the view wasn't initialized already, initialize it
-		if !@views[viewname]
-			@views[viewname] = new (views[viewname])(
-				el: el
-				model: @model)
-		view = @views[viewname]
-		console.debug '[view:classified-post] using sub-view:', view
+		options =
+			el: href
+			model: @model
+		if not @views[href] then @views[href] = new views[href] options
+		view = @views[href]
+
+		console.debug @consoleSlug, 'going to sub-view:', view
 
 		# Remove all error messages
-		$('ul.error-message li').remove()
+		($ 'ul.error-message li').remove()
 
 		# Set the current view variable
 		if @currentView
@@ -69,7 +74,7 @@ router = Backbone.Router.extend
 
 			# Animate and switch the DOM elements
 			$el = @currentView.$el
-			console.debug '[view:classified-post] animating previous view', view
+			console.debug @consoleSlug, 'animating previous view', view
 			$el.transition { opacity: 0 }, ->
 				$el.hide()
 				that.currentFragment = Backbone.history.fragment
@@ -83,43 +88,8 @@ router = Backbone.Router.extend
 			that.currentView.$el.show().transition opacity: 1
 		console.groupEnd()
 
-	showPageBegin:   -> @switchPage 'begin', '#page-begin'
-	showPageDetails: -> @switchPage 'details', '#page-details'
-	showPageFinish:  -> @switchPage 'finish', '#page-finish'
-	showPageImages:  -> @switchPage 'images', '#page-images'
-	showPageInfo:    -> @switchPage 'info', '#page-info'
-	showPageMaps:    -> @switchPage 'maps', '#page-maps'
-	showPageSubmit:  -> @switchPage 'submit', '#page-submit'
-
-
-module.exports = Backbone.View.extend
-	model: new (app.models.classified)
-
-	initialize: (options) ->
-		console.log '[view:classified-post] initializing'
-		if options.$el then	@$el = options.$el
-
-
-	render: ->
-		console.log '[view:classified-post] rendering'
-
-		# I really don't like to do this.. but Backbone refuses to creat
-		# multiple instances of this router and new ones don't have any effect.
-		# This hack is abit dirty and a solution should be found soon
-		if not window.router?
-			window.router = new router(
-				$el: @$el
-				model: @model)
-		else
-			window.router.$el = @$el
-			window.router.model = @model
-			window.router.views = []
-		window.router.startup()
-
-	checkRedirect: -> false
 
 	close: ->
 		@$el.empty()
 		@$el.off()
 		@stopListening()
-		@router.close()
