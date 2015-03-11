@@ -14,7 +14,7 @@ controller = module.exports =
 			# Display 404 page if classified is not found
 			if !classified then return next()
 
-			render = globals.helpers.render
+			render = global.helpers.render
 			render request, response,
 				bodyid: 'classified-finish'
 				page: 'classified/finish'

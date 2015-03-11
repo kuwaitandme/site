@@ -7,7 +7,7 @@ description = 'Sell things that you don\'t want. Buy things at bargain prices!
 # classifieds and categories to choose from.
 controller = module.exports =
 	get: (request, response, next) ->
-		render = globals.helpers.render
+		render = global.helpers.render
 		render request, response,
 			bodyid: 'landing'
 			description: description
@@ -17,10 +17,10 @@ controller = module.exports =
 
 
 	# Load up other pages here
-	account: require('./account')
-	api: require('./api')
-	auth: require('./auth')
-	classified: require('./classified')
-	guest: require('./guest')
-	privacy: require('./privacy')
-	terms: require('./terms')
+	account:     require('./account')
+	api:         require('./api')
+	auth:        require('./auth')
+	classified:  require('./classified')
+	guest:       require('./guest')
+	privacy:     require('./privacy')
+	terms:       require('./terms')

@@ -2,7 +2,7 @@
 # conditions' view.
 controller = module.exports =
 	get: (request, response, next) ->
-		render = globals.helpers.render
+		render = global.helpers.render
 		render request, response,
 			bodyid: 'terms'
 			page: 'terms'

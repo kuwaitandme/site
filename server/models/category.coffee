@@ -8,5 +8,4 @@ categories = module.exports =
 
 	# Returns all the classifieds in the database.
 	getAll: (callback) ->
-		@model.find {}, (err, result) ->
-			callback result
+		@model.find {}, (err, result) -> callback result

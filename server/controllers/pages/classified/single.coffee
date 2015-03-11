@@ -33,7 +33,7 @@ controller = module.exports =
 				editable: editable
 				superEditable: superEditable
 
-			render = globals.helpers.render
+			render = global.helpers.render
 			render request, response,
 				bodyid: 'classified-single'
 				data: data

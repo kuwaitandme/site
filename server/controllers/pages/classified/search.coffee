@@ -8,7 +8,7 @@ controller = module.exports =
 	get: (request, response, next) ->
 		parameters = controller.getQueryParameters(request)
 		classified.search parameters, ((classifieds) ->
-			render = globals.helpers.render
+			render = global.helpers.render
 			render request, response,
 				bodyid: 'classified-search'
 				page: 'classified/search'

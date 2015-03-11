@@ -1,7 +1,7 @@
 # Controller for the privacy page. Simply displays the privacy policy view.
 controller = module.exports =
 	get: (request, response, next) ->
-		render = globals.helpers.render
+		render = global.helpers.render
 		render request, response,
 			bodyid: 'privacy'
 			page: 'privacy'

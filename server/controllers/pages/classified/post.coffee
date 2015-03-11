@@ -8,7 +8,7 @@ controller = module.exports =
 	get: (request, response, next) ->
 		if !request.isAuthenticated() then return response.redirect('/auth/guest')
 
-		render = globals.helpers.render
+		render = global.helpers.render
 		render request, response,
 			bodyid: 'classified-post'
 			description: null
@@ -55,7 +55,7 @@ controller = module.exports =
 						response.status 400
 						response.end()
 
-		reCaptcha = globals.helpers.reCaptcha
+		reCaptcha = global.helpers.reCaptcha
 		reCaptcha.verify request, captachSuccess, captachFail
 
 
