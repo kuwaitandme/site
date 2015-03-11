@@ -2,7 +2,7 @@ helpers = require 'app-helpers'
 ajax = helpers.ajax
 
 module.exports = Backbone.Model.extend
-	consoleSlug: "[model:classified]"
+	consoleSlug: "[model:user]"
 
 	defaults:
 		username: ''

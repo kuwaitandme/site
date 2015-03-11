@@ -38,18 +38,20 @@ module.exports =
 	# Set's the currentView with all the proper animations and DOM
 	# manipulations.
 	setView: (viewIdentifier, args, HistoryState) ->
-		console.debug @consoleSlug, 'setting view to \'' + viewIdentifier +
-			'\' with history:', HistoryState
+		console.debug @consoleSlug,
+			"setting view to '#{viewIdentifier}' with history:",  HistoryState
 
+		# Change the mouse icon to the loader
 		@displayMouseLoader(true)
 
 		# Signal the header to update itself
 		@header.update()
 
+		# Read the history state to see if we have to animate backwards or
+		# forwards.
 		HistoryState = HistoryState or {}
 		reverse = HistoryState.reverse or false
 		historyIndex = HistoryState.index or 0
-
 
 		# Clear any messages
 		@messages.clear()
@@ -76,10 +78,10 @@ module.exports =
 			$targetPage = undefined
 			viewExists = false
 			if not reverse then @createNextPage historyIndex
-			else viewExists = @createPreviousPage(historyIndex)
+			else viewExists = @createPreviousPage historyIndex
 
 			# Find the target page. Which is the last child
-			$targetPage = @$ptMain.find('.pt-page:last-child')
+			$targetPage = @$ptMain.find '.pt-page:last-child'
 
 			if not viewExists
 				# Get and set the HTML for the target page
@@ -91,23 +93,25 @@ module.exports =
 				@currentView = new currentView
 					args: args
 					el: $targetPage
+
 			else @currentView = @targetView
 
 			# Signal the app to transition to the new page
 			app.transition
 				$targetPage: $targetPage
 				reverse: reverse
+
 		else
 			console.log @consoleSlug, 'initializing first view'
 
 			# Else load set the currentView directly without any transition
 			# animations
-			@currentView = new currentView(
+			@currentView = new currentView
 				arguments: arguments
-				el: '.pt-page-current')
+				el: '.pt-page-current'
 
 		# Attempt to cache the HTML
-		app.cacheView(@currentView, @currentViewName)
+		app.cacheView @currentView, @currentViewName
 
 		# Now render signal the view to manipulate the DOM. ###
 		if not viewExists then @currentView.render()
@@ -120,11 +124,15 @@ module.exports =
 		# Reattach the event handlers for the router
 		app.reattachRouter()
 
-		# Recall google Analytics
+		# Signal google Analytics
 		@googleAnalyticsSend()
+
+		# Run any post-animation functions
 		if @currentView.postAnimation then @currentView.postAnimation()
 
-		@displayMouseLoader(false)
+		# All done, set the mouse icon to normal
+		@displayMouseLoader false
+
 
 	# [createNextPage description]
 	createNextPage: (historyIndex) ->
@@ -166,10 +174,10 @@ module.exports =
 			# Set this to null since we will only be storing one 'previousView'
 			@previousView = null
 
-		# Delete any view that is not needed
-		$('.pt-page').each ->
-			$page = $(this)
-			index = $page.data('index') or 0
+		# Delete any view that is out of range
+		($ '.pt-page').each ->
+			$page = $ this
+			index = ($page.data 'index') or 0
 			if index is not historyIndex + 1 or index is not historyIndex
 				$page.remove()
 
@@ -211,5 +219,4 @@ module.exports =
 
 
 	# Function to safely call the Google analytics script
-	googleAnalyticsSend: ->
-		if typeof ga != 'undefined' then ga 'send', 'pageview'
+	googleAnalyticsSend: -> if ga? then ga 'send', 'pageview'

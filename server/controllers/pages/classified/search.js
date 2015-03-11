@@ -32,13 +32,15 @@ var controller = module.exports = {
 	 * [post description]
 	 */
 	post: function(request, response, next) {
+		response.contentType('application/json');
+
 		var parameters = controller.getQueryParameters(request);
 
 		var page = 1;
 		if(request.query.page) page = request.query.page;
 
+
 		classified.search(parameters, function(classifieds) {
-			response.contentType('application/json');
 			response.end(JSON.stringify(classifieds));
 		}, page);
 	},
@@ -55,8 +57,21 @@ var controller = module.exports = {
 
 		parameters.status = 1;
 
-		if(request.query.cat && /^[0-9A-F]*$/i.test(request.query.cat))
-			parameters.category = request.query.cat;
+		/* Set the category */
+		if(request.query.category && /^[0-9A-F]*$/i.test(request.query.category))
+			parameters.category = request.query.category;
+
+		/* Set price min and max */
+		var price = {}, priceMin, priceMax;
+		priceMax = request.query.priceMax;
+		priceMin = request.query.priceMin;
+		if(priceMin && /^[-0-9]*$/.test(priceMin)) price.$gte = Number(priceMin);
+		if(priceMax && /^[-0-9]*$/.test(priceMax)) price.$lte = Number(priceMax);
+		if(Object.keys(price).length > 0) parameters.price = price;
+
+		/* Set the classified type */
+		var type = Number(request.query.type);
+		if(type && (type == 1 || type == 0)) parameters.type = type;
 
 		if(request.query.keywords) {
 			var keywords = request.query.keywords.split(' ');
@@ -66,10 +81,12 @@ var controller = module.exports = {
 				if(/^[0-9A-Z]*$/i.test(keywords[i]))
 					regex.push(new RegExp(keywords[i], "i"));
 
-			parameters.$or = [
-				{ title:  { $in: regex } },
-				{ description:  { $in: regex } },
-			];
+			parameters.$and = [{
+				$or: [
+					{ title:  { $all: regex } },
+					{ description:  { $all: regex } },
+				]
+			}];
 		}
 
 		return parameters;

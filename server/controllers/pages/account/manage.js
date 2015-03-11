@@ -40,7 +40,7 @@ var controller = module.exports = {
 		if(request.query.page) page = request.query.page;
 
 		classified.search(parameters, function(classifieds) {
-			response.end(JSON.stringify({ classifieds: classifieds }));
+			response.end(JSON.stringify(classifieds));
 		}, page, true);
 	},
 

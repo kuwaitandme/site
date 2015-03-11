@@ -49,6 +49,7 @@ module.exports = Backbone.Collection.extend
 
 				# Signal any listeners that we are done loading this category
 				that.trigger 'ajax:done', that
+				console.groupEnd()
 
 			error: (e) ->
 				console.error '[model:categories] error fetching category details', e

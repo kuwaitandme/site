@@ -2,18 +2,11 @@
 	background: #FFF;
 	padding-bottom: 10px;
 
-	select {
-		bottom: 0;
-		color: #000 !important;
-		height: 0;
-		right: 20px;
-		overflow: hidden;
-		padding: 0;
-		position: absolute;
-		width: 0;
-
-		option { padding: 10px; }
+	#li-childcategory { display: none; }
+	.title {
+		float: left;
 	}
+
 	.other-options {
 		@include clearfix();
 		font-size: 13px;
@@ -28,32 +21,35 @@
 			padding: 0;
 			position: relative;
 
-			.trigger {
+			.float-container {
 				padding: 8px 0;
 				margin-left: 15px;
 				margin-right: 10px;
-			}
+				@include clearfix();
 
+				select {
+					background: transparent;
+					border: none;
+					color: #999;
+					float: left;
+					outline: none;
+					overflow: none;
+					padding: 5px;
+					width: auto;
 
-			span {
-				@include single-transition(color);
+					option {
+						color: #000;
 
-				&.title {
+						&[disabled] { color: #999; }
+					}
+				}
+
+				.title {
 					@extend .font-title;
 					color: #000;
+					float: left;
+					padding: 5px;
 				}
-			}
-			&:after {
-				@extend .font-awesome;
-				content: '\f0d7';
-				font-size: 10px;
-				position: absolute;
-				right: -2px;
-				top: 10px;
-			}
-			&:hover {
-				color: #FF6600;
-				span.title { color: inherit }
 			}
 		}
 	}
@@ -64,16 +60,12 @@
 		width: 90%;
 
 		.search-bar {
-			@include single-transition();
 			border-bottom: 1px solid #EEE;
 			font-size: 17px;
 			margin: 10px 20px;
 			padding: 10px 0;
 
-			&:active, &:focus {
-				outline: none;
-				border-bottom: 2px solid #FF6600;
-			}
+			&:active, &:focus { outline: none; }
 		}
 		.search-button {
 			@extend .font-awesome;
@@ -84,6 +76,8 @@
 			position: absolute;
 			right: -18px;
 			top: 0;
+
+			&:active, &:focus { outline: none; }
 		}
 	}
 }

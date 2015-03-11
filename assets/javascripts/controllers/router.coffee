@@ -39,6 +39,12 @@ module.exports = class controller
 		history.replaceState currentState, '', document.URL
 
 
+	# Properly returns the current HTML5 state
+	getHistoryState: ->
+		if @fallback then return {}
+		history.state
+
+
 	# Event handler to switch the view in the main page. This event gets
 	# fired on anchor tag with the 'data-view' property set. The 'data-view'
 	# contains the name of the view that we should look for, and the

@@ -1,3 +1,5 @@
+routerController = (require 'app-controllers').router
+
 module.exports = Backbone.View.extend
 	sliderAnimateWidth: 200
 	events:
@@ -57,25 +59,34 @@ module.exports = Backbone.View.extend
 	# called whenever you move to a new page, so in most cases the user will
 	# want the header closed.
 	update: ->
-		that = @
-		router = app.controllers.router
+		(@$ "[data-view] li").removeClass 'active'
 
-		@hide();
+		# Get the current view from the history API
+		currentState = routerController.getHistoryState null
+		currentView = currentState.view
 
-		# Get a condition to decide if we are in the homepage or not
-		homepageCondition = document.URL.split('/').length <= 4
+		if currentView
+			(@$ "[data-view='#{ currentView }'] li").addClass 'active'
+		# that = @
 
-		# Decide if we have to show the logo or work on the nav controls
-		if homepageCondition
-			console.log '[view:header] showing site logo'
-			@$navLinks.fadeOut -> that.$navHome.fadeIn()
+		# router = app.controllers.router
 
-		else
-			console.log '[view:header] showing navigation controls'
-			@$navHome.fadeOut -> that.$navLinks.fadeIn()
-			@$previousLink.addClass 'active'
-			@$nextLink.addClass 'active'
-			if router.startingIndex >= router.historyIndex
-				@$previousLink.removeClass 'active'
-			if history.length <= router.historyIndex
-				@$nextLink.removeClass 'active'
+		# @hide();
+
+		# # Get a condition to decide if we are in the homepage or not
+		# homepageCondition = document.URL.split('/').length <= 4
+
+		# # Decide if we have to show the logo or work on the nav controls
+		# if homepageCondition
+		# 	console.log '[view:header] showing site logo'
+		# 	@$navLinks.fadeOut -> that.$navHome.fadeIn()
+
+		# else
+		# 	console.log '[view:header] showing navigation controls'
+		# 	@$navHome.fadeOut -> that.$navLinks.fadeIn()
+		# 	@$previousLink.addClass 'active'
+		# 	@$nextLink.addClass 'active'
+		# 	if router.startingIndex >= router.historyIndex
+		# 		@$previousLink.removeClass 'active'
+		# 	if history.length <= router.historyIndex
+		# 		@$nextLink.removeClass 'active'

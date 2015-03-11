@@ -6,61 +6,17 @@ block content
 			a(href="/classified/single/#{classified._id}")= classified.title
 
 	.html5-cache
-		form#filter-box
-			.keywords
-				input(type="text", name="keywords")#filter-keywords.search-bar
-				button(type="submit").search-button &#xf002;
-			ul.other-options
-				li.select-spawn
-					.trigger
-						span.title Price :&nbsp;
-						span.val All
-					select#select-price(data-field="price")
-						option All
-						option Free
-						//- option Range
-						option Contact Owner
-
-				li.select-spawn
-					.trigger
-						span.title Type :&nbsp;
-						span.val All
-					select#select-type(data-field="type")
-						option All
-						option Offering
-						option Wanted
-
-				li.select-spawn
-					.trigger
-						span.title Category :&nbsp;&nbsp;
-						span.val All
-					select#select-category
-						option All
-						option Offering
-						option Wanted
-				li.select-spawn
-					.trigger
-						span.val Choose subcategory
-					select#select-childcategory
-						option Choose subcategory
-
-				//- li
-				//- 	span.title Location :&nbsp;
-				//- 	span.val Salwa
-				//- li
-				//- 	span.title Categories :&nbsp;
-				//- 	span.val Art
-				//- li.result-count found 123,232 classifieds
-
+		include ../../components/filterbox.jade
 
 		#search-results
-			#filterbox-help Choose a category or type in using keywords in the search field
+			//- Container to hold the classifieds
 			ul#classified-search.classified-list
 
 			//- A spinner that gets displayed during AJAX loads
 			#ajax-spinner
 				img(src="/images/loader.gif")
 
+			//- The message that gets displayed when there are no more classifieds
 			#ajax-finish No classifieds
 
 		//- JS Template for each classified in the list

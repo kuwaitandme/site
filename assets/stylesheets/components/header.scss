@@ -37,7 +37,7 @@ header {
 			&.right { float: right; }
 			&.home {
 				@extend .font-awesome;
-				&:hover { border-bottom-color: transparent }
+				&:hover, &.active { border-bottom-color: transparent }
 			}
 			&#nav-logo {
 				float: left;

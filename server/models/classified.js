@@ -244,6 +244,8 @@ var classifieds = module.exports  = {
 		if(!page) page = 1;
 		if(reverse) sort = 1;
 
+		console.log(parameters);
+
 		/* Prepare a query which searchs with the given parameter and offsets
 		 * and limits with the 'classifieds per page' and 'page index' parameters
 		 */

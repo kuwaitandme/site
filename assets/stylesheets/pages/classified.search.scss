@@ -1,17 +1,6 @@
 .pt-page.classified-search {
-	// padding-top: 76px;
-	// overflow-y: hidden;
-	// background: #F9FAFB;
 	height: 100%;
-	// background: url(/images/patterns/p6.png);
 
-	// .html5-cache {
-	// 	height: 100%;
-	// }
-	// #search-results {
-	// 	overflow-y: auto;
-	// 	height: 100%;
-	// }
 	#filterbox-help {
 		@extend .font-title;
 		// text-align: center;
@@ -29,8 +18,7 @@
 	}
 	#ajax-finish {
 		@extend .font-title;
-		border-top: #EEE 1px solid;
-		color: #666;
+		color: #AAA;
 		display: none;
 		margin: 20px;
 		padding: 20px;

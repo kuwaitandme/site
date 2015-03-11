@@ -1,8 +1,9 @@
 module.exports = controller = Backbone.View.extend
-	ajaxEnable: false
+	ajaxEnable: true
 	ajaxLock: false
 	gridMinimumSize: 250
 	pageIndex: 0
+	isAccount: false
 
 	consoleSlug: '[view:classifieds-search]'
 
@@ -21,9 +22,9 @@ module.exports = controller = Backbone.View.extend
 		# Setup of local DOM variables
 		@$ajaxfinish = @$el.find "#ajax-finish"
 		@$classifiedList = @$el.find 'ul#classified-search'
-		@$filerboxHelp = @$el.find '#filterbox-help'
 		@$filterbox = @$el.find '#filter-box'
 		@$spinner = @$el.find '#ajax-spinner'
+
 
 		@filterbox = new app.views.components.filterBox
 			$el: @$filterbox
@@ -37,30 +38,21 @@ module.exports = controller = Backbone.View.extend
 
 	render: ->
 		console.log @consoleSlug, 'rendering'
+
+		@collection.isAccount = @isAccount
 		@$spinner.hide()
-		@$classifiedList.hide()
-		@$filerboxHelp.hide()
-
 		@filterbox.render()
-
 		@setupMasonry()
 		@newQuery()
 
 	newQuery: ->
-		# Blank out all the classifieds we have so far
+		# Blank out all the classifieds we have so far and reset the page count
 		$classifieds = @$ ".classified"
-		@$classifiedList.masonry( 'remove', $classifieds)
-		# @$classifiedList.html("")
+		@$classifiedList.masonry 'remove', $classifieds
+		@pageIndex = 0
 
-		# Iff we have something to query, enable AJAX and hide the instructions
-		if not @filterbox.isQueryEmpty()
-			@ajaxEnable = true
-			@$classifiedList.stop().fadeIn()
-			@$filerboxHelp.stop().fadeOut()
-		else
-			@ajaxEnable = false
-			@$classifiedList.stop().fadeOut()
-			@$filerboxHelp.stop().fadeIn()
+		# Get the query
+		@query = @filterbox.getQuery()
 
 		# Fire the AJAX event for the first time to load the first set of
 		# classifieds
@@ -75,13 +67,13 @@ module.exports = controller = Backbone.View.extend
 	resizeClassifieds: ->
 		# Calculate the width of a single 1x1 sqaure. Subtract 5px from th
 		# window's width to compensate for the scroll bar
-		windowWidth = $(window).width() - 50
-		columns = Math.floor(windowWidth / @gridMinimumSize)
+		windowWidth = ($ window).width() - 50
+		columns = Math.floor windowWidth / @gridMinimumSize
 		excessSpace = windowWidth - @gridMinimumSize * columns
-		finalSize = Math.floor(@gridMinimumSize + excessSpace / columns)
+		finalSize = Math.floor @gridMinimumSize + excessSpace / columns
 
 		# Set each of the blocks with the right size
-		@$('.classified').width finalSize
+		(@$ '.classified').width finalSize
 
 
 	fireAjaxEvent: ->
@@ -103,11 +95,12 @@ module.exports = controller = Backbone.View.extend
 
 		# Obtain the parameters to be sent to the back-end
 		@pageIndex += 1
-		url = app.helpers.url.insertParam('page', @pageIndex)
-		parameters = @filterbox.getQuery()
+		parameters = @query or {}
+		parameters.page = @pageIndex
+		# url = app.helpers.url.insertParam('page', @pageIndex)
 
 		# Fetch the classifieds from the back-end
-		@collection.fetch parameters
+		@collection.fetch parameters, @accountClassifieds
 
 
 	# This function gets called whenever a new model has been added into our
@@ -147,16 +140,11 @@ module.exports = controller = Backbone.View.extend
 			that.$classifiedList.masonry()
 		imagesLoaded @$classifiedList, reloadMasonry
 
-		# Fire the AJAX event again! In case we haven't filled up the res
-		# of the body yet.
-		# @fireAjaxEvent()
+		# In case we haven't filled up the page, fire the ajax loader again.
+		@fireAjaxEvent()
 
 
-	updateQuery: (query) ->
-		console.debug @consoleSlug, 'updating query', query
-
-
-	# Sets up the Masonry objects
+	# Sets  Masonry on the classified list
 	setupMasonry: ->
 		@$classifiedList.masonry
 			isAnimated: true

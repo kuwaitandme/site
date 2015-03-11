@@ -1,0 +1,36 @@
+form#filter-box
+	.keywords
+		input(type="text", name="keywords")#filter-keywords.search-bar
+		button(type="submit").search-button &#xf002;
+	ul.other-options
+		li
+			.float-container
+				.title Price :&nbsp;
+				select#select-price(data-field="price")
+					option All
+					option Free
+					//- option Range
+					option Contact Owner
+
+		li
+			.float-container
+				.title Type:&nbsp;
+				select#select-type(data-field="type")
+					option All
+					option Offering
+					option Wanted
+
+		li
+			.float-container
+				.title Category:&nbsp;
+				select#select-category
+				select#select-childcategory
+					//- option(selected, disabled) Choose subcategory
+
+		//- li
+		//- 	span.title Location :&nbsp;
+		//- 	span.val Salwa
+		//- li
+		//- 	span.title Categories :&nbsp;
+		//- 	span.val Art
+		//- li.result-count found 123,232 classifieds
