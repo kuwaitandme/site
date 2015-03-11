@@ -5,13 +5,14 @@ module.exports = Backbone.Model.extend
 	consoleSlug: "[model:user]"
 
 	defaults:
-		username: ''
-		email: ''
 		adminReason: ''
-		isAdmin: Boolean
+		email: ''
+		isAdmin: false
+		isAnonymous: false
 		language: 0
 		lastLogin: [ '' ]
 		status: 0
+		username: ''
 		personal:
 			name: ''
 			address: ''
@@ -41,11 +42,16 @@ module.exports = Backbone.Model.extend
 				console.debug that.consoleSlug, 'got user data', response
 
 				# Save the data from the server
+				response.isAnonymous = false
 				that.set response
 
 				# Signal any listeners that we are done loading the user
 				that.trigger 'ajax:done', response
 
 
-			error: (e) ->
-				console.error 'Error fetching user data', e
+			error: (response) ->
+				switch response.status
+					when 404
+						that.set 'isAnonymous', true
+						console.debug that.consoleSlug, 'user is anonymous', response
+				# console.error 'Error fetching user data', response

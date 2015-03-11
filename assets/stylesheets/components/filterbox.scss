@@ -1,11 +1,11 @@
 #filter-box {
 	background: #FFF;
-	padding-bottom: 10px;
+	padding-bottom: 25px;
+	margin-bottom: 25px;
+	border-bottom: 1px solid #f9f9f9;
 
 	#li-childcategory { display: none; }
-	.title {
-		float: left;
-	}
+	.title { float: left; }
 
 	.other-options {
 		@include clearfix();

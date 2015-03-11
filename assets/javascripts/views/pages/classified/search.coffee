@@ -45,6 +45,10 @@ module.exports = controller = Backbone.View.extend
 		@setupMasonry()
 		@newQuery()
 
+
+	checkRedirect: -> false
+
+
 	newQuery: ->
 		# Blank out all the classifieds we have so far and reset the page count
 		$classifieds = @$ ".classified"
@@ -58,6 +62,7 @@ module.exports = controller = Backbone.View.extend
 		# classifieds
 		@fireAjaxEvent()
 
+		# For all the classifieds give them their proper size
 		@resizeClassifieds()
 
 

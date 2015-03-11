@@ -1,17 +1,6 @@
 .pt-page.classified-search {
 	height: 100%;
 
-	#filterbox-help {
-		@extend .font-title;
-		// text-align: center;
-		margin: 20px;
-	}
-	.noclassifieds-title {
-		@extend .font-title;
-		padding: 20px;
-		text-align: center;
-		font-size: 30px;
-	}
 	#ajax-spinner {
 		text-align: center;
 		margin: 10px;

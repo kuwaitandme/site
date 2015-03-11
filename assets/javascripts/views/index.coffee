@@ -6,19 +6,19 @@ pages = require('./pages')
 #
 # @type {Object}
 module.exports =
+	consoleSlug: '[view]'
 
 	# Setup the different views. ie. Initialize the different controllers for
 	# the header, currentView and other components.
 	initialize: ->
-		@consoleSlug = '[view]'
 		console.group @consoleSlug, 'initializing'
 
 		# Cache some DOM variables
 		@$body = $('body')
-		@$ptMain = $('#pt-main')
 		@$currentPage = $('#current-page')
 		@$nextPage = $('#next-page')
 		@$previousPage = $('#prev-page')
+		@$ptMain = $('#pt-main')
 		@previousView = @nextView = null
 
 		# Set local variables
@@ -80,6 +80,7 @@ module.exports =
 			if not reverse then @createNextPage historyIndex
 			else viewExists = @createPreviousPage historyIndex
 
+
 			# Find the target page. Which is the last child
 			$targetPage = @$ptMain.find '.pt-page:last-child'
 
@@ -96,6 +97,9 @@ module.exports =
 
 			else @currentView = @targetView
 
+			# Check for any redirection
+			if @currentView.checkRedirect() then return @currentView.doRedirect()
+
 			# Signal the app to transition to the new page
 			app.transition
 				$targetPage: $targetPage
@@ -109,6 +113,9 @@ module.exports =
 			@currentView = new currentView
 				arguments: arguments
 				el: '.pt-page-current'
+
+			# Check for any redirection
+			if @currentView.checkRedirect() then return @currentView.doRedirect()
 
 		# Attempt to cache the HTML
 		app.cacheView @currentView, @currentViewName
@@ -134,7 +141,7 @@ module.exports =
 		@displayMouseLoader false
 
 
-	# [createNextPage description]
+	# Create a page which will to used by the page animation to animate to.
 	createNextPage: (historyIndex) ->
 		$el = $('<div></div>').addClass('pt-page').data('index', historyIndex)
 
@@ -151,11 +158,19 @@ module.exports =
 		@$ptMain.append $el
 
 
-	# [createNextPage description]
+	# Creates a page so that the page animation can work properly. This
+	# function is abit special in that it checks if there was a view saved
+	# when the app moved to the next page; If there was a view, then the
+	# function prepares it to be loaded in the animation. Otherwise it creates
+	# a blank view.
+	#
+	# The view to be instantiated is set at the this.targetView variable.
 	createPreviousPage: (historyIndex) ->
 		viewExists = false
 
-		$el = $('<div></div>').addClass('pt-page').data('index', historyIndex)
+		$el = $('<div></div>')
+			.addClass('pt-page')
+			.data('index', historyIndex)
 
 		# Save the current view as the next page
 		@nextView = @currentView
@@ -166,8 +181,7 @@ module.exports =
 		if @previousView
 			console.debug @consoleSlug, "found previous view cached", @previousView
 
-			$el = @previousView.$el
-				.data 'index', historyIndex
+			$el = @previousView.$el.data 'index', historyIndex
 			@targetView = @previousView
 			viewExists = true
 
@@ -192,7 +206,7 @@ module.exports =
 	# request.
 	fetchHTML: (view, url) ->
 		console.log @consoleSlug, 'trying to find HTML in cache for view', view
-		html = app.getCachedViewHTML(view)
+		html = app.getCachedViewHTML view
 
 		if html
 			console.log @consoleSlug, 'HTML found from cache!'
@@ -204,14 +218,14 @@ module.exports =
 			url: url
 			async: false
 			success: (response) ->
-				html = $(response).find('.html5-cache').html()
-			error: (e) ->
-				console.error @consoleSlug, 'error sending GET request', e
+				html = (($ response).find '.html5-cache').html()
+			error: (response) ->
+				console.error @consoleSlug, 'error sending GET request', response
 		html
 
 
-	displayMouseLoader: (shown=true) ->
-		$("body").toggleClass("wait", shown)
+	# Sets the mouse pointer to the loading icon.
+	displayMouseLoader: (shown=true) -> ($ "body").toggleClass "wait", shown
 
 
 	# Finds the view with the given name and returns it's object.

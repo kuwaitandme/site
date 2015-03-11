@@ -17,7 +17,7 @@ controller = module.exports =
 	post: (request, response, next) ->
 		response.contentType 'application/json'
 
-		finish (error, user, info) ->
+		finish = (error, user, info) ->
 			if error then return next error
 			if not user
 				response.status info.ecode or 404

@@ -20,11 +20,14 @@ li.classified(class!="<%= classes %>")
 					li <%= price %>
 					li <%= created %>
 					|<% if(contact.location) {
-					|	var loc = app.models.locations.findWhere({ _id: contact.location }).toJSON();
-					|   if(loc && loc.name != "None") { %>
+					|	var loc = app.models.locations.findWhere({ _id: contact.location })
+					|   if(loc) {
+					|     loc = loc.toJSON();
+					|     if (loc.name != "None") { %>
 					li <%= loc.name %>
-					| <% }
-					|} %>
+					| <%  }
+					|   }
+					| } %>
 			|<%
 			| var cl="", message="";
 			| switch(status) {

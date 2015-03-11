@@ -29,7 +29,13 @@ module.exports = Backbone.Collection.extend
 		if cache
 			console.log '[model:categories] setting categories from cache'
 			console.groupEnd()
-			return @parseFetchResponse(JSON.parse(cache))
+			return @set JSON.parse(cache)
+
+		if window.data.categories
+			console.log '[model:categories] setting categories from page'
+			console.log window.data.categories
+			console.groupEnd()
+			return @set window.data.categories
 
 		# If data wasn't cached, then request it by sending a AJAX request
 		# and then caching the data
@@ -54,14 +60,6 @@ module.exports = Backbone.Collection.extend
 			error: (e) ->
 				console.error '[model:categories] error fetching category details', e
 				console.groupEnd()
-
-
-	# This function parses the response and saves it into the collection
-	# properly
-	parseFetchResponse: (response) ->
-		@set JSON.parse(response.categories)
-		@setCounters JSON.parse(response.count)
-		console.groupEnd()
 
 
 	# Appends the counters into each of the category respectively

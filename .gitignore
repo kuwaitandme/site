@@ -13,7 +13,7 @@
 /public/stylesheets/build
 
 # Hide server configuration file
-/var/config.js
+/var/config.coffee
 
 # hide log files
 /var/*.log

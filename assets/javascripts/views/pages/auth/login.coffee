@@ -1,14 +1,12 @@
 helpers = require 'app-helpers'
-ajax = helpers.ajax
-user = require("app-models").user
+User    = (require 'app-models').user
 
 module.exports = Backbone.View.extend
 	consoleSlug: "[view:auth-login]"
 
-	model: new user
+	model: new User
 
-	events:
-		'click .submit': 'submit'
+	events: 'click .submit': 'submit'
 
 	messages:
 		activate_fail: 'Something went wrong while activating your account'
@@ -32,6 +30,8 @@ module.exports = Backbone.View.extend
 
 	initialize: ->
 		console.log @consoleSlug, 'initializing'
+
+		@model = app.currentUser
 
 		# Initialize dom elements
 		@$captcha = @$el.find ".captcha-container"
@@ -60,6 +60,9 @@ module.exports = Backbone.View.extend
 		@resetCaptcha
 
 
+	checkRedirect: -> false
+
+
 	resetCaptcha: ->
 		console.log @consoleSlug, 'setting captcha'
 		@$captcha.show()
@@ -85,8 +88,7 @@ module.exports = Backbone.View.extend
 
 
 	# Removes all the messages from the message container
-	removeMessages: ->
-		@$messages.html ""
+	removeMessages: -> @$messages.html ""
 
 
 	# Shows the AJAX loader and hides parts of the login form like the submit
@@ -97,12 +99,17 @@ module.exports = Backbone.View.extend
 		@$spinner.fadeIn()
 		@$submit.fadeOut()
 
+
 	# Hides the AJAX loader and displays parts of the login form back
 	hideLoading: ->
 		@$captcha.stop().fadeIn()
 		@$links.stop().show()
 		@$spinner.stop().fadeOut()
 		@$submit.stop().fadeIn()
+
+
+	# Function to decide if this view should redirect to another view
+	checkRedirect: -> false
 
 
 	# Sends the AJAX request to the back-end
@@ -118,11 +125,11 @@ module.exports = Backbone.View.extend
 		if not @validate() then return
 
 		# Get the userdata
-		data = {
-			username: @$username.val(),
+		data =
 			password: @$password.val()
-		}
+			username: @$username.val()
 
+		ajax = helpers.ajax
 		$.ajax
 			type: 'POST'
 			url: '/auth/login/'
@@ -131,11 +138,13 @@ module.exports = Backbone.View.extend
 
 			# This function gets called when the user successfully logs in
 			success: (response) ->
-				console.debug that.consoleSlug, response
+				console.debug that.consoleSlug, 'received user', response
 
 				# Set the response in the user model
+				response.isAnonymous = false
 				that.model.set response
 
+				# Redirect to the account page on success
 				app.goto('/account/', 'account')
 
 				# Hide the ajax loader

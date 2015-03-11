@@ -3,6 +3,7 @@ module.exports =
 	'account-manage':     require('./account/manage')
 	'auth-forgot':        require('./auth/login')
 	'auth-login':         require('./auth/login')
+	'auth-logout':        require('./auth/logout')
 	'auth-signup':        require('./auth/login')
 	'auth-reset':         require('./auth/login')
 	'classified-edit':    require('./classified/edit')

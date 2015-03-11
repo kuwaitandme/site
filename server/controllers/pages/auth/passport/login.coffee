@@ -39,7 +39,7 @@ strategy = module.exports = (passport) ->
 				# User and password both match, return user to the callback
 				done null, user
 		# Check the captcha, which then calls the function to login the user
-		reCaptcha = global.helpers.reCatpcha
+		reCaptcha = global.helpers.reCaptcha
 		reCaptcha.verify request, captachSuccess, captachFail
 
 	passport.use 'login', (new LocalStrategy({ passReqToCallback: true }, authenticate))

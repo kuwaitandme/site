@@ -1,3 +1,4 @@
+
 module.exports = Backbone.View.extend
 	messages:
 		reported: 'Your report has been successfully submitted'
@@ -45,6 +46,9 @@ module.exports = Backbone.View.extend
 
 		# app.libs.smoothScroll.init();
 		# this.renderAdminbar();
+
+
+	checkRedirect: -> false
 
 
 	# Get the classified from the page and return with some extra variables set.

@@ -1,80 +1,49 @@
 module.exports = Backbone.View.extend
 	events:
-		'click .cl-title': 'toggleClassified'
-		'click .search-button': 'submitSearch'
+		'click .search-button' : 'submitClick'
+		'change select' : 'selectChange'
+
 
 	initialize: (options) ->
 		console.log '[view:landing] initializing'
-
 		if options.$el then	@$el = options.$el
 
-		app.loadResource 'masonry'
-		@$topClassifieds = @$el.find('#top-classifieds .content')
-		@$categoryList = @$el.find('#masonry-container .content')
-		@$categoryList.hide()
+		# Setup DOM variables
+		@$keywords = @$ "[name='keywords']"
+		@$select = @$ "[name='category']"
 
 
-	render: ->
-		console.log '[view:landing] rendering'
-		# that = this
-		# @categories = app.models.categories.toJSON()
-		# @categoriesTemplate = _.template(@$el.find('#list-template').html())
-		# that.$categoryList.html ''
-
-		# # Render out each of the categories
-		# i = 0
-		# while i < @categories.length
-		# 	html = @categoriesTemplate(@categories[i])
-		# 	@$categoryList.append html
-		# 	i++
+	render: -> console.log '[view:landing] rendering'
 
 
-	postAnimation: ->
-		@$categoryList.fadeIn()
-		@setupMasonry()
+	checkRedirect: -> false
 
 
-	submitSearch: (event) ->
+	# This function redirects the app to the classified search page, with the
+	# text in the search box set as the keywords in the GET query.
+	submitClick: (event) ->
 		event.preventDefault()
-		$el = @$el.find('[name=\'keywords\']')
-		text = $el.val()
+
+		# Get the keywords and covert it into a GET query
+		text = @$keywords.val()
 		text.replace ' ', '+'
-		console.log text
-		app.goto '/classified/search/?keywords=' + text, 'classified-search', null
+
+		# Redirect the app to the classified search page.
+		app.goto "/classified/search/?keywords=#{text}", 'classified-search'
 
 
-	toggleClassified: (e) ->
-		$el = $(e.currentTarget).parent()
-		$list = $el.find('.cl-list')
-		if $list.height() == 0 then @openClassified $el, $list
-		else @closeClassified()
+	# This method performs the same function as the 'submitClick' method but
+	# instead grabs the category too and then redirects the page.
+	#
+	# The page redirection happens automatically without the user pressing the
+	# search button. This is a UX decision.
+	selectChange: (event) ->
+		cat = @$select.val()
+		text = @$keywords.val()
+		text.replace ' ', '+'
 
+		# Generate the URL
+		url = "/classified/search?category=#{cat}&keywords=#{text}"
 
-	openClassified: ($el, $list) ->
-		that = this
-		@closeClassified()
-		$el.addClass 'active'
-		$list.css 'height', 'auto'
-		height = $list.height()
-		that.$categoryList.masonry()
-		$list.height 0
-		$list.stop().transition { height: height }, ->
-			that.$categoryList.masonry()
-
-
-	closeClassified: ->
-		that = this
-		$el = $('.cl-container')
-		$el.removeClass 'active'
-		$list = $el.find('.cl-list')
-		$list.stop().transition { height: 0 }, ->
-			that.$categoryList.masonry()
-
-	# Initializes Masonry to arrange the top classifieds and bottom categories
-	setupMasonry: ->
-		that = this
-		@$categoryList.masonry
-			columnWidth: 10
-			isAnimated: true
-			isFitWidth: true
-			itemSelector: '.cl-item'
+		# Redirect the app to the classified search page.
+		app.goto url, 'classified-search'

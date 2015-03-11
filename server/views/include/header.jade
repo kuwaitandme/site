@@ -8,34 +8,11 @@ header
 				li.left Search classifieds
 			a(href="/guest/post", data-view="guest-post")
 				li.left Post Classified
-			a(href="/auth/signup", data-view="auth-signup")
+			a(href="/auth/signup", data-view="auth-signup").loggedout
 				li Signup
-			a(href="/auth/login", data-view="auth-login")
+			a(href="/auth/login", data-view="auth-login").loggedout
 				li Login
-
-			//- li.grabber#grabber-display
-				.title Menu
-				.icon &#xf0c9;
-			//- a(href="javascript:history.back()")
-			//- 	li.nav.prev &#xf060;
-			//- a(href="/", data-view="landing")
-			//- 	li.nav.home &#xf015;
-			//- a(href="javascript:history.forward()")
-			//- 	li.nav.next &#xf061;
-
-	ul#slider-nav
-		li.grabber#grabber-hide &#xf0c9;
-		a(href="/", data-view="landing")
-			li Home
-		unless user
-		else
-			a(href="/classified/post", data-view="classified-post")
-				li Post a Classified
-			a(href="/auth/logout", data-view="auth-logout")
+			a(href="/auth/logout", data-view="auth-logout").loggedin
 				li Logout
-			a(href="/account/", data-view="account")
+			a(href="/account/", data-view="account").loggedin
 				li Account
-		a(href="/privacy", data-view="privacy")
-			li Privacy Policy
-		a(href="/terms", data-view="terms")
-			li Terms &amp; Conditions
