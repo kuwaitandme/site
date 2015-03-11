@@ -6,7 +6,9 @@ header
 				li.left.home &#xf015;
 			a(href="/classified/search", data-view="classified-search")
 				li.left Search classifieds
-			a(href="/guest/post", data-view="guest-post")
+			a(href="/guest/post", data-view="guest-post").loggedout
+				li.left Post Classified
+			a(href="/classified/post", data-view="classified-post").loggedin
 				li.left Post Classified
 			a(href="/auth/signup", data-view="auth-signup").loggedout
 				li Signup

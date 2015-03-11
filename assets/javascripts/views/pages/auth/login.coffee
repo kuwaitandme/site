@@ -97,7 +97,7 @@ module.exports = Backbone.View.extend
 		@$captcha.fadeOut()
 		@$links.hide()
 		@$spinner.fadeIn()
-		@$submit.fadeOut()
+		@$submit.stop().fadeOut()
 
 
 	# Hides the AJAX loader and displays parts of the login form back
@@ -124,46 +124,24 @@ module.exports = Backbone.View.extend
 		# Validate the user fields
 		if not @validate() then return
 
-		# Get the userdata
-		data =
-			password: @$password.val()
-			username: @$username.val()
-
-		ajax = helpers.ajax
-		$.ajax
-			type: 'POST'
-			url: '/auth/login/'
-			beforeSend: ajax.setHeaders
-			data: data
-
-			# This function gets called when the user successfully logs in
-			success: (response) ->
+		# Attempt to login the user
+		that.model.login @$username.val(), @$password.val(), (error, response) ->
+			if error then switch error.status
+				when 404
+					that.addMessage 'Your login is wrong'
+					# console.error that.consoleSlug, 'invalid user'
+				when 400
+					that.addMessage 'There are invalid fields or the captcha has failed'
+				when 401
+					that.addMessage "Your account is not activated, check your inbox (and junk mail) for the activation email", 'warning'
+				when 403
+					that.addMessage 'Your account has been banned'
+					that.addMessage 'Admin message: '
+			else
 				console.debug that.consoleSlug, 'received user', response
-
-				# Set the response in the user model
-				response.isAnonymous = false
-				that.model.set response
 
 				# Redirect to the account page on success
 				app.goto('/account/', 'account')
 
 				# Hide the ajax loader
 				that.hideLoading()
-
-			# This function handles the different errors that we might get
-			# from the server
-			error: (error) ->
-				console.error that.consoleSlug, 'error logging in', error
-
-				that.hideLoading()
-				switch error.status
-					when 404
-						that.addMessage 'Your login is wrong'
-						# console.error that.consoleSlug, 'invalid user'
-					when 400
-						that.addMessage 'There are invalid fields or the captcha has failed'
-					when 401
-						that.addMessage "Your account is not activated, check your inbox (and junk mail) for the activation email", 'warning'
-					when 403
-						that.addMessage 'Your account has been banned'
-						that.addMessage 'Admin message: '

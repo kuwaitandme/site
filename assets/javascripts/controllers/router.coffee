@@ -17,8 +17,7 @@ module.exports = class controller
 		# Check if HTML5 history is available or not
 		if typeof history.pushState == 'undefined'
 			console.log @consoleSlug, 'HTML 5 History not available. Using fallback mode'
-			@fallback = true
-			return
+			return @fallback = true
 
 		# Set defaults
 		@historyIndex = window.history.length
@@ -51,16 +50,20 @@ module.exports = class controller
 	# href will contain the url which should be displayed in the browser.
 	hrefEventHandler: (event) ->
 		if @fallback and @disabled then return
-
 		event.preventDefault()
 
 		# Start collecting data
 		$el = $(event.currentTarget)
 		url = $el[0].href
 		view = $el.data().view
-		console.group @consoleSlug, 'navigating to page:', view
+
+		# Check if we are navigating to the same URL, in which case don't
+		# navigate anywhere
+		if url is history.state.url
+			return console.error @consoleSlug, 'navigating to same page, preventing href'
 
 		# Signal the app's view controllers to move to the new view ...
+		console.group @consoleSlug, 'navigating to page:', view
 		@goto url, view, null
 		console.groupEnd()
 

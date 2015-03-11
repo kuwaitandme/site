@@ -1,7 +1,9 @@
 module.exports = Backbone.View.extend
 	consoleSlug: "[view:auth-logout]"
 
-	initialize: -> console.log @consoleSlug, 'initializing'
+	initialize: ->
+		console.log @consoleSlug, 'initializing'
+		app.currentUser.logout()
 
 	render: -> console.log @consoleSlug, 'rendering'
 

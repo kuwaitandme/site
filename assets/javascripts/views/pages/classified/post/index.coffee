@@ -1,11 +1,11 @@
 views =
-	begin: require('./part.begin')
-	details: require('./part.details')
-	finish: require('./part.finish')
-	images: require('./part.images')
-	info: require('./part.info')
-	maps: require('./part.maps')
-	submit: require('./part.submit')
+	begin:   require './part.begin'
+	details: require './part.details'
+	finish:  require './part.finish'
+	images:  require './part.images'
+	info:    require './part.info'
+	maps:    require './part.maps'
+	submit:  require './part.submit'
 
 
 router = Backbone.Router.extend
@@ -23,19 +23,16 @@ router = Backbone.Router.extend
 
 	initialize: (options) ->
 		console.log '[view:classified-post] initializing router'
-		that = this
 		@model = options.model
 		@$el = options.$el
-		@listenTo @model, 'ajax:done', ->
-			that.navigate 'page-finish', trigger: true
-		@listenTo @model, 'post:error', (message) ->
-			that.displayError message
+
+		@listenTo @model, 'ajax:done', @navigate 'page-finish', trigger: true
+		@listenTo @model, 'post:error', @displayError
 
 
 	close: ->
-		@$el.empty()
-		@$el.off()
-		@stopListening()
+		# @$el.empty().off()
+		# @stopListening()
 
 
 	startup: ->
@@ -86,22 +83,21 @@ router = Backbone.Router.extend
 			that.currentView.$el.show().transition opacity: 1
 		console.groupEnd()
 
-	showPageBegin: -> @switchPage 'begin', '#page-begin'
+	showPageBegin:   -> @switchPage 'begin', '#page-begin'
 	showPageDetails: -> @switchPage 'details', '#page-details'
-	showPageFinish: -> @switchPage 'finish', '#page-finish'
-	showPageImages: -> @switchPage 'images', '#page-images'
-	showPageInfo: -> @switchPage 'info', '#page-info'
-	showPageMaps: -> @switchPage 'maps', '#page-maps'
-	showPageSubmit: -> @switchPage 'submit', '#page-submit'
+	showPageFinish:  -> @switchPage 'finish', '#page-finish'
+	showPageImages:  -> @switchPage 'images', '#page-images'
+	showPageInfo:    -> @switchPage 'info', '#page-info'
+	showPageMaps:    -> @switchPage 'maps', '#page-maps'
+	showPageSubmit:  -> @switchPage 'submit', '#page-submit'
+
 
 module.exports = Backbone.View.extend
 	model: new (app.models.classified)
 
 	initialize: (options) ->
 		console.log '[view:classified-post] initializing'
-		app.loadResource 'dropzone'
-		app.loadResource 'googleMaps'
-		app.loadResource 'reCaptcha'
+		if options.$el then	@$el = options.$el
 
 
 	render: ->
@@ -110,7 +106,7 @@ module.exports = Backbone.View.extend
 		# I really don't like to do this.. but Backbone refuses to creat
 		# multiple instances of this router and new ones don't have any effect.
 		# This hack is abit dirty and a solution should be found soon
-		if !window.router
+		if not window.router?
 			window.router = new router(
 				$el: @$el
 				model: @model)
@@ -120,6 +116,7 @@ module.exports = Backbone.View.extend
 			window.router.views = []
 		window.router.startup()
 
+	checkRedirect: -> false
 
 	close: ->
 		@$el.empty()

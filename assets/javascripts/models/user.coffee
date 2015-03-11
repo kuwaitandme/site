@@ -8,7 +8,7 @@ module.exports = Backbone.Model.extend
 		adminReason: ''
 		email: ''
 		isAdmin: false
-		isAnonymous: false
+		isAnonymous: true
 		language: 0
 		lastLogin: [ '' ]
 		status: 0
@@ -24,10 +24,46 @@ module.exports = Backbone.Model.extend
 
 
 	initialize: ->
-		# this.bind('set', this.filterParameters)
 
 
-	authenticate: (username, password) ->
+	login: (username, password, callback) ->
+		console.debug @consoleSlug, 'logging in user'
+		that = this
+
+		$.ajax
+			type: 'POST'
+			url: app.config.host + '/auth/login/'
+			beforeSend: ajax.setHeaders
+			data:
+				username: username
+				password: password
+
+			# This function gets called when the user successfully logs in
+			success: (response) ->
+				console.debug that.consoleSlug, 'user logged in', response
+
+				# Save the data from the server
+				response.isAnonymous = false
+				that.set response
+
+				# Signal any listeners that the user has logged in
+				that.trigger 'loggedin', response
+
+				# Call the callback
+				callback null, response
+
+			# This function sends the error message to the callback
+			error: (error) ->
+				console.error that.consoleSlug, 'error logging in', error
+				callback(error, null)
+
+
+	# Logs the user out and signals listeners if any.
+	logout: ->
+		@set 'isAnonymous', true
+
+		# Signal any listeners that the user has logged out
+		that.trigger 'logout'
 
 
 	fetch: (id="") ->
@@ -47,11 +83,9 @@ module.exports = Backbone.Model.extend
 
 				# Signal any listeners that we are done loading the user
 				that.trigger 'ajax:done', response
-
-
 			error: (response) ->
 				switch response.status
 					when 404
-						that.set 'isAnonymous', true
+						that.logout()
 						console.debug that.consoleSlug, 'user is anonymous', response
-				# console.error 'Error fetching user data', response
+					else console.error 'Error fetching user data', response

@@ -143,17 +143,21 @@ module.exports =
 
 	# Create a page which will to used by the page animation to animate to.
 	createNextPage: (historyIndex) ->
-		$el = $('<div></div>').addClass('pt-page').data('index', historyIndex)
+		$el = $('<div></div>')
+			.addClass('pt-page')
+			.data('index', historyIndex)
 
 		# Save the current view as the previous page
 		@previousView = @currentView
 		@previousView.scrollPosition = @currentView.$el.scrollTop()
 
 		# Delete any view that is not needed
-		$('.pt-page').each ->
-			$page = $(this)
-			index = $page.data('index') or 0
-			if index is not historyIndex - 1 then $page.remove()
+		($ '.pt-page').each ->
+			$page = $ this
+			index = ($page.data 'index') or 0
+			condition = historyIndex < index or index < historyIndex - 1
+
+			if condition then $page.remove()
 
 		@$ptMain.append $el
 
@@ -192,8 +196,9 @@ module.exports =
 		($ '.pt-page').each ->
 			$page = $ this
 			index = ($page.data 'index') or 0
-			if index is not historyIndex + 1 or index is not historyIndex
-				$page.remove()
+			condition = not (historyIndex >= index < historyIndex + 1)
+
+			if condition then $page.remove()
 
 		@$ptMain.append $el
 		viewExists

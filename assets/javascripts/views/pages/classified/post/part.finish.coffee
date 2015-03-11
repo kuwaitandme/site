@@ -21,8 +21,8 @@ module.exports = Backbone.View.extend
 		@$tabPayment = @$el.find('#tab-payment')
 		@$paymentErrors = @$el.find('#payment-errors')
 		@$modal = @$el.find('#modal-purchase')
-		@spinner = new (app.views.components.spinner)
-		@spinner.show()
+		# @spinner = new (app.views.components.spinner)
+		# @spinner.show()
 
 
 	render: ->
@@ -33,17 +33,16 @@ module.exports = Backbone.View.extend
 		# $(".page").css('min-height', $(window).height() * 0.7 - 90);
 
 
-	validate: ->
-		true
+	validate: -> true
 
 
 	parseURL: ->
 		getParam = app.helpers.url.getParam
-		if getParam('error')
+		if getParam 'error'
 			app.error @messages[getParam('error')]
-		if getParam('success')
+		if getParam 'success'
 			app.success @messages[getParam('success')]
-		if getParam('warn')
+		if getParam 'warn'
 			app.warn @messages[getParam('warn')]
 
 
