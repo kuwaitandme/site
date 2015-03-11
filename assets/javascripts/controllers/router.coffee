@@ -25,8 +25,7 @@ module.exports = class controller
 		@disabled = false
 
 		# Trigger our pophistory function on the 'popstate' event
-		$(window).bind 'popstate', (event) ->
-			that.popHistory event
+		$(window).bind 'popstate', (event) -> that.popHistory event
 
 		# Modify the current history event to maintain consistency with
 		# history pop events
@@ -59,7 +58,9 @@ module.exports = class controller
 
 		# Check if we are navigating to the same URL, in which case don't
 		# navigate anywhere
-		if url is history.state.url
+		currentUrl = history.state and history.state.url or document.URL
+		console.debug @consoleSlug, "moving from #{url} to #{currentUrl}"
+		if url is currentUrl
 			return console.error @consoleSlug, 'navigating to same page, preventing href'
 
 		# Signal the app's view controllers to move to the new view ...
