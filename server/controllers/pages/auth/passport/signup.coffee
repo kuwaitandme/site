@@ -1,4 +1,4 @@
-LocalStrategy = require('passport-local').Strategy
+LocalStrategy = (require 'passport-local').Strategy
 
 # A Passport strategy to register a new user. It checks if the username exists
 # first, and if not then creates the user with the user name and hashes
@@ -8,10 +8,11 @@ LocalStrategy = require('passport-local').Strategy
 # user.
 strategy = module.exports = (passport) ->
 
-	captachFail = -> done null, false, message: 'captchaFail'
+	signup = (request, username, password, done) ->
 
-	captachSuccess = ->
-		signup = (request, username, password, done) ->
+		captachFail = -> done null, false, message: 'captchaFail'
+
+		captachSuccess = ->
 			fullname = request.body.fullname
 			repassword = request.body.repassword
 
@@ -52,8 +53,8 @@ strategy = module.exports = (passport) ->
 					# pass the registered user to the callback
 					done null, user
 
-		passport.use 'signup', new LocalStrategy({ passReqToCallback: true }, signup
+		# Check the captcha, which then calls the function to create the user
+		reCaptcha = global.helpers.reCatpcha
+		reCaptcha.verify request, captachSuccess, captachFail
 
-	# Check the captcha, which then calls the function to create the user
-	reCaptcha = global.helpers.reCatpcha
-	reCaptcha.verify request, captachSuccess, captachFail
+	passport.use 'signup', (new LocalStrategy({ passReqToCallback: true }, signup))

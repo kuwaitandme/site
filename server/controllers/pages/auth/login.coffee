@@ -1,4 +1,3 @@
-flash = require('connect-flash')
 mongoose = require('mongoose')
 passport = require('passport')
 config = global.config

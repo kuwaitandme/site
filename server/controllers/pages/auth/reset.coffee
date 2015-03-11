@@ -42,7 +42,7 @@ controller = module.exports =
 			User.resetPassword id, resetToken, password, (err, success) ->
 				if err then throw err
 				if !success then response.redirect '/auth/login?error=reset_fail'
-				else then response.redirect '/auth/login?success=reset_success'
+				else response.redirect '/auth/login?success=reset_success'
 
 		# Check the captcha, which then calls the function to reset the password
 		reCaptcha.verify request, captachSuccess, captachFail

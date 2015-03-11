@@ -159,11 +159,10 @@ classifieds = module.exports =
 
 		# Prepare a query which searchs with the given parameter and offsets
 		# and limits with the 'classifieds per page' and 'page index' parameters
-		query = @model
-			.(find parameters, authHash: 0)
-			.(sort created: sort)
-			.(skip (if page > 0 then (page - 1) * @classifiedPerPage else 0))
-			.(limit @classifiedPerPage)
+		query = @model.find(parameters, authHash: 0)
+			.sort(created: sort)
+			.skip(if page > 0 then (page - 1) * @classifiedPerPage else 0)
+			.limit(@classifiedPerPage)
 
 		query.exec (err, result) ->
 			if err then throw err

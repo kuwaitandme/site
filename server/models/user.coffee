@@ -97,7 +97,7 @@ users = module.exports =
 			# Check cast error
 
 			# Check if user exists
-			if is not user return callback(null, false)
+			if not user then return callback(null, false)
 
 			# Check if a password request was set or not
 			if not user.resetToken then return callback(null, false)
