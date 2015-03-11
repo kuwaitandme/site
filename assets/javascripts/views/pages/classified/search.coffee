@@ -129,9 +129,9 @@ module.exports = controller = Backbone.View.extend
 			@$ajaxfinish.fadeIn()
 
 		# Add each classified into the DOM
-		_.each classifieds, (classified) ->
-			html = that.listTemplate(classified.toJSON())
-			elem = $(html)
+		for classified in classifieds
+			html = that.listTemplate classified.toJSON()
+			elem = $ html
 
 			# Append element into DOM and reload Masonry
 			that.$classifiedList.append elem

@@ -11,7 +11,7 @@ li.classified(class!="<%= classes %>")
 		.container
 			.urgent-banner Urgent
 			.thumb
-				|<% if(images.length > 0) { %>
+				|<% if(images && images.length > 0) { %>
 				img(src!="/uploads/thumb/<%= images[0] %>", alt!="<%= title %>")
 				|<% } %>
 			.c-info

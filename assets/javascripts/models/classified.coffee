@@ -1,7 +1,8 @@
+async = require 'async'
 helpers = require 'app-helpers'
+
 dateHelper = helpers.date
 ajax = helpers.ajax
-async = require 'async'
 
 # A Backbone model representing a single classified. This model contains
 # methods to manipulate and sync with the server.

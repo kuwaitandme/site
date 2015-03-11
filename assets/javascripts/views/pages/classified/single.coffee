@@ -32,58 +32,51 @@ module.exports = Backbone.View.extend
 		singleTemplate = _.template(@$el.find('#single-template').html())
 
 		# Add the main template
-		$('.c-content').html singleTemplate(@model.toJSON())
+		($ '.c-content').html (singleTemplate @model.toJSON())
 
 		# Add the image templates
-		images = @model.get('images')
-		if images.length > 0
-			@$el.find('.c-gallery').html slideshowTemplate(images: images)
-		else
-			@$el.find('.c-gallery').hide()
+		images = @model.get 'images'
+		(@$ '.c-gallery').hide()
+		if images and images.length > 0
+			(@$ '.c-gallery').html slideshowTemplate(images: images)
+			(@$ '.c-gallery').show()
 
-		@$el.find('.page').css 'min-height', $(window).height()
+		(@$ '.page').css 'min-height', ($ window).height()
 		@initMaps()
 
-		# app.libs.smoothScroll.init();
 		# this.renderAdminbar();
 
 
 	checkRedirect: -> false
 
 
-	# Get the classified from the page and return with some extra variables set.
-	getClassified: ->
-		classified = window.data.classified
-		classified.editable = window.data.editable
-		classified.superEditable = window.data.superEditable
-		classified
-
-
 	# Display a message based on the classified's status.
 	displayMessage: ->
 		# Parse the URL and give out the appropriate message based on it.
 		getParam = app.helpers.url.getParam
-		if getParam('error')
-			app.error @messages[getParam('error')]
-		if getParam('success')
-			app.success @messages[getParam('success')]
-		if getParam('warn')
-			app.warn @messages[getParam('warn')]
-		if @classified.guest and @classified.status == 0
+		if getParam 'error' then app.error @messages[getParam 'error']
+		if getParam 'success' then app.success @messages[getParam 'success']
+		if getParam 'warn' then app.warn @messages[getParam 'warn']
+
+		classified = @model.toJSON()
+
+		if classified.guest and classified.status == 0
 			app.warn 'This classified was posted anonymously and is yet to be reviewed'
-		else if !@classified.editable and @classified.status == 0
+		else if !classified.editable and classified.status == 0
 			app.warn 'Your classified is yet to be reviewed'
-		else if @classified.status == 0
+		else if classified.status == 0
 			app.warn 'This classified is yet to be reviewed'
-		switch @classified.status
+
+
+		switch classified.status
 			when 2
 				app.error @messages.rejected, ''
-				app.error @classified.adminReason, 'Reason:'
+				app.error classified.adminReason, 'Reason:'
 			when 3
 				app.error @messages.archived, 'Archived!'
 			when 4
 				app.error @messages.banned, ''
-				app.error @classified.adminReason, 'Reason:'
+				app.error classified.adminReason, 'Reason:'
 			when 5
 				app.error 'This classified has been reported too many times and is under review', ''
 
@@ -103,14 +96,14 @@ module.exports = Backbone.View.extend
 				zoom: 13
 
 			# Add the map
-			that.gmap = new google.maps.Map that.$gmap[0], mapOptions
+			@gmap = new google.maps.Map @$gmap[0], mapOptions
 
 			# Add the marker
-			that.gmarker = new google.maps.Marker
+			@gmarker = new google.maps.Marker
 				position: myLatlng
-				map: that.gmap
+				map: @gmap
 
-		@$gmap = @$el.find '#map-canvas'
+		@$gmap = @$ '#map-canvas'
 
 
 		# If there are google co-ordinates saved, load up google maps
@@ -125,4 +118,4 @@ module.exports = Backbone.View.extend
 		adminTemplate = _.template(@$el.find('#admin-template').html())
 
 		# Add the admin template
-		@$el.find('#admin-single').html adminTemplate @classified
+		@$el.find('#admin-single').html adminTemplate classified
