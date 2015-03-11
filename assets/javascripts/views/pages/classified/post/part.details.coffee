@@ -13,15 +13,16 @@ module.exports = Backbone.View.extend
 		@$address2 = @$el.find('#address2')
 		@$email = @$el.find('#email')
 		@$locations = @$el.find('#locations')
-		@$parCategory = @$el.find('#cat-selector')
+		@$category = @$el.find('#cat-selector')
 		@$phone = @$el.find('#phone')
 		@$priceField = @$el.find('#price-field')
 		@$priceSelector = @$el.find('#price-selector')
-		@$subCategory = @$el.find('#subcat-selector')
 		@$type = @$el.find('#ctype')
 
 		@categories = app.models.categories.toJSON()
 		@locations = app.models.locations.toJSON()
+
+		@on "close", @close
 
 		# Initialize parts of the form
 		@initCategories()
@@ -73,45 +74,29 @@ module.exports = Backbone.View.extend
 	# Handler function to change the subcategory select box based on the parent
 	# select option.
 	catSelected: (e) ->
-		id = @$parCategory.find(':selected').data('id')
-		@$subCategory.show()
-		@$subCategory.removeAttr 'disabled'
-		i = 0
-		while i < @categories.length
-			if @categories[i]._id == id
-				children = @categories[i].children
-				@$subCategory.html @generateOption(0, 'Choose a sub-category', true)
-				j = 0
-				while j < children.length
-					html = @generateOption(children[j]._id, children[j].name)
-					@$subCategory.append html
-					j++
-				return
-			i++
+		id = (@$category.find ':selected').data 'id'
 
 	# Initializes the categories option
 	initCategories: ->
-		@$subCategory.hide()
-		@$parCategory.val 0
-		i = 0
-		while i < @categories.length
-			html = @generateOption(@categories[i]._id, @categories[i].name)
-			@$parCategory.append html
-			i++
+		@$category.val 0
+
+		for category in @categories
+			html = @generateOption category._id, category.name
+			@$category.append html
+
 
 	# Initializes the locations
 	initLocations: ->
-		i = 0
-		while i < @locations.length
-			html = @generateOption(@locations[i]._id, @locations[i].name)
+		for location in @locations
+			html = @generateOption location._id, location.name
 			@$locations.append html
-			i++
+
 
 	# Gets all the form data from the page, into a local variable and returns
 	# it.
 	setModel: ->
 		@model.set
-			category: @$subCategory.val()
+			category: @$category.val()
 			price: @$priceField.val()
 			type: @$type.val()
 			contact:
@@ -120,3 +105,8 @@ module.exports = Backbone.View.extend
 				email: xss(@$email.val())
 				location: @$locations.val()
 				phone: xss(@$phone.val())
+
+	close: ->
+		@remove()
+		@unbind()
+		@stopListening()

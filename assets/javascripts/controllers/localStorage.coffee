@@ -5,6 +5,8 @@
 # objects which contain data.
 module.exports = class controller
 
+	fallback: false
+
 	# Checks the JS version from the server side and setups the local storage
 	# based on it. If the JS version from the local and the server are
 	# different, then reset the local storage. Otherwise have the local storage
@@ -16,7 +18,7 @@ module.exports = class controller
 		console.log @consoleSlug, 'initializing'
 
 		# Check if localStorage is supported
-		if typeof Storage == 'undefined'
+		if Storage?
 			remoteVersion = window.jsVersion or 0
 			localVersion = localStorage.getItem('jsVersion')
 
@@ -59,6 +61,9 @@ module.exports = class controller
 		# 'scripts'
 		scripts = window.scripts
 		for script in scripts
+
+			if script.name is "app" then continue
+
 			storageIdentifier = "script-" + script.name
 
 			# Check if the script already exists in the cache

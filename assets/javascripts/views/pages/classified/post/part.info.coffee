@@ -6,6 +6,8 @@ module.exports = Backbone.View.extend
 		@$description = @$el.find('#description')
 		@$title = @$el.find('#title')
 
+		@on "close", @close
+
 		# Initialize redactor
 		# @$description.redactor()
 
@@ -32,3 +34,8 @@ module.exports = Backbone.View.extend
 		@model.set
 			description: xss(@$description.val())
 			title: xss(@$title.val())
+
+	close: ->
+		@remove()
+		@unbind()
+		@stopListening()

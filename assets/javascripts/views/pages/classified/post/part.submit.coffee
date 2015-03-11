@@ -4,12 +4,15 @@ module.exports = Backbone.View.extend
 
 
 	initialize: (options) ->
-		@$submit = @$el.find('.submit')
+		@$submit = @$ '.submit'
+		@$spinner = @$ "#ajax-spinner"
+
 		@listenTo @model, 'ajax:error', @ajaxError
+		@on "close", @close
 
 
 	render: ->
-		@spinner = new (app.views.components.spinner)
+		# @spinner = new (app.views.components.spinner)
 
 
 	# Checks all the required fields in that particular page and prevents the
@@ -28,11 +31,16 @@ module.exports = Backbone.View.extend
 		if !@validate()
 			return
 		@$submit.hide()
-		@spinner.show()
+		@$spinner.show()
 		@model.uploadServer()
 
 
 	ajaxError: (event) ->
 		@$submit.show()
-		@spinner.hide()
+		@$spinner.hide()
 		@model.trigger 'post:error', event.statusText
+
+	close: ->
+		@remove()
+		@unbind()
+		@stopListening()

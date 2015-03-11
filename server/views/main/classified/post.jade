@@ -77,8 +77,6 @@ block content
 
 			select#cat-selector(name="parent-category", required, tooltip="Choose the categories that best fit your classified")
 				option(value="0", data-id="-1", disabled, selected) Choose a category *
-			select#subcat-selector(name="category", required, disabled)
-				option(data-id="-1", disabled, selected) Choose a subcategory *
 
 			.seperator
 
@@ -153,7 +151,7 @@ block content
 			.g-recaptcha(data-sitekey="#{data.sitekey}")
 
 			#ajax-spinner
-				.spinner
+				img(src="/images/loader.gif")
 
 			.submit-container
 				input(type="hidden", name="_csrf", value="#{csrfToken}")

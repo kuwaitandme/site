@@ -2,8 +2,9 @@
 	height: 100%;
 
 	#ajax-spinner {
+		display: none;
 		text-align: center;
-		margin: 10px;
+		padding: 20px;
 	}
 	#ajax-finish {
 		@extend .font-title;

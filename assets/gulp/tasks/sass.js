@@ -12,6 +12,7 @@ module.exports = function(gulp) {
 
 
 	/* run once, then watch */
-	gulp.task('scss', task);
-	gulp.watch('stylesheets/**/*.scss', ['scss']);
+	task();
+	gulp.task('sass', task);
+	gulp.watch('stylesheets/**/*.scss', ['sass']);
 }

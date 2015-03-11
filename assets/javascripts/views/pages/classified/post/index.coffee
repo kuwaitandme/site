@@ -1,4 +1,4 @@
-views =
+subViews =
 	"#page-begin":   require './part.begin'
 	"#page-details": require './part.details'
 	"#page-finish":  require './part.finish'
@@ -20,14 +20,17 @@ module.exports = Backbone.View.extend
 		if options.$el then	@$el = options.$el
 
 		that = @
+		@currentView = null
 		@listenTo @model, 'ajax:done', ->
 			that.navigate '#page-finish', trigger: true
 		@listenTo @model, 'post:error', @displayError
+		@on "close", @close
 
 
 	render: ->
 		console.log @consoleSlug, 'rendering'
 		@navigate "#page-begin"
+
 
 	checkRedirect: -> false
 
@@ -49,15 +52,15 @@ module.exports = Backbone.View.extend
 	# Function to navigate to the view pointed by the href tag
 	navigate: (href) ->
 		console.log @consoleSlug, 'navigating to', href
-
-		event.preventDefault()
 		that = @
 
 		# If the view wasn't initialized already, initialize it
 		options =
 			el: href
 			model: @model
-		if not @views[href] then @views[href] = new views[href] options
+		if not @views[href]
+			subView = subViews[href]
+			@views[href] = new subView options
 		view = @views[href]
 
 		console.debug @consoleSlug, 'going to sub-view:', view
@@ -90,6 +93,14 @@ module.exports = Backbone.View.extend
 
 
 	close: ->
-		@$el.empty()
-		@$el.off()
-		@stopListening()
+		# Signal every child view that it's time to close
+		for view of @views
+			@views[view].trigger "close"
+			@views[view] = null
+
+		@currentView = null
+		@views = null
+
+		@undelegateEvents()
+		@remove()
+		@unbind()

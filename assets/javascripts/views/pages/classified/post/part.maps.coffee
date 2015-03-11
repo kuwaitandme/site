@@ -5,6 +5,7 @@ module.exports = Backbone.View.extend
 		@$gmapX = @$el.find('#gmapX')
 		@$gmapY = @$el.find('#gmapY')
 
+		@on "close", @close
 
 	render: ->
 		# Resize the pages whenever the window resizes
@@ -83,3 +84,8 @@ module.exports = Backbone.View.extend
 			# it
 			@$gmapX.val latLng.lat()
 			@$gmapY.val latLng.lng()
+
+	close: ->
+		@remove()
+		@unbind()
+		@stopListening()

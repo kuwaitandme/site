@@ -14,16 +14,17 @@ module.exports =
 		console.group @consoleSlug, 'initializing'
 
 		# Cache some DOM variables
-		@$body = $('body')
-		@$currentPage = $('#current-page')
-		@$nextPage = $('#next-page')
-		@$previousPage = $('#prev-page')
-		@$ptMain = $('#pt-main')
-		@previousView = @nextView = null
+		@$body           = $ 'body'
+		@$currentPage    = $ '#current-page'
+		@$nextPage       = $ '#next-page'
+		@$previousPage   = $ '#prev-page'
+		@$ptMain         = $ '#pt-main'
+
 
 		# Set local variables
 		@views = pages
 		@components = components
+		@previousView = @nextView = null
 
 		# Render different components
 		@header = new (components.header)(el: 'header')
@@ -147,7 +148,12 @@ module.exports =
 			.addClass('pt-page')
 			.data('index', historyIndex)
 
-		# Save the current view as the previous page
+		# Paralyze current view and close the previous view
+		@currentView.undelegateEvents()
+		if @previousView then @previousView.trigger 'close'
+
+		# Save the current view as the previous view and hopefully the garbage
+		# collector will pick it up
 		@previousView = @currentView
 		@previousView.scrollPosition = @currentView.$el.scrollTop()
 

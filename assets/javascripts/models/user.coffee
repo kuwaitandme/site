@@ -63,7 +63,7 @@ module.exports = Backbone.Model.extend
 		@set 'isAnonymous', true
 
 		# Signal any listeners that the user has logged out
-		that.trigger 'logout'
+		@trigger 'logout'
 
 
 	fetch: (id="") ->

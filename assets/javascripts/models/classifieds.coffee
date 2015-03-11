@@ -5,7 +5,7 @@ module.exports = Backbone.Collection.extend
 	isAccount: false
 
 	fetch: (parameters = {}) ->
-		that = this
+		that = @
 
 		# Generate the URL to send the request to
 		if not @isAccount then baseUrl = '/classified/search?'

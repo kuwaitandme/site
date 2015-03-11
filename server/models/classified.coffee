@@ -62,7 +62,7 @@ classifieds = module.exports =
 		@model.findOne { _id: id }, (err, classified) ->
 			if err
 				throw err
-			if !classified
+			if not classified
 				return
 			classified.perks.urgent = true
 			classified.save()
@@ -79,14 +79,14 @@ classifieds = module.exports =
 		classified = new (@model)
 		hexRegex = /^[0-9a-f]*$/
 		numberRegex = /^[0-9\.-]*$/i
-		requiredRegex = /^.+$/
+		requiredRegex = /^(?!\s*$).+/
 
 		# Check for any empty fields
-		if !data or !requiredRegex.test(data.category) or !requiredRegex.test(data.contact.email) or !requiredRegex.test(data.description) or !requiredRegex.test(data.price) or !requiredRegex.test(data.title) or !requiredRegex.test(data.type) or !requiredRegex.test(data.contact.location)
+		if not data or not requiredRegex.test(data.category) or not requiredRegex.test(data.contact.email) or not requiredRegex.test(data.description) or not requiredRegex.test(data.price) or not requiredRegex.test(data.title) or not requiredRegex.test(data.type) or not requiredRegex.test(data.contact.location)
 			return callback(null)
 
 		# Check for any invalid fields
-		if !hexRegex.test(data.category) or !hexRegex.test(data.contact.location) or !numberRegex.test(data.contact.phone) or data.meta.gmapX and !numberRegex.test(data.meta.gmapX) or data.meta.gmapY and !numberRegex.test(data.meta.gmapY) or !numberRegex.test(data.price) or !numberRegex.test(data.type)
+		if not hexRegex.test(data.category) or not hexRegex.test(data.contact.location) or not numberRegex.test(data.contact.phone) or data.meta.gmapX and not numberRegex.test(data.meta.gmapX) or data.meta.gmapY and not numberRegex.test(data.meta.gmapY) or not numberRegex.test(data.price) or not numberRegex.test(data.type)
 			return callback(null)
 
 		# Start saving the fields one by one

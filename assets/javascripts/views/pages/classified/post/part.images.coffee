@@ -6,6 +6,8 @@ module.exports = Backbone.View.extend
 		@model = options.model
 		@$filePreview = @$el.find('#image-upload-preview')
 
+		@on "close", @close
+
 		# Initialize the dropzone
 		@initDropzone()
 
@@ -64,3 +66,8 @@ module.exports = Backbone.View.extend
 		while i < files.length
 			@model.attributes.files.push files[i]
 			i++
+
+	close: ->
+		@remove()
+		@unbind()
+		@stopListening()

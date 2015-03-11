@@ -3,24 +3,26 @@ module.exports = Backbone.View.extend
 		'click .enabled .active': 'managePayment'
 		'click .enabled .cancel': 'managePayment'
 		'click .submit': 'makePurchase'
+
 	messages:
 		perkpaid: 'Your perk is now activated'
-	perkPrices: [
-		{
+
+	perkPrices: [{
 			price: 5
 			toggled: false
-		}
-		{
+		}, {
 			price: 15
 			toggled: false
-		}
-	]
+		}]
 
 	initialize: (options) ->
 		@model = options.model
 		@$tabPayment = @$el.find('#tab-payment')
 		@$paymentErrors = @$el.find('#payment-errors')
 		@$modal = @$el.find('#modal-purchase')
+
+		@on "close", @close
+
 		# @spinner = new (app.views.components.spinner)
 		# @spinner.show()
 
@@ -172,3 +174,8 @@ module.exports = Backbone.View.extend
 					console.error 'Payment could not be processed', response, error
 					controller.showPaymentError 'Your credit details could not be authorized'
 				controller.$modal.removeClass 'switch'
+
+	close: ->
+		@remove()
+		@unbind()
+		@stopListening()
