@@ -1,98 +1,88 @@
-#!/usr/bin/env node
+#!/usr/bin/env coffee
 
-/**
- * This file is responsible for sending an email to all the moderators everyday
- * with list of all the classifieds that have to be reviewed.
- *
- * It sends an email to all moderators as well as CCs the site admins in the
- * mail.
- *
- * Ideally, you would want to link the file inside of the /etc/cron.daily folder
- * so that cron runs it once every day.
- *
- * ln -s `pwd`/bin/cron.daily /etc/cron.daily/kuwaitandme
- */
+# This file is responsible for sending an email to all the moderators everyday
+# with list of all the classifieds that have to be reviewed.
+#
+# It sends an email to all moderators as well as CCs the site admins in the
+# mail.
+#
+# Ideally, you would want to link the file inside of the /etc/cron.daily folder
+# so that cron runs it once every day.
+#
+# ln -s `pwd`/bin/cron.daily /etc/cron.daily/kuwaitandme
 
+email       = require('emailjs')
+jade        = require('jade')
+mongoose    = require('mongoose')
+util        = require('util')
+mongoClient = require('mongodb').MongoClient
 
-var email   = require("emailjs"),
-	jade = require('jade'),
-	mongoose = require('mongoose'),
-	util = require('util');
-	mongoClient = require('mongodb').MongoClient;
-var classified = require("../server/models/classified");
-	config = require("../var/config"),
+classified  = require('../server/models/classified')
+config      = require('../var/config')
 
+console.log('connecting to the DB')
+dbauth = config.mongodb
 
-console.log("connecting to the DB")
+# Setup the database connection
+connectionString = "mongodb://#{dbauth.username}:#{dbauth.password}@#{dbauth.host}/#{dbauth.database}"
 
-/* Setup the database connection */
-mongoClient.connect('mongodb://' + config.mongodb.username +
-	':' + config.mongodb.password + '@localhost/kuwaitandme', function(err, db) {
-	if(err) throw err;
+mongoClient.connect connectionString, (err, db) ->
+	if err then throw err
 
-	console.log("fetching classifieds");
+	console.log 'fetching classifieds'
+	collection = db.collection('classifieds')
+	collection.find(status: classified.status.INACTIVE).toArray (err, classifieds) ->
+		if err then throw err
 
-	var collection = db.collection('classifieds');
-	collection.find({ status: classified.status.INACTIVE }).toArray(
-		function(err, classifieds) {
-			if(err) throw err;
-			console.log(classifieds.length + " classified(s) fetched");
+		console.log classifieds.length + ' classified(s) fetched'
 
-			/* Don't send the report if there are no unpublished classifieds */
-			if(classifieds.length == 0) return process.exit();
-
-			console.log("preparing email body");
-
-			/* Prepare the plain-text body */
-			var text = "", i = 0;
-			for(; i<classifieds.length; i++) {
-				var cl = classifieds[i];
-				text += util.format('%d.\t %s \n \t %s\n\n',
-					i + 1,
-					cl.title,
-					'http://kuwaitandme.com/classified/single/' + cl._id
-				);
-
-			}
-
-			/* Prepare the plain-text header */
-			var header = util.format(
-				"%d  unpublished classified(s) for review today\n", i);
-			header += "-----------------------------------------------\n";
+		# Don't send the report if there are no unpublished classifieds
+		if classifieds.length == 0 then return process.exit()
 
 
-			/* Render the HTML version of the email */
-			var template = jade.compileFile(__dirname + '/../server/views/email/daily-report.jade');
-			var html = template({
-				classifieds: classifieds,
-				host: "https://kuwaitandme.com"
-			});
+		# Prepare the plain-text body
+		console.log 'preparing email body (plaintext)'
+		text = ''
+		i = 0
+		for cl in classifieds
+			i += 1
+			text += util.format('%d\t%s \n \t %s\n\n', i, cl.title, 'http://kuwaitandme.com/classified/single/' + cl._id)
 
-			console.log("connecting to SMTP server");
+		# Prepare the plain-text header
+		header = util.format('%d  unpublished classified(s) for review today\n', i)
+		header += '-----------------------------------------------\n'
 
-			/* Connect to the SMTP server */
-			var server  = email.server.connect({
-				user: config.email.smtp.username,
-				password: config.email.smtp.password,
-				host: config.email.smtp.hostname,
-				ssl: config.email.smtp.ssl
-			});
 
-			console.log("sending email to admin");
+		# Render the HTML version of the email
+		console.log 'preparing email body (HTML)'
+		template = jade.compileFile(__dirname + '/../server/views/email/daily-report.jade')
+		html = template
+			classifieds: classifieds
+			host: 'https://kuwaitandme.com'
 
-			/* Start sending the message */
-			server.send({
-				attachment: [ { data: html, alternative:true } ],
-				from: config.email.fromAddress,
-				subject: "Kuwait & Me - Daily report",
-				text: header + text,
-				to: config.email.reportAddress
-			}, function(err, message) {
-				if(err) throw err;
 
-				console.log("all done");
-				process.exit();
-			});
-		}
-	);
-});
+		# Connect to the SMTP server
+		console.log 'connecting to SMTP server'
+		server = email.server.connect(
+			user: config.email.smtp.username
+			password: config.email.smtp.password
+			host: config.email.smtp.hostname
+			ssl: config.email.smtp.ssl)
+
+
+		# Start sending the message
+		console.log 'sending email to admin'
+		server.send {
+			attachment: [ {
+				data: html
+				alternative: true
+			} ]
+			from: config.email.fromAddress
+			subject: 'Kuwait & Me - Daily report'
+			text: header + text
+			to: config.email.reportAddress
+		}, (err, message) ->
+			if err then throw err
+
+			console.log 'all done'
+			process.exit()

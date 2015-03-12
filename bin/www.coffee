@@ -1,13 +1,12 @@
-http = require('http')
-app = require('../server/app')
+#!/usr/bin/env coffee
+http = require 'http'
+app  = require '../server/app'
 
 # Create HTTP server.
-server = http.createServer(app)
-
+server = http.createServer app
 
 # Listen on port, on all network interfaces.
 port = 3000
-
 
 # Event listener for HTTP server "error" event
 onError = (error) ->
@@ -24,13 +23,11 @@ onError = (error) ->
 			process.exit 1
 		else throw error
 
-
 # Event listener for HTTP server "listening" event.
 onListening = ->
 	addr = server.address()
 	bind = if typeof addr == 'string' then 'pipe ' + addr else 'port ' + addr.port
 	console.log 'Listening on ' + bind
-
 
 server.listen 3000
 server.on 'error', onError
