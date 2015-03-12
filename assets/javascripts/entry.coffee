@@ -7,7 +7,7 @@
 window.app =
 	# This  starts up the app.
 	start: ->
-		console.group "[app] initializing"
+		console.log "[app] initializing"
 
 		# Start attaching the module components here, so that other components
 		# can refer to these modules by doing a 'app.modulename', since 'app'
@@ -31,7 +31,6 @@ window.app =
 		@views = require "./views"
 		@views.initialize @config
 
-		console.groupEnd
 
 	# Forward  to different app components. This way we can avoid
 	# writing long names for functions that we will be using often.

@@ -14,7 +14,7 @@ module.exports = Backbone.Collection.extend
 
 
 	fetch: ->
-		console.group '[model:locations] fetching'
+		console.log '[model:locations] fetching'
 		that = this
 		localStorage = app.controllers.localStorage
 
@@ -22,7 +22,6 @@ module.exports = Backbone.Collection.extend
 		cache = localStorage.get('locations')
 		if cache
 			console.log '[model:locations] setting locations from cache'
-			console.groupEnd()
 			return @set(JSON.parse(cache))
 
 		# If data wasn't cached, then request it by sending a AJAX request
@@ -43,7 +42,5 @@ module.exports = Backbone.Collection.extend
 
 				# Signal any listeners that we are done loading this location
 				that.trigger 'ajax:done', that
-				console.groupEnd()
 			error: (e) ->
 				console.error '[model:locations] error fetching location details', e
-				console.groupEnd()

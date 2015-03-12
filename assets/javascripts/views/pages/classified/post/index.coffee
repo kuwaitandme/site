@@ -89,7 +89,6 @@ module.exports = Backbone.View.extend
 			that.currentView = view
 			that.currentView.render()
 			that.currentView.$el.show().transition opacity: 1
-		console.groupEnd()
 
 
 	close: ->

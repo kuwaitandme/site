@@ -11,7 +11,7 @@ module.exports =
 	# Setup the different views. ie. Initialize the different controllers for
 	# the header, currentView and other components.
 	initialize: ->
-		console.group @consoleSlug, 'initializing'
+		console.log @consoleSlug, 'initializing'
 
 		# Cache some DOM variables
 		@$body           = $ 'body'
@@ -32,7 +32,6 @@ module.exports =
 		# Get and initialize the main view
 		view = window.viewid
 		@setView view, url: document.URL
-		console.groupEnd()
 
 
 	# Set's the currentView with all the proper animations and DOM

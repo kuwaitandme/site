@@ -67,9 +67,8 @@ module.exports = class controller
 			return console.error @consoleSlug, 'navigating to same page, preventing href'
 
 		# Signal the app's view controllers to move to the new view ...
-		console.group @consoleSlug, 'navigating to page:', view
+		console.log @consoleSlug, 'navigating to page:', view
 		@goto url, view, null
-		console.groupEnd()
 
 
 	# Commands the app to load the given view, with the given URL.
@@ -119,13 +118,12 @@ module.exports = class controller
 
 		@historyIndex = currentState.index
 
-		console.group @consoleSlug, 'HTML5 popstate'
+		console.log @consoleSlug, 'HTML5 popstate'
 		console.debug @consoleSlug, 'popstate event:', event
 		console.debug @consoleSlug, 'popstate state:', currentState
 
 		currentState.arguments = currentState.arguments or url: currentState.url
 		app.setView currentState.view, currentState.arguments, currentState
-		console.groupEnd()
 
 
 	# Reattaches all the view links to use the given event handler. The handler

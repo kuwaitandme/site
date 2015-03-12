@@ -11,7 +11,7 @@ module.exports =
 
 
 	initialize: (config) ->
-		console.group '[model] initializing'
+		console.log '[model] initializing'
 
 		# Initialize the category and location model and populate them with
 		# their values.
@@ -25,5 +25,3 @@ module.exports =
 
 		@categories.fetch()
 		@locations.fetch()
-
-		console.groupEnd()

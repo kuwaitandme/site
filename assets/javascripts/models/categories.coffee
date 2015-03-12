@@ -20,7 +20,7 @@ module.exports = Backbone.Collection.extend
 		console.log '[model:categories] initializing'
 
 	fetch: ->
-		console.group '[model:categories] fetching'
+		console.log '[model:categories] fetching'
 		that = this
 		# var localStorage = app.controllers.localStorage;
 
@@ -28,13 +28,11 @@ module.exports = Backbone.Collection.extend
 		cache = localStorage.get('categories')
 		if cache
 			console.log '[model:categories] setting categories from cache'
-			console.groupEnd()
 			return @set JSON.parse(cache)
 
 		if window.data.categories
 			console.log '[model:categories] setting categories from page'
 			console.log window.data.categories
-			console.groupEnd()
 			return @set window.data.categories
 
 		# If data wasn't cached, then request it by sending a AJAX request
@@ -55,11 +53,9 @@ module.exports = Backbone.Collection.extend
 
 				# Signal any listeners that we are done loading this category
 				that.trigger 'ajax:done', that
-				console.groupEnd()
 
 			error: (e) ->
 				console.error '[model:categories] error fetching category details', e
-				console.groupEnd()
 
 
 	# Appends the counters into each of the category respectively

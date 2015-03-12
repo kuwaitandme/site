@@ -9,11 +9,9 @@ resourceLoader = require('./resourceLoader')
 #                           of the controller.
 module.exports = initialize: (config) ->
 	@consoleSlug = '[controller]'
-	console.group @consoleSlug, 'initializing'
+	console.log @consoleSlug, 'initializing'
 
 	@localStorage = new localStorage
 	@router = new router
 	@pageTransition = new pageTransition
 	@resourceLoader = new resourceLoader
-
-	console.groupEnd()
