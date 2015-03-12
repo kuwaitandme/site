@@ -35,6 +35,8 @@ module.exports =
 
 	# Mongo DB connection
 	mongodb:
+		host:     'localhost'
+		database: 'kuwaitandme'
 		username: 'kuwaitandme'
 		password: 'e603ed7dbbc2005a391'
 
