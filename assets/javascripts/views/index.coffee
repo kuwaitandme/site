@@ -44,9 +44,6 @@ module.exports =
 		# Change the mouse icon to the loader
 		@displayMouseLoader(true)
 
-		# Signal the header to update itself
-		@header.update()
-
 		# Read the history state to see if we have to animate backwards or
 		# forwards.
 		HistoryState = HistoryState or {}
@@ -134,6 +131,9 @@ module.exports =
 
 		# Run any post-animation functions
 		if @currentView.postAnimation then @currentView.postAnimation()
+
+		# Signal the header to update itself
+		@header.update()
 
 		# All done, set the mouse icon to normal
 		@displayMouseLoader false

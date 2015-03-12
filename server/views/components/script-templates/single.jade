@@ -18,7 +18,8 @@ ul.c-meta#page-meta
 |	if(cat) { %>
 ul.c-meta#page-meta
 	li
-		b Categorized under: <%= cat %>
+		b Categorized under:&nbsp;
+		| <%= cat.get('name') %>
 |<% }
 } %>
 
@@ -26,9 +27,10 @@ ul.c-meta
 	//- Location
 	|<% if(contact.location) {
 	|	var loc = app.models.locations.findWhere({ _id: contact.location });
-	|   if(loc && loc.toJSON().name != "None") { %>
+	|   if(loc && loc.get('name') != "None") { %>
 	li
-		b Location: <%= loc.toJSON().name %>
+		b Location:&nbsp;
+		| <%= loc.get('name') %>
 	|<% } %>
 
 	//- Email
