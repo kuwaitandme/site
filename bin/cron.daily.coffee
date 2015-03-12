@@ -44,7 +44,7 @@ mongoClient.connect connectionString, (err, db) ->
 		console.log 'preparing email body (plaintext)'
 		text = ''
 		for cl in classifieds
-			text += util.format('%d.\t %s \n \t %s\n\n', i + 1, cl.title, 'http://kuwaitandme.com/classified/single/' + cl._id)
+			text += util.format('%s \n \t %s\n\n', cl.title, 'http://kuwaitandme.com/classified/single/' + cl._id)
 
 		# Prepare the plain-text header
 		header = util.format('%d  unpublished classified(s) for review today\n', i)
