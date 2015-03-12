@@ -40,7 +40,7 @@
 	#price-selector, #address1, #cat-selector { margin-bottom: 0; border-bottom: 0}
 	#price-field, #address2, #subcat-selector { margin-top: 0; }
 
-	.submit-container, .message, h1, .g-recaptcha, .post-nav, .redactor-box,
+	.submit-container, .message, h1, #post-captcha, .post-nav, .redactor-box,
 	ul.error-message li, #image-upload-preview, #image-upload, .hint, input,
 	textarea, select {
 		margin: 15px auto;
