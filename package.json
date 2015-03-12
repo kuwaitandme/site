@@ -4,8 +4,9 @@
   "private": "true",
   "author": "Steven Enamakel",
   "scripts": {
-    "start": "nodemon ./bin/www.coffee",
-    "populate-db": "mongo kuwaitandme ./server/db/populate.js"
+    "populate-db": "mongo kuwaitandme ./server/db/populate.js",
+    "start" : "coffee ./bin/www.coffee",
+    "test" : "mocha --compilers coffee:coffee-script/register"
   },
   "dependencies": {
     "2checkout-node": "0.0.1",
