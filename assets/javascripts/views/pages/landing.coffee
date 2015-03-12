@@ -1,6 +1,10 @@
 module.exports = Backbone.View.extend
 	consoleSlug: '[view:landing]'
 
+	events:
+		"submit" : "formSubmit"
+
+
 	initialize: (options) ->
 		console.debug @consoleSlug, 'initializing', options
 		if options.$el then	@$el = options.$el
@@ -18,7 +22,7 @@ module.exports = Backbone.View.extend
 
 	# This function redirects the app to the classified search page, with the
 	# text in the search box set as the keywords in the GET query.
-	submitClick: (event) ->
+	formSubmit: (event) ->
 		event.preventDefault()
 
 		# Get the keywords and covert it into a GET query
