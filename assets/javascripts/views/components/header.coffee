@@ -40,5 +40,5 @@ module.exports = Backbone.View.extend
 			(@$ "[data-view='#{currentView}'] li").addClass 'active'
 
 		# Depending on the user's current login state. Change the header
-		if app.currentUser.get 'isAnonymous'  then @$el.removeClass 'loggedin'
+		if app.currentUser.isAnonymous() then @$el.removeClass 'loggedin'
 		else @$el.addClass 'loggedin'

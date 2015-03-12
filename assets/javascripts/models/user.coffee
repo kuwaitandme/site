@@ -66,9 +66,19 @@ module.exports = Backbone.Model.extend
 		@trigger 'logout'
 
 
+	# Returns true iff the user is anonymous
+	isAnonymous: ->
+		return not (@attributes._id and @attributes._id.length > 1)
+
+
 	fetch: (id="") ->
 		console.debug @consoleSlug, 'fetching currently loggedin user data'
 		that = this
+
+		if id is "" and window.data.user
+			console.log @consoleSlug, 'setting user from page'
+			return @set window.data.user
+
 		$.ajax
 			type: 'GET'
 			url: app.config.host + '/api/user/' + id
