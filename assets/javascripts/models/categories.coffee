@@ -32,7 +32,6 @@ module.exports = Backbone.Collection.extend
 
 		if window.data.categories
 			console.log '[model:categories] setting categories from page'
-			console.log window.data.categories
 			return @set window.data.categories
 
 		# If data wasn't cached, then request it by sending a AJAX request

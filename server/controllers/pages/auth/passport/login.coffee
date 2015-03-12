@@ -9,7 +9,7 @@ strategy = module.exports = (passport) ->
 
 	authenticate = (request, username, password, done) ->
 
-		captachFail = (err, response) -> done null, null, ecode: 400
+		captachFail = (err, response) -> done null, null, ecode: 406
 
 		captachSuccess = (response) ->
 			# Validate the username & password

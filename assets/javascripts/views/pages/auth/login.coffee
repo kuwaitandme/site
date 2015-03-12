@@ -62,7 +62,10 @@ module.exports = Backbone.View.extend
 
 		@$captcha   = @$ "#login-captcha"
 		@$captcha.html("").show()
-		grecaptcha.render "login-captcha", sitekey: window.data.captchaKey
+		@captcha = grecaptcha.render "login-captcha", sitekey: window.data.captchaKey
+
+
+	resetCaptcha: -> grecaptcha.reset @captcha
 
 
 	# Validates the form before and displays any error messages if needed
@@ -92,7 +95,7 @@ module.exports = Backbone.View.extend
 		@$captcha.fadeOut()
 		@$links.hide()
 		@$spinner.fadeIn()
-		@$submit.stop().fadeOut()
+		@$submit.fadeOut()
 
 
 	# Hides the AJAX loader and displays parts of the login form back
@@ -113,7 +116,8 @@ module.exports = Backbone.View.extend
 		event.preventDefault()
 		that = @
 
-		@removeMessages
+		@removeMessages()
+		@resetCaptcha()
 		@showLoading()
 
 		# Validate the user fields
@@ -121,12 +125,16 @@ module.exports = Backbone.View.extend
 
 		# Attempt to login the user
 		that.model.login @$username.val(), @$password.val(), (error, response) ->
+			# Hide the ajax loader
+			that.hideLoading()
+
 			if error then switch error.status
 				when 404
 					that.addMessage 'Your login is wrong'
-					# console.error that.consoleSlug, 'invalid user'
 				when 400
 					that.addMessage 'There are invalid fields or the captcha has failed'
+				when 406
+					that.addMessage 'incorrect captcha'
 				when 401
 					that.addMessage "Your account is not activated, check your inbox (and junk mail) for the activation email", 'warning'
 				when 403
@@ -137,6 +145,3 @@ module.exports = Backbone.View.extend
 
 				# Redirect to the account page on success
 				app.goto('/account/', 'account')
-
-				# Hide the ajax loader
-				that.hideLoading()

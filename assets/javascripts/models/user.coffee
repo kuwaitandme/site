@@ -58,6 +58,26 @@ module.exports = Backbone.Model.extend
 				callback(error, null)
 
 
+	signup: (parameters, callback) ->
+		console.debug @consoleSlug, 'logging in user'
+		that = this
+
+		$.ajax
+			type: 'POST'
+			url: app.config.host + '/auth/signup/'
+			beforeSend: ajax.setHeaders
+			data: parameters
+			# This function gets called when the user is created successfully
+			success: (response) ->
+				# Call the callback
+				callback null, response
+
+			# This function sends the error message to the callback
+			error: (error) ->
+				console.error that.consoleSlug, 'error creating user', error
+				callback(error, null)
+
+
 	# Logs the user out and signals listeners if any.
 	logout: ->
 		@set 'isAnonymous', true
