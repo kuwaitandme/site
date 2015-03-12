@@ -226,7 +226,7 @@ module.exports =
 			url: url
 			async: false
 			success: (response) ->
-				html = (($ response).find '.html5-cache').html()
+				html = (($ response).find '.html5-cache').parent().html()
 			error: (response) ->
 				console.error @consoleSlug, 'error sending GET request', response
 		html
