@@ -86,10 +86,4 @@ module.exports = Backbone.Collection.extend
 
 
 	# Finds a category, given it's id
-	find: (id) ->
-		categories = @toJSON()
-
-		for category in categories
-			if category._id is id then return category
-			for childCategory in category.children
-				if childCategory._id is id then return childCategory
+	# find: (id) -> @findWhere({ _id: id }).toJSON()

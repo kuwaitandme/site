@@ -67,7 +67,11 @@ module.exports = controller = Backbone.View.extend
 
 		# Prepare the state to replace the URL with
 		currentState.arguments.query = @query
-		currentState.arguments.url = '/classified/search?' + $.param @query
+		if not @isAccount then baseUrl = '/classified/search?'
+		else baseUrl = '/account/manage?'
+		currentState.arguments.url = baseUrl + $.param @query
+
+		# Attempt to replace the history state
 		routerController.setHistoryState currentState
 
 		# Fire the AJAX event for the first time to load the first set of

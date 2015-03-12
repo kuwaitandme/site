@@ -13,22 +13,22 @@ ul.c-meta#page-meta
 		b Views:&nbsp;
 		<%= obj.views %>
 //- Category
+|<% if(category) {
+|	var cat = app.models.categories.findWhere({ _id: category });
+|	if(cat) { %>
 ul.c-meta#page-meta
 	li
-		b Categorized under:&nbsp;
-		|<% if(category) {
-		|	var cat = app.models.categories.find(category);
-		|	print(cat.parent + ", " + cat.child);
-		|} %>
+		b Categorized under: <%= cat %>
+|<% }
+} %>
 
 ul.c-meta
 	//- Location
 	|<% if(contact.location) {
-	|	var loc = app.models.locations.findWhere({ _id: contact.location }).toJSON();
-	|   if(loc && loc.name != "None") { %>
+	|	var loc = app.models.locations.findWhere({ _id: contact.location });
+	|   if(loc && loc.toJSON().name != "None") { %>
 	li
-		b Location:&nbsp;
-		<%= loc.name %>
+		b Location: <%= loc.toJSON().name %>
 	|<% } %>
 
 	//- Email
