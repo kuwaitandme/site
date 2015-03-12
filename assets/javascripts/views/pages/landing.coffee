@@ -1,11 +1,8 @@
 module.exports = Backbone.View.extend
-	events:
-		'click .search-button' : 'submitClick'
-		'change select' : 'selectChange'
-
+	consoleSlug: '[view:landing]'
 
 	initialize: (options) ->
-		console.log '[view:landing] initializing'
+		console.debug @consoleSlug, 'initializing', options
 		if options.$el then	@$el = options.$el
 
 		# Setup DOM variables
@@ -13,7 +10,7 @@ module.exports = Backbone.View.extend
 		@$select = @$ "[name='category']"
 
 
-	render: -> console.log '[view:landing] rendering'
+	render: -> console.log @consoleSlug, 'rendering'
 
 
 	checkRedirect: -> false

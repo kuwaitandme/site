@@ -87,7 +87,7 @@ module.exports =
 
 			if not viewExists
 				# Get and set the HTML for the target page
-				html = @fetchHTML(viewIdentifier, args.url)
+				html = @fetchHTML viewIdentifier, args.url
 				$targetPage.html html
 				$targetPage.addClass viewIdentifier
 
@@ -112,7 +112,7 @@ module.exports =
 			# Else load set the currentView directly without any transition
 			# animations
 			@currentView = new currentView
-				arguments: arguments
+				args: args
 				el: '.pt-page-current'
 
 			# Check for any redirection
