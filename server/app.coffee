@@ -82,7 +82,7 @@ app.use '/', (require './routes')
 
 # None of the URL matched, so return 404
 app.use (request, response, next) ->
-	error = new (Error 'Not Found')
+	error = new Error 'Not Found'
 	error.status = 404
 	next error
 
