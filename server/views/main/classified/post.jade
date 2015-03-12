@@ -42,10 +42,7 @@ block content
 				| You can mention other details like the price, location, contact info in the next page.
 			//- .tab-title #{__('page.cform.title.info')}
 			input#title(name="title", placeholder="Classified title", tooltip="Choose a title for your classified. The best titles are clear, meaningful and short", required)
-			textarea#description(name='description')
-				| <p><b>Your description goes here</b></p>
-				| <p>You have a lot of options to make you classified look pretty and appealing! Choose from any of the formatting options above.</p>
-				| <p>Avoid writing contact details and the price for your classified as we will let you mention them in the next page.</p>
+			textarea#description(name='description', placeholder="Your description goes here", required)
 
 			.seperator
 
