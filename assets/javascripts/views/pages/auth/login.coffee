@@ -34,7 +34,6 @@ module.exports = Backbone.View.extend
 		@model = app.currentUser
 
 		# Initialize DOM elements
-		@$captcha   = @$ ".captcha-container"
 		@$form      = @$ "#login-form"
 		@$links     = @$ ".extra-links"
 		@$messages  = @$ "#auth-messages"
@@ -52,17 +51,18 @@ module.exports = Backbone.View.extend
 
 	render: ->
 		console.log @consoleSlug, 'rendering'
-		@resetCaptcha
+		@renderCaptcha()
 
 
 	checkRedirect: -> false
 
 
-	resetCaptcha: ->
+	renderCaptcha: ->
 		console.log @consoleSlug, 'setting captcha'
-		@$captcha.show()
-		# grecaptcha.reset
-		# 	opt_widget_id: @el
+
+		@$captcha   = @$ "#login-captcha"
+		@$captcha.html("").show()
+		grecaptcha.render "login-captcha", sitekey: window.data.captchaKey
 
 
 	# Validates the form before and displays any error messages if needed

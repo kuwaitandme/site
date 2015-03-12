@@ -5,7 +5,7 @@ module.exports =
 	'auth-login':         require './auth/login'
 	'auth-logout':        require './auth/logout'
 	'auth-reset':         require './auth/login'
-	'auth-signup':        require './auth/login'
+	'auth-signup':        require './auth/signup'
 	'classified-edit':    require './classified/edit'
 	'classified-post':    require './classified/post'
 	'classified-search':  require './classified/search'

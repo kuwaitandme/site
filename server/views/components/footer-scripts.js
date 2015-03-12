@@ -67,14 +67,13 @@ for (var i = scripts.length; i >= 1; i--) {
 	$script.dataset.script = script.name;
 
 	/* Check for the script in our cache */
-	if (script.name == 'app') continue;
 	var scriptCache = localStorage.getItem("script-" + script.name);
 
 	// console.debug(script.name, scriptCache);
 
 	/* If the cache exists, then read from it; Otherwise load the script
 	 * normally */
-	if(typeof Storage !== "undefined" && scriptCache) {
+	if(typeof Storage !== "undefined" && scriptCache && script.name != 'app') {
 		$script.innerHTML = scriptCache;
 		document.getElementsByTagName('head')[0].appendChild($script);
 	}

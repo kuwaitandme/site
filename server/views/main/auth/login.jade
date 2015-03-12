@@ -12,8 +12,8 @@ block content
 					input(type="password", name="password", placeholder="password", required)#auth-password
 				div
 					input(type="submit", class="submit", value="Login")
-			.captcha-container
-				.g-recaptcha(data-sitekey!="#{data.sitekey}")
+
+			#login-captcha
 
 			ul#auth-messages
 
