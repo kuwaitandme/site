@@ -121,8 +121,8 @@ module.exports = Backbone.Model.extend
 					console.error @consoleSlug, 'error uploading classified', response
 					return that.trigger('ajax:error', response)
 
-				# Get the id from the response
-				that.set '_id', response._id
+				# Set the data from the response
+				that.set response
 
 				# Let listeners know that we have successfully uploaded the
 				# classified

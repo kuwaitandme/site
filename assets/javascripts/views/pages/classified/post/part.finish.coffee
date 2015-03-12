@@ -17,18 +17,28 @@ module.exports = Backbone.View.extend
 
 	initialize: (options) ->
 		@model = options.model
-		@$tabPayment = @$el.find('#tab-payment')
-		@$paymentErrors = @$el.find('#payment-errors')
-		@$modal = @$el.find('#modal-purchase')
 
 		@on "close", @close
 
-		# @spinner = new (app.views.components.spinner)
-		# @spinner.show()
+		href = window.location.href
+		urlParts = href.split '/'
+		if urlParts[3] == 'guest' then @isGuest = true
+
+		# Setup DOM variables
+		@$tabPayment    = @$ '#tab-payment'
+		@$paymentErrors = @$ '#payment-errors'
+		@$modal         = @$ '#modal-purchase'
+
+		@$authLink    = @$ "#authLink"
+		@$finishLink  = @$ "#finishLink"
+		@$facebook    = @$ ".social .facebook"
+		@$twitter     = @$ ".social .twitter"
+		@$gplus       = @$ ".social .gplus"
 
 
 	render: ->
 		@generateSocialLinks()
+
 		# var template = _.template($("#list-template").html());
 		# var html = template(this.post);
 		# $("#classified-sample").html(html);
@@ -37,15 +47,31 @@ module.exports = Backbone.View.extend
 
 	validate: -> true
 
+	# Generates the social links to share the classified (twitter/facebook/gplus)
+	# and sets them into the DOM.
+	generateSocialLinks: ->
+		origin = window.location.origin
+		authUrl = "#{origin}/guest/single/#{@model.get '_id'}?authHash=#{@model.get 'authHash'}"
+		url = "#{origin}/classified/single/#{@model.get '_id'}"
+
+		tweet = 'Check out my classified at ' + url
+		facebook = 'https://www.facebook.com/sharer/sharer.php?u=' + url
+		twitter = 'https://twitter.com/home?status=' + encodeURI(tweet)
+		gplus = 'https://plus.google.com/share?url=' + url
+
+		@$authLink.html authUrl
+		@$authLink   .attr 'href', authUrl
+		@$finishLink .attr 'href', url
+		@$facebook   .attr 'href', facebook
+		@$twitter    .attr 'href', twitter
+		@$gplus      .attr 'href', gplus
+
 
 	parseURL: ->
 		getParam = app.helpers.url.getParam
-		if getParam 'error'
-			app.error @messages[getParam('error')]
-		if getParam 'success'
-			app.success @messages[getParam('success')]
-		if getParam 'warn'
-			app.warn @messages[getParam('warn')]
+		if getParam 'error' then app.error @messages[getParam('error')]
+		if getParam 'success' then app.success @messages[getParam('success')]
+		if getParam 'warn' then app.warn @messages[getParam('warn')]
 
 
 	managePayment: (e) ->
@@ -68,23 +94,7 @@ module.exports = Backbone.View.extend
 		@$tabPayment.find('.total span').html price
 
 
-	generateSocialLinks: ->
-		href = window.location.href
-		urlParts = href.split('/')
-		urlParts[4] = 'single/'
-		url = urlParts.join('/') + @model.get('_id')
-		tweet = 'Check out my classified at ' + url
-		facebook = 'https://www.facebook.com/sharer/sharer.php?u=' + url
-		twitter = 'https://twitter.com/home?status=' + encodeURI(tweet)
-		gplus = 'https://plus.google.com/share?url=' + url
-		$('#finish-link').attr 'href', url
-		$('.social .facebook').attr 'href', facebook
-		$('.social .twitter').attr 'href', twitter
-		$('.social .gplus').attr 'href', gplus
-
-
-	validateCreditDetails: (credit) ->
-		true
+	validateCreditDetails: (credit) -> true
 
 
 	getCreditDetails: ->

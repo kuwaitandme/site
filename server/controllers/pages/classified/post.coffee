@@ -48,7 +48,7 @@ controller = module.exports =
 						# If a classified was saved, then return it to the client. Th
 						# returned classified will contain the id parameter which
 						# wasn't there before.
-						if cl then return response.end( JSON.stringify cl)
+						if cl then return response.end(JSON.stringify cl)
 
 						# If no classified was returned, then nothing was saved.
 						# Send a 400 Bad Request to the client

@@ -164,7 +164,9 @@ block content
 		//- The finish page
 		section.page#page-finish
 			h1 Awesome! Your classified is now up and running!
-			.hint You can view it <a href="#" id="finish-link"> here </a>
+			.hint You can view it <a href="#" id="finishLink"> here </a>
+			if data.guest
+				.hint Since you posted as a guest, use this link <a href="#" id="authLink"></a> to archive/edit your classified
 			.hint In the mean time, bring attention to your classified by sharing on
 			.social.hint
 				a(href="#").facebook
