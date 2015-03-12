@@ -1,3 +1,5 @@
+routerController = (require 'app-controllers').router
+
 module.exports = controller = Backbone.View.extend
 	ajaxEnable: true
 	ajaxLock: false
@@ -9,8 +11,8 @@ module.exports = controller = Backbone.View.extend
 
 	collection: new (app.models.classifieds)
 
-	initialize: ->
-		console.log @consoleSlug, 'initializing'
+	initialize: (options) ->
+		console.debug @consoleSlug, 'initializing', options
 		that = @
 
 		# Get the template
@@ -55,11 +57,22 @@ module.exports = controller = Backbone.View.extend
 		@$classifiedList.masonry 'remove', $classifieds
 		@pageIndex = 0
 
+		# Get the current state from the history API
+		currentState = routerController.getHistoryState()
+		console.debug @consoleSlug, currentState.arguments
+
 		# Get the query
 		@query = @filterbox.getQuery()
+		@query.page = 0
+
+		# Prepare the state to replace the URL with
+		currentState.arguments.query = @query
+		currentState.arguments.url = '/classified/search?' + $.param @query
+		routerController.setHistoryState currentState
 
 		# Fire the AJAX event for the first time to load the first set of
 		# classifieds
+		@ajaxEnable = true
 		@fireAjaxEvent()
 
 		# For all the classifieds give them their proper size

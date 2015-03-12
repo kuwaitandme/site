@@ -16,40 +16,45 @@ module.exports = Backbone.View.extend
 		'change #select-type' : 'updateType'
 		'change #select-price' : 'updatePrice'
 		'change #select-category': 'updateCategory'
-		'change #select-childcategory' : 'updateChildCategory'
 		'submit #filter-box' : 'submitHandle'
+		'keypress #filter-keywords': 'updateKeywords'
 
 
 	initialize: (options) ->
 		console.log @consoleSlug, 'initializing'
-		if options and options.$el then @$el = options.$el
+		if options
+			if options.$el then @$el = options.$el
+			if options.query then @query = options.query
 
 		# Setup DOM elements
-		@$keywords = @$ "#filter-keywords"
-		@$parentCategory = @$ "#select-category"
-		@$childCategory = @$ "#select-childcategory"
-		@$selectPrice = @$ "#select-price"
-		@$selectType = @$ "#select-type"
+		@$keywords       = @$ "#filter-keywords"
+		@$category       = @$ "#select-category"
+		@$selectPrice    = @$ "#select-price"
+		@$selectType     = @$ "#select-type"
+
+		@keywordsLock = 0
 
 
 	render: ->
 		console.log @consoleSlug, 'rendering'
+		that = @
 
+		# Populate the category box
 		@initializeCategory()
 
-		that = @
+		# Set the event handler
 		handler = (event) -> that.submitHandle(event)
 		@$el.off 'submit', handler
-		@$el.on 'submit', handler
+		@$el.on  'submit', handler
 
 		# Start populating with contents from the URL
 		@populateBox
-			category: urlHelpers.getParam('cat')
-			keywords: urlHelpers.getParam('keywords')
-			location: urlHelpers.getParam('location')
-			priceMax: urlHelpers.getParam('maxprice')
-			priceMin: urlHelpers.getParam('minprice')
-			type: urlHelpers.getParam('type')
+			category: urlHelpers.getParam 'category'
+			keywords: urlHelpers.getParam 'keywords'
+			location: urlHelpers.getParam 'location'
+			priceMax: urlHelpers.getParam 'priceMax'
+			priceMin: urlHelpers.getParam 'priceMin'
+			type:     urlHelpers.getParam 'type'
 
 
 	# Gets a query object that can be passed to the backened
@@ -60,18 +65,16 @@ module.exports = Backbone.View.extend
 		keywords = @$keywords.val()
 		query.keywords = if keywords.length > 0 then keywords else null
 
-		# Get the category
-		category = @$childCategory.data 'id'#li-childcategory'
-
 		query
-
 
 
 	# Populates the box with the given data
 	populateBox: (@query) ->
 		console.debug @consoleSlug, "setting query to filterbox", @query
 
-		@$keywords.val @query.keywords
+		@$category.val   @query.category
+		@$keywords.val   @query.keywords
+		@$selectType.val @query.type
 
 
 	# Prevent the form from submitting, but instead pass all the query variables
@@ -84,17 +87,14 @@ module.exports = Backbone.View.extend
 	# Initializes the parent category options
 	initializeCategory: ->
 		categories = categoriesModel.toJSON null
-		@$parentCategory.html ""
+		@$category.html ""
 
 		# Add the 'all' option
-		@$parentCategory.append (@generateOption null, 'All', false, true)
+		@$category.append (@generateOption '', 'All', false, true)
 
 		# Add the rest of the parent categories
 		for category in categories
-			@$parentCategory.append (@generateOption category._id, category.name)
-
-		# Hide the child category box, until a parent category is selected
-		@$childCategory.hide null
+			@$category.append (@generateOption category._id, category.name)
 
 
 	# Generates the option box with the given values
@@ -104,48 +104,52 @@ module.exports = Backbone.View.extend
 		if disabled then attributes += ' disabled'
 		if selected then attributes += ' selected'
 
-		"<option #{ attributes }>#{ name }</option>\n"
+		"<option #{ attributes }>#{ name }</option>"
 
 
+	# Handler for when the price field changed.
 	updatePrice: ->
 		value = @$selectPrice.val()
 		switch(value)
 			when "Free" then @query.priceMin = @query.priceMax = 0
 			when "Contact Owner" then @query.priceMin = @query.priceMax = -1
 			when "All" then @query.priceMin = @query.priceMax = null
+
 		@trigger 'changed'
 
+
+	# Handler for when the classified type field changed.
 	updateType: ->
 		value = @$selectType.val()
 		switch(value)
 			when "All" then @query.type = null
 			when "Offering" then @query.type = 0
 			when "Wanted" then @query.type = 1
+
 		@trigger 'changed'
 
+
+	# Handler for when the classified list changed
 	updateCategory: ->
-		# Find the parent category
-		id = @$parentCategory.val()
-		category = categoriesModel.find id
-
-		if category
-			html = @generateOption 'null', "Choose a sub-category", true, true
-
-			# Populate the child category, with the children of the parent category
-			for childCategory in category.children
-				html += @generateOption childCategory._id, childCategory.name
-
-			@$childCategory.fadeIn()
-			@$childCategory.html html
-			@$childCategory.show()
-		else
-			@$childCategory.hide()
-		console.log id
-
-	updateChildCategory: ->
-		@query.category = @$childCategory.val()
-
+		@query.category = @$category.val() or ''
 		@trigger 'changed'
+
+
+	updateKeywords: ->
+		that = @
+		@keywordsLock += 1
+
+		timeoutFunction = ->
+			if that.keywordsLock > 1
+				that.keywordsLock -= 1
+				return
+
+			that.query.keywords = that.$keywords.val() or ''
+			that.trigger 'changed'
+			that.keywordsLock = 0
+
+
+		setTimeout timeoutFunction, 1000
 
 	# priceSelected: (e) ->
 	# 	val = $('#price-selector :selected').val()
