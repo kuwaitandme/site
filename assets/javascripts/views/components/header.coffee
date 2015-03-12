@@ -8,17 +8,15 @@ module.exports = Backbone.View.extend
 		'click ul a': 'hide'
 
 
-	initialize: ->
+	initialize: (options) ->
 		console.log '[view:header] initializing'
 
 		# Initialize DOM variables
-		@$main = $('main')
-		@$sliderNav = @$el.find('#slider-nav')
-		@$mainNav = @$el.find('#main-nav')
-		@$navHome = @$mainNav.find('#nav-logo')
-		@$navLinks = @$mainNav.find('.nav')
-		@$nextLink = @$mainNav.find('.next')
-		@$previousLink = @$mainNav.find('.prev')
+		@$navHome      = @$ '#nav-logo'
+		@$navLinks     = @$ '.nav'
+		@$nextLink     = @$ '.next'
+		@$previousLink = @$ '.prev'
+		@$sliderNav    = @$ '#slider-nav'
 
 		@attachListeners()
 
@@ -33,7 +31,7 @@ module.exports = Backbone.View.extend
 	# page state
 	update: ->
 		# Get the current view from the history API
-		currentState = routerController.getHistoryState null
+		currentState = routerController.getHistoryState()
 		currentView = currentState.view
 
 		# Add the 'active' class accordingly

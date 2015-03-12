@@ -1,8 +1,11 @@
 module.exports = Backbone.View.extend
-	initialize: ->
-		console.log '[view:account] initializing'
+	consoleSlug: '[view:account]'
 
-	render: ->
-		console.log '[view:account] rendering'
+
+	initialize: (options) -> console.debug @consoleSlug, 'initializing', options
+
+
+	render: -> console.log @consoleSlug, 'rendering'
+
 
 	checkRedirect: -> false

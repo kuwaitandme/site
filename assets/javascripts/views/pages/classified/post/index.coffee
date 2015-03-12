@@ -16,7 +16,7 @@ module.exports = Backbone.View.extend
 	events: 'click a[data-page-nav]' : 'clickHandler'
 
 	initialize: (options) ->
-		console.log @consoleSlug, 'initializing'
+		console.debug @consoleSlug, 'initializing', options
 		if options.$el then	@$el = options.$el
 
 		that = @

@@ -28,31 +28,26 @@ module.exports = Backbone.View.extend
 		signup_taken: 'That account name has already been taken!'
 
 
-	initialize: ->
-		console.log @consoleSlug, 'initializing'
+	initialize: (options) ->
+		console.debug @consoleSlug, 'initializing', options
 
 		@model = app.currentUser
 
-		# Initialize dom elements
-		@$captcha = @$el.find ".captcha-container"
-		@$form = @$el.find "#login-form"
-		@$links = @$el.find ".extra-links"
-		@$messages = @$el.find "#auth-messages"
-		@$password = @$el.find "#auth-password"
-		@$spinner = @$el.find "#ajax-spinner"
-		@$submit = @$el.find ".submit"
-		@$username = @$el.find "#auth-username"
+		# Initialize DOM elements
+		@$captcha   = @$ ".captcha-container"
+		@$form      = @$ "#login-form"
+		@$links     = @$ ".extra-links"
+		@$messages  = @$ "#auth-messages"
+		@$password  = @$ "#auth-password"
+		@$spinner   = @$ "#ajax-spinner"
+		@$submit    = @$ ".submit"
+		@$username  = @$ "#auth-username"
 
 		# Parse the URL and give out the appropriate message based on it.
 		getParam = app.helpers.url.getParam
-		if getParam('error') then app.error @messages[getParam('error')]
-		if getParam('success') then app.success @messages[getParam('success')]
-		if getParam('warn') then app.warn @messages[getParam('warn')]
-
-		# Check for any server side flash messages
-		flashErrors = window.data.flashError or []
-		for error in flashErrors
-			app.error @messages[error]
+		if getParam 'error'   then app.error   @messages[getParam 'error']
+		if getParam 'success' then app.success @messages[getParam 'success']
+		if getParam 'warn'    then app.warn    @messages[getParam 'warn']
 
 
 	render: ->

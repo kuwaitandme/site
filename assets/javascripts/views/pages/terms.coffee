@@ -2,7 +2,7 @@ module.exports = Backbone.View.extend
 	consoleSlug: '[view:terms]'
 
 
-	initialize: (options) -> console.log @consoleSlug, 'initializing'
+	initialize: (options) -> console.debug @consoleSlug, 'initializing', options
 
 
 	render: -> console.log @consoleSlug, 'rendering'

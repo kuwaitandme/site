@@ -20,11 +20,10 @@ module.exports =
 		@$previousPage   = $ '#prev-page'
 		@$ptMain         = $ '#pt-main'
 
-
 		# Set local variables
-		@views = pages
 		@components = components
 		@previousView = @nextView = null
+		@views = pages
 
 		# Render different components
 		@header = new (components.header)(el: 'header')
@@ -63,7 +62,6 @@ module.exports =
 
 		# Check if there was a view before
 		if @currentView
-
 			# Clean up the view before switching to the next one. Detach
 			# all event handlers and signal the view to run any 'closing'
 			# animations.
@@ -80,7 +78,6 @@ module.exports =
 			viewExists = false
 			if not reverse then @createNextPage historyIndex
 			else viewExists = @createPreviousPage historyIndex
-
 
 			# Find the target page. Which is the last child
 			$targetPage = @$ptMain.find '.pt-page:last-child'
