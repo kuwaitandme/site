@@ -67,6 +67,7 @@ for (var i = scripts.length; i >= 1; i--) {
 	$script.dataset.script = script.name;
 
 	/* Check for the script in our cache */
+	if (script.name == 'app') continue;
 	var scriptCache = localStorage.getItem("script-" + script.name);
 
 	// console.debug(script.name, scriptCache);

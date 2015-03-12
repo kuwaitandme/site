@@ -62,8 +62,6 @@ module.exports = class controller
 		scripts = window.scripts
 		for script in scripts
 
-			if script.name is "app" then continue
-
 			storageIdentifier = "script-" + script.name
 
 			# Check if the script already exists in the cache
