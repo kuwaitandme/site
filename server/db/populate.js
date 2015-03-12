@@ -6,6 +6,7 @@ db.categories.insert([
 	{ name:'For Rent' },
 	{ name:'For Sale' },
 	{ name:'Jobs' },
+	{ name:'Matrimonial' },
 	{ name:'Personal' },
 	{ name:'Pets' },
 	{ name:'Services' },
