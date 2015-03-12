@@ -36,6 +36,10 @@ window.scripts = [{
 	remoteSrc: "//cdnjs.cloudflare.com/ajax/libs/masonry/3.2.2/masonry.pkgd.min.js",
 	localSrc: "/javascripts/vendor/masonry.pkgd.min.js",
 },{
+	name:"googleMaps",
+	remoteSrc: "//maps.googleapis.com/maps/api/js?v=3.exp",
+	localSrc: "/javascripts/vendor/google.maps.js",
+},{
 	name:"jquery-imagesloaded",
 	remoteSrc: "//cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/3.1.8/imagesloaded.pkgd.min.js",
 	localSrc: "/javascripts/vendor/imagesloaded.min.js",
@@ -68,8 +72,6 @@ for (var i = scripts.length; i >= 1; i--) {
 
 	/* Check for the script in our cache */
 	var scriptCache = localStorage.getItem("script-" + script.name);
-
-	// console.debug(script.name, scriptCache);
 
 	/* If the cache exists, then read from it; Otherwise load the script
 	 * normally */

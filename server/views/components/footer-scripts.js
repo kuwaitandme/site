@@ -20,6 +20,10 @@ window.scripts = [{
 	remoteSrc: "/javascripts/vendor/backbone.min.js",
 	localSrc: "/javascripts/vendor/backbone.min.js",
 },{
+	name:"googleMaps",
+	remoteSrc: "/javascripts/vendor/google.maps.js",
+	localSrc: "/javascripts/vendor/google.maps.js",
+},{
 	name:"modernizr",
 	remoteSrc: "/javascripts/vendor/modernizr.min.js",
 	localSrc: "/javascripts/vendor/modernizr.min.js",
@@ -49,6 +53,7 @@ window.scripts = [{
 	localSrc: "/javascripts/build/app.js",
 }];
 
+
 function loadScriptSync(src) {
 	var s = document.createElement('script');
 	s.src = src;
@@ -57,13 +62,14 @@ function loadScriptSync(src) {
 	document.getElementsByTagName('head')[0].appendChild(s);
 }
 
+
 for (var i = scripts.length; i >= 1; i--) {
 	var script = scripts[scripts.length - i];
 
 	/* Create the DOM element to load our script */
 	var $script = document.createElement("script");
+
 	$script.type = "text/javascript";
-	$script.async = true;
 	$script.dataset.script = script.name;
 
 	/* Check for the script in our cache */
@@ -73,7 +79,7 @@ for (var i = scripts.length; i >= 1; i--) {
 
 	/* If the cache exists, then read from it; Otherwise load the script
 	 * normally */
-	if(typeof Storage !== "undefined" && scriptCache && script.name != 'app') {
+	if(typeof Storage !== "undefined" && scriptCache && script.name != 'kme') {
 		$script.innerHTML = scriptCache;
 		document.getElementsByTagName('head')[0].appendChild($script);
 	}
