@@ -1,7 +1,7 @@
 .pt-page.landing {
 	background: #FFF;
-	min-height: 290px;
-	overflow-y: none;
+	// min-height: 290px;
+	// overflow-y: none;
 
 	h1, h3 { text-align: center; padding: 1px;}
 	.shadow {
@@ -34,7 +34,7 @@
 		}
 	}
 	#search-classified {
-		$height: 282px;
+		$height: 240px;
 		left: 0%;
 		margin-top: -0.75 * $height;
 		position: absolute;
