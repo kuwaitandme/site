@@ -1,0 +1,24 @@
+#!/usr/bin/env coffee
+
+tasks = require './selenium-tasks'
+
+argv = process.argv
+if argv.length < 3
+	console.log "You need to specify a task to run"
+	console.log "Usage: ./selenium.coffee [task]\n"
+	console.log "Available tasks"
+
+	for taskname, task of tasks
+		console.log " ", taskname
+
+	process.exit()
+
+targetTask = argv[2]
+# console.log argv
+for taskname, task of tasks
+	if taskname is targetTask
+		console.log "Launching task", taskname
+		webdriver = require 'selenium-webdriver'
+		driver = (new (webdriver.Builder)).withCapabilities(webdriver.Capabilities.chrome()).build()
+		homepage = 'https://kme.com'
+		task(driver, homepage)
