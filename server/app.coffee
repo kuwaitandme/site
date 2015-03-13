@@ -66,7 +66,8 @@ app.use (request, response, next) ->
 	# why it is only used in the mobile application for this site. Debate on
 	# this can be carried on, but for time being this will do
 	if request.headers['x-csrf-skipper'] then return next()
-	csrfMiddleware request, response, next
+	next()
+	# csrfMiddleware request, response, next
 
 
 # Initialize Passport User authentication
