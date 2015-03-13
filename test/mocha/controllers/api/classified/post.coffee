@@ -4,6 +4,7 @@ classifiedModel  = global.models.classified
 sampleClassified = null
 
 describe 'post():', ->
+
 	describe 'update various properties in a classified', ->
 		describe 'update classified statuses', ->
 			it 'change status to REJECTED as owner', ->
@@ -20,3 +21,9 @@ describe 'post():', ->
 			it 'delete previous images', ->
 			it 'add new images', ->
 			it 'delete and add new images', ->
+
+	describe 'update for a guest classified', ->
+		it 'reject updating for guest classified with no authHash', ->
+		it 'reject updating for guest classified with invalid authHash', ->
+		it 'reject updating for guest classified with incorrect authHash', ->
+		it 'update a guest classified with correct authHash', ->
