@@ -113,6 +113,9 @@ classifieds = module.exports =
 
 	# Gets a single classified, given it's id
 	get: (id, callback) ->
+		# Check if id is valid
+		if not /^[0-9A-F]{24}$/i.test(id) then return callback null
+
 		@model.findOne { _id: id }, (err, result) ->
 			if err then throw err
 			callback result
