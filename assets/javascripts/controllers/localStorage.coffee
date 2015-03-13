@@ -13,7 +13,7 @@ module.exports = class controller
 	# cache every page template that it downloads.
 	#
 	# Also, if the browser does not support localStorage use fallback methods.
-	constructor: (@config) ->
+	constructor: (app, @config) ->
 		@consoleSlug = '[controller:localstorage]'
 		console.log @consoleSlug, 'initializing'
 
@@ -61,7 +61,7 @@ module.exports = class controller
 		# 'scripts'
 		for script in scripts
 
-			# if script.name is 'app' then continue
+			if script.name is 'app' then continue
 
 			storageIdentifier = "script-" + script.name
 
@@ -74,6 +74,7 @@ module.exports = class controller
 				ajax = (storageIdentifier, script) ->
 					$.ajax
 						url: script.localSrc,
+						dataType: "text"
 						success: (result) ->
 							localStorage.setItem storageIdentifier, result
 							console.log that.consoleSlug, "cached script:", storageIdentifier
