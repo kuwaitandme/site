@@ -1,4 +1,3 @@
 module.exports =
-	email:   require './email'
-	helpers: require './helpers'
-	pages:   require './pages'
+	routes: (router) ->
+		(require './api').routes(router)
