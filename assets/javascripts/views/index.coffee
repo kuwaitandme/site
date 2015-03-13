@@ -1,10 +1,7 @@
-components = require('./components')
-pages = require('./pages')
+components = require './components'
+pages      = require './pages'
 
 
-# EXPLAIN THIS MODULE
-#
-# @type {Object}
 module.exports =
 	consoleSlug: '[view]'
 

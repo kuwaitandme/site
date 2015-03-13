@@ -4,21 +4,25 @@ tasks = require './selenium-tasks'
 
 argv = process.argv
 if argv.length < 3
-	console.log "You need to specify a task to run"
-	console.log "Usage: ./selenium.coffee [task]\n"
-	console.log "Available tasks"
+	console.log 'You need to specify a task to run'
+	console.log 'Usage: ./selenium.coffee [task]\n'
+	console.log 'Available tasks'
 
 	for taskname, task of tasks
-		console.log " ", taskname
+		console.log ' ', taskname
+	console.log '  *'
 
 	process.exit()
 
 targetTask = argv[2]
-# console.log argv
+
+
+
 for taskname, task of tasks
-	if taskname is targetTask
-		console.log "Launching task", taskname
-		webdriver = require 'selenium-webdriver'
-		driver = (new (webdriver.Builder)).withCapabilities(webdriver.Capabilities.chrome()).build()
-		homepage = 'https://kme.com'
-		task(driver, homepage)
+	if targetTask is not '*' and taskname is not targetTask then continue
+
+	console.log 'Launching task', taskname
+	webdriver = require 'selenium-webdriver'
+	driver = (new (webdriver.Builder)).withCapabilities(webdriver.Capabilities.chrome()).build()
+	homepage = 'https://kme.com'
+	task(driver, homepage)

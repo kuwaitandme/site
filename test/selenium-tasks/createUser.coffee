@@ -13,8 +13,8 @@ module.exports = (driver, homepage) ->
 	(driver.findElement (webdriver.By.className 'submit')).click()
 
 
-	driver.wait (->
-		driver.getTitle().then (title) ->
-			console.log title
-			# title == 'webdriver - Google Search'
-	), 1000
+	# driver.wait (->
+	# 	driver.getTitle().then (title) ->
+	# 		console.log title
+	# 		# title == 'webdriver - Google Search'
+	# ), 1000

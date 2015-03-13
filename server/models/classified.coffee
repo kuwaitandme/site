@@ -3,7 +3,7 @@ mongoose = require 'mongoose'
 util     = require 'util'
 xss      = require 'xss'
 
-file = require('../controllers/helpers/file')
+file     = require '../controllers/helpers/file'
 
 Schema   = mongoose.Schema
 ObjectId = Schema.ObjectId
@@ -50,27 +50,6 @@ classifieds = module.exports =
 	classifiedPerPage: 15
 	reportsPerPostBeforeFlag: 3
 
-	# Creates a classified from the POST parameters passed from the request.
-	createFromPOST: (request, user, callback) ->
-		that = this
-		that._doFiles request, (data) ->
-			# that._doData(data, user, callback);
-			return
-		return
-
-	addFiles: (id, files) ->
-		@model.findOne { _id: id }, (err, classified) ->
-			if err
-				throw err
-			if not classified
-				return
-			classified.perks.urgent = true
-			classified.save()
-			return
-		file.upload request, (data) ->
-			callback data
-			return
-		return
 
 	# This function creates the classified object and saves it into the DB. The
 	# classified will be validated and filtered for bad fields before getting
@@ -86,7 +65,7 @@ classifieds = module.exports =
 			return callback(null)
 
 		# Check for any invalid fields
-		if not hexRegex.test(data.category) or not hexRegex.test(data.contact.location) or not numberRegex.test(data.contact.phone) or data.meta.gmapX and not numberRegex.test(data.meta.gmapX) or data.meta.gmapY and not numberRegex.test(data.meta.gmapY) or not numberRegex.test(data.price) or not numberRegex.test(data.type)
+		if not hexRegex.test(data.category) or not hexRegex.test(data.contact.location) or not numberRegex.test(data.contact.phone) or (data.meta.gmapX and not numberRegex.test(data.meta.gmapX)) or (data.meta.gmapY and not numberRegex.test(data.meta.gmapY)) or not numberRegex.test(data.price) or not numberRegex.test(data.type)
 			return callback(null)
 
 		# Start saving the fields one by one
@@ -117,6 +96,7 @@ classifieds = module.exports =
 		# If you are logged in, then we will make you the owner of this
 		# classified; Otherwise we will label this classified as a guest
 		# classified.
+		# console.log(classified)
 		if user and user._id
 			classified.owner = user._id
 			classified.guest = false

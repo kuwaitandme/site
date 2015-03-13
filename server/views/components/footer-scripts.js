@@ -19,10 +19,10 @@ window.scripts = [{
 	name:"backbone",
 	remoteSrc: "/javascripts/vendor/backbone.min.js",
 	localSrc: "/javascripts/vendor/backbone.min.js",
-},{
-	name:"googleMaps",
-	remoteSrc: "/javascripts/vendor/google.maps.js",
-	localSrc: "/javascripts/vendor/google.maps.js",
+// },{
+// 	name:"googleMaps",
+// 	remoteSrc: "/javascripts/vendor/google.maps.js",
+// 	localSrc: "/javascripts/vendor/google.maps.js",
 },{
 	name:"modernizr",
 	remoteSrc: "/javascripts/vendor/modernizr.min.js",
