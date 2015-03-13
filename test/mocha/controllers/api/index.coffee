@@ -1,0 +1,2 @@
+describe 'api.', ->
+	require './classified'

@@ -1,0 +1,2 @@
+describe 'controllers.', ->
+	require './api'
