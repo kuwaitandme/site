@@ -5,8 +5,8 @@
   "author": "Steven Enamakel",
   "scripts": {
     "populate-db": "mongo kuwaitandme ./server/db/populate.js",
-    "start" : "coffee ./bin/www.coffee",
-    "test" : "mocha --compilers coffee:coffee-script/register"
+    "start": "coffee ./bin/www.coffee",
+    "test": "mocha --compilers coffee:coffee-script/register"
   },
   "dependencies": {
     "2checkout-node": "0.0.1",
@@ -37,6 +37,7 @@
     "passport-local": "^1.0.0",
     "passport-twitter": "^1.0.2",
     "redis": "^0.12.1",
+    "supertest": "^0.15.0",
     "xss": "^0.1.20"
   },
   "devDependencies": {
