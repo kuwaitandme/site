@@ -1,19 +1,20 @@
 localStorage   = require './localStorage'
 pageTransition = require './pageTransition'
 router         = require './router'
-# instance = null
+viewManager    = require './viewManager'
 
 # Initializes each of the controllers one by one.
 module.exports =
-
 	consoleSlug: '[controller]'
 
-	initialize: (config) ->
-		# if instance then return @ = instance
-		# else instance = @
 
+	initialize: (app, config) ->
 		console.log @consoleSlug, 'initializing'
 
-		@localStorage = new localStorage config
-		@router = new router config
-		@pageTransition = new pageTransition config
+		@localStorage   = new localStorage app, config
+		@router         = new router app, config
+		@pageTransition = new pageTransition app, config
+		@viewManager    = new viewManager app, config
+
+
+	start: -> @viewManager.start()

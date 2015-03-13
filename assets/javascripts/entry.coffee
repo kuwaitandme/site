@@ -4,10 +4,9 @@
 # you to read through it..
 #
 # This file bootstraps the front-end app. Main JS execution begins here.
-window.App =
-	start: ->
+class App
+	constructor: ->
 		console.log "[app] initializing"
-
 		@config       = require "app-config"
 		@controllers  = require "app-controllers"
 		@helpers      = require "app-helpers"
@@ -16,9 +15,12 @@ window.App =
 		@views        = require "app-views"
 
 		# Initialize the components
-		@controllers.initialize @config
-		@models.initialize @config
-		@views.initialize @config
+		@controllers.initialize this, @config
+		@models.initialize      this, @config
+
+	start: ->
+		console.log "[app] starting"
+		@controllers.start()
 
 
 	# Forward  to different app components. This way we can avoid
@@ -29,7 +31,11 @@ window.App =
 	goto: (url, view, args) -> @controllers.router.goto url, view, args
 	loadResource: (resource) -> @controllers.resourceLoader.loadResource(resource)
 	reattachRouter: -> @controllers.router.reattachRouter()
-	setView: (page, args, reverse) -> @views.setView(page, args, reverse)
-	success: (text, title) -> @views.messages.success(text, title)
+	setView: (page, args, reverse) -> @controllers.viewManager.setView(page, args, reverse)
+	success: (text, title) -> @controllers.messages.success(text, title)
 	transition: (options) -> @controllers.pageTransition.transition(options)
-	warn: (text, title) -> @views.messages.warn(text, title)
+	warn: (text, title) -> @controllers.messages.warn(text, title)
+
+if not window.app
+	window.app = new App
+	window.app.start()

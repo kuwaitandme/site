@@ -1,7 +1,7 @@
 module.exports = class controller
-	constructor: (@config) ->
+	consoleSlug: '[controller:router]'
 
-		@consoleSlug = '[controller:router]'
+	constructor: (@config) ->
 		console.log @consoleSlug, 'initializing'
 
 		# Start HTML5 history
