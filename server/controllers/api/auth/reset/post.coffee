@@ -1,4 +1,4 @@
-controller = (request, response, next) ->
+module.exports = (request, response, next) ->
 	response.contentType 'application/json'
 
 	id = request.params.id
@@ -6,7 +6,7 @@ controller = (request, response, next) ->
 
 	captachFail = (err, res) ->
 		response.status 401
-		response.end '{}'
+		response.end 'captchafail'
 
 	captachSuccess = (err) ->
 		password = request.body.password

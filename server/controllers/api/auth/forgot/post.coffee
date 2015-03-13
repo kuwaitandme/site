@@ -13,7 +13,6 @@ module.exports = (request, response, next) ->
 			response.status 400
 			response.end 'bademail'
 
-
 		# Generate the reset token and send the email
 		User = global.models.user
 		User.createResetToken email, (err, user) ->
