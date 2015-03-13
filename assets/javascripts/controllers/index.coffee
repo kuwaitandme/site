@@ -7,7 +7,6 @@ viewManager    = require './viewManager'
 module.exports =
 	consoleSlug: '[controller]'
 
-
 	initialize: (app, config) ->
 		console.log @consoleSlug, 'initializing'
 
@@ -17,4 +16,7 @@ module.exports =
 		@viewManager    = new viewManager app, config
 
 
-	start: -> @viewManager.start()
+	start: ->
+		console.log @consoleSlug, 'starting'
+		@pageTransition.start()
+		@viewManager.start()

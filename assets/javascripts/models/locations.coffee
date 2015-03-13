@@ -16,7 +16,7 @@ module.exports = Backbone.Collection.extend
 	fetch: ->
 		console.log '[model:locations] fetching'
 		that = this
-		localStorage = app.controllers.localStorage
+		localStorage = window.app.controllers.localStorage
 
 		# Attempt to load from HTML5 localStorage
 		cache = localStorage.get('locations')

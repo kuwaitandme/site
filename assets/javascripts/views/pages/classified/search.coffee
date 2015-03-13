@@ -1,4 +1,4 @@
-classifieds = (require 'app-models').classifieds
+# classifieds = (require 'app-models').classifieds
 
 module.exports = controller = Backbone.View.extend
 	ajaxEnable: true
@@ -9,11 +9,11 @@ module.exports = controller = Backbone.View.extend
 
 	consoleSlug: '[view:classifieds-search]'
 
-	collection: new classifieds
-
 	initialize: (options) ->
 		console.debug @consoleSlug, 'initializing', options
 		that = @
+
+		@collection = new app.models.classifieds
 
 		# Get the template
 		@listTemplate = _.template(@$el.find('#list-template').html())

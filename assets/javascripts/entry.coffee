@@ -18,8 +18,10 @@ class App
 		@controllers.initialize this, @config
 		@models.initialize      this, @config
 
+
 	start: ->
 		console.log "[app] starting"
+		@models.start()
 		@controllers.start()
 
 
@@ -36,6 +38,8 @@ class App
 	transition: (options) -> @controllers.pageTransition.transition(options)
 	warn: (text, title) -> @controllers.messages.warn(text, title)
 
+
+# Protect the app from being re-initialized
 if not window.app
 	window.app = new App
 	window.app.start()

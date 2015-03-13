@@ -21,9 +21,12 @@ module.exports = class controller
 
 		# Support CSS animations
 		@support = Modernizr.cssanimations
+
+
+	start: ->
 		@$pages = @$main.children('div.pt-page')
 		@$pages.eq(@currentPage).addClass 'pt-page-current'
-		@$pages.eq(@currentPage).data 'index', window.app.controllers.router.historyIndex
+		@$pages.eq(@currentPage).data 'index', app.controllers.router.historyIndex
 
 
 	transition: (options) ->

@@ -9,9 +9,10 @@ module.exports =
 	classifieds: require './classifieds'
 	user:        require "./user"
 
+	initialize: (@config) -> console.log '[model] initializing'
 
-	initialize: (config) ->
-		console.log '[model] initializing'
+	start: ->
+		console.log '[model] starting'
 
 		# Initialize the category and location model and populate them with
 		# their values.

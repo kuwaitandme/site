@@ -1,5 +1,3 @@
-classified = (require 'app-models').classified
-
 subViews =
 	"#page-begin":   require './part.begin'
 	"#page-details": require './part.details'
@@ -13,11 +11,10 @@ module.exports = Backbone.View.extend
 	consoleSlug: '[view:classified-post]'
 	views: {}
 
-	model: new classified
-
 	events: 'click a[data-page-nav]' : 'clickHandler'
 
 	initialize: (options) ->
+		@model = new app.models.classified
 		console.debug @consoleSlug, 'initializing', options
 		if options.$el then	@$el = options.$el
 
