@@ -16,10 +16,12 @@ describe 'get():', ->
 		supertest(app)
 			.get('/api/classified/')
 			.expect(404, done)
+
 	it 'don\'t fetch a classified without a non-existent id', (done) ->
 		supertest(app)
 			.get('/api/classified/111111111111111111111111')
 			.expect(404, done)
+
 	it 'fetch a classified with a existent id', (done) ->
 		supertest(app)
 			.get('/api/classified/5501d76d4502fd9d4a2868e4')
