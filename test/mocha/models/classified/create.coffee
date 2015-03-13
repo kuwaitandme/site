@@ -24,56 +24,56 @@ describe 'create()', ->
 
 
 	describe 'don\'t commit empty classifieds', ->
-		it 'empty classified', (done) ->
+		it 'reject an empty classified', (done) ->
 			classifiedModel.create null, null, (cl) ->
 				(expect cl).to.be(null)
 				done()
 
 
 	describe 'don\'t commit if required fields are missing', ->
-		it 'missing email', (done) ->
+		it 'reject if missing email', (done) ->
 			sampleClassified.contact.email = ""
 
 			classifiedModel.create sampleClassified, null, (cl) ->
 				(expect cl).to.be(null)
 				done()
 
-		it 'missing location', (done) ->
+		it 'reject if missing location', (done) ->
 			sampleClassified.contact.location = ""
 
 			classifiedModel.create sampleClassified, null, (cl) ->
 				(expect cl).to.be(null)
 				done()
 
-		it 'missing title', (done) ->
+		it 'reject if missing title', (done) ->
 			sampleClassified.title = ""
 
 			classifiedModel.create sampleClassified, null, (cl) ->
 				(expect cl).to.be(null)
 				done()
 
-		it 'missing description', (done) ->
+		it 'reject if missing description', (done) ->
 			sampleClassified.description = ""
 
 			classifiedModel.create sampleClassified, null, (cl) ->
 				(expect cl).to.be(null)
 				done()
 
-		it 'missing price', (done) ->
+		it 'reject if missing price', (done) ->
 			sampleClassified.price = ""
 
 			classifiedModel.create sampleClassified, null, (cl) ->
 				(expect cl).to.be(null)
 				done()
 
-		it 'missing type', (done) ->
+		it 'reject if missing type', (done) ->
 			sampleClassified.type = ""
 
 			classifiedModel.create sampleClassified, null, (cl) ->
 				(expect cl).to.be(null)
 				done()
 
-		it 'missing category', (done) ->
+		it 'reject if missing category', (done) ->
 			sampleClassified.category = ""
 
 			classifiedModel.create sampleClassified, null, (cl) ->
@@ -82,7 +82,7 @@ describe 'create()', ->
 
 
 	describe 'try committing a valid classified', ->
-		it 'sample classified', (done) ->
+		it 'created a valid classified', (done) ->
 			classifiedModel.create sampleClassified, null, (cl) ->
 				(expect cl).to.not.be(null)
 				done()

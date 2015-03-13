@@ -14,4 +14,4 @@ mongoose.connect 'mongodb://' + config.mongodb.username + ':' +
 	config.mongodb.password + '@localhost/kuwaitandme'
 
 
-require './models'
+require './mocha/models'
