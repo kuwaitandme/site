@@ -1,13 +1,13 @@
-categories = require './categories'
-locations = require './locations'
+# categories = require './categories'
+# locations  =
 
 # Model parent classes to be referred here. This allows any other function
 # to easily instantiate the required model by just referencing from this
 # module
 module.exports =
-	classified: require './classified'
+	classified:  require './classified'
 	classifieds: require './classifieds'
-	user: require "./user"
+	user:        require "./user"
 
 
 	initialize: (config) ->
@@ -20,8 +20,11 @@ module.exports =
 		# save their instance as properties of this module.
 		#
 		# NOTE: other models are not instantiated and only these ones are.
-		@categories = new categories config
-		@locations = new locations config
+		@categories = new (require './categories')
+		@locations  = new (require './locations')
 
 		@categories.fetch()
 		@locations.fetch()
+
+		@currentUser = new @user
+		@currentUser.fetch()

@@ -1,5 +1,6 @@
 module.exports = class controller
 	constructor: (@config) ->
+
 		@consoleSlug = '[controller:router]'
 		console.log @consoleSlug, 'initializing'
 

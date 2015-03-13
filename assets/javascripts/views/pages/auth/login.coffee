@@ -1,10 +1,7 @@
 helpers = require 'app-helpers'
-User    = (require 'app-models').user
 
 module.exports = Backbone.View.extend
 	consoleSlug: "[view:auth-login]"
-
-	model: new User
 
 	events: 'click .submit': 'submit'
 
@@ -31,7 +28,7 @@ module.exports = Backbone.View.extend
 	initialize: (options) ->
 		console.debug @consoleSlug, 'initializing', options
 
-		@model = app.currentUser
+		@model = app.models.currentUser
 
 		# Initialize DOM elements
 		@$form      = @$ "#login-form"

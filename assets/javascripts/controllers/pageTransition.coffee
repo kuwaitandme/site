@@ -23,7 +23,7 @@ module.exports = class controller
 		@support = Modernizr.cssanimations
 		@$pages = @$main.children('div.pt-page')
 		@$pages.eq(@currentPage).addClass 'pt-page-current'
-		@$pages.eq(@currentPage).data 'index', app.controllers.router.historyIndex
+		@$pages.eq(@currentPage).data 'index', window.app.controllers.router.historyIndex
 
 
 	transition: (options) ->
@@ -62,11 +62,15 @@ module.exports = class controller
 			# when 'fromBottom'
 			# when 'fromTop'
 			when 'fromLeft'
-				outClass = 'pt-page-moveToRightEasing pt-page-ontop'
-				inClass = 'pt-page-moveFromLeft'
+				# outClass = 'pt-page-moveToRightEasing pt-page-ontop'
+				# inClass = 'pt-page-moveFromLeft'
+				outClass = 'pt-page-moveToRight';
+				inClass = 'pt-page-moveFromLeft';
 			else
-				outClass = 'pt-page-moveToLeftEasing pt-page-ontop'
-				inClass = 'pt-page-moveFromRight'
+				outClass = 'pt-page-moveToLeft';
+				inClass = 'pt-page-moveFromRight';
+				# outClass = 'pt-page-moveToLeftEasing pt-page-ontop'
+				# inClass = 'pt-page-moveFromRight'
 
 		# Setup callback functions when the animation ends on the current page
 		@$currPage.addClass(outClass).on that.animEndEventName, ->
@@ -106,5 +110,8 @@ module.exports = class controller
 	# way we stop the CSS animations and return the classes that were removed
 	# back to the pages they were originally on.
 	resetPage: ->
-		@$currPage.attr('class', @$currPage.data('originalClassList')).removeClass 'pt-page-current'
-		@$targetPage.attr('class', @$targetPage.data('originalClassList')).addClass 'pt-page-current'
+		@$currPage.attr 'class', (@$currPage.data 'originalClassList')
+		@$currPage.removeClass 'pt-page-current'
+
+		@$targetPage.attr 'class', (@$targetPage.data 'originalClassList')
+		@$targetPage.addClass 'pt-page-current'

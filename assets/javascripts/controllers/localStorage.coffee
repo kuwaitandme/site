@@ -59,8 +59,9 @@ module.exports = class controller
 
 		# The list of scripts is accessible to us by the global variable
 		# 'scripts'
-		scripts = window.scripts
 		for script in scripts
+
+			# if script.name is 'app' then continue
 
 			storageIdentifier = "script-" + script.name
 
@@ -75,9 +76,10 @@ module.exports = class controller
 						url: script.localSrc,
 						success: (result) ->
 							localStorage.setItem storageIdentifier, result
-							console.log that.consoleSlug, "cached script:", script.name
+							console.log that.consoleSlug, "cached script:", storageIdentifier
 
 				ajax(storageIdentifier, script)
+
 
 	# Saves the HTML template of the current view in the HTML5 local-storage.
 	# This gets treated as cache and will get loaded the next time the view

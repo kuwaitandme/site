@@ -10,7 +10,7 @@ module.exports =
 
 	# Setup the different views. ie. Initialize the different controllers for
 	# the header, currentView and other components.
-	initialize: ->
+	initialize: (config) ->
 		console.log @consoleSlug, 'initializing'
 
 		# Cache some DOM variables

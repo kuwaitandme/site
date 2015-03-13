@@ -1,58 +1,22 @@
 module.exports = Backbone.View.extend
-	initialize: (obj) ->
+
+	initialize: (options) ->
 		@model = options.model
-		@$gmap = @$el.find('#map-canvas')
-		@$gmapX = @$el.find('#gmapX')
-		@$gmapY = @$el.find('#gmapY')
+		@$gmap  = @$ '#map-canvas'
+		@$gmapX = @$ '#gmapX'
+		@$gmapY = @$ '#gmapY'
 
 		@on "close", @close
 
-	render: ->
-		# Resize the pages whenever the window resizes
-		$(window).resize(->
-			$('.page').css 'min-height', $(window).height()
-			return
-		).resize()
-		@$currentPage = $('#page-0')
-		@$currentPage.show()
-		@$currentPage.transition opacity: 1
-		@$gmap.css 'min-height', $(window).height() / 3
 
-		# Initialize parts of the form
-		@initCategories()
-		@initDropzone()
-		@initLocations()
-		@$description.redactor()
-		@spinner = new (app.views.components.spinner)
+	render: -> @initMaps()
 
 
-	validate: -> true
-
-	# Unlocks the map and address fields
-	unlockMapAndAddress: (e) ->
-		lastVal = @$locations.find('option:last-child').val()
-
-		# Check if we selected the last option or not. If we have, then disabled
-		# the map and the address fields
-		if @$locations.val() != lastVal
-			$('[name=\'address1\']').removeClass 'hide'
-			$('[name=\'address2\']').removeClass 'hide'
-			$('#page-4').removeClass 'hide'
-			$('#page-4-prev, #page-4-next').attr 'href', '#page-4'
-		else
-			$('[name=\'address1\']').addClass 'hide'
-			$('[name=\'address2\']').addClass 'hide'
-			$('#page-4').addClass 'hide'
-			$('#page-4-prev').attr 'href', '#page-3'
-			$('#page-4-next').attr 'href', '#page-5'
-
-
-	# Gets all the form data from the page, into a local variable and returns
-	# it.
-	getFormData: ->
+	setModel: ->
 		@model.set meta:
 			gmapX: @$gmapX.val()
 			gmapY: @$gmapY.val()
+
 
 	# Initializes Google maps
 	initMaps: ->
@@ -84,6 +48,7 @@ module.exports = Backbone.View.extend
 			# it
 			@$gmapX.val latLng.lat()
 			@$gmapY.val latLng.lng()
+
 
 	close: ->
 		@remove()

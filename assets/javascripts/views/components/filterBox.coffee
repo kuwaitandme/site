@@ -1,5 +1,4 @@
 urlHelpers = (require 'app-helpers').url
-categoriesModel = (require 'app-models').categories
 
 module.exports = Backbone.View.extend
 	consoleSlug: '[view:filterbox]'
@@ -86,6 +85,7 @@ module.exports = Backbone.View.extend
 
 	# Initializes the parent category options
 	initializeCategory: ->
+		categoriesModel = app.models.categories
 		categories = categoriesModel.toJSON null
 		@$category.html ""
 

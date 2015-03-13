@@ -1,4 +1,4 @@
-routerController = (require 'app-controllers').router
+classifieds = (require 'app-models').classifieds
 
 module.exports = controller = Backbone.View.extend
 	ajaxEnable: true
@@ -9,7 +9,7 @@ module.exports = controller = Backbone.View.extend
 
 	consoleSlug: '[view:classifieds-search]'
 
-	collection: new (app.models.classifieds)
+	collection: new classifieds
 
 	initialize: (options) ->
 		console.debug @consoleSlug, 'initializing', options
@@ -35,7 +35,8 @@ module.exports = controller = Backbone.View.extend
 
 		# Set to load new classifieds when we have scrolled to the end of the
 		# page.
-		$(window).scroll -> if that.ajaxEnable then that.fireAjaxEvent()
+		_.bindAll @, 'onScroll'
+		($ window).scroll @onScroll
 
 
 	render: ->
@@ -50,8 +51,11 @@ module.exports = controller = Backbone.View.extend
 
 	checkRedirect: -> false
 
+	onScroll: -> if @ajaxEnable then @fireAjaxEvent()
 
 	newQuery: ->
+		routerController = app.controllers.router
+
 		# Blank out all the classifieds we have so far and reset the page count
 		$classifieds = @$ ".classified"
 		@$classifiedList.masonry 'remove', $classifieds
@@ -59,7 +63,6 @@ module.exports = controller = Backbone.View.extend
 
 		# Get the current state from the history API
 		currentState = routerController.getHistoryState()
-		console.debug @consoleSlug, currentState.arguments
 
 		# Get the query
 		@query = @filterbox.getQuery()
