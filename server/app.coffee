@@ -34,7 +34,7 @@ i18n.configure
 	directory: __dirname + '/locales'
 	locales: [ 'en', 'ar', 'in' ]
 app.use i18n.init
-
+global.__ = i18n.__
 
 # view engine setup
 app.set 'views', (path.join __dirname, 'views')

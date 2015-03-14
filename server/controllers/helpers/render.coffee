@@ -20,6 +20,7 @@ module.exports = (request, response, args={}, cache=false) ->
 		args.data.ga = config.ga
 		args.data.user = request.user
 		args.title = "#{args.title} | Kuwait &amp; Me"
+		args._ =  global.__
 		# args.data.csrf = csrfToken
 
 		# Render the page
