@@ -17,12 +17,17 @@ if argv.length < 3
 targetTask = argv[2]
 
 
+webdriverio = require 'webdriverio'
+options = { desiredCapabilities: { browserName: 'chrome' } }
 
 for taskname, task of tasks
-	if targetTask is not '*' and taskname is not targetTask then continue
+	if targetTask is not '*' then continue
+	if taskname != targetTask then continue
 
-	console.log 'Launching task', taskname
-	webdriver = require 'selenium-webdriver'
-	driver = (new (webdriver.Builder)).withCapabilities(webdriver.Capabilities.chrome()).build()
-	homepage = 'https://kme.com'
-	task(driver, homepage)
+	console.log 'Launching task:', taskname
+
+	driver = webdriverio
+    	.remote(options)
+    	.init()
+
+	task(driver, 'https://kme.com')
