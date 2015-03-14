@@ -1,3 +1,3 @@
 describe 'controllers.', ->
-	require './api'
 	require './router'
+	require './api'

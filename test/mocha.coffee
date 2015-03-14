@@ -1,10 +1,10 @@
 mongoose = require 'mongoose'
 config   = require '../var/config.coffee'
 models   = require '../server/models'
-app      = require '../server/app'
+
 
 # Setup some globals
-global.app         = app
+global.app         = 'http://kme.com'
 global.config      = config
 global.controllers = null
 global.models      = models

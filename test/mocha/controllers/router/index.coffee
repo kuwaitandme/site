@@ -9,13 +9,16 @@ checkRouteFor = (code, route) ->
 		supertest(app).get(route).expect(code, done)
 
 describe 'routes', ->
-	describe 'check if routes that don\'t need authentication are accessible', ->
+	describe 'check if routes are accessible (without authentication)', ->
 		checkRouteFor 200, '/'
 		checkRouteFor 200, '/auth/forgot'
 		checkRouteFor 200, '/auth/login'
 		checkRouteFor 200, '/auth/signup'
 		checkRouteFor 200, '/classified/search'
 		checkRouteFor 200, '/guest/post'
+		checkRouteFor 200, '/terms'
+		checkRouteFor 200, '/privacy'
+
 
 		describe 'routes that need authentication should redirect', ->
 			checkRouteFor 302, '/account/manage'
@@ -30,5 +33,8 @@ describe 'routes', ->
 			checkRouteFor 302, '/guest/'
 
 		describe 'routes with missing parameters should return 404', ->
+			checkRouteFor 404, '/i-dont-exist'
 			checkRouteFor 404, '/classified/single'
 			checkRouteFor 404, '/guest/single'
+
+	describe 'check if routes are accessible (with authentication)', ->

@@ -23,7 +23,7 @@ global.root        = __dirname
 # Force JADE and Express to work based on the mode set in our config parameter
 if global.config then process.env.NODE_ENV = global.config.mode
 app = express()
-# if global.config.mode != 'production' then app.use (logger 'dev')
+if global.config.mode != 'production' then app.use (logger 'dev')
 
 
 
