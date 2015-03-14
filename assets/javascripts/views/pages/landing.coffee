@@ -1,23 +1,22 @@
-module.exports = Backbone.View.extend
-	consoleSlug: '[view:landing]'
+module.exports = (require '../mainView').extend
+	name: '[view:landing]'
 
-	events:
-		"submit" : "formSubmit"
+	events: "submit" : "formSubmit"
 
+	start: (options) ->
+		console.debug @name, 'starting', options
 
-	initialize: (options) ->
-		console.debug @consoleSlug, 'initializing', options
 		if options.$el then	@$el = options.$el
 
 		# Setup DOM variables
 		@$keywords = @$ "[name='keywords']"
 		@$select = @$ "[name='category']"
 
+		@$el.hide()
 
-	render: -> console.log @consoleSlug, 'rendering'
-
-
-	checkRedirect: -> false
+	continue: ->
+		console.log @name, 'continue'
+		@$el.fadeIn()
 
 
 	# This function redirects the app to the classified search page, with the
@@ -30,7 +29,8 @@ module.exports = Backbone.View.extend
 		text.replace ' ', '+'
 
 		# Redirect the app to the classified search page.
-		app.goto "/classified/search/?keywords=#{text}", 'classified-search'
+		url = "/classified/search/?keywords=#{text}"
+		@goto url, 'classified-search'
 
 
 	# This method performs the same function as the 'submitClick' method but
@@ -43,8 +43,6 @@ module.exports = Backbone.View.extend
 		text = @$keywords.val()
 		text.replace ' ', '+'
 
-		# Generate the URL
-		url = "/classified/search?category=#{cat}&keywords=#{text}"
-
 		# Redirect the app to the classified search page.
-		app.goto url, 'classified-search'
+		url = "/classified/search?category=#{cat}&keywords=#{text}"
+		@goto url, 'classified-search'

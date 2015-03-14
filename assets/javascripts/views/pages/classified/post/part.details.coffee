@@ -9,6 +9,7 @@ module.exports = Backbone.View.extend
 
 	initialize: (options) ->
 		@model = options.model
+		if options.$el then	@$el = options.$el
 
 		@$address1        = @$ '#address1'
 		@$address2        = @$ '#address2'

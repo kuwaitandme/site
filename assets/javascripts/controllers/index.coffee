@@ -1,5 +1,5 @@
 localStorage   = require './localStorage'
-pageTransition = require './pageTransition'
+# pageTransition = require './pageTransition'
 router         = require './router'
 viewManager    = require './viewManager'
 
@@ -12,11 +12,11 @@ module.exports =
 
 		@localStorage   = new localStorage app, config
 		@router         = new router app, config
-		@pageTransition = new pageTransition app, config
+		# @pageTransition = new pageTransition app, config
 		@viewManager    = new viewManager app, config
 
 
 	start: ->
 		console.log @consoleSlug, 'starting'
-		@pageTransition.start()
+		# @pageTransition.start()
 		@viewManager.start()

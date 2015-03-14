@@ -3,6 +3,8 @@ xss = require('xss')
 module.exports = Backbone.View.extend
 	initialize: (options) ->
 		@model = options.model
+		if options.$el then	@$el = options.$el
+
 		@$description = @$el.find('#description')
 		@$title = @$el.find('#title')
 

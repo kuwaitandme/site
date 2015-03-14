@@ -17,6 +17,7 @@ module.exports = Backbone.View.extend
 
 	initialize: (options) ->
 		@model = options.model
+		if options.$el then	@$el = options.$el
 
 		@on "close", @close
 

@@ -7,16 +7,18 @@ subViews =
 	"#page-maps":    require './part.maps'
 	"#page-submit":  require './part.submit'
 
-module.exports = Backbone.View.extend
+view = (require '../../../mainView');
+module.exports = view.extend
 	consoleSlug: '[view:classified-post]'
-	views: {}
+
 
 	events: 'click a[data-page-nav]' : 'clickHandler'
 
-	initialize: (options) ->
-		@model = new app.models.classified
+	start: (options) ->
 		console.debug @consoleSlug, 'initializing', options
-		if options.$el then	@$el = options.$el
+
+		@model = new app.models.classified
+		@views = {}
 
 		that = @
 		@currentView = null
@@ -26,12 +28,10 @@ module.exports = Backbone.View.extend
 		@on "close", @close
 
 
-	render: ->
-		console.log @consoleSlug, 'rendering'
+	continue: ->
+		console.log @consoleSlug, 'rendering', @el
 		@navigate "#page-begin"
 
-
-	checkRedirect: -> false
 
 	# function to display an error message in the current view
 	displayError: (message) ->
@@ -53,14 +53,19 @@ module.exports = Backbone.View.extend
 		console.log @consoleSlug, 'navigating to', href
 		that = @
 
-		# If the view wasn't initialized already, initialize it
 		options =
-			el: href
+			el: @$ href
 			model: @model
+
+		# If the view wasn't initialized already, initialize it
 		if not @views[href]
+			console.debug @consoleSlug, 'initializing sub-view:', href
 			subView = subViews[href]
 			@views[href] = new subView options
-		view = @views[href]
+			view = @views[href]
+		else
+			console.debug @consoleSlug, 'reusing sub-view:', href
+			view = @views[href]
 
 		console.debug @consoleSlug, 'going to sub-view:', view
 
@@ -84,13 +89,13 @@ module.exports = Backbone.View.extend
 				that.currentView.render()
 				that.currentView.$el.show().transition opacity: 1
 		else
-			that.currentFragment = Backbone.history.fragment
-			that.currentView = view
-			that.currentView.render()
-			that.currentView.$el.show().transition opacity: 1
+			@currentFragment = Backbone.history.fragment
+			@currentView = view
+			@currentView.render()
+			@currentView.$el.show().transition opacity: 1
 
 
-	close: ->
+	finish: ->
 		# Signal every child view that it's time to close
 		for view of @views
 			@views[view].trigger "close"

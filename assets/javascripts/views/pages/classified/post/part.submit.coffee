@@ -1,9 +1,11 @@
 module.exports = Backbone.View.extend
-	events:
-		'click .submit': 'submit'
+	events: 'click .submit': 'submit'
 
 
 	initialize: (options) ->
+		@model = options.model
+		if options.$el then	@$el = options.$el
+
 		@$submit = @$ '.submit'
 		@$spinner = @$ "#ajax-spinner"
 
