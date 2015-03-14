@@ -1,11 +1,10 @@
 login = require "./login"
 
-
 module.exports = login.extend
-	consoleSlug: "[view:auth-signup]"
+	name: "[view:auth-signup]"
 
 	renderCaptcha: ->
-		console.log @consoleSlug, 'setting captcha'
+		console.log @name, 'setting captcha'
 
 		@$captcha   = @$ "#signup-captcha"
 		@$captcha.html("").show()
@@ -15,13 +14,13 @@ module.exports = login.extend
 	# Validates the form before and displays any error messages if needed
 	validate: ->
 		status = true
-		console.debug @consoleSlug, 'form validation status', status
+		console.debug @name, 'form validation status', status
 		status
 
 
 	# Sends the AJAX request to the back-end
 	submit: (event) ->
-		console.log @consoleSlug, 'submitting form'
+		console.log @name, 'submitting form'
 		event.preventDefault()
 		that = @
 
@@ -49,7 +48,7 @@ module.exports = login.extend
 				when 403
 					that.addMessage 'That email is already in use'
 			else
-				console.debug that.consoleSlug, 'created user', response
+				console.debug that.name, 'created user', response
 
 				# Redirect to the account page on success
 				app.goto('/auth/login?success=signup_success', 'auth-login')

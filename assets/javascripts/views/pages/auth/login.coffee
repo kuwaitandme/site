@@ -1,7 +1,8 @@
 helpers = require 'app-helpers'
 
-module.exports = Backbone.View.extend
-	consoleSlug: "[view:auth-login]"
+view = require '../../mainView'
+module.exports = view.extend
+	name: "[view:auth-login]"
 
 	events: 'click .submit': 'submit'
 
@@ -25,8 +26,8 @@ module.exports = Backbone.View.extend
 		signup_taken: 'That account name has already been taken!'
 
 
-	initialize: (options) ->
-		console.debug @consoleSlug, 'initializing', options
+	start: (options) ->
+		console.debug @name, 'initializing', options
 
 		@model = app.models.currentUser
 
@@ -46,8 +47,8 @@ module.exports = Backbone.View.extend
 		if getParam 'warn'    then app.warn    @messages[getParam 'warn']
 
 
-	render: ->
-		console.log @consoleSlug, 'rendering'
+	continue: ->
+		console.log @name, 'rendering'
 		@renderCaptcha()
 
 
@@ -55,7 +56,7 @@ module.exports = Backbone.View.extend
 
 
 	renderCaptcha: ->
-		console.log @consoleSlug, 'setting captcha'
+		console.log @name, 'setting captcha'
 
 		@$captcha   = @$ "#login-captcha"
 		@$captcha.html("").show()
@@ -68,7 +69,7 @@ module.exports = Backbone.View.extend
 	# Validates the form before and displays any error messages if needed
 	validate: ->
 		status = true
-		console.debug @consoleSlug, 'form validation status', status
+		console.debug @name, 'form validation status', status
 		status
 
 
@@ -109,7 +110,7 @@ module.exports = Backbone.View.extend
 
 	# Sends the AJAX request to the back-end
 	submit: (event) ->
-		console.log @consoleSlug, 'submitting form'
+		console.log @name, 'submitting form'
 		event.preventDefault()
 		that = @
 
@@ -138,7 +139,7 @@ module.exports = Backbone.View.extend
 					that.addMessage 'Your account has been banned'
 					that.addMessage 'Admin message: '
 			else
-				console.debug that.consoleSlug, 'received user', response
+				console.debug that.name, 'received user', response
 
 				# Redirect to the account page on success
 				app.goto('/account/', 'account')

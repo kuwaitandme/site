@@ -1,16 +1,15 @@
-# classifieds = (require 'app-models').classifieds
-
-module.exports = controller = Backbone.View.extend
+view = (require '../../mainView');
+module.exports = view.extend
 	ajaxEnable: true
 	ajaxLock: false
 	gridMinimumSize: 250
 	pageIndex: 0
 	isAccount: false
 
-	consoleSlug: '[view:classifieds-search]'
+	name: '[view:classifieds-search]'
 
-	initialize: (options) ->
-		console.debug @consoleSlug, 'initializing', options
+	start: (options) ->
+		console.debug @name, 'initializing', options
 		that = @
 
 		@collection = new app.models.classifieds
@@ -39,8 +38,8 @@ module.exports = controller = Backbone.View.extend
 		($ window).scroll @onScroll
 
 
-	render: ->
-		console.log @consoleSlug, 'rendering'
+	continue: ->
+		console.log @name, 'rendering'
 
 		@collection.isAccount = @isAccount
 		@$spinner.hide()
@@ -49,7 +48,6 @@ module.exports = controller = Backbone.View.extend
 		@newQuery()
 
 
-	checkRedirect: -> false
 
 	onScroll: -> if @ajaxEnable then @fireAjaxEvent()
 
@@ -104,7 +102,7 @@ module.exports = controller = Backbone.View.extend
 	fireAjaxEvent: ->
 		if !@ajaxEnable or @ajaxLock then return
 
-		console.log @consoleSlug, 'firing ajax event'
+		console.log @name, 'firing ajax event'
 		if $(window).scrollTop() >= ($(document).height() - $(window).height()) * 0.9
 			@ajaxLoadClassifieds()
 
@@ -137,7 +135,7 @@ module.exports = controller = Backbone.View.extend
 		# All done. Hide the spinner and disable the lock
 		@$spinner.fadeOut();
 		@ajaxLock = false
-		console.debug @consoleSlug, 'adding classifieds', classifieds
+		console.debug @name, 'adding classifieds', classifieds
 
 		# Reload Masonry once for all the elements
 		@$classifiedList.masonry()

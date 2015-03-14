@@ -1,11 +1,7 @@
-module.exports = Backbone.View.extend
-	consoleSlug: '[view:privacy]'
+view = require '../mainView'
+module.exports = view.extend
+	name: '[view:privacy]'
 
+	start: (options) -> console.debug @name, 'initializing', options
 
-	initialize: (options) -> console.debug @consoleSlug, 'initializing', options
-
-
-	render: -> console.log @consoleSlug, 'rendering'
-
-
-	checkRedirect: -> false
+	continue: -> console.log @name, 'rendering'

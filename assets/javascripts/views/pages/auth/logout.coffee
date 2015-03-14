@@ -1,18 +1,18 @@
 helpers = require 'app-helpers'
 ajax = helpers.ajax
 
-module.exports = Backbone.View.extend
-	consoleSlug: "[view:auth-logout]"
+view = require '../../mainView'
+module.exports = view.extend
+	name: "[view:auth-logout]"
 
 
-	initialize: (options) ->
-		console.debug @consoleSlug, 'initializing', options
+	start: (options) ->
+		console.debug @name, 'initializing', options
 		@sendAjax()
 		app.currentUser.clear()
 
 
-	render: ->
-		console.log @consoleSlug, 'rendering'
+	continue: -> console.log @name, 'rendering'
 
 
 	# Let the app know that we want to redirect to the login page
@@ -23,7 +23,7 @@ module.exports = Backbone.View.extend
 
 	# Perform the redirection to the login page
 	doRedirect: ->
-		console.log @consoleSlug, 'redirecting to login page'
+		console.log @name, 'redirecting to login page'
 		app.goto '/auth/login?success=logout', 'auth-login'
 
 

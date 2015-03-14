@@ -1,20 +1,7 @@
 main {
-	height: 100%;
-	// overflow: hidden;
+	min-height: 90%;
 	position: relative;
-	-webkit-perspective: 1200px;
-	-moz-perspective: 1200px;
-	perspective: 1200px;
-
-	.pt-page {
-		background: #FFF;
-		padding-bottom: 10px;
-		// overflow-y: auto;
-	}
-
-	#main-container {
-		position: relative;
-	}
+	background: #FFF;
 }
 
 html { overflow: auto; }

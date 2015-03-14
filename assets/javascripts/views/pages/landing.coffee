@@ -1,4 +1,5 @@
-module.exports = (require '../mainView').extend
+view = require '../mainView'
+module.exports = view.extend
 	name: '[view:landing]'
 
 	events: "submit" : "formSubmit"

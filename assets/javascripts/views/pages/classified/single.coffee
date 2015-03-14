@@ -1,5 +1,6 @@
-module.exports = Backbone.View.extend
-	consoleSlug: "[view:classified-single]"
+view = require '../../mainView'
+module.exports = view.extend
+	name: "[view:classified-single]"
 	messages:
 		reported: 'Your report has been successfully submitted'
 		notfound: 'Classified was not found'
@@ -10,8 +11,8 @@ module.exports = Backbone.View.extend
 		archived: 'This classified has been deleted'
 
 
-	initialize: (options) ->
-		console.debug @consoleSlug, 'initializing', options
+	start: (options) ->
+		console.debug @name, 'initializing', options
 		if options and options.model then @model = options.model
 		else
 			href = document.URL
@@ -26,8 +27,8 @@ module.exports = Backbone.View.extend
 		# }
 
 
-	render: ->
-		console.log @consoleSlug, 'rendering'
+	continue: ->
+		console.log @name, 'rendering'
 		slideshowTemplate = _.template(@$el.find('#slideshow-template').html())
 		singleTemplate = _.template(@$el.find('#single-template').html())
 
