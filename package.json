@@ -38,6 +38,7 @@
     "passport-twitter": "^1.0.2",
     "redis": "^0.12.1",
     "supertest": "^0.15.0",
+    "webdriverio": "^2.4.5",
     "xss": "^0.1.20"
   },
   "devDependencies": {
