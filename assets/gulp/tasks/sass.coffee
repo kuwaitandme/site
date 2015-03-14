@@ -3,7 +3,6 @@ rename    = require 'gulp-rename'
 uglifycss = require 'gulp-uglifycss'
 
 module.exports = (gulp, config) ->
-
 	task = ->
 		gulpPipe = gulp.src config.src
 			.pipe sass

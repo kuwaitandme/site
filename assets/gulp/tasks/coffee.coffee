@@ -15,7 +15,6 @@ module.exports = (gulp, config) ->
 
 	gulp.task 'coffee', -> task()
 
-	gulp.watch config.jsPattern,  ['coffee']
 	gulp.task 'coffee:minified', ->
 		task()
 			.pipe uglify    config.targetFilenameMin
