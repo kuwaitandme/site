@@ -37,7 +37,7 @@ module.exports = Backbone.View.extend
 	locationChange: (event) ->
 		lastVal = (@$locations.find 'option:last-child').val()
 
-		if @$locations.val() is not lastVal
+		if @$locations.val() != lastVal and false
 			@$address1.removeClass "hide"
 			@$address2.removeClass "hide"
 
@@ -47,7 +47,7 @@ module.exports = Backbone.View.extend
 			@$address2.addClass "hide"
 
 			($ "#page-4-prev").attr 'href', '#page-images'
-			($ "#page-4-next").attr 'href', '#page-finish'
+			($ "#page-4-next").attr 'href', '#page-submit'
 
 
 	validate: (e) ->

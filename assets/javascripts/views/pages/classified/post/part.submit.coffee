@@ -12,6 +12,12 @@ module.exports = Backbone.View.extend
 		@listenTo @model, 'ajax:error', @ajaxError
 		@on "close", @close
 
+		# Generate a random id to put in place of the captcha's id
+		randomId = Math.floor (Math.random() * 1000)
+		@captchaId = 'gcaptcha' + randomId
+		@$captcha = @$ '.gcaptcha'
+		@$captcha.attr 'id', @captchaId
+
 
 	render: -> @renderCaptcha()
 		# @spinner = new (app.views.components.spinner)
@@ -38,11 +44,10 @@ module.exports = Backbone.View.extend
 
 
 	renderCaptcha: ->
-		console.log @consoleSlug, 'setting captcha'
-
-		@$captcha   = @$ "#post-captcha"
+		console.log @name, 'setting captcha'
 		@$captcha.html("").show()
-		@captcha = grecaptcha.render "post-captcha", sitekey: window.data.captchaKey
+		if @captcha then grecaptcha.reset @captcha
+		else @captcha = grecaptcha.render @captchaId, sitekey: window.data.captchaKey
 
 
 	resetCaptcha: -> grecaptcha.reset @captcha

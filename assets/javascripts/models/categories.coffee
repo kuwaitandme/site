@@ -43,11 +43,11 @@ module.exports = Backbone.Collection.extend
 			beforeSend: ajax.setHeaders
 			success: (response) ->
 				console.log '[model:categories] fetching category details'
-				that.set response
+				that.set JSON.parse response
 
 				# Cache the results
 				console.log '[model:categories] caching category details'
-				localStorage.cache 'categories', JSON.stringify(response)
+				localStorage.cache 'categories', response
 
 				# Signal any listeners that we are done loading this category
 				that.trigger 'ajax:done', that

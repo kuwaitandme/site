@@ -11,7 +11,7 @@ module.exports = Backbone.View.extend
 		@on "close", @close
 
 
-	render: -> @initMaps()
+	render: -> self.initMaps()
 
 
 	setModel: ->
@@ -22,6 +22,7 @@ module.exports = Backbone.View.extend
 
 	# Initializes Google maps
 	initMaps: ->
+
 		# The default co-ordinates to which we will center the map
 		myLatlng = new (google.maps.LatLng)(29.27985, 47.98448)
 
