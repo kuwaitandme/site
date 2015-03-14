@@ -30,7 +30,7 @@ module.exports = Backbone.Collection.extend
 			return @set JSON.parse(cache)
 
 		if window.data.categories
-			console.log '[model:categories] setting categories from page'
+			console.log '[model:categories] setting categories from window scope'
 			return @set window.data.categories
 
 		# If data wasn't cached, then request it by sending a AJAX request
@@ -38,7 +38,7 @@ module.exports = Backbone.Collection.extend
 		$.ajax
 			type: 'GET'
 			url: app.config.host + '/api/category/'
-			dataType: 'json'
+			# dataType: 'json'
 			async: false
 			beforeSend: ajax.setHeaders
 			success: (response) ->

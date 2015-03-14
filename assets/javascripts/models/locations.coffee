@@ -32,7 +32,7 @@ module.exports = Backbone.Collection.extend
 		$.ajax
 			type: 'GET'
 			url: app.config.host + '/api/location/'
-			dataType: 'json'
+			# dataType: 'json'
 			async: false
 			beforeSend: ajax.setHeaders
 			success: (response) ->

@@ -47,7 +47,7 @@ module.exports = Backbone.Model.extend
 
 	fetch: (id) ->
 		that = @
-		url = app.config.host + '/api/classified/single/' + id
+		url = app.config.host + '/api/classified/' + id
 		$.ajax
 			type: 'GET'
 			url: url
@@ -85,7 +85,7 @@ module.exports = Backbone.Model.extend
 		console.debug @consoleSlug, 'uploading classified details to server', this
 		that = this
 
-		url = app.config.host + '/classified/post/'
+		url = app.config.host + '/api/classified'
 
 		# Get the JSON to send in the first request. The first request should
 		# not contain the files. The files will be uploaded asynchronously in
@@ -106,7 +106,7 @@ module.exports = Backbone.Model.extend
 			data: @getFormData(files)
 			processData: false
 			contentType: false
-			type: 'POST'
+			type: 'PUT'
 			url: url
 
 			# Attach the progress handler, if it can be supported
