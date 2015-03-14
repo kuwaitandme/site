@@ -10,6 +10,7 @@ logger             = require 'morgan'
 mongoose           = require 'mongoose'
 passport           = require 'passport'
 path               = require 'path'
+redis              = require 'redis'
 redisStore         = (require 'connect-redis') expressSession
 
 # Setup some globals
@@ -141,5 +142,13 @@ else
 		response.render 'error',
 			message: err.message
 			error: err
+
+# Clear out redis cache
+console.log "clearing redis view cache"
+client = redis.createClient null, null, detect_buffers: true
+client.del 'categories', 'locations'
+client.keys "page*", (err, keys) ->
+	for key in keys
+		client.del key
 
 module.exports = app
