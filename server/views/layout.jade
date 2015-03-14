@@ -25,7 +25,10 @@ html(lang="en")
 		script(src="https://www.google.com/recaptcha/api.js?render=explicit", async, defer)
 
 		//- Stylesheet
-		link(rel='stylesheet', href='/stylesheets/build/style.min.css')
+		if environment == "production"
+			link(rel='stylesheet', href='/stylesheets/build/style.min.css')
+		else
+			link(rel='stylesheet', href='/stylesheets/build/style.css')
 
 		//- SEO description tag
 		if description
