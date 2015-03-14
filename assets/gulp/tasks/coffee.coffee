@@ -3,7 +3,6 @@ coffeeify = require 'gulp-coffeeify'
 gutil     = require 'gulp-util'
 rename    = require 'gulp-rename'
 uglify    = require 'gulp-uglifyjs'
-watch     = require 'gulp-watch'
 
 module.exports = (gulp, config) ->
 	task = ->
@@ -16,6 +15,7 @@ module.exports = (gulp, config) ->
 
 	gulp.task 'coffee', -> task()
 
+	gulp.watch config.jsPattern,  ['coffee']
 	gulp.task 'coffee:minified', ->
 		task()
 			.pipe uglify    config.targetFilenameMin
