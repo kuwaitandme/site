@@ -1,46 +1,46 @@
+jade   = require 'jade'
 redis  = require 'redis'
 
 client = redis.createClient null, null, detect_buffers: true
 
 
-
 # A helper function to render the page properly with the right parameters and
 # some default values.
-module.exports = (request, response, args) ->
-	common = []
+module.exports = (request, response, args={}, cache=false) ->
 
-	args.data = args.data or {}
-	# If the AJAX header is set, then set the response type to JSON and print
-	# out only the main content
-	if request.headers['x-ajax']
-		response.contentType 'application/json'
-		return response.end (JSON.stringify args.data)
-
-	if request.csrfToken then csrfToken = request.csrfToken()
-
-	finish = (err, categories) ->
-		if err then throw err
+	# Render the page. This function is responsible for setting up all the
+	# variables properly as well as saving the view into the cache if needed
+	render = (redisError) ->
+		if redisError then throw err
 
 		config = global.config
-		args.data.categories = JSON.parse categories
+		args.data = args.data or {}
 		args.data.captchaKey = config.reCaptcha.site
 		args.data.jsVersion = config.jsVersion
 		args.data.ga = config.ga
 		args.data.user = request.user
-		args.data.csrf = csrfToken
+		args.title = "#{args.title} | Kuwait &amp; Me"
+		# args.data.csrf = csrfToken
 
-		response.render 'main/' + args.page,
-			description: args.description or ''
-			title:       "#{args.title} | Kuwait &amp; Me"
+		# Render the page
+		html = jade.renderFile "#{global.root}/views/main/#{args.page}.jade", args
 
-			bodyid:      args.bodyid or ''
-			data:        args.data or {}
+		# If we are caching this page, then set it into the cache
+		if cache then client.set 'page:' + args.page, html
 
-	client.get 'categories', (err, result) ->
-		if result then return finish err, result
+		# Return the page
+		response.end html
 
-		category = global.models.category
-		category.getAll (result) ->
-			json = JSON.stringify result
-			client.set 'categories', json
-			finish null, result
+
+	# If we are looking in our cache, then try to find the view in the cache
+	if cache then  client.get 'page:' + args.page, (err, result) ->
+		if err then render err
+
+		# If the cache was found, then return it
+		if result then response.end result
+		# Else re-render the page and then save it into the cache
+		else render null
+
+
+	# render the page if we are not looking in the cache
+	else render null
