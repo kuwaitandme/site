@@ -1,31 +1,51 @@
+getQueryParameters = (request) ->
+	parameters = {}
+	parameters.status = 1
+
+	# Set the category
+	if request.query.category and (/^[0-9A-F]*$/i.test request.query.category)
+		parameters.category = request.query.category
+
+	# Set price min and max
+	price = {}
+	priceMax = request.query.priceMax
+	priceMin = request.query.priceMin
+	if priceMin and (/^[-0-9]*$/.test priceMin)
+		price.$gte = Number priceMin
+	if priceMax and (/^[-0-9]*$/.test priceMax)
+		price.$lte = Number priceMax
+	if (Object.keys price).length > 0 then parameters.price = price
+
+	# Set the classified type
+	type = Number request.query.type
+	if type and (type == 1 or type == 0) then parameters.type = type
+
+	# Set the keywords
+	if request.query.keywords
+		keywords = request.query.keywords.split ' '
+		regex = []
+
+		for keyword in keywords
+			if /^[0-9A-Z]*$/i.test keyword
+				regex.push (new RegExp keyword, 'i')
+
+		parameters.$and = [{
+			$or: [
+				{ title: $all: regex }
+				{ description: $all: regex }
+			]
+		}]
+
+	parameters
+
+
 module.exports = (request, response, next) ->
-		response.contentType 'application/json'
-		id = request.params.id
+	response.contentType 'application/json'
+	parameters = getQueryParameters request
 
-		# If no id was set, get the current user instance
-		if not id
-			user = request.user
+	page = request.query.page or 1
 
-			# If there was a logged in user, then return with some fields blanked
-			# out
-			if user
-				user.password = ''
-				user.activationToken = ''
-				response.end (JSON.stringify user)
+	finish = (classifieds) -> response.end JSON.stringify(classifieds)
 
-			# Else return a 404 Not found
-			else
-				response.status(404);
-				response.end '{}'
-
-		# An id was set, so query the DB for the user with that id
-		else
-			user = global.models.user
-			user.get id, (err, user) ->
-				if !user
-					response.status 404
-					response.end()
-				else
-					user.password = ''
-					user.activationToken = ''
-					response.end (JSON.stringify user)
+	classified = global.models.classified
+	classified.search parameters, finish, page
