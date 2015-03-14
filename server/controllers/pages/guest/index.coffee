@@ -1,3 +1,10 @@
 module.exports =
-	post: require('./post')
-	single: require('./single')
+	get: (request, response, next) -> response.redirect '/guest/post'
+
+	post:   require './post'
+	single: require './single'
+
+	routes: (router, base) ->
+		router.get base + '/guest/',       @get
+		router.get base + '/guest/post',   @post.get
+		router.get base + '/guest/single', @single.get

@@ -13,18 +13,17 @@ controller = module.exports =
 			description: description
 			page: 'landing'
 
-			title: response.__('title.landing'), true
+			title: response.__('title.landing'),
+			true
+
 
 	routes: (router, base) ->
-		router.get base, @get
-		# (require './pages').routes(router, '/')
-		# (require './api').routes(router, '/api')
+		router.get base + '/', @get
 
-	# # Load up other pages here
-	# account:     require('./account')
-	# api:         require('./api')
-	# auth:        require('./auth')
-	# classified:  require('./classified')
-	# guest:       require('./guest')
-	# privacy:     require('./privacy')
-	# terms:       require('./terms')
+		(require './account')    .routes router, base
+		(require './auth')       .routes router, base
+		(require './classified') .routes router, base
+		(require './guest')      .routes router, base
+		(require './privacy')    .routes router, base
+		(require './terms')      .routes router, base
+		(require './terms')      .routes router, base

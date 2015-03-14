@@ -9,11 +9,11 @@ module.exports =
 			jsVersion: config.jsVersion
 
 
-	routes: (router, base='/api') ->
-		router.get base, @get
-		(require './auth').routes(router, base)
-		(require './category').routes(router, base)
-		(require './classified').routes(router, base)
-		(require './location').routes(router, base)
-		(require './query').routes(router, base)
-		(require './user').routes(router, base)
+	routes: (router, base) ->
+		router.get base + '/', @get
+		(require './auth')       .routes router, base
+		(require './category')   .routes router, base
+		(require './classified') .routes router, base
+		(require './location')   .routes router, base
+		(require './query')      .routes router, base
+		(require './user')       .routes router, base

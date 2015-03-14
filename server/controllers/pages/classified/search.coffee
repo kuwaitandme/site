@@ -8,26 +8,27 @@ controller = module.exports =
 	get: (request, response, next) ->
 		parameters = controller.getQueryParameters(request)
 		classified.search parameters, ((classifieds) ->
-			render = global.helpers.render
-			render request, response,
+			args =
 				bodyid: 'classified-search'
 				page: 'classified/search'
 				title: response.__('title.classified.search')
-
 				data: classifieds: classifieds
+
+			render = global.helpers.render
+			render request, response, args
 		), 1
 
 
-	post: (request, response, next) ->
-		response.contentType 'application/json'
-		parameters = controller.getQueryParameters request
+	# post: (request, response, next) ->
+	# 	response.contentType 'application/json'
+	# 	parameters = controller.getQueryParameters request
 
-		if request.query.page then page = request.query.page
-		else page = 1
+	# 	if request.query.page then page = request.query.page
+	# 	else page = 1
 
-		finish = (classifieds) -> response.end JSON.stringify(classifieds)
+	# 	finish = (classifieds) -> response.end JSON.stringify(classifieds)
 
-		classified.search parameters, finish, page
+	# 	classified.search parameters, finish, page
 
 
 	getQueryParameters: (request) ->

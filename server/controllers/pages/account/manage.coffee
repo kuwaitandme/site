@@ -1,31 +1,36 @@
 classified = global.models.classified
-render = require('../../helpers/render')
 
 controller = module.exports =
 
 	get: (request, response, next) ->
+		if !request.isAuthenticated()
+			return response.redirect '/auth/login?error=need_login'
+
 		parameters = controller.getQueryParameters(request)
 
 		finish = (classifieds) ->
-			render request, response,
+			args =
 				bodyid: 'account-manage'
 				page: 'classified/search'
 
 				title: response.__('title.classified.search')
 				data: classifieds: classifieds
 
+			render = global.helpers.render
+			render request, response, args
+
 		classified.search parameters, finish, 1, true
 
 
-	post: (request, response, next) ->
-		parameters = controller.getQueryParameters(request)
+	# post: (request, response, next) ->
+	# 	parameters = controller.getQueryParameters(request)
 
-		if request.query.page then page = request.query.page
-		else page = 1
+	# 	if request.query.page then page = request.query.page
+	# 	else page = 1
 
-		finish = (classifieds) -> response.end JSON.stringify(classifieds)
+	# 	finish = (classifieds) -> response.end JSON.stringify(classifieds)
 
-		classified.search parameters, finish, page, true
+	# 	classified.search parameters, finish, page, true
 
 
 	getQueryParameters: (request) ->

@@ -1,6 +1,4 @@
-classifiedSingle = require('../classified/single')
-classified = global.models.classified
-render = require('../../helpers/render')
+# classifiedSingle = require('../classified/single')
 
 # Controller for the classified posting page. Creates a new classified and
 # saves it to the database.
@@ -17,6 +15,7 @@ controller = module.exports =
 			return next()
 
 		# Get the classified
+		classified = global.models.classified
 		classified.get id, (classified) ->
 
 			# Display 404 page if classified is not found
@@ -29,6 +28,7 @@ controller = module.exports =
 			if classified.authHash != authHash then return next()
 
 			# Generate the response
+			render = global.helpers.render
 			render request, response,
 				bodyid: 'guest-single'
 				description: classified.description
@@ -41,29 +41,29 @@ controller = module.exports =
 					superEditable: false
 
 
-	post: (request, response, next) ->
-		id = request.params.id
-		authHash = request.query.authHash
+	# post: (request, response, next) ->
+	# 	id = request.params.id
+	# 	authHash = request.query.authHash
 
-		finish = (status, message) ->
-			response.redirect '/guest/single/' + id + '?' + 'authHash=' + authHash + '&' + status + '=' + message
+	# 	finish = (status, message) ->
+	# 		response.redirect '/guest/single/' + id + '?' + 'authHash=' + authHash + '&' + status + '=' + message
 
-		if not (/^[0-9A-F]*$/i.test id) then return next()
-		if not (!/^[0-9A-Za-z-]*$/.test authHash) then return next()
+	# 	if not (/^[0-9A-F]*$/i.test id) then return next()
+	# 	if not (!/^[0-9A-Za-z-]*$/.test authHash) then return next()
 
-		# Only logged in users should be sending POST requests to this page
-		if request.user
-			superEditable = false
-			editable = false
-			classified.get id, (classified) ->
-				if not classified then return finish('error', 'notfound')
+	# 	# Only logged in users should be sending POST requests to this page
+	# 	if request.user
+	# 		superEditable = false
+	# 		editable = false
+	# 		classified.get id, (classified) ->
+	# 			if not classified then return finish('error', 'notfound')
 
-				# Check user privileges and give an error message if the user
-				# doesn't have any privileges
-				if not classified.guest then return finish('error', 'unpriv')
-				if classified.authHash != authHash then return finish('error', 'unpriv')
+	# 			# Check user privileges and give an error message if the user
+	# 			# doesn't have any privileges
+	# 			if not classified.guest then return finish('error', 'unpriv')
+	# 			if classified.authHash != authHash then return finish('error', 'unpriv')
 
-				# Perform the admin action respectively
-				classifiedSingle.performAdmin request, true, false, finish
+	# 			# Perform the admin action respectively
+	# 			classifiedSingle.performAdmin request, true, false, finish
 
-		else finish 'error', 'needlogin'
+	# 	else finish 'error', 'needlogin'

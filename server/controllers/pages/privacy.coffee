@@ -5,4 +5,7 @@ controller = module.exports =
 		render request, response,
 			bodyid: 'privacy'
 			page: 'privacy'
-			title: response.__('title.privacy')
+			title: response.__('title.privacy'),
+			true
+
+	routes: (router, base) -> router.get base + '/privacy', @get

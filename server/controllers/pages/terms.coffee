@@ -6,4 +6,7 @@ controller = module.exports =
 		render request, response,
 			bodyid: 'terms'
 			page: 'terms'
-			title: response.__('title.terms')
+			title: response.__('title.terms'),
+			true
+
+	routes: (router, base) -> router.get base + '/terms', @get
