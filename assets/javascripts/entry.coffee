@@ -28,14 +28,14 @@ class App
 	# Forward  to different app components. This way we can avoid
 	# writing long names for functions that we will be using often.
 	cacheView: (view, identifier) -> @controllers.localStorage.cacheView(view, identifier)
-	error: (text, title) -> @views.messages.error(text, title)
 	getCachedViewHTML: (view) -> @controllers.localStorage.getCachedViewHTML(view)
 	goto: (url, view, args) -> @controllers.router.goto url, view, args
 	loadResource: (resource) -> @controllers.resourceLoader.loadResource(resource)
 	reattachRouter: -> @controllers.router.reattachRouter()
 	setView: (page, args, reverse) -> @controllers.viewManager.setView(page, args, reverse)
+
+	error: (text, title) -> @controllers.messages.error(text, title)
 	success: (text, title) -> @controllers.messages.success(text, title)
-	transition: (options) -> @controllers.pageTransition.transition(options)
 	warn: (text, title) -> @controllers.messages.warn(text, title)
 
 

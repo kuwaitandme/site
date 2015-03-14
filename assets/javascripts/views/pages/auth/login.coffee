@@ -42,25 +42,32 @@ module.exports = view.extend
 
 		# Parse the URL and give out the appropriate message based on it.
 		getParam = app.helpers.url.getParam
-		if getParam 'error'   then app.error   @messages[getParam 'error']
-		if getParam 'success' then app.success @messages[getParam 'success']
-		if getParam 'warn'    then app.warn    @messages[getParam 'warn']
+		if getParam 'error'
+			@addMessage @messages[getParam 'error'], 'error'
+		if getParam 'success'
+			@addMessage @messages[getParam 'success'], 'success'
+		if getParam 'warn'
+			@addMessage @messages[getParam 'warn'], 'warn'
+		# if getParam 'warn'    then app.warn    @messages[getParam 'warn']
 
+		# Generate a random id to put in place of the captcha's id
+		randomId = Math.floor (Math.random() * 1000)
+		@captchaId = 'gcaptcha' + randomId
+		@$captcha = @$ '.gcaptcha'
+		@$captcha.attr 'id', @captchaId
+
+		console.log @captchaId
 
 	continue: ->
 		console.log @name, 'rendering'
 		@renderCaptcha()
 
 
-	checkRedirect: -> false
-
-
 	renderCaptcha: ->
 		console.log @name, 'setting captcha'
-
-		@$captcha   = @$ "#login-captcha"
 		@$captcha.html("").show()
-		@captcha = grecaptcha.render "login-captcha", sitekey: window.data.captchaKey
+		if @captcha then grecaptcha.reset @captcha
+		else @captcha = grecaptcha.render @captchaId, sitekey: window.data.captchaKey
 
 
 	resetCaptcha: -> grecaptcha.reset @captcha

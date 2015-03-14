@@ -9,7 +9,7 @@ module.exports = view.extend
 	start: (options) ->
 		console.debug @name, 'initializing', options
 		@sendAjax()
-		app.currentUser.clear()
+		app.models.currentUser.logout()
 
 
 	continue: -> console.log @name, 'rendering'

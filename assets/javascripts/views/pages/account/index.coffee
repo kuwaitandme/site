@@ -1,11 +1,8 @@
-module.exports = Backbone.View.extend
-	consoleSlug: '[view:account]'
+view = require '../classified/search'
 
+module.exports = view.extend
+	name: '[view:account]'
 
-	initialize: (options) -> console.debug @consoleSlug, 'initializing', options
+	start: (options) -> console.debug @name, 'initializing', options
 
-
-	render: -> console.log @consoleSlug, 'rendering'
-
-
-	checkRedirect: -> false
+	continue: -> console.log @name, 'rendering'

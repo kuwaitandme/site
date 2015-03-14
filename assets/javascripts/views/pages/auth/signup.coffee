@@ -6,9 +6,9 @@ module.exports = login.extend
 	renderCaptcha: ->
 		console.log @name, 'setting captcha'
 
-		@$captcha   = @$ "#signup-captcha"
 		@$captcha.html("").show()
-		grecaptcha.render "signup-captcha", sitekey: window.data.captchaKey
+		if @captcha then grecaptcha.reset @captcha
+		else @captcha = grecaptcha.render @captchaId, sitekey: window.data.captchaKey
 
 
 	# Validates the form before and displays any error messages if needed
