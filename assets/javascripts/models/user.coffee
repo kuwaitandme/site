@@ -32,7 +32,7 @@ module.exports = Backbone.Model.extend
 
 		$.ajax
 			type: 'POST'
-			url: app.config.host + '/auth/login/'
+			url: app.config.host + '/api/auth/login/'
 			beforeSend: ajax.setHeaders
 			data:
 				username: username
@@ -64,7 +64,7 @@ module.exports = Backbone.Model.extend
 
 		$.ajax
 			type: 'POST'
-			url: app.config.host + '/auth/signup/'
+			url: app.config.host + '/api/auth/signup/'
 			beforeSend: ajax.setHeaders
 			data: parameters
 			# This function gets called when the user is created successfully

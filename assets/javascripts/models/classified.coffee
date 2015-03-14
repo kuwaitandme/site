@@ -47,7 +47,7 @@ module.exports = Backbone.Model.extend
 
 	fetch: (id) ->
 		that = @
-		url = app.config.host + '/classified/single/' + id
+		url = app.config.host + '/api/classified/single/' + id
 		$.ajax
 			type: 'GET'
 			url: url

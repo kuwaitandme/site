@@ -1,4 +1,4 @@
-ajax = require('app-helpers').ajax
+ajax = (require 'app-helpers').ajax
 
 model = Backbone.Model.extend
 	defaults:
@@ -8,21 +8,24 @@ model = Backbone.Model.extend
 
 module.exports = Backbone.Collection.extend
 	model: model
+	name: '[model:locations]'
 
-	initialize: (config) ->
-		console.log '[model:locations] initializing'
-
+	initialize: (@config) -> console.log @name, 'initializing'
 
 	fetch: ->
-		console.log '[model:locations] fetching'
-		that = this
+		console.log @name, 'fetching'
+		self = @
+
 		localStorage = window.app.controllers.localStorage
 
 		# Attempt to load from HTML5 localStorage
-		cache = localStorage.get('locations')
+		cache = localStorage.get 'locations'
 		if cache
-			console.log '[model:locations] setting locations from cache'
-			return @set(JSON.parse(cache))
+			json = JSON.parse cache
+			console.debug @name, 'setting locations from cache', json
+			return @set json
+
+		console.debug @name, 'requesting location details via AJAX'
 
 		# If data wasn't cached, then request it by sending a AJAX request
 		# and then caching the data
@@ -33,14 +36,16 @@ module.exports = Backbone.Collection.extend
 			async: false
 			beforeSend: ajax.setHeaders
 			success: (response) ->
-				console.log '[model:locations] fetching location details'
-				that.set JSON.parse(response)
+				json = JSON.parse response
+				console.debug self.name, 'got location details', json
+				self.set json
 
 				# Cache the results
-				console.log '[model:locations] caching location details'
+				console.log self.name, 'caching location details'
 				localStorage.cache 'locations', response
 
 				# Signal any listeners that we are done loading this location
-				that.trigger 'ajax:done', that
+				self.trigger 'ajax:done', self
+
 			error: (e) ->
-				console.error '[model:locations] error fetching location details', e
+				console.error self.name, 'error fetching location details', e
