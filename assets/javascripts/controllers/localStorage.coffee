@@ -19,14 +19,14 @@ module.exports = class controller
 
 		# Check if localStorage is supported
 		if Storage?
-			remoteVersion = window.jsVersion or 0
-			localVersion = localStorage.getItem('jsVersion')
+			remoteVersion = window.data.jsVersion or 1
+			localVersion = localStorage.getItem('jsVersion') or 0
 
 			# Check if the versions are different or not
-			if localVersion is remoteVersion
-				console.debug @consoleSlug, 'local version', localVersion
-				console.debug @consoleSlug, 'remote version', remoteVersion
-				console.debug @consoleSlug, 'flushing local cache'
+			console.debug @consoleSlug, 'local version', localVersion
+			console.debug @consoleSlug, 'remote version', remoteVersion
+			if localVersion != remoteVersion
+				console.log @consoleSlug, 'flushing local cache'
 
 				# If it is, then clear the cache and set the new version
 				localStorage.clear()
