@@ -1,6 +1,4 @@
 module.exports =
 	post: require './post'
 
-	routes: (router, base) ->
-		base +='/signup'
-		router.post base, @post
+	routes: (router, base) -> router.post base + '/signup', @post

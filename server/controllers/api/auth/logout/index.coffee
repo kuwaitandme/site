@@ -1,6 +1,4 @@
 module.exports =
 	get: require './get'
 
-	routes: (router, base) ->
-		base +='/logout'
-		router.get base, @get
+	routes: (router, base) -> router.get base + '/logout', @get

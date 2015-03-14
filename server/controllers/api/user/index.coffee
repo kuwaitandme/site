@@ -5,8 +5,7 @@ module.exports =
 	put:    require './get'
 
 	routes: (router, base) ->
-		base +='/user'
-		router.delete   base + '/:id', @delete
-		router.get      base + '/:id?', @get
-		router.post     base + '/:id', @post
-		router.put      base + '/', @put
+		router.delete   base + '/user/:id?', @delete
+		router.get      base + '/user/:id?', @get
+		router.post     base + '/user/:id?', @post
+		router.put      base + '/user/'    , @put
