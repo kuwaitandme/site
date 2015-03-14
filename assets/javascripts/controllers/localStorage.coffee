@@ -23,9 +23,9 @@ module.exports = class controller
 			localVersion = (Number localStorage.getItem 'jsVersion') or 0
 
 			# Check if the versions are different or not
-			console.debug @consoleSlug, 'local version', localVersion
-			console.debug @consoleSlug, 'remote version', remoteVersion
-			if localVersion is not remoteVersion
+			console.debug @consoleSlug, 'local js version', localVersion
+			console.debug @consoleSlug, 'remote js version', remoteVersion
+			if localVersion != remoteVersion
 				console.log @consoleSlug, 'flushing local cache'
 
 				# If it is, then clear the cache and set the new version
