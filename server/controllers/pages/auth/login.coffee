@@ -5,7 +5,6 @@
 controller = module.exports =
 	get: (request, response, next) ->
 		args =
-			bodyid: 'auth-login'
 			page: 'auth/login'
 			title: response.__('title.auth.login'),
 
