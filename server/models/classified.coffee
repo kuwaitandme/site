@@ -62,11 +62,11 @@ classifieds = module.exports =
 
 		# Check for any empty fields
 		if not data or not requiredRegex.test(data.category) or not requiredRegex.test(data.contact.email) or not requiredRegex.test(data.description) or not requiredRegex.test(data.price) or not requiredRegex.test(data.title) or not requiredRegex.test(data.type) or not requiredRegex.test(data.contact.location)
-			return callback(null)
+			return callback('emptyfields', null)
 
 		# Check for any invalid fields
-		if not hexRegex.test(data.category) or not hexRegex.test(data.contact.location) or not numberRegex.test(data.contact.phone) or (data.meta.gmapX and not numberRegex.test(data.meta.gmapX)) or (data.meta.gmapY and not numberRegex.test(data.meta.gmapY)) or not numberRegex.test(data.price) or not numberRegex.test(data.type)
-			return callback(null)
+		if not hexRegex.test(data.category) or not hexRegex.test(data.contact.location) or (data.meta.gmapX and not numberRegex.test(data.meta.gmapX)) or (data.meta.gmapY and not numberRegex.test(data.meta.gmapY)) or not numberRegex.test(data.price) or not numberRegex.test(data.type)
+			return callback('invalidfields', null)
 
 		# Start saving the fields one by one
 		classified.category = data.category
@@ -108,7 +108,7 @@ classifieds = module.exports =
 		# Commit to the database and call the callback function
 		classified.save (err) ->
 			if err then throw err
-			callback classified
+			callback null, classified
 
 
 	# Gets a single classified, given it's id
