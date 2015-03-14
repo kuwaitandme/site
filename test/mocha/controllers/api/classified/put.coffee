@@ -5,6 +5,8 @@ sampleClassified = null
 
 describe 'put():', ->
 	describe 'create a new classified', ->
+		it 'create a guest classified with correct details', ->
+		it 'create a normal classified with correct details', ->
 		it 'return newly created classified on success', ->
 		it 'save a valid classified on success', ->
 		it 'save new classified in the DB', ->

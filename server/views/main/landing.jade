@@ -1,7 +1,7 @@
 extends ../layout.jade
 
 block content
-	.hide
+	//- .hide
 		each category in data.categories
 			a(href="/classified/search?category=" + category._id)= category.name
 

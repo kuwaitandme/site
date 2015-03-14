@@ -1,7 +1,7 @@
 module.exports =
 	passport: require './passport'
-	api:      require './api'
 	helpers:  require './helpers'
 
 	routes: (router) ->
+		(require './pages').routes(router, '/')
 		(require './api').routes(router, '/api')
