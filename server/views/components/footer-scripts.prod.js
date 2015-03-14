@@ -36,17 +36,13 @@ window.scripts = [{
 	remoteSrc: "//cdnjs.cloudflare.com/ajax/libs/masonry/3.2.2/masonry.pkgd.min.js",
 	localSrc: "/javascripts/vendor/masonry.pkgd.min.js",
 },{
-	name:"googleMaps",
+	name:"google-maps",
 	remoteSrc: "//maps.googleapis.com/maps/api/js?v=3.exp",
 	localSrc: "/javascripts/vendor/google.maps.js",
 },{
 	name:"jquery-imagesloaded",
 	remoteSrc: "//cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/3.1.8/imagesloaded.pkgd.min.js",
 	localSrc: "/javascripts/vendor/imagesloaded.min.js",
-},{
-	name:"tinymce",
-	remoteSrc: "//tinymce.cachefly.net/4.1/jquery.tinymce.min.js",
-	localSrc: "/javascripts/vendor/jquery.tinymce.min.js",
 },{
 	name:"app",
 	remoteSrc: "/javascripts/build/app.min.js",

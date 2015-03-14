@@ -19,10 +19,10 @@ window.scripts = [{
 	name:"backbone",
 	remoteSrc: "/javascripts/vendor/backbone.min.js",
 	localSrc: "/javascripts/vendor/backbone.min.js",
-// },{
-// 	name:"googleMaps",
-// 	remoteSrc: "/javascripts/vendor/google.maps.js",
-// 	localSrc: "/javascripts/vendor/google.maps.js",
+},{
+	name:"google-maps",
+	remoteSrc: "/javascripts/vendor/google.maps.js",
+	localSrc: "/javascripts/vendor/google.maps.js",
 },{
 	name:"modernizr",
 	remoteSrc: "/javascripts/vendor/modernizr.min.js",
@@ -43,10 +43,6 @@ window.scripts = [{
 	name:"jquery-imagesloaded",
 	remoteSrc: "/javascripts/vendor/imagesloaded.min.js",
 	localSrc: "/javascripts/vendor/imagesloaded.min.js",
-},{
-	name:"tinymce",
-	remoteSrc: "/javascripts/vendor/jquery.tinymce.min.js",
-	localSrc: "/javascripts/vendor/jquery.tinymce.min.js",
 },{
 	name:"app",
 	remoteSrc: "/javascripts/build/app.js",
