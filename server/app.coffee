@@ -98,7 +98,10 @@ mongoose.connect 'mongodb://' + global.config.mongodb.username + ':' +
 error = (fs.createWriteStream 'var/error.log', flags: 'a')
 
 app.logError = (err, request) ->
-	fullUrl = "#{request.connection.remoteAddress}@#{request.method}:
+	addr = request.headers['x-forwarded-for'] || req.connection.remoteAddress;
+	date = new Date()
+	fullUrl = "#{date}\n
+		#{addr}@#{request.method}:
 		#{request.protocol}://#{request.get 'host'}#{request.originalUrl}"
 	error.write fullUrl + '\n'
 	error.write request.headers['user-agent'] + '\n'
