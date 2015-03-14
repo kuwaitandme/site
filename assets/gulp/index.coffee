@@ -7,6 +7,6 @@ module.exports = (tasks) ->
 		task = require "./tasks/#{taskname}"
 
 		# Register each generated task with the taskname
-		task gulp, config
+		task gulp, (config[taskname] or {})
 
 	gulp

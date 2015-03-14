@@ -2,14 +2,15 @@ sass      = require 'gulp-sass'
 rename    = require 'gulp-rename'
 uglifycss = require 'gulp-uglifycss'
 
-module.exports = (gulp) ->
+module.exports = (gulp, config) ->
 
 	task = ->
-		gulpPipe = gulp.src './stylesheets/style.scss'
+		gulpPipe = gulp.src config.src
 			.pipe sass
 				errLogToConsole: true
 				sourceComments: 'map'
-			.pipe gulp.dest '../public/stylesheets/build'
+			.pipe rename config.targetFilename
+			.pipe gulp.dest config.dest
 
 		gulpPipe
 
@@ -18,5 +19,5 @@ module.exports = (gulp) ->
 	gulp.task 'sass:minified', ->
 		task()
 			.pipe uglifycss()
-			.pipe rename 'style.min.css'
-			.pipe gulp.dest '../public/stylesheets/build'
+			.pipe rename config.targetFilenameMin
+			.pipe gulp.dest config.dest
