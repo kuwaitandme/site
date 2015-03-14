@@ -14,6 +14,7 @@ module.exports = (request, response, args={}, cache=false) ->
 		if redisError then throw err
 
 		config = global.config
+		args.environment = config.mode
 		args.data = args.data or {}
 		args.data.captchaKey = config.reCaptcha.site
 		args.data.jsVersion = config.jsVersion

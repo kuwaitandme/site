@@ -49,35 +49,41 @@ window.scripts = [{
 	localSrc: "/javascripts/vendor/jquery.tinymce.min.js",
 },{
 	name:"app",
-	remoteSrc: "/javascripts/build/app.js",
-	localSrc: "/javascripts/build/app.js",
+	remoteSrc: "/javascripts/build/app.min.js",
+	localSrc: "/javascripts/build/app.min.js",
 }]
 
 function loadScriptSync(src) {
-    var s = document.createElement('script');
-    s.src = src;
-    s.type = "text/javascript";
-    s.async = false;                                 // <-- this is important
-    document.getElementsByTagName('head')[0].appendChild(s);
+	var s = document.createElement('script');
+	s.src = src;
+	s.type = "text/javascript";
+	s.async = false;                                 // <-- this is important
+	document.getElementsByTagName('head')[0].appendChild(s);
 }
+
 
 for (var i = scripts.length; i >= 1; i--) {
 	var script = scripts[scripts.length - i];
 
 	/* Create the DOM element to load our script */
 	var $script = document.createElement("script");
+	var foundInCache = false;
+
 	$script.type = "text/javascript";
-	$script.async = true;
 	$script.dataset.script = script.name;
 
-	/* Check for the script in our cache */
-	var scriptCache = localStorage.getItem("script-" + script.name);
+	if(typeof Storage !== "undefined") {
+		/* Check for the script in our cache */
+		var scriptCache = localStorage.getItem("script-" + script.name);
 
-	/* If the cache exists, then read from it; Otherwise load the script
-	 * normally */
-	if(typeof Storage !== "undefined" && scriptCache) {
-		$script.innerHTML = scriptCache;
-		document.getElementsByTagName('head')[0].appendChild($script);
+		/* If the cache exists, then read from it; Otherwise load the script
+		 * normally */
+		if(scriptCache) {
+			$script.innerHTML = scriptCache;
+			document.getElementsByTagName('head')[0].appendChild($script);
+			foundInCache = true;
+		}
 	}
-	else loadScriptSync(script.remoteSrc);
+
+	if(!foundInCache) loadScriptSync(script.remoteSrc);
 }

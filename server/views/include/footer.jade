@@ -4,7 +4,7 @@ footer
 	section#scripts
 		script window.data = !{JSON.stringify(data)};
 
-		if process.env.NODE_ENV == "production"
+		if environment == "production"
 			script
 				include ../components/footer-scripts.prod.min.js
 			script.
@@ -13,4 +13,3 @@ footer
 		else
 			script
 				include ../components/footer-scripts.js
-		//- script window.app = new App

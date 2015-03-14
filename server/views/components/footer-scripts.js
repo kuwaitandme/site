@@ -68,20 +68,23 @@ for (var i = scripts.length; i >= 1; i--) {
 
 	/* Create the DOM element to load our script */
 	var $script = document.createElement("script");
+	var foundInCache = false;
 
 	$script.type = "text/javascript";
 	$script.dataset.script = script.name;
 
-	/* Check for the script in our cache */
-	var scriptCache = localStorage.getItem("script-" + script.name);
+	if(typeof Storage !== "undefined") {
+		/* Check for the script in our cache */
+		var scriptCache = localStorage.getItem("script-" + script.name);
 
-	// console.debug(script.name, scriptCache);
-
-	/* If the cache exists, then read from it; Otherwise load the script
-	 * normally */
-	if(typeof Storage !== "undefined" && scriptCache && script.name != 'kme') {
-		$script.innerHTML = scriptCache;
-		document.getElementsByTagName('head')[0].appendChild($script);
+		/* If the cache exists, then read from it; Otherwise load the script
+		 * normally */
+		if(scriptCache) {
+			$script.innerHTML = scriptCache;
+			document.getElementsByTagName('head')[0].appendChild($script);
+			foundInCache = true;
+		}
 	}
-	else loadScriptSync(script.remoteSrc);
+
+	if(!foundInCache) loadScriptSync(script.remoteSrc);
 }
