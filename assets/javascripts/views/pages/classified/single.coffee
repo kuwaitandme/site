@@ -17,6 +17,8 @@ module.exports = view.extend
 		@slideshowTemplate = _.template (@$ '#slideshow-template').html()
 		@singleTemplate    = _.template (@$ '#single-template').html()
 
+		@$gmap = @$ '#map-canvas'
+
 		if @options.model
 			@model = @options.model
 			@populateDOM()
@@ -51,6 +53,8 @@ module.exports = view.extend
 
 
 	populateDOM: ->
+		self = @
+
 		# Add the main template
 		($ '.c-content').html @singleTemplate @model.toJSON()
 
@@ -62,7 +66,12 @@ module.exports = view.extend
 			(@$ '.c-gallery').show()
 
 		(@$ '.page').css 'min-height', ($ window).height()
-		@initMaps()
+
+		# Render google maps
+		init = -> self.initializeGoogleMaps()
+		if not window.gmapInitialized
+			window.gmapInitializeListeners.push init
+		else init()
 		# this.renderAdminbar();
 
 
@@ -98,8 +107,8 @@ module.exports = view.extend
 
 
 	# Initializes Google maps if required.
-	initMaps: ->
-		that = @
+	initializeGoogleMaps: ->
+		self = @
 
 		# Initializes the map with the latitude and longitude given
 		init = (lat, lng) ->
@@ -112,21 +121,19 @@ module.exports = view.extend
 				zoom: 13
 
 			# Add the map
-			@gmap = new google.maps.Map @$gmap[0], mapOptions
+			self.gmap = new google.maps.Map self.$gmap[0], mapOptions
 
 			# Add the marker
-			@gmarker = new google.maps.Marker
+			self.gmarker = new google.maps.Marker
 				position: myLatlng
-				map: @gmap
+				map: self.gmap
 
 		@$gmap = @$ '#map-canvas'
 
 
 		# If there are google co-ordinates saved, load up google maps
 		meta = @model.get 'meta'
-		if meta and meta.gmapX and meta.gmapY
-			init meta.gmapX, meta.gmapY
-			# google.maps.event.addDomListener(window, 'load', init);
+		if meta and meta.gmapX and meta.gmapY then init meta.gmapX, meta.gmapY
 		else  @$gmap.hide()
 
 

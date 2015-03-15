@@ -12,13 +12,20 @@ module.exports = Backbone.View.extend
 		@on "close", @close
 		@setDOM()
 
-	render: -> self.initializeGoogleMaps()
+	render: ->
+		self = @
+		init = -> self.initializeGoogleMaps()
+
+		if not window.gmapInitialized
+			window.gmapInitializeListeners.push init
+		else init()
 
 
 	setModel: ->
-		@model.set meta:
-			gmapX: @$gmapX.val()
-			gmapY: @$gmapY.val()
+		@model.set
+			meta:
+				gmapX: @$gmapX.val()
+				gmapY: @$gmapY.val()
 
 
 	setDOM: ->
@@ -27,6 +34,8 @@ module.exports = Backbone.View.extend
 
 
 	initializeGoogleMaps: ->
+		self = @
+
 		X = @$gmapX.val() or 29.27985
 		Y = @$gmapY.val() or 47.98448
 
@@ -51,13 +60,19 @@ module.exports = Backbone.View.extend
 		# marker has been dragged
 		google.maps.event.addListener @gmarker, 'dragend', (event) ->
 			# Center the map on the position of the marker
-			latLng = @gmarker.getPosition()
-			@gmap.setCenter latLng
+			latLng = self.gmarker.getPosition()
+			console.log latLng, self.model
+			window.a = self.model
+			self.gmap.setCenter latLng
 
-			# Set our hidden input fields so that the backend can catch the
-			# co-ordinates
-			@$gmapX.val latLng.lat()
-			@$gmapY.val latLng.lng()
+			self.model.set
+				meta:
+					gmapX: latLng.lat()
+					gmapY: latLng.lng()
+			# # Set our hidden input fields so that the backend can catch the
+			# # co-ordinates
+			# self.$gmapX.val latLng.lat()
+			# self.$gmapY.val latLng.lng()
 
 
 	close: ->

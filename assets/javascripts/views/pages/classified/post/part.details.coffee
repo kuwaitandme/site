@@ -39,7 +39,7 @@ module.exports = Backbone.View.extend
 	locationChange: (event) ->
 		lastVal = (@$locations.find 'option:last-child').val()
 
-		if @$locations.val() != lastVal and false
+		if @$locations.val() != lastVal
 			@$address1.removeClass "hide"
 			@$address2.removeClass "hide"
 
@@ -91,7 +91,7 @@ module.exports = Backbone.View.extend
 
 	# Initializes the categories option
 	initCategories: ->
-		@$category.val 0
+		# @$category.val 0
 
 		for category in @categories
 			html = @generateOption category._id, category.name
