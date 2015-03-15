@@ -28,9 +28,11 @@ module.exports = Backbone.View.extend
 	validate: ->
 		val = ($ '#g-recaptcha-response').val()
 
-		if not val or val == ''
-			@model.trigger 'post:error', 'Please fill in the captcha properly'
-			return false
+		# Only if the captcha is defined will we check it for validation
+		if @captcha
+			if not val or val == ''
+				@model.trigger 'post:error', 'Please fill in the captcha properly'
+				return false
 		true
 
 	# Sends the AJAX request to the back-end
@@ -45,15 +47,18 @@ module.exports = Backbone.View.extend
 
 		@$submit.hide()
 		@$spinner.show()
+		# @model.save()
 		@model.uploadServer()
+
 
 
 	renderCaptcha: ->
 		console.log @name, 'setting captcha'
 
 		(@$captcha.html "").show()
-		if @captcha then grecaptcha.reset @captcha
-		else @captcha = grecaptcha.render @captchaId, sitekey: window.data.captchaKey
+		if grecaptcha?
+			if @captcha then grecaptcha.reset @captcha
+			else @captcha = grecaptcha.render @captchaId, sitekey: window.data.captchaKey
 
 
 	resetCaptcha: -> grecaptcha.reset @captcha

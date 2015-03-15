@@ -8,7 +8,12 @@ ajax = helpers.ajax
 # methods to manipulate and sync with the server.
 module.exports = Backbone.Model.extend
 	idAttribute: "_id"
-	consoleSlug: "[model:classified]"
+	name: "[model:classified]"
+
+	url: ->
+		id = @id
+		if id then return "/api/classified/#{id}"
+		else '/api/classified'
 
 	defaults:
 		_id: null
@@ -41,31 +46,32 @@ module.exports = Backbone.Model.extend
 
 
 	initialize: ->
+		console.log this
 		# set this.id
 		@bind 'parse', @parseVariables, this
 		return
 
 
-	fetch: (id) ->
-		that = @
-		url = app.config.host + '/api/classified/' + id
-		$.ajax
-			type: 'GET'
-			url: url
-			dataType: 'json'
-			crossDomain: true
-			async: false
-			beforeSend: ajax.setHeaders
-			success: (response) ->
-				console.debug that.consoleSlug, 'fetching classified details', response
-				response.classified.editable = response.editable
-				response.classified.superEditable = response.superEditable
-				that.set response.classified
+	# fetch: (id) ->
+	# 	that = @
+	# 	url = app.config.host + '/api/classified/' + id
+	# 	$.ajax
+	# 		type: 'GET'
+	# 		url: url
+	# 		dataType: 'json'
+	# 		crossDomain: true
+	# 		async: false
+	# 		beforeSend: ajax.setHeaders
+	# 		success: (response) ->
+	# 			console.debug that.name, 'fetching classified details', response
+	# 			response.classified.editable = response.editable
+	# 			response.classified.superEditable = response.superEditable
+	# 			that.set response.classified
 
-				# Signal any listeners that we are done loading this classified
-				that.trigger 'ajax:done', that
-			error: (e) ->
-				console.error @consoleSlug, 'error fetching classified details', e
+	# 			# Signal any listeners that we are done loading this classified
+	# 			that.trigger 'ajax:done', that
+	# 		error: (e) ->
+	# 			console.error @name, 'error fetching classified details', e
 
 
 	parseVariables: ->
@@ -83,7 +89,7 @@ module.exports = Backbone.Model.extend
 
 
 	uploadServer: (captcha, files) ->
-		console.debug @consoleSlug, 'uploading classified details to server', this
+		console.debug @name, 'uploading classified details to server', this
 		that = this
 
 		url = app.config.host + '/api/classified'
@@ -119,7 +125,7 @@ module.exports = Backbone.Model.extend
 
 			success: (response) ->
 				if not response._id
-					console.error @consoleSlug, 'error uploading classified', response
+					console.error @name, 'error uploading classified', response
 					return that.trigger('ajax:error', response)
 
 				# Set the data from the response
@@ -130,7 +136,7 @@ module.exports = Backbone.Model.extend
 				that.trigger 'ajax:done'
 
 			error: (response) ->
-				console.error @consoleSlug, 'error uploading classified details', response
+				console.error @name, 'error uploading classified details', response
 				that.trigger 'ajax:error', response
 
 
@@ -141,8 +147,9 @@ module.exports = Backbone.Model.extend
 		files = data.files
 		delete data.files
 		formdata.append 'data', JSON.stringify(data)
-		_.each files, (file) ->
+		for file in files
 			formdata.append 'files[]', file
+
 		formdata
 
 

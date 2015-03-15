@@ -11,14 +11,30 @@ module.exports = view.extend
 		archived: 'This classified has been deleted'
 
 
-	start: (options) ->
-		console.debug @name, 'initializing', options
-		if options and options.model then @model = options.model
+	start: (@options = {}) ->
+		console.debug @name, 'initializing', @options
+
+		@slideshowTemplate = _.template (@$ '#slideshow-template').html()
+		@singleTemplate    = _.template (@$ '#single-template').html()
+
+		if @options.model
+			@model = @options.model
+			@populateDOM()
 		else
 			href = document.URL
 			id = href.substr(href.lastIndexOf('/') + 1)
-			@model = new (app.models.classified)
-			@model.fetch id
+			model = app.models.classified
+			savedClassified = window.data.classified
+
+			if savedClassified and savedClassified._id is id
+				@model = new model window.data.classified
+				@populateDOM()
+			else
+				self = @
+				@model = new model
+				@model.id = id
+				@listenToOnce @model, 'sync', @populateDOM
+				@model.fetch()
 		# this.displayMessage();
 
 		# Render the classified only if it's not banned or archived
@@ -28,27 +44,26 @@ module.exports = view.extend
 
 
 	continue: ->
-		console.log @name, 'rendering'
-		slideshowTemplate = _.template(@$el.find('#slideshow-template').html())
-		singleTemplate = _.template(@$el.find('#single-template').html())
+		console.log @name, 'continue'
 
+		@$el.fadeIn()
+		@populateDOM()
+
+
+	populateDOM: ->
 		# Add the main template
-		($ '.c-content').html (singleTemplate @model.toJSON())
+		($ '.c-content').html @singleTemplate @model.toJSON()
 
 		# Add the image templates
 		images = @model.get 'images'
 		(@$ '.c-gallery').hide()
 		if images and images.length > 0
-			(@$ '.c-gallery').html slideshowTemplate(images: images)
+			(@$ '.c-gallery').html @slideshowTemplate images: images
 			(@$ '.c-gallery').show()
 
 		(@$ '.page').css 'min-height', ($ window).height()
 		@initMaps()
-
 		# this.renderAdminbar();
-
-
-	checkRedirect: -> false
 
 
 	# Display a message based on the classified's status.
