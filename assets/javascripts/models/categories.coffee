@@ -16,7 +16,7 @@ model = Backbone.Model.extend
 module.exports = Backbone.Collection.extend
 	model: model
 	name: '[model:categories]'
-	url: '/api/location'
+	url: '/api/category'
 
 	initialize: (@config) ->
 		console.log @name, 'initializing'
