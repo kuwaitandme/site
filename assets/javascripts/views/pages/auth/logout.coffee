@@ -6,9 +6,10 @@ module.exports = view.extend
 	name: "[view:auth-logout]"
 
 
-	start: (options) ->
-		console.debug @name, 'initializing', options
+	start: (@options) ->
+		console.debug @name, 'initializing', @options
 		@sendAjax()
+
 		app.models.currentUser.logout()
 
 
@@ -22,7 +23,7 @@ module.exports = view.extend
 
 
 	# Perform the redirection to the login page
-	doRedirect: ->
+	redirect: ->
 		console.log @name, 'redirecting to login page'
 		app.goto '/auth/login?success=logout', 'auth-login'
 
