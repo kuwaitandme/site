@@ -32,7 +32,7 @@ module.exports = Backbone.View.extend
 	setModel: ->
 		@model.set
 			description: xss @$description.val()
-			title:       xss @$title.val())
+			title:       xss @$title.val()
 
 
 	setDOM: ->
