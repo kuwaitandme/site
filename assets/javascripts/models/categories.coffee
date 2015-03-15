@@ -1,5 +1,4 @@
 ajax         = (require 'app-helpers').ajax
-localStorage = (require 'app-controllers').localStorage
 
 model = Backbone.Model.extend
 	defaults:
@@ -15,45 +14,36 @@ model = Backbone.Model.extend
 
 module.exports = Backbone.Collection.extend
 	model: model
+	name: '[model:categories]'
+	url: '/api/location'
 
-	initialize: (config) -> console.log '[model:categories] initializing'
+	initialize: (@config) ->
+		console.log @name, 'initializing'
 
-	fetch: ->
-		console.log '[model:categories] fetching'
-		that = this
-		# var localStorage = app.controllers.localStorage;
+		# The sync event is triggerd by the fetch() function.
+		@on 'sync', @setCache
+
+
+	# Save the model into HTML5 localstorage
+	setCache: (value) ->
+		console.log self.name, 'caching category details'
+
+		localStorage = window.app.controllers.localStorage
+		localStorage.cache 'category', JSON.stringify value
+
+
+	# A reroute of backbone's fetch which first checks in the browser's
+	# localstorage for the collection before making a AJAX call
+	cachedFetch: ->
+		console.log @name, 'fetching'
 
 		# Attempt to load from HTML5 localStorage
-		cache = localStorage.get('categories')
+		localStorage = window.app.controllers.localStorage
+		cache = localStorage.get 'category'
 		if cache
-			console.log '[model:categories] setting categories from cache'
-			return @set JSON.parse(cache)
+			console.log @name, 'setting categories from cache'
+			json = JSON.parse cache
+			@set json
 
-		if window.data.categories
-			console.log '[model:categories] setting categories from window scope'
-			return @set window.data.categories
-
-		# If data wasn't cached, then request it by sending a AJAX request
-		# and then caching the data
-		$.ajax
-			type: 'GET'
-			url: app.config.host + '/api/category/'
-			# dataType: 'json'
-			async: false
-			beforeSend: ajax.setHeaders
-			success: (response) ->
-				if typeof response is not 'object'
-					response = JSON.parse response
-
-				console.log '[model:categories] fetching category details'
-				that.set response
-
-				# Cache the results
-				console.log '[model:categories] caching category details'
-				localStorage.cache 'categories', JSON.stringify response
-
-				# Signal any listeners that we are done loading this category
-				that.trigger 'ajax:done', that
-
-			error: (e) ->
-				console.error '[model:categories] error fetching category details', e
+		# If nothing was cached then, signal to fetch from the API
+		else @fetch()
