@@ -2,17 +2,23 @@ module.exports = Backbone.View.extend
 	el: '#page-progressbar'
 	shown: false
 
-	start: -> @$el.css 'opacity', 1
-
 	progress: (percent) ->
-		if percent < 100
+		if percent < 99
 			if not @shown
+				@$el.stop().css 'width', 0
 				@shown = true
-				@start()
-		else
-			@shown = false
-			@finish()
+			@$el.transition
+				opacity: 1
+				width: "#{percent}%"
+		else @finish()
 
-		@$el.css 'width', "#{percent}%"
 
-	finish: -> @$el.css 'opacity', 0
+	finish: ->
+		self = @
+		@shown = false
+
+		properties =
+			width: "100%"
+			opacity: 0
+		@$el.transition properties, ->
+			self.$el.css 'width', 0
