@@ -19,14 +19,15 @@ module.exports = Backbone.View.extend
 		@$captcha   = @$ '.gcaptcha'
 		@$captcha.attr 'id', @captchaId
 
+		@renderCaptcha()
 
-	render: -> @renderCaptcha()
+	# render: ->
 
 
 	# Checks all the required fields in that particular page and prevents the
 	# page from scrolling if any of the fields are empty.
 	validate: ->
-		val = ($ '#g-recaptcha-response').val()
+		val = (@$ '.g-recaptcha-response').val()
 
 		# Only if the captcha is defined will we check it for validation
 		if @captcha
