@@ -26,8 +26,8 @@ module.exports = view.extend
 		signup_taken: 'That account name has already been taken!'
 
 
-	start: (options) ->
-		console.debug @name, 'initializing', options
+	start: (@options) ->
+		console.debug @name, 'initializing', @options
 
 		@model = app.models.currentUser
 
@@ -56,7 +56,6 @@ module.exports = view.extend
 		@$captcha = @$ '.gcaptcha'
 		@$captcha.attr 'id', @captchaId
 
-		console.log @captchaId
 
 	continue: ->
 		console.log @name, 'rendering'
@@ -65,12 +64,14 @@ module.exports = view.extend
 
 	renderCaptcha: ->
 		console.log @name, 'setting captcha'
-		@$captcha.html("").show()
-		if @captcha then grecaptcha.reset @captcha
-		else @captcha = grecaptcha.render @captchaId, sitekey: window.data.captchaKey
+
+		(@$captcha.html "").show()
+		if grecaptcha?
+			if @captcha then grecaptcha.reset @captcha
+			else @captcha = grecaptcha.render @captchaId, sitekey: window.data.captchaKey
 
 
-	resetCaptcha: -> grecaptcha.reset @captcha
+	resetCaptcha: ->  if grecaptcha? then grecaptcha.reset @captcha
 
 
 	# Validates the form before and displays any error messages if needed

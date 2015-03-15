@@ -3,14 +3,6 @@ login = require "./login"
 module.exports = login.extend
 	name: "[view:auth-signup]"
 
-	renderCaptcha: ->
-		console.log @name, 'setting captcha'
-
-		@$captcha.html("").show()
-		if @captcha then grecaptcha.reset @captcha
-		else @captcha = grecaptcha.render @captchaId, sitekey: window.data.captchaKey
-
-
 	# Validates the form before and displays any error messages if needed
 	validate: ->
 		status = true
