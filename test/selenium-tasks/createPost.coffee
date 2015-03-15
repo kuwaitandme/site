@@ -8,23 +8,19 @@ module.exports = (driver, homepage) ->
 		price: "12324"
 
 	driver.url 'http://kme.com'
-		.pause 1000
 		.waitForVisible '#main-nav > ul > a:nth-child(6) li'
 		.click '#main-nav > ul > a:nth-child(6) li'
 
 		# Login Page
 		.waitForVisible '#auth-username'
-		.pause 500
 
 		# Fill in the form and submit
 		.setValue '#auth-username', username
 		.setValue '#auth-password', password
-		.pause 500
 		.click '#login-form > section > div:nth-child(3) > input'
 
 		# Home page
 		# .url 'http://kme.com'
-		.pause 1000
 		.waitForVisible '#main-nav > ul > a:nth-child(4) > li'
 		.click '#main-nav > ul > a:nth-child(4) > li'
 
@@ -43,10 +39,10 @@ module.exports = (driver, homepage) ->
 		.selectByVisibleText '#price-selector', 'Custom'
 		.setValue '#price-field', "12324"
 		.selectByVisibleText '#ctype', 'Offering'
+		.selectByIndex '#cat-selector', 5
 		.setValue '#email', 'myemail@mailer.com'
 		.setValue '#phone', '+965 92312942'
 		.selectByVisibleText '#locations', 'Salwa'
-		.selectByVisibleText '#cat-selector', 'Pets'
 		.click '#page-details > div.post-nav > a:nth-child(2)'
 
 		# page images
