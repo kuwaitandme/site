@@ -21,8 +21,8 @@ module.exports = Backbone.Collection.extend
 		# Attempt to load from HTML5 localStorage
 		cache = localStorage.get 'locations'
 		if cache
+			console.log @name, 'setting locations from cache'
 			json = JSON.parse cache
-			console.debug @name, 'setting locations from cache', json
 			return @set json
 
 		console.debug @name, 'requesting location details via AJAX'
@@ -36,13 +36,15 @@ module.exports = Backbone.Collection.extend
 			async: false
 			beforeSend: ajax.setHeaders
 			success: (response) ->
-				json = JSON.parse response
-				console.debug self.name, 'got location details', json
-				self.set json
+				if typeof response is not 'object'
+					response = JSON.parse response
+
+				console.log self.name, 'got location details from API'
+				self.set response
 
 				# Cache the results
 				console.log self.name, 'caching location details'
-				localStorage.cache 'locations', response
+				localStorage.cache 'locations', JSON.stringify response
 
 				# Signal any listeners that we are done loading this location
 				self.trigger 'ajax:done', self
