@@ -2,7 +2,14 @@ helpers = require 'app-helpers'
 ajax = helpers.ajax
 
 module.exports = Backbone.Model.extend
+	idAttribute: "_id"
 	name: "[model:user]"
+
+	url: ->
+		id = @get 'id'
+		if id then return "/api/user/#{id}"
+		else '/api/user'
+
 
 	defaults:
 		adminReason: ''
@@ -91,7 +98,7 @@ module.exports = Backbone.Model.extend
 		return not (@attributes._id and @attributes._id.length > 1)
 
 
-	fetch: (id="") ->
+	afetch: (id="") ->
 		console.debug @name, 'fetching currently loggedin user data'
 		that = this
 

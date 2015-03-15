@@ -1,6 +1,7 @@
 ajax         = (require 'app-helpers').ajax
 
 model = Backbone.Model.extend
+	idAttribute: "_id"
 	defaults:
 		_id: null
 		count: 0

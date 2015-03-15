@@ -7,6 +7,7 @@ ajax = helpers.ajax
 # A Backbone model representing a single classified. This model contains
 # methods to manipulate and sync with the server.
 module.exports = Backbone.Model.extend
+	idAttribute: "_id"
 	consoleSlug: "[model:classified]"
 
 	defaults:
