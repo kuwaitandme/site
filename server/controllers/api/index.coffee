@@ -11,6 +11,7 @@ module.exports =
 
 	routes: (router, base) ->
 		router.get base + '/', @get
+		(require './account')    .routes router, base
 		(require './auth')       .routes router, base
 		(require './category')   .routes router, base
 		(require './classified') .routes router, base
