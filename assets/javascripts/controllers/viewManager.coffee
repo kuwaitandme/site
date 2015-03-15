@@ -82,16 +82,18 @@ module.exports = class viewManager
 		@currentViewName = targetViewIdentifier
 
 		targetView = @getView targetViewIdentifier
-		historyIndex = historyState.index
+		url = historyState.arguments.url
+		index = historyState.index
 
 		$el = $ '.pt-page'
-		$el.attr 'data-index', historyIndex
+		$el.attr 'data-index', index
+		$el.attr 'data-url', url
 
 		# Else load set the currentView directly without any transition
 		# animation
 		@currentView = new targetView
 			args: args
-			el: ".pt-page[data-index='#{historyIndex}']"
+			el: ".pt-page[data-url='#{url}'][data-index='#{index}']"
 
 		# Save the view in our buffer
 		@viewBuffer.push @currentView
@@ -100,18 +102,24 @@ module.exports = class viewManager
 		@currentView.trigger 'start'
 
 
-	findTargetView: (historyIndex) ->
+	findTargetView: (historyState) ->
 		console.log @name, "trying to find view in buffer"
+		index = historyState.index
+		url = historyState.arguments.url
+
 		for view in @viewBuffer
-			if (view.$el.data 'index') is historyIndex
+			if (view.$el.data 'url') is url and (view.$el.data 'index') is index
 				console.log @name, "view found in buffer. reusing view"
 				return view
 
 
-	createTargetView: (targetViewIdentifier, args, historyIndex) ->
+	createTargetView: (targetViewIdentifier, args, historyState) ->
 		console.debug @name, "creating new view", targetViewIdentifier
 
-		$targetPage = $("<div data-index='#{historyIndex}'></div>")
+		index = historyState.index
+		url = historyState.arguments.url
+
+		$targetPage = $("<div data-url='#{url}' data-index='#{index}'></div>")
 			.addClass('pt-page')
 			.addClass(targetViewIdentifier)
 
@@ -125,7 +133,7 @@ module.exports = class viewManager
 		view = @getView targetViewIdentifier
 		targetView = new view
 			args: args
-			el: ".pt-page[data-index='#{historyIndex}']"
+			el: ".pt-page[data-url='#{url}'][data-index='#{index}']"
 
 		# Save the view in our buffer and return
 		@viewBuffer.push targetView
@@ -136,24 +144,22 @@ module.exports = class viewManager
 		# Clean up the view before switching to the next one. Detach
 		# all event handlers and signal the view to run any 'closing'
 		# animations.
-		self = @
 		@currentViewName = targetViewIdentifier
 
 		# Read the history state to see if we are moving backward or
 		# forward.
 		reverse = historyState.reverse or false
-		historyIndex = historyState.index or 0
 
 		# Pause current page
 		@currentView.trigger 'pause'
 
-		targetView = @findTargetView historyIndex
+		targetView = @findTargetView historyState
 
 		if not targetView
 			console.debug @name, "view not found", targetViewIdentifier
 
 			# Create a new view
-			targetView = @createTargetView targetViewIdentifier, args, historyIndex
+			targetView = @createTargetView targetViewIdentifier, args, historyState
 
 			# start target view
 			targetView.trigger 'start'
