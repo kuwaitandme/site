@@ -8,9 +8,9 @@ module.exports = Backbone.View.extend
 		'change #price-selector' : 'priceChange'
 
 
-	initialize: (options) ->
-		if options.model then @model = options.model
-		if options.$el   then   @$el = options.$el
+	initialize: (@options) ->
+		if @options.model then @model = @options.model
+		if @options.$el   then   @$el = @options.$el
 
 		@$address1        = @$ '#address1'
 		@$address2        = @$ '#address2'
@@ -31,9 +31,6 @@ module.exports = Backbone.View.extend
 		@initLocations()
 
 		@setDOM()
-
-
-	render: ->
 
 
 	locationChange: (event) ->
@@ -91,11 +88,10 @@ module.exports = Backbone.View.extend
 
 	# Initializes the categories option
 	initCategories: ->
-		# @$category.val 0
-
 		for category in @categories
 			html = @generateOption category._id, category.name
 			@$category.append html
+		@$category.val 0
 
 
 	# Initializes the locations
@@ -119,9 +115,10 @@ module.exports = Backbone.View.extend
 
 
 	setDOM: ->
+		console.log @name, @model.get 'category'
 		@$address1.val   (@model.get 'contact').address1
 		@$address2.val   (@model.get 'contact').address2
-		@$category.val    @model.get 'category'
+		# @$category.val    @model.get 'category' or 0
 		@$email.val      (@model.get 'contact').email
 		@$locations.val  (@model.get 'contact').location
 		@$phone.val      (@model.get 'contact').phone

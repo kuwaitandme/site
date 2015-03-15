@@ -75,7 +75,6 @@ module.exports = Backbone.View.extend
 
 		@$category.val   @query.category
 		@$keywords.val   @query.keywords
-		# if @query.type == '' then @$selectType.val "-1"
 		@$selectType.val @query.type
 
 
