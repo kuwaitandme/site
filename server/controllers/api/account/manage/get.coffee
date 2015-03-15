@@ -46,7 +46,6 @@ getQueryParameters = (request) ->
 
 
 module.exports = (request, response, next) ->
-
 	if not request.isAuthenticated()
 		return response.redirect '/auth/login?error=need_login'
 
@@ -57,11 +56,3 @@ module.exports = (request, response, next) ->
 
 	classified = global.models.classified
 	classified.search parameters, finish, 1, true
-
-	# response.contentType 'application/json'
-	# parameters = getQueryParameters request
-
-
-
-	classified = global.models.classified
-	# classified.search parameters, finish, page
