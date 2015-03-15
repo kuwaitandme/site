@@ -27,6 +27,7 @@ module.exports = class viewManager
 		# Render different components
 		@header = new (@components.header)(el: 'header')
 		@messages = new (@components.messages)(el: '#messages')
+		@progressBar = new @components.progressBar
 
 		# Get and initialize the main view
 		view = window.viewid
@@ -39,6 +40,7 @@ module.exports = class viewManager
 	setView: (viewIdentifier, args, historyState={}) ->
 		console.debug @name,
 			"setting view to '#{viewIdentifier}' with history:",  historyState
+		@progressBar.progress 0
 
 		# Change the mouse icon to the loader
 		@displayMouseLoader(true)
@@ -49,36 +51,44 @@ module.exports = class viewManager
 		# Check if there was a view before, and if there was then switch the pages
 		if @currentView then @switchPages(viewIdentifier, args, historyState)
 		else @initPage(viewIdentifier, args, historyState)
+		@progressBar.progress 60
 
 		# Attempt to cache the HTML
 		app.cacheView @currentView, @currentViewName
+		@progressBar.progress 70
 
 		# Check for any redirection
 		if @currentView.checkRedirect()
+			@progressBar.progress 100
 			return @currentView.trigger 'redirect'
 
 		# Now signal the view to manipulate the DOM.
 		@currentView.trigger 'continue'
+		@progressBar.progress 80
 
 		# Reattach the event handlers for the router
 		app.reattachRouter()
 
 		# Signal google Analytics
 		@googleAnalyticsSend()
+		@progressBar.progress 90
 
 		# Signal the header to update itself
 		@header.update()
 
 		# All done, set the mouse icon to normal
 		@displayMouseLoader false
+		@progressBar.progress 100
 
 
 	initPage: (targetViewIdentifier, args, historyState) ->
 		console.log @name, 'initializing first view'
 		@currentViewName = targetViewIdentifier
+		@progressBar.progress 10
 
 		targetView = @getView targetViewIdentifier
 		historyIndex = historyState.index
+		@progressBar.progress 20
 
 		$el = $ '.pt-page'
 		$el.attr 'data-index', historyIndex
@@ -88,12 +98,15 @@ module.exports = class viewManager
 		@currentView = new targetView
 			args: args
 			el: ".pt-page[data-index='#{historyIndex}']"
+		@progressBar.progress 30
 
 		# Save the view in our buffer
 		@viewBuffer.push @currentView
+		@progressBar.progress 40
 
 		# Start the view
 		@currentView.trigger 'start'
+		@progressBar.progress 50
 
 
 	findTargetView: (historyIndex) ->
@@ -110,21 +123,26 @@ module.exports = class viewManager
 		$targetPage = $("<div data-index='#{historyIndex}'></div>")
 			.addClass('pt-page')
 			.addClass(targetViewIdentifier)
+		@progressBar.progress 10
 
 		# Get and set the HTML for the target page
 		html = @fetchHTML targetViewIdentifier, args.url
 		$targetPage.html html
+		@progressBar.progress 20
 
 		# Add the HTML into the DOM
 		@$ptMain.append $targetPage
+		@progressBar.progress 30
 
 		view = @getView targetViewIdentifier
 		targetView = new view
 			args: args
 			el: ".pt-page[data-index='#{historyIndex}']"
+		@progressBar.progress 40
 
 		# Save the view in our buffer and return
 		@viewBuffer.push targetView
+		@progressBar.progress 50
 		return targetView
 
 
