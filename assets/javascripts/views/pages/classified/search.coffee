@@ -59,6 +59,10 @@ module.exports = view.extend
 		@$classifiedList.masonry 'remove', $classifieds
 		@pageIndex = 0
 
+		# Set the height of the container to 0 as it has to reset once the
+		# classifieds have been removed
+		@$classifiedList.height 0
+
 		# Get the current state from the history API
 		currentState = routerController.getHistoryState()
 
@@ -103,7 +107,7 @@ module.exports = view.extend
 		if !@ajaxEnable or @ajaxLock then return
 
 		console.log @name, 'firing ajax event'
-		if $(window).scrollTop() >= ($(document).height() - $(window).height()) * 0.9
+		if @$classifiedList.height() == 0 or $(window).scrollTop() >= ($(document).height() - $(window).height()) * 0.9
 			@ajaxLoadClassifieds()
 
 
@@ -130,7 +134,7 @@ module.exports = view.extend
 	# collection. This function is responsible for adding the classified
 	# into the DOM while properly taking care of aligning it too.
 	addClassifieds: (classifieds) ->
-		that = this
+		self = @
 
 		# All done. Hide the spinner and disable the lock
 		@$spinner.fadeOut();
@@ -148,19 +152,18 @@ module.exports = view.extend
 
 		# Add each classified into the DOM
 		for classified in classifieds
-			html = that.listTemplate classified.toJSON()
+			html = self.listTemplate classified.toJSON()
 			elem = $ html
 
 			# Append element into DOM and reload Masonry
-			that.$classifiedList.append elem
-			that.$classifiedList.masonry 'appended', elem
+			self.$classifiedList.append elem
+			self.$classifiedList.masonry 'appended', elem
 
 		# Reattach the event handlers for the router
 		app.reattachRouter()
 
 		# Reload Masonry again for every-time a new image has been loaded
-		reloadMasonry = ->
-			that.$classifiedList.masonry()
+		reloadMasonry = -> self.$classifiedList.masonry()
 		imagesLoaded @$classifiedList, reloadMasonry
 
 		# In case we haven't filled up the page, fire the ajax loader again.
