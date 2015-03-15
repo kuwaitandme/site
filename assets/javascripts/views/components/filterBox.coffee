@@ -47,13 +47,15 @@ module.exports = Backbone.View.extend
 		@$el.on  'submit', handler
 
 		# Start populating with contents from the URL
-		@populateBox
+		urlQuery =
 			category: urlHelpers.getParam 'category'
 			keywords: urlHelpers.getParam 'keywords'
 			location: urlHelpers.getParam 'location'
 			priceMax: urlHelpers.getParam 'priceMax'
 			priceMin: urlHelpers.getParam 'priceMin'
 			type:     urlHelpers.getParam 'type'
+
+		@populateBox urlQuery
 
 
 	# Gets a query object that can be passed to the backened
@@ -73,6 +75,7 @@ module.exports = Backbone.View.extend
 
 		@$category.val   @query.category
 		@$keywords.val   @query.keywords
+		# if @query.type == '' then @$selectType.val "-1"
 		@$selectType.val @query.type
 
 
