@@ -1,11 +1,12 @@
 module.exports = Backbone.View.extend
+	name: '[view:classified-post:finish]'
+
 	events:
 		'click .enabled .active': 'managePayment'
 		'click .enabled .cancel': 'managePayment'
 		'click .submit': 'makePurchase'
 
-	messages:
-		perkpaid: 'Your perk is now activated'
+	messages: perkpaid: 'Your perk is now activated'
 
 	perkPrices: [{
 			price: 5
@@ -16,7 +17,7 @@ module.exports = Backbone.View.extend
 		}]
 
 	initialize: (options) ->
-		@model = options.model
+		if options.model then @model = options.model
 		if options.$el then	@$el = options.$el
 
 		@on "close", @close

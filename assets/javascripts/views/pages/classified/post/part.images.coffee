@@ -1,17 +1,19 @@
 module.exports = Backbone.View.extend
-	events:
-		'click .dz-preview .delete div': 'removeFile'
+	name: '[view:classified-post:images]'
+	events: 'click .dz-preview .delete div': 'removeFile'
 
 	initialize: (options) ->
-		@model = options.model
-		if options.$el then	@$el = options.$el
+		if options.model then @model = options.model
+		if options.$el   then   @$el = options.$el
 
-		@$filePreview = @$el.find('#image-upload-preview')
+		@$filePreview = @$ '#image-upload-preview'
 
 		@on "close", @close
 
 		# Initialize the dropzone
 		@initDropzone()
+
+		@setDOM()
 
 
 	render: ->
@@ -29,7 +31,7 @@ module.exports = Backbone.View.extend
 		index = $el.parent().parent().index()
 
 		# Remove it from the DOM
-		@$filePreview.find('li').eq(index).remove()
+		((@$filePreview.find 'li').eq index).remove()
 
 		# Remove it from the file Queue
 		@dropzone.files[index].status = 'delete'
@@ -40,7 +42,7 @@ module.exports = Backbone.View.extend
 		Dropzone.autoDiscover = false
 
 		# Create the dropzone
-		$el = @$el.find('#image-upload').eq(0).dropzone(url: '/')
+		$el = ((@$ '#image-upload').eq 0).dropzone url: '/'
 		@dropzone = $el[0].dropzone
 		@dropzone.previewsContainer = @$filePreview[0]
 
@@ -49,13 +51,13 @@ module.exports = Backbone.View.extend
 		options.autoProcessQueue = false
 		options.paramName = 'files'
 		options.uploadMultiple = true
-		options.previewTemplate = "\
-			<li class=\"dz-preview\">\
+		options.previewTemplate = '
+			<li class="dz-preview">\
 				<img data-dz-thumbnail />\
-				<div class=\"font-awesome delete\">\
+				<div class="font-awesome delete">\
 					<div>&#xf00d;</div>\
-				</div>\
-			</li>"
+				</div>
+			</li>'
 
 
 	setModel: ->
@@ -64,10 +66,12 @@ module.exports = Backbone.View.extend
 
 		# Append each file into the model
 		@model.attributes.files = []
-		i = 0
-		while i < files.length
-			@model.attributes.files.push files[i]
-			i++
+		for file in files
+			@model.attributes.files.push file
+
+
+	setDOM: ->
+
 
 	close: ->
 		@remove()

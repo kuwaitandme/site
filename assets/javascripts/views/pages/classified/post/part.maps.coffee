@@ -1,17 +1,18 @@
 module.exports = Backbone.View.extend
+	name: '[view:classified-post:maps]'
 
 	initialize: (options) ->
-		@model = options.model
-		if options.$el then	@$el = options.$el
+		if options.model then @model = options.model
+		if options.$el   then   @$el = options.$el
 
 		@$gmap  = @$ '#map-canvas'
 		@$gmapX = @$ '#gmapX'
 		@$gmapY = @$ '#gmapY'
 
 		@on "close", @close
+		@setDOM()
 
-
-	render: -> self.initMaps()
+	render: -> self.initializeGoogleMaps()
 
 
 	setModel: ->
@@ -20,11 +21,17 @@ module.exports = Backbone.View.extend
 			gmapY: @$gmapY.val()
 
 
-	# Initializes Google maps
-	initMaps: ->
+	setDOM: ->
+		@$gmapX.val (@model.get 'meta').gmapX
+		@$gmapY.val (@model.get 'meta').gmapY
+
+
+	initializeGoogleMaps: ->
+		X = @$gmapX.val() or 29.27985
+		Y = @$gmapY.val() or 47.98448
 
 		# The default co-ordinates to which we will center the map
-		myLatlng = new (google.maps.LatLng)(29.27985, 47.98448)
+		myLatlng = new (google.maps.LatLng)(X, Y)
 
 		# Initialize the map
 		@gmap = new (google.maps.Map)(@$gmap[0],
@@ -47,8 +54,8 @@ module.exports = Backbone.View.extend
 			latLng = @gmarker.getPosition()
 			@gmap.setCenter latLng
 
-			# Set our hidden input fields so that thethis. backend can catch
-			# it
+			# Set our hidden input fields so that the backend can catch the
+			# co-ordinates
 			@$gmapX.val latLng.lat()
 			@$gmapY.val latLng.lng()
 

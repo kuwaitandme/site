@@ -1,4 +1,4 @@
-view = require('./post')
+view = require './post'
 
 module.exports = view.extend
 	setCategory: (id) ->

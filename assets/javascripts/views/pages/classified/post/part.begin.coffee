@@ -1,13 +1,14 @@
 module.exports = Backbone.View.extend
+	name: '[view:classified-post:begin]'
+
 	initialize: (options) ->
-		if options.$el then	@$el = options.$el
-		@model = options.model
+		if options.model then @model = options.model
+		if options.$el   then   @$el = options.$el
+
 		@on "close", @close
 
-	render: ->
 
-	validate: ->
-		true
+	validate: -> true
 
 	close: ->
 		@remove()

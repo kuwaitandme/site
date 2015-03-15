@@ -1,26 +1,26 @@
 module.exports = Backbone.View.extend
 	events: 'click .submit': 'submit'
+	name: '[view:classified-post:submit]'
 
 
 	initialize: (options) ->
-		@model = options.model
-		if options.$el then	@$el = options.$el
+		if options.model then @model = options.model
+		if options.$el   then   @$el = options.$el
 
-		@$submit = @$ '.submit'
+		@$submit  = @$ '.submit'
 		@$spinner = @$ "#ajax-spinner"
 
 		@listenTo @model, 'ajax:error', @ajaxError
 		@on "close", @close
 
 		# Generate a random id to put in place of the captcha's id
-		randomId = Math.floor (Math.random() * 1000)
-		@captchaId = 'gcaptcha' + randomId
-		@$captcha = @$ '.gcaptcha'
+		randomId    = Math.floor (Math.random() * 1000)
+		@captchaId  = 'gcaptcha' + randomId
+		@$captcha   = @$ '.gcaptcha'
 		@$captcha.attr 'id', @captchaId
 
 
 	render: -> @renderCaptcha()
-		# @spinner = new (app.views.components.spinner)
 
 
 	# Checks all the required fields in that particular page and prevents the
@@ -35,8 +35,13 @@ module.exports = Backbone.View.extend
 
 	# Sends the AJAX request to the back-end
 	submit: (event) ->
+		console.debug @name, 'submitting form', event
+
 		event.preventDefault()
-		if not @validate() then return
+		validated = @validate()
+
+		console.debug @name, 'validating form', validated
+		if not validated then return
 
 		@$submit.hide()
 		@$spinner.show()
@@ -45,7 +50,8 @@ module.exports = Backbone.View.extend
 
 	renderCaptcha: ->
 		console.log @name, 'setting captcha'
-		@$captcha.html("").show()
+
+		(@$captcha.html "").show()
 		if @captcha then grecaptcha.reset @captcha
 		else @captcha = grecaptcha.render @captchaId, sitekey: window.data.captchaKey
 
@@ -57,6 +63,7 @@ module.exports = Backbone.View.extend
 		@$submit.show()
 		@$spinner.hide()
 		@resetCaptcha()
+
 		@model.trigger 'post:error', event.statusText
 
 	close: ->

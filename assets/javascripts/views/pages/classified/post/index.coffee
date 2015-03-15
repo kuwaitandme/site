@@ -9,13 +9,12 @@ subViews =
 
 view = (require '../../../mainView');
 module.exports = view.extend
-	consoleSlug: '[view:classified-post]'
-
+	name: '[view:classified-post]'
 
 	events: 'click a[data-page-nav]' : 'clickHandler'
 
 	start: (options) ->
-		console.debug @consoleSlug, 'initializing', options
+		console.debug @name, 'initializing', options
 
 		@model = new app.models.classified
 		@views = {}
@@ -29,7 +28,7 @@ module.exports = view.extend
 
 
 	continue: ->
-		console.log @consoleSlug, 'rendering', @el
+		console.log @name, 'rendering', @el
 		@navigate "#page-begin"
 
 
@@ -50,7 +49,7 @@ module.exports = view.extend
 
 	# Function to navigate to the view pointed by the href tag
 	navigate: (href) ->
-		console.log @consoleSlug, 'navigating to', href
+		console.log @name, 'navigating to', href
 		that = @
 
 		options =
@@ -59,15 +58,15 @@ module.exports = view.extend
 
 		# If the view wasn't initialized already, initialize it
 		if not @views[href]
-			console.debug @consoleSlug, 'initializing sub-view:', href
+			console.debug @name, 'initializing sub-view:', href
 			subView = subViews[href]
 			@views[href] = new subView options
 			view = @views[href]
 		else
-			console.debug @consoleSlug, 'reusing sub-view:', href
+			console.debug @name, 'reusing sub-view:', href
 			view = @views[href]
 
-		console.debug @consoleSlug, 'going to sub-view:', view
+		console.debug @name, 'going to sub-view:', view
 
 		# Remove all error messages
 		($ 'ul.error-message li').remove()
@@ -81,7 +80,7 @@ module.exports = view.extend
 
 			# Animate and switch the DOM elements
 			$el = @currentView.$el
-			console.debug @consoleSlug, 'animating previous view', view
+			console.debug @name, 'animating previous view', view
 			$el.transition { opacity: 0 }, ->
 				$el.hide()
 				that.currentFragment = Backbone.history.fragment

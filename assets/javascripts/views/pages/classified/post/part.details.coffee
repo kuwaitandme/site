@@ -1,6 +1,7 @@
 xss = require 'xss'
 
 module.exports = Backbone.View.extend
+	name: '[view:classified-post:details]'
 	events:
 		'change #cat-selector'   : 'categoryChange'
 		'change #locations'      : 'locationChange'
@@ -8,8 +9,8 @@ module.exports = Backbone.View.extend
 
 
 	initialize: (options) ->
-		@model = options.model
-		if options.$el then	@$el = options.$el
+		if options.model then @model = options.model
+		if options.$el   then   @$el = options.$el
 
 		@$address1        = @$ '#address1'
 		@$address2        = @$ '#address2'
@@ -26,9 +27,10 @@ module.exports = Backbone.View.extend
 
 		@on "close", @close
 
-		# Initialize parts of the form
 		@initCategories()
 		@initLocations()
+
+		@setDOM()
 
 
 	render: ->
@@ -84,14 +86,7 @@ module.exports = Backbone.View.extend
 
 
 	# Generates the HTML code for a select option.
-	generateOption: (id, name) ->
-		"<option value='#{id}'>#{name}</option>"
-
-
-	# Handler function to change the subcategory select box based on the parent
-	# select option.
-	categoryChange: (event) ->
-		id = (@$category.find ':selected').data 'id'
+	generateOption: (id, name) -> "<option value='#{id}'>#{name}</option>"
 
 
 	# Initializes the categories option
@@ -116,11 +111,23 @@ module.exports = Backbone.View.extend
 			price: @$priceField.val()
 			type: @$type.val()
 			contact:
-				address1: xss(@$address1.val())
-				address2: xss(@$address2.val())
-				email: xss(@$email.val())
+				address1: xss @$address1.val()
+				address2: xss @$address2.val()
+				email: xss @$email.val()
 				location: @$locations.val()
-				phone: xss(@$phone.val())
+				phone: xss @$phone.val()
+
+
+	setDOM: ->
+		@$address1.val   (@model.get 'contact').address1
+		@$address2.val   (@model.get 'contact').address2
+		@$category.val    @model.get 'category'
+		@$email.val      (@model.get 'contact').email
+		@$locations.val  (@model.get 'contact').location
+		@$phone.val      (@model.get 'contact').phone
+		@$priceField.val  @model.get 'price'
+		@$type.val        @model.get 'type'
+
 
 	close: ->
 		@remove()
