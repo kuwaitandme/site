@@ -1,12 +1,12 @@
 #page-progressbar {
-	@include single-transition();
+	@include single-transition(width);
     -webkit-transition-timing-function: ease; /* Safari and Chrome */
     transition-timing-function: ease;
 
 	background: #FF6600;
 	height: 2px;
 	left: 0;
-	opacity: 0;
+	opacity: 1;
 	position: fixed;
 	top: 0;
 	width: 0%;

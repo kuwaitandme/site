@@ -45,11 +45,7 @@ module.exports = Backbone.Model.extend
 			gmapY: null
 
 
-	initialize: ->
-		console.log this
-		# set this.id
-		@bind 'parse', @parseVariables, this
-		return
+	initialize: -> @bind 'parse', @parseVariables, this
 
 
 	# fetch: (id) ->

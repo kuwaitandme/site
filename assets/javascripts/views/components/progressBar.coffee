@@ -1,7 +1,8 @@
 module.exports = Backbone.View.extend
 	el: '#page-progressbar'
 	shown: false
-	start: -> @$el.addClass 'show'
+
+	start: -> @$el.css 'opacity', 1
 
 	progress: (percent) ->
 		if percent < 100
@@ -14,4 +15,4 @@ module.exports = Backbone.View.extend
 
 		@$el.css 'width', "#{percent}%"
 
-	finish: -> @$el.removeClass 'show'
+	finish: -> @$el.css 'opacity', 0
