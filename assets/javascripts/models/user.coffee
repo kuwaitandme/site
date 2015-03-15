@@ -87,42 +87,11 @@ module.exports = Backbone.Model.extend
 
 	# Logs the user out and signals listeners if any.
 	logout: ->
-		@set 'isAnonymous', true
+		@clear
 
 		# Signal any listeners that the user has logged out
 		@trigger 'logout'
 
 
 	# Returns true iff the user is anonymous
-	isAnonymous: ->
-		return not (@attributes._id and @attributes._id.length > 1)
-
-
-	afetch: (id="") ->
-		console.debug @name, 'fetching currently loggedin user data'
-		that = this
-
-		if id is "" and window.data.user
-			console.log @name, 'setting user from page'
-			return @set window.data.user
-
-		$.ajax
-			type: 'GET'
-			url: app.config.host + '/api/user/' + id
-			dataType: 'json'
-			beforeSend: ajax.setHeaders
-			success: (response) ->
-				console.debug that.name, 'got user data', response
-
-				# Save the data from the server
-				response.isAnonymous = false
-				that.set response
-
-				# Signal any listeners that we are done loading the user
-				that.trigger 'ajax:done', response
-			error: (response) ->
-				switch response.status
-					when 404
-						that.logout()
-						console.debug that.name, 'user is anonymous', response
-					else console.error 'Error fetching user data', response
+	isAnonymous: -> not @has "_id"
