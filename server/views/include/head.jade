@@ -1,0 +1,55 @@
+title!= title
+
+//- SEO language tags
+//- link(rel="alternate", hreflang="ar", href="/ar")
+//- link(rel="alternate", hreflang="en", href="/en")
+
+//- Favicon tags
+link(rel="apple-touch-icon", sizes="57x57", href="/images/favicon/apple-touch-icon-57x57.png")
+link(rel="apple-touch-icon", sizes="60x60", href="/images/favicon/apple-touch-icon-60x60.png")
+link(rel="apple-touch-icon", sizes="72x72", href="/images/favicon/apple-touch-icon-72x72.png")
+link(rel="apple-touch-icon", sizes="76x76", href="/images/favicon/apple-touch-icon-76x76.png")
+link(rel="icon", href="/favicon.ico", type="image/x-icon")
+link(rel="icon", type="image/png", href="/images/favicon/favicon-16x16.png", sizes="16x16")
+link(rel="icon", type="image/png", href="/images/favicon/favicon-32x32.png", sizes="32x32")
+link(rel="manifest", href="/images/favicon/manifest.json")
+link(rel="shortcut icon", href="/favicon.ico", type="image/x-icon")
+link(rel="shortcut icon", href="/images/favicon/favicon.ico")
+meta(name="msapplication-TileColor", content="#ffffff")
+meta(name="msapplication-config", content="/images/favicon/browserconfig.xml")
+meta(name="theme-color", content="#ffffff")
+
+script(src="https://www.google.com/recaptcha/api.js?render=explicit")
+
+//- Stylesheet
+if environment == "production"
+	style.
+		@import url(//fonts.googleapis.com/css?family=Bitter);
+		@import url(//fonts.googleapis.com/css?family=Open+Sans:400,600);
+		@font-face {
+			font-family:FontAwesome;
+			src:url('//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/fonts/fontawesome-webfont.eot?v=4.3.0');
+			src:url('//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/fonts/fontawesome-webfont.eot?#iefix&v=4.3.0') format('embedded-opentype'),
+			url('//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/fonts/fontawesome-webfont.woff?v=4.3.0') format('woff'),
+			url('//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/fonts/fontawesome-webfont.ttf?v=4.3.0') format('truetype'),
+			url('//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/fonts/fontawesome-webfont.svg?v=4.3.0#fontawesomeregular') format('svg');
+			font-weight:normal;font-style:normal
+		}
+	link(rel='stylesheet', href='/stylesheets/build/style.min.css')
+else
+	style
+		include ./components/localfonts.css
+	link(rel='stylesheet', href='/stylesheets/build/style.css')
+
+//- SEO description tag
+if description
+	meta(name="description", content=description)
+
+//- SEO keywords tag
+meta(name="keywords", content="kuwait, classifieds, free, kuwait and me, kuwait & me, ads, local, matrimonial, community, cars, vehicles, pets, rent, sale, buy, sell, jobs, arabic, english, easy")
+
+//- Other Meta tags
+meta(charset="utf-8")
+meta(http-equiv="content-type", content="text/html; charset=UTF-8")
+meta(name="viewport", content="width=device-width, initial-scale=0.9")
+script window.viewid="#{bodyid}";
