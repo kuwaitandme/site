@@ -36,8 +36,11 @@
     "passport-google": "^0.3.0",
     "passport-local": "^1.0.0",
     "passport-twitter": "^1.0.2",
+    "pm2": "^0.12.7",
     "redis": "^0.12.1",
+    "request-ip": "0.0.4",
     "supertest": "^0.15.0",
+    "validator": "^3.34.0",
     "webdriverio": "^2.4.5",
     "xss": "^0.1.20"
   },
