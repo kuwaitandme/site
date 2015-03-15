@@ -2,7 +2,7 @@ helpers = require 'app-helpers'
 ajax = helpers.ajax
 
 module.exports = Backbone.Model.extend
-	consoleSlug: "[model:user]"
+	name: "[model:user]"
 
 	defaults:
 		adminReason: ''
@@ -27,7 +27,7 @@ module.exports = Backbone.Model.extend
 
 
 	login: (username, password, callback) ->
-		console.debug @consoleSlug, 'logging in user'
+		console.debug @name, 'logging in user'
 		that = this
 
 		$.ajax
@@ -40,7 +40,7 @@ module.exports = Backbone.Model.extend
 
 			# This function gets called when the user successfully logs in
 			success: (response) ->
-				console.debug that.consoleSlug, 'user logged in', response
+				console.debug that.name, 'user logged in', response
 
 				# Save the data from the server
 				response.isAnonymous = false
@@ -54,12 +54,12 @@ module.exports = Backbone.Model.extend
 
 			# This function sends the error message to the callback
 			error: (error) ->
-				console.error that.consoleSlug, 'error logging in', error
+				console.error that.name, 'error logging in', error
 				callback(error, null)
 
 
 	signup: (parameters, callback) ->
-		console.debug @consoleSlug, 'logging in user'
+		console.debug @name, 'logging in user'
 		that = this
 
 		$.ajax
@@ -74,7 +74,7 @@ module.exports = Backbone.Model.extend
 
 			# This function sends the error message to the callback
 			error: (error) ->
-				console.error that.consoleSlug, 'error creating user', error
+				console.error that.name, 'error creating user', error
 				callback(error, null)
 
 
@@ -92,11 +92,11 @@ module.exports = Backbone.Model.extend
 
 
 	fetch: (id="") ->
-		console.debug @consoleSlug, 'fetching currently loggedin user data'
+		console.debug @name, 'fetching currently loggedin user data'
 		that = this
 
 		if id is "" and window.data.user
-			console.log @consoleSlug, 'setting user from page'
+			console.log @name, 'setting user from page'
 			return @set window.data.user
 
 		$.ajax
@@ -105,7 +105,7 @@ module.exports = Backbone.Model.extend
 			dataType: 'json'
 			beforeSend: ajax.setHeaders
 			success: (response) ->
-				console.debug that.consoleSlug, 'got user data', response
+				console.debug that.name, 'got user data', response
 
 				# Save the data from the server
 				response.isAnonymous = false
@@ -117,5 +117,5 @@ module.exports = Backbone.Model.extend
 				switch response.status
 					when 404
 						that.logout()
-						console.debug that.consoleSlug, 'user is anonymous', response
+						console.debug that.name, 'user is anonymous', response
 					else console.error 'Error fetching user data', response

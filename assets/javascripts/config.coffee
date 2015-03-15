@@ -3,7 +3,6 @@ module.exports = {
 	# local-storage as cache.
 	jsVersion: window.jsVersion
 
-
 	# Ensure this is https .. for blah blah
 	host: ""
 	localStorage: {

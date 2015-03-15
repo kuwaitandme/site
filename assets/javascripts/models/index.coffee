@@ -1,6 +1,3 @@
-# categories = require './categories'
-# locations  =
-
 # Model parent classes to be referred here. This allows any other function
 # to easily instantiate the required model by just referencing from this
 # module
