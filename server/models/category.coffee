@@ -17,7 +17,7 @@ categories = module.exports =
 
 		client.get 'categories', (err, result) ->
 			if err then return finish err, null
-			if result then return finish null, result
+			if result then return finish null, JSON.parse result
 
 			categories.model.find {}, (err, result) ->
 				if err then return finish err, null

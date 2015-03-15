@@ -14,7 +14,7 @@ locations = module.exports =
 
 		client.get 'locations', (err, result) ->
 			if err then return finish err, null
-			if result then return finish null, result
+			if result then return finish null, JSON.parse result
 
 			locations.model.find {}, (err, result) ->
 				if err then return finish err, null
