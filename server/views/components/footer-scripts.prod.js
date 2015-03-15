@@ -37,7 +37,7 @@ window.scripts = [{
 	localSrc: "/javascripts/vendor/masonry.pkgd.min.js",
 },{
 	name:"google-maps",
-	remoteSrc: "//maps.googleapis.com/maps/api/js?v=3.exp",
+	remoteSrc: "//maps.googleapis.com/maps/api/js?v=3.exp&callback=initializeGmap",
 	localSrc: "/javascripts/vendor/google.maps.js",
 },{
 	name:"jquery-imagesloaded",

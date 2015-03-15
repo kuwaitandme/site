@@ -58,6 +58,14 @@ function loadScriptSync(src) {
 	document.getElementsByTagName('head')[0].appendChild(s);
 }
 
+/* Special functions and variables to facilitate gmaps */
+window.gmapInitialized = false;
+window.gmapInitializeListeners = [];
+function initializeGmap() {
+	window.gmapInitialized = true;
+	var listeners = window.gmapInitializeListeners;
+	for(var i=0; i<listeners.length; i++) (listeners[i])()
+}
 
 for (var i = scripts.length; i >= 1; i--) {
 	var script = scripts[scripts.length - i];
