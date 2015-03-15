@@ -69,7 +69,7 @@ for (var i = scripts.length; i >= 1; i--) {
 	$script.type = "text/javascript";
 	$script.dataset.script = script.name;
 
-	if(typeof Storage !== "undefined") {
+	if(typeof Storage !== "undefined" && script.name != 'app') {
 		/* Check for the script in our cache */
 		var scriptCache = localStorage.getItem("script-" + script.name);
 
