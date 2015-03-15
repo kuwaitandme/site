@@ -1,8 +1,5 @@
 async = require 'async'
 
-classified = global.models.classified
-
-
 controller = module.exports =
 
 	get: (request, response, next) ->
@@ -16,10 +13,11 @@ controller = module.exports =
 		controller.updateViewCount request, id
 
 		# Get the classified
+		classified = global.models.classified
 		classified.get id, (classified) ->
 
 			# Display 404 page if classified is not found
-			if !classified then return next()
+			if not classified then return next()
 
 			if request.user
 				if classified.owner == request.user._id then editable = true
@@ -41,6 +39,27 @@ controller = module.exports =
 				scripts: [ 'googleMaps' ]
 				title: classified.title
 
+
+	updateViewCount: (request, id) ->
+		async.series [ (finish) ->
+
+			# Get the views object from the session
+			views = request.session.views
+			if !views then views = request.session.views = {}
+
+			# Check if the user has visited this classified before
+			if typeof views[id] == 'undefined'
+
+				# If not, then increment the session counter by 1
+				classified = global.models.classified
+				classified.incrementViewCounter id
+
+				# Let session know that the user has visited this page
+				views[id] = true
+
+			# Tell async that we are done
+			finish null, null
+ 		]
 
 	# post: (request, response, next) ->
 	# 	id = request.params.id
@@ -83,27 +102,6 @@ controller = module.exports =
 	# reportClassified: (id, request, finish) ->
 	# 	classified.report id, request.body.reason, request.connection.remoteAddress
 	# 	finish 'success', 'reported'
-
-
-	# updateViewCount: (request, id) ->
-	# 	async.series [ (finish) ->
-
-	# 		# Get the views object from the session
-	# 		views = request.session.views
-	# 		if !views then views = request.session.views = {}
-
-	# 		# Check if the user has visited this classified before
-	# 		if typeof views[id] == 'undefined'
-
-	# 			# If not, then increment the session counter by 1
-	# 			classified.incrementViewCounter id
-
-	# 			# Let session know that the user has visited this page
-	# 			views[id] = true
-
-	# 		# Tell async that we are done
-	# 		finish null, null
- # 		]
 
 
 	# performAdmin: (request, editable, superEditable, callback) ->
