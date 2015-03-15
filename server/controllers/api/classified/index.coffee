@@ -1,8 +1,8 @@
 module.exports =
 	delete: require './get'
 	get:    require './get'
-	post:   require './get'
-	put:    require './put'
+	post:   require './post'
+	put:    require './post'
 
 	routes: (router, base) ->
 		router.delete   base + '/classified/:id?', @delete
