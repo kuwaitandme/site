@@ -27,10 +27,13 @@ module.exports = view.extend
 		@$spinner = @$el.find '#ajax-spinner'
 
 
-		@filterbox = new app.views.components.filterBox
-			$el: @$filterbox
+		if not @isAccount
+			@filterbox = new app.views.components.filterBox
+				$el: @$filterbox
+			@listenTo @filterbox, 'changed', @newQuery
 
-		@listenTo @filterbox, 'changed', @newQuery
+		else @$filterbox.hide()
+
 
 		# Set to load new classifieds when we have scrolled to the end of the
 		# page.
@@ -42,8 +45,9 @@ module.exports = view.extend
 		console.log @name, 'rendering'
 
 		@collection.isAccount = @isAccount
+
+		if not @isAccount then @filterbox.render()
 		@$spinner.hide()
-		@filterbox.render()
 		@setupMasonry()
 		@newQuery()
 
@@ -67,7 +71,7 @@ module.exports = view.extend
 		currentState = routerController.getHistoryState()
 
 		# Get the query
-		@query = @filterbox.getQuery()
+		if not @isAccount then @query = @filterbox.getQuery() else @query = {}
 		@query.page = 0
 
 		# Prepare the state to replace the URL with
@@ -121,13 +125,13 @@ module.exports = view.extend
 		@$spinner.fadeIn();
 
 		# Obtain the parameters to be sent to the back-end
-		@pageIndex += 1
 		parameters = @query or {}
 		parameters.page = @pageIndex
 		# url = app.helpers.url.insertParam('page', @pageIndex)
 
 		# Fetch the classifieds from the back-end
 		@collection.fetch parameters, @accountClassifieds
+		@pageIndex += 1
 
 
 	# This function gets called whenever a new model has been added into our
