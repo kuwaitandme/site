@@ -21,7 +21,6 @@ module.exports = view.extend
 		@slideshowTemplate = _.template (@$ '#slideshow-template').html()
 		@singleTemplate    = _.template (@$ '#single-template').html()
 
-
 		@$gmap      = @$ '#map-canvas'
 		@$messages  = @$ "#single-messages"
 		if @options.model
@@ -32,7 +31,7 @@ module.exports = view.extend
 			href = document.URL
 			id = href.substr(href.lastIndexOf('/') + 1)
 			@model = new app.models.classified
-			@listenTo @model, 'sync', @displayMessage
+			@listenTo @model, 'sync', @modelChange
 
 			savedClassified = window.data.classified
 
@@ -46,19 +45,12 @@ module.exports = view.extend
 				@model.fetch()
 
 
-		# Render the classified only if it's not banned or archived
-		# if(this.classified.status != 3 && this.classified.status != 4) {
-		# 	this.render();
-		# }
-
-
 	continue: ->
 		console.log @name, 'continue'
 		@$el.fadeIn()
 
 
 	populateDOM: ->
-		console.trace "s"
 		self = @
 
 		# Add the main template
@@ -81,15 +73,14 @@ module.exports = view.extend
 		@renderAdminbar()
 
 
-	# Display a message based on the classified's status.
-	displayMessage: ->
+	modelChange: ->
 		@$messages.html ""
 		window.location.hash = ""
 
+		# Display a message based on the classified's status.
 		adminReason = @model.get 'adminReason'
 		status = @model.get 'status'
 		statuses = @model.status
-
 		switch status
 			when statuses.INACTIVE
 				if @model.get 'guest'
@@ -195,9 +186,9 @@ module.exports = view.extend
 		if @model.get 'guest'
 			editable = false
 			# if @model.get
-		superEditable = true
+
+		# Add the admin template
 		if editable or superEditable
-			# Add the admin template
 			(@$ '#admin-single').html adminTemplate
 				editable: editable
 				superEditable: superEditable
