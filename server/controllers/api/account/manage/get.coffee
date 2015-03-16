@@ -17,9 +17,9 @@ module.exports = (request, response, next) ->
 	parameters = getQueryParameters request
 	page = request.query.page or 0
 
-	console.log parameters
-
-	finish = (classifieds) -> response.end JSON.stringify(classifieds)
+	finish = (err, classifieds) ->
+		if err then next err
+		else response.end JSON.stringify(classifieds)
 
 	classified = global.models.classified
-	classified.search parameters, finish, page, true
+	classified.search parameters, page, true, finish

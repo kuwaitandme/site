@@ -5,7 +5,7 @@ module.exports = (request, response, next) ->
 	id = request.params.id
 
 	user = request.user or {}
-	isModerator = request.user and user.isAdmin or false
+	isModerator = request.user and user.isModerator or false
 
 	response.contentType 'application/json'
 
@@ -18,11 +18,11 @@ module.exports = (request, response, next) ->
 		return response.end '"invalid id"'
 
 	if not data.status? and not data.perks? and not data.reports?
-		response.status 412
+		response.status 400
 		return response.end '"patch only specific parameters"'
 
 	classifiedModel = global.models.classified
-	classifiedModel.get id, (classified) ->
+	classifiedModel.get id, (error, classified) ->
 		if not classified
 			response.status 404
 			return response.end '"not found"'
@@ -57,7 +57,7 @@ updateStatus = (classified, request, response, next) ->
 	adminReason = request.body.adminReason
 
 	user = request.user or {}
-	isModerator = user.isAdmin
+	isModerator = user.isModerator
 	isOwner = (user._id is classified.owner)
 
 	classifiedModel = global.models.classified
@@ -79,6 +79,8 @@ updateStatus = (classified, request, response, next) ->
 			return response.end '"moderators should not archive a classified"'
 
 	finish = (error, result) ->
+		console.log 'error:', error, result
+
 		if error
 			if error.status is 401
 				response.status 401
