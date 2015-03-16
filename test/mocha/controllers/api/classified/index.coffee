@@ -3,3 +3,4 @@ describe 'classified.', ->
 	require './get'
 	require './post'
 	require './delete'
+	require './patch'

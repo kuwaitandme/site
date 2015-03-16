@@ -8,7 +8,7 @@ checkRouteFor = (code, route) ->
 	it "GET #{code} #{route}", (done) ->
 		supertest(app).get(route).expect(code, done)
 
-describe 'routes', ->
+describe 'routes (non-api)', ->
 	describe 'check if routes are accessible (without authentication)', ->
 		checkRouteFor 200, '/'
 		checkRouteFor 200, '/auth/forgot'

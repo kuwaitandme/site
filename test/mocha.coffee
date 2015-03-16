@@ -11,8 +11,8 @@ global.models      = models
 
 
 # Open up a DB connection to run our queries on
-# mongoose.connect 'mongodb://' + config.mongodb.username + ':' +
-# 	config.mongodb.password + '@localhost/kuwaitandme'
+mongoose.connect 'mongodb://' + config.mongodb.username + ':' +
+	config.mongodb.password + '@localhost/kuwaitandme'
 
 
 require './mocha/controllers'
