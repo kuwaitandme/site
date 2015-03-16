@@ -1,12 +1,12 @@
 getQueryParameters = (request) ->
 	parameters = {}
-	parameters.status = 1
 
 	classified = global.models.classified
 
 	if request.user and not request.user.isAdmin
 		parameters.status = classified.status.INACTIVE
 	else parameters.owner = request.user._id
+
 
 	# Set the category
 	if request.query.category and (/^[0-9A-F]*$/i.test request.query.category)
