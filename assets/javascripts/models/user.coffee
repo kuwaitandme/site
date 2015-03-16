@@ -15,7 +15,6 @@ module.exports = Backbone.Model.extend
 		adminReason: ''
 		email: ''
 		isAdmin: false
-		isAnonymous: true
 		language: 0
 		lastLogin: [ '' ]
 		status: 0
@@ -50,7 +49,6 @@ module.exports = Backbone.Model.extend
 				console.debug that.name, 'user logged in', response
 
 				# Save the data from the server
-				response.isAnonymous = false
 				that.set response
 
 				# Signal any listeners that the user has logged in
