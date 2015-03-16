@@ -517,10 +517,11 @@ describe 'patch():', ->
 				it 'if attempting to set status REJECTED return 200', (done) ->
 					cl = sampleClassified
 					cl.status = classifiedModel.status.REJECTED
+					cl.adminReason = 'sample reason'
 
 					testUser
 					.patch "/api/classified/#{cl._id}"
-					.send {status: cl.status}
+					.send {status: cl.status, adminReason: cl.adminReason}
 					.expect JSON.stringify cl
 					.expect 200, done
 
@@ -539,10 +540,11 @@ describe 'patch():', ->
 				it 'if attempting to set status BANNED return 200', (done) ->
 					cl = sampleClassified
 					cl.status = classifiedModel.status.BANNED
+					cl.adminReason = 'sample reason'
 
 					testUser
 					.patch "/api/classified/#{cl._id}"
-					.send {status: cl.status}
+					.send {status: cl.status, adminReason: cl.adminReason}
 					.expect JSON.stringify cl
 					.expect 200, done
 
