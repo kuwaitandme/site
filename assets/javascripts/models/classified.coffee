@@ -44,6 +44,16 @@ module.exports = Backbone.Model.extend
 			gmapX: null
 			gmapY: null
 
+	# These status are copied from the server's model for a classified
+	status:
+		INACTIVE: 0
+		ACTIVE: 1
+		REJECTED: 2
+		ARCHIVED: 3
+		BANNED: 4
+		FLAGGED: 5
+		VERIFIED: 6
+		EXPIRED: 7
 
 	initialize: -> @bind 'parse', @parseVariables, this
 
@@ -109,7 +119,7 @@ module.exports = Backbone.Model.extend
 			data: @getFormData(files)
 			processData: false
 			contentType: false
-			type: 'PUT'
+			type: 'POST'
 			url: url
 
 			# Attach the progress handler, if it can be supported
