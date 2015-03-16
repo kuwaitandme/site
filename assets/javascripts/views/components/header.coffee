@@ -21,15 +21,15 @@ module.exports = Backbone.View.extend
 
 	# This function attaches listeners throughout the app to the header
 	attachListeners: ->
-		# @listenTo app.currentUser, 'loggedin', @update
-		# @listenTo app.currentUser, 'logout', @update
+		@listenTo app.models.currentUser, 'loggedin', @update
+		@listenTo app.models.currentUser, 'logout', @update
 
 
 	# This function runs some methods and updates the header as per the current
 	# page state
 	update: ->
-		routerController = window.app.controllers.router
-		currentUser      = window.app.models.currentUser
+		routerController = app.controllers.router
+		currentUser      = app.models.currentUser
 
 		# Get the current view from the history API
 		currentState = routerController.getHistoryState()
