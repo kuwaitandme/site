@@ -1,15 +1,19 @@
-view = require '../../mainView'
+url    = (require 'app-helpers').url
+view   = require '../../mainView'
+
 module.exports = view.extend
 	name: "[view:classified-single]"
 	messages:
-		reported: 'Your report has been successfully submitted'
-		notfound: 'Classified was not found'
+		archived:  'This classified has been deleted'
+		banned:    'This classified has been banned by a moderator'
 		needlogin: 'You need to be logged in to make such requests'
-		unpriv: 'You are not allowed to make such bogus requests'
-		rejected: 'This classified has been rejected by a moderator'
-		banned: 'This classified has been banned by a moderator'
-		archived: 'This classified has been deleted'
+		notfound:  'Classified was not found'
+		rejected:  'This classified has been rejected by a moderator'
+		reported:  'Your report has been successfully submitted'
+		unpriv:    'You are not allowed to make such bogus requests'
 
+
+	events: "submit form" : "submitHandle"
 
 	start: (@options = {}) ->
 		console.debug @name, 'initializing', @options
@@ -47,7 +51,6 @@ module.exports = view.extend
 
 	continue: ->
 		console.log @name, 'continue'
-
 		@$el.fadeIn()
 		@populateDOM()
 
@@ -62,8 +65,7 @@ module.exports = view.extend
 		images = @model.get 'images'
 		(@$ '.c-gallery').hide()
 		if images and images.length > 0
-			(@$ '.c-gallery').html @slideshowTemplate images: images
-			(@$ '.c-gallery').show()
+			(@$ '.c-gallery').show().html @slideshowTemplate images: images
 
 		(@$ '.page').css 'min-height', ($ window).height()
 
@@ -72,7 +74,8 @@ module.exports = view.extend
 		if not window.gmapInitialized
 			window.gmapInitializeListeners.push init
 		else init()
-		# this.renderAdminbar();
+		# window.a = @model
+		@renderAdminbar()
 
 
 	# Display a message based on the classified's status.
@@ -106,6 +109,38 @@ module.exports = view.extend
 				app.error 'This classified has been reported too many times and is under review', ''
 
 
+	submitHandle: (event) ->
+		console.log @name, 'reading submit event'
+
+		event.preventDefault()
+		$form = $ event.currentTarget
+		action = ($form.find "[name='action']").val()
+		reason = ($form.find "[name='reason']").val()
+
+		switch action
+			when 'publish' then @model.set 'status', @model.status.ACTIVE
+			when 'archive' then @model.set 'status', @model.status.ARCHIVED
+			when 'repost'
+				if @model.get 'guest'
+					@model.set 'status', @model.status.INACTIVE
+				else
+					@model.set 'status', @model.status.ACTIVE
+			when 'ban'
+				@model.set 'status', @model.status.BANNED
+				@model.set 'adminReason', reason
+			when 'reject'
+				@model.set 'status', @model.status.REJECTED
+				@model.set 'adminReason', reason
+			when 'report'
+				reports = _.clone @model.get 'reports'
+				reports.push reason
+				@model.unset "reports", silent: true
+				@model.set "reports", reports
+
+		if @model.hasChanged()
+			@model.save @model.changedAttributes(), {patch: true}
+
+
 	# Initializes Google maps if required.
 	initializeGoogleMaps: ->
 		self = @
@@ -130,7 +165,6 @@ module.exports = view.extend
 
 		@$gmap = @$ '#map-canvas'
 
-
 		# If there are google co-ordinates saved, load up google maps
 		meta = @model.get 'meta'
 		if meta and meta.gmapX and meta.gmapY then init meta.gmapX, meta.gmapY
@@ -138,7 +172,18 @@ module.exports = view.extend
 
 
 	renderAdminbar: ->
-		adminTemplate = _.template(@$el.find('#admin-template').html())
+		adminTemplate = _.template (@$ '#admin-template').html()
 
-		# Add the admin template
-		@$el.find('#admin-single').html adminTemplate classified
+		user = app.models.currentUser
+		if user.get 'isAdmin' then superEditable = true
+		if user.id is @model.get 'owner' then editable = true
+
+		if @model.get 'guest'
+			editable = false
+			# if @model.get
+		superEditable = true
+		if editable or superEditable
+			# Add the admin template
+			(@$ '#admin-single').html adminTemplate
+				editable: editable
+				superEditable: superEditable
