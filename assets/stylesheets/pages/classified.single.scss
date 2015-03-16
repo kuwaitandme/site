@@ -12,7 +12,22 @@
 			&:hover { color: #000; }
 		}
 	}
+	ul#single-messages {
+		padding: 0;
+		margin: 0;
+		@extend .font-title;
 
+		li {
+			color: #FFF;
+			background: #E74C3C;
+			padding: 10px;
+			text-align: center;
+
+			&.warning { background: #FD8603; }
+			&.success { background: #2ecc71; }
+			&.error { color: rgba(255, 255, 255, 0.75)}
+		}
+	}
 	.modal--show {
 		.title {
 			@extend .font-title;

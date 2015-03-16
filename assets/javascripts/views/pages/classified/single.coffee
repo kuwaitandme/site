@@ -21,27 +21,30 @@ module.exports = view.extend
 		@slideshowTemplate = _.template (@$ '#slideshow-template').html()
 		@singleTemplate    = _.template (@$ '#single-template').html()
 
-		@$gmap = @$ '#map-canvas'
 
+		@$gmap      = @$ '#map-canvas'
+		@$messages  = @$ "#single-messages"
 		if @options.model
 			@model = @options.model
+
 			@populateDOM()
 		else
 			href = document.URL
 			id = href.substr(href.lastIndexOf('/') + 1)
-			model = app.models.classified
+			@model = new app.models.classified
+			@listenTo @model, 'sync', @displayMessage
+
 			savedClassified = window.data.classified
 
 			if savedClassified and savedClassified._id is id
-				@model = new model window.data.classified
+				@model.set window.data.classified
 				@populateDOM()
 			else
 				self = @
-				@model = new model
 				@model.id = id
 				@listenToOnce @model, 'sync', @populateDOM
 				@model.fetch()
-		# this.displayMessage();
+
 
 		# Render the classified only if it's not banned or archived
 		# if(this.classified.status != 3 && this.classified.status != 4) {
@@ -52,10 +55,10 @@ module.exports = view.extend
 	continue: ->
 		console.log @name, 'continue'
 		@$el.fadeIn()
-		@populateDOM()
 
 
 	populateDOM: ->
+		console.trace "s"
 		self = @
 
 		# Add the main template
@@ -74,39 +77,48 @@ module.exports = view.extend
 		if not window.gmapInitialized
 			window.gmapInitializeListeners.push init
 		else init()
-		# window.a = @model
+
 		@renderAdminbar()
 
 
 	# Display a message based on the classified's status.
 	displayMessage: ->
-		# Parse the URL and give out the appropriate message based on it.
-		getParam = app.helpers.url.getParam
-		if getParam 'error' then app.error @messages[getParam 'error']
-		if getParam 'success' then app.success @messages[getParam 'success']
-		if getParam 'warn' then app.warn @messages[getParam 'warn']
+		@$messages.html ""
+		window.location.hash = ""
 
-		classified = @model.toJSON()
+		adminReason = @model.get 'adminReason'
+		status = @model.get 'status'
+		statuses = @model.status
 
-		if classified.guest and classified.status == 0
-			app.warn 'This classified was posted anonymously and is yet to be reviewed'
-		else if !classified.editable and classified.status == 0
-			app.warn 'Your classified is yet to be reviewed'
-		else if classified.status == 0
-			app.warn 'This classified is yet to be reviewed'
+		switch status
+			when statuses.INACTIVE
+				if @model.get 'guest'
+					@addMessage 'This classified was posted anonymously and is yet to be reviewed', 'warning'
+				else
+					@addMessage 'This classified is to be reviewed', 'warning'
+
+			when statuses.REJECTED
+				@addMessage @messages.rejected
+				@addMessage adminReason
+
+			when statuses.ARCHIVED
+				@addMessage @messages.archived
+
+			when statuses.BANNED
+				@addMessage @messages.banned
+				@addMessage adminReason
+
+			when statuses.FLAGGED
+				@addMessage 'This classified has been reported too many times and is under review'
 
 
-		switch classified.status
-			when 2
-				app.error @messages.rejected, ''
-				app.error classified.adminReason, 'Reason:'
-			when 3
-				app.error @messages.archived, 'Archived!'
-			when 4
-				app.error @messages.banned, ''
-				app.error classified.adminReason, 'Reason:'
-			when 5
-				app.error 'This classified has been reported too many times and is under review', ''
+	# Adds a message of a given type. Type can be 'success', 'error' or 'warning'
+	addMessage: (message, type='error') ->
+		$el = $ "<li> #{message} </li>"
+		$el.hide()
+		$el.addClass type
+		@$messages.append $el
+		$el.fadeIn()
 
 
 	submitHandle: (event) ->
@@ -117,25 +129,27 @@ module.exports = view.extend
 		action = ($form.find "[name='action']").val()
 		reason = ($form.find "[name='reason']").val()
 
+		window.a = @model
 		switch action
 			when 'publish' then @model.set 'status', @model.status.ACTIVE
 			when 'archive' then @model.set 'status', @model.status.ARCHIVED
 			when 'repost'
 				if @model.get 'guest'
-					@model.set 'status', @model.status.INACTIVE
-				else
-					@model.set 'status', @model.status.ACTIVE
+					@model.set status: @model.status.INACTIVE
+				else @model.set status: @model.status.ACTIVE
 			when 'ban'
-				@model.set 'status', @model.status.BANNED
-				@model.set 'adminReason', reason
+				@model.set
+					status: @model.status.BANNED
+					adminReason: reason
 			when 'reject'
-				@model.set 'status', @model.status.REJECTED
-				@model.set 'adminReason', reason
+				@model.set
+					status: @model.status.REJECTED
+					adminReason: reason
 			when 'report'
 				reports = _.clone @model.get 'reports'
 				reports.push reason
 				@model.unset "reports", silent: true
-				@model.set "reports", reports
+				@model.set reports: reports
 
 		if @model.hasChanged()
 			@model.save @model.changedAttributes(), {patch: true}
