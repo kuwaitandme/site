@@ -34,12 +34,12 @@ describe 'patch():', ->
 			.expect 400, done
 
 
-		it 'if valid id but invalid parameters return 412', (done) ->
+		it 'if valid id but invalid parameters return 400', (done) ->
 			supertest app
 			.patch '/api/classified/111111111111111111111111'
 
 			.expect '"patch only specific parameters"'
-			.expect 412, done
+			.expect 400, done
 
 
 		it 'if invalid id but valid parameters (status) return 404', (done) ->
