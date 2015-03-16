@@ -1,31 +1,30 @@
 mongoose = require 'mongoose'
-bCrypt = require 'bcrypt-nodejs'
+bCrypt   = require 'bcrypt-nodejs'
 
 users = module.exports =
-	model: mongoose.model('user',
+	model: mongoose.model 'user',
 		# Main info
 		username: String
 		password: String
 		email: String
+		name: String
 
-		# Admin related settings
 		activationToken: String
 		adminReason: String
-		isAdmin: Boolean
+		isModerator: Boolean
 		language: Number
-		lastLogin: [ String ]
+		lastLogin: [ ]
 		resetToken: String
 		status: Number # 0:Inactive,1:Active,2:Banned
 
 		# Personal information
-		personal:
-			name: String
-			address: String
-			gender: Number
-			location: Number
-			phone: String
-			website: String
-			email: String)
+		# personal:
+			# address: String
+			# gender: Number
+			# location: Number
+			# phone: String
+			# website: String
+			# email: String
 
 	status:
 		INACTIVE: 0
