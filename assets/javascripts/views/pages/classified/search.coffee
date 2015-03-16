@@ -3,7 +3,7 @@ module.exports = view.extend
 	ajaxEnable: true
 	ajaxLock: false
 	gridMinimumSize: 250
-	pageIndex: 0
+	pageIndex: 1
 	isAccount: false
 
 	name: '[view:classifieds-search]'
@@ -52,7 +52,6 @@ module.exports = view.extend
 		@newQuery()
 
 
-
 	onScroll: -> if @ajaxEnable then @fireAjaxEvent()
 
 	newQuery: ->
@@ -61,7 +60,7 @@ module.exports = view.extend
 		# Blank out all the classifieds we have so far and reset the page count
 		$classifieds = @$ ".classified"
 		@$classifiedList.masonry 'remove', $classifieds
-		@pageIndex = 0
+		@pageIndex = 1
 
 		# Set the height of the container to 0 as it has to reset once the
 		# classifieds have been removed
