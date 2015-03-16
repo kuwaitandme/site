@@ -7,7 +7,7 @@ form(method="POST").item
 	a(href="#reject-modal") Reject
 .item
 	a(href="#ban-modal") Ban
-| <% } %>
+| <% } else { %>
 form(method="POST").item
 	input(type="hidden", name="_csrf", value="#{csrfToken}")
 	input(type="hidden", name="action", value="archive")
@@ -16,5 +16,6 @@ form(method="POST").item
 	input(type="hidden", name="_csrf", value="#{csrfToken}")
 	input(type="hidden", name="action", value="repost")
 	input(type="submit", value="Re-post")
+| <% } %>
 //- .item
 //- 	a(href="#ban-modal") Edit
