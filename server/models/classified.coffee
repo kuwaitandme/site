@@ -222,69 +222,108 @@ classifieds = module.exports =
 
 
 		# Archives a classified
-		archive: (id) ->
+		archive: (id, finish) ->
 			that = this
 			classifieds.model.findOne { _id: id }, (err, classified) ->
-				if err then throw err
-				if not classified then return
+				if err then return finish err
+				if not classified then return finish new Error "not found"
 
 				# Don't allow banned or flagged classifieds to be archived
-				if classified.status is that.BANNED or classified.status is that.FLAGGED
-					return
+				if classified.status is that.BANNED or
+				classified.status is that.FLAGGED
+					error = new Error "unauthorized to change classified's status"
+					error.status = 401
+					return finish error
+
 				classified.status = that.ARCHIVED
-				classified.save()
+
+				classified.save (err) ->
+					if err then finish err
+					else finish null, classified
 
 
 		# Bans a classified, with the given reason
-		ban: (id, reason) ->
+		ban: (id, reason, finish) ->
 			that = this
 			classifieds.model.findOne { _id: id }, (err, classified) ->
-				if err then throw err
-				if not classified then return
+				if err then return finish err
+				if not classified then return finish new Error "not found"
 
 				classified.status = that.BANNED
 				classified.adminReason = reason
-				classified.save()
+
+				classified.save (err) ->
+					if err then finish err
+					else finish null, classified
+
 
 		# Reposts the given classified. Avoids reposting classified that are
 		# either banned, rejected or flagged. Reposting a guest classified
 		# makes it an inactive classified awaiting for moderations. Normal
 		# classifieds get published automatically.
-		repost: (id) ->
+		repost: (id, finish) ->
 			that = this
-			classifieds.model.findOne { _id: id }, (err, classified) ->
-				if err then throw err
-				if not classified then return
+			classifieds.model.findOne { _id: id }, (error, classified) ->
+				if error then return finish error
+				if not classified then return finish new Error "not found"
 
-				if classified.status == that.BANNED or
-					classified.status == that.FLAGGED or
-					classified.status == that.REJECTED then return
+				if classified.status is that.BANNED or
+					classified.status is that.FLAGGED or
+					classified.status is that.REJECTED then
+					error = new Error "unauthorized to change classified's status"
+					error.status = 401
+					return finish error
 
 				if classified.guest then classified.status = that.INACTIVE
 				else classified.status = that.ACTIVE
 
-				classified.save()
+				classified.save (error) ->
+					if error then finish error
+					else finish null, classified
+
 
 		# Publishes the a classified.
-		publish: (id) ->
+		publish: (id, finish) ->
 			that = this
-			classifieds.model.findOne { _id: id }, (err, classified) ->
-				if err then throw err
-				if not classified then return
+			classifieds.model.findOne { _id: id }, (error, classified) ->
+				if error then return finish error
+				if not classified then return finish new Error "not found"
 
 				classified.status = that.ACTIVE
-				classified.save()
+
+				classified.save (error) ->
+					if error then finish error
+					else finish null, classified
+
 
 		# Rejects the a classified with the given reason
-		reject: (id, reason) ->
+		reject: (id, reason, finish) ->
 			that = this
-			classifieds.model.findOne { _id: id }, (err, classified) ->
-				if err then throw err
-				if not classified then return
+			classifieds.model.findOne { _id: id }, (error, classified) ->
+				if error then return finish error
+				if not classified then return finish new Error "not found"
 
 				classified.status = that.REJECTED
 				classified.adminReason = reason
-				classified.save()
+
+				classified.save (error) ->
+					if error then finish error
+					else finish null, classified
+
+
+		# Sets the classified to inactive
+		inactive: (id, finish) ->
+			that = this
+			classifieds.model.findOne { _id: id }, (error, classified) ->
+				if error then return finish error
+				if not classified then return finish new Error "not found"
+
+				classified.status = that.INACTIVE
+
+				classified.save (error) ->
+					if error then finish error
+					else finish null, classified
+
 
 
 # Helper function to create a random hash with a GUID-type format
