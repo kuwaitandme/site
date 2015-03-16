@@ -127,11 +127,11 @@ module.exports = view.extend
 		# Obtain the parameters to be sent to the back-end
 		parameters = @query or {}
 		parameters.page = @pageIndex
+		@pageIndex += 1
 		# url = app.helpers.url.insertParam('page', @pageIndex)
 
 		# Fetch the classifieds from the back-end
 		@collection.fetch parameters, @accountClassifieds
-		@pageIndex += 1
 
 
 	# This function gets called whenever a new model has been added into our
