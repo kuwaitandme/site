@@ -1,13 +1,10 @@
 #admin-single {
 	@include clearfix();
-	background: #000;
-	color: #FFF;
+	background: #FFF;
+	// color: #FFF;
 	text-align: center;
+	margin-left: 30px;
 
-	#mobile-admin-grabber {
-		margin: 0;
-		padding: 19px;
-	}
 	input {
 		background: transparent;
 		border: none;
@@ -17,9 +14,24 @@
 		cursor: pointer;
 		display: inline-block;
 		float: left;
-		font-size: 16px;
-		margin: 0 10px;
-		padding: 10px;
+		// font-size: 16px;
+		// margin: 0 10px;
+		// padding: 10px;
+
+		// li {
+			@extend .font-title;
+			@include single-transition();
+			color: #777;
+			// float: right;
+			font-size: 13px;
+			padding: 5px 10px;
+			margin-bottom: 10px;
+			border-bottom: 2px solid transparent;
+
+			&.active, &:hover {
+				color: #000;
+				border-bottom-color: #FF6600;
+			}
 
 		a { text-decoration: none; }
 		span {

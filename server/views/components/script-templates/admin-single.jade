@@ -1,4 +1,3 @@
-| <% if(editable) { %>
 | <% if(superEditable) { %>
 form(method="POST").item
 	input(type="hidden", name="_csrf", value="#{csrfToken}")
@@ -19,4 +18,3 @@ form(method="POST").item
 	input(type="submit", value="Re-post")
 //- .item
 //- 	a(href="#ban-modal") Edit
-| <% } %>
