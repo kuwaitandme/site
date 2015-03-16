@@ -229,8 +229,7 @@ classifieds = module.exports =
 				if not classified then return finish new Error "not found"
 
 				# Don't allow banned or flagged classifieds to be archived
-				if classified.status is that.BANNED or
-				classified.status is that.FLAGGED
+				if classified.status in [that.BANNED, that.FLAGGED, that.REJECTED]
 					error = new Error "unauthorized to change classified's status"
 					error.status = 401
 					return finish error
@@ -267,9 +266,9 @@ classifieds = module.exports =
 				if error then return finish error
 				if not classified then return finish new Error "not found"
 
-				if classified.status is that.BANNED or
-					classified.status is that.FLAGGED or
-					classified.status is that.REJECTED then
+				console.log classified.status
+
+				if classified.status in [that.BANNED, that.FLAGGED, that.REJECTED]
 					error = new Error "unauthorized to change classified's status"
 					error.status = 401
 					return finish error

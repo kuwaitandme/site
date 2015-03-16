@@ -11,7 +11,7 @@ module.exports = (request, response, next) ->
 			if error then  return next error
 			if not user
 				response.status info.ecode or 400
-				return response.end(info)
+				return response.end JSON.stringify info
 
 			request.logIn user, (error) ->
 				if error then return next error

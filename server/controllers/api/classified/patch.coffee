@@ -2,110 +2,101 @@ validator = require 'validator'
 
 module.exports = (request, response, next) ->
 	data = request.body
-	console.log request.body, request.user
+	id = request.params.id
+
+	user = request.user or {}
+	isModerator = request.user and user.isAdmin or false
 
 	response.contentType 'application/json'
 
-	id = request.params.id
+	if not id
+		response.status 404
+		return response.end '"need id"'
+
 	if not validator.isMongoId id
 		response.status 400
-		return response.end "invalid id"
+		return response.end '"invalid id"'
 
-	if not data.status and not data.perks and not data.reports
+	if not data.status? and not data.perks? and not data.reports?
 		response.status 412
-		return response.end "patch only specific parameters"
+		return response.end '"patch only specific parameters"'
 
 	classifiedModel = global.models.classified
 	classifiedModel.get id, (classified) ->
-
 		if not classified
 			response.status 404
-			return response.end "not found"
+			return response.end '"not found"'
 
-		user = request.user or {}
-		isAdmin = user.isAdmin
+		isOwner = (String user._id) is (String classified.owner)
 
 		# Check conditions for guest classified
-		if classified.guest and
-		classified.authHash != request.query.authHash and
-		not isAdmin
-			response.status 401
-			return response.end "unauthorized"
-		else guestBypass = true
+		if classified.guest
+			if classified.authHash != request.query.authHash and
+				not isModerator
+					response.status 401
+					return response.end '"unauthorized"'
+			else guestBypass = true
 
 		# Check conditions for regular classified
-		if not guestBypass and
-		not classified.guest and
-		not request.isAuthenticated() and
-		not isAdmin and
-		not user._id == classified.owner
+		if not guestBypass and not classified.guest and
+		user and not isModerator and not isOwner
 			response.status 401
-			return response.end "unauthorized"
+			return response.end '"unauthorized"'
 
 		# Update the status
-		if data.status then updateStatus classified, request, response, next
+		if data.status? then updateStatus classified, request, response, next
 		# else if data.perks then updatePerks classified, request, response, next
 		# else if data.reports then updateReports classified, request, response, next
 		else
 			response.status 412
-			return response.end "patch only specific parameters"
+			return response.end '"patch only specific parameters"'
 
-		# Update the perks
-		# if request.body.perks
-		# 	doPerks
-
-		# 	return response.redirect "/api/guest/#{id}"
 
 updateStatus = (classified, request, response, next) ->
-
 	newStatus = request.body.status
 	adminReason = request.body.adminReason
 
-	if classified.status is newStatus
-		return response.end JSON.stringify classified
+	user = request.user or {}
+	isModerator = user.isAdmin
+	isOwner = (user._id is classified.owner)
 
 	classifiedModel = global.models.classified
-	isModerator = request.user.isAdmin
-	isOwner = (request.user._id is classified.owner)
-
-	if classified.guest and
-	not isModerator and
-	newStatus in [classifiedModel.ACTIVE, classifiedModel.REJECTED, classifiedModel.BANNED]
-		response.status 401
-		return response.end "only a moderator can set that status"
-
-	if not isModerator and
-	newStatus in [classifiedModel.REJECTED, classifiedModel.BANNED]
-		response.status 401
-		return response.end "only a moderator can set that status"
-
 	status = classifiedModel.status
-	switch newStatus
-		when classifiedModel.ACTIVE
-			if isModerator then status.publish classified._id, finish
-			else status.repost classified._id, finish
+	id = classified._id
 
-		when classifiedModel.REJECTED
-			status.reject classified._id, adminReason, finish
-
-		when classifiedModel.ARCHIVED
-			status.archive classified._id, finish
-
-		when classifiedModel.BANNED
-			status.ban classified._id, adminReason, finish
-
-		when classifiedModel.INACTIVE
-			status.inactive classified._id, finish
-
+	if not isModerator
+		if classified.guest
+			if newStatus in [status.ACTIVE, status.REJECTED, status.BANNED]
+				response.status 401
+				return response.end '"only a moderator can set that status"'
+		else
+			if newStatus in [status.REJECTED, status.BANNED, status.INACTIVE]
+				response.status 401
+				return response.end '"only a moderator can set that status"'
+	else
+		if newStatus is status.ARCHIVED
+			response.status 401
+			return response.end '"moderators should not archive a classified"'
 
 	finish = (error, result) ->
 		if error
 			if error.status is 401
 				response.status 401
-				return response.end error.message
+				return response.end JSON.stringify error.message
 			else next error
 
-		response.end result
+		response.end JSON.stringify result
+
+	switch newStatus
+		when status.ACTIVE
+			if isModerator then status.publish id, finish
+			else status.repost id, finish
+		when status.ARCHIVED then status.archive id, finish
+		when status.BANNED then status.ban id, adminReason, finish
+		when status.INACTIVE then status.inactive id, finish
+		when status.REJECTED then  status.reject id, adminReason, finish
+
+
 
 	# console.log classified.status, newStatus
 
