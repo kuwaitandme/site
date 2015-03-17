@@ -1,5 +1,3 @@
-xss = require 'xss'
-
 module.exports = Backbone.View.extend
 	name: '[view:classified-post:details]'
 	events:
@@ -59,7 +57,6 @@ module.exports = Backbone.View.extend
 			if not $el.val()
 				$el.addClass 'error'
 				ret = false
-			return
 		if not ret
 			@model.trigger 'post:error', 'Some of the fields are missing'
 			return ret
@@ -103,15 +100,15 @@ module.exports = Backbone.View.extend
 
 	setModel: ->
 		@model.set
-			category: @$category.val()
-			price: @$priceField.val()
-			type: @$type.val()
+			category:     @$category.val()
+			price:        @$priceField.val()
+			type:         @$type.val()
 			contact:
-				address1: xss @$address1.val()
-				address2: xss @$address2.val()
-				email: xss @$email.val()
+				address1: @$address1.val()
+				address2: @$address2.val()
+				email:    @$email.val()
 				location: @$locations.val()
-				phone: xss @$phone.val()
+				phone:    @$phone.val()
 
 
 	setDOM: ->
@@ -123,7 +120,7 @@ module.exports = Backbone.View.extend
 		@$locations.val  (@model.get 'contact').location
 		@$phone.val      (@model.get 'contact').phone
 		@$priceField.val  @model.get 'price'
-		@$type.val        @model.get 'type'
+		# @$type.val        @model.get 'type'
 
 
 	close: ->

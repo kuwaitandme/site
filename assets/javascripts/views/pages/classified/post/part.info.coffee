@@ -1,5 +1,3 @@
-xss = require 'xss'
-
 module.exports = Backbone.View.extend
 	name: '[view:classified-post:info]'
 
@@ -32,8 +30,8 @@ module.exports = Backbone.View.extend
 
 	setModel: ->
 		@model.set
-			description: xss @$description.val()
-			title:       xss @$title.val()
+			description: @$description.val()
+			title:       @$title.val()
 
 
 	setDOM: ->
