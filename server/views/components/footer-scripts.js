@@ -28,10 +28,10 @@ window.scripts = [{
 	remoteSrc: "/javascripts/vendor/modernizr.min.js",
 	localSrc: "/javascripts/vendor/modernizr.min.js",
 },{
-	name:"2checkout",
-	remoteSrc: "/javascripts/vendor/2co.min.js",
-	localSrc: "/javascripts/vendor/2co.min.js",
-},{
+// 	name:"2checkout",
+// 	remoteSrc: "/javascripts/vendor/2co.min.js",
+// 	localSrc: "/javascripts/vendor/2co.min.js",
+// },{
 	name:"dropzone",
 	remoteSrc: "/javascripts/vendor/dropzone.min.js",
 	localSrc: "/javascripts/vendor/dropzone.min.js",

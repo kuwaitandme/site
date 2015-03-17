@@ -24,10 +24,10 @@ window.scripts = [{
 	remoteSrc: "//cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js",
 	localSrc: "/javascripts/vendor/modernizr.min.js",
 },{
-	name:"2checkout",
-	remoteSrc: "//www.2checkout.com/checkout/api/2co.min.js",
-	localSrc: "/javascripts/vendor/2co.min.js",
-},{
+// 	name:"2checkout",
+// 	remoteSrc: "//www.2checkout.com/checkout/api/2co.min.js",
+// 	localSrc: "/javascripts/vendor/2co.min.js",
+// },{
 	name:"dropzone",
 	remoteSrc: "//cdnjs.cloudflare.com/ajax/libs/dropzone/4.0.1/min/dropzone.min.js",
 	localSrc: "/javascripts/vendor/dropzone.min.js",
