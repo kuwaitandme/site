@@ -16,6 +16,9 @@ module.exports = Backbone.View.extend
 		self = @
 		init = -> self.initializeGoogleMaps()
 
+		# Delete the map if any
+		@gmap = null
+
 		if not window.gmapInitialized
 			window.gmapInitializeListeners.push init
 		else init()
@@ -61,8 +64,7 @@ module.exports = Backbone.View.extend
 		google.maps.event.addListener @gmarker, 'dragend', (event) ->
 			# Center the map on the position of the marker
 			latLng = self.gmarker.getPosition()
-			console.log latLng, self.model
-			window.a = self.model
+
 			self.gmap.setCenter latLng
 
 			self.model.set

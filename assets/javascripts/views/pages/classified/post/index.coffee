@@ -18,18 +18,21 @@ module.exports = (require '../../../mainView').extend
 		console.debug @name, 'initializing', @options
 
 		# Initialize local variables
-		model = app.models.classified
-		@model = new model
 		@views = {}
 		@currentView = null
 
-		# Setup listeners and event handlers
-		@listenTo @model, 'ajax:done', @onAjaxSuccess
-		@listenTo @model, 'post:error', @displayError
 		@on "close", @close
 
 
 	continue: ->
+		# Create the model
+		model = app.models.classified
+		@model = new model
+
+		# Setup listeners and event handlers
+		@listenTo @model, 'ajax:done', @onAjaxSuccess
+		@listenTo @model, 'post:error', @displayError
+
 		console.log @name, 'rendering', @el
 		@navigate "#page-begin"
 
