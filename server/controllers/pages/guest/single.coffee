@@ -34,31 +34,3 @@ controller = module.exports =
 				description: classified.description
 				page: 'classified/single'
 				title: classified.title
-
-
-	# post: (request, response, next) ->
-	# 	id = request.params.id
-	# 	authHash = request.query.authHash
-
-	# 	finish = (status, message) ->
-	# 		response.redirect '/guest/single/' + id + '?' + 'authHash=' + authHash + '&' + status + '=' + message
-
-	# 	if not (/^[0-9A-F]*$/i.test id) then return next()
-	# 	if not (!/^[0-9A-Za-z-]*$/.test authHash) then return next()
-
-	# 	# Only logged in users should be sending POST requests to this page
-	# 	if request.user
-	# 		superEditable = false
-	# 		editable = false
-	# 		classified.get id, (classified) ->
-	# 			if not classified then return finish('error', 'notfound')
-
-	# 			# Check user privileges and give an error message if the user
-	# 			# doesn't have any privileges
-	# 			if not classified.guest then return finish('error', 'unpriv')
-	# 			if classified.authHash != authHash then return finish('error', 'unpriv')
-
-	# 			# Perform the admin action respectively
-	# 			classifiedSingle.performAdmin request, true, false, finish
-
-	# 	else finish 'error', 'needlogin'

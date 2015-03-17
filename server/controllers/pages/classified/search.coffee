@@ -44,17 +44,17 @@ getQueryParameters = (request) ->
 controller = module.exports =
 	get: (request, response, next) ->
 		parameters = getQueryParameters request
-		classified = global.models.classified
+		page = 1
+		reverse = false
 
 		classified = global.models.classified
-		classified.search parameters, 1, false, (error, classifieds) ->
+		classified.search parameters, page, reverse, (error, classifieds) ->
 			if error then return next error
 
 			args =
-				bodyid: 'classified-search'
+				data: classifieds: classifieds
 				page: 'classified/search'
 				title: response.__('title.classified.search')
-				data: classifieds: classifieds
 
 			render = global.helpers.render
 			render request, response, args

@@ -7,14 +7,13 @@ description = 'Sell things that you don\'t want. Buy things at bargain prices!
 # classifieds and categories to choose from.
 controller = module.exports =
 	get: (request, response, next) ->
-		render = global.helpers.render
-		render request, response,
-			bodyid: 'landing'
+		args =
 			description: description
 			page: 'landing'
+			title: response.__('title.landing')
 
-			title: response.__('title.landing'),
-			true
+		render = global.helpers.render
+		render request, response, args, true
 
 
 	routes: (router, base) ->

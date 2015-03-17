@@ -13,6 +13,7 @@ module.exports =
 		render = global.helpers.render
 		render request, response, args, true
 
+
 	routes: (router, base) ->
 		router.get base + '/account',         @get
 		router.get base + '/account/manage',  @manage.get

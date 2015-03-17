@@ -16,8 +16,8 @@ controller = module.exports =
 
 		# Try and activate the user
 		user = global.models.user
-		user.activate id, token, (err, success) ->
-			if err then return response.redirect(failUrl)
+		user.activate id, token, (error, success) ->
+			if error then return response.redirect(failUrl)
 			if success then return response.redirect(successUrl)
 
 			# Show 404 if activation failed
