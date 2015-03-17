@@ -3,7 +3,8 @@ extends ../../layout.jade
 block content
 	.html5-cache
 		section.page#page-begin
-			h1 You are about to post a classified!
+			.message
+				h1 You are about to post a classified!
 			.message
 				p
 					| Use the 'next' and 'previous' buttons below to navigate
@@ -33,15 +34,16 @@ block content
 
 		//- Form section for basic info
 		section.page#page-info
-			h1 Give the content for your classified
+			.message
+				h1 Give the content for your classified
 			.hint
 				| Here you give the title and the content for your classified. Describe your classified
 				| giving as much detail as you can!
 				br
 				| You can mention other details like the price, location, contact info in the next page.
 			//- .tab-title #{__('page.cform.title.info')}
-			input#title(name="title", placeholder="Classified title", tooltip="Choose a title for your classified. The best titles are clear, meaningful and short", required)
-			textarea#description(name='description', placeholder="Your description goes here", required)
+			input#title(name="title", placeholder="The title for your classified goes here *", tooltip="Choose a title for your classified. The best titles are clear, meaningful and short", required)
+			textarea#description(name='description', placeholder="Your description will go here *", required)
 
 			.seperator
 
@@ -53,7 +55,8 @@ block content
 
 
 		section.page#page-details
-			h1 Details about your classified
+			.message
+				h1 Details about your classified
 			.hint
 				| Here you'll mention things like the price, location, category of your classified.
 				br
@@ -67,7 +70,7 @@ block content
 			input#price-field(name="price", value=0, placeholder="Your price in KWD", required).hide
 
 			select#ctype(name="type", required, tooltip="If you choose 'Offering', then you are offering something. If you choose 'Wanted', then you are requesting for something.")
-				option(value="-1", disabled, selected) What kind of classified is this? *
+				option(value="", disabled, selected) What kind of classified is this? *
 				option(value="0") Offering
 				option(value="1") Wanted
 
@@ -76,10 +79,10 @@ block content
 
 			.seperator
 
-			input#email(name="email", tooltip="The email address that should be displayed on the classified", placeholder="Contact email *", required)
+			input#email(name="email", tooltip="The email address that should be displayed on the classified", placeholder="A contact email",)
 			input#phone(name="phone", tooltip="A contact phone number (not required)", placeholder="Contact phone number")
-			select#locations(name="location", required, tooltip="Choose the location for your classified. Click on 'None' if a location is not required.")
-				option(value="", disabled, selected) Choose a location *
+			select#locations(name="location",  tooltip="Choose the location for your classified. Click on 'None' if a location is not required.")
+				option(value="", disabled, selected) Choose a location
 			input#address1(name="address1", tooltip="You can write the contact address for your classified here", placeholder="Address line 1").hide
 			input#address2(name="address2", placeholder="Address line 2").hide
 
@@ -94,7 +97,8 @@ block content
 
 		//- Form section for photos and videos
 		section.page#page-images
-			h1 Upload some images
+			.message
+				h1 Upload some images
 
 			//- Drag and drop container
 			.hint
@@ -121,7 +125,8 @@ block content
 
 
 		section.page#page-maps
-			h1 Help people navigate to you!
+			.message
+				h1 Help people navigate to you!
 			.hint
 				| Most people have a hard time finding their way to you. Show them exactly where you want to meet by&nbsp;
 				b dragging and dropping the pointer below&nbsp;
@@ -139,7 +144,8 @@ block content
 
 		//- The submit page
 		section.page#page-submit
-			h1 Wasn't that simple? You're all set to go!
+			.message
+				h1 Wasn't that simple? You're all set to go!
 			.hint Your classified is now ready to be uploaded as soon as you click on the button below.
 			.hint !{__('page.cform.disclaimer')}
 
@@ -161,7 +167,8 @@ block content
 
 		//- The finish page
 		section.page#page-finish
-			h1 Awesome! Your classified is now up and running!
+			.message
+				h1 Awesome! Your classified is now up and running!
 			.hint You can view it <a href="#" id="finishLink"> here </a>
 			if data.guest
 				.hint Since you posted as a guest, use this link <a href="#" id="authLink"></a> to archive/edit your classified
