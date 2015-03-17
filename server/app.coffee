@@ -1,4 +1,5 @@
 bodyParser         = require 'body-parser'
+cachemanMemory     = require 'cacheman-memory'
 cookieParser       = require 'cookie-parser'
 csrf               = require 'csurf'
 express            = require 'express'
@@ -19,7 +20,7 @@ global.models      = require './models'
 global.helpers     = require './controllers/helpers'
 global.controllers = require './controllers'
 global.root        = __dirname
-
+global.cache       = new cachemanMemory()
 
 # Force JADE and Express to work based on the mode set in our config parameter
 if global.config then process.env.NODE_ENV = global.config.mode

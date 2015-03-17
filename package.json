@@ -14,6 +14,7 @@
     "async": "*",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "~1.10.2",
+    "cacheman-memory": "^0.1.2",
     "coffee-script": "^1.9.1",
     "compression": "*",
     "connect-flash": "^0.1.1",
