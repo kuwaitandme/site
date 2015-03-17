@@ -93,7 +93,7 @@ module.exports = class controller
 				ajax = (storageIdentifier, script) ->
 					$.ajax
 						url: script.localSrc,
-						dataType: "text"
+						headers: Accept : "text/plain; charset=utf-8",
 						success: (result) ->
 							localStorage.setItem storageIdentifier, result
 							console.log that.name, "cached script:", storageIdentifier
