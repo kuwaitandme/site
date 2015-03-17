@@ -135,12 +135,12 @@ classifieds = module.exports =
 	# 'reverse' is a Boolean which decides if the query results should be
 	# reversed or not. The results are sorted by date and hence will show latest
 	# classified in the front iff reverse if false
-	search: (parameters, page, reverse, callback) ->
-		if not page then page = 1
+	search: (parameters, page=1, reverse, callback) ->
 		if reverse then sort = 1 else sort = -1
 
 		startingIndex = (page - 1) * @classifiedPerPage
-		classifiedsToSkip = page > 0 ?  startingIndex : 0
+		classifiedsToSkip = if page > 0 then startingIndex else 0
+		console.log startingIndex, classifiedsToSkip
 
 		# Prepare a query which searchs with the given parameter and offsets
 		# and limits with the 'classifieds per page' and 'page index' parameters
@@ -177,13 +177,12 @@ classifieds = module.exports =
 	# Increments the view counter of the classified. The function should only
 	# be called when a user makes a GET request to the page containing the
 	# classified with the given id.
-	incrementViewCounter: (id, callback) ->
+	incrementViewCounter: (id) ->
 		@model.findOne _id: id, (error, classified) ->
-			if error then callback error
-			if classified
+			if not error and classified
 				if not classified.views then classified.views = 1
 				else classified.views += 1
-				classified.save (error) -> callback error, classified
+				classified.save()
 
 
 	# Add a report to the classified with the given reason. If the user is
