@@ -75,20 +75,18 @@ module.exports = view.extend
 		if @currentView
 
 			# If the view's validation function failed, stay in the same view
-			if @currentView.validate and !@currentView.validate()
-				return @navigate(@currentFragment, trigger: false)
+			if @currentView.validate? and !@currentView.validate()
+				return #@navigate(@currentFragment, trigger: false)
 
 			# Animate and switch the DOM elements
 			$el = @currentView.$el
 			console.debug @name, 'animating previous view', view
 			$el.transition { opacity: 0 }, ->
 				$el.hide()
-				that.currentFragment = Backbone.history.fragment
 				that.currentView = view
 				that.currentView.render()
 				that.currentView.$el.show().transition opacity: 1
 		else
-			@currentFragment = Backbone.history.fragment
 			@currentView = view
 			@currentView.render()
 			@currentView.$el.show().transition opacity: 1
