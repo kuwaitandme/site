@@ -1,0 +1,98 @@
+
+	# console.log classified.status, newStatus
+
+	# performAdmin: (request, editable, superEditable, callback) ->
+	# 	id = request.params.id
+	# 	reason = request.body.reason
+
+	# 	switch request.body.action
+
+	# 		# These actions can only be performed by the classified owner
+	# 		when 'archive'
+	# 			classified.status.archive id
+	# 			callback('success', 'archived')
+
+	# 		when 'publish'
+	# 			classified.status.publish id
+	# 			callback('success', 'published')
+
+	# 		# The actions below can only be performed by an admin
+	# 		when 'ban'
+	# 			if request.user.isAdmin
+	# 				classified.status.ban id, reason or ''
+	# 				callback('success', 'banned')
+	# 			else callback('error', 'unpriv')
+
+	# 		when 'reject'
+	# 			if request.user.isAdmin
+	# 				classified.status.reject id, reason or ''
+	# 				callback('success', 'rejected')
+	# 			else callback('error', 'unpriv')
+
+	# 		when 'repost'
+	# 			if request.user.isAdmin
+	# 				classified.status.repost id
+	# 				callback('success', 'reposted')
+	# 			else callback('error', 'unpriv')
+
+
+	# 		render = global.helpers.render
+	# 		render request, response,
+	# 			bodyid: 'classified-callback'
+	# 			page: 'classified/callback'
+	# 			title: response.__('title.guest.callback')
+
+	# 			data:
+	# 				classified: classified
+	# 				_2checkout:
+	# 					sid: config._2checkout.sid
+	# 					publicKey: config._2checkout.publicKey
+	# 				sitekey: config.reCaptcha.site
+
+
+	# post: (request, response, next) ->
+	# 	id = request.params.id
+	# 	POSTdata = request.body
+
+	# 	if not request.body or request.body.length == 0 then return next()
+	# 	if not request.body.token then return next()
+	# 	if not /^[0-9A-F]*$/i.test(id) then return next()
+
+	# 	perks = request.body['perks[]']
+	# 	price = 0
+	# 	perks[0] = true
+	# 	perks[1] = false
+	# 	if perks[0] then price += 15
+	# 	if perks[1] then price += 45
+
+	# 	POSTdata =
+	# 		sellerId: config._2checkout.sid
+	# 		privateKey: config._2checkout.privateKey
+	# 		token: request.body.token
+	# 		currency: 'USD'
+	# 		total: price
+	# 		billingAddr:
+	# 			addrLine1: request.body['billingAddr[addrLine1]']
+	# 			addrLine2: request.body['billingAddr[addrLine2]']
+	# 			city: request.body['billingAddr[city]']
+	# 			country: request.body['billingAddr[country]']
+	# 			email: request.body['billingAddr[email]']
+	# 			name: request.body['billingAddr[name]']
+	# 			phoneNumber: request.body['billingAddr[phoneNumber]']
+	# 			state: request.body['billingAddr[state]']
+	# 			zipCode: request.body['billingAddr[zipCode]']
+
+	# 	twocheckout = global.helpers.twocheckout
+	# 	twocheckout.processTransaction id, POSTdata, (err, data, transaction) ->
+	# 		if err then return response.end(
+	# 			JSON.stringify
+	# 				data: data
+	# 				error: err
+	# 				transaction: transaction)
+
+	# 		# Success! Add perks to the classified
+	# 		if perks and perks[0] then classified.makeUrgent _id
+
+	# 		response.end JSON.stringify
+	# 			status: 'success'
+	# 			transaction: transaction
