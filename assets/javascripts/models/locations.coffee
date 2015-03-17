@@ -25,7 +25,7 @@ module.exports = Backbone.Collection.extend
 		console.log self.name, 'caching location details'
 
 		localStorage = window.app.controllers.localStorage
-		localStorage.cache 'locations', JSON.stringify value
+		localStorage.cache 'mod:locations', JSON.stringify value
 
 
 	# A reroute of backbone's fetch which first checks in the browser's
@@ -35,7 +35,7 @@ module.exports = Backbone.Collection.extend
 
 		# Attempt to load from HTML5 localStorage
 		localStorage = window.app.controllers.localStorage
-		cache = localStorage.get 'locations'
+		cache = localStorage.get 'mod:locations'
 		if cache
 			console.log @name, 'setting locations from cache'
 			json = JSON.parse cache

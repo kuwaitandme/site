@@ -4,47 +4,47 @@
  * get cached properly.
  */
 window.scripts = [{
-	name:"jquery",
+	name: "lib:jquery",
 	remoteSrc: "/javascripts/vendor/jquery.min.js",
 	localSrc: "/javascripts/vendor/jquery.min.js",
 },{
-	name:"jquery-transit",
+	name: "lib:jquery-transit",
 	remoteSrc: "/javascripts/vendor/jquery.transit.min.js",
 	localSrc: "/javascripts/vendor/jquery.transit.min.js",
 },{
-	name:"underscore",
+	name: "lib:underscore",
 	remoteSrc: "/javascripts/vendor/underscore.min.js",
 	localSrc: "/javascripts/vendor/underscore.min.js",
 },{
-	name:"backbone",
+	name: "lib:backbone",
 	remoteSrc: "/javascripts/vendor/backbone.min.js",
 	localSrc: "/javascripts/vendor/backbone.min.js",
 },{
-	name:"google-maps",
+	name: "lib:google-maps",
 	remoteSrc: "/javascripts/vendor/google.maps.js",
 	localSrc: "/javascripts/vendor/google.maps.js",
 },{
-	name:"modernizr",
+	name: "lib:modernizr",
 	remoteSrc: "/javascripts/vendor/modernizr.min.js",
 	localSrc: "/javascripts/vendor/modernizr.min.js",
 },{
-// 	name:"2checkout",
+// 	name: "lib:2checkout",
 // 	remoteSrc: "/javascripts/vendor/2co.min.js",
 // 	localSrc: "/javascripts/vendor/2co.min.js",
 // },{
-	name:"dropzone",
+	name: "lib:dropzone",
 	remoteSrc: "/javascripts/vendor/dropzone.min.js",
 	localSrc: "/javascripts/vendor/dropzone.min.js",
 },{
-	name:"masonry",
+	name: "lib:masonry",
 	remoteSrc: "/javascripts/vendor/masonry.pkgd.min.js",
 	localSrc: "/javascripts/vendor/masonry.pkgd.min.js",
 },{
-	name:"jquery-imagesloaded",
+	name: "lib:jquery-imagesloaded",
 	remoteSrc: "/javascripts/vendor/imagesloaded.min.js",
 	localSrc: "/javascripts/vendor/imagesloaded.min.js",
 },{
-	name:"app",
+	name: "app:script",
 	remoteSrc: "/javascripts/build/app.js",
 	localSrc: "/javascripts/build/app.js",
 }];
@@ -77,9 +77,9 @@ for (var i = scripts.length; i >= 1; i--) {
 	$script.type = "text/javascript";
 	$script.dataset.script = script.name;
 
-	if(typeof Storage !== "undefined" && script.name != 'app') {
+	if(typeof Storage !== "undefined" && script.name != 'app:script') {
 		/* Check for the script in our cache */
-		var scriptCache = localStorage.getItem("script-" + script.name);
+		var scriptCache = localStorage.getItem(script.name);
 
 		/* If the cache exists, then read from it; Otherwise load the script
 		 * normally */

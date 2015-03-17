@@ -4,7 +4,7 @@
 # contain HTML code and instead have the server communicate with JSON
 # objects which contain data.
 module.exports = class controller
-
+	name: '[controller:localstorage]'
 	fallback: false
 
 	# Checks the JS version from the server side and setups the local storage
@@ -14,35 +14,57 @@ module.exports = class controller
 	#
 	# Also, if the browser does not support localStorage use fallback methods.
 	constructor: (app, @config) ->
-		@consoleSlug = '[controller:localstorage]'
-		console.log @consoleSlug, 'initializing'
+		console.log @name, 'initializing'
 
 		# Check if localStorage is supported
 		if Storage?
-			remoteVersion = window.data.jsVersion or 1
-			localVersion = (Number localStorage.getItem 'jsVersion') or 0
-
-			# Check if the versions are different or not
-			console.debug @consoleSlug, 'local js version', localVersion
-			console.debug @consoleSlug, 'remote js version', remoteVersion
-			if localVersion != remoteVersion
-				console.log @consoleSlug, 'flushing local cache'
-
-				# If it is, then clear the cache and set the new version
-				localStorage.clear()
-				localStorage.setItem 'jsVersion', remoteVersion
+			@checkVersions()
 
 			# Cache the startup scripts for the next time the user visits the
 			# site
 			@cacheStartupScripts()
 
-
 		else
 			# Setup fallback methods
 			@fallback = true
-			console.log @consoleSlug, 'HTML5 Storage not supported. Using fallback methods'
-			console.warn @consoleSlug, 'no fallback methods for localstorage have been implemented so far'
+			console.log @name, 'HTML5 Storage not supported. Using fallback methods'
+			console.warn @name, 'no fallback methods for localstorage have been implemented so far'
 
+
+	checkVersions: ->
+		console.log @name, "checking cache version"
+		version = window.data.js
+
+
+		if Number(localStorage.getItem 'ver:library') != version.libraryVersion
+			console.log @name, "library caches differ, clearing"
+
+			@clearLibrariesCache()
+			localStorage.setItem 'ver:library', version.libraryVersion
+
+		if Number(localStorage.getItem 'ver:models') != version.modelVersion
+			console.log @name, "model caches differ, clearing"
+
+			@clearModelsCache()
+			localStorage.setItem 'ver:models', version.modelVersion
+
+		if Number(localStorage.getItem 'ver:application') != version.applicationVersion
+			console.log @name, "application caches differ, clearing"
+
+			@clearApplicationCache()
+			localStorage.setItem 'ver:application', version.applicationVersion
+
+
+	clearApplicationCache: -> @removeKeysHelper 'app:'
+	clearLibrariesCache: -> @removeKeysHelper 'lib:'
+	clearModelsCache: -> @removeKeysHelper 'mod:'
+	removeKeysHelper: (tag) ->
+		keysToRemove = []
+		for i in [0...localStorage.length]
+			key = localStorage.key i
+			if key and (key.substr 0, 3) is tag then keysToRemove.push key
+		for key in keysToRemove
+			localStorage.removeItem key
 
 	# This function is responsible for saving all the startup scripts
 	# (eg: jQuery, Backbone, Masonry) into the localStorage cache. This way the
@@ -60,11 +82,11 @@ module.exports = class controller
 		# The list of scripts is accessible to us by the global variable
 		# 'scripts'
 		for script in scripts
-			storageIdentifier = "script-" + script.name
+			storageIdentifier = script.name
 
 			# Check if the script already exists in the cache
 			if not localStorage.getItem(storageIdentifier)
-				console.log @consoleSlug, "caching script:", script.name
+				console.log @name, "caching script:", script.name
 
 				# Start fetching the local version of the script asynchronously.
 				# and save it into the cache.
@@ -74,7 +96,7 @@ module.exports = class controller
 						dataType: "text"
 						success: (result) ->
 							localStorage.setItem storageIdentifier, result
-							console.log that.consoleSlug, "cached script:", storageIdentifier
+							console.log that.name, "cached script:", storageIdentifier
 
 				ajax(storageIdentifier, script)
 
@@ -90,18 +112,18 @@ module.exports = class controller
 		if @fallback then return
 
 		# Get the view identifier
-		storageIdentifier = 'page-' + identifier
+		storageIdentifier = 'app:page-' + identifier
 
 		# Check if this view has been cached or not
 		if localStorage.getItem(storageIdentifier) then return
 
 		# If we reach here, then get the HTML we need to cache and store it
-		console.log @consoleSlug, 'saving current view to cache'
+		console.log @name, 'saving current view to cache'
 		html = view.$el.find('.html5-cache').html()
 
 		# Avoid caching empty html
 		if !html or html == ''
-			return console.warn(@consoleSlug, 'nothing was cached')
+			return console.warn(@name, 'nothing was cached')
 
 		# If all went well, save the html
 		localStorage.setItem storageIdentifier, html
@@ -111,9 +133,9 @@ module.exports = class controller
 	# storage.
 	getCachedViewHTML: (identifier) ->
 		if @fallback then return
-		storageIdentifier = localStorage.getItem('page-' + identifier)
+		storageIdentifier = localStorage.getItem('app:page-' + identifier)
 
-		if storageIdentifier then console.log @consoleSlug, 'fetched HTML from cache'
+		if storageIdentifier then console.log @name, 'fetched HTML from cache'
 		storageIdentifier
 
 
@@ -121,7 +143,7 @@ module.exports = class controller
 	cache: (key, string) ->
 		if @fallback then return
 
-		console.log @consoleSlug, 'setting \'' + key + '\' into cache'
+		console.log @name, "setting '#{key}' into cache"
 		localStorage.setItem key, string
 
 
@@ -129,6 +151,5 @@ module.exports = class controller
 	get: (key) ->
 		if @fallback then return
 
-		console.log @consoleSlug, 'retrieving \'' + key + '\' from cache'
-		string = localStorage.getItem(key)
-		string
+		console.log @name, "retrieving '#{key}' from cache"
+		localStorage.getItem key

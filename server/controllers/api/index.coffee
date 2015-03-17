@@ -5,8 +5,8 @@ module.exports =
 		response.contentType 'application/json'
 		response.end JSON.stringify
 			author: 'Steven Enamakel'
+			js: config.js
 			status: 'online'
-			jsVersion: config.jsVersion
 
 
 	routes: (router, base) ->

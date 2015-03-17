@@ -29,7 +29,7 @@ module.exports = Backbone.Collection.extend
 		console.log self.name, 'caching category details'
 
 		localStorage = window.app.controllers.localStorage
-		localStorage.cache 'category', JSON.stringify value
+		localStorage.cache 'mod:category', JSON.stringify value
 
 
 	# A reroute of backbone's fetch which first checks in the browser's
@@ -42,7 +42,7 @@ module.exports = Backbone.Collection.extend
 
 		# Attempt to load from HTML5 localStorage
 		localStorage = window.app.controllers.localStorage
-		cache = localStorage.get 'category'
+		cache = localStorage.get 'mod:category'
 		if cache
 			console.log @name, 'setting categories from cache'
 			json = JSON.parse cache
