@@ -1,12 +1,6 @@
-formidable = require 'formidable'
-
-classified = global.models.classified
-config = global.config
-
-
 controller = module.exports =
 	get: (request, response, next) ->
-		if !request.isAuthenticated() then return response.redirect '/auth/guest'
+		if not request.isAuthenticated() then return response.redirect '/auth/guest'
 
 		args =
 			bodyid: 'classified-post'

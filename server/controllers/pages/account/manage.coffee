@@ -1,18 +1,15 @@
 classified = global.models.classified
 
 controller = module.exports =
-
 	get: (request, response, next) ->
-		if !request.isAuthenticated()
+		if not request.isAuthenticated()
 			return response.redirect '/auth/login?error=need_login'
 
 		parameters = controller.getQueryParameters(request)
 
 		finish = (classifieds) ->
 			args =
-				bodyid: 'account-manage'
 				page: 'classified/search'
-
 				title: response.__('title.classified.search')
 				data: classifieds: classifieds
 

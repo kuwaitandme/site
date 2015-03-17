@@ -1,13 +1,12 @@
 module.exports =
-	manage: require('./manage')
-	profile: require('./profile')
+	manage:  require './manage'
+	profile: require './profile'
 
 	get: (request, response, next) ->
-		if !request.isAuthenticated()
+		if not request.isAuthenticated()
 			return response.redirect '/auth/login?error=need_login'
 
 		args =
-			bodyid: 'account'
 			page: 'account/index'
 			title: response.__('title.account')
 

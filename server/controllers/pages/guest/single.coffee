@@ -1,4 +1,5 @@
-# classifiedSingle = require('../classified/single')
+validator = require 'validator'
+
 
 # Controller for the classified posting page. Creates a new classified and
 # saves it to the database.
@@ -9,9 +10,8 @@ controller = module.exports =
 	get: (request, response, next) ->
 		id = request.params.id
 		authHash = request.query.authHash
-		if !/^[0-9A-F]*$/i.test(id)
-			return next()
-		if !/^[0-9A-Za-z-]*$/.test(authHash)
+
+		if not validator.isMongoId id or not /^[0-9A-Za-z-]*$/.test authHash
 			return next()
 
 		# Get the classified
@@ -30,15 +30,10 @@ controller = module.exports =
 			# Generate the response
 			render = global.helpers.render
 			render request, response,
-				bodyid: 'guest-single'
+				data: classified: classified
 				description: classified.description
 				page: 'classified/single'
-				scripts: [ 'googleMaps' ]
 				title: classified.title
-				data:
-					classified: classified
-					editable: true
-					superEditable: false
 
 
 	# post: (request, response, next) ->

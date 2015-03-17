@@ -1,11 +1,12 @@
+validator = require 'validator'
+
 controller = module.exports =
 	get: (request, response, next) ->
-		id = request.params.id
+		id         = request.params.id
 		resetToken = request.query.token or ''
 
-		# Clean out the parameters
-		if resetToken.length is not 24 or not (/^[0-9A-F]*$/i.test id)
-			return next()
+		# Validate the parameters
+		if resetToken.length != 24 or not validator.isMongoId id then return next()
 
 		args =
 			bodyid: 'auth-reset'
