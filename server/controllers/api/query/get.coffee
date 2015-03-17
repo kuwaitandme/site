@@ -50,9 +50,9 @@ module.exports = (request, response, next) ->
 
 	page = request.query.page or 1
 
-	finish = (err, classifieds) ->
-		if err then next err
-		else response.end JSON.stringify(classifieds)
+	finish = (error, classifieds) ->
+		if error then next error
+		else response.end JSON.stringify classifieds
 
 	classified = global.models.classified
 	classified.search parameters, page, false, finish
