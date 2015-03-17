@@ -3,7 +3,7 @@ getQueryParameters = (request) ->
 
 	classified = global.models.classified
 
-	if request.user and request.user.isAdmin
+	if request.user and request.user.isModerator
 		parameters.status = classified.status.INACTIVE
 	else parameters.owner = request.user._id
 

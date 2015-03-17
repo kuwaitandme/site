@@ -30,9 +30,10 @@ li.classified(class!="<%= classes %>")
 					| } %>
 			|<%
 			| var cl="", message="";
+			| console.log("steven", status)
 			| switch(status) {
-			|	case 0: cl="warn"; message="Awaiting Moderation"; break;
-			|	case 1: cl=""; message="Active"; break;
+			|	case 0: cl="warn";  message="Awaiting Moderation"; break;
+			|	case 1: cl="";      message="Active"; break;
 			|	case 2: cl="error"; message="Rejected"; break;
 			|	case 3: cl="error"; message="Archived"; break;
 			|	case 4: cl="error"; message="Banned"; break;
