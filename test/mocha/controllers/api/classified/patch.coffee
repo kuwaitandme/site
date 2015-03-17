@@ -374,6 +374,27 @@ describe 'patch():', ->
 						.expect 401, done
 
 
+					it 'if attempting to set status to a random integer return 400', (done) ->
+						cl = sampleClassified
+						cl.status = 123
+
+						testUser
+						.patch "/api/classified/#{cl._id}"
+						.send {status: cl.status}
+						.expect '"invalid status/reason"'
+						.expect 400, done
+
+
+					it 'if attempting to set status to something invalid return 400', (done) ->
+						cl = sampleClassified
+						cl.status = "i invalidate you"
+
+						testUser
+						.patch "/api/classified/#{cl._id}"
+						.send {status: cl.status}
+						.expect '"invalid status/reason"'
+						.expect 400, done
+
 				describe 'if classified status is REJECTED', ->
 					before (done) ->
 						classifiedModel.model.findOne {_id: sampleClassified._id}, (err, classified) ->

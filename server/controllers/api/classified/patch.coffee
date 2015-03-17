@@ -16,8 +16,6 @@ module.exports = (request, response, next) ->
 	user = request.user or {}
 	isModerator = request.user and user.isModerator or false
 
-	console.log data
-
 	response.contentType 'application/json'
 
 	# First check for any invalid parameters.
@@ -33,8 +31,19 @@ module.exports = (request, response, next) ->
 		response.status 400
 		return response.end '"patch only specific parameters"'
 
+	# For each parameter, validate it before continuing
+	if data.status  and not isValidStatus data.status, data.adminReason
+		response.status 400
+		return response.end '"invalid status/reason"'
+	if data.perks and not isValidPerk data.perks
+		response.status 400
+		return response.end '"invalid perks"'
+	if data.reports and not isValidReport data.reports
+		response.status 400
+		return response.end '"invalid report"'
+
 	# If all the parameters are valid, then get the classified and start
-	# validating with the user
+	# validating against the user
 	classifiedModel = global.models.classified
 	classifiedModel.get id, (error, classified) ->
 		# Check if the classified first of all, exists.
@@ -95,11 +104,13 @@ updateStatus = (classified, request, response, next) ->
 	status = classifiedModel.status
 	id = classified._id
 
+	# Check now if the status is valid
 	if not validator.isFloat newStatus
 	# if not validator.isInteger newStatus
 		response.status 400
 		return response.end '"invalid status"'
 
+	# Check if the user has the privileges to change to the given status
 	if not isModerator
 		if classified.guest
 			if newStatus in [status.ACTIVE, status.REJECTED, status.BANNED]
@@ -114,18 +125,18 @@ updateStatus = (classified, request, response, next) ->
 			response.status 401
 			return response.end '"moderators should not archive a classified"'
 
-	# The callback function that gets called after the status of the classifed
+	# The callback function that gets called after the status of the classified
 	# has been changed.
 	callback = (error, result) ->
 		if error
 			if error.status
-				console.log error
 				response.status error.status
 				return response.end JSON.stringify error.message
 			else next error
 
 		response.end JSON.stringify result
 
+	# Finally, switch on the status and perform the necessary action.
 	switch newStatus
 		when status.ACTIVE
 			if isModerator then status.publish id, callback
@@ -134,12 +145,30 @@ updateStatus = (classified, request, response, next) ->
 		when status.BANNED then status.ban id, adminReason, callback
 		when status.INACTIVE then status.inactive id, callback
 		when status.REJECTED then  status.reject id, adminReason, callback
+
+		# The last condition, again, you should not reach here because of all
+		# the previous checks
 		else
-			error = new Error "invalid status"
+			error = new Error "invalid status/reason"
 			error.status = 400
 			callback error, null
 
 
+# This function attempts to validate the classified status and returns true
+# iff the fields are valid.
+isValidStatus = (status, adminReason) ->
+	classifiedModel = global.models.classified
+	statuses = classifiedModel.status
+
+	if status? and validator.isFloat status and
+	Number status in [statuses.ACTIVE, statuses.ARCHIVED, statuses.BANNED,
+		statuses.INACTIVE, statuses.REJECTED]
+		return true
+	false
+
+# TODO implement this soon
+isValidReport = -> true
+isValidPerk = -> true
 
 	# console.log classified.status, newStatus
 
