@@ -24,10 +24,10 @@ classifieds = module.exports =
 		guest:             Boolean
 		owner:             ObjectId
 
-		reports:         [  ]
-		perks:           [  ]
-		contact:         [  ]
-		meta:            [  ]
+		reports:           [  ]
+		perks:             [  ]
+		contact:           [  ]
+		meta:              [  ]
 
 
 	classifiedPerPage: 15
@@ -44,7 +44,8 @@ classifieds = module.exports =
 		if isEmpty data then message = "empty fields"
 		if isEmpty data.description then return message = "empty description"
 		if isEmpty data.title then return message = "empty title"
-		if isEmpty data.type then return message = "empty type"
+		if isEmpty data.type or validator.isInt data.type
+			return message = "bad/empty type"
 		if isEmpty data.category or not validator.isMongoId data.category
 			return message = "bad/empty category"
 		if isEmpty data.price or not validator.isFloat data.price
