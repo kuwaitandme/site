@@ -16,6 +16,9 @@ module.exports = Backbone.Collection.extend
 	initialize: (@config) ->
 		console.log @name, 'initializing'
 
+		@oldFetch = @fetch
+		@fetch = (arg) -> if not @cachedFetch arg then @oldFetch arg
+
 		# The sync event is triggerd by the fetch() function.
 		@on 'sync', @setCache
 
@@ -40,6 +43,7 @@ module.exports = Backbone.Collection.extend
 			console.log @name, 'setting locations from cache'
 			json = JSON.parse cache
 			@set json
+			return true
 
 		# If nothing was cached then, signal to fetch from the API
-		else @fetch()
+		false

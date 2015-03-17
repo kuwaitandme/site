@@ -21,8 +21,8 @@ module.exports =
 		@categories = new (require './categories')
 		@locations  = new (require './locations')
 
-		@categories.cachedFetch()
-		@locations.cachedFetch()
+		@categories.fetch()
+		@locations.fetch()
 
 		@currentUser = new @user
 		@currentUser.fetch()

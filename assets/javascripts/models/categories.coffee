@@ -20,15 +20,18 @@ module.exports = Backbone.Collection.extend
 	initialize: (@config) ->
 		console.log @name, 'initializing'
 
+		@oldFetch = @fetch
+		@fetch = (arg) -> if not @cachedFetch arg then @oldFetch arg
+
 		# The sync event is triggered by the fetch() function.
 		@on 'sync', @setCache
 
 
 	# Save the model into HTML5 localstorage
 	setCache: (value) ->
-		console.log self.name, 'caching category details'
+		console.log @name, 'caching category details'
 
-		localStorage = window.app.controllers.localStorage
+		localStorage = app.controllers.localStorage
 		localStorage.cache 'mod:category', JSON.stringify value
 
 
@@ -47,6 +50,8 @@ module.exports = Backbone.Collection.extend
 			console.log @name, 'setting categories from cache'
 			json = JSON.parse cache
 			@set json
+			return true
 
-		# If nothing was cached then, signal to fetch from the API
-		else @fetch()
+		# If nothing was cached then, return false so that the original fetch
+		# function is called
+		false
