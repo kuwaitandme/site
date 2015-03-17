@@ -1,6 +1,6 @@
 .pt-page.landing {
 	background: #FFF;
-	min-height: 290px;
+	min-height: 310px;
 	// overflow-y: none;
 
 	h1, h3 { text-align: center; padding: 1px;}
@@ -21,16 +21,26 @@
 		margin: 0 auto;
 		padding: 0;
 		text-align: center;
+	}
+	#landing-message a, ul#landing-extra li {
+		@extend .font-title;
+		@include single-transition();
+		border-bottom: 1px solid #DDD;
+		float: left;
+		font-size: 13px;
+		margin: 10px;
 
-		li {
-			@extend .font-title;
-			@include single-transition();
-			border-bottom: 1px solid #DDD;
-			float: left;
-			font-size: 13px;
-			margin: 10px;
+		&:hover { border-bottom: 2px solid #FF6600; }
+	}
+	#landing-message {
+		margin-top: 30px;
+		font-size: 13px;
+		@extend .font-title;
 
-			&:hover { border-bottom: 2px solid #FF6600; }
+		a {
+			text-decoration: none;
+			float: none;
+			margin: 0;
 		}
 	}
 	#search-classified {
