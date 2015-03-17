@@ -1,17 +1,20 @@
-async = require('async')
-fs = require('fs')
-easyimg = require('easyimage')
-formidable = require('formidable')
+async       = require 'async'
+easyimg     = require 'easyimage'
+formidable  = require 'formidable'
+fs          = require 'fs'
 
+# This module is responsible for only one thing; Performing file uploads. More
+# specifically image uploads for a classified. It takes care of doing things
+# like compressing the image, validating it, creating thumbnails etc while
+# at the same time doing it all asynchronously.
 file = module.exports =
-	uploadDir: __dirname + '/../../../public/uploads/'
+	maxFiles: 5
 	thumbsDir: __dirname + '/../../../public/uploads/thumb/'
+	uploadDir: __dirname + '/../../../public/uploads/'
 
 
 	# Returns the extension of the given filename
-	getExtension: (filename) ->
-		re = /(?:\.([^.]+))?$/
-		re.exec(filename)[1]
+	getExtension: (filename) -> (/(?:\.([^.]+))?$/.exec filename)[1]
 
 
 	# Creates a unique filename from the given one, by keeping the extension of
@@ -24,54 +27,54 @@ file = module.exports =
 		extension = @getExtension(filename)
 		if not extension then return false
 
-		# Creates a unique string, that is 'length' characters long.`
+		# Creates a unique string, that is 'length' characters long.
 		makeUniqueId = (length) ->
 			text = ''
 			possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
 
 			i = 0
 			while i < length
-				text += possible.charAt(Math.floor(Math.random() * possible.length))
+				text += possible.charAt Math.floor (Math.random() * possible.length)
 				i++
 			text
 
-		makeUniqueId(14) + '.' + @getExtension(filename)
+		(makeUniqueId 14) + '.' + @getExtension filename
 
 
 
-	# Starts the upload of files into the server. It makes sure that
+	# Starts the upload of files into the server. It makes sure that the files
+	# are valid files (using validation logic in the function below this one)
+	# and does not exceed the files per limit.
 	#
-	# TOODODODOODODO
+	# It does the file uploads (asynchronously) and at the same time creates
+	# the thumbnails for each image (asynchronously too).
 	upload: (files, callback) ->
 		asyncTasks = []
 		ret = []
 
-		# Avoid reading empty file uploads`
-		if not files or files.length == 0 then return callback(null)
+		# Avoid reading empty file uploads
+		if not files? or files.length == 0 then return callback()
 
-		i = 0
-		while i < files.length
-			f = files[i]
-			newFilename = file.createUniqueFilename(f.path)
+		# Start iterating through each file
+		for f in files
+			# First, check if the file is valid or not
+			isValid = @validate f
+
+			# Then check if we have exceed our files per classified limit. If
+			# so then mark all files, starting from this file onwards as invalid
+			if asyncTasks.length >= @maxFiles then isValid = false
+
+			# Add a task to operate on this file
+			newFilename = file.createUniqueFilename f.path
 			uploadPath = file.uploadDir + newFilename
-			if !newFilename
-				i++
-				continue
-
-			# Set this accordingly`
-			isValid = true
-
-			# Add a task to operate on this file`
 			asyncTasks.push
-				oldPath: f.path
-				newPath: uploadPath
-				newFilename: newFilename
 				isValid: isValid
+				newFilename: newFilename
+				newPath: uploadPath
+				oldPath: f.path
 
-			# Add the file into our list of 'accepted' files`
+			# Add the file into our list of 'accepted' files
 			if isValid then ret.push newFilename
-
-			i++
 
 		# Perform file operations to move the file from the temporary
 		# storage into the public uploads folder.
@@ -81,11 +84,27 @@ file = module.exports =
 		# continue to continue performing operations on the DB.
 		file.operate asyncTasks
 
-		# Call the callback function with the list of uploaded files`
-		callback ret
+		# Call the callback function with the list of uploaded files
+		callback null, ret
 
 
-	validate: (file) -> true
+	# This function is a helper function that checks if the given files is a
+	# valid file for upload or not. It checks the size, extension and type for
+	# now.
+	validate: (file) ->
+		status = true
+
+		# Undefined extension
+		if not (@getExtension file.path)? then status = false
+
+		# 4MB limit per file
+		if not (0 < file.size < 4000000) then status = false
+
+		# Invalid filetype
+		if not file.type in ['image/gif', 'image/png', 'image/jpg',
+		'image/jpeg'] then status = false
+
+		status
 
 
 	# Given the asynchronous tasks for this function, perform them. Delete
@@ -96,24 +115,23 @@ file = module.exports =
 	# we are done we create another asynchronous task to start creating
 	# thumbnails. For more explanation see below function.
 	operate: (tasks) ->
-
-		# Start analyzing each file and either upload or delete it`
+		# Start analyzing each file and either upload or delete it
 		asyncJob = (task, finish) ->
 			if task.isValid
 
-				# Copy the file into the upload path if the file is valid`
-				fs.rename task.oldPath, task.newPath, (err) ->
-					if err then throw err
+				# Copy the file into the upload path if the file is valid
+				fs.rename task.oldPath, task.newPath, (error) ->
+					# if err then throw err
 					finish()
 
 			else
 				# Delete the file from our temporary storage if it isn't valid
-				fs.unlink task.oldPath, (err) ->
-					if err then throw err
+				fs.unlink task.oldPath, (error) ->
+					# if err then throw err
 					finish()
 
 
-		# Now start creating the thumbnails asynchronously`
+		# Now start creating the thumbnails asynchronously
 		asyncFinish = -> file.createThumbnails tasks
 
 		# Start the async tasks
@@ -132,7 +150,7 @@ file = module.exports =
 	createThumbnails: (tasks) ->
 		asyncJob = (task, finish) ->
 			if task.isValid
-				# Create the thumbnails for the image`
+				# Create the thumbnails for the image
 				easyimg.rescrop
 					dst: file.thumbsDir + task.newFilename
 					src: task.newPath
