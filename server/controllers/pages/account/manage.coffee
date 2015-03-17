@@ -6,7 +6,7 @@ controller = module.exports =
 			return response.redirect '/auth/login?error=need_login'
 
 		args =
-			page: 'classified/search'
+			page: 'account/manage'
 			title: response.__('title.classified.search')
 			data: classifieds: []
 

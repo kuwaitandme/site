@@ -27,6 +27,7 @@ module.exports = view.extend
 		@$filterbox = @$el.find '#filter-box'
 		@$spinner = @$el.find '#ajax-spinner'
 
+		@collection.isAccount = @isAccount
 
 		if not @isAccount
 			@filterbox = new app.views.components.filterBox
@@ -52,12 +53,13 @@ module.exports = view.extend
 		@setupMasonry()
 		@newQuery()
 
-	pause: ->
-		($ window).off 'scroll', @onScroll
+
+	pause: -> ($ window).off 'scroll', @onScroll
 
 
 	onScroll: -> if @ajaxEnable then @fireAjaxEvent()
 
+#
 	newQuery: ->
 		routerController = app.controllers.router
 
