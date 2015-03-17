@@ -30,22 +30,14 @@ module.exports = Backbone.Model.extend
 		owner: null
 		price: 0
 		reports: []
+		location: null
 		status: 0
 		title: ''
 		type: 0
 		views: 0
-		perks:
-			urgent: false
-			promote: false
-		contact:
-			address1: null
-			address2: null
-			email: null
-			location: null
-			phone: null
-		meta:
-			gmapX: null
-			gmapY: null
+		perks:   []
+		contact: []
+		meta:    []
 
 	# These status are copied from the server's model for a classified
 	status:

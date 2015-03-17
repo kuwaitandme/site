@@ -17,6 +17,7 @@ module.exports = Backbone.View.extend
 		$els = @$ '[required]'
 		$els.removeClass 'error'
 
+		# for $el in $els
 		$els.each (i) ->
 			$el = $els.eq i
 			if not $el.val()

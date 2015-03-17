@@ -18,13 +18,13 @@ module.exports = (require '../../../mainView').extend
 		console.debug @name, 'initializing', @options
 
 		# Initialize local variables
-		mode = app.models.classified
+		model = app.models.classified
 		@model = new model
 		@views = {}
 		@currentView = null
 
 		# Setup listeners and event handlers
-		@listenTo @model, 'ajax:done', -> @onAjaxSuccess
+		@listenTo @model, 'ajax:done', @onAjaxSuccess
 		@listenTo @model, 'post:error', @displayError
 		@on "close", @close
 
