@@ -1,8 +1,9 @@
 validator = require 'validator'
 
 getQueryParameters = (request) ->
+	classified = global.models.classified
 	parameters = {}
-	parameters.status = 1
+	parameters.status = classified.status.INACTIVE
 
 	# Set the category
 	if validator.isMongoId request.query.category

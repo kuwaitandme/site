@@ -39,48 +39,49 @@ app.use i18n.init
 global.__ = i18n.__
 
 # view engine setup
-app.set 'views', (path.join __dirname, 'views')
+app.set 'views', path.join __dirname, 'views'
 app.set 'view engine', 'jade'
 app.use bodyParser.json()
-app.use (bodyParser.urlencoded extended: false)
+app.use bodyParser.urlencoded extended: false
 
 
 # Setup static path and cache (7 days)
 cacheTime = 86400000 * 7
-app.use (express.static __dirname + '/../public')
+app.use  express.static (__dirname + '/../public')
 
 
 # Cookie and sessions
 app.set 'trust proxy', 1
 app.use cookieParser()
-app.use (expressSession
+app.use expressSession
 	resave: false
 	saveUninitialized: true
 	secret: global.config.sessionSecret
-	store: new redisStore(global.config.redis))
+	store: new redisStore global.config.redis
 
 
 # Setup the CSRF middleware
-csrfMiddleware = csrf(cookie: true)
+csrfMiddleware = csrf cookie: true
+
+
 app.use (request, response, next) ->
 	# If the 'X-CSRF-SKIPPER' header is set, then skip CSRF validation. We should
 	# ensure that no one else should get to know about this bypass; Which is
 	# why it is only used in the mobile application for this site. Debate on
 	# this can be carried on, but for time being this will do
 	if request.headers['x-csrf-skipper'] then return next()
-	next()
-	# csrfMiddleware request, response, next
+	csrfMiddleware request, response, next
 
 
 # Initialize Passport User authentication
 app.use passport.initialize()
 app.use passport.session()
-initPassport = (require './controllers/passport')
+initPassport = require './controllers/passport'
 initPassport passport
 
 
 # Setup the different routes
-app.use '/', (require './routes')
+app.use '/', require './routes'
 
 
 # None of the URL matched, so return 404
@@ -96,7 +97,7 @@ mongoose.connect 'mongodb://' + global.config.mongodb.username + ':' +
 
 
 # Function to log the error into a file
-error = (fs.createWriteStream 'var/error.log', flags: 'a')
+error = fs.createWriteStream 'var/error.log', flags: 'a'
 
 app.logError = (err, request) ->
 	addr = request.headers['x-forwarded-for'] || req.connection.remoteAddress;
@@ -147,12 +148,5 @@ else
 			message: err.message
 			error: err
 
-# Clear out redis cache
-console.log "clearing redis view cache"
-client = redis.createClient null, null, detect_buffers: true
-client.del 'categories', 'locations'
-client.keys "page*", (err, keys) ->
-	for key in keys
-		client.del key
 
 module.exports = app

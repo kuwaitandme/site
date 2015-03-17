@@ -12,7 +12,8 @@ getQueryParameters = (request) ->
 
 module.exports = (request, response, next) ->
 	if not request.isAuthenticated()
-		return response.redirect '/auth/login?error=need_login'
+		response.status 401
+		return response.end '"need authentication"'
 
 	parameters = getQueryParameters request
 	page = request.query.page or 0
