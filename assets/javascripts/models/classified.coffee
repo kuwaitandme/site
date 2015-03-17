@@ -1,11 +1,14 @@
+# This file contains a Backbone.Model representing a single classified. This
+# model contains methods to manipulate and sync with the server as well take
+# care of minor details like XSS and making things readable.
+
 async = require 'async'
 helpers = require 'app-helpers'
 
 dateHelper = helpers.date
 ajax = helpers.ajax
 
-# A Backbone model representing a single classified. This model contains
-# methods to manipulate and sync with the server.
+# A
 module.exports = Backbone.Model.extend
 	idAttribute: "_id"
 	name: "[model:classified]"
@@ -58,28 +61,9 @@ module.exports = Backbone.Model.extend
 	initialize: -> @bind 'parse', @parseVariables, this
 
 
-	# fetch: (id) ->
-	# 	that = @
-	# 	url = app.config.host + '/api/classified/' + id
-	# 	$.ajax
-	# 		type: 'GET'
-	# 		url: url
-	# 		dataType: 'json'
-	# 		crossDomain: true
-	# 		async: false
-	# 		beforeSend: ajax.setHeaders
-	# 		success: (response) ->
-	# 			console.debug that.name, 'fetching classified details', response
-	# 			response.classified.editable = response.editable
-	# 			response.classified.superEditable = response.superEditable
-	# 			that.set response.classified
-
-	# 			# Signal any listeners that we are done loading this classified
-	# 			that.trigger 'ajax:done', that
-	# 		error: (e) ->
-	# 			console.error @name, 'error fetching classified details', e
-
-
+	# This function parses the attributes of the classified when it comes from
+	# the server. The only parsing that is ever done here is the making the
+	# date and the price in a nice human readable format.
 	parseVariables: ->
 		# Set a condition to avoid arguments from being parsed again
 		if @attributes.parsed then return
@@ -94,6 +78,9 @@ module.exports = Backbone.Model.extend
 		@attributes.created = dateHelper.prettify(date)
 
 
+	# This function is used to create a request to create a classified on the
+	# server. It takes care of all the minor details like uploading the images
+	# and handling the data as well as triggering the right backbone events.
 	uploadServer: (captcha, files) ->
 		console.debug @name, 'uploading classified details to server', this
 		that = this
@@ -146,7 +133,10 @@ module.exports = Backbone.Model.extend
 				that.trigger 'ajax:error', response
 
 
-	# Creates for
+	# This function create a HTML formdata object that contains all the data
+	# for the POST/PUT request to the server. This is mandatory as we can't
+	# handle files in any other way than multipart/form-data uploads and
+	# finding a way to send these files can be a bitch.
 	getFormData: ->
 		formdata = new FormData
 		data = @toJSON()
@@ -158,10 +148,7 @@ module.exports = Backbone.Model.extend
 
 		formdata
 
-
-	updateServer: ->
-
-
+	# A simple function that converts the price into a nice readable format
 	priceFormat: (price) ->
 		if price is 0 then return "Free"
 		if price is -1 then return "Contact Owner"

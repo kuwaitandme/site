@@ -1,3 +1,7 @@
+# This file contains a Backbone.Collection representing a list of categories
+# for the site. Ideally the collection is instantiated only once, because the
+# list of categories is immutable.
+
 ajax         = (require 'app-helpers').ajax
 
 model = Backbone.Model.extend
@@ -6,11 +10,6 @@ model = Backbone.Model.extend
 		_id: null
 		count: 0
 		name: ''
-		children: [{
-			_id: null
-			name: ''
-			count: 0
-		}]
 
 
 module.exports = Backbone.Collection.extend
@@ -21,7 +20,7 @@ module.exports = Backbone.Collection.extend
 	initialize: (@config) ->
 		console.log @name, 'initializing'
 
-		# The sync event is triggerd by the fetch() function.
+		# The sync event is triggered by the fetch() function.
 		@on 'sync', @setCache
 
 
@@ -34,7 +33,10 @@ module.exports = Backbone.Collection.extend
 
 
 	# A reroute of backbone's fetch which first checks in the browser's
-	# localstorage for the collection before making a AJAX call
+	# localstorage for the collection before making a AJAX call.
+	#
+	# Instead of calling the fetch function, you are encouraged to use this
+	# version of fetch.
 	cachedFetch: ->
 		console.log @name, 'fetching'
 

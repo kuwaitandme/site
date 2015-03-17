@@ -1,7 +1,4 @@
-view = require '../mainView'
-module.exports = view.extend
+# The privacy policy page. Nothing interesting here
+module.exports = (require '../mainView').extend
 	name: '[view:privacy]'
-
-	start: (options) -> console.debug @name, 'initializing', options
-
-	continue: -> console.log @name, 'rendering'
+	title: -> "Privacy policy"

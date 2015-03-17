@@ -1,56 +1,87 @@
 validator = require 'validator'
 
+
+# This function is responsible for patching specific fields of the user,
+# namely the 'status', 'perks' or the 'reports'. This should be the only
+# function that is able to modify these fields.
+#
+# The function rejects requests for various reasons and returns error codes
+# with 400, 401 or 404. Any OS related errors get passed to the next(..).
+#
+# This function also takes care of all the possible senarios, each of which has
+# been written in the comments below.
 module.exports = (request, response, next) ->
 	data = request.body
 	id = request.params.id
-
 	user = request.user or {}
 	isModerator = request.user and user.isModerator or false
 
+	console.log data
+
 	response.contentType 'application/json'
 
+	# First check for any invalid parameters.
 	if not id
 		response.status 404
 		return response.end '"need id"'
-
 	if not validator.isMongoId id
 		response.status 400
 		return response.end '"invalid id"'
 
+	# Check if the parameters that we accepts are there or not
 	if not data.status? and not data.perks? and not data.reports?
 		response.status 400
 		return response.end '"patch only specific parameters"'
 
+	# If all the parameters are valid, then get the classified and start
+	# validating with the user
 	classifiedModel = global.models.classified
 	classifiedModel.get id, (error, classified) ->
+		# Check if the classified first of all, exists.
 		if not classified
 			response.status 404
 			return response.end '"not found"'
 
+		# This condition determines if the currently loggedin in user is the
+		# owner of the classified or not
 		isOwner = (String user._id) is (String classified.owner)
 
-		# Check conditions for guest classified
+		# Check conditions for a guest classified
 		if classified.guest
+			# The authentication hash must match to modify this classified or
+			# you must be a moderator.
 			if classified.authHash != request.query.authHash and
 				not isModerator
+					console.log 'hit'
 					response.status 401
 					return response.end '"unauthorized"'
-			else guestBypass = true
 
 		# Check conditions for regular classified
-		if not guestBypass and not classified.guest and
-		user and not isModerator and not isOwner
-			response.status 401
-			return response.end '"unauthorized"'
+		else
+			# You must be the owner/moderator if you are modifying a regular
+			# classified.
+			if user and not isModerator and not isOwner
+				console.log 'hit2'
+				response.status 401
+				return response.end '"unauthorized"'
 
-		# Update the status
-		if data.status? then updateStatus classified, request, response, next
-		# else if data.perks then updatePerks classified, request, response, next
-		# else if data.reports then updateReports classified, request, response, next
+		# All the data coming in has been validated properly, so now call the
+		# specific function to update the respective field.
+		if data.status?       then updateStatus  classified, request, response, next
+		else if data.perks?   then updatePerks   classified, request, response, next
+		else if data.reports? then updateReports classified, request, response, next
+
+		# Theoretically, you shouldn't reach this condition because of all
+		# checks above, but no harm in having it here.
 		else
 			response.status 412
 			return response.end '"patch only specific parameters"'
 
+
+
+updateReports = (classified, request, response, next) ->
+
+updatePerks = (classified, request, response, next) ->
 
 updateStatus = (classified, request, response, next) ->
 	newStatus = request.body.status
@@ -63,6 +94,11 @@ updateStatus = (classified, request, response, next) ->
 	classifiedModel = global.models.classified
 	status = classifiedModel.status
 	id = classified._id
+
+	if not validator.isFloat newStatus
+	# if not validator.isInteger newStatus
+		response.status 400
+		return response.end '"invalid status"'
 
 	if not isModerator
 		if classified.guest
@@ -78,12 +114,13 @@ updateStatus = (classified, request, response, next) ->
 			response.status 401
 			return response.end '"moderators should not archive a classified"'
 
-	finish = (error, result) ->
-		console.log 'error:', error, result
-
+	# The callback function that gets called after the status of the classifed
+	# has been changed.
+	callback = (error, result) ->
 		if error
-			if error.status is 401
-				response.status 401
+			if error.status
+				console.log error
+				response.status error.status
 				return response.end JSON.stringify error.message
 			else next error
 
@@ -91,12 +128,16 @@ updateStatus = (classified, request, response, next) ->
 
 	switch newStatus
 		when status.ACTIVE
-			if isModerator then status.publish id, finish
-			else status.repost id, finish
-		when status.ARCHIVED then status.archive id, finish
-		when status.BANNED then status.ban id, adminReason, finish
-		when status.INACTIVE then status.inactive id, finish
-		when status.REJECTED then  status.reject id, adminReason, finish
+			if isModerator then status.publish id, callback
+			else status.repost id, callback
+		when status.ARCHIVED then status.archive id, callback
+		when status.BANNED then status.ban id, adminReason, callback
+		when status.INACTIVE then status.inactive id, callback
+		when status.REJECTED then  status.reject id, adminReason, callback
+		else
+			error = new Error "invalid status"
+			error.status = 400
+			callback error, null
 
 
 
@@ -139,9 +180,9 @@ updateStatus = (classified, request, response, next) ->
 
 	# 		render = global.helpers.render
 	# 		render request, response,
-	# 			bodyid: 'classified-finish'
-	# 			page: 'classified/finish'
-	# 			title: response.__('title.guest.finish')
+	# 			bodyid: 'classified-callback'
+	# 			page: 'classified/callback'
+	# 			title: response.__('title.guest.callback')
 
 	# 			data:
 	# 				classified: classified

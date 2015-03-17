@@ -1,6 +1,6 @@
-helpers = require 'app-helpers'
+# This file contains a Backbone.Collection.. blah blah
 
-ajax = helpers.ajax
+ajax = (require 'app-helpers').ajax
 
 module.exports = Backbone.Collection.extend
 	consoleSlug: '[model:classifieds]'

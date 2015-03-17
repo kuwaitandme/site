@@ -1,5 +1,4 @@
-view = require '../mainView'
-module.exports = view.extend
+# The terms and conditions page. Nothing interesting here
+module.exports = (require '../mainView').extend
 	name: '[view:terms]'
-
-	start: (options) -> console.debug @name, 'starting', options
+	title: -> "Terms &amp; Conditions"

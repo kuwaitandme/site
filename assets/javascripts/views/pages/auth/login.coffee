@@ -1,4 +1,4 @@
-helpers = require 'app-helpers'
+url = (require 'app-helpers').url
 
 view = require '../../mainView'
 module.exports = view.extend
@@ -29,6 +29,8 @@ module.exports = view.extend
 	start: (@options) ->
 		console.debug @name, 'initializing', @options
 
+		# Set the model. Here the model for the classified will be the currently
+		# logged in user.
 		@model = app.models.currentUser
 
 		# Initialize DOM elements
@@ -40,16 +42,6 @@ module.exports = view.extend
 		@$submit    = @$ ".submit"
 		@$username  = @$ "#auth-username"
 
-		# Parse the URL and give out the appropriate message based on it.
-		getParam = app.helpers.url.getParam
-		if getParam 'error'
-			@addMessage @messages[getParam 'error'], 'error'
-		if getParam 'success'
-			@addMessage @messages[getParam 'success'], 'success'
-		if getParam 'warn'
-			@addMessage @messages[getParam 'warn'], 'warn'
-		# if getParam 'warn'    then app.warn    @messages[getParam 'warn']
-
 		# Generate a random id to put in place of the captcha's id
 		randomId = Math.floor (Math.random() * 1000)
 		@captchaId = 'gcaptcha' + randomId
@@ -58,19 +50,35 @@ module.exports = view.extend
 
 
 	continue: ->
-		console.log @name, 'rendering'
+		console.log @name, 'continuing'
 		@renderCaptcha()
 
 
+	# This function parses the URL and prints out the appropriate message
+	# based on the different GET parameters
+	parseURL: ->
+		console.log @name, 'parsing URL'
+
+		error = url.getParam 'error'
+		success = url.getParam 'success'
+		warn = url.getParam 'warn'
+		if error then @addMessage @messages[error], 'error'
+		if success then @addMessage @messages[success], 'success'
+		if warn then @addMessage @messages[warn], 'warn'
+
+
+	# Renders the captcha while taking care of having collision with other
+	# captchas in the page.
 	renderCaptcha: ->
 		console.log @name, 'setting captcha'
 
 		(@$captcha.html "").show()
 		if grecaptcha?
-			if @captcha then grecaptcha.reset @captcha
+			if @captcha then @resetCaptcha()
 			else @captcha = grecaptcha.render @captchaId, sitekey: window.data.captchaKey
 
 
+	# Resets the Captcha properly by calling on google's reset function
 	resetCaptcha: ->  if grecaptcha? then grecaptcha.reset @captcha
 
 
