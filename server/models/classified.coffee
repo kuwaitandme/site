@@ -25,15 +25,15 @@ classifieds = module.exports =
 		type:              Number # 0:Sale,1:Want
 		views:             Number
 
-		moderatorReason:   String
 		authHash:          String
 		guest:             Boolean
+		moderatorReason:   String
 		owner:             ObjectId
 
-		reports:           [  ]
-		perks:             [  ]
 		contact:           [  ]
 		meta:              [  ]
+		perks:             [  ]
+		reports:           [  ]
 
 
 	classifiedPerPage:        15
@@ -140,7 +140,6 @@ classifieds = module.exports =
 
 		startingIndex = (page - 1) * @classifiedPerPage
 		classifiedsToSkip = if page > 0 then startingIndex else 0
-		console.log startingIndex, classifiedsToSkip
 
 		# Prepare a query which searchs with the given parameter and offsets
 		# and limits with the 'classifieds per page' and 'page index' parameters
