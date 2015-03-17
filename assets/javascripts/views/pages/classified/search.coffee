@@ -18,6 +18,7 @@ module.exports = view.extend
 		@listTemplate = _.template(@$el.find('#list-template').html())
 
 		# Attach a listener to our collection model
+		@stopListening @collection, 'ajax:done'
 		@listenTo @collection, 'ajax:done', @addClassifieds
 
 		# Setup of local DOM variables
@@ -38,11 +39,11 @@ module.exports = view.extend
 		# Set to load new classifieds when we have scrolled to the end of the
 		# page.
 		_.bindAll @, 'onScroll'
-		($ window).scroll @onScroll
 
 
 	continue: ->
 		console.log @name, 'rendering'
+		($ window).on 'scroll', @onScroll
 
 		@collection.isAccount = @isAccount
 
@@ -50,6 +51,9 @@ module.exports = view.extend
 		@$spinner.hide()
 		@setupMasonry()
 		@newQuery()
+
+	pause: ->
+		($ window).off 'scroll', @onScroll
 
 
 	onScroll: -> if @ajaxEnable then @fireAjaxEvent()
