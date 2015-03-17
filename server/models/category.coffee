@@ -1,27 +1,29 @@
 mongoose = require 'mongoose'
-redis = require 'redis'
-client = redis.createClient null, null, detect_buffers: true
+redis    = require 'redis'
 
+client   = redis.createClient null, null, detect_buffers: true
+
+# The model for a classified category
 categories = module.exports =
-	model: mongoose.model('categories',
+	model: mongoose.model 'categories',
 		name: String
-		children:
-			name: String)
 
-	# Returns all the classifieds in the database.
+
+	# Gets all the classifieds in the database. Ideally this should be the only]
+	# function this model should ever have. The front-end JS takes the heavy
+	# burden of performing different functions with it.
 	getAll: (callback) ->
 
-		finish = (err, categories) ->
-			if err then throw err
-			callback categories
+		# First check in the redis cache for the categories
+		client.get 'categories', (error, result) ->
+			if error then return callback error, null
+			if result then return callback null, JSON.parse result
 
-		client.get 'categories', (err, result) ->
-			if err then return finish err, null
-			if result then return finish null, JSON.parse result
-
-			categories.model.find {}, (err, result) ->
-				if err then return finish err, null
+			# If not then get the categories from the DB before saving it back
+			# into redis
+			categories.model.find {}, (error, result) ->
+				if error then return callback error, null
 
 				json = JSON.stringify result
 				client.set 'categories', json
-				finish null, result
+				callback null, result

@@ -6,18 +6,24 @@ validator = require 'validator'
 Schema    = mongoose.Schema
 ObjectId  = Schema.ObjectId
 
+
+# The model for representing a classified.
+#
+# As you can see this is probably the heaviest model among them all as the
+# classified is the core of the app. There are function for creating, searching
+# modifying the status, updating etc..
 classifieds = module.exports =
 	model: mongoose.model 'classified',
 		category:          ObjectId
 		created:           Date
 		description:       String
 		images:          [ String ]
+		location:          ObjectId
 		price:             Number
 		status:            Number # 0:Inactive,1:Active,2:Rejected,3:Archived,4:Banned
 		title:             String
 		type:              Number # 0:Sale,1:Want
 		views:             Number
-		location:          ObjectId
 
 		moderatorReason:   String
 		authHash:          String
@@ -30,13 +36,17 @@ classifieds = module.exports =
 		meta:              [  ]
 
 
-	classifiedPerPage: 15
+	classifiedPerPage:        15
 	reportsPerPostBeforeFlag: 3
 
 
 	# This function creates the classified object and saves it into the DB. The
 	# classified will be validated and filtered for bad fields before getting
 	# saved into the DB.
+	#
+	# This function does not perform any image uploads and expects that images
+	# that are to be added to the classified are already uploaded and are
+	# set in the 'images' field.
 	create: (data, user, callback) ->
 		isEmpty = (string) -> not string or string.length == 0
 
@@ -102,7 +112,8 @@ classifieds = module.exports =
 		classified.save (error) -> callback error, classified
 
 
-	# Gets a single classified, given it's id.
+	# Gets a single classified, given it's id. Returns an error if the id is
+	# invalid or empty.
 	get: (id, callback) ->
 		if not validator.isMongoId id
 			error = new Error "bad/empty id"
@@ -130,7 +141,8 @@ classifieds = module.exports =
 		if not page then page = 1
 		if reverse then sort = 1 else sort = -1
 
-		classifiedsToSkip = if page > 0 then (page - 1) * @classifiedPerPage else 0
+		startingIndex = (page - 1) * @classifiedPerPage
+		classifiedsToSkip = page > 0 ?  startingIndex : 0
 
 		# Prepare a query which searchs with the given parameter and offsets
 		# and limits with the 'classifieds per page' and 'page index' parameters
@@ -139,43 +151,49 @@ classifieds = module.exports =
 			.skip classifiedsToSkip
 			.limit @classifiedPerPage
 
-		query.exec (err, result) -> callback err, result
+		query.exec (error, result) -> callback error, result
 
 
-	# Labels a classified as an urgent classified
-	makeUrgent: (id, callback) ->
-		@model.findOne { _id: id }, (err, classified) ->
-			if err then callback err
-			if classified
-				classified.perks.urgent = true
-				classified.save (err) -> callback err, classified
+	perks:
+		URGENT: 0
+		PROMOTED: 1
+
+		# Labels a classified as an urgent classified
+		makeUrgent: (id, callback) ->
+			classifieds.model.findOne _id: id, (error, classified) ->
+				if error then callback error
+				if classified
+					classified.perks.urgent = true
+					classified.save (error) -> callback error, classified
 
 
-	# Promotes a classified
-	promote: (id, callback) ->
-		@model.findOne { _id: id }, (err, classified) ->
-			if err then callback err
-			if classified
-				classified.perks.promote = true
-				classified.save (err) -> callback err, classified
+		# Promotes a classified
+		promote: (id, callback) ->
+			classifieds.model.findOne _id: id, (error, classified) ->
+				if error then callback error
+				if classified
+					classified.perks.promote = true
+					classified.save (error) -> callback error, classified
 
 
-	# Increments the view counter of the classified
+	# Increments the view counter of the classified. The function should only
+	# be called when a user makes a GET request to the page containing the
+	# classified with the given id.
 	incrementViewCounter: (id, callback) ->
-		@model.findOne { _id: id }, (err, classified) ->
-			if err then callback err
+		@model.findOne _id: id, (error, classified) ->
+			if error then callback error
 			if classified
 				if not classified.views then classified.views = 1
 				else classified.views += 1
-				classified.save (err) -> callback err, classified
+				classified.save (error) -> callback error, classified
 
 
 	# Add a report to the classified with the given reason. If the user is
 	# spamming this classified then the report gets rejected. If the classified
 	# has too many reports then it gets flagged for a moderator to be review.
 	report: (id, reason, ip, callback) ->
-		@model.findOne { _id: id }, (err, classified) ->
-			if err then callback err
+		@model.findOne _id: id, (error, classified) ->
+			if error then callback error
 			if not classified then return callback null, null
 
 			# Check if the same ip is flagging the classified or not, to avoid
@@ -194,7 +212,7 @@ classifieds = module.exports =
 				classified.status = @status.FLAGGED
 
 			# Commit to the database
-			classified.save (err) -> callback err, classified
+			classified.save (error) -> callback error, classified
 
 
 	# The functions below perform actions on only the status of the classified
@@ -214,8 +232,8 @@ classifieds = module.exports =
 		# to prevent moderators from archiving a classified.
 		archive: (id, callback) ->
 			that = this
-			classifieds.model.findOne { _id: id }, (err, classified) ->
-				if err then return callback err
+			classifieds.model.findOne { _id: id }, (error, classified) ->
+				if error then return callback error
 				if not classified
 					error = new Error "not found"
 					error.status = 404
@@ -229,9 +247,7 @@ classifieds = module.exports =
 
 				classified.status = that.ARCHIVED
 
-				classified.save (err) ->
-					if err then callback err
-					else callback null, classified
+				classified.save (error) -> callback error, classified
 
 
 		# Bans a classified, with the given reason. This is an action that
@@ -248,9 +264,7 @@ classifieds = module.exports =
 				classified.status = that.BANNED
 				classified.adminReason = reason
 
-				classified.save (error) ->
-					if error then callback error
-					else callback null, classified
+				classified.save (error) -> callback error, classified
 
 
 		# Reposts the given classified. Avoids reposting classified that are
@@ -274,9 +288,7 @@ classifieds = module.exports =
 				if classified.guest then classified.status = that.INACTIVE
 				else classified.status = that.ACTIVE
 
-				classified.save (error) ->
-					if error then callback error
-					else callback null, classified
+				classified.save (error) -> callback error, classified
 
 
 		# Publishes the a classified. This makes the classified viewable by
@@ -294,9 +306,7 @@ classifieds = module.exports =
 
 				classified.status = that.ACTIVE
 
-				classified.save (error) ->
-					if error then callback error
-					else callback null, classified
+				classified.save (error) -> callback error, classified
 
 
 		# Rejects the a classified with the given reason. This is a moderator
@@ -314,9 +324,7 @@ classifieds = module.exports =
 				classified.status = that.REJECTED
 				classified.adminReason = reason
 
-				classified.save (error) ->
-					if error then callback error
-					else callback null, classified
+				classified.save (error) -> callback error, classified
 
 
 		# Sets the classified to inactive. Don't know why we really need such
@@ -332,9 +340,7 @@ classifieds = module.exports =
 
 				classified.status = that.INACTIVE
 
-				classified.save (error) ->
-					if error then callback error
-					else callback null, classified
+				classified.save (error) -> callback error, classified
 
 
 
@@ -342,17 +348,3 @@ classifieds = module.exports =
 randomHash = ->
 	s4 = -> Math.floor((1 + Math.random()) * 0x10000).toString(16).substring 1
 	s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4()
-
-###	# Finds out how many classifieds are there in each category.
-	classifiedsPerCategory: (callback) ->
-		# The Mongo way of grouping and counting!
-		agg = [{
-			$group:
-				_id: '$category'
-				total: $sum: 1
-		}]
-
-		model.aggregate agg, (err, result) ->
-			if error then callback error
-			callback null, result
-###
