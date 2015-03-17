@@ -94,5 +94,4 @@ db.locations.insert([
 	{ name: 'Udailiya' },
 	{ name: 'Wafra' },
 	{ name: 'Yarmūk' },
-	{ name: 'None' }
 ]);
