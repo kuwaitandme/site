@@ -37,6 +37,9 @@ module.exports = (require '../../../mainView').extend
 		@navigate "#page-begin"
 
 
+	pause: -> (@$ '#g-recaptcha-response').remove()
+
+
 	# On successful AJAX request to the server navigate to the finish page.
 	onAjaxSuccess: -> @navigate '#page-finish', trigger: true
 

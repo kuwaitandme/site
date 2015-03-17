@@ -52,6 +52,10 @@ module.exports = view.extend
 	continue: ->
 		console.log @name, 'continuing'
 		@renderCaptcha()
+		@parseURL()
+
+
+	pause: -> (@$ '#g-recaptcha-response').remove()
 
 
 	# This function parses the URL and prints out the appropriate message
@@ -158,4 +162,4 @@ module.exports = view.extend
 				console.debug that.name, 'received user', response
 
 				# Redirect to the account page on success
-				app.goto('/account/', 'account')
+				app.goto('/account/', 'account-index')
