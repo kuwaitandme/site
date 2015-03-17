@@ -34,7 +34,7 @@ strategy = module.exports = (passport) ->
 
 			# Find a user in the database with provided username
 			User = global.models.user
-			User.model.findOne { 'username': username }, (err, user) ->
+			User.model.findOne username: username , (err, user) ->
 				if err then return done(err, false)
 
 				# User already exists

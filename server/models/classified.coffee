@@ -52,16 +52,16 @@ classifieds = module.exports =
 
 		# Validate each field one by one
 		if isEmpty data then message = "empty fields"
-		if isEmpty data.description then return message = "empty description"
-		if isEmpty data.title then return message = "empty title"
+		if isEmpty data.description then message = "empty description"
+		if isEmpty data.title then  message = "empty title"
 		if isEmpty data.type or validator.isInt data.type
-			return message = "bad/empty type"
+			 message = "bad/empty type"
 		if isEmpty data.category or not validator.isMongoId data.category
-			return message = "bad/empty category"
+			 message = "bad/empty category"
 		if isEmpty data.price or not validator.isFloat data.price
-			return message = "bad/empty price"
-		if isEmpty data.location and not validator.isMongoId data.location
-			return message = "bad/empty location"
+			 message = "bad/empty price"
+		if not isEmpty data.location and not validator.isMongoId data.location
+			 message = "bad/empty location"
 
 		# If there was an error. Don't create the classified and pass the error
 		# back to the callback
@@ -90,9 +90,6 @@ classifieds = module.exports =
 		classified.perks.urgent = false
 		classified.views = 0
 
-		# Create a random hash which will be used by guest classifieds
-		classified.authHash = randomHash()
-
 		# If you are logged in, then we will make you the owner of this
 		# classified; Otherwise we will label this classified as a guest
 		# classified.
@@ -105,6 +102,7 @@ classifieds = module.exports =
 			classified.guest = false
 			classified.status = @status.ACTIVE
 		else
+			classified.authHash = randomHash()
 			classified.status = @status.INACTIVE
 			classified.guest = true
 

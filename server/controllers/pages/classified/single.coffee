@@ -1,8 +1,7 @@
 async     = require 'async'
 validator = require 'validator'
 
-
-controller = module.exports =
+module.exports = controller =
 	get: (request, response, next) ->
 		id = request.params.id
 

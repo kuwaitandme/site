@@ -1,11 +1,15 @@
-classified = global.models.classified
+validator = require 'validator'
 
 module.exports = (request, response, next) ->
 	response.contentType 'application/json'
 	id = request.params.id
 
-	# Check to see if classified is in DB
-	classified.get id, (classified) ->
+	if not validator.isMongoId id then return next()
+
+	# Retrieve classified from DB
+	classified = global.models.classified
+	classified.get id, (error, classified) ->
+		if error then next error
 
 		# If classified is not found then return 404
 		if not classified
