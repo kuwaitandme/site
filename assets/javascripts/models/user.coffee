@@ -52,7 +52,7 @@ module.exports = Backbone.Model.extend
 				that.set response
 
 				# Signal any listeners that the user has logged in
-				that.trigger 'loggedin', response
+				that.trigger 'sync', response
 
 				# Call the callback
 				callback null, response
@@ -89,7 +89,7 @@ module.exports = Backbone.Model.extend
 		@clear()
 
 		# Signal any listeners that the user has logged out
-		@trigger 'logout'
+		@trigger 'sync'
 
 
 	# Returns true iff the user is anonymous

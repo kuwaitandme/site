@@ -16,13 +16,7 @@ module.exports = Backbone.View.extend
 		@$previousLink = @$ '.prev'
 		@$sliderNav    = @$ '#slider-nav'
 
-		@attachListeners()
-
-
-	# This function attaches listeners throughout the app to the header
-	attachListeners: ->
-		@listenTo app.models.currentUser, 'loggedin', @update
-		@listenTo app.models.currentUser, 'logout', @update
+		@listenTo app.models.currentUser, 'sync', @update
 
 
 	# This function runs some methods and updates the header as per the current
