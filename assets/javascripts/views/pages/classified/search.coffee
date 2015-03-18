@@ -4,7 +4,9 @@ module.exports = view.extend
 	ajaxLock: false
 	gridMinimumSize: 250
 	pageIndex: 1
+
 	isAccount: false
+	enableFilterBox: true
 
 	name: '[view:classifieds-search]'
 
@@ -29,7 +31,7 @@ module.exports = view.extend
 
 		@collection.isAccount = @isAccount
 
-		if not @isAccount
+		if @enableFilterBox
 			@filterbox = new app.views.components.filterBox
 				$el: @$filterbox
 			@listenTo @filterbox, 'changed', @newQuery
@@ -48,7 +50,7 @@ module.exports = view.extend
 
 		@collection.isAccount = @isAccount
 
-		if not @isAccount then @filterbox.render()
+		if @enableFilterBox then @filterbox.render()
 		@$spinner.hide()
 		@setupMasonry()
 		@newQuery()
@@ -59,7 +61,7 @@ module.exports = view.extend
 
 	onScroll: -> if @ajaxEnable then @fireAjaxEvent()
 
-#
+
 	newQuery: ->
 		routerController = app.controllers.router
 
@@ -72,21 +74,24 @@ module.exports = view.extend
 		# classifieds have been removed
 		@$classifiedList.height 0
 
-		# Get the current state from the history API
-		currentState = routerController.getHistoryState()
 
 		# Get the query
-		if not @isAccount then @query = @filterbox.getQuery() else @query = {}
+		if @enableFilterBox then @query = @filterbox.getQuery() else @query = {}
 		@query.page = 0
 
-		# Prepare the state to replace the URL with
-		currentState.arguments.query = @query
-		if not @isAccount then baseUrl = '/classified/search?'
-		else baseUrl = '/account/manage?'
-		currentState.arguments.url = baseUrl + $.param @query
+		if @enableFilterBox
+			console.log @name, @enableFilterBox
+			# Get the current state from the history API
+			currentState = routerController.getHistoryState()
 
-		# Attempt to replace the history state
-		routerController.setHistoryState currentState
+			# Prepare the state to replace the URL with
+			currentState.arguments.query = @query
+			if not @isAccount then baseUrl = '/classified/search?'
+			else baseUrl = '/account/manage?'
+			currentState.arguments.url = baseUrl + $.param @query
+
+			# Attempt to replace the history state
+			routerController.setHistoryState currentState
 
 		# Fire the AJAX event for the first time to load the first set of
 		# classifieds
