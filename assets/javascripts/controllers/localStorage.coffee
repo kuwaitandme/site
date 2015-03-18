@@ -55,16 +55,15 @@ module.exports = class controller
 			localStorage.setItem 'ver:application', version.applicationVersion
 
 
-	clearApplicationCache: -> @removeKeysHelper 'app:'
-	clearLibrariesCache: -> @removeKeysHelper 'lib:'
-	clearModelsCache: -> @removeKeysHelper 'mod:'
+	clearApplicationCache:  -> @removeKeysHelper 'app'
+	clearLibrariesCache:    -> @removeKeysHelper 'lib'
+	clearModelsCache:       -> @removeKeysHelper 'mod'
 	removeKeysHelper: (tag) ->
 		keysToRemove = []
 		for i in [0...localStorage.length]
 			key = localStorage.key i
-			if key and (key.substr 0, 3) is tag then keysToRemove.push key
-		for key in keysToRemove
-			localStorage.removeItem key
+			if key? and ((key.substr 0, 3) == tag) then keysToRemove.push key
+		for key in keysToRemove then localStorage.removeItem key
 
 	# This function is responsible for saving all the startup scripts
 	# (eg: jQuery, Backbone, Masonry) into the localStorage cache. This way the
@@ -85,7 +84,7 @@ module.exports = class controller
 			storageIdentifier = script.name
 
 			# Check if the script already exists in the cache
-			if not localStorage.getItem(storageIdentifier)
+			if not localStorage.getItem storageIdentifier
 				console.log @name, "caching script:", script.name
 
 				# Start fetching the local version of the script asynchronously.
@@ -93,7 +92,6 @@ module.exports = class controller
 				ajax = (storageIdentifier, script) ->
 					$.ajax
 						url: script.localSrc,
-						headers: Accept : "text/plain; charset=utf-8",
 						success: (result) ->
 							localStorage.setItem storageIdentifier, result
 							console.log that.name, "cached script:", storageIdentifier
