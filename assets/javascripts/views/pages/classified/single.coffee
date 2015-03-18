@@ -64,6 +64,8 @@ module.exports = view.extend
 
 		(@$ '.page').css 'min-height', ($ window).height()
 
+		@$gmap = @$ '#map-canvas'
+		@$gmap.hide()
 		# Render google maps
 		init = -> self.initializeGoogleMaps()
 		if not window.gmapInitialized
@@ -168,12 +170,11 @@ module.exports = view.extend
 				position: myLatlng
 				map: self.gmap
 
-		@$gmap = @$ '#map-canvas'
-
 		# If there are google co-ordinates saved, load up google maps
 		meta = @model.get 'meta'
-		if meta and meta.gmapX and meta.gmapY then init meta.gmapX, meta.gmapY
-		else  @$gmap.hide()
+		if meta and meta.gmapX and meta.gmapY
+			init meta.gmapX, meta.gmapY
+			@$gmap.show()
 
 
 	renderAdminbar: ->
