@@ -9,4 +9,4 @@ module.exports =
 		router.get base + '/classified/',            @get
 		router.get base + '/classified/post',        @post.get
 		router.get base + '/classified/search',      @search.get
-		router.get base + '/classified/single/:id?', @single.get
+		router.get base + '/classified/:id?', @single.get

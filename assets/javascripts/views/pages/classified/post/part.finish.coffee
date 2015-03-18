@@ -53,8 +53,8 @@ module.exports = Backbone.View.extend
 	# and sets them into the DOM.
 	generateSocialLinks: ->
 		origin = window.location.origin
-		authUrl = "#{origin}/guest/single/#{@model.get '_id'}?authHash=#{@model.get 'authHash'}"
-		url = "#{origin}/classified/single/#{@model.get '_id'}"
+		authUrl = "#{origin}/guest/#{@model.get '_id'}?authHash=#{@model.get 'authHash'}"
+		url = "#{origin}/classified/#{@model.get '_id'}"
 
 		tweet = 'Check out my classified at ' + url
 		facebook = 'https://www.facebook.com/sharer/sharer.php?u=' + url

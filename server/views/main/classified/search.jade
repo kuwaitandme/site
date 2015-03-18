@@ -3,7 +3,7 @@ extends ../../layout.jade
 block content
 	.hide
 		each classified in data.classifieds
-			a(href="/classified/single/#{classified._id}")= classified.title
+			a(href="/classified/#{classified._id}")= classified.title
 
 	.html5-cache
 		include ../../components/filterbox.jade
