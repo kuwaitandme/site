@@ -43,7 +43,7 @@ module.exports = class viewManager
 		@progressBar.progress 60
 
 		# Change the mouse icon to the loader
-		@displayMouseLoader(true)
+		@displayMouseLoader true
 
 		# Clear any messages
 		@messages.clear()		# Get the view
