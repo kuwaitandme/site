@@ -1,5 +1,3 @@
-ajax = (require 'app-helpers').ajax
-
 model = Backbone.Model.extend
 	idAttribute: "_id"
 	defaults:
@@ -16,6 +14,7 @@ module.exports = Backbone.Collection.extend
 	initialize: (@config) ->
 		console.log @name, 'initializing'
 
+		# Redirect fetch to our cached version of fetch
 		@oldFetch = @fetch
 		@fetch = (arg) -> if not @cachedFetch arg then @oldFetch arg
 
@@ -34,7 +33,6 @@ module.exports = Backbone.Collection.extend
 	# A reroute of backbone's fetch which first checks in the browser's
 	# localstorage for the collection before making a AJAX call
 	cachedFetch: ->
-		console.log @name, 'fetching'
 
 		# Attempt to load from HTML5 localStorage
 		localStorage = window.app.controllers.localStorage
@@ -46,4 +44,5 @@ module.exports = Backbone.Collection.extend
 			return true
 
 		# If nothing was cached then, signal to fetch from the API
+		console.log @name, 'fetching from API'
 		false

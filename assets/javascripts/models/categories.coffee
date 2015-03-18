@@ -2,8 +2,6 @@
 # for the site. Ideally the collection is instantiated only once, because the
 # list of categories is immutable.
 
-ajax         = (require 'app-helpers').ajax
-
 model = Backbone.Model.extend
 	idAttribute: "_id"
 	defaults:
@@ -17,9 +15,11 @@ module.exports = Backbone.Collection.extend
 	name: '[model:categories]'
 	url: '/api/category'
 
+
 	initialize: (@config) ->
 		console.log @name, 'initializing'
 
+		# Redirect fetch to our cached version of fetch
 		@oldFetch = @fetch
 		@fetch = (arg) -> if not @cachedFetch arg then @oldFetch arg
 
@@ -36,13 +36,11 @@ module.exports = Backbone.Collection.extend
 
 
 	# A reroute of backbone's fetch which first checks in the browser's
-	# localstorage for the collection before making a AJAX call.
+	# localStorage for the collection before making a AJAX call.
 	#
 	# Instead of calling the fetch function, you are encouraged to use this
 	# version of fetch.
 	cachedFetch: ->
-		console.log @name, 'fetching'
-
 		# Attempt to load from HTML5 localStorage
 		localStorage = window.app.controllers.localStorage
 		cache = localStorage.get 'mod:category'
@@ -54,4 +52,5 @@ module.exports = Backbone.Collection.extend
 
 		# If nothing was cached then, return false so that the original fetch
 		# function is called
+		console.log @name, 'fetching from API'
 		false
