@@ -7,7 +7,7 @@ module.exports = Backbone.View.extend
 			if not @shown
 				@$el.stop().css 'width', 0
 				@shown = true
-			@$el.transition
+			@$el.animate
 				opacity: 1
 				width: "#{percent}%"
 		else @finish()
@@ -19,6 +19,6 @@ module.exports = Backbone.View.extend
 
 		properties =
 			width: "100%"
-			opacity: 0
-		@$el.transition properties, ->
+			# opacity: 0
+		@$el.animate properties, ->
 			self.$el.css 'width', 0

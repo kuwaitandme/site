@@ -6,13 +6,12 @@ html(lang="en")
 		#page-progressbar
 		include ./include/header.jade
 
+		//- Message container
+		ul#messages
 		//- Here goes the main content of the site
 		main
-			//- Message container
-			ul#messages
-			#pt-main.pt-perspective
-				//- Site content
-				.pt-page(class="#{bodyid}")
-					block content
+			//- Site content
+			.pt-page(class="#{bodyid}")
+				block content
 
 		include ./include/footer.jade
