@@ -16,7 +16,7 @@ module.exports = class viewManager
 		@$currentPage    = $ '#current-page'
 		@$nextPage       = $ '#next-page'
 		@$previousPage   = $ '#prev-page'
-		@$ptMain         = $ '#pt-main'
+		@$ptMain         = $ 'main'
 
 		# Set local variables
 		# @components = components
@@ -40,7 +40,6 @@ module.exports = class viewManager
 	setView: (viewIdentifier, args, historyState={}) ->
 		console.debug @name,
 			"setting view to '#{viewIdentifier}' with history:",  historyState
-		@progressBar.progress 60
 
 		# Change the mouse icon to the loader
 		@displayMouseLoader true

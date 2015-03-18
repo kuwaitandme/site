@@ -75,6 +75,7 @@ module.exports = class controller
 	# Commands the app to load the given view, with the given URL.
 	goto: (url, view, args) ->
 		if @fallback then return window.location = url
+		app.progress 60
 
 		# Set the url in the arguments list
 		args = args or {}

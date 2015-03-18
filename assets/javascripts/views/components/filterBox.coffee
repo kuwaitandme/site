@@ -63,7 +63,7 @@ module.exports = Backbone.View.extend
 		query = @query or {}
 
 		# Get the keywords
-		keywords = @$keywords.val()
+		keywords = @$keywords.val() or ""
 		query.keywords = if keywords.length > 0 then keywords else null
 
 		query
