@@ -5,7 +5,7 @@
   "author": "Steven Enamakel",
   "scripts": {
     "populate-db": "mongo kuwaitandme ./server/db/populate.js",
-    "start": "coffee ./bin/www.coffee",
+    "start": "coffee ./bin/www",
     "test": "mocha --compilers coffee:coffee-script/register -b"
   },
   "dependencies": {
@@ -42,8 +42,7 @@
     "request-ip": "0.0.4",
     "supertest": "^0.15.0",
     "validator": "^3.34.0",
-    "webdriverio": "^2.4.5",
-    "xss": "^0.1.20"
+    "webdriverio": "^2.4.5"
   },
   "devDependencies": {
     "async": "^0.9.0",
@@ -59,8 +58,7 @@
     "gulp-uglify": "^1.1.0",
     "gulp-uglifycss": "^1.0.4",
     "gulp-uglifyjs": "^0.6.1",
-    "gulp-util": "^3.0.4",
-    "xss": "^0.1.20"
+    "gulp-util": "^3.0.4"
   },
   "browser": {
     "app-config": "./assets/javascripts/config.coffee",
