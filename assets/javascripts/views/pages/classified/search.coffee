@@ -39,6 +39,7 @@ module.exports = view.extend
 		else @$filterbox.hide()
 
 
+		@newQuery()
 		# Set to load new classifieds when we have scrolled to the end of the
 		# page.
 		_.bindAll @, 'onScroll'
@@ -53,7 +54,6 @@ module.exports = view.extend
 		if @enableFilterBox then @filterbox.render()
 		@$spinner.hide()
 		@setupMasonry()
-		@newQuery()
 
 
 	pause: -> ($ window).off 'scroll', @onScroll

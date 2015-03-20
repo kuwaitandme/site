@@ -3,7 +3,7 @@ validator = require 'validator'
 getQueryParameters = (request) ->
 	classified = global.models.classified
 	parameters = {}
-	parameters.status = classified.status.INACTIVE
+	parameters.status = classified.status.ACTIVE
 
 	# Set the category
 	if validator.isMongoId request.query.category
