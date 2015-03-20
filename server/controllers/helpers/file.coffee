@@ -53,7 +53,13 @@ file = module.exports =
 		ret = []
 
 		# Avoid reading empty file uploads
-		if not files? or files.length == 0 then return callback()
+		if not files? then return callback()
+		if files.length? and files.length == 0 then return callback()
+
+		# Files uploads that have only one file, get passed as an object, so
+		# recast it into an array.
+		if not files.length? then files = [files]
+
 
 		# Start iterating through each file
 		for f in files
@@ -63,6 +69,8 @@ file = module.exports =
 			# Then check if we have exceed our files per classified limit. If
 			# so then mark all files, starting from this file onwards as invalid
 			if asyncTasks.length >= @maxFiles then isValid = false
+
+			console.log f.path, isValid
 
 			# Add a task to operate on this file
 			newFilename = file.createUniqueFilename f.path
@@ -97,8 +105,8 @@ file = module.exports =
 		# Undefined extension
 		if not (@getExtension file.path)? then status = false
 
-		# 4MB limit per file
-		if not (0 < file.size < 4000000) then status = false
+		# 10MB limit per file
+		if not (0 < file.size < (4 * 1024 * 1024)) then status = false
 
 		# Invalid filetype
 		if not file.type in ['image/gif', 'image/png', 'image/jpg',

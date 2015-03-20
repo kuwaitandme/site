@@ -39,7 +39,6 @@ module.exports = (request, response, next) ->
 
 				classified = global.models.classified
 				classified.create data, request.user, (error, cl) ->
-					console.log error, cl
 					# If error was set, then nothing was saved.
 					# Send a 400 Bad Request to the client
 					if error
