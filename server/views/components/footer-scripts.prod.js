@@ -39,7 +39,7 @@
 	},{
 		name: "lib:google-maps",
 		remoteSrc: "//maps.googleapis.com/maps/api/js?v=3.exp&callback=initializeGmap",
-		localSrc: "/javascripts/vendor/google.maps.js",
+		localSrc: "/javascripts/vendor/google.maps.min.js",
 	},{
 		name: "lib:jquery-imagesloaded",
 		remoteSrc: "//cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/3.1.8/imagesloaded.pkgd.min.js",
