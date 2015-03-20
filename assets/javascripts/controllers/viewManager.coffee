@@ -107,7 +107,9 @@ module.exports = class viewManager
 		url = historyState.arguments.url
 
 		for view in @viewBuffer
-			if (view.$el.data 'url') is url and (view.$el.data 'index') is index
+			if view? and view.$el? and
+			(view.$el.data 'url') is url and
+			(view.$el.data 'index') is index
 				console.log @name, "view found in buffer. reusing view"
 				return view
 
@@ -135,9 +137,23 @@ module.exports = class viewManager
 			el: ".pt-page[data-url='#{url}'][data-index='#{index}']"
 
 		# Save the view in our buffer and return
+		@destroyUnwantedViews index
 		@viewBuffer.push targetView
 		return targetView
 
+
+	destroyUnwantedViews: (historyIndex) ->
+		index = 0
+		for view in @viewBuffer
+			if not view? or not view.$el? then continue
+			viewIndex = Number view.$el.data 'index'
+
+			# Destroy views that are in forward of history and those that are
+			# to far behind in history.
+			if viewIndex is historyIndex or (historyIndex - viewIndex) > 5
+				@viewBuffer[index] = null
+				view.trigger 'finish'
+			index += 1
 
 	switchPages: (targetViewIdentifier, args, historyState) ->
 		# Clean up the view before switching to the next one. Detach
