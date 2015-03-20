@@ -62,7 +62,7 @@ module.exports = view.extend
 		if images and images.length > 0
 			(@$ '.c-gallery').show().html @slideshowTemplate images: images
 
-		(@$ '.page').css 'min-height', ($ window).height()
+		# (@$ '.page').css 'min-height', ($ window).height()
 
 		@$gmap = @$ '#map-canvas'
 		@$gmap.hide()
@@ -122,7 +122,6 @@ module.exports = view.extend
 		action = ($form.find "[name='action']").val()
 		reason = ($form.find "[name='reason']").val()
 
-		window.a = @model
 		switch action
 			when 'publish' then @model.set 'status', @model.status.ACTIVE
 			when 'archive' then @model.set 'status', @model.status.ARCHIVED
@@ -181,12 +180,13 @@ module.exports = view.extend
 		adminTemplate = _.template (@$ '#admin-template').html()
 
 		user = app.models.currentUser
-		if user.get 'isAdmin' then superEditable = true
+		if user.get 'isModerator' then superEditable = true
 		if user.id is @model.get 'owner' then editable = true
 
 		if @model.get 'guest'
 			editable = false
-			# if @model.get
+			if (url.getParam 'authHash') and location.pathname.split('/')[1] is 'guest'
+				editable = true
 
 		# Add the admin template
 		if editable or superEditable
