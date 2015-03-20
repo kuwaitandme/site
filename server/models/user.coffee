@@ -39,7 +39,7 @@ users = module.exports =
 		newUser = new (@model)
 
 		# set the user's local credentials
-		newUser.personal.name = name
+		newUser.name = name
 		newUser.username = username
 		newUser.email = username
 		newUser.password = createHash(password)
