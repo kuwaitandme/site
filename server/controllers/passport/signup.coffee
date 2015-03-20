@@ -1,4 +1,5 @@
-LocalStrategy = (require 'passport-local').Strategy
+localStrategy = (require 'passport-local').Strategy
+validator     = require 'validator'
 
 # A Passport strategy to register a new user. It checks if the username exists
 # first, and if not then creates the user with the user name and hashes
@@ -16,10 +17,6 @@ strategy = module.exports = (passport) ->
 			fullname = request.body.fullname
 			repassword = request.body.repassword
 
-			# Regex to check for email and name
-			reName = /^[\d\s\w]+$/
-			reEmail = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-
 			# Check for any missing fields
 			if !fullname or !repassword or !password or !username
 				return done(null, false, ecode: 400)
@@ -29,20 +26,22 @@ strategy = module.exports = (passport) ->
 				done null, false, ecode: 400
 
 			# Check for invalid characters
-			if !reEmail.test(username) or !reName.test(fullname)
+			if not (validator.isEmail username) or
+			not (validator.isAlphanumeric fullname)
+			# if !reEmail.test(username) or !reName.test(fullname)
 				done null, false, ecode: 400
 
 			# Find a user in the database with provided username
 			User = global.models.user
-			User.model.findOne username: username , (err, user) ->
-				if err then return done(err, false)
+			User.model.findOne username: username , (error, user) ->
+				if error then return done error, false
 
 				# User already exists
-				if user then return done(null, false, ecode: 403)
+				if user then return done null, false, ecode: 403
 
 				# If there is no user with that email, create the user
-				User.create fullname, username, password, (err, user) ->
-					if err then throw err
+				User.create fullname, username, password, (error, user) ->
+					if error then return done error, false
 
 					# Send activation email
 					Email = global.controllers.email
@@ -57,4 +56,4 @@ strategy = module.exports = (passport) ->
 		reCaptcha = global.helpers.reCaptcha
 		reCaptcha.verify request, captachSuccess, captachFail
 
-	passport.use 'signup', (new LocalStrategy({ passReqToCallback: true }, signup))
+	passport.use 'signup', new localStrategy { passReqToCallback: true }, signup
