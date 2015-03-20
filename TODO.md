@@ -1,6 +1,7 @@
 TODO
 ---------------
-
+* have the user cache classifieds he/she has posted
+* have every view set title accordingly
 * redirect the user to the edit page if the user presses back after submitting cl.
 * write tests for every page in site
 * find a way to load images properly
