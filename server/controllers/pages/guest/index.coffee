@@ -7,4 +7,4 @@ module.exports =
 	routes: (router, base) ->
 		router.get base + '/guest/',       @get
 		router.get base + '/guest/post',   @post.get
-		router.get base + '/guest/single', @single.get
+		router.get base + '/guest/:id?',   @single.get

@@ -16,7 +16,7 @@ controller = module.exports =
 
 		# Get the classified
 		classified = global.models.classified
-		classified.get id, (classified) ->
+		classified.get id, (error, classified) ->
 
 			# Display 404 page if classified is not found
 			if not classified then return next()
