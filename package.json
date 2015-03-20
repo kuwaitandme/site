@@ -5,7 +5,7 @@
   "author": "Steven Enamakel",
   "scripts": {
     "populate-db": "mongo kuwaitandme ./server/db/populate.js",
-    "start": "coffee ./bin/www",
+    "start": "coffee ./bin/www.coffee",
     "test": "mocha --compilers coffee:coffee-script/register -b"
   },
   "dependencies": {
