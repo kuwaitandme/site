@@ -1,6 +1,8 @@
 view = require './post'
 
 module.exports = view.extend
+	name: '[view:classifieds-edit]'
+
 	setCategory: (id) ->
 		# First, find the category's properties
 		category = app.helpers.category.find(id)

@@ -26,8 +26,7 @@ module.exports = (require '../../../mainView').extend
 
 	continue: ->
 		# Create the model
-		model = app.models.classified
-		@model = new model
+		if not @model? then @model = new app.models.classified
 
 		# Setup listeners and event handlers
 		@listenTo @model, 'ajax:done', @onAjaxSuccess
