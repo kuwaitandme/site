@@ -1,7 +1,18 @@
+$headerHeight: 31px;
+
+main { padding-top: $headerHeight }
 header {
+	@include single-transition();
+	background: #FFF;
+	border-bottom: 1px solid #EEE;
 	left: 0;
 	width: 100%;
 	z-index: 2;
+	height: $headerHeight;
+	position: fixed;
+	top: 0;
+	background: #FFF;
+	width: 100%;
 
 	.loggedin { display: none; }
 	.loggedout { display: block; }
@@ -9,6 +20,7 @@ header {
 		.loggedin { display: block; }
 		.loggedout { display: none; }
 	}
+	&.nav-up { top: -1 * $headerHeight - 5px;  }
 
 	nav#main-nav {
 		width: 100%;
