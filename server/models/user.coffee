@@ -45,7 +45,7 @@ users = module.exports =
 		newUser.password = createHash(password)
 
 		# Give defaults to other parameters
-		newUser.isAdmin = false
+		newUser.isModerator = false
 		newUser.language = 0
 		newUser.status = @status.INACTIVE
 		newUser.activationToken = randomHash()
