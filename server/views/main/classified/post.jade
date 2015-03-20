@@ -3,30 +3,46 @@ extends ../../layout.jade
 block content
 	.html5-cache
 		section.page#page-begin
-			.message
-				h1 You are about to post a classified!
-			.message
-				p
-					| Use the 'next' and 'previous' buttons below to navigate
-					| between the forms. Fields marked with a '*' are compulsary
-					| and must be filled.
-
-			if data.guest
+			if data.classified
 				.message
-					p
-						| We are letting you post a classified as a guest. So we have to
-						| review your post before it gets published which can take upto
-						| 24 hours.
-					p
-						| You can avoid this delay, if you simply <a href="/auth/signup">
-						| signup</a> with us!
+					h1 You are about to edit a classified
+				if data.guest
+					.message
+						p
+							| Use the 'next' and 'previous' buttons below to navigate
+							| between the forms. Fields marked with a '*' are compulsary
+							| and must be filled.
+				else
+					.message
+						p
+							| Use the 'next' and 'previous' buttons below to navigate
+							| between the forms. Fields marked with a '*' are compulsary
+							| and must be filled.
 			else
 				.message
+					h1 You are about to post a classified!
+				.message
 					p
-						| This classified will be published immediately and can be archived
-						| by accessing your account page.
+						| Use the 'next' and 'previous' buttons below to navigate
+						| between the forms. Fields marked with a '*' are compulsary
+						| and must be filled.
 
-			.seperator
+				if data.guest
+					.message
+						p
+							| We are letting you post a classified as a guest. So we have to
+							| review your post before it gets published which can take upto
+							| 24 hours.
+						p
+							| You can avoid this delay, if you simply <a href="/auth/signup">
+							| signup</a> with us!
+				else
+					.message
+						p
+							| This classified will be published immediately and can be archived
+							| by accessing your account page.
+
+				.seperator
 
 			ul.error-message
 			.post-nav

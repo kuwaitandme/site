@@ -3,6 +3,7 @@ view   = require '../../mainView'
 
 module.exports = view.extend
 	name: "[view:classified-single]"
+
 	messages:
 		archived:  'This classified has been deleted'
 		banned:    'This classified has been banned by a moderator'
@@ -29,7 +30,7 @@ module.exports = view.extend
 			@populateDOM()
 		else
 			href = document.URL
-			id = href.substr(href.lastIndexOf('/') + 1)
+			id = (href.substr (href.lastIndexOf '/') + 1)
 			@model = new app.models.classified
 			@listenTo @model, 'sync', @modelChange
 
@@ -179,15 +180,19 @@ module.exports = view.extend
 	renderAdminbar: ->
 		superEditable = false
 		editable = false
+
+		# Get the template for the admin bar
 		adminTemplate = _.template (@$ '#admin-template').html()
 
+		# Get the currently loggedin user
 		user = app.models.currentUser
 
+		# If this is a guest classified, check the authHash
 		if (@model.get 'guest') and
 		(url.getParam 'authHash') and
-		(location.pathname.split '/')[1] is 'guest'
-			editable = true
+		(location.pathname.split '/')[1] is 'guest' then editable = true
 
+		# Check if the user is the owner or the moderator
 		if user.id is @model.get 'owner' then editable = true
 		if user.get 'isModerator' then superEditable = true
 
