@@ -177,16 +177,19 @@ module.exports = view.extend
 
 
 	renderAdminbar: ->
+		superEditable = false
+		editable = false
 		adminTemplate = _.template (@$ '#admin-template').html()
 
 		user = app.models.currentUser
-		if user.get 'isModerator' then superEditable = true
-		if user.id is @model.get 'owner' then editable = true
 
-		if @model.get 'guest'
-			editable = false
-			if (url.getParam 'authHash') and location.pathname.split('/')[1] is 'guest'
-				editable = true
+		if (@model.get 'guest') and
+		(url.getParam 'authHash') and
+		(location.pathname.split '/')[1] is 'guest'
+			editable = true
+
+		if user.id is @model.get 'owner' then editable = true
+		if user.get 'isModerator' then superEditable = true
 
 		# Add the admin template
 		if editable or superEditable
