@@ -1,0 +1,14 @@
+TODO
+---------------
+* convert user model to use RESTful API
+* find a way to load images properly
+* have every view set title accordingly
+* have the user cache classifieds he/she has posted
+* have user page
+* integrate search engine
+* make page crawlable
+* make sessions shorter to avoid bot ramapage!
+* redirect the user to the edit page if the user presses back after submitting cl.
+* write tests for every page in site
+X more versions for cache
+X redis to cache jade renders
