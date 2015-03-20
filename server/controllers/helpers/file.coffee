@@ -70,8 +70,6 @@ file = module.exports =
 			# so then mark all files, starting from this file onwards as invalid
 			if asyncTasks.length >= @maxFiles then isValid = false
 
-			console.log f.path, isValid
-
 			# Add a task to operate on this file
 			newFilename = file.createUniqueFilename f.path
 			uploadPath = file.uploadDir + newFilename
