@@ -39,7 +39,9 @@ module.exports = view.extend
 		else @$filterbox.hide()
 
 
+		@setupMasonry()
 		@newQuery()
+
 		# Set to load new classifieds when we have scrolled to the end of the
 		# page.
 		_.bindAll @, 'onScroll'
@@ -53,7 +55,6 @@ module.exports = view.extend
 
 		if @enableFilterBox then @filterbox.render()
 		@$spinner.hide()
-		@setupMasonry()
 
 
 	pause: -> ($ window).off 'scroll', @onScroll
@@ -98,23 +99,25 @@ module.exports = view.extend
 		@ajaxEnable = true
 		@fireAjaxEvent()
 
-		# For all the classifieds give them their proper size
-		@resizeClassifieds()
 
 
 	# A nice little function that resizes all the classifieds into neat columns
 	# while maintaining a proper ratio and minimum size. See source for the
 	# algorithm used.
 	resizeClassifieds: ->
+		console.log @name, 'resizing classifieds'
+
 		# Calculate the width of a single 1x1 sqaure. Subtract 5px from th
 		# window's width to compensate for the scroll bar
-		windowWidth = ($ window).width() - 50
-		columns = Math.floor windowWidth / @gridMinimumSize
+		windowWidth = ($ window).width()
+		columns = Math.floor (windowWidth / @gridMinimumSize)
 		excessSpace = windowWidth - @gridMinimumSize * columns
-		finalSize = Math.floor @gridMinimumSize + excessSpace / columns
+		finalSize = Math.floor (@gridMinimumSize + excessSpace / columns)
+
+		console.log 'resizing', finalSize
 
 		# Set each of the blocks with the right size
-		(@$ '.classified').width finalSize
+		(@$ '.classified').width finalSize - 15
 
 
 	fireAjaxEvent: ->
@@ -182,6 +185,9 @@ module.exports = view.extend
 
 		# In case we haven't filled up the page, fire the ajax loader again.
 		@fireAjaxEvent()
+
+		# For all the classifieds give them their proper size
+		@resizeClassifieds()
 
 
 	# Sets  Masonry on the classified list
