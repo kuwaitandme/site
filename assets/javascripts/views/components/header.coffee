@@ -105,6 +105,8 @@ module.exports = Backbone.View.extend
 		routerController = app.controllers.router
 		currentUser      = app.models.currentUser
 
+		@$el.removeClass 'nav-up'
+
 		# Get the current view from the history API
 		currentState = routerController.getHistoryState()
 		currentView  = currentState.view

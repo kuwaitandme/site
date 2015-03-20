@@ -52,6 +52,7 @@ module.exports = view.extend
 		($ window).on 'scroll', @onScroll
 
 		@collection.isAccount = @isAccount
+		@$classifiedList.masonry()
 
 		if @enableFilterBox then @filterbox.render()
 		@$spinner.hide()
@@ -113,8 +114,6 @@ module.exports = view.extend
 		columns = Math.floor (windowWidth / @gridMinimumSize)
 		excessSpace = windowWidth - @gridMinimumSize * columns
 		finalSize = Math.floor (@gridMinimumSize + excessSpace / columns)
-
-		console.log 'resizing', finalSize
 
 		# Set each of the blocks with the right size
 		(@$ '.classified').width finalSize - 15

@@ -18,13 +18,14 @@ ul.classified-list {
 			overflow: hidden;
 			position: relative;
 
-			-webkit-border-radius: 3px;
-			-moz-border-radius: 3px;
-			border-radius: 3px;
+			// -webkit-border-radius: 3px;
+			// -moz-border-radius: 3px;
+			// border-radius: 3px;
 
-			-webkit-box-shadow: 1px 1px 3px 0px rgba(0,0,0,0.2);
-			-moz-box-shadow: 1px 1px 3px 0px rgba(0,0,0,0.2);
-			box-shadow: 1px 1px 3px 0px rgba(0,0,0,0.2);
+			// -webkit-box-shadow: 1px 1px 3px 0px rgba(0,0,0,0.2);
+			// -moz-box-shadow: 1px 1px 3px 0px rgba(0,0,0,0.2);
+			// box-shadow: 1px 1px 3px 0px rgba(0,0,0,0.2);
+			&:hover { border-color: #000; }
 		}
 		.heading { font-size: 20px; }
 		.thumb {
@@ -36,7 +37,7 @@ ul.classified-list {
 		.c-info {
 			> ul.c-meta{
 				@include clearfix();
-				color: #999;
+				color: #BBB;
 				font-size: 13px;
 				margin: 0;
 
@@ -60,7 +61,7 @@ ul.classified-list {
 				line-height: 24px;
 				overflow: hidden;
 			}
-			.c-title, .c-excerpt { border-bottom: 1px solid #EEE; }
+			// .c-title, .c-excerpt { border-bottom: 1px solid #EEE; }
 			.c-title, .c-excerpt, .c-meta { padding: 10px 20px; }
 		}
 		.urgent-banner {
@@ -75,7 +76,7 @@ ul.classified-list {
 			border: 1px solid #FA2A00;
 			.urgent-banner { display: block; }
 		}
-		&:hover { border-color: #BBB; }
+
 	}
 	.c-status {
 		@extend .font-title;
