@@ -90,7 +90,7 @@
 			/* If version differ, then don't load from cache and instead load the
 			 * script normally. The app will eventually clear out the cache and
 			 * update the local version */
-			if(localVersion == remoteVersion) scriptCache = null;
+			if(localVersion != remoteVersion) scriptCache = null;
 
 			/* If the cache exists, then read from it; Otherwise load the script
 			 * normally */
