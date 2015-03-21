@@ -35,9 +35,9 @@ module.exports = Backbone.Model.extend
 		title: ''
 		type: 0
 		views: 0
-		perks:   []
-		contact: []
-		meta:    []
+		perks:   {}
+		contact: {}
+		meta:    {}
 
 	# These status are copied from the server's model for a classified
 	status:

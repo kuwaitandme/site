@@ -30,9 +30,9 @@ classifieds = module.exports =
 		moderatorReason:   String
 		owner:             ObjectId
 
-		contact:           [  ]
-		meta:              [  ]
-		perks:             [  ]
+		contact:           { }
+		meta:              { }
+		perks:             { }
 		reports:           [  ]
 
 
