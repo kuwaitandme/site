@@ -28,12 +28,12 @@ module.exports = Backbone.Model.extend
 		guest: true
 		images: []
 		owner: null
-		price: 0
+		price: null
 		reports: []
 		location: null
 		status: 0
 		title: ''
-		type: 0
+		type: null
 		views: 0
 		perks:   {}
 		contact: {}

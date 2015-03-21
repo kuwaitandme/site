@@ -86,8 +86,9 @@ classifieds = module.exports =
 
 		# Set up some defaults
 		classified.created = Date.now()
-		classified.perks.promote = false
-		classified.perks.urgent = false
+		classified.perks =
+			promote: false
+			urgent: false
 		classified.views = 0
 
 		# If you are logged in, then we will make you the owner of this
