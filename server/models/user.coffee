@@ -15,10 +15,11 @@ users = module.exports =
 		language: Number
 		lastLogin: [ ]
 		resetToken: String
+		credits: Number
 		status: Number # 0:Inactive,1:Active,2:Banned
 
 		# Personal information
-		# personal:
+		personal: { }
 			# address: String
 			# gender: Number
 			# location: Number

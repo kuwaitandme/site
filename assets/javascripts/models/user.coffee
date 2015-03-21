@@ -16,17 +16,18 @@ module.exports = Backbone.Model.extend
 		email: ''
 		isAdmin: false
 		language: 0
-		lastLogin: [ '' ]
+		lastLogin: [ ]
 		status: 0
 		username: ''
-		personal:
-			name: ''
-			address: ''
-			gender: 0
-			location: 0
-			phone: ''
-			website: ''
-			email: ''
+		credits: 0
+		name: ''
+		personal: { }
+			# address: ''
+			# gender: 0
+			# location: 0
+			# phone: ''
+			# website: ''
+			# email: ''
 
 
 	initialize: ->
