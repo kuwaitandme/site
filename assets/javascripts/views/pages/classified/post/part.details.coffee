@@ -27,24 +27,24 @@ module.exports = Backbone.View.extend
 
 		@initCategories()
 		@initLocations()
-
+		window.a = @
 		@setDOM()
 
 
 	locationChange: (event) ->
-		lastVal = (@$locations.find 'option:last-child').val()
+		locationNone = (@$locations.find 'option:nth-child(2)').val()
 
-		if @$locations.val() != lastVal
+		if @$locations.val() != locationNone
 			@$address1.removeClass "hide"
 			@$address2.removeClass "hide"
 
-			($ "#page-4-prev, #page-4-next").attr 'href', '#page-maps'
+			# ($ "#page-4-prev, #page-4-next").attr 'href', '#page-maps'
 		else
 			@$address1.addClass "hide"
 			@$address2.addClass "hide"
 
-			($ "#page-4-prev").attr 'href', '#page-images'
-			($ "#page-4-next").attr 'href', '#page-submit'
+			# ($ "#page-4-prev").attr 'href', '#page-images'
+			# ($ "#page-4-next").attr 'href', '#page-submit'
 
 
 	validate: (e) ->
@@ -68,15 +68,20 @@ module.exports = Backbone.View.extend
 	priceChange: (event) ->
 		val = (@$priceSelector.find ':selected').val()
 		switch val
-			when 'Free'
+			when 0 # Free
 				@$priceField.val 0
 				@$priceField.addClass 'hide'
-			when 'Custom'
+			when 1 # Specify value
 				@$priceField.val null
 				@$priceField.removeClass 'hide'
-			when 'Contact Owner'
+			when -1 # Contact Owner
 				@$priceField.val -1
 				@$priceField.addClass 'hide'
+
+	setPrice: (value) ->
+		if value is 0 then @$priceSelector.val 0
+		else if value is -1 then @$priceSelector.val -1
+		else @$priceSelector.val 1
 
 
 	# Generates the HTML code for a select option.
@@ -103,24 +108,35 @@ module.exports = Backbone.View.extend
 			category:     @$category.val()
 			price:        @$priceField.val()
 			type:         @$type.val()
-			contact:
-				address1: @$address1.val()
-				address2: @$address2.val()
-				email:    @$email.val()
-				location: @$locations.val()
-				phone:    @$phone.val()
+			location:     @$locations.val()
+
+		# Set the contact fields
+		contact = { }
+		checkandset = ($el, field) ->
+			value = $el.val()
+			if value then contact[field] = value
+
+		checkandset @$phone, 'phone'
+		checkandset @$address1, 'address1'
+		checkandset @$address2, 'address2'
+		checkandset @$email, 'email'
+
+		@model.set contact: contact
 
 
 	setDOM: ->
-		console.log @name, @model.get 'category'
-		@$address1.val   (@model.get 'contact').address1
-		@$address2.val   (@model.get 'contact').address2
-		# @$category.val    @model.get 'category' or 0
-		@$email.val      (@model.get 'contact').email
-		@$locations.val  (@model.get 'contact').location
-		@$phone.val      (@model.get 'contact').phone
-		@$priceField.val  @model.get 'price'
-		# @$type.val        @model.get 'type'
+		contact = @model.get 'contact'
+
+		@$address1.val    contact.address1
+		@$address2.val    contact.address2
+		@$category.val   (@model.get 'category') or ""
+		@$email.val       contact.email
+		@$locations.val  (@model.get 'location') or ""
+		@$phone.val       contact.phone
+		@$type.val        @model.get 'type'
+		@setPrice         @model.get 'price'
+
+		@locationChange()
 
 
 	close: ->

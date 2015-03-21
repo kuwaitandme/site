@@ -199,5 +199,6 @@ module.exports = view.extend
 		# Add the admin template
 		if editable or superEditable
 			(@$ '#admin-single').html adminTemplate
+				_id: @model.id
 				editable: editable
 				superEditable: superEditable

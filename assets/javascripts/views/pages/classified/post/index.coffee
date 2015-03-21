@@ -25,8 +25,7 @@ module.exports = (require '../../../mainView').extend
 
 
 	continue: ->
-		# Create the model
-		if not @model? then @model = new app.models.classified
+		@getModel()
 
 		# Setup listeners and event handlers
 		@listenTo @model, 'ajax:done', @onAjaxSuccess
@@ -35,6 +34,8 @@ module.exports = (require '../../../mainView').extend
 		console.log @name, 'rendering', @el
 		@navigate "#page-begin"
 
+
+	getModel: -> if not @model? then @model = new app.models.classified
 
 	pause: -> (@$ '#g-recaptcha-response').remove()
 
