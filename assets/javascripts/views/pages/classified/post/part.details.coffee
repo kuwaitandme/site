@@ -32,9 +32,7 @@ module.exports = Backbone.View.extend
 
 
 	locationChange: (event) ->
-		locationNone = (@$locations.find 'option:nth-child(2)').val()
-
-		if @$locations.val() != locationNone
+		if @$locations.val()? and @$locations.val() != ""
 			@$address1.removeClass "hide"
 			@$address2.removeClass "hide"
 
@@ -67,7 +65,7 @@ module.exports = Backbone.View.extend
 	# Handler function to change the price boxes
 	priceChange: (event) ->
 		val = (@$priceSelector.find ':selected').val()
-		switch val
+		switch Number val
 			when 0 # Free
 				@$priceField.val 0
 				@$priceField.addClass 'hide'
@@ -78,8 +76,10 @@ module.exports = Backbone.View.extend
 				@$priceField.val -1
 				@$priceField.addClass 'hide'
 
+
 	setPrice: (value) ->
-		if value is 0 then @$priceSelector.val 0
+		if not value? then @$priceSelector.val ''
+		else if value is 0 then @$priceSelector.val 0
 		else if value is -1 then @$priceSelector.val -1
 		else @$priceSelector.val 1
 
@@ -133,7 +133,7 @@ module.exports = Backbone.View.extend
 		@$email.val       contact.email
 		@$locations.val  (@model.get 'location') or ""
 		@$phone.val       contact.phone
-		@$type.val        @model.get 'type'
+		@$type.val        (@model.get 'type') or ""
 		@setPrice         @model.get 'price'
 
 		@locationChange()

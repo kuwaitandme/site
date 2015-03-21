@@ -11,7 +11,6 @@ module.exports = Backbone.View.extend
 
 		@on "close", @close
 
-		# Initialize the dropzone
 		@initDropzone()
 
 		@setDOM()
@@ -69,6 +68,7 @@ module.exports = Backbone.View.extend
 				</div>
 			</li>'
 
+
 	addImage: (img) ->
 		html = "<li class='dz-preview dz-image-preview' data-uploaded='true'>
 			<img data-dz-thumbnail='' alt='#{img}' src='/uploads/thumb/#{img}'>
@@ -88,9 +88,11 @@ module.exports = Backbone.View.extend
 
 		@model.set 'filesToDelete', @filesToDelete
 
+
 	setDOM: ->
 		images = @model.get 'images'
 		for image in images then @addImage image
+
 
 	close: ->
 		@remove()
