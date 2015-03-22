@@ -12,7 +12,7 @@ module.exports = Backbone.View.extend
 		@on 'start', ->
 			self.start(self.options)
 		@on 'continue', ->
-			document.title = self.title() + " | Kuwait &amp; Me"
+			document.title = self.title() + " | Kuwait and Me"
 			self.$el.show()
 			self.undelegateEvents()
 			self.delegateEvents()

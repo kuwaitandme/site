@@ -2,7 +2,7 @@ extends ../../layout.jade
 
 block content
 	.hide
-		each classified in data.classifieds
+		each classified in robots.classifieds
 			a(href="/classified/#{classified._id}")= classified.title
 
 	.html5-cache

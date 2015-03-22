@@ -16,15 +16,18 @@ module.exports = (request, response, args={}, cache=false) ->
 		# Setup options for the page
 		config = global.config
 		args.environment = config.mode
+		args._ =  global.__
+
+		args.title = "#{args.title} | Kuwait and Me"
+
 		args.data = args.data or {}
 		args.data.captchaKey = config.reCaptcha.site
 		args.data.js = config.js
 		args.data.ga = config.ga
 		args.data.user = request.user
 
+		args.robots = args.data
 		args.data = (new Buffer JSON.stringify args.data).toString 'base64'
-		args.title = "#{args.title} | Kuwait &amp; Me"
-		args._ =  global.__
 		# args.data.csrf = csrfToken
 
 		isDevelopment = global.config.mode != 'production'

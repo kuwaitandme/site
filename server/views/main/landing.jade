@@ -1,9 +1,8 @@
 extends ../layout.jade
 
 block content
-	//- .hide
-		each category in data.categories
-			a(href="/classified/search?category=" + category._id)= category.name
+	.hide
+		a(href="/classified/search") search classifieds
 
 	.html5-cache
 		#landing-section
@@ -14,9 +13,9 @@ block content
 					input(type="text", name="keywords", placeholder="Search classifieds").search-bar
 					button(type="submit").search-button &#xf002;
 				ul#landing-extra
-					a(href="/guest/post", data-view="guest-post")
+					a(href="/guest/post", data-view)
 						li Post a classified
-					a(href="/classified/search", data-view="classified-search")
+					a(href="/classified/search", data-view)
 						li Advanced Search
 				//- #landing-message
 				//- 	a(href="#") arabic
