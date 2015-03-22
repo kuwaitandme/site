@@ -1,4 +1,4 @@
-$headerHeight: 31px;
+$headerHeight: 41px;
 
 main { padding-top: $headerHeight }
 header {
@@ -38,7 +38,7 @@ header {
 				float: right;
 				font-size: 13px;
 				position: relative;
-				padding: 5px 10px;
+				padding: 10px;
 				border-bottom: 2px solid transparent;
 
 				&.active, &:hover {
@@ -74,7 +74,8 @@ header {
 			@extend .font-title;
 			background: #FFF;
 			border: 1px solid #DDD;
-			border-bottom: 0;
+			border-bottom-color: #FF6600;
+			border-bottom-width: 2px;
 			border-top: 0;
 			cursor: default;
 			display: none;
@@ -83,11 +84,14 @@ header {
 			right: 0;
 			top: $headerHeight - 1px;
 			width: 200px;
+				// border-bottom: 1px solid #DDD;
 
 			li {
-				border-bottom: 1px solid #DDD;
+				@include single-transition(background);
 				color: #000;
 				padding: 10px;
+
+				&.with-link:hover { background: #f6f6f6; }
 			}
 			.user-title {
 				border: 0;
@@ -103,16 +107,19 @@ header {
 				text-align: center;
 			}
 			.user-thumb {
-				background: #EEE;
-				height: 50px;
-				margin: 5px auto;
-				overflow: none;
-				padding: 10px;
-				width: 50px;
+				text-align: center;
+				img {
+					background: #EEE;
+					border: 1px solid #DDD;
+					height: 80px;
+					margin: 5px auto;
+					overflow: none;
+					width: 80px;
 
-				-moz-border-radius: 100px;
-				-webkit-border-radius: 100px;
-				border-radius: 100px;
+					-moz-border-radius: 100px;
+					-webkit-border-radius: 100px;
+					border-radius: 100px;
+				}
 			}
 		}
 	}

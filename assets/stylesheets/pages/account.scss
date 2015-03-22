@@ -6,8 +6,8 @@
 
 		.block {
 			@extend .columns;
-			@extend .medium-6;
-			@extend .large-4;
+			@extend .medium-3;
+			@extend .large-3;
 			padding: 20px;
 
 			a { text-decoration: none; }
@@ -18,13 +18,12 @@
 				// padding: 20px;
 				overflow: hidden;
 
-				// border-bottom: 5px solid #FF6600;
+				border: 1px solid #f6f6f6;
+				border-bottom: 2px solid #FF6600;
 
-				-webkit-border-radius: 3px;
-				-moz-border-radius: 3px;
-				border-radius: 3px;
-
-
+				// -webkit-border-radius: 3px;
+				// -moz-border-radius: 3px;
+				// border-radius: 3px;
 
 				-webkit-box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.25);
 				-moz-box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.25);
@@ -33,18 +32,18 @@
 				// &:hover { background: #fafafa; }
 				.title {
 					@extend .font-title;
-					border: 1px solid #eee;
+					// border: 1px solid #eee;
 					font-size: 24px;
 					padding: 20px;
-					text-align: center;
+					// text-align: center;
 				}
-				.icon {
-					font-size: 50px;
-					padding: 20px;
-					color: #FFF;
-					background: #FF6600;
-					text-align: center;
-				}
+				// .icon {
+				// 	font-size: 50px;
+				// 	padding: 20px;
+				// 	color: #FFF;
+				// 	background: #FF6600;
+				// 	text-align: center;
+				// }
 			}
 		}
 	}

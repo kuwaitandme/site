@@ -3,6 +3,7 @@
 	background: #FFF;
 	text-align: center;
 	margin-left: 30px;
+	border-bottom: 1px solid #EEE;
 
 	input {
 		background: transparent;
@@ -18,7 +19,7 @@
 		display: inline-block;
 		float: left;
 		font-size: 13px;
-		padding: 5px 10px;
+		padding: 10px;
 
 		&.active, &:hover {
 			border-bottom-color: #FF6600;

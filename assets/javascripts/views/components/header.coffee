@@ -51,10 +51,21 @@ module.exports = Backbone.View.extend
 		@$nextLink     = @$ '.next'
 		@$previousLink = @$ '.prev'
 		@$sliderNav    = @$ '#slider-nav'
+		@$credits      = @$ '.user-credits .count'
+		@$username     = @$ '.user-title .name'
+		@$userthumb    = @$ '.user-thumb img'
 
 		@scrollHandler()
 		# @update()
 
+	populateHeader: ->
+		md5 = app.libs.md5
+		md5Hash = md5 @currentUser.get 'email'
+		gravatarURL = "https://www.gravatar.com/avatar/#{md5Hash}"
+
+		@$credits.html @currentUser.get 'credits'
+		@$username.html @currentUser.get 'name'
+		@$userthumb.attr 'src', gravatarURL
 
 	scrollHandler: ->
 		delta = 5
@@ -120,3 +131,5 @@ module.exports = Backbone.View.extend
 		# Depending on the user's current login state. Change the header
 		if @currentUser.isAnonymous() then @$el.removeClass 'loggedin'
 		else @$el.addClass 'loggedin'
+
+		@populateHeader()

@@ -14,18 +14,25 @@ header
 				li.main-item Signup
 			a.loggedout(href="/auth/login", data-view)
 				li.main-item Login
-			a(href="#").loggedin
+			a.loggedin
 				li.main-item.settings &#xf013;
 					ul.subnav
-						li.user-title Welcome Jon
-						li.user-credits You have 0 Credits
+						li.user-title
+							span Welcome
+							.name
+						li.user-credits
+							span You have&nbsp;
+							span.count 0
+							span &nbsp;Credits
 						li.user-thumb
+							a(href="https://www.gravatar.com/")
+								img(src='')
 						//- profile photo here
-						li
-							a(href="/credits") Buy Credits
-						li
-							a(href="/account", data-view) View Account
-						li
-							a(href="/auth/logout", data-view) Logout
+						a(href="/credits", data-view)
+							li.with-link Buy Credits
+						a(href="/account", data-view)
+							li.with-link View Account
+						a(href="/auth/logout", data-view)
+							li.with-link Logout
 				//- 	li Account
 				//- 	li Logout
