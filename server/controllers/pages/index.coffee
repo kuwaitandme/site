@@ -22,6 +22,7 @@ controller = module.exports =
 		(require './account')    .routes router, base
 		(require './auth')       .routes router, base
 		(require './classified') .routes router, base
+		(require './credits')    .routes router, base
 		(require './guest')      .routes router, base
 		(require './privacy')    .routes router, base
 		(require './terms')      .routes router, base

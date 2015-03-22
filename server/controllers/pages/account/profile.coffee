@@ -8,4 +8,4 @@ controller = module.exports =
 
 		render request, response,
 			page: 'account/profile'
-			title: response.__('title.privacy')
+			title: response.__ 'title.account.profile'

@@ -62,12 +62,12 @@ module.exports = Backbone.Model.extend
 		@attributes.parsed = true
 
 		# Convert the price into 'Free', '## KD' or 'Contact Owner'
-		price = @get('price')
-		@attributes.price = @priceFormat(price)
+		price = @get 'price'
+		@attributes.price = @priceFormat price
 
 		# Convert Date to human readable format
-		date = @get('created')
-		@attributes.created = dateHelper.prettify(date)
+		date = @get 'created'
+		@attributes.created = dateHelper.prettify date
 
 
 	# This function is used to create a request to create a classified on the
@@ -75,9 +75,7 @@ module.exports = Backbone.Model.extend
 	# and handling the data as well as triggering the right backbone events.
 	uploadServer: (captcha, files) ->
 		console.debug @name, 'uploading classified details to server', this
-		that = this
-
-		url = app.config.host + '/api/classified'
+		self = @
 
 		# Get the JSON to send in the first request. The first request should
 		# not contain the files. The files will be uploaded asynchronously in
@@ -89,17 +87,17 @@ module.exports = Backbone.Model.extend
 		# upload is done.
 		progressHandler = (event) ->
 			if event.lengthComputable
-				that.trigger 'ajax:done:partial', event
+				self.trigger 'ajax:done:partial', event
 			# $('progress').attr({value:e.loaded,max:e.total});
 			return
 
 		$.ajax
 			beforeSend: ajax.setHeaders
+			contentType: false
 			data: @getFormData(files)
 			processData: false
-			contentType: false
-			type: 'POST'
-			url: url
+			type: if (@get '_id')? then "PUT" else "POST"
+			url: "#{app.config.host}/api/classified"
 
 			# Attach the progress handler, if it can be supported
 			xhr: ->
@@ -111,18 +109,18 @@ module.exports = Backbone.Model.extend
 			success: (response) ->
 				if not response._id
 					console.error @name, 'error uploading classified', response
-					return that.trigger('ajax:error', response)
+					return self.trigger 'ajax:error', response
 
 				# Set the data from the response
-				that.set response
+				self.set response
 
 				# Let listeners know that we have successfully uploaded the
 				# classified
-				that.trigger 'ajax:done'
+				self.trigger 'ajax:done'
 
 			error: (response) ->
 				console.error @name, 'error uploading classified details', response
-				that.trigger 'ajax:error', response
+				self.trigger 'ajax:error', response
 
 
 	# This function create a HTML formdata object that contains all the data
@@ -132,16 +130,18 @@ module.exports = Backbone.Model.extend
 	getFormData: ->
 		formdata = new FormData
 		data = @toJSON()
+
 		files = data.files
 		delete data.files
-		formdata.append 'data', JSON.stringify(data)
-		for file in files
-			formdata.append 'files[]', file
+
+		# Populate the formdata with the JSON and the filemeta
+		formdata.append 'data', JSON.stringify data
+		for file in files then formdata.append 'files[]', file
 
 		formdata
 
 	# A simple function that converts the price into a nice readable format
 	priceFormat: (price) ->
-		if price is 0 then return "Free"
-		if price is -1 then return "Contact Owner"
-		if price then return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " KD"
+		if price is 0 then "Free"
+		else if price is -1 then "Contact Owner"
+		if price then (price.toString().replace /\B(?=(\d{3})+(?!\d))/g, ",") + " KD"
