@@ -9,7 +9,7 @@ gm          = require 'gm'
 # like compressing the image, validating it, creating thumbnails etc while
 # at the same time doing it all asynchronously.
 file = module.exports =
-	maxFiles: 5
+	maxFiles: 10
 	thumbsDir: "#{__dirname}/../../../public/uploads/thumb"
 	uploadDir: "#{__dirname}/../../../public/uploads"
 
