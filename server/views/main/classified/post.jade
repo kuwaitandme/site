@@ -186,9 +186,10 @@ block content
 		section.page#page-finish
 			.message
 				h1 Awesome! Your classified is now up and running!
-			.hint You can view it <a href="#" id="finishLink"> here </a>
+			.hint You can view it <a href="#" id="finishLink", data-view> here </a>
+			.hint For now, you won't be able to edit your classified. So to make any changes publish a new classified and archive the old one.</a>
 			if data.guest
-				.hint Since you posted as a guest, use this link <a href="#" id="authLink"></a> to archive/edit your classified
+				.hint Since you posted as a guest, use this link <a href="#" id="authLink", data-view></a> to archive/edit your classified
 			.hint In the mean time, bring attention to your classified by sharing on
 			.social.hint
 				a(href="#").facebook
