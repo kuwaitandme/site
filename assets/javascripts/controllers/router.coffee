@@ -5,7 +5,7 @@ module.exports = Backbone.Router.extend
 	routes:
 		"account"             : "account"
 		"account/manage"      : "accountManage"
-		"auth/login"         : "authLogin"
+		"auth/login"          : "authLogin"
 		"auth/logout"         : "authLogout"
 		"auth/signup"         : "authSignup"
 		"auth/signup"         : "authSignup"
@@ -20,7 +20,7 @@ module.exports = Backbone.Router.extend
 		"*default"            : "landing"
 		# "*default":            "404"
 
-	account:                  -> @handleRoute 'account'
+	account:                  -> @handleRoute 'account-index'
 	accountManage:            -> @handleRoute 'account-manage'
 	authLogin:                -> @handleRoute 'auth-login'
 	authLogout:               -> @handleRoute 'auth-logout'
@@ -121,6 +121,11 @@ module.exports = Backbone.Router.extend
 
 	# A simple shorthand function to redirect the app.
 	redirect: (url) -> @navigate url, trigger: true
+
+
+	replaceURL: (url) ->
+		if @fallback then return
+		window.history.replaceState index: @historyIndex, '', url
 
 
 	# Reattaches all the view links to use the given event handler. The handler

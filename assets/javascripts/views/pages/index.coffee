@@ -10,6 +10,7 @@ module.exports =
 	'classified-post':    require './classified/post'
 	'classified-search':  require './classified/search'
 	'classified-single':  require './classified/single'
+	'credits':            require './credits'
 	'guest-post':         require './classified/post'
 	'guest-single':       require './classified/single'
 	'landing':            require './landing'

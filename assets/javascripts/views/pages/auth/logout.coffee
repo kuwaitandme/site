@@ -1,7 +1,7 @@
 module.exports = (require '../../mainView').extend
 	name: "[view:auth-logout]"
 
-	start: (@options) ->
+	continue: ->
 		console.debug @name, 'initializing', @options
 
 		# Signal the model that we want the current user to logout

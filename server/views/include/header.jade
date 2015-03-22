@@ -2,17 +2,17 @@ header
 	//- Main nav
 	nav#main-nav.show-nav
 		ul
-			a(href="/", data-view="landing")
+			a(href="/", data-view)
 				li.main-item.left.home &#xf015;
-			a(href="/classified/search", data-view="classified-search")
+			a(href="/classified/search", data-view)
 				li.main-item.left Browse classifieds
-			a(href="/guest/post", data-view="guest-post").loggedout
+			a.loggedout(href="/guest/post", data-view)
 				li.main-item.left Post Classified
-			a(href="/classified/post", data-view="classified-post").loggedin
+			a.loggedin(href="/classified/post", data-view)
 				li.main-item.left Post Classified
-			a(href="/auth/signup", data-view="auth-signup").loggedout
+			a.loggedout(href="/auth/signup", data-view)
 				li.main-item Signup
-			a(href="/auth/login", data-view="auth-login").loggedout
+			a.loggedout(href="/auth/login", data-view)
 				li.main-item Login
 			a(href="#").loggedin
 				li.main-item.settings &#xf013;
@@ -21,11 +21,11 @@ header
 						li.user-credits You have 0 Credits
 						li.user-thumb
 						//- profile photo here
-						//- a(href="/credits/")
-						li Buy Credits
-						//- a(href="/account/", data-view="account-index")
-						li View Account
-						//- a(href="/auth/logout", data-view="auth-logout")
-						li Logout
+						li
+							a(href="/credits") Buy Credits
+						li
+							a(href="/account", data-view) View Account
+						li
+							a(href="/auth/logout", data-view) Logout
 				//- 	li Account
 				//- 	li Logout

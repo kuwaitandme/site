@@ -86,13 +86,12 @@ module.exports = view.extend
 			currentState = routerController.getHistoryState()
 
 			# Prepare the state to replace the URL with
-			currentState.arguments.query = @query
 			if not @isAccount then baseUrl = '/classified/search?'
 			else baseUrl = '/account/manage?'
-			currentState.arguments.url = baseUrl + $.param @query
+			newUrl = baseUrl + $.param @query
 
 			# Attempt to replace the history state
-			routerController.setHistoryState currentState
+			routerController.replaceURL newUrl
 
 		# Fire the AJAX event for the first time to load the first set of
 		# classifieds

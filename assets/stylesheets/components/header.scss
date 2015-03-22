@@ -116,7 +116,7 @@ header {
 			}
 		}
 	}
-	li.settings:hover ul { display: block }
+	li.settings:hover ul { display: block !important }
 	&.nav-up {
 		top: -1 * $headerHeight - 5px;
 		ul.subnav { display: none; }
