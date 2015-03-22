@@ -1,5 +1,4 @@
 if not window.app?
-
 	# App entry point for the 'Kuwait & Me' project. This has been such an amazing
 	# journey, although sad that I had to do it myself. This app that I have coded
 	# below relies heavily on Backbone.js, jQuery and Underscore. Hope it interests
