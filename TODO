@@ -1,5 +1,7 @@
 TODO
 ---------------
+* trim and add limits to title
+* have notification for guest classifieds
 * convert user model to use RESTful API
 * find a way to load images properly
 * have every view set title accordingly

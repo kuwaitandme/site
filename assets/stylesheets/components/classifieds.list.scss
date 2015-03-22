@@ -5,6 +5,7 @@ ul.classified-list {
 	padding: 0;
 
 	a { text-decoration: none; }
+	a:visited { color: #BBB !important; }
 	> li {
 		@extend .large-3;
 		@extend .medium-6;
