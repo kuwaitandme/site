@@ -3,10 +3,10 @@ extends ../../layout.jade
 block content
 	.html5-cache
 		section.page#page-begin
-			if data.classified
+			if robots.classified
 				.message
 					h1 You are about to edit a classified
-				if data.guest
+				if robots.guest
 					.message
 						p
 							| Use the 'next' and 'previous' buttons below to navigate
@@ -27,7 +27,7 @@ block content
 						| between the forms. Fields marked with a '*' are compulsary
 						| and must be filled.
 
-				if data.guest
+				if robots.guest
 					.message
 						p
 							| We are letting you post a classified as a guest. So we have to
@@ -188,7 +188,7 @@ block content
 				h1 Awesome! Your classified is now up and running!
 			.hint You can view it <a href="#" id="finishLink", data-view> here </a>
 			.hint For now, you won't be able to edit your classified. So to make any changes publish a new classified and archive the old one.</a>
-			if data.guest
+			if robots.guest
 				.hint Since you posted as a guest, use this link <a href="#" id="authLink", data-view></a> to archive/edit your classified
 			.hint In the mean time, bring attention to your classified by sharing on
 			.social.hint
