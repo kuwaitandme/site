@@ -17,6 +17,11 @@ module.exports = (require '../../../mainView').extend
 	start: (@options) ->
 		console.debug @name, 'initializing', @options
 
+		# Check if we are posting as a guest or not
+		href = window.location.href
+		urlParts = href.split '/'
+		if urlParts[3] == 'guest' then @isGuest = true
+
 		# Initialize local variables
 		@views = {}
 		@currentView = null
@@ -35,7 +40,7 @@ module.exports = (require '../../../mainView').extend
 		@navigate "#page-begin"
 
 
-	checkRedirect: -> @currentUser.isAnonymous()
+	checkRedirect: -> not @isGuest and @currentUser.isAnonymous()
 	redirectUrl: -> '/auth/login?error=need_login'
 
 
