@@ -27,6 +27,7 @@
     "express": "~4.11.1",
     "express-session": "^1.10.2",
     "formidable": "^1.0.17",
+    "gm": "^1.17.0",
     "gulp-watch": "^4.1.1",
     "i18n": "*",
     "jade": "~1.9.1",

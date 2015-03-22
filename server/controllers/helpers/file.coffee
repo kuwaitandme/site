@@ -2,6 +2,8 @@ async       = require 'async'
 easyimg     = require 'easyimage'
 formidable  = require 'formidable'
 fs          = require 'fs'
+gm          = require 'gm'
+
 
 # This module is responsible for only one thing; Performing file uploads. More
 # specifically image uploads for a classified. It takes care of doing things
@@ -9,8 +11,8 @@ fs          = require 'fs'
 # at the same time doing it all asynchronously.
 file = module.exports =
 	maxFiles: 5
-	thumbsDir: __dirname + '/../../../public/uploads/thumb/'
-	uploadDir: __dirname + '/../../../public/uploads/'
+	thumbsDir: "#{__dirname}/../../../public/uploads/thumb/"
+	uploadDir: "#{__dirname}/../../../public/uploads/"
 
 
 	# Returns the extension of the given filename
@@ -123,18 +125,13 @@ file = module.exports =
 	operate: (tasks) ->
 		# Start analyzing each file and either upload or delete it
 		asyncJob = (task, finish) ->
+
 			if task.isValid
-
 				# Copy the file into the upload path if the file is valid
-				fs.rename task.oldPath, task.newPath, (error) ->
-					# if err then throw err
-					finish()
+				fs.rename task.oldPath, task.newPath, (error) -> finish error
 
-			else
-				# Delete the file from our temporary storage if it isn't valid
-				fs.unlink task.oldPath, (error) ->
-					# if err then throw err
-					finish()
+			# Delete the file from our temporary storage
+			else fs.unlink task.oldPath, (error) -> finish error
 
 
 		# Now start creating the thumbnails asynchronously
@@ -156,15 +153,23 @@ file = module.exports =
 	createThumbnails: (tasks) ->
 		asyncJob = (task, finish) ->
 			if task.isValid
-				# Create the thumbnails for the image
-				easyimg.rescrop
-					dst: file.thumbsDir + task.newFilename
-					src: task.newPath
-					width: 350
-					x: 0
-					y: 0
-			finish()
 
+				# First compress the image
+				gm task.newPath
+				.compress 'BZip'
+				.resize 1000, 1000
+				.autoOrient()
+				.write task.newPath, (error) ->
+					if err then return finish err
+
+					# Then create the thumbnails for the image
+					easyimg.rescrop
+						cropheight: 300
+						dst: file.thumbsDir + task.newFilename
+						src: task.newPath
+						width: 350
+
+			finish()
 
 		asyncFinish = ->
 
