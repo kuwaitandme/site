@@ -9,7 +9,7 @@ module.exports = (request, response, next) ->
 
 	captachSuccess = ->
 		# Initialize formidable
-		form = new (formidable.IncomingForm)
+		form = new formidable.IncomingForm
 		form.keepExtensions = true
 		form.multiples = true
 		form.maxFieldsSize = 10 * 1024 * 1024 # 2MB
@@ -42,6 +42,7 @@ module.exports = (request, response, next) ->
 					# If error was set, then nothing was saved.
 					# Send a 400 Bad Request to the client
 					if error
+						file.delete files
 						response.status 400
 						return response.end JSON.stringify error
 

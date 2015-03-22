@@ -11,8 +11,8 @@ gm          = require 'gm'
 # at the same time doing it all asynchronously.
 file = module.exports =
 	maxFiles: 5
-	thumbsDir: "#{__dirname}/../../../public/uploads/thumb/"
-	uploadDir: "#{__dirname}/../../../public/uploads/"
+	thumbsDir: "#{__dirname}/../../../public/uploads/thumb"
+	uploadDir: "#{__dirname}/../../../public/uploads"
 
 
 	# Returns the extension of the given filename
@@ -74,7 +74,7 @@ file = module.exports =
 
 			# Add a task to operate on this file
 			newFilename = file.createUniqueFilename f.path
-			uploadPath = file.uploadDir + newFilename
+			uploadPath = "#{file.uploadDir}/#{newFilename}"
 			asyncTasks.push
 				isValid: isValid
 				newFilename: newFilename
@@ -94,6 +94,33 @@ file = module.exports =
 
 		# Call the callback function with the list of uploaded files
 		callback null, ret
+
+
+	# A quick function to delete the files at the given locations.
+	#
+	# TODO: test this function
+	delete: (files) ->
+		asyncJob = (filepath, finish) ->
+			# Prepare the functions to remove the files
+			removeImage = (callback) ->
+				fs.unlink "#{file.uploadDir}/#{filepath}", callback
+			removeThumbnail = (callback) ->
+				fs.unlink "#{file.thumbsDir}/#{filepath}", callback
+
+			# create the async job that will remove the files
+			retryJob = (finish) ->
+				async.parallel [removeImage, removeThumbnail], finish
+
+			# Attempt the remove the files while retrying for 3 times on any
+			# error.
+			async.retry 3, retryJob, finish
+
+		# For each file in the list, attempt to remove it's thumbnail and
+		# main image.
+		#
+		# Here we really don't care about the errors that will come. So our
+		# error handler is a blank function.
+		async.each files, asyncJob, (error, result) ->
 
 
 	# This function is a helper function that checks if the given files is a
@@ -160,17 +187,15 @@ file = module.exports =
 				.resize 1000, 1000
 				.autoOrient()
 				.write task.newPath, (error) ->
-					if err then return finish err
+					if error then return finish error
 
 					# Then create the thumbnails for the image
 					easyimg.rescrop
 						cropheight: 300
-						dst: file.thumbsDir + task.newFilename
+						dst: "#{file.thumbsDir}/#{task.newFilename}"
 						src: task.newPath
 						width: 350
 
-			finish()
+					finish()
 
-		asyncFinish = ->
-
-		async.each tasks, asyncJob, asyncFinish
+		async.each tasks, asyncJob, ->
