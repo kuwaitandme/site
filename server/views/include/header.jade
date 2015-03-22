@@ -3,18 +3,29 @@ header
 	nav#main-nav.show-nav
 		ul
 			a(href="/", data-view="landing")
-				li.left.home &#xf015;
+				li.main-item.left.home &#xf015;
 			a(href="/classified/search", data-view="classified-search")
-				li.left Search classifieds
+				li.main-item.left Browse classifieds
 			a(href="/guest/post", data-view="guest-post").loggedout
-				li.left Post Classified
+				li.main-item.left Post Classified
 			a(href="/classified/post", data-view="classified-post").loggedin
-				li.left Post Classified
+				li.main-item.left Post Classified
 			a(href="/auth/signup", data-view="auth-signup").loggedout
-				li Signup
+				li.main-item Signup
 			a(href="/auth/login", data-view="auth-login").loggedout
-				li Login
-			a(href="/auth/logout", data-view="auth-logout").loggedin
-				li Logout
-			a(href="/account/", data-view="account-index").loggedin
-				li Account
+				li.main-item Login
+			a(href="#").loggedin
+				li.main-item %
+					ul.subnav
+						li.user-title Welcome Jon
+						li.user-credits You have 0 Credits
+						li.user-thumb
+						//- profile photo here
+						a(href="/credits/")
+							li Buy Credits
+						a(href="/account/", data-view="account-index")
+							li View Account
+						a(href="/auth/logout", data-view="auth-logout")
+							li Logout
+				//- 	li Account
+				//- 	li Logout
