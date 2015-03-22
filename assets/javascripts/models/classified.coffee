@@ -144,4 +144,4 @@ module.exports = Backbone.Model.extend
 	priceFormat: (price) ->
 		if price is 0 then "Free"
 		else if price is -1 then "Contact Owner"
-		if price then (price.toString().replace /\B(?=(\d{3})+(?!\d))/g, ",") + " KD"
+		else "#{price.toString().replace /\B(?=(\d{3})+(?!\d))/g, ','} KD"

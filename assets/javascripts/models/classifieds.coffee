@@ -30,7 +30,7 @@ module.exports = Backbone.Collection.extend
 				# For each classified convert it into a Backbone.Model and
 				# push it into a temporary array
 				for classified in response
-					model = new (that.model)(classified)
+					model = new that.model classified
 					model.trigger 'parse'
 					newModels.push model
 
