@@ -25,17 +25,18 @@ module.exports = (request, response, args={}, cache=false) ->
 		args._ =  global.__
 		# args.data.csrf = csrfToken
 
+		isDevelopment = global.config.mode != 'production'
 		# Setup options for the jade compiler
 		options =
-			cache: true
-			pretty: global.config.mode != 'production'
+			cache: isDevelopment
+			pretty: isDevelopment
 
 		# Compile and render the page
 		fn = jade.compileFile "#{global.root}/views/main/#{args.page}.jade", options
 		html = fn args
 
 		# If we are caching this page, then set it into the cache
-		if cache then global.cache.set 'page:' + args.bodyid, html
+		if cache and isDevelopment then global.cache.set 'page:' + args.bodyid, html
 
 		# Return the page
 		response.end html
