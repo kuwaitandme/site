@@ -50,12 +50,11 @@ classifieds = module.exports =
 	create: (data, user, callback) ->
 		isEmpty = (string) -> not string? or string.length == 0
 
-		console.log (validator.isMongoId data.location), isEmpty data.location
 		# Validate each field one by one
 		if isEmpty data then message = "empty fields"
 		if isEmpty data.description then message = "empty description"
-		if isEmpty data.title then  message = "empty title"
-		if isEmpty data.type or validator.isInt data.type
+		if isEmpty data.title then message = "empty title"
+		if isEmpty data.type or not validator.isInt data.type
 			message = "bad/empty type"
 		if isEmpty data.category or not validator.isMongoId data.category
 			message = "bad/empty category"
