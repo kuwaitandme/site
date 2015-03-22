@@ -18,10 +18,6 @@ module.exports = class viewManager
 		@$previousPage   = $ '#prev-page'
 		@$ptMain         = $ 'main'
 
-		# Set local variables
-		# @components = components
-		@previousView = @nextView = null
-
 		# Render different components
 		@header = new (@components.header)(el: 'header')
 		@messages = new (@components.messages)(el: '#messages')
@@ -41,8 +37,8 @@ module.exports = class viewManager
 		viewIdentifier = args.view
 		historyState = args.state
 
-		console.debug @name,
-			"setting view to '#{viewIdentifier}' with history:",  historyState
+		console.log @name, "setting view to:", viewIdentifier
+		console.debug @name, "using history:", historyState
 
 		@setView viewIdentifier, historyState
 
@@ -63,11 +59,8 @@ module.exports = class viewManager
 		# @messages.clear()		# Get the view
 
 		# Check if there was a view before, and if there was then switch the pages
-		if @currentView then @switchPages viewIdentifier, historyState
+		if @currentView? then @switchPages viewIdentifier, historyState
 		else @initPage viewIdentifier, historyState
-
-		# Attempt to cache the HTML for the view
-		@localStorage.cacheView @currentView, @currentViewName
 
 		# Attach the basic models to the view
 		@currentView.currentUser = @models.currentUser
@@ -78,6 +71,9 @@ module.exports = class viewManager
 		if @currentView.checkRedirect()
 			@progressBar.progress 100
 			return @router.redirect @currentView.redirectUrl()
+
+		# Attempt to cache the HTML for the view
+		@localStorage.cacheView @currentView, @currentViewName
 
 		# Now signal the view to manipulate the DOM.
 		@currentView.trigger 'continue'
@@ -99,8 +95,7 @@ module.exports = class viewManager
 		$el.attr 'data-index', index
 		$el.attr 'data-url', url
 
-		# Else load set the currentView directly without any transition
-		# animation
+		# Load set the currentView directly without any transitioning
 		@currentView = new targetView
 			args: historyState
 			el: ".pt-page[data-url='#{url}'][data-index='#{index}']"
@@ -131,9 +126,9 @@ module.exports = class viewManager
 		index = historyState.index
 		url = document.URL#historyState.arguments.url
 
-		$targetPage = $("<div data-url='#{url}' data-index='#{index}'></div>")
-			.addClass('pt-page')
-			.addClass(targetViewIdentifier)
+		$targetPage = $ "<div data-url='#{url}' data-index='#{index}'></div>"
+			.addClass 'pt-page'
+			.addClass targetViewIdentifier
 
 		# Get and set the HTML for the target page
 		html = @fetchHTML targetViewIdentifier, document.URL
@@ -150,21 +145,8 @@ module.exports = class viewManager
 		# Save the view in our buffer and return
 		@destroyUnwantedViews index
 		@viewBuffer.push targetView
-		return targetView
+		targetView
 
-
-	destroyUnwantedViews: (historyIndex) ->
-		index = 0
-		for view in @viewBuffer
-			if not view? or not view.$el? then continue
-			viewIndex = Number view.$el.data 'index'
-
-			# Destroy views that are in forward of history and those that are
-			# to far behind in history.
-			if viewIndex is historyIndex or (historyIndex - viewIndex) > 5
-				@viewBuffer[index] = null
-				view.trigger 'finish'
-			index += 1
 
 	switchPages: (targetViewIdentifier, historyState) ->
 		# Clean up the view before switching to the next one. Detach
@@ -191,43 +173,6 @@ module.exports = class viewManager
 			targetView.trigger 'start'
 
 		@currentView = targetView
-
-		# # Pause the current view
-		# @currentView.trigger 'pause', ->
-		# 	# _.bind self, @
-		# 	self.currentView.$el.hide()
-		# console.log @name, 'creating buffer page to hold new view'
-
-		# # Create the target page (next or previous), based on the 'reverse'
-		# # option. Here we make use of our two helper functions to properly
-		# # create the page while deleting any old ones and reusing recent
-		# # ones.
-		# $targetPage = undefined
-		# viewExists = false
-		# if not reverse then @createNextPage targetView, historyIndex
-		# # else viewExists = @createPreviousPage historyIndex
-
-		# # Find the target page. Which is the last child
-		# $targetPage = @$ptMain.find '.pt-page:last-child'
-
-		# if not viewExists
-		# 	# Get and set the HTML for the target page
-		# 	html = @fetchHTML targetView, args.url
-		# 	$targetPage.html html
-		# 	$targetPage.addClass targetView
-
-		# 	# Initialize the view for this page
-		# 	@currentView = new targetView
-		# 		args: args
-		# 		el: $targetPage
-
-		# else @currentView = @targetView
-
-		# # Check for any redirection
-		# if @currentView.checkRedirect()
-		# 	return @currentView.trigger 'redirect'
-
-
 
 
 	# Fetches the HTML for the given view and returns it. This function first
@@ -261,6 +206,20 @@ module.exports = class viewManager
 
 	# Finds the view with the given name and returns it's object.
 	getView: (viewIdentifier) -> @pages[viewIdentifier]
+
+
+	destroyUnwantedViews: (historyIndex) ->
+		index = 0
+		for view in @viewBuffer
+			if not view? or not view.$el? then continue
+			viewIndex = Number view.$el.data 'index'
+
+			# Destroy views that are in forward of history and those that are
+			# to far behind in history.
+			if viewIndex is historyIndex or (historyIndex - viewIndex) > 5
+				@viewBuffer[index] = null
+				view.trigger 'finish'
+			index += 1
 
 
 	# Function to safely call the Google analytics script

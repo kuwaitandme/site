@@ -35,9 +35,14 @@ module.exports = (require '../../../mainView').extend
 		@navigate "#page-begin"
 
 
-	getModel: -> if not @model? then @model = new app.models.classified
+	checkRedirect: -> @currentUser.isAnonymous()
+	redirectUrl: -> '/auth/login?error=need_login'
+
 
 	pause: -> (@$ '#g-recaptcha-response').remove()
+
+
+	getModel: -> if not @model? then @model = new app.models.classified
 
 
 	# On successful AJAX request to the server navigate to the finish page.

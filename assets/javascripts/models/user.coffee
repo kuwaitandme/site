@@ -32,6 +32,17 @@ module.exports = Backbone.Model.extend
 		@on 'sync', -> console.log self.name, 'syncing'
 
 
+		# Redirect fetch to our cached version of fetch
+		@oldFetch = @fetch
+		@fetch = (arg) -> if not @newFetch arg then @oldFetch arg
+
+	newFetch: ->
+		if not @id? and window.data.user?
+		 	@set window.data.user
+		 	@trigger 'sync'
+		 	true
+		 else false
+
 	login: (username, password, callback) ->
 		console.debug @name, 'logging in user'
 		that = this

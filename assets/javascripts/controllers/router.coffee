@@ -135,4 +135,4 @@ module.exports = Backbone.Router.extend
 
 		self = @
 		($ 'a[data-view]').unbind 'click'
-		.bind 'click', (event) -> self.hrefEventHandler event
+		($ 'a[data-view]').bind 'click', (event) -> self.hrefEventHandler event

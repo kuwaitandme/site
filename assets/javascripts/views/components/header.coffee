@@ -1,38 +1,3 @@
-# module.exports = Backbone.View.extend
-# 	sliderAnimateWidth: 200
-# 	template: template['header']
-# 	events:
-# 		'click #grabber-hide': 'hide'
-# 		'click #grabber-display': 'show'
-# 		'click ul a': 'hide'
-# 		'click #nav-grabber' : 'toggleHeader'
-
-
-# 	initialize: (options) ->
-# 		console.log '[view:header] initializing'
-
-# 		# Initialize DOM variables
-# 		@$navHome      = @$ '#nav-logo'
-# 		@$navLinks     = @$ '.nav'
-# 		@$nextLink     = @$ '.next'
-# 		@$previousLink = @$ '.prev'
-# 		@$body         = $ 'body'
-# 		@$sliderNav    = @$ '#slider-nav'
-
-# 		@listenTo app.models.currentUser, 'sync', @update
-# 		@render()
-
-
-# 	render: ->
-# 		@$el.html @template()
-# 		@scrollHandler()
-
-
-# 	toggleHeader: -> @$body.toggleClass 'show-header-sidebar'
-
-
-
-
 module.exports = Backbone.View.extend
 	sliderAnimateWidth: 200
 	name: '[view:header]'
@@ -60,12 +25,13 @@ module.exports = Backbone.View.extend
 
 	populateHeader: ->
 		md5 = app.libs.md5
-		md5Hash = md5 @currentUser.get 'email'
+		md5Hash = md5 (@currentUser.get 'email') or ''
 		gravatarURL = "https://www.gravatar.com/avatar/#{md5Hash}"
 
 		@$credits.html @currentUser.get 'credits'
 		@$username.html @currentUser.get 'name'
 		@$userthumb.attr 'src', gravatarURL
+
 
 	scrollHandler: ->
 		delta = 5

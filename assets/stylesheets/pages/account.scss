@@ -6,8 +6,8 @@
 
 		.block {
 			@extend .columns;
-			@extend .medium-3;
-			@extend .large-3;
+			@extend .medium-4;
+			// @extend .large-4;
 			padding: 20px;
 
 			a { text-decoration: none; }

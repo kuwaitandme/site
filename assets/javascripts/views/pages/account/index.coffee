@@ -1,8 +1,5 @@
-view = require '../classified/search'
-
-module.exports = view.extend
+module.exports = (require '../../mainView').extend
 	name: '[view:account-index]'
 
-	start: (options) -> console.debug @name, 'initializing', options
-
-	continue: -> console.log @name, 'rendering'
+	checkRedirect: -> @currentUser.isAnonymous()
+	redirectUrl: -> '/auth/login?error=need_login'
