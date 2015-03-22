@@ -104,11 +104,14 @@ module.exports = Backbone.View.extend
 
 
 	setModel: ->
+		location = @$locations.val()
+		if location is "" then location = null
+
 		@model.set
 			category:     @$category.val()
 			price:        @$priceField.val()
 			type:         @$type.val()
-			location:     @$locations.val()
+			location:     location
 
 		# Set the contact fields
 		contact = { }
