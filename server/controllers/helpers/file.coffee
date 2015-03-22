@@ -1,5 +1,4 @@
 async       = require 'async'
-easyimg     = require 'easyimage'
 formidable  = require 'formidable'
 fs          = require 'fs'
 gm          = require 'gm'
@@ -189,13 +188,10 @@ file = module.exports =
 				.write task.newPath, (error) ->
 					if error then return finish error
 
-					# Then create the thumbnails for the image
-					easyimg.rescrop
-						cropheight: 300
-						dst: "#{file.thumbsDir}/#{task.newFilename}"
-						src: task.newPath
-						width: 350
-
-					finish()
+					# Then create the thumbnail
+					gm task.newPath
+					.resize 300, 300
+					.autoOrient()
+					.write "#{file.thumbsDir}/#{task.newFilename}", finish
 
 		async.each tasks, asyncJob, ->
