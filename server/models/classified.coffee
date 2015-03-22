@@ -54,21 +54,18 @@ classifieds = module.exports =
 		if isEmpty data then message = "empty fields"
 		if isEmpty data.description then message = "empty description"
 		if isEmpty data.title then message = "empty title"
-		if isEmpty data.type or not validator.isInt data.type
+		if (isEmpty data.type) or not validator.isInt data.type
 			message = "bad/empty type"
-		if isEmpty data.category or not validator.isMongoId data.category
+		if (isEmpty data.category) or not validator.isMongoId data.category
 			message = "bad/empty category"
-		if isEmpty data.price or not validator.isFloat data.price
+		if (isEmpty data.price) or not validator.isFloat data.price
 			message = "bad/empty price"
-		if not isEmpty data.location and not validator.isMongoId data.location
+		if not (isEmpty data.location) and not validator.isMongoId data.location
 			message = "bad/empty location"
 
 		# If there was an error. Don't create the classified and pass the error
 		# back to the callback
-		if message
-			error = new Error message
-			error.status = 400
-			return callback error
+		if message? then return callback message
 
 		classified = new @model
 
