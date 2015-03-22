@@ -11,7 +11,7 @@ gm          = require 'gm'
 file = module.exports =
 	maxFiles: 10
 	thumbsDir: "#{__dirname}/../../../public/uploads/thumb"
-	uploadDir: "#{__dirname}/../../../public/uploads"
+	uploadDir: "#{__dirname}/../../../public/uploads/main"
 
 
 	# Returns the extension of the given filename

@@ -1,6 +1,6 @@
 |<% if(images) { %>
 |	<% _.each(images, function(img) {  %>
-a(href!="/uploads/<%= img %>", alt!="<%= img %>")
+a(href!="/uploads/main/<%= img %>", alt!="<%= img %>")
 	img(src!="/uploads/thumb/<%= img %>")
 |	<% }); %>
 |<% } %>
