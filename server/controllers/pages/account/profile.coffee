@@ -3,7 +3,7 @@ render = require('../../helpers/render')
 controller = module.exports =
 
 	get: (request, response, next) ->
-		if !request.isAuthenticated()
+		if not request.isAuthenticated()
 			return response.redirect '/auth/login?error=need_login'
 
 		render request, response,

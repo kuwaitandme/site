@@ -54,7 +54,7 @@ app.use  express.static (__dirname + '/../public')
 app.set 'trust proxy', 1
 app.use cookieParser()
 app.use expressSession
-	resave: false
+	resave: true
 	saveUninitialized: true
 	secret: global.config.sessionSecret
 	store: new redisStore global.config.redis

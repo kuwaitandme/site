@@ -12,22 +12,21 @@ module.exports = view.extend
 
 	start: (options) ->
 		console.debug @name, 'initializing', options
-		that = @
 
 		@collection = new app.models.classifieds
 
 		# Get the template
-		@listTemplate = _.template(@$el.find('#list-template').html())
+		@listTemplate = _.template (@$ '#list-template').html()
 
 		# Attach a listener to our collection model
 		@stopListening @collection, 'ajax:done'
-		@listenTo @collection, 'ajax:done', @addClassifieds
+		@listenTo     @collection, 'ajax:done', @addClassifieds
 
 		# Setup of local DOM variables
-		@$ajaxfinish = @$el.find "#ajax-finish"
-		@$classifiedList = @$el.find 'ul#classified-search'
-		@$filterbox = @$el.find '#filter-box'
-		@$spinner = @$el.find '#ajax-spinner'
+		@$ajaxfinish =     @$ "#ajax-finish"
+		@$classifiedList = @$ 'ul#classified-search'
+		@$filterbox =      @$ '#filter-box'
+		@$spinner =        @$ '#ajax-spinner'
 
 		@collection.isAccount = @isAccount
 
@@ -176,7 +175,7 @@ module.exports = view.extend
 			self.$classifiedList.masonry 'appended', elem
 
 		# Reattach the event handlers for the router
-		app.reattachRouter()
+		app.trigger 'router:refresh'
 
 		# Reload Masonry again for every-time a new image has been loaded
 		reloadMasonry = -> self.$classifiedList.masonry()

@@ -1,6 +1,5 @@
 | <% if(superEditable) { %>
 form(method="POST").item
-	input(type="hidden", name="_csrf", value="#{csrfToken}")
 	input(type="hidden", name="action", value="publish")
 	input(type="submit", value="Publish")
 .item
@@ -9,13 +8,11 @@ form(method="POST").item
 	a(href="#ban-modal") Ban
 | <% } else { %>
 form(method="POST").item
-	input(type="hidden", name="_csrf", value="#{csrfToken}")
 	input(type="hidden", name="action", value="archive")
 	input(type="submit", value="Archive")
 form(method="POST").item
-	input(type="hidden", name="_csrf", value="#{csrfToken}")
 	input(type="hidden", name="action", value="repost")
 	input(type="submit", value="Re-post")
 | <% } %>
-//- .item
-//- 	a(href="#ban-modal") Edit
+.item
+	a(href!="/classified/<%= _id %>/edit") Edit

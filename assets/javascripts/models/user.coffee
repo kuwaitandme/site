@@ -7,30 +7,29 @@ module.exports = Backbone.Model.extend
 
 	url: ->
 		id = @get 'id'
-		if id then return "/api/user/#{id}"
-		else '/api/user'
+		if id then "#{app.config.host}/api/user/#{id}"
+		else "#{app.config.host}/api/user"
 
 
 	defaults:
 		adminReason: ''
 		email: ''
-		isAdmin: false
+		isModerator: false
 		language: 0
 		lastLogin: [ ]
 		status: 0
 		username: ''
 		credits: 0
 		name: ''
+		description: ''
 		personal: { }
-			# address: ''
-			# gender: 0
-			# location: 0
-			# phone: ''
-			# website: ''
-			# email: ''
 
 
 	initialize: ->
+		console.log @name, 'initializing'
+
+		self = @
+		@on 'sync', -> console.log self.name, 'syncing'
 
 
 	login: (username, password, callback) ->

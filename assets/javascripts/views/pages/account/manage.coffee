@@ -5,3 +5,7 @@ module.exports = view.extend
 
 	isAccount: true
 	enableFilterBox: false
+
+	# Let the app know that we want to redirect to the login page
+	checkRedirect: -> @currentUser.isAnonymous()
+	redirectUrl: -> '/auth/login?success=need_login'

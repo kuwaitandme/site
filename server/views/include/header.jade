@@ -15,17 +15,17 @@ header
 			a(href="/auth/login", data-view="auth-login").loggedout
 				li.main-item Login
 			a(href="#").loggedin
-				li.main-item %
+				li.main-item.settings &#xf013;
 					ul.subnav
 						li.user-title Welcome Jon
 						li.user-credits You have 0 Credits
 						li.user-thumb
 						//- profile photo here
-						a(href="/credits/")
-							li Buy Credits
-						a(href="/account/", data-view="account-index")
-							li View Account
-						a(href="/auth/logout", data-view="auth-logout")
-							li Logout
+						//- a(href="/credits/")
+						li Buy Credits
+						//- a(href="/account/", data-view="account-index")
+						li View Account
+						//- a(href="/auth/logout", data-view="auth-logout")
+						li Logout
 				//- 	li Account
 				//- 	li Logout

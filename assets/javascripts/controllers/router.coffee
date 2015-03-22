@@ -1,50 +1,112 @@
-module.exports = class controller
-	consoleSlug: '[controller:router]'
+module.exports = Backbone.Router.extend
+	name: '[router]'
+	fallback: false
 
-	constructor: (@config) ->
-		console.log @consoleSlug, 'initializing'
+	routes:
+		"account"             : "account"
+		"account/manage"      : "accountManage"
+		"auth/login"         : "authLogin"
+		"auth/logout"         : "authLogout"
+		"auth/signup"         : "authSignup"
+		"auth/signup"         : "authSignup"
+		"classified/search"   : "classified"
+		"classified/post"     : "classifiedPost"
+		"classified/:id"      : "classifiedSingle"
+		"classified/:id/edit" : "classifiedEdit"
+		"credits"             : "credits"
+		"guest/post"          : "guestPost"
+		"guest/:id"           : "guestSingle"
+		"guest/:id/edit"      : "guestEdit"
+		"*default"            : "landing"
+		# "*default":            "404"
 
-		# Start HTML5 history
-		@initializeHTML5history()
+	account:                  -> @handleRoute 'account'
+	accountManage:            -> @handleRoute 'account-manage'
+	authLogin:                -> @handleRoute 'auth-login'
+	authLogout:               -> @handleRoute 'auth-logout'
+	authSignup:               -> @handleRoute 'auth-signup'
+	classified:               -> @handleRoute 'classified-search'
+	classifiedEdit:   (param) -> @handleRoute 'classified-edit', param
+	classifiedPost:           -> @handleRoute 'classified-post'
+	classifiedSingle: (param) -> @handleRoute 'classified-single', param
+	credits:                  -> @handleRoute 'credits'
+	guestEdit:        (param) -> @handleRoute 'guest-edit', param
+	guestPost:                -> @handleRoute 'guest-post'
+	guestSingle:      (param) -> @handleRoute 'guest-single', param
+	landing:                  -> @handleRoute 'landing'
 
-		# Start backbone history (Essential for Backbone routers).
-		Backbone.history.start()
+
+	# A simple route handler that fires the 'change' event along with all
+	# necessary parameters of the route.
+	handleRoute: (view, parameters) ->
+		console.log @name, 'routing to view:', view
+
+		@setHistoryState()
+		state = @getHistoryState()
+		state.parameters = parameters
+		@trigger 'change', { view: view, state: state }
 
 
-	# Initializes the HTML5 history API
-	initializeHTML5history: ->
-		that = this
+	initialize: (config) ->
+		console.log @name, 'initializing'
+		self = @
 
 		# Check if HTML5 history is available or not
-		if typeof history.pushState == 'undefined'
-			console.log @consoleSlug, 'HTML 5 History not available. Using fallback mode'
-			return @fallback = true
+		if history and not history.pushState? then return @fallback = true
 
-		# Set defaults
+		# Set the history index and replace the current state
 		@historyIndex = window.history.length
-		@startingIndex = @historyIndex
-		@disabled = false
+		window.history.replaceState index: @historyIndex
 
-		# Trigger our pophistory function on the 'popstate' event
-		($ window).bind 'popstate', (event) -> that.popHistory event
+		console.log @name, 'initializing current history state'
+		console.debug @name, 'state:', window.history.state
 
-		# Modify the current history event to maintain consistency with
-		# history pop events
-		currentState =
-			arguments: url: document.URL
-			index: @historyIndex
-			view: window.viewid
-		history.replaceState currentState, '', document.URL
+		# Attach event handlers
+		@on 'change', @reattachRouter
+		($ window).on 'popstate', (event) -> self.popstateHandle event
 
 
-	# Properly returns the current HTML5 state
-	getHistoryState: -> if @fallback then return {} else return history.state
+	start: ->
+		console.log @name, 'starting Backbone history'
+		Backbone.history.start
+			pushState: true,
+			hashChange: false,
+			root: '/'
 
 
-	# Sets the current history state with the given one
-	setHistoryState: (state) ->
+	# This function is responsible for properly resetting the history counter
+	# if the user is going backwards in history.
+	#
+	# It is called every-time a HTML5 popstate event occurs.
+	popstateHandle: ->
 		if @fallback then return
-		history.replaceState state, '', state.arguments.url
+		state = @getHistoryState()
+
+		console.log @name, 'handling popstate event'
+
+		# If state was defined, then this was a popstate (backward), so reset
+		# our index to the index of the popped state.
+		if state? and state.index? then @historyIndex = state.index
+
+
+	# This function is responsible for properly setting the history state and
+	# incrementing the history-index if the user is moving forward in history.
+	#
+	# It is called every-time the user navigates to a page. It fires
+	# irrespective if the user goes forward or backwards and handles each case
+	# properly.
+	setHistoryState: ->
+		if @fallback then return
+		state = @getHistoryState()
+
+		# If the state index is not defined, then this is a pushstate. So
+		# increment our index by 1.
+		if state? and not state.index? then @historyIndex += 1
+		window.history.replaceState index: @historyIndex
+
+
+	# This is a safe function that returns the current history state.
+	getHistoryState: -> if @fallback then null else window.history.state
 
 
 	# Event handler to switch the view in the main page. This event gets
@@ -52,86 +114,20 @@ module.exports = class controller
 	# contains the name of the view that we should look for, and the
 	# href will contain the url which should be displayed in the browser.
 	hrefEventHandler: (event) ->
-		if @fallback and @disabled then return
 		event.preventDefault()
-
-		# Start collecting data
-		$el = $(event.currentTarget)
-		url = $el[0].href
-		view = $el.data().view
-
-		# Check if we are navigating to the same URL, in which case don't
-		# navigate anywhere
-		currentUrl = history.state and history.state.url or document.URL
-		console.debug @consoleSlug, "moving from #{url} to #{currentUrl}"
-		if url is currentUrl
-			return console.error @consoleSlug, 'navigating to same page, preventing href'
-
-		# Signal the app's view controllers to move to the new view ...
-		console.log @consoleSlug, 'navigating to page:', view
-		@goto url, view, null
+		href = ($ event.currentTarget).attr 'href'
+		@navigate href, trigger: true
 
 
-	# Commands the app to load the given view, with the given URL.
-	goto: (url, view, args) ->
-		if @fallback then return window.location = url
-		app.progress 60
-
-		# Set the url in the arguments list
-		args = args or {}
-		args.url = url
-
-		# Manually append the data for this request into the History API
-		@pushHistory url, view, args
-
-		# send the app to the view controller
-		app.setView view, args, @currentState
-
-
-	# Pushes the given url to the HTML5 history api.
-	pushHistory: (url, view, args) ->
-		if @fallback and @disabled then return
-
-		# Add the url to the list of arguments if not set
-		args = args or {}
-		args.url = args.url or url
-
-		@historyIndex += 1
-		@currentState =
-			arguments: args
-			index: @historyIndex
-			view: view
-
-		console.debug @consoleSlug, 'HTML5 history push', @currentState
-		history.pushState @currentState, @currentState.view, url
-
-
-	# Handles the pop history event. Gets the state of the requested page from
-	# the history API and then requests the app to set the view based on that
-	# state.
-	popHistory: (event) ->
-
-		# Get the state of this history event. If there isn't any, then return
-		currentState = history.state
-		if not currentState then return
-
-		# Check if we are moving forwards or backwards in time
-		if currentState.index <= @historyIndex then currentState.reverse = true
-
-		@historyIndex = currentState.index
-
-		console.log @consoleSlug, 'HTML5 popstate'
-		console.debug @consoleSlug, 'popstate event:', event
-		console.debug @consoleSlug, 'popstate state:', currentState
-
-		currentState.arguments = currentState.arguments or url: currentState.url
-		app.setView currentState.view, currentState.arguments, currentState
+	# A simple shorthand function to redirect the app.
+	redirect: (url) -> @navigate url, trigger: true
 
 
 	# Reattaches all the view links to use the given event handler. The handler
 	# is only attached to anchor tag with the [data-view] attribute.
 	reattachRouter: ->
-		that = this
-		console.log @consoleSlug, 'reattaching href event handlers'
-		(($ 'a[data-view]').unbind 'click').bind 'click', (event) ->
-			that.hrefEventHandler event
+		console.log @name, 'reattaching href event handlers'
+
+		self = @
+		($ 'a[data-view]').unbind 'click'
+		.bind 'click', (event) -> self.hrefEventHandler event

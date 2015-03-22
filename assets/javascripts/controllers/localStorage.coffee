@@ -4,7 +4,7 @@
 # contain HTML code and instead have the server communicate with JSON
 # objects which contain data.
 module.exports = class controller
-	name: '[controller:localstorage]'
+	name: '[localstorage]'
 	fallback: false
 
 	# Checks the JS version from the server side and setups the local storage

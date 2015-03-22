@@ -17,10 +17,15 @@ if not window.app?
 			@models       = require "app-models"
 			@views        = require "app-views"
 
+			_.extend @, Backbone.Events
+
 			# Initialize the components
 			@controllers.initialize this, @config
 			@models.initialize      this, @config
+			@controllers.models = @models
 
+			# Setup listeners
+			@setupListeners()
 
 		start: ->
 			console.log "[app] starting"
@@ -28,15 +33,17 @@ if not window.app?
 			@models.start()
 			@controllers.start()
 
+		setupListeners: ->
+			self = @
+			@on 'redirect', (url) -> self.controllers.router.redirect url
+			@on 'router:refresh', -> self.controllers.router.reattachRouter()
 
 		# Forward  to different app components. This way we can avoid
 		# writing long names for functions that we will be using often.
-		cacheView: (view, identifier) -> @controllers.localStorage.cacheView view, identifier
-		getCachedViewHTML: (view) -> @controllers.localStorage.getCachedViewHTML view
-		goto: (url, view, args) -> @controllers.router.goto url, view, args
-		loadResource: (resource) -> @controllers.resourceLoader.loadResource resource
-		reattachRouter: -> @controllers.router.reattachRouter()
-		setView: (page, args, reverse) -> @controllers.viewManager.setView page, args, reverse
+		# goto: (url, view, args) -> @controllers.router.goto url, view, args
+		# loadResource: (resource) -> @controllers.resourceLoader.loadResource resource
+		# reattachRouter: -> @controllers.router.reattachRouter()
+		# setView: (page, args, reverse) -> @controllers.viewManager.setView page, args, reverse
 		progress: (percent) -> @controllers.viewManager.progressBar.progress percent
 
 		error: (text, title) -> @controllers.messages.error text, title

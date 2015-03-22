@@ -25,8 +25,6 @@ module.exports = Backbone.View.extend
 			self.finish()
 			self.remove()
 
-		@on 'redirect', -> self.redirect()
-
 
 	# Her goes the name of the view. This is used in console.log statements
 	# to help debug the app. So in your view you would use something like
@@ -55,15 +53,10 @@ module.exports = Backbone.View.extend
 	finish:   -> console.log @name, "finishing"
 
 
-
-
 	# These two functions decide if the App's control has to be redirected or
 	# not.
 	#
 	# checkRedirect() is used to see if the app's control has to be redirected
-	# and redirect is the function that performs the redirection.
+	# and redirectUrl is the function that returns the url to redirect to.
 	checkRedirect: -> false
-	redirect: ->
-
-	# Function to redirect to the router's goto fn.
-	goto: (url, view, args) -> app.controllers.router.goto url, view, args
+	redirectUrl: -> '/'

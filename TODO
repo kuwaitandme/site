@@ -12,3 +12,4 @@ TODO
 * write tests for every page in site
 X more versions for cache
 X redis to cache jade renders
+* Update robots.txt to allow only single classifieds

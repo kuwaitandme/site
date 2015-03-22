@@ -31,19 +31,16 @@ module.exports = login.extend
 		}
 
 		# Attempt to login the user
-		that.model.signup fields, (error, response) ->
+		@currentUser.signup fields, (error, response) ->
 			if error then switch error.status
-				when 400
-					that.addMessage 'There are invalid fields'
-				when 406
-					that.addMessage 'incorrect captcha'
-				when 403
-					that.addMessage 'That email is already in use'
+				when 400 then that.addMessage 'There are invalid fields'
+				when 406 then that.addMessage 'incorrect captcha'
+				when 403 then that.addMessage 'That email is already in use'
 			else
 				console.debug that.name, 'created user', response
 
 				# Redirect to the account page on success
-				app.goto('/auth/login?success=signup_success', 'auth-login')
+				app.trigger 'redirect', '/auth/login?success=signup_success'
 
 				# Hide the ajax loader
 				that.hideLoading()

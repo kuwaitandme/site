@@ -8,6 +8,7 @@ users = module.exports =
 		password: String
 		email: String
 		name: String
+		description: String
 
 		activationToken: String
 		adminReason: String

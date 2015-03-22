@@ -35,6 +35,7 @@
 
 module.exports = Backbone.View.extend
 	sliderAnimateWidth: 200
+	name: '[view:header]'
 	events:
 		'click #grabber-hide': 'hide'
 		'click #grabber-display': 'show'
@@ -42,7 +43,7 @@ module.exports = Backbone.View.extend
 
 
 	initialize: (options) ->
-		console.log '[view:header] initializing'
+		console.log @name, 'initializing'
 
 		# Initialize DOM variables
 		@$navHome      = @$ '#nav-logo'
@@ -51,8 +52,8 @@ module.exports = Backbone.View.extend
 		@$previousLink = @$ '.prev'
 		@$sliderNav    = @$ '#slider-nav'
 
-		@listenTo app.models.currentUser, 'sync', @update
 		@scrollHandler()
+		# @update()
 
 
 	scrollHandler: ->
@@ -102,8 +103,8 @@ module.exports = Backbone.View.extend
 	# This function runs some methods and updates the header as per the current
 	# page state
 	update: ->
+		console.log @name, 'updating header'
 		routerController = app.controllers.router
-		currentUser      = app.models.currentUser
 
 		@$el.removeClass 'nav-up'
 
@@ -113,9 +114,9 @@ module.exports = Backbone.View.extend
 
 		# Add the 'active' class accordingly
 		(@$ "[data-view] li").removeClass 'active'
-		if currentView
+		if @currentView
 			(@$ "[data-view='#{currentView}'] li").addClass 'active'
 
 		# Depending on the user's current login state. Change the header
-		if currentUser.isAnonymous() then @$el.removeClass 'loggedin'
+		if @currentUser.isAnonymous() then @$el.removeClass 'loggedin'
 		else @$el.addClass 'loggedin'

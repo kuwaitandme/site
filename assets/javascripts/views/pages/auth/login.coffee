@@ -1,7 +1,6 @@
 url = (require 'app-helpers').url
 
-view = require '../../mainView'
-module.exports = view.extend
+module.exports = (require '../../mainView').extend
 	name: "[view:auth-login]"
 
 	events: 'click .submit': 'submit'
@@ -142,7 +141,7 @@ module.exports = view.extend
 		if not @validate() then return
 
 		# Attempt to login the user
-		that.model.login @$username.val(), @$password.val(), (error, response) ->
+		@currentUser.login @$username.val(), @$password.val(), (error, response) ->
 			# Hide the ajax loader
 			that.hideLoading()
 
@@ -162,4 +161,4 @@ module.exports = view.extend
 				console.debug that.name, 'received user', response
 
 				# Redirect to the account page on success
-				app.goto('/account/', 'account-index')
+				app.trigger 'redirect', '/account'
