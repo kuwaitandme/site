@@ -48,20 +48,20 @@ classifieds = module.exports =
 	# that are to be added to the classified are already uploaded and are
 	# set in the 'images' field.
 	create: (data, user, callback) ->
-		isEmpty = (string) -> not string or string.length == 0
+		isEmpty = (string) -> not string? or string.length == 0
 
 		# Validate each field one by one
 		if isEmpty data then message = "empty fields"
 		if isEmpty data.description then message = "empty description"
 		if isEmpty data.title then  message = "empty title"
 		if isEmpty data.type or validator.isInt data.type
-			 message = "bad/empty type"
+			message = "bad/empty type"
 		if isEmpty data.category or not validator.isMongoId data.category
-			 message = "bad/empty category"
+			message = "bad/empty category"
 		if isEmpty data.price or not validator.isFloat data.price
-			 message = "bad/empty price"
-		if not isEmpty data.location and not validator.isMongoId data.location
-			 message = "bad/empty location"
+			message = "bad/empty price"
+		if isEmpty data.location and not validator.isMongoId data.location
+			message = "bad/empty location"
 
 		# If there was an error. Don't create the classified and pass the error
 		# back to the callback
@@ -77,7 +77,7 @@ classifieds = module.exports =
 		classified.contact          = data.contact
 		classified.description      = data.description
 		classified.images           = data.images
-		classified.location         = data.location
+		# classified.location         = data.location
 		classified.meta             = data.meta
 		classified.price            = data.price
 		classified.saleby           = data.saleby
