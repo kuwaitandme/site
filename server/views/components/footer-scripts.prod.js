@@ -1,4 +1,7 @@
 (function(){
+	/* First decode the data variable; (Which is base64 encoded) */
+	window.data = JSON.parse(atob(window.data));
+
 	/**
 	 * Here are the scripts that get loaded during runtime. You must list the scripts
 	 * here in the order they should be loaded. The app will make sure that they

@@ -21,6 +21,8 @@ module.exports = (request, response, args={}, cache=false) ->
 		args.data.js = config.js
 		args.data.ga = config.ga
 		args.data.user = request.user
+
+		args.data = (new Buffer JSON.stringify args.data).toString 'base64'
 		args.title = "#{args.title} | Kuwait &amp; Me"
 		args._ =  global.__
 		# args.data.csrf = csrfToken
