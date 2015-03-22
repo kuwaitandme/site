@@ -50,6 +50,7 @@ classifieds = module.exports =
 	create: (data, user, callback) ->
 		isEmpty = (string) -> not string? or string.length == 0
 
+		console.log (validator.isMongoId data.location), isEmpty data.location
 		# Validate each field one by one
 		if isEmpty data then message = "empty fields"
 		if isEmpty data.description then message = "empty description"
@@ -60,7 +61,7 @@ classifieds = module.exports =
 			message = "bad/empty category"
 		if isEmpty data.price or not validator.isFloat data.price
 			message = "bad/empty price"
-		if isEmpty data.location and not validator.isMongoId data.location
+		if not isEmpty data.location and not validator.isMongoId data.location
 			message = "bad/empty location"
 
 		# If there was an error. Don't create the classified and pass the error
@@ -77,12 +78,12 @@ classifieds = module.exports =
 		classified.contact          = data.contact
 		classified.description      = data.description
 		classified.images           = data.images
-		# classified.location         = data.location
 		classified.meta             = data.meta
 		classified.price            = data.price
 		classified.saleby           = data.saleby
 		classified.title            = data.title
 		classified.type             = data.type
+		if not isEmpty data.location then classified.location = data.location
 
 		# Set up some defaults
 		classified.created = Date.now()
