@@ -12,14 +12,11 @@
 	}
 	#landing-footer {
 		@extend .font-title;
-		// @include single-transition(color);
 		color: #999;
 		font-size: 12px;
 		text-align: center;
-		// &:hover { color: #000 }
 	}
 	#landing-section {
-
 		#landing-logo {
 			max-width: 75%;
 			margin: 20px auto;
@@ -55,7 +52,7 @@
 			}
 		}
 		#search-form {
-			margin: 50px 0;
+			margin: 75px 0;
 			text-align: center;
 			width: 100%;
 

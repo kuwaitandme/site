@@ -20,7 +20,7 @@ module.exports = view.extend
 
 		# Redirect the app to the classified search page.
 		url = "/classified/search/?keywords=#{text}"
-		@goto url, 'classified-search'
+		app.trigger 'redirect', url
 
 
 	# This method performs the same function as the 'submitClick' method but
