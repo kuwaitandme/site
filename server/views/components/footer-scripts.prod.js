@@ -3,63 +3,72 @@
 	window.data = JSON.parse(atob(window.data));
 
 	/**
-	 * Here are the scripts that get loaded during runtime. You must list the scripts
-	 * here in the order they should be loaded. The app will make sure that they
-	 * get cached properly.
+	 * Here are the scripts that get loaded during runtime. You must list the
+	 * scripts here in the order they should be loaded. The app's localStorage
+	 * will make sure that they get cached properly.
 	 */
 	window.scripts = [{
+		name: "lib:normalize-css",
+		remoteSrc: "https://cdnjs.cloudflare.com/ajax/libs/foundation/5.5.1/css/normalize.min.css",
+		localSrc: "https://cdnjs.cloudflare.com/ajax/libs/foundation/5.5.1/css/normalize.min.css"
+	},{
+		name: "lib:foundation-css",
+		remoteSrc: "https://cdnjs.cloudflare.com/ajax/libs/foundation/5.5.1/css/foundation.min.css",
+		localSrc: "https://cdnjs.cloudflare.com/ajax/libs/foundation/5.5.1/css/foundation.min.css"
+	},{
+		name: "app:stylesheet",
+		remoteSrc: "/stylesheets/build/style.css",
+		localSrc: "/stylesheets/build/style.css",
+	},{
 		name: "lib:jquery",
-		remoteSrc: "//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js",
+		remoteSrc: "/javascripts/vendor/jquery.min.js",
 		localSrc: "/javascripts/vendor/jquery.min.js",
 	},{
 		name: "lib:jquery-transit",
-		remoteSrc: "//cdnjs.cloudflare.com/ajax/libs/jquery.transit/0.9.12/jquery.transit.min.js",
+		remoteSrc: "/javascripts/vendor/jquery.transit.min.js",
 		localSrc: "/javascripts/vendor/jquery.transit.min.js",
 	},{
 		name: "lib:underscore",
-		remoteSrc: "//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore-min.js",
+		remoteSrc: "/javascripts/vendor/underscore.min.js",
 		localSrc: "/javascripts/vendor/underscore.min.js",
 	},{
 		name: "lib:backbone",
-		remoteSrc: "//cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js",
+		remoteSrc: "/javascripts/vendor/backbone.min.js",
 		localSrc: "/javascripts/vendor/backbone.min.js",
 	},{
+		name: "lib:google-maps",
+		remoteSrc: "/javascripts/vendor/google.maps.min.js",
+		localSrc: "/javascripts/vendor/google.maps.min.js",
+	},{
 		name: "lib:modernizr",
-		remoteSrc: "//cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js",
+		remoteSrc: "/javascripts/vendor/modernizr.min.js",
 		localSrc: "/javascripts/vendor/modernizr.min.js",
 	},{
 	// 	name: "lib:2checkout",
-	// 	remoteSrc: "//www.2checkout.com/checkout/api/2co.min.js",
+	// 	remoteSrc: "/javascripts/vendor/2co.min.js",
 	// 	localSrc: "/javascripts/vendor/2co.min.js",
 	// },{
 		name: "lib:dropzone",
-		remoteSrc: "//cdnjs.cloudflare.com/ajax/libs/dropzone/4.0.1/min/dropzone.min.js",
+		remoteSrc: "/javascripts/vendor/dropzone.min.js",
 		localSrc: "/javascripts/vendor/dropzone.min.js",
 	},{
 		name: "lib:masonry",
-		remoteSrc: "//cdnjs.cloudflare.com/ajax/libs/masonry/3.2.2/masonry.pkgd.min.js",
+		remoteSrc: "/javascripts/vendor/masonry.pkgd.min.js",
 		localSrc: "/javascripts/vendor/masonry.pkgd.min.js",
 	},{
-		name: "lib:google-maps",
-		remoteSrc: "//maps.googleapis.com/maps/api/js?v=3.exp&callback=initializeGmap",
-		localSrc: "/javascripts/vendor/google.maps.min.js",
-	},{
 		name: "lib:jquery-imagesloaded",
-		remoteSrc: "//cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/3.1.8/imagesloaded.pkgd.min.js",
+		remoteSrc: "/javascripts/vendor/imagesloaded.min.js",
 		localSrc: "/javascripts/vendor/imagesloaded.min.js",
 	},{
+		name: "lib:foundation-js",
+		remoteSrc: "/javascripts/vendor/foundation.min.js",
+		localSrc: "/javascripts/vendor/foundation.min.js",
+	},{
 		name: "app:script",
-		remoteSrc: "/javascripts/build/app.min.js",
-		localSrc: "/javascripts/build/app.min.js",
-	}]
+		remoteSrc: "/javascripts/build/app.js",
+		localSrc: "/javascripts/build/app.js",
+	}];
 
-	function loadScriptSync(src) {
-		var s = document.createElement('script');
-		s.src = src;
-		s.type = "text/javascript";
-		s.async = false;                                 // <-- this is important
-		document.getElementsByTagName('head')[0].appendChild(s);
-	}
 
 	/* Special functions and variables to facilitate gmaps */
 	window.gmapInitialized = false;
@@ -71,16 +80,24 @@
 	}
 
 
+	head = document.getElementsByTagName("head")[0];
+
 	for (var i = scripts.length; i >= 1; i--) {
 		var script = scripts[scripts.length - i];
-
-		/* Create the DOM element to load our script */
-		var $script = document.createElement("script");
+		var $fileref;
 		var foundInCache = false;
+		var isCSS = (script.remoteSrc.substr(-3) == "css");
 
-		$script.type = "text/javascript";
-		$script.dataset.script = script.name;
+		/* First prepare the element that is going to contain/request for the
+		 * CSS or JS */
+		if(isCSS) {
+			$fileref = document.createElement("link");
+			$fileref.rel = "stylesheet";
+		}
+		else { $fileref = document.createElement("script"); }
 
+		/* If HTML5 localStorage is supported, attempt to load the scripts from
+		 * the application cache */
 		if(typeof Storage !== "undefined") {
 
 			/* Check if local and remote version of the libraries differ */
@@ -90,20 +107,47 @@
 			/* Check for the script in our cache */
 			var scriptCache = localStorage.getItem(script.name);
 
-			/* If version differ, then don't load from cache and instead load the
-			 * script normally. The app will eventually clear out the cache and
-			 * update the local version */
+			/* If versions differ, then don't load from cache and instead load
+			 * the script normally. The app will eventually clear out the cache
+			 * and update the local version */
 			if(localVersion != remoteVersion) scriptCache = null;
 
-			/* If the cache exists, then read from it; Otherwise load the script
-			 * normally */
+			/* If the cache exists, then read from it; Otherwise set a flag to
+			 * that will upload the script normally. */
 			if(scriptCache) {
-				$script.innerHTML = scriptCache;
-				document.getElementsByTagName('head')[0].appendChild($script);
+				/* IMPORTANT: CSS code should be placed in the '<style></style>'
+				 * tag and not inside '<link/>'. Which is why it is crucial to
+				 * not to forget that $fileref has to replaced as a new
+				 * element. */
+				if(isCSS) {
+					$fileref = document.createElement("style");
+					$fileref.type = "text/css";
+				}
+
+				/* Populate the element with our cached code and set a flag to
+				 * notify the rest of our code that we found the cached
+				 * content */
+				$fileref.innerHTML = scriptCache;
 				foundInCache = true;
 			}
 		}
 
-		if(!foundInCache) loadScriptSync(script.remoteSrc);
+		/* If the script was not found in cache then prepare it to be loaded
+		 * by the browser */
+		if(!foundInCache) {
+			$fileref.async = false; // <-- this is important
+			if(isCSS) $fileref.href = script.remoteSrc;
+			else $fileref.src = script.remoteSrc;
+		}
+
+		/* Finally with whatever element we have created, insert it into the
+		 * body */
+		if(isCSS) {
+			head.appendChild($fileref);
+		} else {
+			$fileref.type = "text/javascript";
+			head.insertBefore($fileref, head.firstChild);
+			head.removeChild($fileref);
+		}
 	}
 })()
