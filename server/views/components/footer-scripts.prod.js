@@ -1,4 +1,4 @@
-(function(){
+(function(window){
 	/* First decode the data variable; (Which is base64 encoded) */
 	window.data = JSON.parse(atob(window.data));
 
@@ -10,15 +10,15 @@
 	window.scripts = [{
 		name: "lib:normalize-css",
 		remoteSrc: "https://cdnjs.cloudflare.com/ajax/libs/foundation/5.5.1/css/normalize.min.css",
-		localSrc: "https://cdnjs.cloudflare.com/ajax/libs/foundation/5.5.1/css/normalize.min.css"
+		localSrc: "/stylesheets/vendor/normalize.min.css"
 	},{
 		name: "lib:foundation-css",
 		remoteSrc: "https://cdnjs.cloudflare.com/ajax/libs/foundation/5.5.1/css/foundation.min.css",
-		localSrc: "https://cdnjs.cloudflare.com/ajax/libs/foundation/5.5.1/css/foundation.min.css"
+		localSrc: "/stylesheets/vendor/foundation.min.css"
 	},{
 		name: "app:stylesheet",
-		remoteSrc: "/stylesheets/build/style.css",
-		localSrc: "/stylesheets/build/style.css",
+		remoteSrc: "/stylesheets/build/style.min.css",
+		localSrc: "/stylesheets/build/style.min.css",
 	},{
 		name: "lib:jquery",
 		remoteSrc: "/javascripts/vendor/jquery.min.js",
@@ -150,4 +150,4 @@
 			head.removeChild($fileref);
 		}
 	}
-})()
+})(window);
