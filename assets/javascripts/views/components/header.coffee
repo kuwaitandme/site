@@ -15,6 +15,7 @@ module.exports = Backbone.View.extend
 		@$navLinks     = @$ '.nav'
 		@$nextLink     = @$ '.next'
 		@$previousLink = @$ '.prev'
+		@$header       = $ 'header'
 		@$sliderNav    = @$ '#slider-nav'
 		@$credits      = @$ '.user-credits .count'
 		@$username     = @$ '.user-title .name'
@@ -34,14 +35,14 @@ module.exports = Backbone.View.extend
 
 
 	scrollHandler: ->
+		self = @
+
 		delta = 5
 		didScroll = false
 		lastScrollTop = 0
-		navbarHeight = ($ 'header').outerHeight()
-
+		navbarHeight = @$header.outerHeight()
 		# on scroll, let the interval function know the user has scrolled
 		($ window).scroll (event) -> didScroll = true;
-
 
 		hasScrolled = ->
 			st = ($ this).scrollTop()
@@ -53,18 +54,14 @@ module.exports = Backbone.View.extend
 			# This is necessary so you never see what is "behind" the navbar.
 			if (st > lastScrollTop and st > navbarHeight)
 				# Scroll Down
-				($ 'header')
-				.removeClass 'nav-down'
-				.addClass 'nav-up'
+				self.header.addClass 'nav-up'
 
 				($ 'body').removeClass 'show-header-sidebar'
 
 			else
 				# Scroll Up
 				if st + ($ window).height() < ($ document).height()
-					($ 'header')
-					.removeClass 'nav-up'
-					.addClass 'nav-down'
+					self.header.removeClass 'nav-up'
 
 			lastScrollTop = st;
 

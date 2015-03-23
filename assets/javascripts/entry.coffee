@@ -49,6 +49,13 @@ if not window.app?
 		success: (text, title) -> @controllers.messages.success text, title
 		warn: (text, title) -> @controllers.messages.warn text, title
 
-	window.app = new App
-	window.app.start()
+	($ window).ready ->
+		console.log '[foundation] initializing'
+		# Foundation.set_namespace = ->
+		$this = ($ document)
+		$this.foundation()
+
+		window.app = new App
+		window.app.start()
+
 else console.log "[lib] app already defined. stopping re-execution of script"

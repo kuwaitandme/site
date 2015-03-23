@@ -42,6 +42,8 @@ module.exports = class viewManager
 
 		@setView viewIdentifier, historyState
 
+		($ document).foundation 'clearing', 'reflow'
+
 		# Signal google Analytics
 		@googleAnalyticsSend()
 

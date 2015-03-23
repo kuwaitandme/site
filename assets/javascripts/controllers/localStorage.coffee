@@ -96,7 +96,7 @@ module.exports = class controller
 							localStorage.setItem storageIdentifier, result
 							console.log that.name, "cached script:", storageIdentifier
 
-				ajax(storageIdentifier, script)
+				ajax storageIdentifier, script
 
 
 	# Saves the HTML template of the current view in the HTML5 local-storage.
