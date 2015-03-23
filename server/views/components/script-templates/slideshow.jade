@@ -1,6 +1,8 @@
 |<% if(images) { %>
-|	<% _.each(images, function(img) {  %>
-a(href!="/uploads/main/<%= img %>", alt!="<%= img %>")
-	img(src!="/uploads/thumb/<%= img %>")
-|	<% }); %>
+ul.clearing-thumbs.small-block-grid-4(data-clearing)
+	|	<% _.each(images, function(img) {  %>
+	li
+		a(href!="/uploads/main/<%= img %>")
+			img.thumb(src!="/uploads/thumb/<%= img %>")
+	|	<% }); %>
 |<% } %>

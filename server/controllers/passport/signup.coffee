@@ -11,9 +11,9 @@ strategy = module.exports = (passport) ->
 
 	signup = (request, username, password, done) ->
 
-		captachFail = -> done null, false, ecode: 406
+		captchaFail = -> done null, false, ecode: 406
 
-		captachSuccess = ->
+		captchaSuccess = ->
 			fullname = request.body.fullname
 			repassword = request.body.repassword
 
@@ -54,6 +54,6 @@ strategy = module.exports = (passport) ->
 
 		# Check the captcha, which then calls the function to create the user
 		reCaptcha = global.helpers.reCaptcha
-		reCaptcha.verify request, captachSuccess, captachFail
+		reCaptcha.verify request, captchaSuccess, captchaFail
 
 	passport.use 'signup', new localStrategy { passReqToCallback: true }, signup

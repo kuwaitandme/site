@@ -1,5 +1,6 @@
 TODO
 ---------------
+* CDNify foundation libraries
 * trim and add limits to title and other post fields
 * add XSS filters
 * have notification for guest classifieds

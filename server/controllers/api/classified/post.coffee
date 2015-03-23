@@ -3,11 +3,11 @@ formidable = require 'formidable'
 module.exports = (request, response, next) ->
 	response.contentType 'application/json'
 
-	captachFail = ->
+	captchaFail = ->
 		response.status 401
 		response.end '"captcha failed"'
 
-	captachSuccess = ->
+	captchaSuccess = ->
 		# Initialize formidable
 		form = new formidable.IncomingForm
 		form.keepExtensions = true
@@ -53,4 +53,4 @@ module.exports = (request, response, next) ->
 
 
 	reCaptcha = global.helpers.reCaptcha
-	reCaptcha.verify request, captachSuccess, captachFail
+	reCaptcha.verify request, captchaSuccess, captchaFail

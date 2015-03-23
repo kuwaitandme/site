@@ -10,9 +10,9 @@ strategy = module.exports = (passport) ->
 
 	authenticate = (request, username, password, done) ->
 
-		captachFail = (error, response) -> done null, null, ecode: 406
+		captchaFail = (error, response) -> done null, null, ecode: 406
 
-		captachSuccess = (response) ->
+		captchaSuccess = (response) ->
 			# Validate the username & password
 			if not (validator.isEmail username) or not password
 			# if not (emailRegex.test username) or not password
@@ -42,6 +42,6 @@ strategy = module.exports = (passport) ->
 
 		# Check the captcha, which then calls the function to login the user
 		reCaptcha = global.helpers.reCaptcha
-		reCaptcha.verify request, captachSuccess, captachFail
+		reCaptcha.verify request, captchaSuccess, captchaFail
 
 	passport.use 'login', new localStrategy { passReqToCallback: true }, authenticate

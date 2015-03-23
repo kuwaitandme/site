@@ -156,8 +156,8 @@ Recaptcha.prototype.verify = function(callback) {
 	request.end();
 };
 
-exports.verify = function(request, captachSuccess, captachFail) {
-	if(config.reCaptcha.enabled == false) return captachSuccess(request);
+exports.verify = function(request, captchaSuccess, captchaFail) {
+	if(config.reCaptcha.enabled == false) return captchaSuccess(request);
 
 	var captchaResponse = request.query.captcha ||
 		request.body["g-recaptcha-response"] ||
@@ -173,7 +173,7 @@ exports.verify = function(request, captachSuccess, captachFail) {
 
 	/* Send captcha to google and create the user if successful */
 	recaptcha.verify(function (err, success) {
-		if(success) captachSuccess(err, success);
-		else captachFail(err, success);
+		if(success) captchaSuccess(err, success);
+		else captchaFail(err, success);
 	});
 }

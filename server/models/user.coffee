@@ -12,11 +12,12 @@ users = module.exports =
 
 		activationToken: String
 		adminReason: String
+		credits: Number
 		isModerator: Boolean
 		language: Number
 		lastLogin: [ ]
+		loginStrategy: Number
 		resetToken: String
-		credits: Number
 		status: Number # 0:Inactive,1:Active,2:Banned
 
 		# Personal information
@@ -28,67 +29,74 @@ users = module.exports =
 			# website: String
 			# email: String
 
+	loginStrategies:
+		EMAIL:    0
+		FACEBOOK: 1
+		TWITTER:  2
+		PHONEGAP: 3
+
 	status:
 		INACTIVE: 0
-		ACTIVE: 1
-		BANNED: 2
+		ACTIVE:   1
+		BANNED:   2
 
 
 	# Creates a new user with the given username and password
 	create: (name, username, password, callback) ->
+		@model.findOne { username: username }, (error, user) ->
+			if error then callback error
+			if user or user.length > 0 then return callback 'user exists'
 
-		# If there is no user with that email, create the user
-		newUser = new (@model)
+			# If there is no user with that email, create the user
+			newUser = new (@model)
 
-		# set the user's local credentials
-		newUser.name = name
-		newUser.username = username
-		newUser.email = username
-		newUser.password = createHash(password)
+			# set the user's local credentials
+			newUser.name = name
+			newUser.username = username
+			newUser.email = username
+			newUser.password = createHash(password)
 
-		# Give defaults to other parameters
-		newUser.isModerator = false
-		newUser.language = 0
-		newUser.status = @status.INACTIVE
-		newUser.activationToken = randomHash()
+			# Give defaults to other parameters
+			newUser.isModerator = false
+			newUser.language = 0
+			newUser.status = @status.INACTIVE
+			newUser.activationToken = randomHash()
 
-		# Save and call the callback function
-		newUser.save (err) ->
-			callback err, newUser
+			# Save and call the callback function
+			newUser.save (error) -> callback error, newUser
 
 
 	activate: (id, token, callback) ->
-		@model.findOne { _id: id }, (err, user) ->
-			if err then throw err
+		@model.findOne { _id: id }, (error, user) ->
+			if error then callback error
 
 			# Check if user exists
-			if not user then return callback(null, false)
+			if not user then return callback 'user does not exist'
 
 			# Check the activation token
 			if user.activationToken is not token
-				return callback(null, false)
+				return callback 'invalid activation token'
 
-			# Activate the user
+			# If all went well, then activate the user
 			user.activationToken = ''
 			user.status = users.status.ACTIVE
 			user.save (err) -> callback err, true
 
 
 	createResetToken: (email, callback) ->
-		@model.findOne { email: email }, (err, user) ->
-			if err then throw err
+		@model.findOne { email: email }, (error, user) ->
+			if error then callback error
 
 			# Check if the user exists
-			if not user then return callback(null, null)
+			if not user then return callback 'user does not exist'
 
 			# Check if the user is activated
 			if user.status is not users.status.ACTIVE
-				callback null, null
+				callback 'user is not activated'
 
 			# Generate a reset token
 			user.resetToken = randomHash()
-			user.save (err) ->
-				callback err, user
+			user.save (err) -> callback err, user
 
 
 	resetPassword: (id, token, password, callback) ->
@@ -98,27 +106,24 @@ users = module.exports =
 			# Check cast error
 
 			# Check if user exists
-			if not user then return callback(null, false)
+			if not user
+				return callback 'user does not exist'
 
 			# Check if a password request was set or not
-			if not user.resetToken then return callback(null, false)
+			if not user.resetToken
+				return callback 'no reset token was set'
 
 			# Check the reset token
-			if user.resetToken is not token then return callback(null, false)
+			if user.resetToken is not token
+				return callback 'invalid reset token'
 
 			# Reset the user password and get rid of reset token
 			user.password = createHash(password)
 			user.resetToken = null
-			user.save (err) ->
-				callback err, true
+			user.save (error) -> callback error, true
 
-	get: (id, callback) ->
-		@model.findOne { _id: id }, (err, user) ->
-			if err then throw err
 
-			# Check cast error
-
-			callback null, user
+	get: (id, callback) -> @model.findOne { _id: id }, callback
 
 
 # Creates a salted hash from the given password.
