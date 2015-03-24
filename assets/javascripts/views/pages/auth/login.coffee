@@ -20,10 +20,10 @@ module.exports = (require '../../mainView').extend
 		reset_sent: 'Password reset has been sent to your email'
 		reset_success: 'Your password has been reset'
 		send_again: 'Your account is not activated, check your email'
-		signup_fail: 'Something went wrong while registering you'
-		signup_invalid: 'Some of the fields are invalid'
+		signup_userexists: 'An account with that email already exists'
 		signup_success: 'Your account has been created, Check your inbox (and junk email) for an activation email'
-		user_suspended: 'This user has been suspended temporarily for too many incorrect logins'
+		user_suspended: 'This user has been suspended temporarily by a moderator'
+		user_banned: 'Your account has been banned by a moderator'
 		signup_taken: 'That account name has already been taken!'
 
 
@@ -59,9 +59,6 @@ module.exports = (require '../../mainView').extend
 		@captchaId = 'gcaptcha' + randomId
 		@$captcha = @$ '.gcaptcha'
 		@$captcha.attr 'id', @captchaId
-
-		# Then render the captcha
-		@renderCaptcha()
 
 
 	# This function parses the URL and prints out the appropriate message
@@ -163,7 +160,6 @@ module.exports = (require '../../mainView').extend
 		self = @
 
 		@removeMessages()
-		@resetCaptcha()
 		@showLoading()
 
 		# Validate the user fields
@@ -174,9 +170,7 @@ module.exports = (require '../../mainView').extend
 			# Hide the ajax loader
 			self.hideLoading()
 
-			console.error @name, error.responseJSON
-
-			if error then switch error.responseJSON
+			if error then switch error.responseJSON.status
 				when 'user not activated'
 					self.addMessage self.messages['login_inactive'], 'warning'
 				when 'invalid username/password'
@@ -185,9 +179,15 @@ module.exports = (require '../../mainView').extend
 					self.addMessage self.messages['login_disabled']
 				when 'user not found', 'invalid password'
 					self.addMessage self.messages['login_incorrect']
-				when 'user suspended. too many failed attempts'
+				when 'suspended'
 					self.addMessage self.messages['user_suspended']
-				else self.addMessage error.responseJSON
+					reason = error.responseJSON.reason
+					if reason then self.addMessage "Reason: #{reason}"
+				when 'banned'
+					self.addMessage self.messages['user_banned']
+					reason = error.responseJSON.reason
+					if reason then self.addMessage "Reason: #{reason}"
+				else self.addMessage error.responseText
 			else
 				console.debug self.name, 'received user', response
 

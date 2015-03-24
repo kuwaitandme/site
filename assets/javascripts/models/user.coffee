@@ -97,7 +97,7 @@ module.exports = Backbone.Model.extend
 
 	# Logs the user out and signals listeners if any.
 	logout: ->
-		$.get '/auth/logout'
+		$.get "#{app.config.host}/api/auth/logout/"
 		@clear()
 
 		# Signal any listeners that the user has logged out

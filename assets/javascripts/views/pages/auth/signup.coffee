@@ -74,10 +74,9 @@ module.exports = login.extend
 	submit: (event) ->
 		console.log @name, 'submitting form'
 		event.preventDefault()
-		that = @
+		self = @
 
 		@removeMessages()
-		@resetCaptcha()
 		@showLoading()
 
 		# Validate the user fields
@@ -92,12 +91,22 @@ module.exports = login.extend
 
 		# Attempt to login the user
 		@currentUser.signup fields, (error, response) ->
-			if error then console.log error
+			# Hide the ajax loader
+			self.hideLoading()
+
+			if error
+				switch error.responseJSON.status
+					when 'invalid email/name'
+						self.addMessage self.messages['bad_fields']
+					when 'user already exists'
+						self.addMessage self.messages['signup_userexists']
+					else self.addMessage error.responseText
+
+				self.$captcha.removeClass 'hide'
+				self.$submit.addClass 'hide'
+				self.resetCaptcha()
 			else
-				console.debug that.name, 'created user', response
+				console.debug self.name, 'created user', response
 
 				# Redirect to the account page on success
 				app.trigger 'redirect', '/auth/login?success=signup_success'
-
-			# Hide the ajax loader
-			that.hideLoading()
