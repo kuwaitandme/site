@@ -43,12 +43,12 @@ module.exports = Backbone.View.extend
 		navbarHeight = @$header.outerHeight()
 		# on scroll, let the interval function know the user has scrolled
 		($ window).scroll (event) -> didScroll = true;
+		($ window).resize (event) -> didScroll = true;
 
 		hasScrolled = ->
 			st = ($ this).scrollTop()
-
 			# Make sure they scroll more than delta
-			if Math.abs(lastScrollTop - st) <= delta then return
+			if Math.abs(lastScrollTop - st) <= delta and st is not 0 then return
 
 			# If they scrolled down and are past the navbar, add class .nav-up.
 			# This is necessary so you never see what is "behind" the navbar.
@@ -56,12 +56,13 @@ module.exports = Backbone.View.extend
 				# Scroll Down
 				self.$header.addClass 'nav-up'
 
-				($ 'body').removeClass 'show-header-sidebar'
+			# Scroll Up
+			else if st + ($ window).height() < ($ document).height()
+				self.$header.removeClass 'nav-up'
 
-			else
-				# Scroll Up
-				if st + ($ window).height() < ($ document).height()
-					self.$header.removeClass 'nav-up'
+			# 'Scroll up' if the window has been resized and the header has hit
+			# the top..
+			if st is 0 then self.$header.removeClass 'nav-up'
 
 			lastScrollTop = st;
 

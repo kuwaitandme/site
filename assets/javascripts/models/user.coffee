@@ -36,6 +36,7 @@ module.exports = Backbone.Model.extend
 		@oldFetch = @fetch
 		@fetch = (arg) -> if not @newFetch arg then @oldFetch arg
 
+
 	newFetch: ->
 		if not @id? and window.data.user?
 		 	@set window.data.user
@@ -43,13 +44,14 @@ module.exports = Backbone.Model.extend
 		 	true
 		 else false
 
+
 	login: (username, password, callback) ->
 		console.debug @name, 'logging in user'
-		that = this
+		self = @
 
 		$.ajax
 			type: 'POST'
-			url: app.config.host + '/api/auth/login/'
+			url: "#{app.config.host}/api/auth/email/#{username}"
 			beforeSend: ajax.setHeaders
 			data:
 				username: username
@@ -57,41 +59,40 @@ module.exports = Backbone.Model.extend
 
 			# This function gets called when the user successfully logs in
 			success: (response) ->
-				console.debug that.name, 'user logged in', response
+				console.debug self.name, 'user logged in', response
 
 				# Save the data from the server
-				that.set response
+				self.set response
 
 				# Signal any listeners that the user has logged in
-				that.trigger 'sync', response
+				self.trigger 'sync', response
 
 				# Call the callback
 				callback null, response
 
 			# This function sends the error message to the callback
 			error: (error) ->
-				console.error that.name, 'error logging in', error
-				callback(error, null)
+				console.error self.name, 'error logging in', error
+				callback error
 
 
 	signup: (parameters, callback) ->
-		console.debug @name, 'logging in user'
-		that = this
+		console.debug @name, 'signing up new user'
+		self = @
 
 		$.ajax
 			type: 'POST'
-			url: app.config.host + '/api/auth/signup/'
+			url: "#{app.config.host}/api/auth/email/"
 			beforeSend: ajax.setHeaders
 			data: parameters
+
 			# This function gets called when the user is created successfully
-			success: (response) ->
-				# Call the callback
-				callback null, response
+			success: (response) -> callback null, response
 
 			# This function sends the error message to the callback
 			error: (error) ->
-				console.error that.name, 'error creating user', error
-				callback(error, null)
+				console.error self.name, 'error creating user', error
+				callback error
 
 
 	# Logs the user out and signals listeners if any.
