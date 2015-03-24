@@ -1,5 +1,6 @@
 TODO
 ---------------
+* For login; remove captcha, but block 20 incorrect for same session and block for 50 fail on particular account
 * CDNify foundation libraries
 * trim and add limits to title and other post fields
 * add XSS filters
@@ -11,7 +12,7 @@ TODO
 * have user page
 * integrate search engine
 * make page crawlable
-* make sessions shorter to avoid bot ramapage!
+* make sessions expire to avoid bots creating too many sessions!
 * redirect the user to the edit page if the user presses back after submitting cl.
 * write tests for every page in site
 X more versions for cache
