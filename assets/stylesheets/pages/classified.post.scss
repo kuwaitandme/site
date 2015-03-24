@@ -31,7 +31,10 @@
 	}
 
 	.hint {
+		padding: 15px 0 30px;
+
 		a {
+			font-weight: bold;
 			text-decoration: none;
 			border-bottom: 2px solid #E74C3C;
 			color: #E74C3C;
@@ -72,20 +75,6 @@
 			&:active, &:hover { color: #000; }
 		}
 	}
-	.hint {
-		font-size: 13px;
-		padding: 15px 0 30px;
-	}
-	// #image-upload-preview, #image-upload, input, textarea, select {
-	// 	@include single-transition();
-	// 	outline: none;
-	// 	// padding: 10px;
-	// 	// border-top: 1px solid #EEE;
-
-	// 	&:focus {
-	// 		// border-bottom: 2px solid #3498db;
-	// 	}
-	// }
 	#image-upload {
 		background: #f9f9f9;
 		border: 2px dotted #DDD;
@@ -139,6 +128,7 @@
 		@include clearfix();
 		overflow: hidden;
 		text-align: center;
+		padding: 0;
 
 		div {
 			@extend .font-awesome;
@@ -146,7 +136,7 @@
 			float: left;
 			font-size: 20px;
 			padding: 10px 0;
-			margin: 20px 10px;
+			margin: 0px 10px;
 			text-align: center;
 			width: 50px;
 
