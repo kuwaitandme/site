@@ -10,7 +10,7 @@ module.exports = (require '../../mainView').extend
 		activate_success: 'Your account is successfully activated'
 		bad_fields: 'Please fill in the fields properly'
 		login_disabled: 'You have been blocked temporarily for too many incorrect logins'
-		login_inactive: 'Your account is not activated! Check your inbox (and junk email) for an activation email'
+		login_inactive: 'Your account is not activated. <br> Check your inbox (and junk email) for an activation email'
 		login_incorrect: 'Wrong email/password'
 		logout: 'You have been logged out successfully'
 		need_login: 'You need to be logged in in to view that page'
@@ -69,12 +69,12 @@ module.exports = (require '../../mainView').extend
 	parseURL: ->
 		console.log @name, 'parsing URL'
 
-		error = url.getParam 'error'
+		error   = url.getParam 'error'
 		success = url.getParam 'success'
-		warn = url.getParam 'warn'
-		if error then @addMessage @messages[error], 'error'
+		warning = url.getParam 'warning'
+		if error   then @addMessage @messages[error],   'error'
 		if success then @addMessage @messages[success], 'success'
-		if warn then @addMessage @messages[warn], 'warn'
+		if warning then @addMessage @messages[warning], 'warning'
 
 
 	# Renders the captcha while taking care of having collision with other
@@ -156,7 +156,6 @@ module.exports = (require '../../mainView').extend
 		@$submit.stop().show()
 
 
-
 	# Sends the AJAX request to the back-end
 	submit: (event) ->
 		console.log @name, 'submitting form'
@@ -179,7 +178,7 @@ module.exports = (require '../../mainView').extend
 
 			if error then switch error.responseJSON
 				when 'user not activated'
-					self.addMessage self.messages['login_inactive']
+					self.addMessage self.messages['login_inactive'], 'warning'
 				when 'invalid username/password'
 					self.addMessage self.messages['bad_fields']
 				when 'too many failed attempts'
