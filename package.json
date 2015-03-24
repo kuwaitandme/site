@@ -4,6 +4,7 @@
   "private": "true",
   "author": "Steven Enamakel",
   "scripts": {
+    "preinstall": "npm -g mongodb pm2 redis gulp coffee-script",
     "populate-db": "mongo kuwaitandme ./server/db/populate.js",
     "start": "coffee ./bin/www.coffee",
     "test": "mocha --compilers coffee:coffee-script/register -b"
@@ -27,6 +28,7 @@
     "express-session": "^1.10.2",
     "formidable": "^1.0.17",
     "gm": "^1.17.0",
+    "gulp-coffeeify": "^0.1.8",
     "gulp-watch": "^4.1.1",
     "i18n": "*",
     "jade": "~1.9.1",
