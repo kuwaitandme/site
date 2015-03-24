@@ -143,7 +143,11 @@ module.exports = Backbone.View.extend
 		@$email.val       contact.email
 		@$locations.val  (@model.get 'location') or ""
 		@$phone.val       contact.phone
-		@$type.val        (@model.get 'type') or ""
+		console.log @model.toJSON()
+		console.log @model.get 'type'
+		console.log @$type.val()
+		@$type.val       @model.get 'type'
+		console.log @$type.val()
 		@setPrice         @model.get 'price'
 
 		@locationChange()

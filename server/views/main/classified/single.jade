@@ -20,40 +20,51 @@ block content
 	//- Google Maps
 	#map-canvas
 
-	#reportModel.reveal-modal(data-reveal, aria-labelledby="modalTitle", aria-hidden="true", role="dialog")
-		h2#modalTitle Ban this classified
-		textarea(name="reason", placeholder='Write your reason here')
-		input.submit(type="submit", value="Send report")
-		a.close-reveal-modal(aria-label="Close") &#215;
+	//- #rejectModel.reveal-modal(data-reveal, aria-labelledby="modalTitle", aria-hidden="true", role="dialog")
+	//- 	form
+	//- 		h2#modalTitle Reject this classified
+	//- 		textarea(name="reason", placeholder='Write your reason here')
+	//- 		input(type="hidden", name="action", value="reject")
+	//- 		input.submit(type="submit", value="Reject")
+	//- 		a.close-reveal-modal(aria-label="Close") &#215;
+
+	//- #banModel.reveal-modal(data-reveal, aria-labelledby="modalTitle", aria-hidden="true", role="dialog")
+	//- 	form(method)
+	//- 		h2#modalTitle Ban this classified
+	//- 		textarea(name="reason", placeholder='Write your reason here')
+	//- 		input(type="hidden", name="action", value="ban")
+	//- 		input.submit(type="submit", value="Ban")
+	//- 		a.close-reveal-modal(aria-label="Close") &#215;
 
 
 	//- Modal to report the classified
-	//- section.modal--show#report-modal(tabindex='-1', role='dialog', aria-labelledby='modal-label', aria-hidden='true')
+	section.modal--show#report-modal(tabindex='-1', role='dialog', aria-labelledby='modal-label', aria-hidden='true')
 		.modal-inner
 			.title Report this classified
 			form(action="?success=reportsent#", method="POST")
 				input(type="hidden", name="_csrf", value="#{csrfToken}")
 				input(type="hidden", name="action", value="report")
+				input.submit(type="submit", value="Send report")
 		a.modal-close(href='#!', title='Cancel Report', data-close='Close', data-dismiss='modal') ?
 
-	//- section.modal--show#ban-modal(tabindex='-1', role='dialog', aria-labelledby='modal-label', aria-hidden='true')
+	section.modal--show#ban-modal(tabindex='-1', role='dialog', aria-labelledby='modal-label', aria-hidden='true')
 		.modal-inner
 			.title Ban this classified
 			form(method="POST")
 				input(type="hidden", name="_csrf", value="#{csrfToken}")
 				input(type="hidden", name="action", value="ban")
 				textarea(name="reason", placeholder='Write your reason here')
-				input(type="submit", value="Send report")
+				input.submit(type="submit", value="Ban")
 		a.modal-close(href='#!', title='Cancel Report', data-close='Close', data-dismiss='modal') ?
 
-	//- section.modal--show#reject-modal(tabindex='-1', role='dialog', aria-labelledby='modal-label', aria-hidden='true')
+	section.modal--show#reject-modal(tabindex='-1', role='dialog', aria-labelledby='modal-label', aria-hidden='true')
 		.modal-inner
 			.title Reject this classified
 			form(method="POST")
 				input(type="hidden", name="_csrf", value="#{csrfToken}")
 				input(type="hidden", name="action", value="reject")
 				textarea(name="reason", placeholder='Write your reason here')
-				input(type="submit", value="Send report")
+				input.submit(type="submit", value="Reject")
 		a.modal-close(href='#!', title='Cancel Report', data-close='Close', data-dismiss='modal') ?
 
 	//- JS template for the admin panel
