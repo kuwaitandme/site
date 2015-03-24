@@ -1,5 +1,4 @@
-login  = require './login'
-signup = require './signup'
+emailStrategy = require './email'
 
 # Passport needs to be able to serialize and de-serialize users to support
 # persistent login sessions. This function defines those functionalities.
@@ -11,6 +10,5 @@ module.exports = (passport) ->
 		User = global.models.user
 		User.model.findById id, (err, user) -> done err, user
 
-	# Setup up Passport strategies for login and signUp/registration
-	login passport
-	signup passport
+	# Setup up Passport strategies for the different auth mechanisms..
+	emailStrategy passport

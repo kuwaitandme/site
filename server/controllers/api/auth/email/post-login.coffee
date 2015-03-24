@@ -22,4 +22,4 @@ module.exports = (request, response, next) ->
 			if error then return next error
 			response.end JSON.stringify user
 
-	(passport.authenticate 'login', finish) request, response, next
+	(passport.authenticate 'email-login', finish) request, response, next

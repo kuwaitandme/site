@@ -56,4 +56,4 @@ strategy = module.exports = (passport) ->
 		reCaptcha = global.helpers.reCaptcha
 		reCaptcha.verify request, captchaSuccess, captchaFail
 
-	passport.use 'signup', new localStrategy { passReqToCallback: true }, signup
+	passport.use 'email-signup', new localStrategy { passReqToCallback: true }, signup

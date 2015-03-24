@@ -15,4 +15,4 @@ module.exports = (request, response, next) ->
 		else
 			response.end JSON.stringify user
 
-	(passport.authenticate 'signup', finish) request, response, next
+	(passport.authenticate 'email-signup', finish) request, response, next

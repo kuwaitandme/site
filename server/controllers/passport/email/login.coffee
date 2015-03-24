@@ -44,4 +44,4 @@ strategy = module.exports = (passport) ->
 		reCaptcha = global.helpers.reCaptcha
 		reCaptcha.verify request, captchaSuccess, captchaFail
 
-	passport.use 'login', new localStrategy { passReqToCallback: true }, authenticate
+	passport.use 'emali-login', new localStrategy { passReqToCallback: true }, authenticate
