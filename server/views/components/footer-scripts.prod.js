@@ -9,11 +9,11 @@
 	 */
 	window.scripts = [{
 		name: "lib:normalize-css",
-		remoteSrc: "https://cdnjs.cloudflare.com/ajax/libs/foundation/5.5.1/css/normalize.min.css",
+		remoteSrc: "//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.1/css/normalize.min.css",
 		localSrc: "/stylesheets/vendor/normalize.min.css"
 	},{
 		name: "lib:foundation-css",
-		remoteSrc: "https://cdnjs.cloudflare.com/ajax/libs/foundation/5.5.1/css/foundation.min.css",
+		remoteSrc: "//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.1/css/foundation.min.css",
 		localSrc: "/stylesheets/vendor/foundation.min.css"
 	},{
 		name: "app:stylesheet",
@@ -21,27 +21,27 @@
 		localSrc: "/stylesheets/build/style.min.css",
 	},{
 		name: "lib:jquery",
-		remoteSrc: "/javascripts/vendor/jquery.min.js",
+		remoteSrc: "//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js",
 		localSrc: "/javascripts/vendor/jquery.min.js",
 	},{
 		name: "lib:jquery-transit",
-		remoteSrc: "/javascripts/vendor/jquery.transit.min.js",
+		remoteSrc: "//cdnjs.cloudflare.com/ajax/libs/jquery.transit/0.9.12/jquery.transit.min.js",
 		localSrc: "/javascripts/vendor/jquery.transit.min.js",
 	},{
 		name: "lib:underscore",
-		remoteSrc: "/javascripts/vendor/underscore.min.js",
+		remoteSrc: "//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore-min.js",
 		localSrc: "/javascripts/vendor/underscore.min.js",
 	},{
 		name: "lib:backbone",
-		remoteSrc: "/javascripts/vendor/backbone.min.js",
+		remoteSrc: "//cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js",
 		localSrc: "/javascripts/vendor/backbone.min.js",
 	},{
 		name: "lib:google-maps",
-		remoteSrc: "/javascripts/vendor/google.maps.min.js",
+		remoteSrc: "//maps.googleapis.com/maps/api/js?v=3.exp&callback=initializeGmap",
 		localSrc: "/javascripts/vendor/google.maps.min.js",
 	},{
 		name: "lib:modernizr",
-		remoteSrc: "/javascripts/vendor/modernizr.min.js",
+		remoteSrc: "//cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js",
 		localSrc: "/javascripts/vendor/modernizr.min.js",
 	},{
 	// 	name: "lib:2checkout",
@@ -49,19 +49,19 @@
 	// 	localSrc: "/javascripts/vendor/2co.min.js",
 	// },{
 		name: "lib:dropzone",
-		remoteSrc: "/javascripts/vendor/dropzone.min.js",
+		remoteSrc: "//cdnjs.cloudflare.com/ajax/libs/dropzone/4.0.1/min/dropzone.min.js",
 		localSrc: "/javascripts/vendor/dropzone.min.js",
 	},{
 		name: "lib:masonry",
-		remoteSrc: "/javascripts/vendor/masonry.pkgd.min.js",
+		remoteSrc: "//cdnjs.cloudflare.com/ajax/libs/masonry/3.2.2/masonry.pkgd.min.js",
 		localSrc: "/javascripts/vendor/masonry.pkgd.min.js",
 	},{
 		name: "lib:jquery-imagesloaded",
-		remoteSrc: "/javascripts/vendor/imagesloaded.min.js",
+		remoteSrc: "//cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/3.1.8/imagesloaded.pkgd.min.js",
 		localSrc: "/javascripts/vendor/imagesloaded.min.js",
 	},{
 		name: "lib:foundation-js",
-		remoteSrc: "/javascripts/vendor/foundation.min.js",
+		remoteSrc: "//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.1/js/foundation.min.js",
 		localSrc: "/javascripts/vendor/foundation.min.js",
 	},{
 		name: "app:script",
