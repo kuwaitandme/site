@@ -1,64 +1,64 @@
 extends ../../layout.jade
 
+block robots
+	h1.c-title= robots.classified.title
+	pre.c-description= robots.classified.description
+
+
 block content
-	.hide
-		h1.c-title= robots.classified.title
-		pre.c-description= robots.classified.description
+	//- Container for the admin panel
+	#admin-single
 
-	.html5-cache
-		//- Container for the admin panel
-		#admin-single
+	ul#single-messages
 
-		ul#single-messages
+	//- Container for the slideshow
+	section.c-gallery
 
-		//- Container for the slideshow
-		section.c-gallery
+	//- Raw HTML version so that bots can crawl it's contents
+	section.c-content
 
-		//- Raw HTML version so that bots can crawl it's contents
-		section.c-content
+	//- Google Maps
+	#map-canvas
 
-		//- Google Maps
-		#map-canvas
+	//- Modal to report the classified
+	section.modal--show#report-modal(tabindex='-1', role='dialog', aria-labelledby='modal-label', aria-hidden='true')
+		.modal-inner
+			.title Report this classified
+			form(action="?success=reportsent#", method="POST")
+				input(type="hidden", name="_csrf", value="#{csrfToken}")
+				input(type="hidden", name="action", value="report")
+				textarea(name="reason", placeholder='Write your reason here')
+				input(type="submit", value="Send report")
+		a.modal-close(href='#!', title='Cancel Report', data-close='Close', data-dismiss='modal') ?
 
-		//- Modal to report the classified
-		section.modal--show#report-modal(tabindex='-1', role='dialog', aria-labelledby='modal-label', aria-hidden='true')
-			.modal-inner
-				.title Report this classified
-				form(action="?success=reportsent#", method="POST")
-					input(type="hidden", name="_csrf", value="#{csrfToken}")
-					input(type="hidden", name="action", value="report")
-					textarea(name="reason", placeholder='Write your reason here')
-					input(type="submit", value="Send report")
-			a.modal-close(href='#!', title='Cancel Report', data-close='Close', data-dismiss='modal') ?
+	section.modal--show#ban-modal(tabindex='-1', role='dialog', aria-labelledby='modal-label', aria-hidden='true')
+		.modal-inner
+			.title Ban this classified
+			form(method="POST")
+				input(type="hidden", name="_csrf", value="#{csrfToken}")
+				input(type="hidden", name="action", value="ban")
+				textarea(name="reason", placeholder='Write your reason here')
+				input(type="submit", value="Send report")
+		a.modal-close(href='#!', title='Cancel Report', data-close='Close', data-dismiss='modal') ?
 
-		section.modal--show#ban-modal(tabindex='-1', role='dialog', aria-labelledby='modal-label', aria-hidden='true')
-			.modal-inner
-				.title Ban this classified
-				form(method="POST")
-					input(type="hidden", name="_csrf", value="#{csrfToken}")
-					input(type="hidden", name="action", value="ban")
-					textarea(name="reason", placeholder='Write your reason here')
-					input(type="submit", value="Send report")
-			a.modal-close(href='#!', title='Cancel Report', data-close='Close', data-dismiss='modal') ?
+	section.modal--show#reject-modal(tabindex='-1', role='dialog', aria-labelledby='modal-label', aria-hidden='true')
+		.modal-inner
+			.title Reject this classified
+			form(method="POST")
+				input(type="hidden", name="_csrf", value="#{csrfToken}")
+				input(type="hidden", name="action", value="reject")
+				textarea(name="reason", placeholder='Write your reason here')
+				input(type="submit", value="Send report")
+		a.modal-close(href='#!', title='Cancel Report', data-close='Close', data-dismiss='modal') ?
 
-		section.modal--show#reject-modal(tabindex='-1', role='dialog', aria-labelledby='modal-label', aria-hidden='true')
-			.modal-inner
-				.title Reject this classified
-				form(method="POST")
-					input(type="hidden", name="_csrf", value="#{csrfToken}")
-					input(type="hidden", name="action", value="reject")
-					textarea(name="reason", placeholder='Write your reason here')
-					input(type="submit", value="Send report")
-			a.modal-close(href='#!', title='Cancel Report', data-close='Close', data-dismiss='modal') ?
+	//- JS template for the admin panel
+	script(id="admin-template", type="text/template")
+		include ../../components/script-templates/admin-single.jade
 
-		//- JS template for the admin panel
-		script(id="admin-template", type="text/template")
-			include ../../components/script-templates/admin-single.jade
+	//- JS Template for the slideshow
+	script(id="slideshow-template", type="text/template")
+		include ../../components/script-templates/slideshow.jade
 
-		//- JS Template for the slideshow
-		script(id="slideshow-template", type="text/template")
-			include ../../components/script-templates/slideshow.jade
-
-		//- JS Template for the single classified
-		script(id="single-template", type="text/template")
-			include ../../components/script-templates/single.jade
+	//- JS Template for the single classified
+	script(id="single-template", type="text/template")
+		include ../../components/script-templates/single.jade

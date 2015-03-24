@@ -50,7 +50,7 @@ module.exports = (require '../../mainView').extend
 
 	continue: ->
 		console.log @name, 'continuing'
-		@renderCaptcha()
+		# @renderCaptcha()
 		@parseURL()
 
 

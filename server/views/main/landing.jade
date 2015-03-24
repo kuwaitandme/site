@@ -1,33 +1,33 @@
 extends ../layout.jade
 
-block content
-	.hide
+
+block robots
 		a(href="/classified/search") search classifieds
 
-	.html5-cache
-		#landing-section
-			section#search-form
-				#landing-logo
-					img(src='/images/kme-logo-tagline.png')
-				form(action="/classified/search")
-					input(type="text", name="keywords", placeholder="Search classifieds").search-bar
-					button(type="submit").search-button &#xf002;
-				ul#landing-extra
-					a(href="/guest/post", data-view)
-						li Post a classified
-					a(href="/classified/search", data-view)
-						li Advanced Search
-				//- #landing-message
-				//- 	a(href="#") arabic
-				//- 	span &nbsp;&middot;&nbsp;
-				//- 		a(href="#") Download
-				//- 		span &nbsp;the mobile app
+block content
+	#landing-section
+		section#search-form
+			#landing-logo
+				img(src='/images/kme-logo-tagline.png')
+			form(action="/classified/search")
+				input(type="text", name="keywords", placeholder="Search classifieds").search-bar
+				button(type="submit").search-button &#xf002;
+			ul#landing-extra
+				a(href="/guest/post", data-view)
+					li Post a classified
+				a(href="/classified/search", data-view)
+					li Advanced Search
+			//- #landing-message
+			//- 	a(href="#") arabic
+			//- 	span &nbsp;&middot;&nbsp;
+			//- 		a(href="#") Download
+			//- 		span &nbsp;the mobile app
 
-		//- #landing-footer Created by Steven Enamakel
+	//- #landing-footer Created by Steven Enamakel
 
-		//- Container to hold the classifieds
-		ul#classified-search.classified-list
+	//- Container to hold the classifieds
+	ul#classified-search.classified-list
 
-		//- JS Template for each classified in the list
-		script(id="list-template", type="text/template")
-			include ../components/script-templates/search.jade
+	//- JS Template for each classified in the list
+	script(id="list-template", type="text/template")
+		include ../components/script-templates/search.jade

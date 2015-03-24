@@ -9,7 +9,7 @@
 	 */
 	window.scripts = [{
 		name: "lib:normalize-css",
-		remoteSrc: "/stylesheets/vendor/foundation.min.css",
+		remoteSrc: "/stylesheets/vendor/normalize.min.css",
 		localSrc: "/stylesheets/vendor/normalize.min.css"
 	},{
 		name: "lib:foundation-css",
@@ -98,7 +98,7 @@
 
 		/* If HTML5 localStorage is supported, attempt to load the scripts from
 		 * the application cache */
-		if(typeof Storage !== "undefined" && script.name.substr(0,3) != 'app') {
+		if(typeof Storage !== "undefined" && false) {
 
 			/* Check if local and remote version of the libraries differ */
 			localVersion = localStorage.getItem("ver:library");

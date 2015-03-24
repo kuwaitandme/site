@@ -1,29 +1,36 @@
-form#filter-box
-	.keywords
+form#filter-box.row
+	.keywords.large-6.columns
 		input(type="text", name="keywords")#filter-keywords.search-bar
 		button(type="submit").search-button &#xf002;
-	ul.other-options
-		li
-			.float-container
-				.title Price :&nbsp;
-				select#select-price(data-field="price")
-					option All
-					option Free
-					//- option Range
-					option Contact Owner
-
-		li
-			.float-container
-				.title Type:&nbsp;
-				select#select-type(data-field="type")
-					option(value='') All
-					option(value='0') Offering
-					option(value='1') Wanted
-
-		li
-			.float-container
-				.title Category:&nbsp;
-				select#select-category
+	.large-6.columns
+		.row
+			//- .float-container
+			//- 	.title  :&nbsp;
+			.medium-4.columns
+				.row.collapse
+					.small-5.columns
+						label.inline(for="right-label") Price
+					.small-7.columns
+						select#select-price(data-field="price")
+							option All
+							option Free
+							//- option Range
+							option Contact Owner
+			.medium-4.columns
+					.row.collapse
+						.small-5.columns
+							label.inline(for="right-label") Type
+						.small-7.columns
+							select#select-type(data-field="type")
+								option(value='') All
+								option(value='0') Offering
+								option(value='1') Wanted
+			.medium-4.columns
+					.row.collapse
+						.small-5.columns
+							label.inline(for="right-label") Category
+						.small-7.columns
+							select#select-category
 
 		//- li
 		//- 	span.title Location :&nbsp;

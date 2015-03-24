@@ -10,8 +10,12 @@ html(lang="en")
 		ul#messages
 		//- Here goes the main content of the site
 		main
+			.robots.hide
+				block robots
+
 			//- Site content
 			.pt-page(class="#{bodyid}")
-				block content
+				.html5-cache
+					block content
 
 		include ./include/footer.jade

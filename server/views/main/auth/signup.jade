@@ -1,23 +1,41 @@
 extends ../../layout.jade
 
 block content
-	.html5-cache
-		.auth-title Sign Up!
-		form(method="POST")
-			input(type="hidden", name="_csrf", value="#{csrfToken}")
-			section
-				div
-					input(type="text", name="fullname", placeholder="your name", required)
-				div
-					input(type="email", name="username", placeholder="email", required)
-				div
-					input(type="password", name="password", placeholder="password", required)
-				div
-					input(type="password", name="repassword", placeholder="re-enter password", required)
-				div
-					input(type="submit", class="submit", value="Sign-up")
+		form#login-form
+			.row.collapse
+				.small-12.columns
+					.auth-title Sign-up
+			.row.input-row.collapse
+				.small-12.columns.error
+					input(type="text", name="fullname", placeholder="full name", required)#auth-fullname
+					small.error Please fill this field properly
 
-			.gcaptcha
+			.row.input-row.collapse
+				.small-12.columns.error
+					input(type="email", name="username", placeholder="email", required)#auth-username
+					small.error Please fill this field properly
 
-			//- .extra-links
-			//- 	| Already have an account? Login <a href="/auth/login" data-view="auth-login">here</a>
+			.row.input-row.collapse
+				.small-12.columns.error
+					input(type="password", name="username", placeholder="password", required)#auth-password
+					small.error Please fill this field properly
+
+			.row.input-row.collapse
+				.small-12.columns.error
+					input(type="password", name="password", placeholder="re-enter password", required)#auth-repassword
+					small.error Please fill this field properly
+
+			.row.collapse
+				.small-4.small-offset-8.columns
+					input(type="submit", class="submit", value="Login")
+
+
+			#ajax-spinner
+				img(src="/images/loader.gif")
+
+		.gcaptcha
+
+		ul#auth-messages
+
+		//- .extra-links
+		//- 	| Already have an account? Login <a href="/auth/login" data-view="auth-login">here</a>

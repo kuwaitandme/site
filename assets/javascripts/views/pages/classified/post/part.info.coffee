@@ -17,15 +17,15 @@ module.exports = Backbone.View.extend
 		$els = @$ '[required]'
 		$els.removeClass 'error'
 
-		# for $el in $els
-		$els.each (i) ->
-			$el = $els.eq i
-			if not $el.val()
-				$el.addClass 'error'
-				ret = false
+		if not @$title.val()
+			@$title.parent().addClass 'show-error'
+			ret = false
 
-		if not ret then @model.trigger 'post:error', 'Some of the fields are missing'
-		else @setModel()
+		if not @$description.val()
+			@$description.parent().addClass 'show-error'
+			ret = false
+
+		if ret then @setModel()
 		ret
 
 

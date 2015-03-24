@@ -17,6 +17,7 @@ module.exports = Backbone.View.extend
 		@$locations       = @$ '#locations'
 		@$phone           = @$ '#phone'
 		@$priceField      = @$ '#price-field'
+		@$priceRow        = @$ '#price-row'
 		@$priceSelector   = @$ '#price-selector'
 		@$type            = @$ '#ctype'
 
@@ -49,16 +50,22 @@ module.exports = Backbone.View.extend
 		ret = true
 		$els = @$ '[required]'
 
-		$els.removeClass 'error'
-		$els.each (i) ->
-			$el = $els.eq i
+		$els.parent().removeClass 'show-error'
+		for el in $els
+			$el = $ el
 			if not $el.val()
-				$el.addClass 'error'
+				$el.parent().addClass 'show-error'
 				ret = false
-		if not ret
-			@model.trigger 'post:error', 'Some of the fields are missing'
-			return ret
-		@setModel()
+
+		if not @$priceSelector.val()
+			@$priceSelector.parent().addClass 'show-error'
+			ret = false
+
+		if not @$priceField.val()
+			@$priceField.parent().parent().addClass 'show-error'
+			ret = false
+
+		if ret then @setModel()
 		ret
 
 
@@ -68,13 +75,13 @@ module.exports = Backbone.View.extend
 		switch Number val
 			when 0 # Free
 				@$priceField.val 0
-				@$priceField.addClass 'hide'
+				@$priceRow.addClass 'hide'
 			when 1 # Specify value
 				@$priceField.val null
-				@$priceField.removeClass 'hide'
+				@$priceRow.removeClass 'hide'
 			when -1 # Contact Owner
 				@$priceField.val -1
-				@$priceField.addClass 'hide'
+				@$priceRow.addClass 'hide'
 
 
 	setPrice: (value) ->

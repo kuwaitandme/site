@@ -54,14 +54,14 @@ module.exports = Backbone.View.extend
 			# This is necessary so you never see what is "behind" the navbar.
 			if (st > lastScrollTop and st > navbarHeight)
 				# Scroll Down
-				self.header.addClass 'nav-up'
+				self.$header.addClass 'nav-up'
 
 				($ 'body').removeClass 'show-header-sidebar'
 
 			else
 				# Scroll Up
 				if st + ($ window).height() < ($ document).height()
-					self.header.removeClass 'nav-up'
+					self.$header.removeClass 'nav-up'
 
 			lastScrollTop = st;
 
