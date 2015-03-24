@@ -49,6 +49,7 @@ module.exports = view.extend
 	continue: ->
 		console.log @name, 'continue'
 		@$el.fadeIn()
+		($ document).foundation 'clearing', 'reflow'
 
 
 	populateDOM: ->
@@ -81,7 +82,7 @@ module.exports = view.extend
 		window.location.hash = ""
 
 		# Display a message based on the classified's status.
-		adminReason = @model.get 'adminReason'
+		moderatorReason = @model.get 'moderatorReason'
 		status = @model.get 'status'
 		statuses = @model.status
 		switch status
@@ -93,14 +94,14 @@ module.exports = view.extend
 
 			when statuses.REJECTED
 				@addMessage @messages.rejected
-				@addMessage adminReason
+				@addMessage moderatorReason
 
 			when statuses.ARCHIVED
 				@addMessage @messages.archived
 
 			when statuses.BANNED
 				@addMessage @messages.banned
-				@addMessage adminReason
+				@addMessage moderatorReason
 
 			when statuses.FLAGGED
 				@addMessage 'This classified has been reported too many times and is under review'
@@ -133,11 +134,11 @@ module.exports = view.extend
 			when 'ban'
 				@model.set
 					status: @model.status.BANNED
-					adminReason: reason
+					moderatorReason: reason
 			when 'reject'
 				@model.set
 					status: @model.status.REJECTED
-					adminReason: reason
+					moderatorReason: reason
 			when 'report'
 				reports = _.clone @model.get 'reports'
 				reports.push reason
@@ -202,3 +203,4 @@ module.exports = view.extend
 				_id: @model.id
 				editable: editable
 				superEditable: superEditable
+		else (@$ '#admin-single').hide()

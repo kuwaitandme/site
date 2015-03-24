@@ -32,7 +32,7 @@ module.exports = (request, response, next) ->
 		return response.end '"patch only specific parameters"'
 
 	# For each parameter, validate it before continuing
-	if data.status  and not isValidStatus data.status, data.adminReason
+	if data.status  and not isValidStatus data.status, data.moderatorReason
 		response.status 400
 		return response.end '"invalid status/reason"'
 	if data.perks and not isValidPerk data.perks
@@ -61,7 +61,6 @@ module.exports = (request, response, next) ->
 			# you must be a moderator.
 			if classified.authHash != request.query.authHash and
 				not isModerator
-					console.log 'hit'
 					response.status 401
 					return response.end '"unauthorized"'
 
@@ -70,7 +69,6 @@ module.exports = (request, response, next) ->
 			# You must be the owner/moderator if you are modifying a regular
 			# classified.
 			if user and not isModerator and not isOwner
-				console.log 'hit2'
 				response.status 401
 				return response.end '"unauthorized"'
 
@@ -94,7 +92,7 @@ updatePerks = (classified, request, response, next) ->
 
 updateStatus = (classified, request, response, next) ->
 	newStatus = request.body.status
-	adminReason = request.body.adminReason
+	moderatorReason = request.body.moderatorReason
 
 	user = request.user or {}
 	isModerator = user.isModerator
@@ -136,9 +134,9 @@ updateStatus = (classified, request, response, next) ->
 			if isModerator then status.publish id, callback
 			else status.repost id, callback
 		when status.ARCHIVED then status.archive id, callback
-		when status.BANNED then status.ban id, adminReason, callback
+		when status.BANNED then status.ban id, moderatorReason, callback
 		when status.INACTIVE then status.inactive id, callback
-		when status.REJECTED then  status.reject id, adminReason, callback
+		when status.REJECTED then  status.reject id, moderatorReason, callback
 
 		# The last condition, again, you should not reach here because of all
 		# the previous checks
@@ -150,7 +148,7 @@ updateStatus = (classified, request, response, next) ->
 
 # This function attempts to validate the classified status and returns true
 # iff the fields are valid.
-isValidStatus = (status, adminReason) ->
+isValidStatus = (status, moderatorReason) ->
 	classifiedModel = global.models.classified
 	statuses = classifiedModel.status
 

@@ -20,7 +20,7 @@ module.exports = Backbone.Model.extend
 
 	defaults:
 		_id: null
-		adminReason: null
+		moderatorReason: null
 		authHash: null
 		category: null
 		created: null

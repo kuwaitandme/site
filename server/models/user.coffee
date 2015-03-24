@@ -11,7 +11,7 @@ users = module.exports =
 		description: String
 
 		activationToken: String
-		adminReason: String
+		moderatorReason: String
 		credits: Number
 		isModerator: Boolean
 		language: Number
@@ -142,8 +142,8 @@ users = module.exports =
 
 				if user.loginFailures > @MAX_FAIL_ATTEMPTS
 					user.status = users.status.SUSPEND
-					user.adminReason = 'user suspended. too many failed attempts'
-					user.save (error) -> callback error or user.adminReason
+					user.moderatorReason = 'user suspended. too many failed attempts'
+					user.save (error) -> callback error or user.moderatorReason
 
 				else if not @isValidPassword user, password
 					user.loginFailures++

@@ -257,7 +257,7 @@ classifieds = module.exports =
 					return callback error
 
 				classified.status = that.BANNED
-				classified.adminReason = reason
+				classified.moderatorReason = reason
 
 				classified.save (error) -> callback error, classified
 
@@ -317,7 +317,7 @@ classifieds = module.exports =
 					return callback error
 
 				classified.status = that.REJECTED
-				classified.adminReason = reason
+				classified.moderatorReason = reason
 
 				classified.save (error) -> callback error, classified
 
