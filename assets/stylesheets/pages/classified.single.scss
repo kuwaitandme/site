@@ -28,25 +28,6 @@
 			&.error { color: rgba(255, 255, 255, 0.75)}
 		}
 	}
-	.modal--show {
-		.title {
-			@extend .font-title;
-			font-size: 16px;
-			padding: 20px 0;
-			text-align: center;
-		}
-		input[type='submit'] {
-			@extend .font-title;
-			background: #27AAE2;
-			color: #FFF;
-		}
-		textarea {
-			border-top: 1px solid #DDD;
-			max-height: 50%;
-			outline: none;
-		}
-	}
-
 	#admin-controls {
 		border: 1px solid #ff7302;
 		display: inline-block;
