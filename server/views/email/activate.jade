@@ -1,5 +1,5 @@
 html
-	h2 Welcome to Kuwait &amp; Me #{user.personal.name}!
+	h2 Welcome to Kuwait &amp; Me #{user.name}!
 	br
 	| Activate your account by clicking on this&nbsp;
 	a(href="#{host}/auth/activate/#{user._id}/?token=#{user.activationToken}") link.

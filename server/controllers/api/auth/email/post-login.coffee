@@ -7,16 +7,12 @@ module.exports = (request, response, next) ->
 	response.contentType 'application/json'
 
 	# Modify the request by assigning the email from the URL as a POST data
-	request.body.username = request.param.email
+	request.body.username = request.params.email
 
-	finish = (error, user, info) ->
+	finish = (error, user) ->
 		if error
-			response.status 500
+			response.status 400
 			return response.end JSON.stringify error
-
-		if not user
-			response.status info.ecode or 400
-			return response.end JSON.stringify info
 
 		request.logIn user, (error) ->
 			if error then return next error

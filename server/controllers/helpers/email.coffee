@@ -5,22 +5,22 @@ jade  = require 'jade'
 config = global.config
 
 module.exports =
-	sendTemplate: (senderAddress, template, arguments) ->
+	sendTemplate: (senderAddress, template, options) ->
 		if not config.email.enabled then return
 
 		emailRoot = "#{global.root}/../server/views/email"
-		arguments.host = config.email.host
+		options.host = config.email.host
 
 		# Render the plain-text version of the email
 		plainTextTemplate = jade.compileFile "#{emailRoot}/plaintext/#{template}"
-		plainText = plainTextTemplate arguments
+		plainText = plainTextTemplate options
 
 		# Render the HTML version of the email
 		htmlTemplate = jade.compileFile "#{emailRoot}/#{template}.jade"
-		html = htmlTemplate arguments
+		html = htmlTemplate options
 
 		# Finally send the email
-		@send arguments.subject, plainText, senderAddress, html
+		@send options.subject, plainText, senderAddress, html
 
 
 	send: (subject, plainText, senderAddress, html) ->

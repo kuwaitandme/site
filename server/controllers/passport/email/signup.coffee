@@ -11,7 +11,7 @@ strategy = module.exports = (passport) ->
 
 	signup = (request, username, password, done) ->
 
-		captchaFail = -> done null, false, ecode: 406
+		captchaFail = -> done 'captcha failed', false, 401
 
 		captchaSuccess = ->
 			fullname = request.body.fullname
@@ -19,17 +19,16 @@ strategy = module.exports = (passport) ->
 
 			# Check for any missing fields
 			if !fullname or !repassword or !password or !username
-				return done(null, false, ecode: 400)
+				return done 'missing fields', false, 400
 
 			# Check for password mis-match
 			if password != repassword
-				done null, false, ecode: 400
+				done 'password mis-match', false, 400
 
 			# Check for invalid characters
 			if not (validator.isEmail username) or
 			not (validator.isAlphanumeric fullname)
-			# if !reEmail.test(username) or !reName.test(fullname)
-				done null, false, ecode: 400
+				done 'invalid email/name', false, 400
 
 			# Find a user in the database with provided username
 			User = global.models.user
@@ -37,14 +36,14 @@ strategy = module.exports = (passport) ->
 				if error then return done error, false
 
 				# User already exists
-				if user then return done null, false, ecode: 403
+				if user then return done 'user already exists', false, 403
 
 				# If there is no user with that email, create the user
 				User.create fullname, username, password, (error, user) ->
 					if error then return done error, false
 
 					# Send activation email
-					Email = global.controllers.email
+					Email = global.controllers.helpers.email
 					Email.sendTemplate user.email, 'activate',
 						subject: 'Account activation'
 						user: user

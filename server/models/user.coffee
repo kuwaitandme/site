@@ -15,9 +15,10 @@ users = module.exports =
 		credits: Number
 		isModerator: Boolean
 		language: Number
-		lastLogin: [ ]
+		loginFailures: Number
 		loginStrategy: Number
 		resetToken: String
+		created: Date
 		status: Number # 0:Inactive,1:Active,2:Banned
 
 		# Personal information
@@ -39,27 +40,28 @@ users = module.exports =
 		INACTIVE: 0
 		ACTIVE:   1
 		BANNED:   2
+		SUSPEND: 3
 
 
 	# Creates a new user with the given username and password
 	create: (name, username, password, callback) ->
 		@model.findOne { username: username }, (error, user) ->
 			if error then callback error
-			if user or user.length > 0 then return callback 'user exists'
+			if user and user.length > 0 then return callback 'user exists'
 
 			# If there is no user with that email, create the user
-			newUser = new (@model)
+			newUser = new users.model
 
 			# set the user's local credentials
 			newUser.name = name
 			newUser.username = username
 			newUser.email = username
-			newUser.password = createHash(password)
+			newUser.password = createHash password
 
 			# Give defaults to other parameters
 			newUser.isModerator = false
 			newUser.language = 0
-			newUser.status = @status.INACTIVE
+			newUser.status = users.status.INACTIVE
 			newUser.activationToken = randomHash()
 
 			# Save and call the callback function
@@ -124,6 +126,32 @@ users = module.exports =
 
 
 	get: (id, callback) -> @model.findOne { _id: id }, callback
+
+	auth:
+		email:
+			MAX_FAIL_ATTEMPTS: 50
+
+			# Checks if the given username and password are valid or not.
+			isValidPassword: (user, password) ->
+				bCrypt.compareSync password, user.password
+
+
+			validate: (user, password, callback) ->
+				user.loginFailures = user.loginFailures or 0
+				console.log user
+
+				if user.loginFailures > @MAX_FAIL_ATTEMPTS
+					user.status = users.status.SUSPEND
+					user.adminReason = 'user suspended. too many failed attempts'
+					user.save (error) -> callback error or user.adminReason
+
+				else if not @isValidPassword user, password
+					user.loginFailures++
+					user.save (error) -> callback error or 'invalid password'
+
+				else
+					user.loginFailures = 0
+					user.save (error) -> callback error, user
 
 
 # Creates a salted hash from the given password.

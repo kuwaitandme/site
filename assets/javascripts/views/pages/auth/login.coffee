@@ -8,9 +8,10 @@ module.exports = (require '../../mainView').extend
 	messages:
 		activate_fail: 'Something went wrong while activating your account'
 		activate_success: 'Your account is successfully activated'
-		captchaFail: 'Please enter the captcha properly!'
-		inactive: 'Your account is not activated! Check your inbox (and junk email) for an activation email'
-		incorrect: 'Your login credentials are invalid'
+		bad_fields: 'Please fill in the fields properly'
+		login_disabled: 'You have been blocked temporarily for too many incorrect logins'
+		login_inactive: 'Your account is not activated! Check your inbox (and junk email) for an activation email'
+		login_incorrect: 'Wrong email/password'
 		logout: 'You have been logged out successfully'
 		need_login: 'You need to be logged in in to view that page'
 		reset_error: 'Something went wrong while resetting your password'
@@ -22,6 +23,7 @@ module.exports = (require '../../mainView').extend
 		signup_fail: 'Something went wrong while registering you'
 		signup_invalid: 'Some of the fields are invalid'
 		signup_success: 'Your account has been created, Check your inbox (and junk email) for an activation email'
+		user_suspended: 'This user has been suspended temporarily for too many incorrect logins'
 		signup_taken: 'That account name has already been taken!'
 
 
@@ -41,20 +43,25 @@ module.exports = (require '../../mainView').extend
 		@$submit    = @$ ".submit"
 		@$username  = @$ "#auth-username"
 
+
+
+	continue: ->
+		console.log @name, 'continuing'
+		@parseURL()
+
+
+	pause: -> (@$ '#g-recaptcha-response').remove()
+
+
+	setupCaptcha: ->
 		# Generate a random id to put in place of the captcha's id
 		randomId = Math.floor (Math.random() * 1000)
 		@captchaId = 'gcaptcha' + randomId
 		@$captcha = @$ '.gcaptcha'
 		@$captcha.attr 'id', @captchaId
 
-
-	continue: ->
-		console.log @name, 'continuing'
-		# @renderCaptcha()
-		@parseURL()
-
-
-	pause: -> (@$ '#g-recaptcha-response').remove()
+		# Then render the captcha
+		@renderCaptcha()
 
 
 	# This function parses the URL and prints out the appropriate message
@@ -74,21 +81,51 @@ module.exports = (require '../../mainView').extend
 	# captchas in the page.
 	renderCaptcha: ->
 		console.log @name, 'setting captcha'
+		self = @
 
 		(@$captcha.html "").show()
 		if grecaptcha?
 			if @captcha then @resetCaptcha()
-			else @captcha = grecaptcha.render @captchaId, sitekey: window.data.captchaKey
+			else @captcha = grecaptcha.render @captchaId,
+				sitekey: window.data.captchaKey
+				callback: (response) -> self.captchaSuccess response
+
+
+	# Function that gets called when the captcha has been successfully entered
+	captchaSuccess: (response) ->
 
 
 	# Resets the Captcha properly by calling on google's reset function
 	resetCaptcha: ->  if grecaptcha? then grecaptcha.reset @captcha
 
+	showError: ($el, error) ->
+		$parent = $el.parent().parent()
+		$parent.addClass 'show-error'
+		($parent.find 'small').html error
+
+
+	removeAllErrors: -> ($ '.show-error').removeClass 'show-error'
+
 
 	# Validates the form before and displays any error messages if needed
 	validate: ->
 		status = true
-		console.debug @name, 'form validation status', status
+		@removeAllErrors()
+
+		isEmpty = (str) -> (str or "").trim().length == 0
+		isSmall = (str) -> (str or "").trim().length < 5
+
+		if isEmpty @$username.val()
+			@showError @$username, 'Please give an email'
+			status = false
+		if isEmpty @$password.val()
+			@showError @$password, 'Please give a password'
+			status = false
+		else if isSmall @$password.val()
+			@showError @$password, 'Password should have min. 5 characters'
+			status = false
+
+		console.debug @name, 'form validation status:', status
 		status
 
 
@@ -99,7 +136,7 @@ module.exports = (require '../../mainView').extend
 		$el.hide()
 		$el.addClass type
 		@$messages.append $el
-		$el.fadeIn()
+		$el.show()
 
 
 	# Removes all the messages from the message container
@@ -109,56 +146,51 @@ module.exports = (require '../../mainView').extend
 	# Shows the AJAX loader and hides parts of the login form like the submit
 	# button, the captcha etc..
 	showLoading: ->
-		@$captcha.fadeOut()
-		@$links.hide()
-		@$spinner.fadeIn()
-		@$submit.fadeOut()
+		@$spinner.show()
+		@$submit.hide()
 
 
 	# Hides the AJAX loader and displays parts of the login form back
 	hideLoading: ->
-		@$captcha.stop().fadeIn()
-		@$links.stop().show()
-		@$spinner.stop().fadeOut()
-		@$submit.stop().fadeIn()
+		@$spinner.stop().hide()
+		@$submit.stop().show()
 
-
-	# Function to decide if this view should redirect to another view
-	checkRedirect: -> false
 
 
 	# Sends the AJAX request to the back-end
 	submit: (event) ->
 		console.log @name, 'submitting form'
 		event.preventDefault()
-		that = @
+		self = @
 
 		@removeMessages()
 		@resetCaptcha()
 		@showLoading()
 
 		# Validate the user fields
-		if not @validate() then return
+		if not @validate() then return @hideLoading()
 
 		# Attempt to login the user
 		@currentUser.login @$username.val(), @$password.val(), (error, response) ->
 			# Hide the ajax loader
-			that.hideLoading()
+			self.hideLoading()
 
-			if error then switch error.status
-				when 404
-					that.addMessage 'Your login is wrong'
-				when 400
-					that.addMessage 'There are invalid fields or the captcha has failed'
-				when 406
-					that.addMessage 'incorrect captcha'
-				when 401
-					that.addMessage "Your account is not activated, check your inbox (and junk mail) for the activation email", 'warning'
-				when 403
-					that.addMessage 'Your account has been banned'
-					that.addMessage 'Admin message: '
+			console.error @name, error.responseJSON
+
+			if error then switch error.responseJSON
+				when 'user not activated'
+					self.addMessage self.messages['login_inactive']
+				when 'invalid username/password'
+					self.addMessage self.messages['bad_fields']
+				when 'too many failed attempts'
+					self.addMessage self.messages['login_disabled']
+				when 'user not found', 'invalid password'
+					self.addMessage self.messages['login_incorrect']
+				when 'user suspended. too many failed attempts'
+					self.addMessage self.messages['user_suspended']
+				else self.addMessage error.responseJSON
 			else
-				console.debug that.name, 'received user', response
+				console.debug self.name, 'received user', response
 
 				# Redirect to the account page on success
 				app.trigger 'redirect', '/account'

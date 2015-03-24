@@ -1,6 +1,7 @@
 extends ../../layout.jade
 
 block content
+	.row.small-12
 		form#login-form
 			.row.collapse
 				.small-12.columns
@@ -8,26 +9,26 @@ block content
 			.row.input-row.collapse
 				.small-12.columns.error
 					input(type="text", name="fullname", placeholder="full name", required)#auth-fullname
-					small.error Please fill this field properly
+					small.error
 
 			.row.input-row.collapse
 				.small-12.columns.error
 					input(type="email", name="username", placeholder="email", required)#auth-username
-					small.error Please fill this field properly
+					small.error
 
 			.row.input-row.collapse
 				.small-12.columns.error
 					input(type="password", name="username", placeholder="password", required)#auth-password
-					small.error Please fill this field properly
+					small.error
 
 			.row.input-row.collapse
 				.small-12.columns.error
 					input(type="password", name="password", placeholder="re-enter password", required)#auth-repassword
-					small.error Please fill this field properly
+					small.error
 
-			.row.collapse
+			.row.collapse.hide#submit-div
 				.small-4.small-offset-8.columns
-					input(type="submit", class="submit", value="Login")
+					input.submit(type="submit", value="Signup")
 
 
 			#ajax-spinner
@@ -36,6 +37,3 @@ block content
 		.gcaptcha
 
 		ul#auth-messages
-
-		//- .extra-links
-		//- 	| Already have an account? Login <a href="/auth/login" data-view="auth-login">here</a>

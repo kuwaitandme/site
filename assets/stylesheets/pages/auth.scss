@@ -31,11 +31,13 @@
 	}
 	ul#auth-messages {
 		padding: 0;
-		margin: 0;
+		font-size: 14px;
+		margin: 10px auto;
+		max-width: 300px;
 
 		li {
 			color: #FFF;
-			background: #E74C3C;
+			background: #f04124;
 			padding: 10px;
 			text-align: center;
 
@@ -45,12 +47,14 @@
 		}
 	}
 	.gcaptcha {
-		margin-top: 25px
+		margin: 0 auto;
+		margin-top: 25px;
+		width: 300px;
 	}
 	form {
-		// background: #f6f6f6;
+		background: #fff;
 		border-left: 1px solid #DDD;
-		margin: 5% auto;
+		margin: 50px auto 0;
 		max-width: 320px;
 		padding: 30px;
 

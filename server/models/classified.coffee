@@ -1,3 +1,4 @@
+bCrypt    = require 'bcrypt-nodejs'
 async     = require 'async'
 mongoose  = require 'mongoose'
 util      = require 'util'
