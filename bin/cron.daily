@@ -11,16 +11,16 @@
 #
 # ln -s `pwd`/bin/cron.daily /etc/cron.daily/kuwaitandme
 
-email       = require('emailjs')
-jade        = require('jade')
-mongoose    = require('mongoose')
-util        = require('util')
-mongoClient = require('mongodb').MongoClient
+email       = require 'emailjs'
+jade        = require 'jade'
+mongoose    = require 'mongoose'
+util        = require 'util'
+mongoClient = (require 'mongodb').MongoClient
 
-classified  = require('../server/models/classified')
-config      = require('../var/config')
+classified  = require '../server/models/classified'
+config      = require '../var/config'
 
-console.log('connecting to the DB')
+console.log 'connecting to the DB'
 dbauth = config.mongodb
 
 # Setup the database connection
@@ -46,10 +46,10 @@ mongoClient.connect connectionString, (err, db) ->
 		i = 0
 		for cl in classifieds
 			i += 1
-			text += util.format('%d\t%s \n \t %s\n\n', i, cl.title, 'http://kuwaitandme.com/classified/single/' + cl._id)
+			text += util.format '%d\t%s \n \t %s\n\n', i, cl.title, "http://kuwaitandme.com/classified/#{cl._id}"
 
 		# Prepare the plain-text header
-		header = util.format('%d  unpublished classified(s) for review today\n', i)
+		header = util.format '%d  unpublished classified(s) for review today\n', i
 		header += '-----------------------------------------------\n'
 
 
@@ -63,16 +63,16 @@ mongoClient.connect connectionString, (err, db) ->
 
 		# Connect to the SMTP server
 		console.log 'connecting to SMTP server'
-		server = email.server.connect(
+		server = email.server.connect
 			user: config.email.smtp.username
 			password: config.email.smtp.password
 			host: config.email.smtp.hostname
-			ssl: config.email.smtp.ssl)
+			ssl: config.email.smtp.ssl
 
 
 		# Start sending the message
 		console.log 'sending email to admin'
-		server.send {
+		server.send
 			attachment: [ {
 				data: html
 				alternative: true
@@ -81,7 +81,7 @@ mongoClient.connect connectionString, (err, db) ->
 			subject: 'Kuwait & Me - Daily report'
 			text: header + text
 			to: config.email.reportAddress
-		}, (err, message) ->
+		, (err, message) ->
 			if err then throw err
 
 			console.log 'all done'
