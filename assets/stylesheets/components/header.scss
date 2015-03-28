@@ -45,7 +45,6 @@ header {
 				float: left;
 				font-size: 18px;
 				margin-top: 8px;
-
 			}
 			&#nav-logo {
 				float: left;
@@ -104,6 +103,7 @@ header {
 				color: #000;
 
 				&.with-link:hover { background: #f6f6f6; }
+				a { padding: 10px }
 			}
 			.user-title {
 				border: 0;
@@ -183,25 +183,27 @@ label[for="nav-trigger"] {
   @include single-transition(left);
 }
 
-.nav-trigger:checked + label {
-  left: $sidebarWidth + 15px;
-}
-
-.nav-trigger:checked ~ main {
-  left: $sidebarWidth;
-  opacity: 0.3;
-  overflow-x: hidden;
-  box-shadow: 0 0 5px 5px rgba(0,0,0,0.5);
-}
-.nav-trigger:checked ~ .navigation  {
-  left: 0;
-}
 .nav-trigger {
 	position: absolute;
 	clip: rect(0, 0, 0, 0);
+
+	&:checked {
+		~ .navigation {
+			left: 0;
+		}
+		~ main {
+			left: $sidebarWidth;
+			opacity: 0.3;
+			overflow-x: hidden;
+			box-shadow: 0 0 5px 5px rgba(0,0,0,0.5);
+		}
+		+ label {
+			left: $sidebarWidth + 15px;
+		}
+	}
 }
 .navigation {
-	background: #111;
+	background: #333333;
 	bottom: 0;
 	height: 100%;
 	left: -1 * $sidebarWidth;
@@ -214,10 +216,21 @@ label[for="nav-trigger"] {
 	z-index: 3;
 
 	li {
+		@extend .font-title;
+		margin: 10px;
+
+
+		-webkit-border-radius: 3px;
+		-moz-border-radius: 3px;
+		border-radius: 3px;
 		a {
+		background: #222;
+		font-size: 14px;
+		border: 1px solid #444;
 			color: #FFF;
-		}
+			display: block;
 		padding: 10px;
+		}
 	}
 }
 @media print { header { display: none; } }

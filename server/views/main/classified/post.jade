@@ -2,7 +2,7 @@ extends ../../layout.jade
 
 block content
 	.row
-		section.page.small-11.medium-8.small-centered.columns#page-begin
+		section.page.small-11.medium-9.small-centered.columns#page-begin
 			if robots.classified
 				.row
 					h2 You are about to edit a classified
@@ -41,7 +41,7 @@ block content
 				a(href="#page-info", data-page-nav) Next
 
 		//- Form section for basic info
-		section.page.small-11.medium-8.small-centered.columns#page-info
+		section.page.small-11.medium-9.small-centered.columns#page-info
 			.row
 				h2 Give the content for your classified
 			.row.hint
@@ -51,17 +51,17 @@ block content
 				| You can mention other details like the price, location, contact info in the next page.
 			//- .tab-title #{__('page.cform.title.info')}
 			.row
-				.small-3.columns
-					label.inline.right(for="right-label") Title *
+				.medium-3.columns
+					label(for="right-label") Title *
 					//-9span.prefix Title
-				.small-9.columns.error
+				.medium-9.columns.error
 					input#title(type="text", name="title", placeholder="The title for your classified goes here", tooltipp="Choose a title for your classified. The best titles are clear, meaningful and short", required)
 					small.error Please give a title
 			.row
-				.small-3.columns
-					label.inline.right(for="right-label") Description *
+				.medium-3.columns
+					label(for="right-label") Description *
 					//-9span.prefix Title
-				.small-9.columns.error
+				.medium-9.columns.error
 					textarea#description(name='description', placeholder="Your description will go here", required)
 					small.error Please give the description
 
@@ -72,7 +72,7 @@ block content
 				a(href="#page-details", data-page-nav) Next
 
 
-		section.page.small-11.medium-8.small-centered.columns#page-details
+		section.page.small-11.medium-9.small-centered.columns#page-details
 			.row
 				h2 Details about your classified
 			.row.hint
@@ -81,9 +81,9 @@ block content
 				| This will help make your classified more visible and easily searchable.
 
 			.row
-				.small-3.columns
-					label.inline.right(for="right-label") Price *
-				.small-9.columns.error
+				.medium-3.columns
+					label(for="right-label") Price *
+				.medium-9.columns.error
 					select#price-selector(name="price-option", tooltipp="Choose a price. If you want people to contact you for a quote, choose the 'Contact Owner' option.", required)
 						option(value="", disabled, selected) The price for your classified
 						option(value='0') Free
@@ -92,16 +92,16 @@ block content
 					small.error Please choose a price
 
 					.row.collapse.hide#price-row.error
-						.small-3.large-1.columns
+						.small-3.medium-2.columns
 							span.prefix KWD
-						.small-9.large-11.columns
+						.small-9.medium-10.columns
 							input#price-field(type="text", name="price", value=0, placeholder="Your price in Kuwati Dinar", required)
 						small.error Please give a price
 
 			.row
-				.small-3.columns
-					label.inline.right(for="right-label") Type *
-				.small-9.columns.error
+				.medium-3.columns
+					label(for="right-label") Type *
+				.medium-9.columns.error
 					select#ctype(name="type", required, tooltipp="If you choose 'Offering', then you are offering something. If you choose 'Wanted', then you are requesting for something.")
 						option(value="", disabled, selected) What kind of classified is this?
 						option(value="0") Offering
@@ -109,35 +109,35 @@ block content
 					small.error Please choose a type
 
 			.row
-				.small-3.columns
-					label.inline.right(for="right-label") Category *
-				.small-9.columns.error
+				.medium-3.columns
+					label(for="right-label") Category *
+				.medium-9.columns.error
 					select#cat-selector(name="parent-category", required, tooltipp="Choose the categories that best fit your classified")
 						option(value="", disabled) Choose a category
 					small.error Please choose a category
 
 			.row
-				.small-3.columns
-					label.inline.right(for="right-label") Email
-				.small-9.columns
+				.medium-3.columns
+					label(for="right-label") Email
+				.medium-9.columns
 					.row.collapse
-						.small-3.large-1.columns
+						.small-3.medium-2.columns
 							span.prefix @
-						.small-9.large-11.columns
+						.small-9.medium-10.columns
 							input#email(type="text", name="email", tooltipp="The email address that should be displayed on the classified", placeholder="A contact email")
 			.row
-				.small-3.columns
-					label.inline.right(for="right-label") Phone
-				.small-9.columns
+				.medium-3.columns
+					label(for="right-label") Phone
+				.medium-9.columns
 					.row.collapse
-						.small-3.large-1.columns
+						.small-3.medium-2.columns
 							span.prefix +965
-						.small-9.large-11.columns
+						.small-9.medium-10.columns
 							input#phone(type="text", name="phone", tooltipp="A contact phone number (not required)", placeholder="Contact phone number")
 			.row
-				.small-3.columns
-					label.inline.right(for="right-label") Location
-				.small-9.columns
+				.medium-3.columns
+					label(for="right-label") Location
+				.medium-9.columns
 					select#locations(name="location",  tooltipp="Choose the location for your classified. Click on 'None' if a location is not required.")
 						option(value="", disabled, selected) Choose a location
 						option(value="") None
@@ -154,7 +154,7 @@ block content
 
 
 		//- Form section for photos and videos
-		section.page.small-11.medium-8.small-centered.columns#page-images
+		section.page.small-11.medium-9.small-centered.columns#page-images
 			.row
 				h2 Upload some images
 
@@ -163,9 +163,11 @@ block content
 				b Get at least twice the number of views by uploading images
 				| . Upload upto 10 images with each image having a maximum size of 10 MB.
 				br
-				b Professionaly taken images have a better chance to be placed on the homepage.
 				br
 				| Add your images here, by dragging and dropping them into the box below or by clicking on it.
+				br
+				br
+				b Professionaly taken images get promoted my our moderators and have a better chance to be placed on the homepage.
 
 			form#image-form.row
 				#image-upload
@@ -183,7 +185,7 @@ block content
 				a(href="#page-submit", data-page-nav)#page-4-next Next
 
 
-		section.page.small-11.medium-8.small-centered.columns#page-maps
+		section.page.small-11.medium-9.small-centered.columns#page-maps
 			.row
 				h2 Help people navigate to you!
 			.row.hint
@@ -202,7 +204,7 @@ block content
 
 
 		//- The submit page
-		section.page.small-11.medium-8.small-centered.columns#page-submit
+		section.page.small-11.medium-9.small-centered.columns#page-submit
 			.row
 				h2 Wasn't that simple? You're all set to go!
 			.row.hint Your classified is now ready to be uploaded as soon as you click on the button below.
@@ -221,7 +223,7 @@ block content
 
 
 		//- The finish page
-		section.page.small-11.medium-8.small-centered.columns#page-finish
+		section.page.small-11.medium-9.small-centered.columns#page-finish
 			.row
 				h2 Awesome! Your classified is now up and running!
 			.row.hint

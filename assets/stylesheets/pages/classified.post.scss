@@ -17,12 +17,17 @@
 		display: none;
 		padding: 20px 10px;
 		min-height: 100%;
+
+		> .row {
+			margin: 0 0 1rem 0;
+		}
 	}
 	select, input, textarea {
 		@extend .font-text;
 		outline: none;
+		margin: 0;
 	}
-
+	label { margin-bottom: 5px;}
 	textarea { min-height: 200px; }
 	h1 {
 		display: inline-block;
