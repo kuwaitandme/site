@@ -1,4 +1,4 @@
-a, a:visited, a:active{ color: inherit; &.clean{text-decoration: none;} }
+a, a:visited, a:active{ color: #000; &.clean{text-decoration: none;} }
 .wait, .wait * { cursor: wait !important; }
 
 li, ul{list-style: none;}

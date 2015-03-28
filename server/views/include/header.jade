@@ -1,8 +1,23 @@
-header
-	//- Main nav
-	nav#main-nav.show-nav
-		ul
+input#nav-trigger.nav-trigger(type="checkbox")
+label(for="nav-trigger")  &#xf0c9;
+ul.navigation
+	li.nav-item
+		a(href="/", data-view) Home
+	li.nav-item
+		a(href="/classified/search", data-view) Browse classifieds
+	li.nav-item
+		a(href="/classified/post", data-view) Post Classified
+	li.nav-item
+		a(href="#") Home
+	li.nav-item
+		a(href="#") Home
 
+header.loggedout
+	//- Main nav
+	nav#mobile-nav.show-nav.show-for-small
+
+	nav#main-nav.show-nav.hide-for-small
+		ul
 			li.main-item.left.home
 				a(href="/", data-view) &#xf015;
 			li.main-item.left
@@ -11,13 +26,15 @@ header
 				a(href="/guest/post", data-view) Post Classified
 			li.main-item.loggedin.left
 				a(href="/classified/post", data-view) Post Classified
-			li.main-item.loggedout
-				a(href="/auth/signup", data-view) Signup
-			li.main-item.loggedout
-				a(href="/auth/login", data-view) Login
-			li.main-item.settings.loggedin
-				a(href="#") &#xf013;
-				ul.subnav
+			li.main-item.settings &#xf013;
+
+				ul.subnav.loggedout
+					li.with-link
+						a(href="/auth/login", data-view) Login
+					li.with-link
+						a(href="/auth/signup", data-view) Signup
+
+				ul.subnav.loggedin
 					li.user-title
 						span Welcome
 						.name
@@ -28,12 +45,9 @@ header
 					li.user-thumb
 						a(href="https://www.gravatar.com/")
 							img(src='')
-					//- profile photo here
 					li.with-link.disabled
 						a(href="#") Buy Credits
 					li.with-link
 						a(href="/account", data-view) View Account
 					li.with-link
 						a(href="/auth/logout", data-view) Logout
-			//- 	li Account
-				//- 	li Logout
