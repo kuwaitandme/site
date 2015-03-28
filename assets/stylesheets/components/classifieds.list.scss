@@ -2,13 +2,12 @@ ul.classified-list {
 	@include clearfix();
 	border-left: 1px solid #EEE;
 	margin: 0 auto;
-	padding: 0;
+	padding: 7px 0;
+	background: #f6f6f6;
 
 	a { text-decoration: none; }
-	a:visited { color: #BBB !important; }
+	a:visited { color: #BBB; }
 	> li {
-		@extend .large-3;
-		@extend .medium-6;
 		float: left;
 		padding: 7px;
 
@@ -19,14 +18,19 @@ ul.classified-list {
 			overflow: hidden;
 			position: relative;
 
-			// -webkit-border-radius: 3px;
-			// -moz-border-radius: 3px;
-			// border-radius: 3px;
+			-webkit-border-radius: 2px;
+			-moz-border-radius: 2px;
+			border-radius: 2px;
 
-			// -webkit-box-shadow: 1px 1px 3px 0px rgba(0,0,0,0.2);
-			// -moz-box-shadow: 1px 1px 3px 0px rgba(0,0,0,0.2);
-			// box-shadow: 1px 1px 3px 0px rgba(0,0,0,0.2);
-			&:hover { border-color: #000; }
+			-webkit-box-shadow: 1px 1px 1px 0px rgba(0,0,0,0.2);
+			-moz-box-shadow: 1px 1px 1px 0px rgba(0,0,0,0.2);
+			box-shadow: 1px 1px 1px 0px rgba(0,0,0,0.2);
+			&:hover {
+				border-color: #000;
+				color: #000;
+
+				li { color: #000; }
+			}
 		}
 		.heading { font-size: 20px; }
 		.thumb {
@@ -35,35 +39,31 @@ ul.classified-list {
 
 			img { width: 100%; background: #000; }
 		}
+		.c-title, .c-meta { padding: 10px 16px; }
 		.c-info {
 			> ul.c-meta{
-				@include clearfix();
+				padding: 5px 16px 10px;
 				color: #BBB;
-				font-size: 13px;
+				font-size: 11px;
 				margin: 0;
 
 				> li {
 					@include single-transition(color);
-					float: left;
 					margin: 0;
 					padding: 0;
 
-					&:after {
-						content: '\b7\a0';
-						padding: 2px;
-					}
-					&:last-child:after{ content: ""; }
 					&:hover { color: #000 }
 				}
 			}
 			.c-title {
+				@include single-transition(color);
 				@extend .font-title;
-				font-size: 16px;
+				font-size: 13px;
 				line-height: 24px;
+				padding-bottom: 0;
 				overflow: hidden;
 			}
 			// .c-title, .c-excerpt { border-bottom: 1px solid #EEE; }
-			.c-title, .c-excerpt, .c-meta { padding: 10px 20px; }
 		}
 		.urgent-banner {
 			background: #FA2A00;

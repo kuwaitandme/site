@@ -13,10 +13,15 @@ block content
 				input(type="text", name="keywords", placeholder="Search classifieds").search-bar
 				button(type="submit").search-button &#xf002;
 			ul#landing-extra
-				a(href="/guest/post", data-view)
-					li Post a classified
-				a(href="/classified/search", data-view)
-					li Advanced Search
+				li
+					a(href="/guest/post", data-view) Post a classified
+				li
+					a(href="/classified/search", data-view) Advanced Search
+				li.hide-for-small
+					a(href="/auth/login", data-view) Login
+				li.hide-for-small
+					a(href="/auth/signup", data-view) Signup
+
 			//- #landing-message
 			//- 	a(href="#") arabic
 			//- 	span &nbsp;&middot;&nbsp;

@@ -74,9 +74,6 @@
 		margin: 0 auto;
 
 		h1 { font-size: 40px; }
-		.c-title {
-			margin-bottom: 50px;
-		}
 		ul.c-meta {
 			@include clearfix();
 			color: #000;
@@ -104,7 +101,7 @@
 			a {text-decoration: none;}
 		}
 		.c-description {
-			@extend .font-title;
+			// @extend .font-title;
 			font-size: 16px;
 			line-height: 28px;
 			padding-bottom: 100px;
@@ -134,9 +131,9 @@
 
 		img.thumb {
 			background: #000;
-			margin-bottom: 15px;
-			margin-right: 15px;
-			overflow: hidden;
+			// margin-bottom: 15px;
+			// margin-right: 15px;
+			// overflow: hidden;
 
 			-webkit-box-shadow: 2px 1px 2px rgba(0,0,0,0.25);
 			-moz-box-shadow: 2px 1px 2px rgba(0,0,0,0.25);
@@ -154,8 +151,9 @@
 	}
 	.c-disclaimer {
 		color: #999;
-		font-size: 12px;
+		font-size: 10px;
 		margin: 25px 0;
+		a { color: inherit }
 	}
 }
 

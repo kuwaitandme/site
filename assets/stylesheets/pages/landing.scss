@@ -35,8 +35,8 @@
 			@include single-transition();
 			border-bottom: 1px solid #DDD;
 			float: left;
-			font-size: 13px;
-			margin: 10px;
+			font-size: 12px;
+			margin: 7px;
 
 			&:hover { border-bottom: 2px solid #FF6600; }
 		}
@@ -52,13 +52,13 @@
 			}
 		}
 		#search-form {
-			margin: 75px 0;
+			margin: 10% 0;
 			text-align: center;
 			width: 100%;
 
 			form {
 				font-size: 14px;
-				width: 90%;
+				width: 75%;
 				max-width: 600px;
 				margin: 0 auto;
 				position: relative;
@@ -67,8 +67,8 @@
 					@include single-transition();
 					border: 1px solid #d9d9d9;
 					border-top-color: #c0c0c0;
-				}
-				.search-bar {
+					padding: 20px 10px;
+
 					&:hover, &:active, &:focus {
 						outline: none;
 						border-color: #FF6600;
@@ -84,6 +84,7 @@
 					right: 0;
 					top: 0;
 					width: 40px;
+					color: #000;
 				}
 			}
 		}

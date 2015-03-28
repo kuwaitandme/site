@@ -184,7 +184,7 @@ module.exports = view.extend
 		@fireAjaxEvent()
 
 		# For all the classifieds give them their proper size
-		@resizeClassifieds()
+		#@resizeClassifieds()
 
 
 	# Sets  Masonry on the classified list
