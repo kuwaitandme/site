@@ -1,6 +1,9 @@
-input#nav-trigger.nav-trigger(type="checkbox")
-label(for="nav-trigger")  &#xf0c9;
-ul.navigation
+
+input#nav-trigger.nav-trigger.show-for-small(type="checkbox")
+label(for="nav-trigger").show-for-small
+	span.font-awesome &#xf0c9;
+	span.font-title &nbsp;&nbsp;Menu
+ul.navigation.show-for-small
 	li.nav-item
 		a(href="/", data-view) Home
 	li.nav-item
@@ -13,9 +16,7 @@ ul.navigation
 		a(href="#") Home
 
 header.loggedout
-	//- Main nav
 	nav#mobile-nav.show-nav.show-for-small
-
 	nav#main-nav.show-nav.hide-for-small
 		ul
 			li.main-item.left.home

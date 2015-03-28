@@ -136,7 +136,7 @@ header {
 		}
 	}
 	nav#mobile-nav {
-		background: #E74C3C;
+		background: #FFF;
 		// ul li a {
 		// 	padding: 10px;
 		// 	font-size: 19px;
@@ -162,25 +162,20 @@ main {
 	z-index: 1;
 }
 label[for="nav-trigger"] {
-  /* critical positioning styles */
-  position: fixed;
-  left: 15px;
-  top: 13px;
-  z-index: 3;
-			font-size: 19px;
-			color: #FFF;
-  /* non-critical apperance styles */
-  // height: $headerHeight;
-  // width: $headerHeight;
-  @extend .font-awesome;
-  cursor: pointer;
-  // background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' x='0px' y='0px' width='30px' height='30px' viewBox='0 0 30 30' enable-background='new 0 0 30 30' xml:space='preserve'><rect width='30' height='6'/><rect y='24' width='30' height='6'/><rect y='12' width='30' height='6'/></svg>");
-  // background-size: contain;
+	/* critical positioning styles */
+	@extend .font-awesome;
+	color: #000;
+	cursor: pointer;
+	font-size: 19px;
+	left: 15px;
+	position: fixed;
+	top: 13px;
+	z-index: 3;
 }
 
 /* Make the Magic Happen */
 .nav-trigger + label, main, .navigation {
-  @include single-transition(left);
+  @include single-transition(transform);
 }
 
 .nav-trigger {
@@ -188,17 +183,15 @@ label[for="nav-trigger"] {
 	clip: rect(0, 0, 0, 0);
 
 	&:checked {
-		~ .navigation {
-			left: 0;
+		~ .navigation, ~ main, + label {
+-ms-transform: translateX($sidebarWidth);
+-webkit-transform: translateX($sidebarWidth);
+transform: translateX($sidebarWidth);
 		}
 		~ main {
-			left: $sidebarWidth;
 			opacity: 0.3;
 			overflow-x: hidden;
 			box-shadow: 0 0 5px 5px rgba(0,0,0,0.5);
-		}
-		+ label {
-			left: $sidebarWidth + 15px;
 		}
 	}
 }
@@ -215,6 +208,10 @@ label[for="nav-trigger"] {
 	width: $sidebarWidth;
 	z-index: 3;
 
+// -ms-transform: translateX(-1 * $sidebarWidth);
+// -webkit-transform: translateX(-1 * $sidebarWidth);
+// transform: translateX(-1 * $sidebarWidth);
+
 	li {
 		@extend .font-title;
 		margin: 10px;
@@ -224,12 +221,12 @@ label[for="nav-trigger"] {
 		-moz-border-radius: 3px;
 		border-radius: 3px;
 		a {
-		background: #222;
-		font-size: 14px;
-		border: 1px solid #444;
+			background: #222;
+			border: 1px solid #444;
 			color: #FFF;
 			display: block;
-		padding: 10px;
+			font-size: 14px;
+			padding: 10px;
 		}
 	}
 }
