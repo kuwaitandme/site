@@ -7,8 +7,8 @@ module.exports = Backbone.Model.extend
 
 	url: ->
 		id = @get 'id'
-		if id then "#{app.config.host}/api/user/#{id}"
-		else "#{app.config.host}/api/user"
+		if id then "#{@resources.Config.host}/api/user/#{id}"
+		else "#{@resources.Config.host}/api/user"
 
 
 	defaults:

@@ -13,7 +13,7 @@ module.exports = view.extend
 	start: (options) ->
 		console.debug @name, 'initializing', options
 
-		@collection = new app.models.classifieds
+		@collection = new App.Resources.Models.classifieds
 
 		# Get the template
 		@listTemplate = _.template (@$ '#list-template').html()
@@ -64,7 +64,7 @@ module.exports = view.extend
 
 
 	newQuery: ->
-		routerController = app.controllers.router
+		routerController = App.Resources.router
 
 		# Blank out all the classifieds we have so far and reset the page count
 		$classifieds = @$ ".classified"

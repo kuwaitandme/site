@@ -4,7 +4,7 @@
 # contain HTML code and instead have the server communicate with JSON
 # objects which contain data.
 module.exports = class controller
-	name: '[localstorage]'
+	name: '[cache]'
 	fallback: false
 
 	# Checks the JS version from the server side and setups the local storage
@@ -28,7 +28,7 @@ module.exports = class controller
 			# Setup fallback methods
 			@fallback = true
 			console.log @name, 'HTML5 Storage not supported. Using fallback methods'
-			console.warn @name, 'no fallback methods for localstorage have been implemented so far'
+			console.warn @name, 'no fallback methods for cache have been implemented so far'
 
 
 	checkVersions: ->

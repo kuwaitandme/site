@@ -8,7 +8,7 @@ module.exports = class viewManager
 
 	# Setup the different views. ie. Initialize the different controllers for
 	# the header, currentView and other components.
-	constructor: (@config) ->
+	constructor: (@resources) ->
 		console.log @name, 'initializing'
 
 		# Cache some DOM variables
@@ -19,21 +19,21 @@ module.exports = class viewManager
 		@$ptMain         = $ 'main'
 
 		# Render different components
-		@header = new (@components.header)(el: 'header')
+		@header = new (@components.header)(el: 'header', resources: @resources)
 		@messages = new (@components.messages)(el: '#messages')
 		@progressBar = new @components.progressBar
 
+		@resources.router.on 'change', @routeHandle
 
-	start: ->
-		self = @
+	# start: ->
+	# 	self = @
 
 		# Attach different listeners
-		@header.currentUser = @models.currentUser
-		@models.currentUser.on 'sync', -> self.header.update()
-		@router.on 'change', (args) -> self.routeHandle args
+		# @header.currentUser = @models.currentUser
+		# @models.currentUser.on 'sync', -> self.header.update()
 
 
-	routeHandle: (args={}) ->
+	routeHandle: (args={}) =>
 		viewIdentifier = args.view
 		historyState = args.state
 
@@ -107,17 +107,31 @@ module.exports = class viewManager
 		@currentView.trigger 'start'
 
 
-	findTargetView: (historyState) ->
-		console.log @name, "trying to find view in buffer"
-		index = historyState.index
-		url = document.URL
+	switchPages: (targetViewIdentifier, historyState) ->
+		# Clean up the view before switching to the next one. Detach
+		# all event handlers and signal the view to run any 'closing'
+		# animations.
+		@currentViewName = targetViewIdentifier
 
-		for view in @viewBuffer
-			if view? and view.$el? and
-			(view.$el.data 'url') is url and
-			(view.$el.data 'index') is index
-				console.log @name, "view found in buffer. reusing view"
-				return view
+		# Read the history state to see if we are moving backward or
+		# forward.
+		reverse = historyState.reverse or false
+
+		# Pause current page
+		@currentView.trigger 'pause'
+
+		targetView = @findTargetView historyState
+
+		if not targetView
+			console.debug @name, "view not found", targetViewIdentifier
+
+			# Create a new view
+			targetView = @createTargetView targetViewIdentifier, historyState
+
+			# start target view
+			targetView.trigger 'start'
+
+		@currentView = targetView
 
 
 	createTargetView: (targetViewIdentifier, historyState) ->
@@ -148,31 +162,20 @@ module.exports = class viewManager
 		targetView
 
 
-	switchPages: (targetViewIdentifier, historyState) ->
-		# Clean up the view before switching to the next one. Detach
-		# all event handlers and signal the view to run any 'closing'
-		# animations.
-		@currentViewName = targetViewIdentifier
 
-		# Read the history state to see if we are moving backward or
-		# forward.
-		reverse = historyState.reverse or false
+	findTargetView: (historyState) ->
+		console.log @name, "trying to find view in buffer"
+		index = historyState.index
+		url = document.URL
 
-		# Pause current page
-		@currentView.trigger 'pause'
+		for view in @viewBuffer
+			if view? and view.$el? and
+			(view.$el.data 'url') is url and
+			(view.$el.data 'index') is index
+				console.log @name, "view found in buffer. reusing view"
+				return view
 
-		targetView = @findTargetView historyState
 
-		if not targetView
-			console.debug @name, "view not found", targetViewIdentifier
-
-			# Create a new view
-			targetView = @createTargetView targetViewIdentifier, historyState
-
-			# start target view
-			targetView.trigger 'start'
-
-		@currentView = targetView
 
 
 	# Fetches the HTML for the given view and returns it. This function first

@@ -5,6 +5,8 @@ module.exports =
 	classified:  require './classified'
 	classifieds: require './classifieds'
 	user:        require "./user"
+	categories: require './categories'
+	locations: require './locations'
 
 	initialize: (@config) -> console.log '[model] initializing'
 
@@ -18,9 +20,6 @@ module.exports =
 		# save their instance as properties of this module.
 		#
 		# NOTE: other models are not instantiated and only these ones are.
-		@categories = new (require './categories')
-		@locations  = new (require './locations')
-
 		@categories.fetch()
 		@locations.fetch()
 

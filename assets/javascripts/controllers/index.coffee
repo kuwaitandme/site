@@ -1,9 +1,11 @@
-localStorage   = require './localStorage'
-router         = require './router'
-viewManager    = require './viewManager'
+
 
 # Initializes each of the controllers one by one.
 module.exports =
+	cache: require './localStorage'
+	router:          require './router'
+	viewManager:     require './viewManager'
+
 	name: '[controller]'
 
 	initialize: (app, config) ->
