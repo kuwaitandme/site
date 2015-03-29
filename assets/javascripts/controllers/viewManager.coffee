@@ -63,9 +63,7 @@ module.exports = class viewManager
 		else @initPage viewIdentifier, historyState
 
 		# Attach the basic models to the view
-		@currentView.currentUser = @models.currentUser
-		@currentView.categories = @models.categories
-		@currentView.locations = @models.locations
+		@currentView.resources = @resources
 
 		# Check for any redirection
 		if @currentView.checkRedirect()
@@ -73,7 +71,7 @@ module.exports = class viewManager
 			return @router.redirect @currentView.redirectUrl()
 
 		# Attempt to cache the HTML for the view
-		@localStorage.cacheView @currentView, @currentViewName
+		@resources.cache.cacheView @currentView, @currentViewName
 
 		# Now signal the view to manipulate the DOM.
 		@currentView.trigger 'continue'

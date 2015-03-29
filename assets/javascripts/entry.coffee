@@ -8,6 +8,7 @@ if not window.App?
 		ViewManager: (require "app-controllers").viewManager
 
 		Resources:
+			Library: require "app-libs"
 			Config: require "app-config"
 			Models: require "app-models"
 		instance: null
@@ -46,7 +47,10 @@ if not window.App?
 
 			# Start Backbone history to trigger the different routes and to load
 			# the first route.
-			Backbone.history.start()
+			Backbone.history.start
+				pushState: true,
+				hashChange: false,
+				root: '/'
 
 
 		initializeResources: ->
@@ -111,6 +115,6 @@ if not window.App?
 		$this.foundation()
 
 		window.App.instance = new Main window.App
-		window.App.instance.start()
+		# window.App.instance.start()
 
 else console.log "[lib] app already defined. stopping re-execution of script"

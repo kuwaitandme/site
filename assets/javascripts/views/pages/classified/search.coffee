@@ -174,7 +174,7 @@ module.exports = view.extend
 			self.$classifiedList.masonry 'appended', elem
 
 		# Reattach the event handlers for the router
-		app.trigger 'router:refresh'
+		# app.trigger 'router:refresh'
 
 		# Reload Masonry again for every-time a new image has been loaded
 		reloadMasonry = -> self.$classifiedList.masonry()

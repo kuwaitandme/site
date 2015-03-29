@@ -25,12 +25,14 @@ module.exports = Backbone.View.extend
 		# @update()
 
 	populateHeader: ->
-		md5 = app.libs.md5
-		md5Hash = md5 (@currentUser.get 'email') or ''
+		md5 = App.Resources.Library.md5
+		currentUser = App.Resources.currentUser
+
+		md5Hash = md5 (currentUser.get 'email') or ''
 		gravatarURL = "https://www.gravatar.com/avatar/#{md5Hash}"
 
-		@$credits.html @currentUser.get 'credits'
-		@$username.html @currentUser.get 'name'
+		@$credits.html currentUser.get 'credits'
+		@$username.html currentUser.get 'name'
 		@$userthumb.attr 'src', gravatarURL
 
 
@@ -79,7 +81,7 @@ module.exports = Backbone.View.extend
 	# page state
 	update: ->
 		console.log @name, 'updating header'
-		routerController = app.controllers.router
+		routerController = App.Resources.router
 
 		@$el.removeClass 'nav-up'
 
@@ -93,7 +95,7 @@ module.exports = Backbone.View.extend
 			(@$ "[data-view='#{currentView}'] li").addClass 'active'
 
 		# Depending on the user's current login state. Change the header
-		if @currentUser.isAnonymous() then @$el.removeClass 'loggedin'
+		if App.Resources.currentUser.isAnonymous() then @$el.removeClass 'loggedin'
 		else @$el.addClass 'loggedin'
 
 		@populateHeader()
