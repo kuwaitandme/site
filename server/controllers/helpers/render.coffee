@@ -33,7 +33,7 @@ module.exports = (request, response, args={}, cache=false) ->
 		isDevelopment = global.config.mode != 'production'
 		# Setup options for the jade compiler
 		options =
-			cache: isDevelopment
+			cache: not isDevelopment
 			pretty: isDevelopment
 
 		# Compile and render the page
