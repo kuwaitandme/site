@@ -1,6 +1,6 @@
 .page
-	h1.c-title <%= title %>
-	.c-description <%= description %>
+	h2.c-title <%= title %>
+	p.c-description <%= description %>
 
 //- Views
 ul.c-meta#page-meta
@@ -8,15 +8,12 @@ ul.c-meta#page-meta
 		b Views:&nbsp;
 		<%= obj.views %>
 //- Category
-|<% if(category) {
-|	var cat = app.models.categories.findWhere({ _id: category });
-|	if(cat) { %>
+|<% if(category) { %>
 ul.c-meta#page-meta
 	li
 		b Categorized under:&nbsp;
-		| <%= cat.get('name') %>
-|<% }
-| } %>
+		| <%= category %>
+|<% } %>
 
 //- ul.c-meta
 	//- Location
