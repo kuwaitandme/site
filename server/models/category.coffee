@@ -13,13 +13,16 @@ categories = module.exports =
 	getAll: (callback) ->
 
 		# First check in the memory cache for the categories
-		global.cache.get 'categories', (error, result) ->
+		global.cache.get 'categories', (error, result) =>
 			if error then return callback error, null
 			if result then return callback null, JSON.parse result
 
 			# If not then get the categories from the DB before saving it back
 			# into the memory cache
-			categories.model.find {}, (error, result) ->
+			query = @model.find {}
+			.sort _id: 1
+
+			query.exec (error, result) ->
 				if error then return callback error, null
 
 				json = JSON.stringify result
