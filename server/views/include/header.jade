@@ -1,9 +1,8 @@
-
-input#nav-trigger.nav-trigger.show-for-small(type="checkbox")
-label(for="nav-trigger").show-for-small
+input#nav-trigger.nav-trigger.hide-for-large-up(type="checkbox")
+label(for="nav-trigger").hide-for-large-up
 	span.font-awesome &#xf0c9;
 	span.font-title &nbsp;&nbsp;Menu
-ul.navigation.show-for-small
+ul.navigation.hide-for-large-up
 	li.nav-item
 		a(href="/", data-view) Home
 	li.nav-item
@@ -16,8 +15,8 @@ ul.navigation.show-for-small
 		a(href="#") Home
 
 header.loggedout
-	nav#mobile-nav.show-nav.show-for-small
-	nav#main-nav.show-nav.hide-for-small
+	nav#mobile-nav.show-nav.hide-for-large-up
+	nav#main-nav.show-nav.show-for-large-up
 		ul
 			li.main-item.left.home
 				a(href="/", data-view) &#xf015;
