@@ -68,7 +68,7 @@ module.exports = class viewManager
 		# Check for any redirection
 		if @currentView.checkRedirect()
 			@progressBar.progress 100
-			return @router.redirect @currentView.redirectUrl()
+			return @resources.router.redirect @currentView.redirectUrl()
 
 		# Attempt to cache the HTML for the view
 		@resources.cache.cacheView @currentView, @currentViewName

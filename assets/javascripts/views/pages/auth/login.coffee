@@ -164,7 +164,7 @@ module.exports = (require '../../mainView').extend
 		if not @validate() then return @hideLoading()
 
 		# Attempt to login the user
-		@currentUser.login @$username.val(), @$password.val(), (error, response) =>
+		@resources.currentUser.login @$username.val(), @$password.val(), (error, response) =>
 			# Hide the ajax loader
 			@hideLoading()
 
@@ -190,4 +190,4 @@ module.exports = (require '../../mainView').extend
 				console.debug @name, 'received user', response
 
 				# Redirect to the account page on success
-				app.trigger 'redirect', '/account'
+				@resources.router.trigger 'redirect', '/account'

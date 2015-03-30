@@ -7,8 +7,8 @@ module.exports = Backbone.Model.extend
 
 	url: ->
 		id = @get 'id'
-		if id then "#{@resources.Config.host}/api/user/#{id}"
-		else "#{@resources.Config.host}/api/user"
+		if id then "#{App.Resources.config.host}/api/user/#{id}"
+		else "#{App.Resources.config.host}/api/user"
 
 
 	defaults:
@@ -29,6 +29,7 @@ module.exports = Backbone.Model.extend
 		console.log @name, 'initializing'
 
 		self = @
+		@$body = $ 'body'
 		@on 'sync', -> console.log self.name, 'syncing'
 
 
@@ -38,6 +39,9 @@ module.exports = Backbone.Model.extend
 
 
 	newFetch: ->
+		@$body.removeClass 'loggedin'
+		@$body.addClass 'loggedout'
+
 		if not @id? and window.data.user?
 		 	@set window.data.user
 		 	@trigger 'sync'
@@ -51,15 +55,18 @@ module.exports = Backbone.Model.extend
 
 		$.ajax
 			type: 'POST'
-			url: "#{app.config.host}/api/auth/email/#{username}"
+			url: "#{App.Resources.config.host}/api/auth/email/#{username}"
 			beforeSend: ajax.setHeaders
 			data:
 				username: username
 				password: password
 
 			# This function gets called when the user successfully logs in
-			success: (response) ->
+			success: (response) =>
 				console.debug self.name, 'user logged in', response
+
+				@$body.addClass 'loggedin'
+				@$body.removeClass 'loggedout'
 
 				# Save the data from the server
 				self.set response
@@ -71,7 +78,7 @@ module.exports = Backbone.Model.extend
 				callback null, response
 
 			# This function sends the error message to the callback
-			error: (error) ->
+			error: (error) =>
 				console.error self.name, 'error logging in', error
 				callback error
 
@@ -82,7 +89,7 @@ module.exports = Backbone.Model.extend
 
 		$.ajax
 			type: 'POST'
-			url: "#{app.config.host}/api/auth/email/"
+			url: "#{App.Resources.config.host}/api/auth/email/"
 			beforeSend: ajax.setHeaders
 			data: parameters
 
@@ -97,8 +104,12 @@ module.exports = Backbone.Model.extend
 
 	# Logs the user out and signals listeners if any.
 	logout: ->
-		$.get "#{app.config.host}/api/auth/logout/"
+		$.get "#{App.Resources.config.host}/api/auth/logout/"
 		@clear()
+
+		@$body.removeClass 'loggedin'
+		@$body.addClass 'loggedout'
+
 
 		# Signal any listeners that the user has logged out
 		@trigger 'sync'

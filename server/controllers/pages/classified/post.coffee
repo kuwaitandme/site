@@ -1,6 +1,6 @@
 controller = module.exports =
 	get: (request, response, next) ->
-		if not request.isAuthenticated() then return response.redirect '/auth/guest'
+		if not request.isAuthenticated() then return response.redirect '/auth/login?error=need_login'
 
 		args =
 			bodyid: 'classified-post'

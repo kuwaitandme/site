@@ -3,6 +3,6 @@ module.exports = (require '../../mainView').extend
 
 	# Let the app know that we want to redirect to the login page
 	checkRedirect: ->
-		@currentUser.logout()
+		@resources.currentUser.logout()
 		true
 	redirectUrl: -> '/auth/login?success=logout'

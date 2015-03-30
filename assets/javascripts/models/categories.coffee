@@ -13,7 +13,7 @@ model = Backbone.Model.extend
 module.exports = Backbone.Collection.extend
 	model: model
 	name: '[model:categories]'
-	url: '/api/category'
+	url: "/api/category"
 
 
 	initialize: (@config) ->

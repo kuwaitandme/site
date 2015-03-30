@@ -37,7 +37,7 @@ module.exports = Backbone.View.extend
 
 
 	scrollHandler: ->
-		self = @
+		# self = @
 
 		delta = 5
 		didScroll = false
@@ -47,7 +47,7 @@ module.exports = Backbone.View.extend
 		($ window).scroll (event) -> didScroll = true;
 		($ window).resize (event) -> didScroll = true;
 
-		hasScrolled = ->
+		hasScrolled = =>
 			st = ($ this).scrollTop()
 			# Make sure they scroll more than delta
 			if Math.abs(lastScrollTop - st) <= delta and st is not 0 then return
@@ -56,15 +56,15 @@ module.exports = Backbone.View.extend
 			# This is necessary so you never see what is "behind" the navbar.
 			if (st > lastScrollTop and st > navbarHeight)
 				# Scroll Down
-				self.$header.addClass 'nav-up'
+				@$header.addClass 'nav-up'
 
 			# Scroll Up
 			else if st + ($ window).height() < ($ document).height()
-				self.$header.removeClass 'nav-up'
+				@$header.removeClass 'nav-up'
 
 			# 'Scroll up' if the window has been resized and the header has hit
 			# the top..
-			if st is 0 then self.$header.removeClass 'nav-up'
+			if st is 0 then @$header.removeClass 'nav-up'
 
 			lastScrollTop = st;
 
@@ -95,7 +95,7 @@ module.exports = Backbone.View.extend
 			(@$ "[data-view='#{currentView}'] li").addClass 'active'
 
 		# Depending on the user's current login state. Change the header
-		if App.Resources.currentUser.isAnonymous() then @$el.removeClass 'loggedin'
-		else @$el.addClass 'loggedin'
+		# if App.Resources.currentUser.isAnonymous() then @$el.removeClass 'loggedin'
+		# else @$el.addClass 'loggedin'
 
 		@populateHeader()

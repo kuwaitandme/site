@@ -97,7 +97,7 @@ module.exports = Backbone.Model.extend
 			data: @getFormData(files)
 			processData: false
 			type: if (@get '_id')? then "PUT" else "POST"
-			url: "#{app.config.host}/api/classified"
+			url: "#{App.Resources.Config.host}/api/classified"
 
 			# Attach the progress handler, if it can be supported
 			xhr: ->

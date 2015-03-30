@@ -14,25 +14,25 @@ ul.navigation.hide-for-large-up
 	li.nav-item
 		a(href="#") Home
 
-header.loggedout
+header.hide-if-loggedin
 	nav#mobile-nav.show-nav.hide-for-large-up
 	nav#main-nav.show-nav.show-for-large-up
 		ul
 			li.main-item.left.home
 				a(href="/", data-view) &#xf015;
-			li.main-item.loggedout.left
+			li.main-item.hide-if-loggedin.left
 				a(href="/guest/post", data-view) Post a Classified
-			li.main-item.loggedin.left
+			li.main-item.show-if-loggedin.left
 				a(href="/classified/post", data-view) Post a Classified
 			li.main-item.settings &#xf013;
 
-				ul.subnav.loggedout
+				ul.subnav.hide-if-loggedin
 					li.with-link
 						a(href="/auth/login", data-view) Login
 					li.with-link
 						a(href="/auth/signup", data-view) Signup
 
-				ul.subnav.loggedin
+				ul.subnav.show-if-loggedin
 					li.user-title
 						span Welcome
 						.name

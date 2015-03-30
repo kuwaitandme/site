@@ -111,9 +111,25 @@ body {
 	background: #FFF;
 	font-size: 14px;
 	margin: 0;
-	// overflow-y: hidden;
 	position: relative;
+
+	.hide-if-loggedin {
+		display: block;
+	}
+	.show-if-loggedin {
+		display: none;
+	}
+
+	&.loggedin {
+		.show-if-loggedin {
+			display: block;
+		}
+		.hide-if-loggedin {
+			display: none;
+		}
+	}
 }
+
 
 h1, h2, h3, h4, h5, h6 {
 	@extend .font-title;

@@ -8,7 +8,7 @@ model = Backbone.Model.extend
 module.exports = Backbone.Collection.extend
 	model: model
 	name: '[model:locations]'
-	url: '/api/location'
+	url: "/api/location"
 
 
 	initialize: (@config) ->

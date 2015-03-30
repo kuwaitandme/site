@@ -17,12 +17,6 @@ header {
 	-moz-box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.1);
 	box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.1);
 
-	.loggedin { display: none; }
-	.loggedout { display: block; }
-	&.loggedin {
-		.loggedin { display: block; }
-		.loggedout { display: none; }
-	}
 	.disabled { color: #999 !important; }
 	nav#main-nav {
 		background: #FFF;
@@ -144,13 +138,13 @@ header {
 		// }
 
 	}
-	&.loggedout li.settings:hover ul.loggedout { display: block !important}
-	&.loggedin li.settings:hover ul.loggedin { display: block !important}
 	// &.nav-up {
 	// 	top: -1 * $headerHeight - 5px;
 	// 	ul.subnav { display: none; }
 	// }
 }
+.loggedout header li.settings:hover ul.hide-if-loggedin { display: block !important}
+.loggedin  header li.settings:hover ul.show-if-loggedin { display: block !important}
 main {
 	min-width: 100%;
 	min-height: 100%;
@@ -184,9 +178,9 @@ label[for="nav-trigger"] {
 
 	&:checked {
 		~ .navigation, ~ main, + label {
--ms-transform: translateX($sidebarWidth);
--webkit-transform: translateX($sidebarWidth);
-transform: translateX($sidebarWidth);
+			-ms-transform: translateX($sidebarWidth);
+			-webkit-transform: translateX($sidebarWidth);
+			transform: translateX($sidebarWidth);
 		}
 		~ main {
 			opacity: 0.3;
