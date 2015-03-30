@@ -21,8 +21,8 @@ module.exports = Backbone.View.extend
 		@$priceSelector   = @$ '#price-selector'
 		@$type            = @$ '#ctype'
 
-		@categories = app.models.categories.toJSON()
-		@locations  = app.models.locations.toJSON()
+		@categories = @resources.categories.toJSON()
+		@locations  = @resources.locations.toJSON()
 
 		@on "close", @close
 

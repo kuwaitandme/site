@@ -93,10 +93,13 @@ module.exports = class viewManager
 		$el.attr 'data-index', index
 		$el.attr 'data-url', url
 
-		# Load set the currentView directly without any transitioning
-		@currentView = new targetView
-			args: historyState
+		options =
 			el: ".pt-page[data-url='#{url}'][data-index='#{index}']"
+			historyState: historyState
+			resources: @resources
+
+		# Load set the currentView directly without any transitioning
+		@currentView = new targetView options
 
 		# Save the view in our buffer
 		@viewBuffer.push @currentView
@@ -149,10 +152,13 @@ module.exports = class viewManager
 		# Add the HTML into the DOM
 		@$ptMain.append $targetPage
 
-		view = @getView targetViewIdentifier
-		targetView = new view
-			args: historyState
+		options =
 			el: ".pt-page[data-url='#{url}'][data-index='#{index}']"
+			historyState: historyState
+			resources: @resources
+
+		view = @getView targetViewIdentifier
+		targetView = new view options
 
 		# Save the view in our buffer and return
 		@destroyUnwantedViews index
@@ -183,7 +189,7 @@ module.exports = class viewManager
 	# request.
 	fetchHTML: (view, url) ->
 		console.log @name, 'trying to find HTML in cache for view', view
-		html = @localStorage.getCachedViewHTML view
+		html = @resources.cache.getCachedViewHTML view
 
 		if html
 			console.log @name, 'HTML found from cache!'

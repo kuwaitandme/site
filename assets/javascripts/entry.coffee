@@ -11,6 +11,7 @@ if not window.App?
 			Library: require "app-libs"
 			Config: require "app-config"
 			Models: require "app-models"
+			Views: require "app-views"
 		instance: null
 
 

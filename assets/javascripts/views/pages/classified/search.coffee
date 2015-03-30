@@ -31,8 +31,10 @@ module.exports = view.extend
 		@collection.isAccount = @isAccount
 
 		if @enableFilterBox
-			@filterbox = new app.views.components.filterBox
+			@filterbox = new @resources.Views.components.filterBox
 				$el: @$filterbox
+				resources: @resources
+				historyState: @historyState
 			@listenTo @filterbox, 'changed', @newQuery
 
 		else @$filterbox.hide()

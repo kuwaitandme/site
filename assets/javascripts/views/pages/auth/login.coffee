@@ -32,7 +32,7 @@ module.exports = (require '../../mainView').extend
 
 		# Set the model. Here the model for the classified will be the currently
 		# logged in user.
-		@model = app.models.currentUser
+		@model = @resources.currentUser
 
 		# Initialize DOM elements
 		@$form      = @$ "#login-form"
@@ -78,14 +78,13 @@ module.exports = (require '../../mainView').extend
 	# captchas in the page.
 	renderCaptcha: ->
 		console.log @name, 'setting captcha'
-		self = @
 
 		(@$captcha.html "").show()
 		if grecaptcha?
 			if @captcha then @resetCaptcha()
 			else @captcha = grecaptcha.render @captchaId,
 				sitekey: window.data.captchaKey
-				callback: (response) -> self.captchaSuccess response
+				callback: (response) => @captchaSuccess response
 
 
 	# Function that gets called when the captcha has been successfully entered
@@ -157,7 +156,6 @@ module.exports = (require '../../mainView').extend
 	submit: (event) ->
 		console.log @name, 'submitting form'
 		event.preventDefault()
-		self = @
 
 		@removeMessages()
 		@showLoading()
@@ -166,30 +164,30 @@ module.exports = (require '../../mainView').extend
 		if not @validate() then return @hideLoading()
 
 		# Attempt to login the user
-		@currentUser.login @$username.val(), @$password.val(), (error, response) ->
+		@currentUser.login @$username.val(), @$password.val(), (error, response) =>
 			# Hide the ajax loader
-			self.hideLoading()
+			@hideLoading()
 
 			if error then switch error.responseJSON.status
 				when 'user not activated'
-					self.addMessage self.messages['login_inactive'], 'warning'
+					@addMessage @messages['login_inactive'], 'warning'
 				when 'invalid username/password'
-					self.addMessage self.messages['bad_fields']
+					@addMessage @messages['bad_fields']
 				when 'too many failed attempts'
-					self.addMessage self.messages['login_disabled']
+					@addMessage @messages['login_disabled']
 				when 'user not found', 'invalid password'
-					self.addMessage self.messages['login_incorrect']
+					@addMessage @messages['login_incorrect']
 				when 'suspended'
-					self.addMessage self.messages['user_suspended']
+					@addMessage @messages['user_suspended']
 					reason = error.responseJSON.reason
-					if reason then self.addMessage "Reason: #{reason}"
+					if reason then @addMessage "Reason: #{reason}"
 				when 'banned'
-					self.addMessage self.messages['user_banned']
+					@addMessage @messages['user_banned']
 					reason = error.responseJSON.reason
-					if reason then self.addMessage "Reason: #{reason}"
-				else self.addMessage error.responseText
+					if reason then @addMessage "Reason: #{reason}"
+				else @addMessage error.responseText
 			else
-				console.debug self.name, 'received user', response
+				console.debug @name, 'received user', response
 
 				# Redirect to the account page on success
 				app.trigger 'redirect', '/account'

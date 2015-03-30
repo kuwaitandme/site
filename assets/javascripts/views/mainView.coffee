@@ -3,27 +3,27 @@
 # here get used by the ViewManager controller and enables the controller to
 # neatly cleanup and restart views.
 module.exports = Backbone.View.extend
-	initialize: (@options) ->
-		self = @
+	initialize: (options) ->
+		@historyIndex = options.historyIndex
+		@resources = options.resources
 
 		# These are events that get called by the ViewManager controller. You
 		# don't have to explicitly trigger them but just ensure that all your
 		# code lies in the functions defined the next section.
-		@on 'start', ->
-			self.start(self.options)
-		@on 'continue', ->
-			document.title = self.title() + " | Kuwait and Me"
-			self.$el.show()
-			self.undelegateEvents()
-			self.delegateEvents()
-			self.continue()
-		@on 'pause', () ->
-			self.undelegateEvents()
-			self.pause()
-			self.$el.hide()
-		@on 'finish', ->
-			self.finish()
-			self.remove()
+		@on 'start', => @start()
+		@on 'continue', =>
+			document.title = @title() + " | Kuwait and Me"
+			@$el.show()
+			@undelegateEvents()
+			@delegateEvents()
+			@continue()
+		@on 'pause', () =>
+			@undelegateEvents()
+			@pause()
+			@$el.hide()
+		@on 'finish', =>
+			@finish()
+			@remove()
 
 
 	# Her goes the name of the view. This is used in console.log statements

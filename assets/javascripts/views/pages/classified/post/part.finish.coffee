@@ -71,10 +71,10 @@ module.exports = Backbone.View.extend
 
 
 	parseURL: ->
-		getParam = app.helpers.url.getParam
-		if getParam 'error'   then app.error @messages[getParam 'error']
-		if getParam 'success' then app.success @messages[getParam 'success']
-		if getParam 'warn'    then app.warn @messages[getParam 'warn']
+		# getParam = @resources.helpers.url.getParam
+		# if getParam 'error'   then app.error @messages[getParam 'error']
+		# if getParam 'success' then app.success @messages[getParam 'success']
+		# if getParam 'warn'    then app.warn @messages[getParam 'warn']
 
 
 	managePayment: (e) ->

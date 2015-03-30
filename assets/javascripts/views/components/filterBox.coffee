@@ -21,7 +21,9 @@ module.exports = Backbone.View.extend
 
 	initialize: (options) ->
 		console.log @consoleSlug, 'initializing'
+		console.debug @consoleSlug, options
 		if options
+			@resources = options.resources
 			if options.$el then @$el = options.$el
 			if options.query then @query = options.query
 
@@ -87,12 +89,12 @@ module.exports = Backbone.View.extend
 
 	# Initializes the parent category options
 	initializeCategory: ->
-		categoriesModel = app.models.categories
+		categoriesModel = @resources.categories
 		categories = categoriesModel.toJSON null
 		@$category.html ""
 
 		# Add the 'all' option
-		@$category.append (@generateOption '', 'All', false, true)
+		@$category.append (@generateOption '', 'Everything', false, true)
 
 		# Add the rest of the parent categories
 		for category in categories

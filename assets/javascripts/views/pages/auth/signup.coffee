@@ -8,7 +8,7 @@ module.exports = login.extend
 
 		# Set the model. Here the model for the classified will be the currently
 		# logged in user.
-		@model = app.models.currentUser
+		@model = @resources.currentUser
 
 		# Initialize DOM elements
 		@$form        = @$ "#login-form"

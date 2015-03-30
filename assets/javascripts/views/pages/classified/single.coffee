@@ -31,7 +31,7 @@ module.exports = view.extend
 		else
 			href = document.URL
 			id = (href.substr (href.lastIndexOf '/') + 1)
-			@model = new app.models.classified
+			@model = new @resources.Models.classified
 			@listenTo @model, 'sync', @modelChange
 
 			savedClassified = window.data.classified
@@ -53,10 +53,10 @@ module.exports = view.extend
 
 
 	populateDOM: ->
-		self = @
-
 		# Add the main template
-		($ '.c-content').html @singleTemplate @model.toJSON()
+		modelJSON = @model.toJSON()
+		modelJSON.category = @resources.categories.findWhere({ _id: modelJSON.category })
+		($ '.c-content').html @singleTemplate modelJSON
 
 		# Add the image templates
 		images = @model.get 'images'
@@ -69,7 +69,7 @@ module.exports = view.extend
 		@$gmap = @$ '#map-canvas'
 		@$gmap.hide()
 		# Render google maps
-		init = -> self.initializeGoogleMaps()
+		init = => @initializeGoogleMaps()
 		if not window.gmapInitialized
 			window.gmapInitializeListeners.push init
 		else init()
@@ -186,7 +186,7 @@ module.exports = view.extend
 		adminTemplate = _.template (@$ '#admin-template').html()
 
 		# Get the currently loggedin user
-		user = app.models.currentUser
+		user = @resources.currentUser
 
 		# If this is a guest classified, check the authHash
 		if (@model.get 'guest') and

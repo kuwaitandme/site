@@ -47,7 +47,7 @@ module.exports = (require '../../../mainView').extend
 	pause: -> (@$ '#g-recaptcha-response').remove()
 
 
-	getModel: -> if not @model? then @model = new app.models.classified
+	getModel: -> if not @model? then @model = new @resources.Models.classified
 
 
 	# On successful AJAX request to the server navigate to the finish page.
