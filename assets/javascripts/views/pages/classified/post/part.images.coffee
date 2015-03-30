@@ -7,7 +7,6 @@ module.exports = Backbone.View.extend
 		if options.$el       then       @$el = options.$el
 		if options.resources then @resources = options.resources
 
-
 		@$filePreview = @$ '#image-upload-preview'
 		@filesToDelete = []
 

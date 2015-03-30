@@ -190,4 +190,4 @@ module.exports = (require '../../mainView').extend
 				console.debug @name, 'received user', response
 
 				# Redirect to the account page on success
-				@resources.router.trigger 'redirect', '/account'
+				@resources.router.redirect '/account'

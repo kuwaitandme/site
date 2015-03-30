@@ -7,8 +7,8 @@ module.exports = Backbone.Model.extend
 
 	url: ->
 		id = @get 'id'
-		if id then "#{App.Resources.config.host}/api/user/#{id}"
-		else "#{App.Resources.config.host}/api/user"
+		if id then "#{App.Resources.Config.host}/api/user/#{id}"
+		else "#{App.Resources.Config.host}/api/user"
 
 
 	defaults:
@@ -55,7 +55,7 @@ module.exports = Backbone.Model.extend
 
 		$.ajax
 			type: 'POST'
-			url: "#{App.Resources.config.host}/api/auth/email/#{username}"
+			url: "#{App.Resources.Config.host}/api/auth/email/#{username}"
 			beforeSend: ajax.setHeaders
 			data:
 				username: username
@@ -89,7 +89,7 @@ module.exports = Backbone.Model.extend
 
 		$.ajax
 			type: 'POST'
-			url: "#{App.Resources.config.host}/api/auth/email/"
+			url: "#{App.Resources.Config.host}/api/auth/email/"
 			beforeSend: ajax.setHeaders
 			data: parameters
 
@@ -104,7 +104,7 @@ module.exports = Backbone.Model.extend
 
 	# Logs the user out and signals listeners if any.
 	logout: ->
-		$.get "#{App.Resources.config.host}/api/auth/logout/"
+		$.get "#{App.Resources.Config.host}/api/auth/logout/"
 		@clear()
 
 		@$body.removeClass 'loggedin'
