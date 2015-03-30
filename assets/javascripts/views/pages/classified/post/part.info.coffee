@@ -2,8 +2,9 @@ module.exports = Backbone.View.extend
 	name: '[view:classified-post:info]'
 
 	initialize: (options) ->
-		if options.model then @model = options.model
-		if options.$el   then   @$el = options.$el
+		if options.model     then     @model = options.model
+		if options.$el       then       @$el = options.$el
+		if options.resources then @resources = options.resources
 
 		@$description = @$ '#description'
 		@$title       = @$ '#title'

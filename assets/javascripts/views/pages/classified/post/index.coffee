@@ -40,7 +40,7 @@ module.exports = (require '../../../mainView').extend
 		@navigate "#page-begin"
 
 
-	checkRedirect: -> not @isGuest and @currentUser.isAnonymous()
+	checkRedirect: -> not @isGuest and @resources.currentUser.isAnonymous()
 	redirectUrl: -> '/auth/login?error=need_login'
 
 
@@ -77,6 +77,7 @@ module.exports = (require '../../../mainView').extend
 		options =
 			el: @$ href
 			model: @model
+			resources: @resources
 
 		# If the view wasn't initialized already, initialize it
 		if not @views[href]

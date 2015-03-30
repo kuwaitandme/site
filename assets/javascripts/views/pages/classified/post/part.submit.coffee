@@ -4,8 +4,9 @@ module.exports = Backbone.View.extend
 
 
 	initialize: (options) ->
-		if options.model then @model = options.model
-		if options.$el   then   @$el = options.$el
+		if options.model     then     @model = options.model
+		if options.$el       then       @$el = options.$el
+		if options.resources then @resources = options.resources
 
 		@$submit  = @$ '.submit'
 		@$spinner = @$ "#ajax-spinner"

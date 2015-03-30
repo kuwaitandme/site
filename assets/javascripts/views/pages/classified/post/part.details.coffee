@@ -6,9 +6,11 @@ module.exports = Backbone.View.extend
 		'change #price-selector' : 'priceChange'
 
 
-	initialize: (@options) ->
-		if @options.model then @model = @options.model
-		if @options.$el   then   @$el = @options.$el
+	initialize: (options) ->
+		if options.model     then     @model = options.model
+		if options.$el       then       @$el = options.$el
+		if options.resources then @resources = options.resources
+
 
 		@$address1        = @$ '#address1'
 		@$address2        = @$ '#address2'
