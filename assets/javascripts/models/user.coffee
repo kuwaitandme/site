@@ -28,14 +28,13 @@ module.exports = Backbone.Model.extend
 	initialize: ->
 		console.log @name, 'initializing'
 
-		self = @
 		@$body = $ 'body'
-		@on 'sync', -> console.log self.name, 'syncing'
+		@on 'sync', => console.log @name, 'syncing'
 
 
 		# Redirect fetch to our cached version of fetch
 		@oldFetch = @fetch
-		@fetch = (arg) -> if not @newFetch arg then @oldFetch arg
+		@fetch = (arg) => if not @newFetch arg then @oldFetch arg
 
 
 	newFetch: ->
@@ -51,7 +50,6 @@ module.exports = Backbone.Model.extend
 
 	login: (username, password, callback) ->
 		console.debug @name, 'logging in user'
-		self = @
 
 		$.ajax
 			type: 'POST'
@@ -63,29 +61,28 @@ module.exports = Backbone.Model.extend
 
 			# This function gets called when the user successfully logs in
 			success: (response) =>
-				console.debug self.name, 'user logged in', response
+				console.debug @name, 'user logged in', response
 
 				@$body.addClass 'loggedin'
 				@$body.removeClass 'loggedout'
 
 				# Save the data from the server
-				self.set response
+				@set response
 
 				# Signal any listeners that the user has logged in
-				self.trigger 'sync', response
+				@trigger 'sync', response
 
 				# Call the callback
 				callback null, response
 
 			# This function sends the error message to the callback
 			error: (error) =>
-				console.error self.name, 'error logging in', error
+				console.error @name, 'error logging in', error
 				callback error
 
 
 	signup: (parameters, callback) ->
 		console.debug @name, 'signing up new user'
-		self = @
 
 		$.ajax
 			type: 'POST'
@@ -97,8 +94,8 @@ module.exports = Backbone.Model.extend
 			success: (response) -> callback null, response
 
 			# This function sends the error message to the callback
-			error: (error) ->
-				console.error self.name, 'error creating user', error
+			error: (error) =>
+				console.error @name, 'error creating user', error
 				callback error
 
 
@@ -109,7 +106,6 @@ module.exports = Backbone.Model.extend
 
 		@$body.removeClass 'loggedin'
 		@$body.addClass 'loggedout'
-
 
 		# Signal any listeners that the user has logged out
 		@trigger 'sync'

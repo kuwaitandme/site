@@ -24,7 +24,7 @@ module.exports = (request, response, args={}, cache=false) ->
 		args.data.captchaKey = config.reCaptcha.site
 		args.data.js = config.js
 		args.data.ga = config.ga
-		args.data.user = request.user
+		# args.data.user = request.user
 
 		args.robots = args.data
 		args.data = (new Buffer JSON.stringify args.data).toString 'base64'
