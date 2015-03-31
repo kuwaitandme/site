@@ -29,8 +29,8 @@ module.exports = class viewManager
 	# 	self = @
 
 		# Attach different listeners
-		# @header.currentUser = @models.currentUser
-		# @models.currentUser.on 'sync', -> self.header.update()
+		# @header.currentUser = @resources.currentUser
+		@resources.currentUser.on 'sync', => @header.update()
 
 
 	routeHandle: (args={}) =>

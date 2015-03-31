@@ -11,6 +11,7 @@ module.exports = Backbone.View.extend
 
 	initialize: (options) ->
 		console.log @name, 'initializing'
+		@resources = options.resources
 
 		# Initialize DOM variables
 		@$navHome      = @$ '#nav-logo'
@@ -18,6 +19,7 @@ module.exports = Backbone.View.extend
 		@$nextLink     = @$ '.next'
 		@$previousLink = @$ '.prev'
 		@$header       = $ 'header'
+		@$body         = $ 'body'
 		@$sliderNav    = @$ '#slider-nav'
 		@$credits      = @$ '.user-credits .count'
 		@$username     = @$ '.user-title .name'
@@ -95,12 +97,12 @@ module.exports = Backbone.View.extend
 		currentView  = currentState.view
 
 		# Add the 'active' class accordingly
-		(@$ "[data-view] li").removeClass 'active'
-		if @currentView
-			(@$ "[data-view='#{currentView}'] li").addClass 'active'
+		# (@$ "[data-view] li").removeClass 'active'
+		# if @currentView
+		# 	(@$ "[data-view='#{currentView}'] li").addClass 'active'
 
 		# Depending on the user's current login state. Change the header
-		# if App.Resources.currentUser.isAnonymous() then @$el.removeClass 'loggedin'
-		# else @$el.addClass 'loggedin'
+		if @resources.currentUser.isAnonymous() then @$body.removeClass 'loggedin'
+		else @$body.addClass 'loggedin'
 
 		@populateHeader()
