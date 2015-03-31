@@ -28,7 +28,8 @@ block content
 			//- 		a(href="#") Download
 			//- 		span &nbsp;the mobile app
 
-	//- #landing-footer Created by Steven Enamakel
+		//- #landing-footer Created by Steven Enamakel
+	#landing-categories
 
 	//- Container to hold the classifieds
 	ul#classified-search.classified-list
@@ -36,3 +37,7 @@ block content
 	//- JS Template for each classified in the list
 	script(id="list-template", type="text/template")
 		include ../components/script-templates/search.jade
+
+	//- JS Template for each classified in the list
+	script(id="landing-cat-template", type="text/template")
+		include ../components/script-templates/landing.jade
