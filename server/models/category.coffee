@@ -1,10 +1,20 @@
 mongoose = require 'mongoose'
+Schema    = mongoose.Schema
+ObjectId  = Schema.ObjectId
 
 
 # The model for a classified category
 categories = module.exports =
 	model: mongoose.model 'categories',
 		name: String
+		children: [
+			_id: ObjectId
+			name: String
+			children: [
+				_id: ObjectId
+				name: String
+			]
+		]
 
 
 	# Gets all the classifieds in the database. Ideally this should be the only

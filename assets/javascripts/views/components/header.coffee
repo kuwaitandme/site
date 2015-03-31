@@ -5,6 +5,8 @@ module.exports = Backbone.View.extend
 		'click #grabber-hide': 'hide'
 		'click #grabber-display': 'show'
 		'click ul a': 'hide'
+		'click #search-close' : 'toggleSearchBar'
+		'click .main-item.search' : 'toggleSearchBar'
 
 
 	initialize: (options) ->
@@ -35,6 +37,9 @@ module.exports = Backbone.View.extend
 		@$username.html currentUser.get 'name'
 		@$userthumb.attr 'src', gravatarURL
 
+
+	toggleSearchBar: -> @$header.toggleClass 'show-search'
+		#search-close
 
 	scrollHandler: ->
 		# self = @

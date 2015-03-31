@@ -17,6 +17,24 @@ header {
 	-moz-box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.1);
 	box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.1);
 
+
+::-webkit-input-placeholder {
+   color: #BBB;
+}
+
+:-moz-placeholder { /* Firefox 18- */
+   color: #BBB;
+}
+
+::-moz-placeholder {  /* Firefox 19+ */
+   color: #BBB;
+}
+
+:-ms-input-placeholder {
+   color: #BBB;
+}
+
+
 	.disabled { color: #999 !important; }
 	nav#main-nav {
 		background: #FFF;
@@ -50,6 +68,61 @@ header {
 			}
 		}
 	}
+	#header-search {
+		display: none;
+		width: 100%;
+		max-width: 800px;
+		position: absolute;
+		z-index: 3;
+		top: 0;
+		left: 0;
+		#search-close {
+			right: 50px;
+		}
+		#search-filter {
+			right: 10px;
+		}
+		.icon {
+			@include single-transition();
+			@extend .font-awesome;
+			background: #DDD;
+			color: #f9f9f9;
+			cursor: pointer;
+			font-size: 16px;
+			padding: 5px 10px;
+			position: absolute;
+			top: 8px;
+
+			-webkit-border-radius: 30px;
+			-moz-border-radius: 30px;
+			border-radius: 30px;
+
+			&:hover {
+				color: #FFF;
+				background: #FF6600
+			}
+		}
+		input {
+			@extend .font-title;
+			@include single-transition(border-color);
+			background: #f9f9f9;
+			border: 0;
+			border-bottom: 3px solid transparent;
+			color: #000;
+			height: $headerHeight;
+			outline: none;
+			padding: 0 20px;
+			width: 100%;
+			&:focus, &:hover {
+				border-bottom-color: #FF6600;
+			}
+		}
+
+	}
+	&.show-search {
+		#header-search { display: block; }
+		.hide-when-searching { display: none }
+	}
 	nav#main-nav, nav#mobile-nav {
 		width: 100%;
 		height: $headerHeight;
@@ -62,8 +135,7 @@ header {
 			width: 100%;
 			.left { float: left; }
 			.right { float: right; }
-			.home, .settings {
-				// padding: 10px 15px;
+			.icon {
 				@extend .font-awesome;
 				&:hover, &.active { border-bottom-color: transparent }
 			}

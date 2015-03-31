@@ -8,6 +8,19 @@ module.exports = view.extend
 	events: "submit" : "formSubmit"
 
 
+	start: ->
+		@$categoryContainer = (@$ '#landing-categories')
+		@setupCategoryContainer()
+
+	setupCategoryContainer: ->
+		templateHTML = (@$ '#landing-cat-template').html()
+		template = _.template templateHTML
+		@$categoryContainer.html template categories: @resources.categories.toJSON()
+		@$categoryContainer.masonry
+			itemSelector: 'li'
+			isFitWidth: true
+
+
 	# This function redirects the app to the classified search page, with the
 	# text in the search box set as the keywords in the GET query.
 	formSubmit: (event) ->

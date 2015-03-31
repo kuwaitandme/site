@@ -16,4 +16,4 @@ module.exports =
 
 	watch:
 		jsPattern:         'javascripts/**/*.coffee'
-		cssPattern:        'stylesheets/**/*.scss'
+		cssPattern:        'stylesheets/**/*.sass'
