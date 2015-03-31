@@ -8,7 +8,16 @@ module.exports = view.extend
 	events: "submit" : "formSubmit"
 
 
-	start: ->
+	continue: ->
+		console.log @name, 'rendering'
+		($ window).on 'scroll', @onScroll
+
+		@collection.isAccount = @isAccount
+		@$classifiedList.masonry()
+
+		if @enableFilterBox then @filterbox.render()
+		@$spinner.hide()
+
 		@$categoryContainer = (@$ '#landing-categories')
 		@setupCategoryContainer()
 

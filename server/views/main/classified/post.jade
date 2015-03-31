@@ -115,7 +115,14 @@ block content
 					select#cat-selector(name="parent-category", required, tooltipp="Choose the categories that best fit your classified")
 						option(value="", disabled) Choose a category
 					small.error Please choose a category
-
+					.row.collapse#child-row.error
+						select#childcat-selector(name="child-category", required, tooltipp="Choose the categories that best fit your classified")
+							option(value="", disabled) Choose a sub-category
+						small.error Please choose a sub-category
+					.row.collapse#baby-row.error
+						select#childcat-selector(name="baby-category", required, tooltipp="Choose the categories that best fit your classified")
+							option(value="", disabled) Choose a second sub-category
+						small.error Please choose the second sub-category
 			.row
 				.medium-3.columns
 					label(for="right-label") Email

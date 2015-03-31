@@ -37,7 +37,7 @@ module.exports = (require '../../../mainView').extend
 		@listenTo @model, 'post:error', @displayError
 
 		console.log @name, 'rendering', @el
-		@navigate "#page-begin"
+		@navigate "#page-details"
 
 
 	checkRedirect: -> not @isGuest and @resources.currentUser.isAnonymous()

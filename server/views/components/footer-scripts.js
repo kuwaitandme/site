@@ -36,10 +36,10 @@
 		remoteSrc: "/javascripts/vendor/backbone.min.js",
 		localSrc: "/javascripts/vendor/backbone.min.js",
 	},{
-		name: "lib:google-maps",
-		remoteSrc: "/javascripts/vendor/google.maps.min.js",
-		localSrc: "/javascripts/vendor/google.maps.min.js",
-	},{
+	// 	name: "lib:google-maps",
+	// 	remoteSrc: "/javascripts/vendor/google.maps.min.js",
+	// 	localSrc: "/javascripts/vendor/google.maps.min.js",
+	// },{
 		name: "lib:modernizr",
 		remoteSrc: "/javascripts/vendor/modernizr.min.js",
 		localSrc: "/javascripts/vendor/modernizr.min.js",
@@ -98,7 +98,7 @@
 
 		/* If HTML5 localStorage is supported, attempt to load the scripts from
 		 * the application cache */
-		if(typeof Storage !== "undefined" && false) {
+		if(typeof localStorage !== "undefined" && false) {
 
 			/* Check if local and remote version of the libraries differ */
 			localVersion = localStorage.getItem("ver:library");

@@ -52,7 +52,7 @@ module.exports = view.extend
 		console.log @name, 'rendering'
 		($ window).on 'scroll', @onScroll
 
-		@collection.isAccount = @isAccount
+		# @collection.isAccount = @isAccount
 		@$classifiedList.masonry()
 
 		if @enableFilterBox then @filterbox.render()
@@ -158,7 +158,7 @@ module.exports = view.extend
 		console.debug @name, 'adding classifieds', classifieds
 
 		# Reload Masonry once for all the elements
-		@$classifiedList.masonry()
+		@$classifiedList.masonry isFitWidth: true
 
 		# Signal the ajax controller to stop polling the server and show the
 		# no classified message

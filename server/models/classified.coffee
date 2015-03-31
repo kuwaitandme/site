@@ -16,6 +16,8 @@ ObjectId  = Schema.ObjectId
 classifieds = module.exports =
 	model: mongoose.model 'classified',
 		category:          ObjectId
+		childCategory:     ObjectId
+		babyCategory:      ObjectId
 		created:           Date
 		description:       String
 		images:          [ String ]
@@ -52,21 +54,27 @@ classifieds = module.exports =
 		isEmpty = (string) -> not string? or string.length == 0
 
 		# Validate each field one by one
-		if isEmpty data then message = "empty fields"
-		if isEmpty data.description then message = "empty description"
-		if isEmpty data.title then message = "empty title"
-		if (isEmpty data.type) or not validator.isInt data.type
-			message = "bad/empty type"
-		if (isEmpty data.category) or not validator.isMongoId data.category
-			message = "bad/empty category"
-		if (isEmpty data.price) or not validator.isFloat data.price
-			message = "bad/empty price"
-		if not (isEmpty data.location) and not validator.isMongoId data.location
-			message = "bad/empty location"
-
-		# If there was an error. Don't create the classified and pass the error
-		# back to the callback
-		if message? then return callback message
+		if isEmpty data then return callback "empty fields"
+		if isEmpty data.description then return callback "empty description"
+		if isEmpty data.title then return callback "empty title"
+		if (isEmpty data.type) or
+		not validator.isInt data.type
+			return callback "bad/empty type"
+		if (isEmpty data.category) or
+		not validator.isMongoId data.category
+			return callback "bad/empty category"
+		if (isEmpty data.price) or
+		not validator.isFloat data.price
+			return callback "bad/empty price"
+		if not (isEmpty data.location) and
+		not validator.isMongoId data.location
+			return callback "bad/empty location"
+		if not (isEmpty data.childCategory) and
+		not validator.isMongoId data.childCategory
+			return callback "bad/empty child category"
+		if not (isEmpty data.babyCategory) and
+		not validator.isMongoId data.babyCategory
+			return callback "bad/empty baby category"
 
 		classified = new @model
 
@@ -80,7 +88,13 @@ classifieds = module.exports =
 		classified.saleby           = data.saleby
 		classified.title            = data.title
 		classified.type             = data.type
-		if not isEmpty data.location then classified.location = data.location
+
+		if not isEmpty data.location
+			classified.location = data.location
+		if not isEmpty data.childCategory
+			classified.childCategory = data.childCategory
+		if not isEmpty data.babyCategory
+			classified.babyCategory = data.babyCategory
 
 		# Set up some defaults
 		classified.created = Date.now()

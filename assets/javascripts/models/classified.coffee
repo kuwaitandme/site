@@ -23,6 +23,8 @@ module.exports = Backbone.Model.extend
 		moderatorReason: null
 		authHash: null
 		category: null
+		childCategory: null
+		babyCategory: null
 		created: null
 		description: ''
 		guest: true
