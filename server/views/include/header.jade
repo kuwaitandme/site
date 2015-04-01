@@ -24,15 +24,15 @@ header
 		#search-filter.icon &#xf0b0;
 
 	nav#mobile-nav.show-nav.hide-for-large-up
-	nav#main-nav.show-nav.show-for-large-up
+	nav#main-nav.show-nav.show-for-large-up.hide-when-searching
 		ul
-			li.main-item.left.hide-when-searching.home.icon
+			li.main-item.left.home.icon
 				a(href="/", data-view) &#xf015;
-			li.main-item.left.search.hide-when-searching.icon
+			li.main-item.left.search.icon
 				a &#xf002;
-			li.main-item.hide-if-loggedin.hide-when-searching.left
+			li.main-item.hide-if-loggedin.left
 				a(href="/guest/post", data-view) Post a Classified
-			li.main-item.show-if-loggedin.hide-when-searching.left
+			li.main-item.show-if-loggedin.left
 				a(href="/classified/post", data-view) Post a Classified
 			li.main-item.settings.icon &#xf013;
 
@@ -53,7 +53,7 @@ header
 					li.user-thumb
 						a(href="https://www.gravatar.com/")
 							img(src='')
-					li.with-link.disabled
+					li.with-link
 						a(href="/credits", data-view) Buy Credits
 					li.with-link
 						a(href="/account", data-view) View Account
