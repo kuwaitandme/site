@@ -1,0 +1,146 @@
+.pt-page.classified-single
+  background: #FFF
+  .post-nav
+    color: #999
+    font-size: 12px
+    // margin-top: 30px;
+    text-transform: uppercase
+    a
+      text-decoration: none
+      &:hover
+        color: #000
+  ul#single-messages
+    padding: 0
+    margin: 0
+    @extend .font-title
+    li
+      color: #FFF
+      background: #E74C3C
+      padding: 10px
+      text-align: center
+      &.warning
+        background: #FD8603
+      &.success
+        background: #2ecc71
+      &.error
+        color: rgba(255, 255, 255, 0.75)
+  #admin-controls
+    border: 1px solid #ff7302
+    display: inline-block
+    height: 37px
+    margin: 30px
+    margin-bottom: 0
+    overflow: hidden
+    .meta
+      border-right: 1px solid #FFF
+      float: left
+      &:last-child
+        border-right: none
+    form
+      margin: 0
+      padding: 0
+    input, .input
+      +single-transition
+      background: #ff7302
+      border-radius: 0
+      color: #FFF
+      border: 0
+      font-weight: 700
+      padding-top: 8px
+      width: auto
+      &:hover
+        background: #FFF
+        color: #ff7302
+  #map-canvas
+    height: 400px
+    max-height: 100%
+    width: 100%
+  .c-content
+    margin: 30px auto
+    width: 95%
+    padding-top: 1px
+    margin: 0 auto
+    h1
+      font-size: 40px
+    ul.c-meta
+      +clearfix
+      color: #000
+      font-size: 12px
+      margin: 0
+      padding: 5px 0
+      li
+        float: left
+        &:after
+          color: #444
+          content: '\b7\a0'
+          padding: 10px
+        &:last-child:after
+          content: ''
+          padding: 0
+    .c-action
+      // color: red;
+      // &.share, &.print { color: blue }
+      a
+        text-decoration: none
+    .c-description
+      // @extend .font-title;
+      font-size: 16px
+      line-height: 28px
+      padding-bottom: 100px
+      white-space: pre-wrap
+      /* CSS 3
+      white-space: -moz-pre-wrap
+      /* Mozilla, since 1999
+      white-space: -pre-wrap
+      /* Opera 4-6
+      white-space: -o-pre-wrap
+      /* Opera 7
+      word-wrap: break-word
+      /* Internet Explorer 5.5+
+  .c-gallery
+    // border-bottom: 1px solid #CCC;
+    margin: 0
+    padding-top: 1px
+    padding: 15px
+    text-align: center
+    background: #fcfcfc
+    background: -moz-linear-gradient(top, #fcfcfc 0%, #ffffff 100%)
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #fcfcfc), color-stop(100%, #ffffff))
+    background: -webkit-linear-gradient(top, #fcfcfc 0%, #ffffff 100%)
+    background: -o-linear-gradient(top, #fcfcfc 0%, #ffffff 100%)
+    background: -ms-linear-gradient(top, #fcfcfc 0%, #ffffff 100%)
+    background: linear-gradient(to bottom, #fcfcfc 0%, #ffffff 100%)
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfcfc', endColorstr='#ffffff',GradientType=0 )
+    img.thumb
+      background: #000
+      // margin-bottom: 15px;
+      // margin-right: 15px;
+      // overflow: hidden;
+      -webkit-box-shadow: 2px 1px 2px rgba(0, 0, 0, 0.25)
+      -moz-box-shadow: 2px 1px 2px rgba(0, 0, 0, 0.25)
+      -o-box-shadow: 2px 1px 2px rgba(0, 0, 0, 0.25)
+      box-shadow: 2px 1px 2px rgba(0, 0, 0, 0.25)
+    .visible-img img
+      margin-left: 0
+      -webkit-transform: translateY(-50%) translateX(-50%)
+      -moz-transform: translateY(-50%) translateX(-50%)
+      -ms-transform: translateY(-50%) translateX(-50%)
+      -o-transform: translateY(-50%) translateX(-50%)
+      transform: translateY(-50%) translateX(-50%)
+  .c-disclaimer
+    color: #999
+    font-size: 10px
+    margin: 25px 0
+    a
+      color: inherit
+
+@media print
+  .c-gallery
+    border-bottom: none !important
+    background: #FFF !important
+    img
+      max-width: 45% !important
+  .page
+    min-height: 0 !important
+  .post-nav, .c-action
+    display: none !important

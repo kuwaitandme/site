@@ -2,257 +2,257 @@ $headerHeight: 51px
 $sidebarWidth: 200px
 
 main
-	padding-top: $headerHeight
+  padding-top: $headerHeight
 
 header
-	+single-transition
-	border-bottom: 1px solid #EEE
-	height: $headerHeight
-	left: 0
-	position: fixed
-	top: 0
-	width: 100%
-	width: 100%
-	z-index: 2
-	-webkit-box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.1)
-	-moz-box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.1)
-	box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.1)
-	::-webkit-input-placeholder
-		color: #BBB
-	:-moz-placeholder
-		color: #BBB
-	::-moz-placeholder
-		color: #BBB
-	:-ms-input-placeholder
-		color: #BBB
-	.disabled
-		color: #999 !important
-	nav#main-nav
-		background: #FFF
-		.main-item
-			@extend .font-title
-			+single-transition(border)
-			border-bottom: 3px solid transparent
-			color: #777
-			float: right
-			font-size: 13px
-			position: relative
-			&.active, &:hover
-				border-bottom-color: #FF6600
-				color: #000
-			&.nav
-				color: #DDD
-				float: left
-				font-size: 18px
-				margin-top: 8px
-			&#nav-logo
-				float: left
-				height: 45px
-				left: 5px
-				position: absolute
-				top: 10px
-				width: 131px
-	#header-search
-		display: none
-		width: 100%
-		// max-width: 800px
-		position: absolute
-		z-index: 3
-		top: 0
-		left: 0
-		#search-close
-			right: 50px
-		#search-filter
-			right: 10px
-		.icon
-			+single-transition
-			@extend .font-awesome
-			// background: #DDD
-			color: #999
-			cursor: pointer
-			font-size: 16px
-			padding: 5px 10px
-			position: absolute
-			top: 8px
-			// -webkit-border-radius: 30px
-			// -moz-border-radius: 30px
-			// border-radius: 30px
-			&:hover
-				color: #000
-				// background: #ff6600
-		input
-			@extend .font-title
-			+single-transition(border-color)
-			background: #f9f9f9
-			border: 0
-			border-bottom: 3px solid transparent
-			color: #000
-			height: $headerHeight
-			outline: none
-			padding: 0 20px
-			width: 100%
-			&:focus, &:hover
-				border-bottom-color: #FF6600
-	&.show-search
-		#header-search
-			display: block
-		.hide-when-searching
-			display: none !important
-	nav#main-nav, nav#mobile-nav
-		width: 100%
-		height: $headerHeight
-		> ul
-			+clearfix
-			margin: 0
-			padding: 0
-			position: relative
-			width: 100%
-			.left
-				float: left
-			.right
-				float: right
-			.icon
-				@extend .font-awesome
-				&:hover, &.active
-					border-bottom-color: transparent
-		a
-			+single-transition(color)
-			display: block
-			padding: 16px 10px
-			color: inherit
-			text-decoration: none
-		.settings
-			padding: 16px 20px
-		ul.subnav
-			@extend .font-title
-			background: #FFF
-			border: 1px solid #DDD
-			border-bottom-color: #FF6600
-			border-bottom-width: 2px
-			border-top: 0
-			cursor: default
-			display: none
-			padding: 0
-			position: absolute
-			right: 0
-			font-size: 12px
-			top: $headerHeight - 1px
-			width: 200px
-			li
-				+single-transition(background)
-				color: #000
-				&.with-link:hover
-					background: #f6f6f6
-				a
-					padding: 10px
-			.user-title
-				border: 0
-				font-size: 14px
-				padding-bottom: 0
-				text-align: center
-			.user-credits
-				@extend .font-text
-				border: 0
-				font-size: 10px
-				padding: 0
-				text-align: center
-			.user-thumb
-				text-align: center
-				img
-					background: #EEE
-					border: 1px solid #DDD
-					height: 80px
-					margin: 5px auto
-					overflow: none
-					width: 80px
-					-moz-border-radius: 100px
-					-webkit-border-radius: 100px
-					border-radius: 100px
-	nav#mobile-nav
-		background: #FFF
-		// ul li a {
-		// 	padding: 10px;
-		// 	font-size: 19px;
-		// 	color: #FFF;
-		// }
-	// &.nav-up {
-	// 	top: -1 * $headerHeight - 5px;
-	// 	ul.subnav { display: none; }
-	// }
+  +single-transition
+  border-bottom: 1px solid #EEE
+  height: $headerHeight
+  left: 0
+  position: fixed
+  top: 0
+  width: 100%
+  width: 100%
+  z-index: 2
+  -webkit-box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.1)
+  -moz-box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.1)
+  box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.1)
+  ::-webkit-input-placeholder
+    color: #BBB
+  :-moz-placeholder
+    color: #BBB
+  ::-moz-placeholder
+    color: #BBB
+  :-ms-input-placeholder
+    color: #BBB
+  .disabled
+    color: #999 !important
+  nav#main-nav
+    background: #FFF
+    .main-item
+      @extend .font-title
+      +single-transition(border)
+      border-bottom: 3px solid transparent
+      color: #777
+      float: right
+      font-size: 13px
+      position: relative
+      &.active, &:hover
+        border-bottom-color: #FF6600
+        color: #000
+      &.nav
+        color: #DDD
+        float: left
+        font-size: 18px
+        margin-top: 8px
+      &#nav-logo
+        float: left
+        height: 45px
+        left: 5px
+        position: absolute
+        top: 10px
+        width: 131px
+  #header-search
+    display: none
+    width: 100%
+    // max-width: 800px
+    position: absolute
+    z-index: 3
+    top: 0
+    left: 0
+    #search-close
+      right: 50px
+    #search-filter
+      right: 10px
+    .icon
+      +single-transition
+      @extend .font-awesome
+      // background: #DDD
+      color: #999
+      cursor: pointer
+      font-size: 16px
+      padding: 5px 10px
+      position: absolute
+      top: 8px
+      // -webkit-border-radius: 30px
+      // -moz-border-radius: 30px
+      // border-radius: 30px
+      &:hover
+        color: #000
+        // background: #ff6600
+    input
+      @extend .font-title
+      +single-transition(border-color)
+      background: #f9f9f9
+      border: 0
+      border-bottom: 3px solid transparent
+      color: #000
+      height: $headerHeight
+      outline: none
+      padding: 0 20px
+      width: 100%
+      &:focus, &:hover
+        border-bottom-color: #FF6600
+  &.show-search
+    #header-search
+      display: block
+    .hide-when-searching
+      display: none !important
+  nav#main-nav, nav#mobile-nav
+    width: 100%
+    height: $headerHeight
+    > ul
+      +clearfix
+      margin: 0
+      padding: 0
+      position: relative
+      width: 100%
+      .left
+        float: left
+      .right
+        float: right
+      .icon
+        @extend .font-awesome
+        &:hover, &.active
+          border-bottom-color: transparent
+    a
+      +single-transition(color)
+      display: block
+      padding: 16px 10px
+      color: inherit
+      text-decoration: none
+    .settings
+      padding: 16px 20px
+    ul.subnav
+      @extend .font-title
+      background: #FFF
+      border: 1px solid #DDD
+      border-bottom-color: #FF6600
+      border-bottom-width: 2px
+      border-top: 0
+      cursor: default
+      display: none
+      padding: 0
+      position: absolute
+      right: 0
+      font-size: 12px
+      top: $headerHeight - 1px
+      width: 200px
+      li
+        +single-transition(background)
+        color: #000
+        &.with-link:hover
+          background: #f6f6f6
+        a
+          padding: 10px
+      .user-title
+        border: 0
+        font-size: 14px
+        padding-bottom: 0
+        text-align: center
+      .user-credits
+        @extend .font-text
+        border: 0
+        font-size: 10px
+        padding: 0
+        text-align: center
+      .user-thumb
+        text-align: center
+        img
+          background: #EEE
+          border: 1px solid #DDD
+          height: 80px
+          margin: 5px auto
+          overflow: none
+          width: 80px
+          -moz-border-radius: 100px
+          -webkit-border-radius: 100px
+          border-radius: 100px
+  nav#mobile-nav
+    background: #FFF
+    // ul li a {
+    //  padding: 10px;
+    //  font-size: 19px;
+    //  color: #FFF;
+    // }
+  // &.nav-up {
+  //  top: -1 * $headerHeight - 5px;
+  //  ul.subnav { display: none; }
+  // }
 
 .loggedout header li.settings:hover ul.hide-if-loggedin
-	display: block !important
+  display: block !important
 
 .loggedin header li.settings:hover ul.show-if-loggedin
-	display: block !important
+  display: block !important
 
 main
-	min-width: 100%
-	min-height: 100%
-	background-color: #fff
-	position: relative
-	top: 0
-	bottom: 100%
-	left: 0
-	z-index: 1
+  min-width: 100%
+  min-height: 100%
+  background-color: #fff
+  position: relative
+  top: 0
+  bottom: 100%
+  left: 0
+  z-index: 1
 
 label[for="nav-trigger"]
-	/* critical positioning styles
-	@extend .font-awesome
-	color: #000
-	cursor: pointer
-	font-size: 19px
-	left: 15px
-	position: fixed
-	top: 13px
-	z-index: 3
+  /* critical positioning styles
+  @extend .font-awesome
+  color: #000
+  cursor: pointer
+  font-size: 19px
+  left: 15px
+  position: fixed
+  top: 13px
+  z-index: 3
 
 /* Make the Magic Happen
 .nav-trigger + label, main, .navigation
-	+single-transition(transform)
+  +single-transition(transform)
 
 .nav-trigger
-	position: absolute
-	clip: rect(0, 0, 0, 0)
-	&:checked
-		~ .navigation, ~ main, + label
-			-ms-transform: translateX($sidebarWidth)
-			-webkit-transform: translateX($sidebarWidth)
-			transform: translateX($sidebarWidth)
-		~ main
-			opacity: 0.3
-			overflow-x: hidden
-			box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.5)
+  position: absolute
+  clip: rect(0, 0, 0, 0)
+  &:checked
+    ~ .navigation, ~ main, + label
+      -ms-transform: translateX($sidebarWidth)
+      -webkit-transform: translateX($sidebarWidth)
+      transform: translateX($sidebarWidth)
+    ~ main
+      opacity: 0.3
+      overflow-x: hidden
+      box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.5)
 
 .navigation
-	background: #333333
-	bottom: 0
-	height: 100%
-	left: -1 * $sidebarWidth
-	list-style: none
-	margin: 0
-	position: fixed
-	right: 0
-	top: 0
-	width: $sidebarWidth
-	z-index: 3
-	// -ms-transform: translateX(-1 * $sidebarWidth);
-	// -webkit-transform: translateX(-1 * $sidebarWidth);
-	// transform: translateX(-1 * $sidebarWidth);
-	li
-		@extend .font-title
-		margin: 10px
-		-webkit-border-radius: 3px
-		-moz-border-radius: 3px
-		border-radius: 3px
-		a
-			background: #222
-			border: 1px solid #444
-			color: #FFF
-			display: block
-			font-size: 14px
-			padding: 10px
+  background: #333333
+  bottom: 0
+  height: 100%
+  left: -1 * $sidebarWidth
+  list-style: none
+  margin: 0
+  position: fixed
+  right: 0
+  top: 0
+  width: $sidebarWidth
+  z-index: 3
+  // -ms-transform: translateX(-1 * $sidebarWidth);
+  // -webkit-transform: translateX(-1 * $sidebarWidth);
+  // transform: translateX(-1 * $sidebarWidth);
+  li
+    @extend .font-title
+    margin: 10px
+    -webkit-border-radius: 3px
+    -moz-border-radius: 3px
+    border-radius: 3px
+    a
+      background: #222
+      border: 1px solid #444
+      color: #FFF
+      display: block
+      font-size: 14px
+      padding: 10px
 
 @media print
-	header
-		display: none
+  header
+    display: none

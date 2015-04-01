@@ -1,50 +1,50 @@
 ul.categories-list
-	max-width: none
+  max-width: none
 
-	li
-		max-width: 250px
-		padding: 10px
+  li
+    max-width: 250px
+    padding: 10px
 
-		.container
-			border: 1px solid #ddd
+    .container
+      border: 1px solid #ddd
 
-			-webkit-border-radius: 3px;
-			-moz-border-radius: 3px;
-			border-radius: 3px;
-		.title
-			@extend .font-title
-			color: #FFF
-			font-size: 12px
-			padding: 15px 0
-			text-align: center
+      -webkit-border-radius: 3px;
+      -moz-border-radius: 3px;
+      border-radius: 3px;
+    .title
+      @extend .font-title
+      color: #FFF
+      font-size: 12px
+      padding: 15px 0
+      text-align: center
 
-		.child
-			border-bottom: 1px solid #EEE
-			font-size: 12px
-			position: relative
-			a
-				display: block
-				padding: 5px 10px
-				width: 80%
-				&:hover
-					color: blue
-					text-decoration: underline
-			.count
-				position: absolute
-				top: 5px
-				color: #999
-				font-size: 12px
-				right: 5px
-			&:nth-child(odd)
-				background: #f6f6f6
+    .child
+      border-bottom: 1px solid #EEE
+      font-size: 12px
+      position: relative
+      a
+        display: block
+        padding: 5px 10px
+        width: 80%
+        &:hover
+          color: blue
+          text-decoration: underline
+      .count
+        position: absolute
+        top: 5px
+        color: #999
+        font-size: 12px
+        right: 5px
+      &:nth-child(odd)
+        background: #f6f6f6
 
-		&:nth-child(5n)   .title
-			background: #2ecc71
-		&:nth-child(5n+1) .title
-			background: #3498db
-		&:nth-child(5n+2) .title
-			background: #e74c3c
-		&:nth-child(5n+3) .title
-			background: #16a085
-		&:nth-child(5n+4) .title
-			background: #34495e
+    &:nth-child(5n)   .title
+      background: #2ecc71
+    &:nth-child(5n+1) .title
+      background: #3498db
+    &:nth-child(5n+2) .title
+      background: #e74c3c
+    &:nth-child(5n+3) .title
+      background: #16a085
+    &:nth-child(5n+4) .title
+      background: #34495e

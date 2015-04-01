@@ -1,0 +1,21 @@
+ul#messages
+  @extend .font-title
+  color: #FFF
+  color: rgba(0, 0, 0, 0.5)
+  margin: 0
+  padding: 0
+  text-align: center
+  width: 100%
+  li
+    background: #DE2D1E
+    padding: 10px
+    &.warning
+      background: #FD8603
+    &.success
+      background: #2ecc71
+    &.error
+      color: rgba(255, 255, 255, 0.75)
+
+@media print
+  ul#messages
+    display: none !important

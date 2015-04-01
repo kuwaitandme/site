@@ -1,0 +1,138 @@
+.pt-page.classified-post
+  background: #FFF
+  #ajax-spinner
+    position: relative
+    height: 50px
+    width: 50px
+    display: none
+    margin: 0 70px
+  #price-row
+    margin: 0 0 1rem 0
+  small.error
+    display: none
+  .show-error small.error
+    display: block
+  .seperator
+    margin: 0
+  .page
+    opacity: 0
+    display: none
+    padding: 20px 10px
+    min-height: 100%
+    > .row
+      margin: 0 0 1rem 0
+  select, input, textarea
+    @extend .font-text
+    outline: none
+    margin: 0
+  label
+    margin-bottom: 5px
+  textarea
+    min-height: 200px
+  h1
+    display: inline-block
+    margin-bottom: 0
+    width: auto
+  .hint
+    padding: 15px 0 30px
+    a
+      font-weight: bold
+      text-decoration: none
+      border-bottom: 2px solid #E74C3C
+      color: #E74C3C
+  // .error {
+  // 	border-bottom: 2px solid #E74C3C !important;
+  // }
+  // textarea { min-height: 200px; }
+  .submit
+    @extend .font-title
+    +single-transition(background)
+    background: #2ecc71
+    border: none
+    color: #FFF
+    cursor: pointer
+    font-weight: 400
+    padding: 10px 20px
+    margin: 20px 0
+    width: auto
+    &:hover
+      background: #27ae60
+  .seperator
+    background: #EEE
+  #map-canvas
+    position: relative
+    height: 400px
+    width: 100%
+  .post-nav
+    color: #777
+    font-size: 12px
+    text-transform: uppercase
+    a
+      text-decoration: none
+      &:active, &:hover
+        color: #000
+  #image-upload
+    background: #f9f9f9
+    border: 2px dotted #DDD
+    color: rgba(0, 0, 0, 0.75)
+    min-height: 200px
+    padding-top: 75px
+    text-align: center
+    &:hover
+      border-color: #3498db
+  #image-upload-preview
+    +clearfix
+    +single-transition(border-color)
+    border: dotted 2px #EEE
+    margin-top: 10px
+    min-height: 50px
+    padding: 0
+    &:hover
+      border-color: #3498db
+    .dz-preview
+      border-right: 1px solid #DDD
+      float: left
+      height: 100px
+      overflow: hidden
+      position: relative
+      width: 100px
+      .delete
+        +single-transition(opacity)
+        background: rgba(255, 255, 255, 0.8)
+        color: #e74c3c
+        height: 100px
+        left: 0
+        opacity: 0
+        position: absolute
+        text-align: center
+        top: 0
+        width: 100px
+        div
+          cursor: pointer
+          font-size: 25px
+          padding-top: 33px
+      &:hover .delete
+        opacity: 1
+  .social
+    +clearfix
+    overflow: hidden
+    text-align: center
+    padding: 0
+    div
+      @extend .font-awesome
+      color: #FFF
+      float: left
+      font-size: 20px
+      padding: 10px 0
+      margin: 0px 10px
+      text-align: center
+      width: 50px
+      -webkit-border-radius: 25px
+      -moz-border-radius: 25px
+      border-radius: 25px
+    .facebook div
+      background: #3B5390
+    .twitter div
+      background: #00AFEB
+    .gplus div
+      background: #CC4534

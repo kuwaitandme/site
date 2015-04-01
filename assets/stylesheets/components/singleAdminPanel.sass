@@ -1,0 +1,29 @@
+#admin-single
+  +clearfix
+  background: #FFF
+  text-align: center
+  padding-left: 30px
+  border-bottom: 1px solid #EEE
+  input
+    background: transparent
+    border: none
+    padding: 0
+  .item
+    @extend .font-title
+    +single-transition
+    border-bottom: 2px solid transparent
+    color: #777
+    cursor: pointer
+    display: inline-block
+    float: left
+    font-size: 13px
+    padding: 10px
+    &.active, &:hover
+      border-bottom-color: #FF6600
+      color: #000
+    a
+      text-decoration: none
+
+@media print
+  #admin-single
+    display: none !important
