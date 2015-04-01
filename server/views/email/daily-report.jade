@@ -1,7 +1,7 @@
 html
-	| #{classifieds.length} un-published classified(s) today.
-	br
-	br
-	each classified in classifieds
-		a(href="#{host}/classified/#{classified._id}") #{classified.title}
-		br
+  | #{classifieds.length} un-published classified(s) today.
+  br
+  br
+  each classified in classifieds
+    a(href="#{host}/classified/#{classified._id}") #{classified.title}
+    br

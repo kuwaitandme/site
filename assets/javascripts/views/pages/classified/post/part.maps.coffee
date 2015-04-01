@@ -1,81 +1,81 @@
 module.exports = Backbone.View.extend
-	name: '[view:classified-post:maps]'
+  name: '[view:classified-post:maps]'
 
-	initialize: (options) ->
-		if options.model     then     @model = options.model
-		if options.$el       then       @$el = options.$el
-		if options.resources then @resources = options.resources
+  initialize: (options) ->
+    if options.model     then     @model = options.model
+    if options.$el       then       @$el = options.$el
+    if options.resources then @resources = options.resources
 
-		@$gmap  = @$ '#map-canvas'
-		@$gmapX = @$ '#gmapX'
-		@$gmapY = @$ '#gmapY'
+    @$gmap  = @$ '#map-canvas'
+    @$gmapX = @$ '#gmapX'
+    @$gmapY = @$ '#gmapY'
 
-		@on "close", @close
-		@setDOM()
+    @on "close", @close
+    @setDOM()
 
-	render: ->
-		init = => @initializeGoogleMaps()
+  render: ->
+    init = => @initializeGoogleMaps()
 
-		# Delete the map if any
-		@gmap = null
+    # Delete the map if any
+    @gmap = null
 
-		if not window.gmapInitialized
-			window.gmapInitializeListeners.push init
-		else init()
-
-
-	setModel: ->
-		@model.set
-			meta:
-				gmapX: @$gmapX.val()
-				gmapY: @$gmapY.val()
+    if not window.gmapInitialized
+      window.gmapInitializeListeners.push init
+    else init()
 
 
-	setDOM: ->
-		@$gmapX.val (@model.get 'meta').gmapX
-		@$gmapY.val (@model.get 'meta').gmapY
+  setModel: ->
+    @model.set
+      meta:
+        gmapX: @$gmapX.val()
+        gmapY: @$gmapY.val()
 
 
-	initializeGoogleMaps: ->
-		X = @$gmapX.val() or 29.27985
-		Y = @$gmapY.val() or 47.98448
-
-		# The default co-ordinates to which we will center the map
-		myLatlng = new (google.maps.LatLng)(X, Y)
-
-		# Initialize the map
-		@gmap = new (google.maps.Map)(@$gmap[0],
-			center: myLatlng
-			mapTypeControl: false
-			mapTypeId: google.maps.MapTypeId.ROADMAP
-			scrollwheel: false
-			zoom: 13)
-
-		# Initialize the marker
-		@gmarker = new (google.maps.Marker)(
-			draggable: true
-			map: @gmap
-			position: myLatlng)
-
-		# Add a listener to center the map on the marker whenever th
-		# marker has been dragged
-		google.maps.event.addListener @gmarker, 'dragend', (event) =>
-			# Center the map on the position of the marker
-			latLng = @gmarker.getPosition()
-
-			@gmap.setCenter latLng
-
-			@model.set
-				meta:
-					gmapX: latLng.lat()
-					gmapY: latLng.lng()
-			# # Set our hidden input fields so that the backend can catch the
-			# # co-ordinates
-			# self.$gmapX.val latLng.lat()
-			# self.$gmapY.val latLng.lng()
+  setDOM: ->
+    @$gmapX.val (@model.get 'meta').gmapX
+    @$gmapY.val (@model.get 'meta').gmapY
 
 
-	close: ->
-		@remove()
-		@unbind()
-		@stopListening()
+  initializeGoogleMaps: ->
+    X = @$gmapX.val() or 29.27985
+    Y = @$gmapY.val() or 47.98448
+
+    # The default co-ordinates to which we will center the map
+    myLatlng = new (google.maps.LatLng)(X, Y)
+
+    # Initialize the map
+    @gmap = new (google.maps.Map)(@$gmap[0],
+      center: myLatlng
+      mapTypeControl: false
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+      scrollwheel: false
+      zoom: 13)
+
+    # Initialize the marker
+    @gmarker = new (google.maps.Marker)(
+      draggable: true
+      map: @gmap
+      position: myLatlng)
+
+    # Add a listener to center the map on the marker whenever th
+    # marker has been dragged
+    google.maps.event.addListener @gmarker, 'dragend', (event) =>
+      # Center the map on the position of the marker
+      latLng = @gmarker.getPosition()
+
+      @gmap.setCenter latLng
+
+      @model.set
+        meta:
+          gmapX: latLng.lat()
+          gmapY: latLng.lng()
+      # # Set our hidden input fields so that the backend can catch the
+      # # co-ordinates
+      # self.$gmapX.val latLng.lat()
+      # self.$gmapY.val latLng.lng()
+
+
+  close: ->
+    @remove()
+    @unbind()
+    @stopListening()

@@ -1,8 +1,8 @@
 |<% if(images) { %>
 ul.small-block-grid-2.medium-block-grid-3.large-block-grid-4
-	|	<% _.each(images, function(img) {  %>
-	li
-		a(href!="/uploads/main/<%= img %>")
-			img.thumb(src!="/uploads/thumb/<%= img %>")
-	|	<% }); %>
+  |  <% _.each(images, function(img) {  %>
+  li
+    a(href!="/uploads/main/<%= img %>")
+      img.thumb(src!="/uploads/thumb/<%= img %>")
+  |  <% }); %>
 |<% } %>

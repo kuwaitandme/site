@@ -1,268 +1,268 @@
 .tab
-	.tab-title Here are some perks that can boost your audience!
-	.tab-perk.enabled
-		.perk-title Urgent Classified
-		.hint Need to sell something urgently? We'll make your classified stand out and bring you more attention than regular classifieds.
-		.button.active(data-val=0) Preview
-		.button.cancel(data-val=0) Cancel
-		a(href="#modal-purchase")
-			.button.price(data-val=0) Buy for 5 KWD
+  .tab-title Here are some perks that can boost your audience!
+  .tab-perk.enabled
+    .perk-title Urgent Classified
+    .hint Need to sell something urgently? We'll make your classified stand out and bring you more attention than regular classifieds.
+    .button.active(data-val=0) Preview
+    .button.cancel(data-val=0) Cancel
+    a(href="#modal-purchase")
+      .button.price(data-val=0) Buy for 5 KWD
 
-	.tab-perk.disable
-		.perk-title Top Classified
-		.hint Need alot of attention? We'll make your classified stay on the top page of it's category for three days. Get the most attention than any other classified.
-		.button(data-val=1).active Coming soon
+  .tab-perk.disable
+    .perk-title Top Classified
+    .hint Need alot of attention? We'll make your classified stay on the top page of it's category for three days. Get the most attention than any other classified.
+    .button(data-val=1).active Coming soon
 
-	section.modal--show#modal-purchase(tabindex='-1', role='dialog', aria-labelledby='modal-label', aria-hidden='true')
-		.modal-inner
-			.panel#panel-1
-				.title Buy this perk
-				.order Order for <b>'Urgent Classified'</b> perk: 15 USD (~5 KWD)
-				#payment-errors
-				form
-					input(type="hidden", name="_csrf", value="#{csrfToken}")
-					input#ccc(required, type='text', placeholder='Credit Card #').by-two
-					input#cname(required, type='text', placeholder="Name as on your card").by-two
-					input#cvv(required, type='text', placeholder='CVV code').by-three
-					select#cmdate(required).by-three
-						option(value="", disabled, selected) Month
-						option(value="01") 01 January
-						option(value="02") 02 February
-						option(value="03") 03 March
-						option(value="04") 04 April
-						option(value="05") 05 May
-						option(value="06") 06 June
-						option(value="07") 07 July
-						option(value="08") 08 August
-						option(value="09") 09 September
-						option(value="10") 10 October
-						option(value="11") 11 November
-						option(value="12") 12 December
-					select#cydate(required).by-three
-						option(value="", disabled, selected) Year
-						option(value="15") 2015
-						option(value="16") 2016
-						option(value="17") 2017
-						option(value="18") 2018
-						option(value="19") 2019
-						option(value="20") 2020
-						option(value="21") 2021
-						option(value="22") 2022
-						option(value="23") 2023
-						option(value="24") 2024
-						option(value="25") 2025
-					input#caddr1(required, type='text', placeholder="Address Line 1")
-					input#caddr2(required, type='text', placeholder="Address Line 1")
-					input#cstate(required, type='text', placeholder="State").by-three
-					input#ccity(required, type='text', placeholder="City").by-three
-					input#czip(required, type='text', placeholder="Zip Code").by-three
-					select#ccountry(required).by-three
-						option(value="", disabled, selected) Country
-						option(value="AUS") Australia
-						option(value="ALB") Albania
-						option(value="DZA") Algeria
-						option(value="AND") Andorra
-						option(value="AGO") Angola
-						option(value="AIA") Anguilla
-						option(value="ATG") Antigua and Barbuda
-						option(value="ARG") Argentina
-						option(value="ARM") Armenia
-						option(value="ABW") Aruba
-						option(value="AUT") Austria
-						option(value="AZE") Azerbaijan Republic
-						option(value="BHS") Bahamas
-						option(value="BHR") Bahrain
-						option(value="BRB") Barbados
-						option(value="BEL") Belgium
-						option(value="BLZ") Belize
-						option(value="BEN") Benin
-						option(value="BMU") Bermuda
-						option(value="BTN") Bhutan
-						option(value="BOL") Bolivia
-						option(value="BIH") Bosnia and Herzegovina
-						option(value="BWA") Botswana
-						option(value="BRA") Brazikul
-						option(value="VGB") British Virgin Islands
-						option(value="BRN") Brunei
-						option(value="BGR") Bulgaria
-						option(value="BFA") Burkina Faso
-						option(value="BDI") Burundi
-						option(value="CAN") Canada
-						option(value="KHM") Cambodia
-						option(value="CPV") Cape Verde
-						option(value="CYM") Cayman Islands
-						option(value="TCD") Chad
-						option(value="CHL") Chile
-						option(value="CHN") China Worldwide
-						option(value="COL") Colombia
-						option(value="COM") Comoros
-						option(value="COK") Cook Islands
-						option(value="CRI") Costa Rica
-						option(value="HRV") Croatia
-						option(value="CYP") Cyprus
-						option(value="CZE") Czech Republic
-						option(value="COD") Democratic Republic of the Congo
-						option(value="DNK") Denmark
-						option(value="DJI") Djibouti
-						option(value="DMA") Dominica
-						option(value="DOM") Dominican Republic
-						option(value="ECU") Ecuador
-						option(value="SLV") El Salvador
-						option(value="ERI") Eritrea
-						option(value="EST") Estonia
-						option(value="ETH") Ethiopia
-						option(value="FLK") Falkland Islands
-						option(value="FRO") Faroe Islands
-						option(value="FSM") Federated States of Micronesia
-						option(value="FJI") Fiji
-						option(value="FIN") Finland
-						option(value="FRA") France
-						option(value="GUF") French Guiana
-						option(value="PYF") French Polynesia
-						option(value="GAB") Gabon Republic
-						option(value="GMB") Gambia
-						option(value="DEU") Germany
-						option(value="GIB") Gibraltar
-						option(value="GRC") Greece
-						option(value="GRL") Greenland
-						option(value="GRD") Grenada
-						option(value="GLP") Guadeloupe
-						option(value="GTM") Guatemala
-						option(value="GIN") Guinea
-						option(value="GNB") Guinea Bissau
-						option(value="GUY") Guyana
-						option(value="HND") Honduras
-						option(value="HKG") Hong Kong
-						option(value="HUN") Hungary
-						option(value="ISL") Iceland
-						option(value="IND") India
-						option(value="IDN") Indonesia
-						option(value="IRL") Ireland
-						option(value="ISR") Israel
-						option(value="ITA") Italy
-						option(value="JAM") Jamaica
-						option(value="JPN") Japan
-						option(value="JOR") Jordan
-						option(value="KAZ") Kazakhstan
-						option(value="KEN") Kenya
-						option(value="KIR") Kiribati
-						option(value="KWT") Kuwait
-						option(value="KGZ") Kyrgyzstan
-						option(value="LAO") Laos
-						option(value="LVA") Latvia
-						option(value="LSO") Lesotho
-						option(value="LIE") Liechtenstein
-						option(value="LTU") Lithuania
-						option(value="LUX") Luxembourg
-						option(value="MDG") Madagascar
-						option(value="MWI") Malawi
-						option(value="MYS") Malaysia
-						option(value="MDV") Maldives
-						option(value="MLI") Mali
-						option(value="MLT") Malta
-						option(value="MHL") Marshall Islands
-						option(value="MTQ") Martinique
-						option(value="MRT") Mauritania
-						option(value="MUS") Mauritius
-						option(value="MYT") Mayotte
-						option(value="MEX") Mexico
-						option(value="MNG") Mongolia
-						option(value="MSR") Montserrat
-						option(value="MAR") Morocco
-						option(value="MOZ") Mozambique
-						option(value="NAM") Namibia
-						option(value="NRU") Nauru
-						option(value="NPL") Nepal
-						option(value="NLD") Netherlands
-						option(value="ANT") Netherlands Antilles
-						option(value="NCL") New Caledonia
-						option(value="NZL") New Zealand
-						option(value="NIC") Nicaragua
-						option(value="NER") Niger
-						option(value="NIU") Niue
-						option(value="NFK") Norfolk Island
-						option(value="NOR") Norway
-						option(value="OMN") Oman
-						option(value="PLW") Palau
-						option(value="PAN") Panama
-						option(value="PNG") Papua New Guinea
-						option(value="PER") Peru
-						option(value="PHL") Philippines
-						option(value="PCN") Pitcairn Islands
-						option(value="POL") Poland
-						option(value="PRT") Portugal
-						option(value="QAT") Qatar
-						option(value="COD") Republic of the Congo
-						option(value="REU") Reunion
-						option(value="ROM") Romania
-						option(value="RUS") Russia
-						option(value="RWA") Rwanda
-						option(value="VCT") Saint Vincent and the Grenadines
-						option(value="WSM") Samoa
-						option(value="SMR") San Marino
-						option(value="STP") São Tomé and Príncipe
-						option(value="SAU") Saudi Arabia
-						option(value="SEN") Senegal
-						option(value="SYC") Seychelles
-						option(value="SLE") Sierra Leone
-						option(value="SGP") Singapore
-						option(value="SVK") Slovakia
-						option(value="SVN") Slovenia
-						option(value="SLB") Solomon Islands
-						option(value="SOM") Somalia
-						option(value="ZAF") South Africa
-						option(value="KOR") South Korea
-						option(value="ESP") Spain
-						option(value="LKA") Sri Lanka
-						option(value="SHN") St. Helena
-						option(value="KNA") St. Kitts and Nevis
-						option(value="LCA") St. Lucia
-						option(value="SPM") St. Pierre and Miquelon
-						option(value="SUR") Suriname
-						option(value="SJM") Svalbard and Jan Mayen Islands
-						option(value="SWZ") Swaziland
-						option(value="SWE") Sweden
-						option(value="CHE") Switzerland
-						option(value="TWN") Taiwan
-						option(value="TJK") Tajikistan
-						option(value="TZA") Tanzania
-						option(value="THA") Thailand
-						option(value="TGO") Togo
-						option(value="TON") Tonga
-						option(value="TTO") Trinidad and Tobago
-						option(value="TUN") Tunisia
-						option(value="TUR") Turkey
-						option(value="TKM") Turkmenistan
-						option(value="TCA") Turks and Caicos Islands
-						option(value="TUV") Tuvalu
-						option(value="UGA") Uganda
-						option(value="UKR") Ukraine
-						option(value="ARE") United Arab Emirates
-						option(value="USA") United States
-						option(value="GBR") United Kingdom
-						option(value="URY") Uruguay
-						option(value="VUT") Vanuatu
-						option(value="VAT") Vatican City State
-						option(value="VEN") Venezuela
-						option(value="VNM") Vietnam
-						option(value="WLF") Wallis and Futuna Islands
-						option(value="YEM") Yemen
-						option(value="ZMB") Zambia
-					input#cemail(required, type='email', placeholder="Email").by-three
-					input#cphone(required, type='tel', placeholder="Phone").by-three
-				.button.submit Make Purchase
-			.panel#panel-2
-				#ajax-spinner
-					.spinner
-				.message Processing... Do not leave this page
-		a.modal-close(href='#!', title='Cancel Purchase', data-close='Close', data-dismiss='modal') ?
+  section.modal--show#modal-purchase(tabindex='-1', role='dialog', aria-labelledby='modal-label', aria-hidden='true')
+    .modal-inner
+      .panel#panel-1
+        .title Buy this perk
+        .order Order for <b>'Urgent Classified'</b> perk: 15 USD (~5 KWD)
+        #payment-errors
+        form
+          input(type="hidden", name="_csrf", value="#{csrfToken}")
+          input#ccc(required, type='text', placeholder='Credit Card #').by-two
+          input#cname(required, type='text', placeholder="Name as on your card").by-two
+          input#cvv(required, type='text', placeholder='CVV code').by-three
+          select#cmdate(required).by-three
+            option(value="", disabled, selected) Month
+            option(value="01") 01 January
+            option(value="02") 02 February
+            option(value="03") 03 March
+            option(value="04") 04 April
+            option(value="05") 05 May
+            option(value="06") 06 June
+            option(value="07") 07 July
+            option(value="08") 08 August
+            option(value="09") 09 September
+            option(value="10") 10 October
+            option(value="11") 11 November
+            option(value="12") 12 December
+          select#cydate(required).by-three
+            option(value="", disabled, selected) Year
+            option(value="15") 2015
+            option(value="16") 2016
+            option(value="17") 2017
+            option(value="18") 2018
+            option(value="19") 2019
+            option(value="20") 2020
+            option(value="21") 2021
+            option(value="22") 2022
+            option(value="23") 2023
+            option(value="24") 2024
+            option(value="25") 2025
+          input#caddr1(required, type='text', placeholder="Address Line 1")
+          input#caddr2(required, type='text', placeholder="Address Line 1")
+          input#cstate(required, type='text', placeholder="State").by-three
+          input#ccity(required, type='text', placeholder="City").by-three
+          input#czip(required, type='text', placeholder="Zip Code").by-three
+          select#ccountry(required).by-three
+            option(value="", disabled, selected) Country
+            option(value="AUS") Australia
+            option(value="ALB") Albania
+            option(value="DZA") Algeria
+            option(value="AND") Andorra
+            option(value="AGO") Angola
+            option(value="AIA") Anguilla
+            option(value="ATG") Antigua and Barbuda
+            option(value="ARG") Argentina
+            option(value="ARM") Armenia
+            option(value="ABW") Aruba
+            option(value="AUT") Austria
+            option(value="AZE") Azerbaijan Republic
+            option(value="BHS") Bahamas
+            option(value="BHR") Bahrain
+            option(value="BRB") Barbados
+            option(value="BEL") Belgium
+            option(value="BLZ") Belize
+            option(value="BEN") Benin
+            option(value="BMU") Bermuda
+            option(value="BTN") Bhutan
+            option(value="BOL") Bolivia
+            option(value="BIH") Bosnia and Herzegovina
+            option(value="BWA") Botswana
+            option(value="BRA") Brazikul
+            option(value="VGB") British Virgin Islands
+            option(value="BRN") Brunei
+            option(value="BGR") Bulgaria
+            option(value="BFA") Burkina Faso
+            option(value="BDI") Burundi
+            option(value="CAN") Canada
+            option(value="KHM") Cambodia
+            option(value="CPV") Cape Verde
+            option(value="CYM") Cayman Islands
+            option(value="TCD") Chad
+            option(value="CHL") Chile
+            option(value="CHN") China Worldwide
+            option(value="COL") Colombia
+            option(value="COM") Comoros
+            option(value="COK") Cook Islands
+            option(value="CRI") Costa Rica
+            option(value="HRV") Croatia
+            option(value="CYP") Cyprus
+            option(value="CZE") Czech Republic
+            option(value="COD") Democratic Republic of the Congo
+            option(value="DNK") Denmark
+            option(value="DJI") Djibouti
+            option(value="DMA") Dominica
+            option(value="DOM") Dominican Republic
+            option(value="ECU") Ecuador
+            option(value="SLV") El Salvador
+            option(value="ERI") Eritrea
+            option(value="EST") Estonia
+            option(value="ETH") Ethiopia
+            option(value="FLK") Falkland Islands
+            option(value="FRO") Faroe Islands
+            option(value="FSM") Federated States of Micronesia
+            option(value="FJI") Fiji
+            option(value="FIN") Finland
+            option(value="FRA") France
+            option(value="GUF") French Guiana
+            option(value="PYF") French Polynesia
+            option(value="GAB") Gabon Republic
+            option(value="GMB") Gambia
+            option(value="DEU") Germany
+            option(value="GIB") Gibraltar
+            option(value="GRC") Greece
+            option(value="GRL") Greenland
+            option(value="GRD") Grenada
+            option(value="GLP") Guadeloupe
+            option(value="GTM") Guatemala
+            option(value="GIN") Guinea
+            option(value="GNB") Guinea Bissau
+            option(value="GUY") Guyana
+            option(value="HND") Honduras
+            option(value="HKG") Hong Kong
+            option(value="HUN") Hungary
+            option(value="ISL") Iceland
+            option(value="IND") India
+            option(value="IDN") Indonesia
+            option(value="IRL") Ireland
+            option(value="ISR") Israel
+            option(value="ITA") Italy
+            option(value="JAM") Jamaica
+            option(value="JPN") Japan
+            option(value="JOR") Jordan
+            option(value="KAZ") Kazakhstan
+            option(value="KEN") Kenya
+            option(value="KIR") Kiribati
+            option(value="KWT") Kuwait
+            option(value="KGZ") Kyrgyzstan
+            option(value="LAO") Laos
+            option(value="LVA") Latvia
+            option(value="LSO") Lesotho
+            option(value="LIE") Liechtenstein
+            option(value="LTU") Lithuania
+            option(value="LUX") Luxembourg
+            option(value="MDG") Madagascar
+            option(value="MWI") Malawi
+            option(value="MYS") Malaysia
+            option(value="MDV") Maldives
+            option(value="MLI") Mali
+            option(value="MLT") Malta
+            option(value="MHL") Marshall Islands
+            option(value="MTQ") Martinique
+            option(value="MRT") Mauritania
+            option(value="MUS") Mauritius
+            option(value="MYT") Mayotte
+            option(value="MEX") Mexico
+            option(value="MNG") Mongolia
+            option(value="MSR") Montserrat
+            option(value="MAR") Morocco
+            option(value="MOZ") Mozambique
+            option(value="NAM") Namibia
+            option(value="NRU") Nauru
+            option(value="NPL") Nepal
+            option(value="NLD") Netherlands
+            option(value="ANT") Netherlands Antilles
+            option(value="NCL") New Caledonia
+            option(value="NZL") New Zealand
+            option(value="NIC") Nicaragua
+            option(value="NER") Niger
+            option(value="NIU") Niue
+            option(value="NFK") Norfolk Island
+            option(value="NOR") Norway
+            option(value="OMN") Oman
+            option(value="PLW") Palau
+            option(value="PAN") Panama
+            option(value="PNG") Papua New Guinea
+            option(value="PER") Peru
+            option(value="PHL") Philippines
+            option(value="PCN") Pitcairn Islands
+            option(value="POL") Poland
+            option(value="PRT") Portugal
+            option(value="QAT") Qatar
+            option(value="COD") Republic of the Congo
+            option(value="REU") Reunion
+            option(value="ROM") Romania
+            option(value="RUS") Russia
+            option(value="RWA") Rwanda
+            option(value="VCT") Saint Vincent and the Grenadines
+            option(value="WSM") Samoa
+            option(value="SMR") San Marino
+            option(value="STP") São Tomé and Príncipe
+            option(value="SAU") Saudi Arabia
+            option(value="SEN") Senegal
+            option(value="SYC") Seychelles
+            option(value="SLE") Sierra Leone
+            option(value="SGP") Singapore
+            option(value="SVK") Slovakia
+            option(value="SVN") Slovenia
+            option(value="SLB") Solomon Islands
+            option(value="SOM") Somalia
+            option(value="ZAF") South Africa
+            option(value="KOR") South Korea
+            option(value="ESP") Spain
+            option(value="LKA") Sri Lanka
+            option(value="SHN") St. Helena
+            option(value="KNA") St. Kitts and Nevis
+            option(value="LCA") St. Lucia
+            option(value="SPM") St. Pierre and Miquelon
+            option(value="SUR") Suriname
+            option(value="SJM") Svalbard and Jan Mayen Islands
+            option(value="SWZ") Swaziland
+            option(value="SWE") Sweden
+            option(value="CHE") Switzerland
+            option(value="TWN") Taiwan
+            option(value="TJK") Tajikistan
+            option(value="TZA") Tanzania
+            option(value="THA") Thailand
+            option(value="TGO") Togo
+            option(value="TON") Tonga
+            option(value="TTO") Trinidad and Tobago
+            option(value="TUN") Tunisia
+            option(value="TUR") Turkey
+            option(value="TKM") Turkmenistan
+            option(value="TCA") Turks and Caicos Islands
+            option(value="TUV") Tuvalu
+            option(value="UGA") Uganda
+            option(value="UKR") Ukraine
+            option(value="ARE") United Arab Emirates
+            option(value="USA") United States
+            option(value="GBR") United Kingdom
+            option(value="URY") Uruguay
+            option(value="VUT") Vanuatu
+            option(value="VAT") Vatican City State
+            option(value="VEN") Venezuela
+            option(value="VNM") Vietnam
+            option(value="WLF") Wallis and Futuna Islands
+            option(value="YEM") Yemen
+            option(value="ZMB") Zambia
+          input#cemail(required, type='email', placeholder="Email").by-three
+          input#cphone(required, type='tel', placeholder="Phone").by-three
+        .button.submit Make Purchase
+      .panel#panel-2
+        #ajax-spinner
+          .spinner
+        .message Processing... Do not leave this page
+    a.modal-close(href='#!', title='Cancel Purchase', data-close='Close', data-dismiss='modal') ?
 
 .tab#classified-preview
-	.tab-title.preview Preview
-	ul#classified-sample
-	//- .tab-perk#tab-payment
-	//- 		.total Total: <span></span> KWD
-	//- 		input.required, submit(type='submit', value='Buy perks!')
+  .tab-title.preview Preview
+  ul#classified-sample
+  //- .tab-perk#tab-payment
+  //-     .total Total: <span></span> KWD
+  //-     input.required, submit(type='submit', value='Buy perks!')
 
-	script(id='list-template', type='text/template')
-		include script-templates/search.jade
+  script(id='list-template', type='text/template')
+    include script-templates/search.jade

@@ -1,17 +1,17 @@
 module.exports = Backbone.View.extend
-	name: '[view:classified-post:begin]'
+  name: '[view:classified-post:begin]'
 
-	initialize: (options) ->
-		if options.model     then     @model = options.model
-		if options.$el       then       @$el = options.$el
-		if options.resources then @resources = options.resources
+  initialize: (options) ->
+    if options.model     then     @model = options.model
+    if options.$el       then       @$el = options.$el
+    if options.resources then @resources = options.resources
 
-		@on "close", @close
+    @on "close", @close
 
 
-	validate: -> true
+  validate: -> true
 
-	close: ->
-		@remove()
-		@unbind()
-		@stopListening()
+  close: ->
+    @remove()
+    @unbind()
+    @stopListening()

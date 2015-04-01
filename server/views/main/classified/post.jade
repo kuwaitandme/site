@@ -1,251 +1,251 @@
 extends ../../layout.jade
 
 block content
-	.row
-		section.page.small-11.medium-9.small-centered.columns#page-begin
-			if robots.classified
-				.row
-					h2 You are about to edit a classified
-				if robots.guest
-					.row.hint
-						| Use the 'next' and 'previous' buttons below to navigate
-						| between the forms. Fields marked with a '*' are compulsary
-						| and must be filled.
-				else
-					.row.hint
-						| Use the 'next' and 'previous' buttons below to navigate
-						| between the forms. Fields marked with a '*' are compulsary
-						| and must be filled.
-			else
-				.row
-					h2 You are about to post a classified!
-				.row.hint
-					| Use the 'next' and 'previous' buttons below to navigate
-					| between the forms. Fields marked with a '*' are compulsary
-					| and must be filled.
-					br
-					br
-					if robots.guest
-						| We are letting you post a classified as a guest. So we have to
-						| review your post before it gets published which can take upto
-						| 24 hours.
-						br
-						br
-						| You can avoid this delay, if you simply <a href="/auth/signup">
-						| signup</a> with us!
-					else
-						| This classified will be published immediately and can be archived
-						| by accessing your account page.
+  .row
+    section.page.small-11.medium-9.small-centered.columns#page-begin
+      if robots.classified
+        .row
+          h2 You are about to edit a classified
+        if robots.guest
+          .row.hint
+            | Use the 'next' and 'previous' buttons below to navigate
+            | between the forms. Fields marked with a '*' are compulsary
+            | and must be filled.
+        else
+          .row.hint
+            | Use the 'next' and 'previous' buttons below to navigate
+            | between the forms. Fields marked with a '*' are compulsary
+            | and must be filled.
+      else
+        .row
+          h2 You are about to post a classified!
+        .row.hint
+          | Use the 'next' and 'previous' buttons below to navigate
+          | between the forms. Fields marked with a '*' are compulsary
+          | and must be filled.
+          br
+          br
+          if robots.guest
+            | We are letting you post a classified as a guest. So we have to
+            | review your post before it gets published which can take upto
+            | 24 hours.
+            br
+            br
+            | You can avoid this delay, if you simply <a href="/auth/signup">
+            | signup</a> with us!
+          else
+            | This classified will be published immediately and can be archived
+            | by accessing your account page.
 
-			.row.post-nav
-				a(href="#page-info", data-page-nav) Next
+      .row.post-nav
+        a(href="#page-info", data-page-nav) Next
 
-		//- Form section for basic info
-		section.page.small-11.medium-9.small-centered.columns#page-info
-			.row
-				h2 Give the content for your classified
-			.row.hint
-				| Here you give the title and the content for your classified. Describe your classified
-				| giving as much detail as you can!
-				br
-				| You can mention other details like the price, location, contact info in the next page.
-			//- .tab-title #{__('page.cform.title.info')}
-			.row
-				.medium-3.columns
-					label(for="right-label") Title *
-					//-9span.prefix Title
-				.medium-9.columns.error
-					input#title(type="text", name="title", placeholder="The title for your classified goes here", tooltipp="Choose a title for your classified. The best titles are clear, meaningful and short", required)
-					small.error Please give a title
-			.row
-				.medium-3.columns
-					label(for="right-label") Description *
-					//-9span.prefix Title
-				.medium-9.columns.error
-					textarea#description(name='description', placeholder="Your description will go here", required)
-					small.error Please give the description
+    //- Form section for basic info
+    section.page.small-11.medium-9.small-centered.columns#page-info
+      .row
+        h2 Give the content for your classified
+      .row.hint
+        | Here you give the title and the content for your classified. Describe your classified
+        | giving as much detail as you can!
+        br
+        | You can mention other details like the price, location, contact info in the next page.
+      //- .tab-title #{__('page.cform.title.info')}
+      .row
+        .medium-3.columns
+          label(for="right-label") Title *
+          //-9span.prefix Title
+        .medium-9.columns.error
+          input#title(type="text", name="title", placeholder="The title for your classified goes here", tooltipp="Choose a title for your classified. The best titles are clear, meaningful and short", required)
+          small.error Please give a title
+      .row
+        .medium-3.columns
+          label(for="right-label") Description *
+          //-9span.prefix Title
+        .medium-9.columns.error
+          textarea#description(name='description', placeholder="Your description will go here", required)
+          small.error Please give the description
 
-			//- ul.error-message
-			.row.post-nav
-				a(href="#page-begin", data-page-nav) Previous
-				| &nbsp; &middot; &nbsp;
-				a(href="#page-details", data-page-nav) Next
-
-
-		section.page.small-11.medium-9.small-centered.columns#page-details
-			.row
-				h2 Details about your classified
-			.row.hint
-				| Here you'll mention things like the price, location, category of your classified.
-				br
-				| This will help make your classified more visible and easily searchable.
-
-			.row
-				.medium-3.columns
-					label(for="right-label") Price *
-				.medium-9.columns.error
-					select#price-selector(name="price-option", tooltipp="Choose a price. If you want people to contact you for a quote, choose the 'Contact Owner' option.", required)
-						option(value="", disabled, selected) The price for your classified
-						option(value='0') Free
-						option(value='-1') Contact Owner
-						option(value='1') Specify Value
-					small.error Please choose a price
-
-					.row.collapse.hide#price-row.error
-						.small-3.medium-2.columns
-							span.prefix KWD
-						.small-9.medium-10.columns
-							input#price-field(type="text", name="price", value=0, placeholder="Your price in Kuwati Dinar", required)
-						small.error Please give a price
-
-			.row
-				.medium-3.columns
-					label(for="right-label") Type *
-				.medium-9.columns.error
-					select#ctype(name="type", required, tooltipp="If you choose 'Offering', then you are offering something. If you choose 'Wanted', then you are requesting for something.")
-						option(value="", disabled, selected) What kind of classified is this?
-						option(value="0") Offering
-						option(value="1") Wanted
-					small.error Please choose a type
-
-			.row
-				.medium-3.columns
-					label(for="right-label") Category *
-				.medium-9.columns.error
-					select#cat-selector(name="parent-category", required, tooltipp="Choose the categories that best fit your classified")
-						option(value="", disabled) Choose a category
-					small.error Please choose a category
-					.row.collapse#child-row.error
-						select#childcat-selector(name="child-category", required, tooltipp="Choose the categories that best fit your classified")
-							option(value="", disabled) Choose a sub-category
-						small.error Please choose a sub-category
-					.row.collapse#baby-row.error
-						select#childcat-selector(name="baby-category", required, tooltipp="Choose the categories that best fit your classified")
-							option(value="", disabled) Choose a second sub-category
-						small.error Please choose the second sub-category
-			.row
-				.medium-3.columns
-					label(for="right-label") Email
-				.medium-9.columns
-					.row.collapse
-						.small-3.medium-2.columns
-							span.prefix @
-						.small-9.medium-10.columns
-							input#email(type="text", name="email", tooltipp="The email address that should be displayed on the classified", placeholder="A contact email")
-			.row
-				.medium-3.columns
-					label(for="right-label") Phone
-				.medium-9.columns
-					.row.collapse
-						.small-3.medium-2.columns
-							span.prefix +965
-						.small-9.medium-10.columns
-							input#phone(type="text", name="phone", tooltipp="A contact phone number (not required)", placeholder="Contact phone number")
-			.row
-				.medium-3.columns
-					label(for="right-label") Location
-				.medium-9.columns
-					select#locations(name="location",  tooltipp="Choose the location for your classified. Click on 'None' if a location is not required.")
-						option(value="", disabled, selected) Choose a location
-						option(value="") None
-			//- .row
-			//- 	input#address1(type="text", name="address1", tooltipp="You can write the contact address for your classified here", placeholder="Address line 1").hide
-			//- .row
-			//- 	input#address2(type="text", name="address2", placeholder="Address line 2").hide
-
-			ul.error-message
-			.row.post-nav
-				a(href="#page-info", data-page-nav) Previous
-				| &nbsp; &middot; &nbsp;
-				a(href="#page-images", data-page-nav) Next
+      //- ul.error-message
+      .row.post-nav
+        a(href="#page-begin", data-page-nav) Previous
+        | &nbsp; &middot; &nbsp;
+        a(href="#page-details", data-page-nav) Next
 
 
-		//- Form section for photos and videos
-		section.page.small-11.medium-9.small-centered.columns#page-images
-			.row
-				h2 Upload some images
+    section.page.small-11.medium-9.small-centered.columns#page-details
+      .row
+        h2 Details about your classified
+      .row.hint
+        | Here you'll mention things like the price, location, category of your classified.
+        br
+        | This will help make your classified more visible and easily searchable.
 
-			//- Drag and drop container
-			.row.hint
-				b Get at least twice the number of views by uploading images
-				| . Upload upto 10 images with each image having a maximum size of 10 MB.
-				br
-				br
-				| Add your images here, by dragging and dropping them into the box below or by clicking on it.
-				br
-				br
-				b Professionaly taken images get promoted my our moderators and have a better chance to be placed on the homepage.
+      .row
+        .medium-3.columns
+          label(for="right-label") Price *
+        .medium-9.columns.error
+          select#price-selector(name="price-option", tooltipp="Choose a price. If you want people to contact you for a quote, choose the 'Contact Owner' option.", required)
+            option(value="", disabled, selected) The price for your classified
+            option(value='0') Free
+            option(value='-1') Contact Owner
+            option(value='1') Specify Value
+          small.error Please choose a price
 
-			form#image-form.row
-				#image-upload
-					span.heading Drag &amp; Drop your images here
-					br
-					span or just click/tap.
+          .row.collapse.hide#price-row.error
+            .small-3.medium-2.columns
+              span.prefix KWD
+            .small-9.medium-10.columns
+              input#price-field(type="text", name="price", value=0, placeholder="Your price in Kuwati Dinar", required)
+            small.error Please give a price
+
+      .row
+        .medium-3.columns
+          label(for="right-label") Type *
+        .medium-9.columns.error
+          select#ctype(name="type", required, tooltipp="If you choose 'Offering', then you are offering something. If you choose 'Wanted', then you are requesting for something.")
+            option(value="", disabled, selected) What kind of classified is this?
+            option(value="0") Offering
+            option(value="1") Wanted
+          small.error Please choose a type
+
+      .row
+        .medium-3.columns
+          label(for="right-label") Category *
+        .medium-9.columns.error
+          select#cat-selector(name="parent-category", required, tooltipp="Choose the categories that best fit your classified")
+            option(value="", disabled) Choose a category
+          small.error Please choose a category
+          .row.collapse#child-row.error
+            select#childcat-selector(name="child-category", required, tooltipp="Choose the categories that best fit your classified")
+              option(value="", disabled) Choose a sub-category
+            small.error Please choose a sub-category
+          .row.collapse#baby-row.error
+            select#childcat-selector(name="baby-category", required, tooltipp="Choose the categories that best fit your classified")
+              option(value="", disabled) Choose a second sub-category
+            small.error Please choose the second sub-category
+      .row
+        .medium-3.columns
+          label(for="right-label") Email
+        .medium-9.columns
+          .row.collapse
+            .small-3.medium-2.columns
+              span.prefix @
+            .small-9.medium-10.columns
+              input#email(type="text", name="email", tooltipp="The email address that should be displayed on the classified", placeholder="A contact email")
+      .row
+        .medium-3.columns
+          label(for="right-label") Phone
+        .medium-9.columns
+          .row.collapse
+            .small-3.medium-2.columns
+              span.prefix +965
+            .small-9.medium-10.columns
+              input#phone(type="text", name="phone", tooltipp="A contact phone number (not required)", placeholder="Contact phone number")
+      .row
+        .medium-3.columns
+          label(for="right-label") Location
+        .medium-9.columns
+          select#locations(name="location",  tooltipp="Choose the location for your classified. Click on 'None' if a location is not required.")
+            option(value="", disabled, selected) Choose a location
+            option(value="") None
+      //- .row
+      //-   input#address1(type="text", name="address1", tooltipp="You can write the contact address for your classified here", placeholder="Address line 1").hide
+      //- .row
+      //-   input#address2(type="text", name="address2", placeholder="Address line 2").hide
+
+      ul.error-message
+      .row.post-nav
+        a(href="#page-info", data-page-nav) Previous
+        | &nbsp; &middot; &nbsp;
+        a(href="#page-images", data-page-nav) Next
 
 
-			ul.row#image-upload-preview
-			.row.hint Selected images get displayed above. If you want to remove an image, simply click on it.
+    //- Form section for photos and videos
+    section.page.small-11.medium-9.small-centered.columns#page-images
+      .row
+        h2 Upload some images
 
-			.row.post-nav
-				a(href="#page-details", data-page-nav) Previous
-				| &nbsp; &middot; &nbsp;
-				a(href="#page-submit", data-page-nav)#page-4-next Next
+      //- Drag and drop container
+      .row.hint
+        b Get at least twice the number of views by uploading images
+        | . Upload upto 10 images with each image having a maximum size of 10 MB.
+        br
+        br
+        | Add your images here, by dragging and dropping them into the box below or by clicking on it.
+        br
+        br
+        b Professionaly taken images get promoted my our moderators and have a better chance to be placed on the homepage.
 
-
-		section.page.small-11.medium-9.small-centered.columns#page-maps
-			.row
-				h2 Help people navigate to you!
-			.row.hint
-				| Most people have a hard time finding their way to you. Show them exactly where you want to meet by&nbsp;
-				b dragging and dropping the pointer below&nbsp;
-				| to the location of your meeting point.
-			#map-canvas
-			input#gmapX(name="gmapX", type="hidden")
-			input#gmapY(name="gmapY", type="hidden")
-
-			ul.error-message
-			.post-nav
-				a(href="#page-images", data-page-nav) Previous
-				| &nbsp; &middot; &nbsp;
-				a(href="#page-submit", data-page-nav) Next
+      form#image-form.row
+        #image-upload
+          span.heading Drag &amp; Drop your images here
+          br
+          span or just click/tap.
 
 
-		//- The submit page
-		section.page.small-11.medium-9.small-centered.columns#page-submit
-			.row
-				h2 Wasn't that simple? You're all set to go!
-			.row.hint Your classified is now ready to be uploaded as soon as you click on the button below.
-				| <br><br> !{__('page.cform.disclaimer')}
+      ul.row#image-upload-preview
+      .row.hint Selected images get displayed above. If you want to remove an image, simply click on it.
 
-			.row.gcaptcha
-
-			.row#ajax-spinner
-				img(src="/images/loader.gif")
-
-			.row.submit-container
-				input.submit(type="submit", value="#{__('page.cform.placeholder.submit')}")
-
-			.row.post-nav
-				a(href="#page-details", data-page-nav)#page-4-prev Previous
+      .row.post-nav
+        a(href="#page-details", data-page-nav) Previous
+        | &nbsp; &middot; &nbsp;
+        a(href="#page-submit", data-page-nav)#page-4-next Next
 
 
-		//- The finish page
-		section.page.small-11.medium-9.small-centered.columns#page-finish
-			.row
-				h2 Awesome! Your classified is now up and running!
-			.row.hint
-				| You can view it <a href="#" id="finishLink", data-view> here </a>
-				br
-				br
-				if robots.guest
-					| Since you posted as a guest, use this link <a href="#" id="authLink"></a> to archive/edit your classified
-					br
-					br
-				| Bring attention to your classified by sharing on
-			.row.social.hint
-				a(href="#").facebook
-					div &#xf09a;
-				a(href="#").twitter
-					div &#xf099;
-				a(href="#").gplus
-					div &#xf0d5;
+    section.page.small-11.medium-9.small-centered.columns#page-maps
+      .row
+        h2 Help people navigate to you!
+      .row.hint
+        | Most people have a hard time finding their way to you. Show them exactly where you want to meet by&nbsp;
+        b dragging and dropping the pointer below&nbsp;
+        | to the location of your meeting point.
+      #map-canvas
+      input#gmapX(name="gmapX", type="hidden")
+      input#gmapY(name="gmapY", type="hidden")
+
+      ul.error-message
+      .post-nav
+        a(href="#page-images", data-page-nav) Previous
+        | &nbsp; &middot; &nbsp;
+        a(href="#page-submit", data-page-nav) Next
+
+
+    //- The submit page
+    section.page.small-11.medium-9.small-centered.columns#page-submit
+      .row
+        h2 Wasn't that simple? You're all set to go!
+      .row.hint Your classified is now ready to be uploaded as soon as you click on the button below.
+        | <br><br> !{__('page.cform.disclaimer')}
+
+      .row.gcaptcha
+
+      .row#ajax-spinner
+        img(src="/images/loader.gif")
+
+      .row.submit-container
+        input.submit(type="submit", value="#{__('page.cform.placeholder.submit')}")
+
+      .row.post-nav
+        a(href="#page-details", data-page-nav)#page-4-prev Previous
+
+
+    //- The finish page
+    section.page.small-11.medium-9.small-centered.columns#page-finish
+      .row
+        h2 Awesome! Your classified is now up and running!
+      .row.hint
+        | You can view it <a href="#" id="finishLink", data-view> here </a>
+        br
+        br
+        if robots.guest
+          | Since you posted as a guest, use this link <a href="#" id="authLink"></a> to archive/edit your classified
+          br
+          br
+        | Bring attention to your classified by sharing on
+      .row.social.hint
+        a(href="#").facebook
+          div &#xf09a;
+        a(href="#").twitter
+          div &#xf099;
+        a(href="#").gplus
+          div &#xf0d5;

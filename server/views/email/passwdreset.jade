@@ -1,17 +1,17 @@
 html
-	h2 Password reset link
-	br
-	| Hi #{user.personal.name},
-	br
-	br
-	| A password reset was requested for your account with Kuwait &amp; Me.
-	br
-	| If you did not request for this, then you can safetly ignore this email.
-	br
-	| To reset your password click on this&nbsp;
-	a(href="#{host}/auth/reset/#{user._id}/?token=#{user.resetToken}") link.
-	br
-	br
-	| Sincerely,
-	br
-	| The Kuwait &amp; Me team
+  h2 Password reset link
+  br
+  | Hi #{user.personal.name},
+  br
+  br
+  | A password reset was requested for your account with Kuwait &amp; Me.
+  br
+  | If you did not request for this, then you can safetly ignore this email.
+  br
+  | To reset your password click on this&nbsp;
+  a(href="#{host}/auth/reset/#{user._id}/?token=#{user.resetToken}") link.
+  br
+  br
+  | Sincerely,
+  br
+  | The Kuwait &amp; Me team

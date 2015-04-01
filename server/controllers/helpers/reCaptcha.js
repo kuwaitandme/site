@@ -11,14 +11,14 @@ var config = global.config;
  */
 
 var https        = require('https'),
-	querystring = require('querystring');
+  querystring = require('querystring');
 
 /**
  * Constants.
  */
 
 var API_HOST = 'www.google.com',
-	API_END_POINT = '/recaptcha/api/siteverify'
+  API_END_POINT = '/recaptcha/api/siteverify'
 
 /**
  * Initialize Recaptcha with given `public_key`, `private_key` and optionally
@@ -41,18 +41,18 @@ var API_HOST = 'www.google.com',
  */
 
 var Recaptcha = exports.Recaptcha = function Recaptcha(public_key, private_key, data, secure) {
-	this.public_key = public_key;
-	this.private_key = private_key;
-	if (typeof(data) == 'boolean'){
-		this.data = undefined;
-		this.is_secure = data;
-	}
-	else {
-		this.data = data;
-		this.is_secure = secure;
-	}
+  this.public_key = public_key;
+  this.private_key = private_key;
+  if (typeof(data) == 'boolean'){
+    this.data = undefined;
+    this.is_secure = data;
+  }
+  else {
+    this.data = data;
+    this.is_secure = secure;
+  }
 
-	return this;
+  return this;
 }
 
 /**
@@ -65,19 +65,19 @@ var Recaptcha = exports.Recaptcha = function Recaptcha(public_key, private_key, 
  */
 
 Recaptcha.prototype.toHTML = function() {
-	return "<script src='https://www.google.com/recaptcha/api.js' async defer></script>" +
-	"<div class='g-recaptcha' data-sitekey='" + this.public_key + "'></div>" +
-	"<noscript><div style='width: 302px; height: 352px;'>" +
-	"<div style='width: 302px; height: 352px; position: relative;'>" +
-	"<div style='width: 302px; height: 352px; position: absolute;'>" +
-	"<iframe src='https://www.google.com/recaptcha/api/fallback?k=" + this.public_key + "'" +
-	"frameborder='0' scrolling='no'" +
-	"style='width: 302px; height:352px; border-style: none;'></iframe></div>" +
-	"<div style='width: 250px; height: 80px; position: absolute; border-style: none;" +
-	"bottom: 21px; left: 25px; margin: 0px; padding: 0px; right: 25px;'>" +
-	"<textarea id='g-recaptcha-response' name='g-recaptcha-response'" +
-	"class='g-recaptcha-response' style='width: 250px; height: 80px; border: 1px solid #c1c1c1; " +
-	"margin: 0px; padding: 0px; resize: none;' value=''></textarea></div></div></div></noscript>";
+  return "<script src='https://www.google.com/recaptcha/api.js' async defer></script>" +
+  "<div class='g-recaptcha' data-sitekey='" + this.public_key + "'></div>" +
+  "<noscript><div style='width: 302px; height: 352px;'>" +
+  "<div style='width: 302px; height: 352px; position: relative;'>" +
+  "<div style='width: 302px; height: 352px; position: absolute;'>" +
+  "<iframe src='https://www.google.com/recaptcha/api/fallback?k=" + this.public_key + "'" +
+  "frameborder='0' scrolling='no'" +
+  "style='width: 302px; height:352px; border-style: none;'></iframe></div>" +
+  "<div style='width: 250px; height: 80px; position: absolute; border-style: none;" +
+  "bottom: 21px; left: 25px; margin: 0px; padding: 0px; right: 25px;'>" +
+  "<textarea id='g-recaptcha-response' name='g-recaptcha-response'" +
+  "class='g-recaptcha-response' style='width: 250px; height: 80px; border: 1px solid #c1c1c1; " +
+  "margin: 0px; padding: 0px; resize: none;' value=''></textarea></div></div></div></noscript>";
 };
 
 /**
@@ -101,79 +101,79 @@ Recaptcha.prototype.toHTML = function() {
  */
 
 Recaptcha.prototype.verify = function(callback) {
-	var self = this;
+  var self = this;
 
-	// See if we can declare this invalid without even contacting Recaptcha.
-	if (typeof(this.data) === 'undefined') {
-		this.error_code = 'verify-params-incorrect';
-		return callback('verify-params-incorrect', false);
-	}
-	if (!('remoteip' in this.data &&
-		  'response' in this.data))
-	{
-		// console.log(this.data, data_qs);
-		this.error_code = 'verify-params-incorrect';
-		return callback(false, 'verify-params-incorrect');
-	}
-	if (this.data.response === '') {
-		this.error_code = 'incorrect-captcha-sol';
-		return callback('incorrect-captcha-sol', false);
-	}
+  // See if we can declare this invalid without even contacting Recaptcha.
+  if (typeof(this.data) === 'undefined') {
+    this.error_code = 'verify-params-incorrect';
+    return callback('verify-params-incorrect', false);
+  }
+  if (!('remoteip' in this.data &&
+      'response' in this.data))
+  {
+    // console.log(this.data, data_qs);
+    this.error_code = 'verify-params-incorrect';
+    return callback(false, 'verify-params-incorrect');
+  }
+  if (this.data.response === '') {
+    this.error_code = 'incorrect-captcha-sol';
+    return callback('incorrect-captcha-sol', false);
+  }
 
-	// Add the private_key to the request.
-	this.data['secret'] = this.private_key;
-	var data_qs = querystring.stringify(this.data);
+  // Add the private_key to the request.
+  this.data['secret'] = this.private_key;
+  var data_qs = querystring.stringify(this.data);
 
-	var req_options = {
-		host: API_HOST,
-		path: API_END_POINT,
-		port: 443,
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/x-www-form-urlencoded',
-			'Content-Length': data_qs.length
-		}
-	};
+  var req_options = {
+    host: API_HOST,
+    path: API_END_POINT,
+    port: 443,
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Content-Length': data_qs.length
+    }
+  };
 
-	var request = https.request(req_options, function(response) {
-		var body = '';
+  var request = https.request(req_options, function(response) {
+    var body = '';
 
-		response.on('error', function(err) {
-			self.error_code = 'recaptcha-not-reachable';
-			callback('recaptcha-not-reachable', false);
-		});
+    response.on('error', function(err) {
+      self.error_code = 'recaptcha-not-reachable';
+      callback('recaptcha-not-reachable', false);
+    });
 
-		response.on('data', function(chunk) {
-			body += chunk;
-		});
+    response.on('data', function(chunk) {
+      body += chunk;
+    });
 
-		response.on('end', function() {
-			var result = JSON.parse(body);
-			return callback(result["error-codes"], result.success);
-		});
-	});
-	request.write(data_qs, 'utf8');
-	request.end();
+    response.on('end', function() {
+      var result = JSON.parse(body);
+      return callback(result["error-codes"], result.success);
+    });
+  });
+  request.write(data_qs, 'utf8');
+  request.end();
 };
 
 exports.verify = function(request, captchaSuccess, captchaFail) {
-	if(config.reCaptcha.enabled == false) return captchaSuccess(request);
+  if(config.reCaptcha.enabled == false) return captchaSuccess(request);
 
-	var captchaResponse = request.query.captcha ||
-		request.body["g-recaptcha-response"] ||
-		request.headers['x-gcaptcha'];
+  var captchaResponse = request.query.captcha ||
+    request.body["g-recaptcha-response"] ||
+    request.headers['x-gcaptcha'];
 
-	/* Create the reCapthca object */
-	var recaptcha = new Recaptcha(
-		config.reCaptcha.site,
-		config.reCaptcha.secret, {
-			'remoteip' : request.connection.remoteAddress,
-			'response' : captchaResponse
-		});
+  /* Create the reCapthca object */
+  var recaptcha = new Recaptcha(
+    config.reCaptcha.site,
+    config.reCaptcha.secret, {
+      'remoteip' : request.connection.remoteAddress,
+      'response' : captchaResponse
+    });
 
-	/* Send captcha to google and create the user if successful */
-	recaptcha.verify(function (err, success) {
-		if(success) captchaSuccess(err, success);
-		else captchaFail(err, success);
-	});
+  /* Send captcha to google and create the user if successful */
+  recaptcha.verify(function (err, success) {
+    if(success) captchaSuccess(err, success);
+    else captchaFail(err, success);
+  });
 }

@@ -1,3 +1,3 @@
 module.exports =
-	components: require './components'
-	pages:      require './pages'
+  components: require './components'
+  pages:      require './pages'

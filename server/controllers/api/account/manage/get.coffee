@@ -1,26 +1,26 @@
 getQueryParameters = (request) ->
-	parameters = {}
+  parameters = {}
 
-	classified = global.models.classified
+  classified = global.models.classified
 
-	if request.user and request.user.isModerator
-		parameters.status = classified.status.INACTIVE
-	else parameters.owner = request.user._id
+  if request.user and request.user.isModerator
+    parameters.status = classified.status.INACTIVE
+  else parameters.owner = request.user._id
 
-	parameters
+  parameters
 
 
 module.exports = (request, response, next) ->
-	if not request.isAuthenticated()
-		response.status 401
-		return response.end '"need authentication"'
+  if not request.isAuthenticated()
+    response.status 401
+    return response.end '"need authentication"'
 
-	parameters = getQueryParameters request
-	page = request.query.page or 0
+  parameters = getQueryParameters request
+  page = request.query.page or 0
 
-	finish = (err, classifieds) ->
-		if err then next err
-		else response.end JSON.stringify(classifieds)
+  finish = (err, classifieds) ->
+    if err then next err
+    else response.end JSON.stringify(classifieds)
 
-	classified = global.models.classified
-	classified.search parameters, page, true, finish
+  classified = global.models.classified
+  classified.search parameters, page, true, finish

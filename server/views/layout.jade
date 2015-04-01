@@ -1,21 +1,21 @@
 doctype html
 html(lang="en")
-	head
-		include ./include/head.jade
-	body
-		#page-progressbar
-		include ./include/header.jade
+  head
+    include ./include/head.jade
+  body
+    #page-progressbar
+    include ./include/header.jade
 
-		//- Message container
-		ul#messages
-		//- Here goes the main content of the site
-		main
-			.robots.hide
-				block robots
+    //- Message container
+    ul#messages
+    //- Here goes the main content of the site
+    main
+      .robots.hide
+        block robots
 
-			//- Site content
-			.pt-page(class="#{bodyid}")
-				.html5-cache
-					block content
+      //- Site content
+      .pt-page(class="#{bodyid}")
+        .html5-cache
+          block content
 
-		include ./include/footer.jade
+    include ./include/footer.jade

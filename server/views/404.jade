@@ -1,26 +1,26 @@
 doctype html
 html
-	head
-		title 404 | page not found
-		link(rel='stylesheet', href='/stylesheets/build/style.css')
-		link(href='//fonts.googleapis.com/css?family=Jura', rel='stylesheet', type='text/css')
-	body#four-o-four(style="font-family: 'Jura';")
-		section
-			.title Error Code 404
-			pre.trace
-				| <b>#{path}</b> cannot be found.
-			pre.trace
-				| <b>Stack Trace</b>
-				| at io.netty.channel.AbstractChannel$AbstractUnsafe.flush(AbstractChannel.java:651)
-				| at io.netty.channel.DefaultChannelPipeline$HeadHandler.flush(DefaultChannelPipeline.java:1038)
-				| at io.netty.channel.DefaultChannelHandlerContext.invokeFlush(DefaultChannelHandlerContext.java:675)
-				| at io.netty.channel.DefaultChannelHandlerContext.flush(DefaultChannelHandlerContext.java:656)
-				| at io.netty.channel.ChannelOutboundHandlerAdapter.flush(ChannelOutboundHandlerAdapter.java:115)
-				| at io.netty.channel.DefaultChannelHandlerContext.invokeFlush(DefaultChannelHandlerContext.java:675)
-				| at io.netty.channel.DefaultChannelHandlerContext.flush(DefaultChannelHandlerContext.java:656)
-				| at io.netty.channel.ChannelDuplexHandler.flush(ChannelDuplexHandler.java:117)
-				| at io.netty.channel.DefaultChannelHandlerContext.invokeFlush(DefaultChannelHandlerContext.java:675)
-				| at io.netty.channel.DefaultChannelHandlerContext.flush(DefaultChannelHandlerContext.java:656)
-				| at io.netty.channel.DefaultChannelPipeline.flush(DefaultChannelPipeline.java:836)
-				| at io.netty.channel.AbstractChannel.flush(AbstractChannel.java:188)
+  head
+    title 404 | page not found
+    link(rel='stylesheet', href='/stylesheets/build/style.css')
+    link(href='//fonts.googleapis.com/css?family=Jura', rel='stylesheet', type='text/css')
+  body#four-o-four(style="font-family: 'Jura';")
+    section
+      .title Error Code 404
+      pre.trace
+        | <b>#{path}</b> cannot be found.
+      pre.trace
+        | <b>Stack Trace</b>
+        | at io.netty.channel.AbstractChannel$AbstractUnsafe.flush(AbstractChannel.java:651)
+        | at io.netty.channel.DefaultChannelPipeline$HeadHandler.flush(DefaultChannelPipeline.java:1038)
+        | at io.netty.channel.DefaultChannelHandlerContext.invokeFlush(DefaultChannelHandlerContext.java:675)
+        | at io.netty.channel.DefaultChannelHandlerContext.flush(DefaultChannelHandlerContext.java:656)
+        | at io.netty.channel.ChannelOutboundHandlerAdapter.flush(ChannelOutboundHandlerAdapter.java:115)
+        | at io.netty.channel.DefaultChannelHandlerContext.invokeFlush(DefaultChannelHandlerContext.java:675)
+        | at io.netty.channel.DefaultChannelHandlerContext.flush(DefaultChannelHandlerContext.java:656)
+        | at io.netty.channel.ChannelDuplexHandler.flush(ChannelDuplexHandler.java:117)
+        | at io.netty.channel.DefaultChannelHandlerContext.invokeFlush(DefaultChannelHandlerContext.java:675)
+        | at io.netty.channel.DefaultChannelHandlerContext.flush(DefaultChannelHandlerContext.java:656)
+        | at io.netty.channel.DefaultChannelPipeline.flush(DefaultChannelPipeline.java:836)
+        | at io.netty.channel.AbstractChannel.flush(AbstractChannel.java:188)
 

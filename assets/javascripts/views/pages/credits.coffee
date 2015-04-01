@@ -1,3 +1,3 @@
 module.exports = (require '../mainView').extend
-	name: '[view:credits]'
-	title: -> "Buy Credits"
+  name: '[view:credits]'
+  title: -> "Buy Credits"

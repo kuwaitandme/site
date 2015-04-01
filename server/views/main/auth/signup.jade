@@ -1,39 +1,39 @@
 extends ../../layout.jade
 
 block content
-	.row.small-12
-		form#login-form
-			.row.collapse
-				.small-12.columns
-					.auth-title Sign-up
-			.row.input-row.collapse
-				.small-12.columns.error
-					input(type="text", name="fullname", placeholder="full name", required)#auth-fullname
-					small.error
+  .row.small-12
+    form#login-form
+      .row.collapse
+        .small-12.columns
+          .auth-title Sign-up
+      .row.input-row.collapse
+        .small-12.columns.error
+          input(type="text", name="fullname", placeholder="full name", required)#auth-fullname
+          small.error
 
-			.row.input-row.collapse
-				.small-12.columns.error
-					input(type="email", name="username", placeholder="email", required)#auth-username
-					small.error
+      .row.input-row.collapse
+        .small-12.columns.error
+          input(type="email", name="username", placeholder="email", required)#auth-username
+          small.error
 
-			.row.input-row.collapse
-				.small-12.columns.error
-					input(type="password", name="username", placeholder="password", required)#auth-password
-					small.error
+      .row.input-row.collapse
+        .small-12.columns.error
+          input(type="password", name="username", placeholder="password", required)#auth-password
+          small.error
 
-			.row.input-row.collapse
-				.small-12.columns.error
-					input(type="password", name="password", placeholder="re-enter password", required)#auth-repassword
-					small.error
+      .row.input-row.collapse
+        .small-12.columns.error
+          input(type="password", name="password", placeholder="re-enter password", required)#auth-repassword
+          small.error
 
-			.row.collapse.hide#submit-div
-				.small-4.small-offset-8.columns
-					input.submit(type="submit", value="Signup")
+      .row.collapse.hide#submit-div
+        .small-4.small-offset-8.columns
+          input.submit(type="submit", value="Signup")
 
 
-			#ajax-spinner
-				img(src="/images/loader.gif")
+      #ajax-spinner
+        img(src="/images/loader.gif")
 
-		.gcaptcha
+    .gcaptcha
 
-		ul#auth-messages
+    ul#auth-messages

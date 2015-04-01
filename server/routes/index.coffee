@@ -14,13 +14,13 @@ module.exports = router
 # Helper function to check if the user is authenticated. If not, then
 # redirect to the login page
 # isAuthenticated = (request, response, next) ->
-# 	# As with any middleware it is quintessential to call next()
-# 	# if the user is authenticated
-# 	if request.isAuthenticated() then return next()
-# 	response.status 401
+#   # As with any middleware it is quintessential to call next()
+#   # if the user is authenticated
+#   if request.isAuthenticated() then return next()
+#   response.status 401
 
-# 	if request.headers['x-ajax'] then response.end()
-# 	else response.redirect '/auth/login?error=need_login'
+#   if request.headers['x-ajax'] then response.end()
+#   else response.redirect '/auth/login?error=need_login'
 
 
 # # Index URLs

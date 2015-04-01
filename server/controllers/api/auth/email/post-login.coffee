@@ -4,18 +4,18 @@ passport = require 'passport'
 #
 # TODO improve error handling here
 module.exports = (request, response, next) ->
-	response.contentType 'application/json'
+  response.contentType 'application/json'
 
-	# Modify the request by assigning the email from the URL as a POST data
-	request.body.username = request.params.email
+  # Modify the request by assigning the email from the URL as a POST data
+  request.body.username = request.params.email
 
-	finish = (error, user) ->
-		if error
-			response.status 400
-			return response.end JSON.stringify error
+  finish = (error, user) ->
+    if error
+      response.status 400
+      return response.end JSON.stringify error
 
-		request.logIn user, (error) ->
-			if error then return next error
-			response.end JSON.stringify user
+    request.logIn user, (error) ->
+      if error then return next error
+      response.end JSON.stringify user
 
-	(passport.authenticate 'email-login', finish) request, response, next
+  (passport.authenticate 'email-login', finish) request, response, next

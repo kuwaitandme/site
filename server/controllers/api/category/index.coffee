@@ -1,4 +1,4 @@
 module.exports =
-	get: require './get'
+  get: require './get'
 
-	routes: (router, base) -> router.get base + '/category', @get
+  routes: (router, base) -> router.get base + '/category', @get
