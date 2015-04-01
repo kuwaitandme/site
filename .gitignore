@@ -7,10 +7,11 @@
 /node_modules
 /npm-debug.log
 
-# Compiled CSS & JS files, Uploads folder
+# Compiled CSS & JS files, Uploads folder & Docs
 /public/uploads
 /public/javascripts/build
 /public/stylesheets/build
+/docs
 
 # Hide server configuration file
 /var/config.coffee

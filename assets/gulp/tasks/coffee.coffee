@@ -1,4 +1,3 @@
-coffee    = require 'gulp-coffee'
 coffeeify = require 'gulp-coffeeify'
 gutil     = require 'gulp-util'
 rename    = require 'gulp-rename'

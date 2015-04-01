@@ -3,17 +3,26 @@ src  = './src'
 
 module.exports =
 	coffee:
-		dest:              '../public/javascripts/build'
-		src:               'javascripts/entry.coffee'
+		dest:              'public/javascripts/build'
+		src:               'assets/javascripts/entry.coffee'
 		targetFilename:    'app.js'
 		targetFilenameMin: 'app.min.js'
 
 	sass:
-		dest:              '../public/stylesheets/build'
-		src:               'stylesheets/style.scss'
+		dest:              'public/stylesheets/build'
+		src:               'assets/stylesheets/style.scss'
 		targetFilename:    'style.css'
 		targetFilenameMin: 'style.min.css'
 
 	watch:
-		jsPattern:         'javascripts/**/*.coffee'
-		cssPattern:        'stylesheets/**/*.sass'
+		jsPattern:         'assets/javascripts/**/*.coffee'
+		cssPattern:        'assets/stylesheets/**/*.{sass,scss}'
+
+	docs:
+		hostname:           'http://localhost:8000'
+		backend:
+			dest:              './docs/backend'
+			src:               'server/**/*.coffee'
+		frontend:
+			dest:              './docs/frontend'
+			src:               'assets/javascripts/**/*.coffee'
