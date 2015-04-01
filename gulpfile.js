@@ -1,9 +1,10 @@
 require('coffee-script/register');
 
-var gulp = require('./gulp')([
+var gulp = require('./assets/gulp')([
 	'coffee',
 	'sass',
-	'watch'
+	'watch',
+	'docs'
 ]);
 
 gulp.task('css', ['sass']);

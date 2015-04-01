@@ -1,19 +1,14 @@
 Kuwait and Me
 =============
 
-Kuwait and Me is a free online public classified site that aims to create a closer community in Kuwait. It is completely non-profit, ad-free and is easy to use. It is fully open-sourced under the GNU license and out-does any other classified site.
+Kuwait and Me is a free online public classified site that aims to create a closer community in Kuwait. It is ad-free and is easy to use.
 
+Documentation
+-------------
+To generate the documentation for the site you will have to make sure you have installed all the dependencies by running `npm install` and then starting a local server to serve the documentation files,
 
-Contribute
-----------
-Everyone is encouraged to contribute to the site no matter what their specialty is. If you think you there is something you can make better, it is very easy for you do to so.
-
-For more information about contributing, read the [CONTRIBUTING](CONTRIBUTING.md) file.
-
-
-Bug reports & Feature Suggestions
----------------------------------
-If you find a bug or have a feature that you want to suggest, you can do so by either submitting an issue on GitHub, or by sending an email to me@steven.pw. Read this guide on [how to submit issues](https://guides.github.com/features/issues/).
+    $ gulp docs
+    $ python -m SimpleHTTPServer
 
 
 Installing
