@@ -1,0 +1,15 @@
+ul.categories-list.row.medium-11
+  <% _.each(categories, function(cat) { %>
+  li.columns.large-3.medium-4
+    .container
+      .title <%= cat.name %>
+      .children
+        <% _.each(cat.children, function(child) { %>
+        .child
+          a(href!="/classified/search?childcategory=<%= child._id %>") <%= child.name %>
+          .count 0
+        <% }) %>
+        .child
+          a(href!="/classified/search?category=<%= cat._id %>") View All
+          .count 0
+  <% }) %>

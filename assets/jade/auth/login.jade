@@ -1,0 +1,29 @@
+.row.small-12
+  form#login-form
+    .row
+      .small-12.columns
+        .auth-title Login
+    .row.input-row
+      .small-12.columns.error
+        input(type="email", name="username", placeholder="email", required)#auth-username
+        small.error Please fill this field properly
+
+    .row.input-row
+      .small-12.columns.error
+        input(type="password", name="password", placeholder="password", required)#auth-password
+        small.error Please fill this field properly
+
+    .row
+      .small-4.small-offset-8.columns
+        input.submit(type="submit", value="Login")
+
+
+    #ajax-spinner
+      img(src="/images/loader.gif")
+
+  ul#auth-messages
+
+  //- .extra-links
+  //-   | Is this your first time here? <a href="/auth/signup" data-view="auth-signup">Sign up!</a>
+  //- .extra-links
+  //-   | Forgot your password? Click <a href="/auth/forgot" data-view="auth-forgot">here</a>, to reset it.

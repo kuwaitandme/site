@@ -11,9 +11,15 @@ module.exports =
 		targetFilename:    'style.css'
 		targetFilenameMin: 'style.min.css'
 
+	jade:
+		dest:              'public/javascripts/build'
+		src:               'assets/jade/**/*.jade'
+		targetFilename:    'template.js'
+
 	watch:
 		jsPattern:         'assets/javascripts/**/*.coffee'
 		cssPattern:        'assets/stylesheets/**/*.{sass,scss}'
+		jadePattern:       'assets/jade/**/*.jade'
 
 	docs:
 		hostname:           'http://localhost:8000'

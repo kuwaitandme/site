@@ -1,0 +1,58 @@
+.page
+  h2.c-title <%= title %>
+  p.c-description <%= description %>
+
+//- Views
+ul.c-meta#page-meta
+  li
+    b Views:&nbsp;
+    <%= obj.views %>
+//- Category
+|<% if(category) { %>
+ul.c-meta#page-meta
+  li
+    b Categorized under:&nbsp;
+    | <%= category %>
+|<% } %>
+
+//- ul.c-meta
+  //- Location
+  |<% if(contact.location) {
+  |  var loc = app.models.locations.findWhere({ _id: contact.location });
+  |   if(loc && loc.get('name') != "None") { %>
+  li
+    b Location:&nbsp;
+    | <%= loc.get('name') %>
+  |<% } %>
+
+  //- Email
+  |<% } if(contact.email) { %>
+  li
+    b Email:&nbsp;
+    <%= contact.email %>
+
+  //- Phone
+  |<% } if(contact.phone) { %>
+  li
+    b Phone:&nbsp;
+    <%= contact.phone %>
+
+  //- Address
+  |<% } if(contact.address1) { %>
+  li
+    b Address:&nbsp;<%= contact.address1 %>; <%= contact.address2 %>
+  |<% } %>
+
+//- Post print/report
+ul.c-meta
+  //- li.c-action.share
+  //-   a(href="#") Share
+  li.c-action.print
+    b
+      a(href="javascript:window.print()") Print this classified
+  //- li.c-action.report
+    b
+      a(href='#', data-reveal-id="reportModel") Report
+
+//- Disclaimer
+//- .c-disclaimer !{__("page.csingle.disclaimer")}

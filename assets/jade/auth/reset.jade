@@ -1,0 +1,10 @@
+.auth-title Reset your password
+form(method="POST")
+  section
+    div
+      input(type="password", name="password", placeholder="password", required)#auth-password1
+      input(type="password", name="repassword", placeholder="re-enter password", required)#auth-password2
+    div
+      input(type="submit", class="submit", value="Reset your password")
+  .captcha-container
+    .g-recaptcha
