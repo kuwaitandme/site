@@ -1,6 +1,3 @@
-dest = './build'
-src  = './src'
-
 module.exports =
 	coffee:
 		dest:              'public/javascripts/build'
@@ -10,7 +7,7 @@ module.exports =
 
 	sass:
 		dest:              'public/stylesheets/build'
-		src:               'assets/stylesheets/style.scss'
+		src:               'assets/stylesheets/style.sass'
 		targetFilename:    'style.css'
 		targetFilenameMin: 'style.min.css'
 
@@ -21,8 +18,8 @@ module.exports =
 	docs:
 		hostname:           'http://localhost:8000'
 		backend:
-			dest:              './docs/backend'
+			dest:              'docs/backend'
 			src:               'server/**/*.coffee'
 		frontend:
-			dest:              './docs/frontend'
+			dest:              'docs/frontend'
 			src:               'assets/javascripts/**/*.coffee'

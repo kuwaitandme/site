@@ -5,9 +5,7 @@ uglifycss = require 'gulp-uglifycss'
 module.exports = (gulp, config) ->
 	task = ->
 		gulpPipe = gulp.src config.src
-			.pipe sass
-				errLogToConsole: true
-				sourceComments: 'map'
+			.pipe sass errLogToConsole: true
 			.pipe rename config.targetFilename
 			.pipe gulp.dest config.dest
 
