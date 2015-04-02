@@ -2,7 +2,7 @@ url = (require 'app-helpers').url
 
 module.exports = (require '../../mainView').extend
   name: "[view:auth-login]"
-
+  template: template['auth/login']
   events: 'click .submit': 'submit'
 
   messages:

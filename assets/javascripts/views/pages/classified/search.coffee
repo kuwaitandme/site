@@ -9,6 +9,7 @@ module.exports = view.extend
   enableFilterBox: true
 
   name: '[view:classifieds-search]'
+  template: template['classified/search']
 
   start: (options) ->
     console.debug @name, 'initializing', options
@@ -16,7 +17,7 @@ module.exports = view.extend
     @collection = new App.Resources.Models.classifieds
 
     # Get the template
-    @listTemplate = _.template (@$ '#list-template').html()
+    @listTemplate = template['components/classified-list']
 
     # Attach a listener to our collection model
     @stopListening @collection, 'ajax:done'
@@ -176,7 +177,7 @@ module.exports = view.extend
       self.$classifiedList.masonry 'appended', elem
 
     # Reattach the event handlers for the router
-    # app.trigger 'router:refresh'
+    @resources.router.reattachRouter()
 
     # Reload Masonry again for every-time a new image has been loaded
     reloadMasonry = -> self.$classifiedList.masonry()

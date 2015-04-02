@@ -2,6 +2,7 @@ view = require './classified/search'
 module.exports = view.extend
   name: '[view:landing]'
   title: -> "Publish free classifieds"
+  template: template['landing']
 
   enableFilterBox: false
 
@@ -22,12 +23,12 @@ module.exports = view.extend
     @setupCategoryContainer()
 
   setupCategoryContainer: ->
-    templateHTML = (@$ '#landing-cat-template').html()
-    template = _.template templateHTML
-    @$categoryContainer.html template categories: @resources.categories.toJSON()
+    categoryTemplate = template['components/category-list']
+    @$categoryContainer.html categoryTemplate categories: @resources.categories.toJSON()
     @$categoryContainer.masonry
       itemSelector: 'li'
       isFitWidth: true
+    @resources.router.reattachRouter()
 
 
   # This function redirects the app to the classified search page, with the

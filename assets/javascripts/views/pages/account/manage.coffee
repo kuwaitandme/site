@@ -4,5 +4,5 @@ module.exports = (require '../classified/search').extend
   isAccount: true
   enableFilterBox: false
 
-  checkRedirect: -> @currentUser.isAnonymous()
+  checkRedirect: -> @resources.currentUser.isAnonymous()
   redirectUrl: -> '/auth/login?error=need_login'

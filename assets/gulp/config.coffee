@@ -15,6 +15,7 @@ module.exports =
 		dest:              'public/javascripts/build'
 		src:               'assets/jade/**/*.jade'
 		targetFilename:    'template.js'
+		targetFilenameMin: 'template.min.js'
 
 	watch:
 		jsPattern:         'assets/javascripts/**/*.coffee'

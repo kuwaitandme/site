@@ -64,6 +64,10 @@
     remoteSrc: "/javascripts/vendor/foundation.min.js",
     localSrc: "/javascripts/vendor/foundation.min.js",
   },{
+    name: "app:template",
+    remoteSrc: "/javascripts/build/template.js",
+    localSrc: "/javascripts/build/template.js",
+  },{
     name: "app:script",
     remoteSrc: "/javascripts/build/app.js",
     localSrc: "/javascripts/build/app.js",

@@ -13,10 +13,7 @@ module.exports = class viewManager
 
     # Cache some DOM variables
     @$body           = $ 'body'
-    @$currentPage    = $ '#current-page'
-    @$nextPage       = $ '#next-page'
-    @$previousPage   = $ '#prev-page'
-    @$ptMain         = $ 'main'
+    @$main           = $ 'main'
 
     # Render different components
     @header = new (@components.header)(el: 'header', resources: @resources)
@@ -62,6 +59,8 @@ module.exports = class viewManager
     if @currentView? then @switchPages viewIdentifier, historyState
     else @initPage viewIdentifier, historyState
 
+    @$body.attr 'id', viewIdentifier
+
     # Attach the basic models to the view
     @currentView.resources = @resources
 
@@ -71,7 +70,7 @@ module.exports = class viewManager
       return @resources.router.redirect @currentView.redirectUrl()
 
     # Attempt to cache the HTML for the view
-    @resources.cache.cacheView @currentView, @currentViewName
+    # @resources.cache.cacheView @currentView, @currentViewName
 
     # Now signal the view to manipulate the DOM.
     @currentView.trigger 'continue'
@@ -79,6 +78,8 @@ module.exports = class viewManager
     # All done, set the mouse icon to normal
     @displayMouseLoader false
     @progressBar.progress 100
+
+    @resources.router.reattachRouter()
 
 
   initPage: (targetViewIdentifier, historyState) ->
@@ -89,23 +90,23 @@ module.exports = class viewManager
     url = document.URL
     index = historyState.index
 
-    $el = $ '.pt-page'
-    $el.attr 'data-index', index
-    $el.attr 'data-url', url
-
     options =
-      el: ".pt-page[data-url='#{url}'][data-index='#{index}']"
+      # el: ".pt-page[data-url='#{url}'][data-index='#{index}']"
       historyState: historyState
       resources: @resources
 
     # Load set the currentView directly without any transitioning
     @currentView = new targetView options
+    @$main.append @currentView.$el
+    @currentView.$el.attr 'data-index', index
+    .attr 'data-url', url
 
     # Save the view in our buffer
     @viewBuffer.push @currentView
 
     # Start the view
     @currentView.trigger 'start'
+
 
 
   switchPages: (targetViewIdentifier, historyState) ->
@@ -146,19 +147,24 @@ module.exports = class viewManager
       .addClass targetViewIdentifier
 
     # Get and set the HTML for the target page
-    html = @fetchHTML targetViewIdentifier, document.URL
-    $targetPage.html html
+    # html = @fetchHTML targetViewIdentifier, document.URL
+    # $targetPage.html html
 
     # Add the HTML into the DOM
-    @$ptMain.append $targetPage
+    # @$ptMain.append $targetPage
 
     options =
-      el: ".pt-page[data-url='#{url}'][data-index='#{index}']"
+      # el: ".pt-page[data-url='#{url}'][data-index='#{index}']"
       historyState: historyState
       resources: @resources
 
     view = @getView targetViewIdentifier
     targetView = new view options
+
+    @$main.append targetView.$el
+    targetView.$el.attr 'data-index', index
+    .attr 'data-url', url
+
 
     # Save the view in our buffer and return
     @destroyUnwantedViews index

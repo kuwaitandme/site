@@ -10,7 +10,9 @@ module.exports = Backbone.View.extend
     # These are events that get called by the ViewManager controller. You
     # don't have to explicitly trigger them but just ensure that all your
     # code lies in the functions defined the next section.
-    @on 'start', => @start()
+    @on 'start', =>
+      if @template? then @$el.html @template()
+      @start()
     @on 'continue', =>
       document.title = @title() + " | Kuwait and Me"
       @$el.show()

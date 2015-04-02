@@ -3,7 +3,7 @@ view   = require '../../mainView'
 
 module.exports = view.extend
   name: "[view:classified-single]"
-
+  template: template['classified/single']
   messages:
     archived:  'This classified has been deleted'
     banned:    'This classified has been banned by a moderator'
@@ -19,8 +19,8 @@ module.exports = view.extend
   start: (@options = {}) ->
     console.debug @name, 'initializing', @options
 
-    @slideshowTemplate = _.template (@$ '#slideshow-template').html()
-    @singleTemplate    = _.template (@$ '#single-template').html()
+    @slideshowTemplate = template['components/slideshow']
+    @singleTemplate    = template['components/single']
 
     @$gmap      = @$ '#map-canvas'
     @$messages  = @$ "#single-messages"
@@ -183,7 +183,7 @@ module.exports = view.extend
     editable = false
 
     # Get the template for the admin bar
-    adminTemplate = _.template (@$ '#admin-template').html()
+    adminTemplate = template['components/admin-single']
 
     # Get the currently loggedin user
     user = @resources.currentUser

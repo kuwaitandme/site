@@ -61,7 +61,7 @@ module.exports = (request, response, args={}, cache=false) ->
       pretty: isDevelopment
 
     # Render the templates
-    args.templates = renderTemplates (args.templates or []), isDevelopment
+    # args.templates = renderTemplates (args.templates or []), isDevelopment
 
     # Compile and render the page
     fn = jade.compileFile "#{global.root}/views/main/#{args.page}.jade", options

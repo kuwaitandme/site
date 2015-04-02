@@ -64,6 +64,10 @@
     remoteSrc: "//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.1/js/foundation.min.js",
     localSrc: "/javascripts/vendor/foundation.min.js",
   },{
+    name: "app:template",
+    remoteSrc: "/javascripts/build/template.min.js",
+    localSrc: "/javascripts/build/template.min.js",
+  },{
     name: "app:script",
     remoteSrc: "/javascripts/build/app.js",
     localSrc: "/javascripts/build/app.js",
