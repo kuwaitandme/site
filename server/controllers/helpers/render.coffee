@@ -1,5 +1,29 @@
 jade = require 'jade'
 
+###*
+ * Takes in a list of templates and renders them. The template files are
+ * located in the 'assets/jade' folder and the path names passed should be
+ * relative to this path.... FIX this
+ *
+ * @param  {[type]} templates [description]
+ * @return Array
+###
+renderTemplates = (templates, isDevelopment) ->
+  getHTML = (template) ->
+    path = "#{global.root}/../assets/jade/#{template}.jade"
+
+    options =
+      cache: not isDevelopment
+      pretty: isDevelopment
+
+    # Compile and render the page
+    ret =
+      name: template
+      html: (jade.compileFile path, options)()
+
+  getHTML template for template in templates
+
+
 
 # A helper function to render the page properly with the right parameters and
 # some default values.
@@ -10,8 +34,8 @@ module.exports = (request, response, args={}, cache=false) ->
 
   # Render the page. This function is responsible for setting up all the
   # variables properly as well as saving the view into the cache if needed
-  render = (redisError) ->
-    if redisError then throw err
+  render = (cacheError) ->
+    if cacheError then throw err
 
     # Setup options for the page
     config = global.config
@@ -30,11 +54,14 @@ module.exports = (request, response, args={}, cache=false) ->
     args.data = (new Buffer JSON.stringify args.data).toString 'base64'
     # args.data.csrf = csrfToken
 
-    isDevelopment = global.config.mode != 'production'
     # Setup options for the jade compiler
+    isDevelopment = global.config.mode != 'production'
     options =
       cache: not isDevelopment
       pretty: isDevelopment
+
+    # Render the templates
+    args.templates = renderTemplates (args.templates or []), isDevelopment
 
     # Compile and render the page
     fn = jade.compileFile "#{global.root}/views/main/#{args.page}.jade", options
