@@ -1,8 +1,7 @@
-coffee    = require 'gulp-coffee'
-markdox = require "gulp-markdox"
-rename = require("gulp-rename")
+coffee   = require 'gulp-coffee'
+flatten  = require 'gulp-flatten'
 gulpDoxx = require 'gulp-doxx'
-flatten = require('gulp-flatten');
+rename   = require 'gulp-rename'
 
 module.exports = (gulp, config) ->
 	task = ->
