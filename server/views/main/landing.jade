@@ -1,43 +1,4 @@
 extends ../layout.jade
 
-
 block robots
     a(href="/classified/search") search classifieds
-
-block content
-  #landing-section
-    section#search-form
-      #landing-logo
-        img(src='/images/kme-logo-tagline.png')
-      form(action="/classified/search")
-        input(type="text", name="keywords", placeholder="Search classifieds").search-bar
-        button(type="submit").search-button &#xf002;
-      ul#landing-extra
-        li
-          a(href="/guest/post", data-view) Post a classified
-        li
-          a(href="/classified/search", data-view) Advanced Search
-        li.hide-for-small
-          a(href="/auth/login", data-view) Login
-        li.hide-for-small
-          a(href="/auth/signup", data-view) Signup
-
-      //- #landing-message
-      //-   a(href="#") arabic
-      //-   span &nbsp;&middot;&nbsp;
-      //-     a(href="#") Download
-      //-     span &nbsp;the mobile app
-
-    //- #landing-footer Created by Steven Enamakel
-  #landing-categories
-
-  //- Container to hold the classifieds
-  ul#classified-search.classified-list
-
-  //- JS Template for each classified in the list
-  script(id="list-template", type="text/template")
-    include ../components/script-templates/search.jade
-
-  //- JS Template for each classified in the list
-  script(id="landing-cat-template", type="text/template")
-    include ../components/script-templates/landing.jade

@@ -13,9 +13,7 @@ html(lang="en")
       .robots.hide
         block robots
 
-      //- Site content
-      .pt-page(class="#{bodyid}")
-        .html5-cache
-          block content
+    for template in templates
+      script(type="text/template", data-template="#{template.name}")!= template.html
 
     include ./include/footer.jade
