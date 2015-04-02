@@ -69,8 +69,8 @@
     localSrc: "/javascripts/build/template.min.js",
   },{
     name: "app:script",
-    remoteSrc: "/javascripts/build/app.js",
-    localSrc: "/javascripts/build/app.js",
+    remoteSrc: "/javascripts/build/app.min.js",
+    localSrc: "/javascripts/build/app.min.js",
   }];
 
 
