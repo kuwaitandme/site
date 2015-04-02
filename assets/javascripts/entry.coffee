@@ -22,6 +22,8 @@ if not window.App?
       @initializeListeners()
       @initializeBackBone()
 
+      $ -> $.smartbanner()
+
     initializeViews: ->
       @viewManager = new App.ViewManager @resources
 

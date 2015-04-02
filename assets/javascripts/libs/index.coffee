@@ -5,3 +5,4 @@ module.exports =
   md5:      require "./md5"
   modal:    require "./modal"
   tooltip:  require "./tooltip"
+  banner:   require "./banner"
