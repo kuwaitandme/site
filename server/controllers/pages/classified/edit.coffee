@@ -24,3 +24,6 @@ controller = module.exports =
         description: classified.description
         page: 'classified/edit'
         title: response.__('title.classified.post')
+        templates: [
+          "classified/edit"
+        ]

@@ -7,6 +7,9 @@ controller = module.exports =
     args =
       page: 'auth/login'
       title: response.__('title.auth.login'),
+      templates: [
+        "auth/login"
+      ]
 
     render = global.helpers.render
     render request, response, args, true

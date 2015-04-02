@@ -6,6 +6,9 @@ controller = module.exports =
       bodyid: 'terms'
       page: 'terms'
       title: response.__('title.terms')
+      templates: [
+        "terms"
+      ]
 
     render = global.helpers.render
     render request, response, args, true

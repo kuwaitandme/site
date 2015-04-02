@@ -25,7 +25,9 @@ module.exports = controller =
         description: classified.description
         page: 'classified/single'
         title: classified.title
-
+        templates: [
+          "classified/single"
+        ]
 
   # Helper function to asynchronously update the view counter.
   #

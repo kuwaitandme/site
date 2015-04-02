@@ -4,6 +4,9 @@ controller = module.exports =
       bodyid: 'auth-forgot'
       page: 'auth/forgot'
       title: response.__('title.auth.forgot'),
+      templates: [
+        "auth/forgot"
+      ]
 
     render = global.helpers.render
     render request, response, args, true

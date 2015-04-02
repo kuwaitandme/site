@@ -11,6 +11,11 @@ controller = module.exports =
       description: description
       page: 'landing'
       title: response.__('title.landing')
+      templates: [
+        "landing"
+        "components/classified-list"
+        "components/category-list"
+      ]
 
     render = global.helpers.render
     render request, response, args, true

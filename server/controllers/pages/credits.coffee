@@ -4,7 +4,9 @@ controller = module.exports =
     args =
       page: 'credits'
       title: response.__('title.credits')
-
+      templates: [
+        "credits"
+      ]
     render = global.helpers.render
     render request, response, args, true
 

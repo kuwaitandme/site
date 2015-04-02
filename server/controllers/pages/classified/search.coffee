@@ -16,6 +16,10 @@ controller = module.exports =
         data: classifieds: classifieds
         page: 'classified/search'
         title: response.__('title.classified.search')
+        templates: [
+          "classified/search"
+          "components/classified-list"
+        ]
 
       render = global.helpers.render
       render request, response, args

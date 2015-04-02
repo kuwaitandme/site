@@ -12,6 +12,9 @@ controller = module.exports =
       bodyid: 'auth-reset'
       page: 'auth/reset'
       title: response.__('title.auth.reset'),
+      templates: [
+        "auth/reset"
+      ]
 
     render = global.helpers.render
     render request, response, true

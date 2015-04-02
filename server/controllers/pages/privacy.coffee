@@ -5,6 +5,9 @@ controller = module.exports =
       bodyid: 'privacy'
       page: 'privacy'
       title: response.__('title.privacy')
+      templates: [
+        "privacy"
+      ]
 
     render = global.helpers.render
     render request, response, args, true
