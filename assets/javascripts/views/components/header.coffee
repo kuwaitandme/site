@@ -2,12 +2,12 @@ module.exports = Backbone.View.extend
   sliderAnimateWidth: 200
   name: '[view:header]'
   events:
-    'click #grabber-hide': 'hide'
-    'click #grabber-display': 'show'
-    'click ul a': 'hide'
     'click #search-close' : 'toggleSearchBar'
-    'click .main-item.search' : 'toggleSearchBar'
+    'click .search-trigger' : 'toggleSearchBar'
+    'click #nav-grabber' : 'toggleHeader'
 
+
+  toggleHeader: -> @$body.toggleClass 'show-subheader'
 
   initialize: (options) ->
     console.log @name, 'initializing'

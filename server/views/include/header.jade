@@ -21,14 +21,22 @@ header
   #header-search
     input(placeholder="search ...")
     #search-close.icon &#xf00d;
-    #search-filter.icon &#xf0b0;
+    //- #search-filter.icon &#xf0b0;
 
-  nav#mobile-nav.show-nav.hide-for-large-up
-  nav#main-nav.show-nav.show-for-large-up.hide-when-searching
+  nav#mobile-nav.hide-for-large-up
+    #mobile-icon
+      img(src='/images/header-logo.png')
+    ul
+      li.left.icon.search-trigger
+        a &#xf002;
+      li#nav-grabber &#xf0c9;
+    #subheader
+
+  nav#main-nav.show-for-large-up.hide-when-searching
     ul
       li.main-item.left.home.icon
         a(href="/", data-view) &#xf015;
-      li.main-item.left.search.icon
+      li.main-item.left.search-trigger.icon
         a &#xf002;
       li.main-item.hide-if-loggedin.left
         a(href="/guest/post", data-view) Post a Classified

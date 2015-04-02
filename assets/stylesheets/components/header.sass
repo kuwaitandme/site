@@ -14,9 +14,11 @@ header
   width: 100%
   width: 100%
   z-index: 2
+
   -webkit-box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.1)
   -moz-box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.1)
   box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.1)
+
   ::-webkit-input-placeholder
     color: #BBB
   :-moz-placeholder
@@ -25,10 +27,14 @@ header
     color: #BBB
   :-ms-input-placeholder
     color: #BBB
+
   .disabled
     color: #999 !important
   nav#main-nav
     background: #FFF
+    ul,li
+      padding: 0
+      margin: 0
     .main-item
       @extend .font-title
       +single-transition(border)
@@ -61,14 +67,15 @@ header
     top: 0
     left: 0
     #search-close
-      right: 50px
-    #search-filter
       right: 10px
+    //   right: 40px
+    // #search-filter
+    //   right: 10px
     .icon
-      +single-transition
+      // +single-transition
       @extend .font-awesome
       // background: #DDD
-      color: #999
+      color: #000
       cursor: pointer
       font-size: 16px
       padding: 5px 10px
@@ -77,13 +84,13 @@ header
       // -webkit-border-radius: 30px
       // -moz-border-radius: 30px
       // border-radius: 30px
-      &:hover
-        color: #000
+      // &:hover
+        // color: #000
         // background: #ff6600
     input
       @extend .font-title
       +single-transition(border-color)
-      background: #f9f9f9
+      // background: #f9f9f9
       border: 0
       border-bottom: 3px solid transparent
       color: #000
@@ -165,20 +172,52 @@ header
           margin: 5px auto
           overflow: none
           width: 80px
+
           -moz-border-radius: 100px
           -webkit-border-radius: 100px
           border-radius: 100px
+
   nav#mobile-nav
     background: #FFF
-    // ul li a {
-    //  padding: 10px;
-    //  font-size: 19px;
-    //  color: #FFF;
-    // }
-  // &.nav-up {
-  //  top: -1 * $headerHeight - 5px;
-  //  ul.subnav { display: none; }
-  // }
+
+    #mobile-icon
+      position: absolute
+      top: 0
+      left: 50%
+      margin-left: 208 * -0.5px
+    #subheader
+      +single-transition(bottom)
+      @extend .font-title
+      background: rgba(0,0,0,0.85)
+      border-right: 1px solid #DDD
+      bottom: -100%
+      min-height: 100%
+      padding-top: $headerHeight
+      position: fixed
+      width: 100%
+      z-index: -1
+
+      .link
+        padding: 15px
+        a
+          text-decoration: none
+          padding-bottom: 3px
+
+    #nav-grabber
+      @extend .font-awesome
+      color: #000
+      cursor: pointer
+      font-size: 20px
+      padding: 11px
+      position: absolute
+      right: 0
+
+    li.search-trigger a
+      padding: 13px
+
+body.show-subheader
+  #subheader
+    bottom: 0 !important
 
 .loggedout header li.settings:hover ul.hide-if-loggedin
   display: block !important
@@ -186,72 +225,15 @@ header
 .loggedin header li.settings:hover ul.show-if-loggedin
   display: block !important
 
-main
-  min-width: 100%
-  min-height: 100%
-  background-color: #fff
-  position: relative
-  top: 0
-  bottom: 100%
-  left: 0
-  z-index: 1
-
-label[for="nav-trigger"]
-  /* critical positioning styles
-  @extend .font-awesome
-  color: #000
-  cursor: pointer
-  font-size: 19px
-  left: 15px
-  position: fixed
-  top: 13px
-  z-index: 3
-
-/* Make the Magic Happen
-.nav-trigger + label, main, .navigation
-  +single-transition(transform)
-
-.nav-trigger
-  position: absolute
-  clip: rect(0, 0, 0, 0)
-  &:checked
-    ~ .navigation, ~ main, + label
-      -ms-transform: translateX($sidebarWidth)
-      -webkit-transform: translateX($sidebarWidth)
-      transform: translateX($sidebarWidth)
-    ~ main
-      opacity: 0.3
-      overflow-x: hidden
-      box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.5)
-
-.navigation
-  background: #333333
-  bottom: 0
-  height: 100%
-  left: -1 * $sidebarWidth
-  list-style: none
-  margin: 0
-  position: fixed
-  right: 0
-  top: 0
-  width: $sidebarWidth
-  z-index: 3
-  // -ms-transform: translateX(-1 * $sidebarWidth);
-  // -webkit-transform: translateX(-1 * $sidebarWidth);
-  // transform: translateX(-1 * $sidebarWidth);
-  li
-    @extend .font-title
-    margin: 10px
-    -webkit-border-radius: 3px
-    -moz-border-radius: 3px
-    border-radius: 3px
-    a
-      background: #222
-      border: 1px solid #444
-      color: #FFF
-      display: block
-      font-size: 14px
-      padding: 10px
+// main
+//   min-width: 100%
+//   min-height: 100%
+//   background-color: #fff
+//   position: relative
+//   top: 0
+//   bottom: 100%
+//   left: 0
+//   z-index: 1
 
 @media print
   header
