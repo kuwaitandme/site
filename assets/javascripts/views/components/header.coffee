@@ -5,6 +5,7 @@ module.exports = Backbone.View.extend
     'click #search-close' : 'toggleSearchBar'
     'click .search-trigger' : 'toggleSearchBar'
     'click #nav-grabber' : 'toggleHeader'
+    'click #subheader a' : 'toggleHeader'
 
 
   toggleHeader: -> @$body.toggleClass 'show-subheader'

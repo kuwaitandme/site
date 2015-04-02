@@ -2,20 +2,6 @@
 //- label(for="nav-trigger").hide-for-large-up
 //-   span.font-awesome &#xf0c9;
 //- ul.navigation.hide-for-large-up
-//-   li.nav-item
-//-     a(href="/", data-view) Home
-//-   li.nav-item
-//-     a(href="/classified/search", data-view) Browse classifieds
-//-   li.main-item.hide-if-loggedin
-//-     a(href="/guest/post", data-view) Post a Classified
-//-   li.main-item.show-if-loggedin
-//-     a(href="/classified/post", data-view) Post a Classified
-//-   li.nav-item.hide-if-loggedin
-//-     a(href="/auth/login", data-view) Login
-//-   li.nav-item.hide-if-loggedin
-//-     a(href="/auth/signup", data-view) Signup
-//-   li.main-item.show-if-loggedin
-//-     a(href="/auth/logout", data-view) Logout
 
 header
   #header-search
@@ -30,7 +16,21 @@ header
       li.left.icon.search-trigger
         a &#xf002;
       li#nav-grabber &#xf0c9;
-    #subheader
+    ul#subheader
+      li.nav-item
+        a(href="/", data-view) Home
+      li.nav-item
+        a(href="/classified/search", data-view) Browse classifieds
+      li.main-item.hide-if-loggedin
+        a(href="/guest/post", data-view) Post a Classified
+      li.main-item.show-if-loggedin
+        a(href="/classified/post", data-view) Post a Classified
+      li.nav-item.hide-if-loggedin
+        a(href="/auth/login", data-view) Login
+      li.nav-item.hide-if-loggedin
+        a(href="/auth/signup", data-view) Signup
+      li.main-item.show-if-loggedin
+        a(href="/auth/logout", data-view) Logout
 
   nav#main-nav.show-for-large-up.hide-when-searching
     ul
