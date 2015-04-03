@@ -183,9 +183,9 @@
         }
 
       , install: function(e) {
-			if (this.options.hideOnInstall) {
-				this.hide()
-			}
+      if (this.options.hideOnInstall) {
+        this.hide()
+      }
             this.setCookie('sb-installed','true',this.options.daysReminder)
         }
 
@@ -258,7 +258,7 @@
         layer: true, // Display as overlay layer or slide down the page
         iOSUniversalApp: true, // If the iOS App is a universal app for both iPad and iPhone, display Smart Banner to iPad users, too.
         appendToSelector: 'body', //Append the banner to a specific selector
-		pushSelector: 'html' // What element is going to push the site content down; this is where the banner append animation will start.
+    pushSelector: 'html' // What element is going to push the site content down; this is where the banner append animation will start.
     }
 
     $.smartbanner.Constructor = SmartBanner;

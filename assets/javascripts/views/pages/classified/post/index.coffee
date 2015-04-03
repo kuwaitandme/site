@@ -11,6 +11,7 @@ subViews =
 module.exports = (require '../../../mainView').extend
   name: '[view:classified-post]'
   title: -> "Post a classified"
+  template: template['classified/post']
 
   events: 'click a[data-page-nav]' : 'clickHandler'
 

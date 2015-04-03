@@ -7,8 +7,8 @@ Documentation
 -------------
 To generate the documentation for the site you will have to make sure you have installed all the dependencies by running `npm install` and then starting a local server to serve the documentation files,
 
-    $ gulp docs
-    $ python -m SimpleHTTPServer
+    $ npm install -g groc
+    $ groc
 
 
 Installing

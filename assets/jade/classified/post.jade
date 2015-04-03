@@ -1,9 +1,9 @@
 .row
   section.page.small-11.medium-9.small-centered.columns#page-begin
-    | <% if(classified) { %>
+    | <% if(obj.classified) { %>
     .row
       h2 You are about to edit a classified
-      | <% } if(guest) { %>
+      | <% if(obj.guest) { %>
       .row.hint
         | Use the 'next' and 'previous' buttons below to navigate
         | between the forms. Fields marked with a '*' are compulsary
@@ -15,26 +15,27 @@
         | and must be filled.
       | <% }  %>
     | <% } else { %>
-      .row
-        h2 You are about to post a classified!
-      .row.hint
-        | Use the 'next' and 'previous' buttons below to navigate
-        | between the forms. Fields marked with a '*' are compulsary
-        | and must be filled.
-        br
-        br
-        | <% } if(guest) { %>
-        | We are letting you post a classified as a guest. So we have to
-        | review your post before it gets published which can take upto
-        | 24 hours.
-        br
-        br
-        | You can avoid this delay, if you simply <a href="/auth/signup">
-        | signup</a> with us!
-        | <% } else { %>
-        | This classified will be published immediately and can be archived
-        | by accessing your account page.
-
+    .row
+      h2 You are about to post a classified!
+    .row.hint
+      | Use the 'next' and 'previous' buttons below to navigate
+      | between the forms. Fields marked with a '*' are compulsary
+      | and must be filled.
+      br
+      br
+      | <% if(obj.guest) { %>
+      | We are letting you post a classified as a guest. So we have to
+      | review your post before it gets published which can take upto
+      | 24 hours.
+      br
+      br
+      | You can avoid this delay, if you simply <a href="/auth/signup">
+      | signup</a> with us!
+      | <% } else { %>
+      | This classified will be published immediately and can be archived
+      | by accessing your account page.
+      | <% } %>
+    | <% } %>
     .row.post-nav
       a(href="#page-info", data-page-nav) Next
 
@@ -117,10 +118,10 @@
           select#childcat-selector(name="child-category", required, tooltipp="Choose the categories that best fit your classified")
             option(value="", disabled) Choose a sub-category
           small.error Please choose a sub-category
-        .row.collapse#baby-row.error
-          select#childcat-selector(name="baby-category", required, tooltipp="Choose the categories that best fit your classified")
-            option(value="", disabled) Choose a second sub-category
-          small.error Please choose the second sub-category
+        //- .row.collapse#baby-row.error
+        //-   select#childcat-selector(name="baby-category", required, tooltipp="Choose the categories that best fit your classified")
+        //-     option(value="", disabled) Choose a second sub-category
+        //-   small.error Please choose the second sub-category
     .row
       .medium-3.columns
         label(for="right-label") Email
@@ -213,7 +214,7 @@
     .row
       h2 Wasn't that simple? You're all set to go!
     .row.hint Your classified is now ready to be uploaded as soon as you click on the button below.
-      | <br><br> !{__('page.cform.disclaimer')}
+      //- | <br><br> !{__('page.cform.disclaimer')}
 
     .row.gcaptcha
 
@@ -221,7 +222,7 @@
       img(src="/images/loader.gif")
 
     .row.submit-container
-      input.submit(type="submit", value="#{__('page.cform.placeholder.submit')}")
+      input.submit(type="submit", value="Submit")
 
     .row.post-nav
       a(href="#page-details", data-page-nav)#page-4-prev Previous
@@ -235,10 +236,10 @@
       | You can view it <a href="#" id="finishLink", data-view> here </a>
       br
       br
-      if robots.guest
-        | Since you posted as a guest, use this link <a href="#" id="authLink"></a> to archive/edit your classified
-        br
-        br
+      //- if robots.guest
+      //-   | Since you posted as a guest, use this link <a href="#" id="authLink"></a> to archive/edit your classified
+      //-   br
+      //-   br
       | Bring attention to your classified by sharing on
     .row.social.hint
       a(href="#").facebook
