@@ -15,14 +15,15 @@ Installing
 ----------
 The sections below describe how to install a local version of the site on your machine. This is a very general guide which can be used (with a few changes) on any other project as well.
 
-#### 1. Fulfill Requirements
+#### 1. Fulfill Dependencies
 These are the requirements that are necessary to run the site locally on your machine. We recommend using a UNIX environment such as OSX or Linux, although there is support for Windows distributions.
-
-* Web server with PHP installed
-* MySQL database
+* NodeJS runtime libraries
+* MongoDB database
+* MongoDB database
 * Node package manager ([npm](http://blog.npmjs.org/post/85484771375/how-to-install-npm))
-* Grunt Command line interface ([grunt-cli](http://gruntjs.com/getting-started))
 * SASS css pre-processor ([sass](http://sass-lang.com/install))
+
+    $ npm install -g mongodb pm2 redis gulp coffee-script
 
 #### 2. Set up a local server
 Simply place the project's folder inside of your server's html folder and access the site as you normally would access your server. In most cases the url to browse would be `http://localhost/kuwaitandme.com/www`.
