@@ -30,3 +30,10 @@ module.exports =
     frontend:
       dest:              'docs/frontend'
       src:               'assets/javascripts/**/*.coffee'
+
+  server:
+    hostname:           'http://localhost:8000'
+    footer:
+      dest:              'server/views/components/footer-scripts'
+      filenameMin:       'main-production.min.js'
+      src:               'server/views/components/footer-scripts/*.coffee'

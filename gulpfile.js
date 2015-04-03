@@ -2,10 +2,11 @@ require('coffee-script/register');
 
 var gulp = require('./gulp')([
 	'coffee',
-	'sass',
-	'watch',
+	'docs',
 	'jade',
-	'docs'
+	'sass',
+	'server',
+	'watch'
 ]);
 
 
@@ -17,6 +18,6 @@ gulp.task('js', ['coffee']);
 gulp.task('js:minified', ['coffee:minified']);
 
 gulp.task('build', ['js', 'css', 'html']);
-gulp.task('deploy', ['js:minified', 'css:minified', 'html:minified']);
+gulp.task('deploy', ['js:minified', 'css:minified', 'html:minified', 'server']);
 
 gulp.task('default', ['build', 'watch']);
