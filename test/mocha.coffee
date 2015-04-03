@@ -4,7 +4,7 @@ models   = require '../server/models'
 
 
 # Setup some globals
-global.app         = 'http://kme.com'
+global.app         = 'http://development.kuwaitandme.com'
 global.config      = config
 global.controllers = null
 global.models      = models

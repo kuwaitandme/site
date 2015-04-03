@@ -1,7 +1,6 @@
 expect           = require 'expect.js'
 supertest        = require 'supertest'
 
-
 app = global.app
 
 checkRouteFor = (code, route) ->
@@ -20,10 +19,17 @@ describe 'routes (non-api)', ->
     checkRouteFor 200, '/privacy'
 
 
-    describe 'routes that need authentication should redirect', ->
+    describe 'requests that need authentication should redirect', ->
       checkRouteFor 302, '/account/manage'
       checkRouteFor 302, '/account/profile'
       checkRouteFor 302, '/classified/post'
+      checkRouteFor 302, '/credits'
+
+    describe 'requests that need and have authentication should return 200', ->
+      # checkRouteFor 302, '/account/manage'
+      # checkRouteFor 302, '/account/profile'
+      # checkRouteFor 302, '/classified/post'
+      # checkRouteFor 302, '/credits'
 
     describe 'blank routes should redirect to default ones', ->
       checkRouteFor 302, '/account'
@@ -36,5 +42,6 @@ describe 'routes (non-api)', ->
       checkRouteFor 404, '/i-dont-exist'
       checkRouteFor 404, '/classified/single'
       checkRouteFor 404, '/guest/single'
+      checkRouteFor 404, '/auth/reset'
 
   describe 'check if routes are accessible (with authentication)', ->
