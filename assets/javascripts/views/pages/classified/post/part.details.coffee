@@ -1,7 +1,7 @@
 module.exports = Backbone.View.extend
   name: '[view:classified-post:details]'
   events:
-    'change #cat-selector'   : 'categoryChange'
+    'change #cat-selector'   : 'parentCategoryChange'
     'change #locations'      : 'locationChange'
     'change #price-selector' : 'priceChange'
 
@@ -14,7 +14,8 @@ module.exports = Backbone.View.extend
 
     @$address1        = @$ '#address1'
     @$address2        = @$ '#address2'
-    @$category        = @$ '#cat-selector'
+    @$parentCategory  = @$ '#cat-selector'
+    @$childCategory   = @$ '#childcat-selector'
     @$email           = @$ '#email'
     @$locations       = @$ '#locations'
     @$phone           = @$ '#phone'
@@ -86,6 +87,22 @@ module.exports = Backbone.View.extend
         @$priceRow.addClass 'hide'
 
 
+  parentCategoryChange: (event) ->
+    val = @$parentCategory.val()
+    children = @resources.categories.getChildren val
+
+    # if not children? or children.length is 0
+
+    @$childCategory.html ""
+    addChildCategory = (child) =>
+      html = @generateOption child._id, child.name
+      @$childCategory.append html
+
+    addChildCategory child for child in children
+    window.a = children
+    console.log childrenNames
+
+
   setPrice: (value) ->
     if not value? then @$priceSelector.val ''
     else if value is 0 then @$priceSelector.val 0
@@ -101,8 +118,8 @@ module.exports = Backbone.View.extend
   initCategories: ->
     for category in @categories
       html = @generateOption category._id, category.name
-      @$category.append html
-    @$category.val 0
+      @$parentCategory.append html
+    @$parentCategory.val 0
 
 
   # Initializes the locations
@@ -117,10 +134,11 @@ module.exports = Backbone.View.extend
     if location is "" then location = null
 
     @model.set
-      category:     @$category.val()
-      price:        @$priceField.val()
-      type:         @$type.val()
-      location:     location
+      category:      @$parentCategory.val()
+      childCategory: @$childCategory.val()
+      price:         @$priceField.val()
+      type:          @$type.val()
+      location:      location
 
     # Set the contact fields
     contact = { }
@@ -139,18 +157,15 @@ module.exports = Backbone.View.extend
   setDOM: ->
     contact = @model.get 'contact'
 
-    @$address1.val    contact.address1
-    @$address2.val    contact.address2
-    @$category.val   (@model.get 'category') or ""
-    @$email.val       contact.email
-    @$locations.val  (@model.get 'location') or ""
-    @$phone.val       contact.phone
-    console.log @model.toJSON()
-    console.log @model.get 'type'
-    console.log @$type.val()
-    @$type.val       @model.get 'type'
-    console.log @$type.val()
-    @setPrice         @model.get 'price'
+    @$address1.val         contact.address1
+    @$address2.val         contact.address2
+    @$parentCategory.val  (@model.get 'parentCategory') or ""
+    @$childCategory.val   (@model.get 'childCategory') or ""
+    @$email.val            contact.email
+    @$locations.val       (@model.get 'location') or ""
+    @$phone.val            contact.phone
+    @$type.val             @model.get 'type'
+    @setPrice              @model.get 'price'
 
     @locationChange()
 
