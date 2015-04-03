@@ -164,6 +164,16 @@ json = {
     'Other'
   }
 
+  'Homeware, Furniture & Appliances': {
+    "Indoor Furniture & Accessories"
+    "Outdoor Furniture & Accessories"
+    "Lighting & Fixtures"
+    "Flooring, Window & Decor"
+    "Large Appliances"
+    "Small Appliances"
+    "Homeware & Decor"
+  }
+
   'Education & Classes': {
     'Art/Music/Dance'
     'Computers/IT'
@@ -364,34 +374,26 @@ json = {
 
   'Services': {
     'Animal/Pet'
-    'Automotive'
     'Business'
     'Career/HR'
     'Child/Elderly'
     'Cleaning'
-    'Computer/Tech'
+    'Computer/IT'
     'Contractors & Skilled Trades'
     'Creative/Design'
     'Entertainment'
-    'Esoteric'
-    'Event'
     'Fitness/Personal Trainers'
     'Health/Beauty'
-    'Hospitality'
-    'Housekeeping/Janitorial'
     'Lawn/Garden'
     'Legal/Financial'
     'Moving/Storage'
     'Office'
     'Real Estate'
-    'Respite/Home Care'
     'Sales/Marketing'
-    'Special Events'
     'Translation'
     'Travel'
     'Tuitions/Lessons'
     'Tutoring & Lessons'
-    'Web'
     'Other'
   }
 
@@ -530,8 +532,7 @@ json = {
   'Miscellaneous'
 }
 
-createCategory = (name) ->
-  { name: name, _id: ObjectId() }
+createCategory = (name) -> { name: name, _id: ObjectId() }
 
 getMonogoJson = (json) ->
   categories = []
