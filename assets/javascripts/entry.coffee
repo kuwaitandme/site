@@ -1,8 +1,27 @@
+###
+**Frontend Javascript App**
+---------------------------
+This file bootstraps the front-end app. Javascript execution begins from here.
+The App is heavily dependent on BackBone, Underscore and jQuery.
+
+The App is designed with an MVC framework in mind although with Backbone, your
+views become your controller. The App also contains *modules*, which are
+components that do different things like routing/caching.
+
+Read the comments at the end of the page if you are trying to trace how the
+application works
+###
 if not window.App?
 
-  window.App =
+  ###
+  ## *window.App*
+  This variable is particularly important because it contains all the bits and
+  pieces of our App. Even the application's running instance!
 
-    # Views:  require "app-views"
+  This variable is made global so that different components of the App have a
+  uniformed way of accessing different components/resources.
+  ###
+  window.App =
     Router: (require "app-controllers").router
     Cache: (require "app-controllers").cache
     ViewManager: (require "app-controllers").viewManager
@@ -31,6 +50,12 @@ if not window.App?
       _.extend @, Backbone.Events
 
 
+    ###
+    ## *initializeBackBone():*
+
+    This function initialize Backbone by starting the router and modifying it's
+    sync function.
+    ###
     initializeBackBone: ->
       # Rewrite backbone sync with our custom sync function. For now add our
       # little hack to bypass the CSRF token. NOTE that we must find another
@@ -72,45 +97,12 @@ if not window.App?
       @resources.categories.fetch()
       @resources.locations.fetch()
       @resources.currentUser.fetch()
-  # App entry point for the- 'Kuwait & Me' project. This has been such an amazing
-  # journey, although sad that I had to do it myself. This app that I have coded
-  # below relies heavily on Backbone.js, jQuery and Underscore. Hope it interests
-  # you to read through it..
-  #
-  # This file bootstraps the front-end app. Main JS execution begins here.
-  # class Main
-  #   constructor: (App) ->
-  #     console.log "[app] initializing"
 
-  #     _.extend @, Backbone.Events
+  ###
+  **Main Javascript Execution starts here**
 
-  #     # Initialize the components
-  #     # @controllers.initialize this, @config
-  #     @models.initialize      this, @config
-  #     @controllers.models = @models
 
-  #     # Setup listeners
-  #     @setupListeners()
-
-  #   start: ->
-  #     console.log "[app] starting"
-
-  #     @models.start()
-  #     @controllers.start()
-
-  #   setupListeners: ->
-  #     self = @
-  #     @on 'redirect', (url) -> self.controllers.router.redirect url
-  #     @on 'router:refresh', -> self.controllers.router.reattachRouter()
-
-  #   # Forward  to different app components. This way we can avoid
-  #   # writing long names for functions that we will be using often.
-  #   # goto: (url, view, args) -> @controllers.router.goto url, view, args
-  #   # loadResource: (resource) -> @controllers.resourceLoader.loadResource resource
-  #   # reattachRouter: -> @controllers.router.reattachRouter()
-  #   # setView: (page, args, reverse) -> @controllers.viewManager.setView page, args, reverse
-  #   progress: (percent) -> @controllers.viewManager.progressBar.progress percent
-
+  ###
 
   ($ window).ready ->
     console.log '[foundation] initializing'
@@ -118,6 +110,5 @@ if not window.App?
     $this.foundation()
 
     window.App.instance = new Main window.App
-    # window.App.instance.start()
 
 else console.log "[lib] app already defined. stopping re-execution of script"
