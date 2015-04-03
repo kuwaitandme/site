@@ -1,2 +1,2 @@
 describe 'api.', ->
-	require './classified'
+  require './classified'
