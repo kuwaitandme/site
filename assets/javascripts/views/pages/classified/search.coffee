@@ -151,8 +151,6 @@ module.exports = view.extend
   # collection. This function is responsible for adding the classified
   # into the DOM while properly taking care of aligning it too.
   addClassifieds: (classifieds) ->
-    self = @
-
     # All done. Hide the spinner and disable the lock
     @$spinner.fadeOut();
     @ajaxLock = false
@@ -169,18 +167,18 @@ module.exports = view.extend
 
     # Add each classified into the DOM
     for classified in classifieds
-      html = self.listTemplate classified.toJSON()
+      html = @listTemplate classified.toJSON()
       elem = $ html
 
       # Append element into DOM and reload Masonry
-      self.$classifiedList.append elem
-      self.$classifiedList.masonry 'appended', elem
+      @$classifiedList.append elem
+      @$classifiedList.masonry 'appended', elem
 
     # Reattach the event handlers for the router
     @resources.router.reattachRouter()
 
     # Reload Masonry again for every-time a new image has been loaded
-    reloadMasonry = -> self.$classifiedList.masonry()
+    reloadMasonry = => @$classifiedList.masonry()
     imagesLoaded @$classifiedList, reloadMasonry
 
     # In case we haven't filled up the page, fire the ajax loader again.

@@ -151,10 +151,8 @@ module.exports = view.extend
 
   # Initializes Google maps if required.
   initializeGoogleMaps: ->
-    self = @
-
     # Initializes the map with the latitude and longitude given
-    init = (lat, lng) ->
+    init = (lat, lng) =>
       myLatlng = new google.maps.LatLng lat, lng
       mapOptions =
         center: myLatlng
@@ -164,12 +162,12 @@ module.exports = view.extend
         zoom: 13
 
       # Add the map
-      self.gmap = new google.maps.Map self.$gmap[0], mapOptions
+      @gmap = new google.maps.Map @$gmap[0], mapOptions
 
       # Add the marker
-      self.gmarker = new google.maps.Marker
+      @gmarker = new google.maps.Marker
         position: myLatlng
-        map: self.gmap
+        map: @gmap
 
     # If there are google co-ordinates saved, load up google maps
     meta = @model.get 'meta'

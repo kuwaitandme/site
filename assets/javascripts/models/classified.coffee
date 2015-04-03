@@ -77,7 +77,6 @@ module.exports = Backbone.Model.extend
   # and handling the data as well as triggering the right backbone events.
   uploadServer: (captcha, files) ->
     console.debug @name, 'uploading classified details to server', this
-    self = @
 
     # Get the JSON to send in the first request. The first request should
     # not contain the files. The files will be uploaded asynchronously in
@@ -87,9 +86,9 @@ module.exports = Backbone.Model.extend
 
     # A progress handler function to show how much of the file
     # upload is done.
-    progressHandler = (event) ->
+    progressHandler = (event) =>
       if event.lengthComputable
-        self.trigger 'ajax:done:partial', event
+        @trigger 'ajax:done:partial', event
       # $('progress').attr({value:e.loaded,max:e.total});
       return
 
@@ -108,21 +107,21 @@ module.exports = Backbone.Model.extend
           Xhr.upload.addEventListener 'progress', progressHandler, false
         Xhr
 
-      success: (response) ->
+      success: (response) =>
         if not response._id
           console.error @name, 'error uploading classified', response
-          return self.trigger 'ajax:error', response
+          return @trigger 'ajax:error', response
 
         # Set the data from the response
-        self.set response
+        @set response
 
         # Let listeners know that we have successfully uploaded the
         # classified
-        self.trigger 'ajax:done'
+        @trigger 'ajax:done'
 
-      error: (response) ->
+      error: (response) =>
         console.error @name, 'error uploading classified details', response
-        self.trigger 'ajax:error', response
+        @trigger 'ajax:error', response
 
 
   # This function create a HTML formdata object that contains all the data

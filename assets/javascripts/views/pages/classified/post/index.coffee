@@ -73,7 +73,6 @@ module.exports = (require '../../../mainView').extend
   # Function to navigate to the view pointed by the href tag
   navigate: (href) ->
     console.log @name, 'navigating to', href
-    that = @
 
     options =
       el: @$ href
@@ -106,11 +105,11 @@ module.exports = (require '../../../mainView').extend
       # Animate, render and switch the DOM elements
       $el = @currentView.$el
       console.debug @name, 'animating previous view', view
-      $el.transition { opacity: 0 }, ->
+      $el.transition { opacity: 0 }, =>
         $el.hide()
-        that.currentView = view
-        that.currentView.render()
-        that.currentView.$el.show().transition opacity: 1
+        @currentView = view
+        @currentView.render()
+        @currentView.$el.show().transition opacity: 1
     else
       # This is the first view, so set the view variable
       @currentView = view

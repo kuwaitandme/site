@@ -241,7 +241,7 @@ classifieds = module.exports =
     # to prevent moderators from archiving a classified.
     archive: (id, callback) ->
       that = this
-      classifieds.model.findOne { _id: id }, (error, classified) ->
+      classifieds.model.findOne { _id: id }, (error, classified) =>
         if error then return callback error
         if not classified
           error = new Error "not found"
@@ -249,12 +249,12 @@ classifieds = module.exports =
           return callback error
 
         # Don't allow banned or flagged classifieds to be archived
-        if classified.status in [that.BANNED, that.FLAGGED, that.REJECTED]
+        if classified.status in [@BANNED, @FLAGGED, @REJECTED]
           error = new Error "unauthorized to change classified's status"
           error.status = 401
           return callback error
 
-        classified.status = that.ARCHIVED
+        classified.status = @ARCHIVED
 
         classified.save (error) -> callback error, classified
 
@@ -263,14 +263,14 @@ classifieds = module.exports =
     # should be performed only by a moderator.
     ban: (id, reason, callback) ->
       that = this
-      classifieds.model.findOne { _id: id }, (error, classified) ->
+      classifieds.model.findOne { _id: id }, (error, classified) =>
         if error then return callback error
         if not classified
           error = new Error "not found"
           error.status = 404
           return callback error
 
-        classified.status = that.BANNED
+        classified.status = @BANNED
         classified.moderatorReason = reason
 
         classified.save (error) -> callback error, classified
@@ -282,20 +282,20 @@ classifieds = module.exports =
     # classifieds get published automatically.
     repost: (id, callback) ->
       that = this
-      classifieds.model.findOne { _id: id }, (error, classified) ->
+      classifieds.model.findOne { _id: id }, (error, classified) =>
         if error then return callback error
         if not classified
           error = new Error "not found"
           error.status = 404
           return callback error
 
-        if classified.status in [that.BANNED, that.FLAGGED, that.REJECTED]
+        if classified.status in [@BANNED, @FLAGGED, @REJECTED]
           error = new Error "unauthorized to change classified's status"
           error.status = 401
           return callback error
 
-        if classified.guest then classified.status = that.INACTIVE
-        else classified.status = that.ACTIVE
+        if classified.guest then classified.status = @INACTIVE
+        else classified.status = @ACTIVE
 
         classified.save (error) -> callback error, classified
 
@@ -306,14 +306,14 @@ classifieds = module.exports =
     # classified.
     publish: (id, callback) ->
       that = this
-      classifieds.model.findOne { _id: id }, (error, classified) ->
+      classifieds.model.findOne { _id: id }, (error, classified) =>
         if error then return callback error
         if not classified
           error = new Error "not found"
           error.status = 404
           return callback error
 
-        classified.status = that.ACTIVE
+        classified.status = @ACTIVE
 
         classified.save (error) -> callback error, classified
 
@@ -323,14 +323,14 @@ classifieds = module.exports =
     # mentioned
     reject: (id, reason, callback) ->
       that = this
-      classifieds.model.findOne { _id: id }, (error, classified) ->
+      classifieds.model.findOne { _id: id }, (error, classified) =>
         if error then return callback error
         if not classified
           error = new Error "not found"
           error.status = 404
           return callback error
 
-        classified.status = that.REJECTED
+        classified.status = @REJECTED
         classified.moderatorReason = reason
 
         classified.save (error) -> callback error, classified
@@ -339,15 +339,14 @@ classifieds = module.exports =
     # Sets the classified to inactive. Don't know why we really need such
     # a function.
     inactive: (id, callback) ->
-      that = this
-      classifieds.model.findOne { _id: id }, (error, classified) ->
+      classifieds.model.findOne { _id: id }, (error, classified) =>
         if error then return callback error
         if not classified
           error = new Error "not found"
           error.status = 404
           return callback error
 
-        classified.status = that.INACTIVE
+        classified.status = @INACTIVE
 
         classified.save (error) -> callback error, classified
 

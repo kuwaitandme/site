@@ -14,11 +14,9 @@ module.exports = Backbone.View.extend
 
 
   finish: ->
-    self = @
     @shown = false
 
     properties =
       width: "100%"
       # opacity: 0
-    @$el.animate properties, ->
-      self.$el.css 'width', 0
+    @$el.animate properties, => @$el.css 'width', 0

@@ -16,7 +16,7 @@ module.exports = Backbone.Collection.extend
 
     # Redirect fetch to our cached version of fetch
     @oldFetch = @fetch
-    @fetch = (arg) -> if not @cachedFetch arg then @oldFetch arg
+    @fetch = (arg) => if not @cachedFetch arg then @oldFetch arg
 
     # The sync event is triggerd by the fetch() function.
     @on 'sync', @setCache
@@ -24,7 +24,7 @@ module.exports = Backbone.Collection.extend
 
   # Save the model into HTML5 localstorage
   setCache: (value) ->
-    console.log self.name, 'caching location details'
+    console.log @name, 'caching location details'
 
     # localStorage = window.app.controllers.localStorage
     @resources.cache.cache 'mod:locations', JSON.stringify value

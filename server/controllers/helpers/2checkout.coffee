@@ -4,13 +4,13 @@ transactions = global.models.transactions
 
 module.exports =
   getObject: ->
-    new Twocheckout(
+    new Twocheckout
       sellerId: config._2checkout.sid
       privateKey: config._2checkout.privateKey
-      sandbox: config._2checkout.sandbox)
+      sandbox: config._2checkout.sandbox
 
   processTransaction: (id, params, callback) ->
-    transaction = new (transactions.model)
+    transaction = new transactions.model
     transaction.classified = id
     transaction.success = false
     transaction.total = params.total

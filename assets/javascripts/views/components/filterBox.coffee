@@ -49,13 +49,12 @@ module.exports = Backbone.View.extend
 
   render: ->
     console.log @consoleSlug, 'rendering'
-    that = @
 
     # Populate the category box
     @initializeCategory()
 
     # Set the event handler
-    handler = (event) -> that.submitHandle(event)
+    handler = (event) => @submitHandle(event)
     @$el.off 'submit', handler
     @$el.on  'submit', handler
 
@@ -146,24 +145,22 @@ module.exports = Backbone.View.extend
   # the user has not typed anything (this we assume is the min. time that the
   # user would to consider his/her query complete
   updateKeywords: ->
-    that = @
-
     # Update the lock
     @keywordsLock += 1
 
-    timeoutFunction = ->
+    timeoutFunction = =>
       # if we greater than the lock's threshold then that means some other
       # keypress event was fired before us. So we must decrement the lock
       # and return so that when the last keypress event comes in this
       # function it will validate and go through
-      if that.keywordsLock > 1 then return that.keywordsLock -= 1
+      if @keywordsLock > 1 then return @keywordsLock -= 1
 
       # Get the keywords and fire the event
-      that.query.keywords = that.$keywords.val() or ''
-      that.trigger 'changed'
+      @query.keywords = @$keywords.val() or ''
+      @trigger 'changed'
 
       # Reset the lock for future events
-      that.keywordsLock = 0
+      @keywordsLock = 0
 
     # We set the timegap between events to be a 1000 ms
     setTimeout timeoutFunction, 1000

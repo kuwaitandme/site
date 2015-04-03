@@ -49,7 +49,6 @@ module.exports = Backbone.Router.extend
 
   initialize: (config) ->
     console.log @name, 'initializing'
-    self = @
 
     # Check if HTML5 history is available or not
     if history and not history.pushState? then return @fallback = true
@@ -63,7 +62,7 @@ module.exports = Backbone.Router.extend
 
     # Attach event handlers
     @on 'change', @reattachRouter
-    ($ window).on 'popstate', (event) -> self.popstateHandle event
+    ($ window).on 'popstate', (event) => @popstateHandle event
 
 
   start: ->
@@ -133,6 +132,5 @@ module.exports = Backbone.Router.extend
   reattachRouter: ->
     console.log @name, 'reattaching href event handlers'
 
-    self = @
     ($ 'a[data-view]').unbind 'click'
-    ($ 'a[data-view]').bind 'click', (event) -> self.hrefEventHandler event
+    ($ 'a[data-view]').bind 'click', (event) => @hrefEventHandler event

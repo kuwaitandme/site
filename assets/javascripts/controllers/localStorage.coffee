@@ -76,8 +76,6 @@ module.exports = class controller
   cacheStartupScripts: ->
     if @fallback then return
 
-    that = @
-
     # The list of scripts is accessible to us by the global variable
     # 'scripts'
     for script in scripts
@@ -89,12 +87,12 @@ module.exports = class controller
 
         # Start fetching the local version of the script asynchronously.
         # and save it into the cache.
-        ajax = (storageIdentifier, script) ->
+        ajax = (storageIdentifier, script) =>
           $.ajax
             url: script.localSrc,
-            success: (result) ->
+            success: (result) =>
               localStorage.setItem storageIdentifier, result
-              console.log that.name, "cached script:", storageIdentifier
+              console.log @name, "cached script:", storageIdentifier
 
         ajax storageIdentifier, script
 
