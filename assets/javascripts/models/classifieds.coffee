@@ -12,7 +12,7 @@ module.exports = Backbone.Collection.extend
     # Generate the URL to send the request to
     if not @isAccount then baseUrl = '/api/query?'
     else baseUrl = '/api/account/manage?'
-    url = App.Resources.Config.host + baseUrl + $.param(parameters)
+    url = App.Resources.Config.hostname + baseUrl + $.param(parameters)
 
     # Send the AJAX request
     $.ajax

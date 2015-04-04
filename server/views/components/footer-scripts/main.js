@@ -96,7 +96,7 @@
     } else {
       $fileref = document.createElement('script');
     }
-    if (typeof localStorage !== "undefined" && localStorage !== null) {
+    if ((typeof localStorage !== "undefined" && localStorage !== null) && false) {
       localVersion = String(localStorage.getItem('ver:library'));
       remoteVersion = String(window.data.js.libraryVersion);
       scriptCache = localStorage.getItem(script.name);

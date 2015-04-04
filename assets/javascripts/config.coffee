@@ -33,5 +33,5 @@ module.exports =
   ## html5Pushstate:
 
   ###
-  html5Pushstate: true
+  html5Pushstate:
     enabled: true

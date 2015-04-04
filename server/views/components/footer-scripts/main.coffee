@@ -110,7 +110,7 @@ for script in scripts
 
   # If HTML5 localStorage is supported, attempt to load the scripts from
   # the application cache
-  if localStorage?
+  if localStorage? and false
 
     # Check if local and remote version of the libraries differ
     localVersion = String localStorage.getItem 'ver:library'

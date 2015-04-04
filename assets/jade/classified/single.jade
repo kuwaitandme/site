@@ -30,28 +30,28 @@ section.c-content
 
 
 //- Modal to report the classified
-section.modal--show#report-modal(tabindex='-1', role='dialog', aria-labelledby='modal-label', aria-hidden='true')
-  .modal-inner
-    .title Report this classified
-    form(action="?success=reportsent#", method="POST")
-      input(type="hidden", name="action", value="report")
-      input.submit(type="submit", value="Send report")
-  a.modal-close(href='#!', title='Cancel Report', data-close='Close', data-dismiss='modal') ?
+//- section.modal--show#report-modal(tabindex='-1', role='dialog', aria-labelledby='modal-label', aria-hidden='true')
+//-   .modal-inner
+//-     .title Report this classified
+//-     form(action="?success=reportsent#", method="POST")
+//-       input(type="hidden", name="action", value="report")
+//-       input.submit(type="submit", value="Send report")
+//-   a.modal-close(href='#!', title='Cancel Report', data-close='Close', data-dismiss='modal') ?
 
-section.modal--show#ban-modal(tabindex='-1', role='dialog', aria-labelledby='modal-label', aria-hidden='true')
-  .modal-inner
-    .title Ban this classified
-    form(method="POST")
-      input(type="hidden", name="action", value="ban")
-      textarea(name="reason", placeholder='Write your reason here')
-      input.submit(type="submit", value="Ban")
-  a.modal-close(href='#!', title='Cancel Report', data-close='Close', data-dismiss='modal') ?
+//- section.modal--show#ban-modal(tabindex='-1', role='dialog', aria-labelledby='modal-label', aria-hidden='true')
+//-   .modal-inner
+//-     .title Ban this classified
+//-     form(method="POST")
+//-       input(type="hidden", name="action", value="ban")
+//-       textarea(name="reason", placeholder='Write your reason here')
+//-       input.submit(type="submit", value="Ban")
+//-   a.modal-close(href='#!', title='Cancel Report', data-close='Close', data-dismiss='modal') ?
 
-section.modal--show#reject-modal(tabindex='-1', role='dialog', aria-labelledby='modal-label', aria-hidden='true')
-  .modal-inner
-    .title Reject this classified
-    form(method="POST")
-      input(type="hidden", name="action", value="reject")
-      textarea(name="reason", placeholder='Write your reason here')
-      input.submit(type="submit", value="Reject")
-  a.modal-close(href='#!', title='Cancel Report', data-close='Close', data-dismiss='modal') ?
+//- section.modal--show#reject-modal(tabindex='-1', role='dialog', aria-labelledby='modal-label', aria-hidden='true')
+//-   .modal-inner
+//-     .title Reject this classified
+//-     form(method="POST")
+//-       input(type="hidden", name="action", value="reject")
+//-       textarea(name="reason", placeholder='Write your reason here')
+//-       input.submit(type="submit", value="Reject")
+//-   a.modal-close(href='#!', title='Cancel Report', data-close='Close', data-dismiss='modal') ?

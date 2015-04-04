@@ -27,6 +27,7 @@ module.exports = (request, response, next) ->
 
       data = JSON.parse fields.data
       files = filesRequest['files[]']
+      console.log files
 
       file = global.helpers.file
       file.upload files, (error, files) ->
@@ -42,7 +43,7 @@ module.exports = (request, response, next) ->
           # If error was set, then nothing was saved.
           # Send a 400 Bad Request to the client
           if error
-            file.delete files
+            # file.delete files
             response.status 400
             return response.end JSON.stringify error
 
