@@ -14,6 +14,7 @@ module.exports =
     (require './account')    .routes router, base
     (require './auth')       .routes router, base
     (require './category')   .routes router, base
+    (require './contact')    .routes router, base
     (require './classified') .routes router, base
     (require './lang')       .routes router, base
     (require './location')   .routes router, base
