@@ -1,32 +1,5 @@
 validator = require 'validator'
 
-
-# The controller to activate the user. This function expects the user's id to
-# be passed as well as the activation token passed a GET variable.
-#
-# It returns HTTP 200 iff the activation was successful.
-activate = (request, response, next) ->
-  # Get the parameters
-  token = request.query.activateToken
-  id = request.params.id
-
-  # Clean out the parameters
-  if token.length != 24 or !/^[0-9A-F]*$/i.test(id)
-    response.status 400
-    return response.end '"bad prameters"'
-
-  # Try and activate the user
-  User = global.models.user
-  User.activate id, token, (error, success) ->
-    if error
-      response.status 500
-      return response.end JSON.stringify error
-
-    if success then response.end '"success"'
-    else
-      response.status 401
-      response.end '"activation failed"'
-
 # This controller attempts to reset the password for the given user. It expects
 # the user's id to part of the url and the reset token to be passed as a GET
 # variable. It also expects the new password (along with the re-entered password)
@@ -74,7 +47,6 @@ reset = (request, response, next) ->
   # Check the captcha, which then calls the function to reset the password
   reCaptcha.verify request, captchaSuccess, captchaFail
 
-
 module.exports = (request, response, next) ->
   response.contentType 'application/json'
 
@@ -84,7 +56,5 @@ module.exports = (request, response, next) ->
     return response.end '"invalid user id"'
 
   if request.query.resetToken then reset request, response, next
-  else if request.query.activateToken then activate request, response, next
   else
-    # response.status 123
     response.end '"unknown method"'

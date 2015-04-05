@@ -68,7 +68,7 @@ users = module.exports =
       newUser.save (error) -> callback error, newUser
 
 
-  activate: (id, token, callback) ->
+  activate: (id, token="", callback) ->
     @model.findOne { _id: id }, (error, user) ->
       if error then callback error
 
@@ -76,13 +76,13 @@ users = module.exports =
       if not user then return callback 'user does not exist'
 
       # Check the activation token
-      if user.activationToken is not token
+      if user.activationToken != token
         return callback 'invalid activation token'
 
       # If all went well, then activate the user
       user.activationToken = ''
       user.status = users.status.ACTIVE
-      user.save (err) -> callback err, true
+      user.save (error) -> callback error, true
 
 
   createResetToken: (email, callback) ->
@@ -138,7 +138,6 @@ users = module.exports =
 
       validate: (user, password, callback) ->
         user.loginFailures = user.loginFailures or 0
-        console.log user
 
         if user.loginFailures > @MAX_FAIL_ATTEMPTS
           user.status = users.status.SUSPEND

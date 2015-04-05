@@ -7,9 +7,6 @@ controller = module.exports =
     args =
       page: 'auth/signup'
       title: response.__('title.auth.signup')
-      templates: [
-        "auth/signup"
-      ]
 
     render = global.helpers.render
     render request, response, args, true
