@@ -3,6 +3,7 @@ login = require "./login"
 module.exports = login.extend
   name: "[view:auth-signup]"
   template: template['auth/signup']
+  title: -> "Signup"
 
   start: (@options) ->
     console.debug @name, 'initializing', @options

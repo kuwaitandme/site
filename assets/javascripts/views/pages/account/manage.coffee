@@ -1,6 +1,7 @@
 module.exports = (require '../../mainView').extend
   name: '[view:account-manage]'
   template: template['account/manage']
+  title: -> "Manage your classifieds"
 
   checkRedirect: -> @resources.currentUser.isAnonymous()
   redirectUrl: -> '/auth/login?error=need_login'

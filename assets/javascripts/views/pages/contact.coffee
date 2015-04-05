@@ -2,7 +2,6 @@ module.exports = (require '../mainView').extend
   name: '[view:contact]'
   template: template['contact']
   events: 'click .submit': 'submit'
-
   title: -> "Contact Us"
 
 

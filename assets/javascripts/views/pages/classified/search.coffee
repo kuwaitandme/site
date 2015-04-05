@@ -1,6 +1,7 @@
 module.exports = (require '../../mainView').extend
   name: '[view:classifieds-search]'
   template: template['classified/search']
+  title: -> "Search classifieds"
 
   start: (options) ->
     @$classifiedList = @$ ".classifiedList"

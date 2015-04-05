@@ -32,7 +32,7 @@ module.exports = Backbone.View.extend
       if @template? then @$el.html @template()
       @start()
     @on 'continue', =>
-      document.title = @title() + " | Kuwait and Me"
+      @setTitle()
       @$el.show()
       @undelegateEvents()
       @delegateEvents()
@@ -63,6 +63,7 @@ module.exports = Backbone.View.extend
   for every view to define this. UX thing you know...
   ###
   title: -> "Publish free classifieds"
+  setTitle: -> document.title = @title() + " | Kuwait and Me"
 
   ###
   ## *start(), continue(), pause(), finish():*

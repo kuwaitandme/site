@@ -4,6 +4,7 @@ module.exports = (require '../../mainView').extend
   name: "[view:auth-login]"
   template: template['auth/login']
   events: 'click .submit': 'submit'
+  title: -> "Login"
 
   messages:
     activate_fail: 'Something went wrong while activating your account'

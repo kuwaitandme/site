@@ -51,6 +51,10 @@ module.exports = view.extend
     @$el.fadeIn()
     @modelChange()
     ($ document).foundation 'clearing', 'reflow'
+    @renderAdminbar()
+
+    @title = -> @model.get 'title'
+    @setTitle()
 
 
   populateDOM: ->
@@ -76,7 +80,6 @@ module.exports = view.extend
       window.gmapInitializeListeners.push init
     else init()
 
-    @renderAdminbar()
 
 
   modelChange: ->
