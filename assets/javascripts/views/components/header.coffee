@@ -44,7 +44,7 @@ module.exports = Backbone.View.extend
 
 
   toggleSearchBar: -> @$header.toggleClass 'show-search'
-    #search-close
+
 
   # This function redirects the app to the classified search page, with the
   # text in the search box set as the keywords in the GET query.
@@ -61,8 +61,6 @@ module.exports = Backbone.View.extend
     @resources.router.redirect url
 
   scrollHandler: ->
-    # self = @
-
     delta = 5
     didScroll = false
     lastScrollTop = 0
@@ -72,13 +70,13 @@ module.exports = Backbone.View.extend
     ($ window).resize (event) -> didScroll = true;
 
     hasScrolled = =>
-      st = ($ this).scrollTop()
+      st = ($ window).scrollTop()
       # Make sure they scroll more than delta
       if Math.abs(lastScrollTop - st) <= delta and st is not 0 then return
 
       # If they scrolled down and are past the navbar, add class .nav-up.
       # This is necessary so you never see what is "behind" the navbar.
-      if (st > lastScrollTop and st > navbarHeight)
+      if st > lastScrollTop and st > navbarHeight
         # Scroll Down
         @$header.addClass 'nav-up'
 
@@ -93,7 +91,7 @@ module.exports = Backbone.View.extend
       lastScrollTop = st;
 
     # run hasScrolled() and reset didScroll status
-    setInterval ->
+    setInterval =>
       if didScroll
         hasScrolled()
         didScroll = false

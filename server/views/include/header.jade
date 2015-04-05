@@ -1,17 +1,12 @@
-//- input#nav-trigger.nav-trigger.hide-for-large-up(type="checkbox")
-//- label(for="nav-trigger").hide-for-large-up
-//-   span.font-awesome &#xf0c9;
-//- ul.navigation.hide-for-large-up
-
 header
   #header-search
     form
       input(placeholder="search ...", name='keywords', type='text')
     #search-close.icon &#xf00d;
     #search-submit.icon &#xf002;
-    //- #search-filter.icon &#xf0b0;
+    //- #search4-filter.icon &#xf0b0;
 
-  nav#mobile-nav.hide-for-large-up
+  nav#mobile-nav.hide-for-large-up.hide-when-searching
     #mobile-icon
       a(href="/", data-view)
         img(src='/images/header-logo.png')
@@ -19,32 +14,36 @@ header
       li.left.icon.search-trigger
         a &#xf002;
       li#nav-grabber &#xf0c9;
-    ul#subheader
-      li.nav-item
-        a(href="/", data-view) Home
-      li.nav-item
-        a(href="/classified/search", data-view) Browse classifieds
-      li.main-item.hide-if-loggedin
-        a(href="/guest/post", data-view) Post a Classified
-      li.main-item.show-if-loggedin
-        a(href="/classified/post", data-view) Post a Classified
-      li.nav-item.hide-if-loggedin
-        a(href="/auth/login", data-view) Login
-      li.nav-item.hide-if-loggedin
-        a(href="/auth/signup", data-view) Signup
-      li.main-item.show-if-loggedin
-        a(href="/auth/logout", data-view) Logout
-
+    #subheader
+      ul
+        li.nav-item
+          a(href="/", data-view) Home
+        li.nav-item
+          a(href="/classified/search", data-view) Browse classifieds
+        li.main-item.hide-if-loggedin
+          a(href="/guest/post", data-view) Post a Classified
+        li.main-item.show-if-loggedin
+          a(href="/classified/post", data-view) Post a Classified
+        li.nav-item.hide-if-loggedin
+          a(href="/auth/login", data-view) Login
+        li.nav-item.hide-if-loggedin
+          a(href="/auth/signup", data-view) Signup
+        li.main-item.show-if-loggedin
+          a(href="/account/manage", data-view) Manage account
+        li.main-item.show-if-loggedin
+          a(href="/auth/logout", data-view) Logout
+        li.main-item
+          a(href="/contact", data-view) Contact Us
+        li.main-item
+          a(href="/about", data-view) About Us
+        li.main-item
+          a(href="/terms-privacy", data-view) Terms &amp; Privacy
   nav#main-nav.show-for-large-up.hide-when-searching
     ul
       li.main-item.left.home.icon
         a(href="/", data-view) &#xf015;
       li.main-item.left.search-trigger.icon
         a &#xf002;
-      li.main-item.hide-if-loggedin.left
-        a(href="/guest/post", data-view) Post a Classified
-      li.main-item.show-if-loggedin.left
-        a(href="/classified/post", data-view) Post a Classified
       li.main-item.settings.icon &#xf013;
 
         ul.subnav.hide-if-loggedin
@@ -70,3 +69,23 @@ header
             a(href="/account", data-view) View Account
           li.with-link
             a(href="/auth/logout", data-view) Logout
+
+  ul#sub-nav.show-for-large-up
+    li.hide-if-loggedin
+      a(href="/guest/post", data-view) Post a classified
+    li.show-if-loggedin
+      a(href="/classified/post", data-view) Post a classified
+    li
+      a(href="/classified/search", data-view) Browse classifieds
+    li.show-if-loggedin
+      a(href="/account/manage", data-view) Manage account
+    li.hide-if-loggedin
+      a(href="/auth/login", data-view) Login
+    li.hide-if-loggedin
+      a(href="/auth/signup", data-view) Signup
+    li
+      a(href="/contact", data-view) Contact Us
+    li
+      a(href="/about", data-view) About Us
+    li
+      a(href="/terms-privacy", data-view) Terms &amp; Privacy
