@@ -1,7 +1,21 @@
-h1 Contact Us
-p
-	|	Want to send us a message? Have an awesome idea? Or want to file a
-	| complaint?
-p
-	| Leave us a message below and we will get in touch with you as soon as
-	| possible
+.row
+  h1 Contact Us
+  p
+    | Want to send us a message? Have an awesome idea? Found a bug? Or want to file
+    | a complaint?
+  p
+    | Leave us a message below and we will get in touch with you as soon as
+    | possible
+form
+  .row.collapse
+    .small-2.medium-1.columns
+      span.prefix @
+    .small-10.medium-11.columns
+      input(type="email", name="email", placeholder="Your email", required)
+  .row.collapse
+    textarea(name="message", required, placeholder="Your message")
+
+  .row.collapse
+    .gcaptcha
+    input.submit(type="submit", value="Submit")
+    ul.messages
