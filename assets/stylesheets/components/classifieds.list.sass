@@ -12,7 +12,7 @@ ul.classified-list
     max-width: 250px
     padding: 7px
     .container
-      +single-transition(border-color)
+      +single-transition()
       background: #FFF
       border: 1px solid #DDD
       overflow: hidden
@@ -25,6 +25,7 @@ ul.classified-list
       box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.2)
       &:hover
         border-color: #000
+        margin-top: -5px
         color: #000
         li
           color: #000
@@ -34,15 +35,24 @@ ul.classified-list
       overflow: hidden
       background: #000
       img
+        +single-transition(opacity)
+        opacity: 1
         width: 100%
-        background: #000
+        background: #fff
+    &.image-loading .thumb
+      height: 200px
+      background: #fff
+      img
+        opacity: 0
+    &.image-failed .thumb
+      display: none
     .c-title, .c-meta
-      padding: 10px 16px
+      padding: 10px
     .c-info
       > ul.c-meta
-        padding: 5px 16px 10px
+        padding: 5px 10px 10px
         color: #BBB
-        font-size: 11px
+        font-size: 0.6rem
         margin: 0
         > li
           +single-transition(color)
@@ -53,8 +63,7 @@ ul.classified-list
       .c-title
         +single-transition(color)
         @extend .font-title
-        font-size: 13px
-        line-height: 24px
+        font-size: 0.7rem
         padding-bottom: 0
         overflow: hidden
       // .c-title, .c-excerpt { border-bottom: 1px solid #EEE; }

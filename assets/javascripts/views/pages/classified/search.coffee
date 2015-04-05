@@ -151,13 +151,14 @@ module.exports = view.extend
   # collection. This function is responsible for adding the classified
   # into the DOM while properly taking care of aligning it too.
   addClassifieds: (classifieds) ->
+    imageLoader = @resources.Library.imageLoader
     # All done. Hide the spinner and disable the lock
     @$spinner.fadeOut();
     @ajaxLock = false
-    console.debug @name, 'adding classifieds', classifieds
+    console.log @name, 'adding classifieds'
 
     # Reload Masonry once for all the elements
-    @$classifiedList.masonry isFitWidth: true
+    @$classifiedList.masonry()
 
     # Signal the ajax controller to stop polling the server and show the
     # no classified message
@@ -167,28 +168,90 @@ module.exports = view.extend
 
     # Add each classified into the DOM
     for classified in classifieds
-      html = @listTemplate classified.toJSON()
+      json = classified.toJSON()
+
+      if json.images
+        json.image = "#{@resources.Config.hostname}/uploads/thumb/#{json.images[0]}"
+
+      html = @listTemplate json
       elem = $ html
+
+      if json.images then elem.addClass 'image-loading'
+
+      createSuccessHandler = (elem) => =>
+        elem.removeClass 'image-loading'
+        @$classifiedList.masonry()
+
+      createFailureHandler = (elem) => =>
+        elem.removeClass 'image-loading'
+        .addClass 'image-failed'
+        @$classifiedList.masonry()
 
       # Append element into DOM and reload Masonry
       @$classifiedList.append elem
       @$classifiedList.masonry 'appended', elem
 
+      if json.images
+        # Use our special function to load the images. This function ensures
+        # that the images are loaded smoothly, the containers are setup
+        # properly and add the right CSS classes are set for the any effects
+        imageLoader json.image,
+          # This function is called when a image successfully loads. It makes
+          # sure that the *image-loading* class is removed from the parent li
+          # and the masonry layout is reset
+          success: createSuccessHandler elem
+          # This function is called when a image successfully loads. It makes
+          # sure that the *image-loading* class is removed from the parent li
+          # and the *image-failed* class is set. The masonry layout is reset
+          failure: createFailureHandler elem
+          target: @$ "#imagecontainer-#{json._id}"
+
     # Reattach the event handlers for the router
     @resources.router.reattachRouter()
-
-    # Reload Masonry again for every-time a new image has been loaded
-    reloadMasonry = => @$classifiedList.masonry()
-    imagesLoaded @$classifiedList, reloadMasonry
 
     # In case we haven't filled up the page, fire the ajax loader again.
     @fireAjaxEvent()
 
     # For all the classifieds give them their proper size
     #@resizeClassifieds()
+    # # All done. Hide the spinner and disable the lock
+    # @$spinner.fadeOut();
+    # @ajaxLock = false
+    # console.debug @name, 'adding classifieds', classifieds
+
+    # # Reload Masonry once for all the elements
+    # @$classifiedList.masonry isFitWidth: true
+
+    # # Signal the ajax controller to stop polling the server and show the
+    # # no classified message
+    # if classifieds.length == 0
+    #   @ajaxEnable = false
+    #   @$ajaxfinish.fadeIn()
+
+    # # Add each classified into the DOM
+    # for classified in classifieds
+    #   html = @listTemplate classified.toJSON()
+    #   elem = $ html
+
+    #   # Append element into DOM and reload Masonry
+    #   @$classifiedList.append elem
+    #   @$classifiedList.masonry 'appended', elem
+
+    # # Reattach the event handlers for the router
+    # @resources.router.reattachRouter()
+
+    # # Reload Masonry again for every-time a new image has been loaded
+    # reloadMasonry = => @$classifiedList.masonry()
+    # imagesLoaded @$classifiedList, reloadMasonry
+
+    # # In case we haven't filled up the page, fire the ajax loader again.
+    # @fireAjaxEvent()
+
+    # # For all the classifieds give them their proper size
+    # #@resizeClassifieds()
 
 
-  # Sets  Masonry on the classified list
+  # Sets Masonry on the classified list
   setupMasonry: ->
     @$classifiedList.masonry
       isAnimated: true
