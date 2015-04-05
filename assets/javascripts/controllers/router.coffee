@@ -3,24 +3,30 @@ module.exports = Backbone.Router.extend
   fallback: false
 
   routes:
+    "about(/)"               : "about"
     "account(/)"             : "account"
+    "account/credits(/)"     : "accountCredits"
     "account/manage(/)"      : "accountManage"
     "auth/login(/)"          : "authLogin"
     "auth/logout(/)"         : "authLogout"
     "auth/signup(/)"         : "authSignup"
     "auth/signup(/)"         : "authSignup"
-    "classified/search(/)"   : "classified"
     "classified/post(/)"     : "classifiedPost"
+    "classified/search(/)"   : "classified"
+    "contact(/)"             : "contact"
+    "guest/post(/)"          : "guestPost"
+    "terms-privacy(/)"       : "termsprivacy"
+
     "classified/:id(/)"      : "classifiedSingle"
     "classified/:id/edit(/)" : "classifiedEdit"
-    "credits(/)"             : "credits"
-    "guest/post(/)"          : "guestPost"
     "guest/:id(/)"           : "guestSingle"
     "guest/:id/edit(/)"      : "guestEdit"
-    "*default"               : "landing"
-    # "*default":            "404"
 
+    "*default"               : "landing"
+
+  about:                    -> @handleRoute 'about'
   account:                  -> @handleRoute 'account-index'
+  accountCredits:           -> @handleRoute 'account-credits'
   accountManage:            -> @handleRoute 'account-manage'
   authLogin:                -> @handleRoute 'auth-login'
   authLogout:               -> @handleRoute 'auth-logout'
@@ -29,11 +35,13 @@ module.exports = Backbone.Router.extend
   classifiedEdit:   (param) -> @handleRoute 'classified-edit', param
   classifiedPost:           -> @handleRoute 'classified-post'
   classifiedSingle: (param) -> @handleRoute 'classified-single', param
+  contact:                  -> @handleRoute 'contact'
   credits:                  -> @handleRoute 'credits'
   guestEdit:        (param) -> @handleRoute 'guest-edit', param
   guestPost:                -> @handleRoute 'guest-post'
   guestSingle:      (param) -> @handleRoute 'guest-single', param
   landing:                  -> @handleRoute 'landing'
+  termsprivacy:             -> @handleRoute 'terms-privacy'
 
 
   # A simple route handler that fires the 'change' event along with all

@@ -5,13 +5,7 @@ controller = module.exports =
       return response.redirect '/auth/login?error=need_login'
 
     args =
-      page: 'credits'
-      title: response.__('title.credits')
-      templates: [
-        "credits"
-      ]
+      page: 'account/credits'
+      title: response.__('title.account.credits')
     render = global.helpers.render
     render request, response, args, true
-
-
-  routes: (router, base) -> router.get base + '/credits', @get

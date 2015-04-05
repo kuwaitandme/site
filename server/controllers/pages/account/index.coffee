@@ -1,6 +1,7 @@
 module.exports =
   manage:  require './manage'
   profile: require './profile'
+  credits: require './credits'
 
   get: (request, response, next) ->
     if not request.isAuthenticated()
@@ -17,4 +18,5 @@ module.exports =
   routes: (router, base) ->
     router.get base + '/account',         @get
     router.get base + '/account/manage',  @manage.get
+    router.get base + '/account/credits', @credits.get
     router.get base + '/account/profile', @profile.get

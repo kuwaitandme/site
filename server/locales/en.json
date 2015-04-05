@@ -31,11 +31,14 @@
   "admin.single.reject": "Reject",
   "admin.single.repost": "Re-Post",
   "title.account": "Account",
+  "title.account.credits": "Buy credits",
   "title.account.manage": "Manage your classifieds",
   "title.account.profile": "Manage your profile",
   "title.auth.guest": "Choose a guest account",
   "title.auth.login": "Login",
   "title.auth.forgot": "Forgot your password?",
+  "title.about": "About Us",
+  "title.contact": "Contact Us",
   "title.auth.reset": "Reset your password",
   "title.auth.signup": "Signup",
   "title.classified.edit": "Edit your classified",
@@ -44,8 +47,7 @@
   "title.guest.finish": "Published!",
   "title.guest.post": "Post a new classified as a guest",
   "title.landing": "Publish free classifieds",
-  "title.privacy": "Privacy policy",
-  "title.terms": "Terms and Conditions",
+  "title.terms-privacy": "Terms of Use and Privacy policy",
   "page.cform.disclaimer": "<b>Disclaimer:<br/></b>By submitting this classified, you are agreeing to our <a href='/terms'>terms and conditions</a> and to our <a href='/privacy'>privacy policy.</a>",
   "page.cform.hint.cat": "Choose the categories which best fits your classified. Choose a parent category and then choose a subcategory.",
   "page.cform.hint.desc": "This is the description. Here you give as much as detail as you can about your classified.",
@@ -90,6 +92,5 @@
   "page.glogin.login": "Login",
   "page.glogin.or": "Or if you already have an account, then just",
   "page.glogin.post": "Posting as a Guest",
-  "page.landing.welcome": "Sell things that you don't want. Buy things at bargain prices! Publish free classifieds have never been so quick and easy.",
-  "title.credits": "Buy credits"
+  "page.landing.welcome": "Sell things that you don't want. Buy things at bargain prices! Publish free classifieds have never been so quick and easy."
 }

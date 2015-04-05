@@ -1,4 +1,6 @@
 module.exports =
+  'about':              require './about'
+  'account-credits':    require './account/credits'
   'account-index':      require './account'
   'account-manage':     require './account/manage'
   'auth-forgot':        require './auth/login'
@@ -10,9 +12,8 @@ module.exports =
   'classified-post':    require './classified/post'
   'classified-search':  require './classified/search'
   'classified-single':  require './classified/single'
-  'credits':            require './credits'
+  'contact':            require './contact'
   'guest-post':         require './classified/post'
   'guest-single':       require './classified/single'
   'landing':            require './landing'
-  'privacy':            require './privacy'
-  'terms':              require './terms'
+  'terms-privacy':      require './terms-privacy'

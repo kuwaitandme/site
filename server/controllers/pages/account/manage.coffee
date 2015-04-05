@@ -7,7 +7,7 @@ controller = module.exports =
 
     args =
       page: 'account/manage'
-      title: response.__('title.classified.search')
+      title: response.__('title.account.manage')
       data: classifieds: []
 
     render = global.helpers.render

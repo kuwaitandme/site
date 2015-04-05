@@ -2,15 +2,11 @@
 controller = module.exports =
   get: (request, response, next) ->
     args =
-      bodyid: 'privacy'
-      page: 'privacy'
-      title: response.__('title.privacy')
-      templates: [
-        "privacy"
-      ]
+      page: 'contact'
+      title: response.__('title.contact')
 
     render = global.helpers.render
     render request, response, args, true
 
 
-  routes: (router, base) -> router.get base + '/privacy', @get
+  routes: (router, base) -> router.get base + '/contact', @get
