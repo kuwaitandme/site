@@ -29,7 +29,7 @@ header
         li.nav-item.hide-if-loggedin
           a(href="/auth/signup", data-view) Signup
         li.main-item.show-if-loggedin
-          a(href="/account/manage", data-view) Manage account
+          a(href="/account", data-view) Manage your account
         li.main-item.show-if-loggedin
           a(href="/auth/logout", data-view) Logout
         li.main-item
@@ -71,14 +71,14 @@ header
             a(href="/auth/logout", data-view) Logout
 
   ul#sub-nav.show-for-large-up
-    li.hide-if-loggedin
-      a(href="/guest/post", data-view) Post a classified
-    li.show-if-loggedin
-      a(href="/classified/post", data-view) Post a classified
     li
       a(href="/classified/search", data-view) Browse classifieds
     li.show-if-loggedin
-      a(href="/account/manage", data-view) Manage account
+      a(href="/classified/post", data-view) Post a classified
+    li.hide-if-loggedin
+      a(href="/guest/post", data-view) Post a classified
+    li.show-if-loggedin
+      a(href="/account", data-view) Manage your account
     li.hide-if-loggedin
       a(href="/auth/login", data-view) Login
     li.hide-if-loggedin
