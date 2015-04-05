@@ -8,21 +8,21 @@
     background: transparent
     border: none
     padding: 0
-  .item
-    @extend .font-title
+    line-height: 1.5
+  .action
     +single-transition
+    @extend .font-title
     border-bottom: 2px solid transparent
-    color: #777
+    color: #000
     cursor: pointer
     display: inline-block
     float: left
-    font-size: 13px
+    font-size: .75rem
     padding: 10px
-    &.active, &:hover
-      border-bottom-color: #FF6600
+
+    &:hover
+      background: #FF6600
       color: #000
-    a
-      text-decoration: none
 
 @media print
   #admin-single

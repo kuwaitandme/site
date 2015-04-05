@@ -145,22 +145,16 @@ module.exports = class viewManager
   createTargetView: (targetViewIdentifier, historyState) ->
     console.debug @name, "creating new view", targetViewIdentifier
 
+    ($ window).scrollTop 0
+
     index = historyState.index
-    url = document.URL#historyState.arguments.url
+    url = document.URL
 
     $targetPage = $ "<div data-url='#{url}' data-index='#{index}'></div>"
       .addClass 'pt-page'
       .addClass targetViewIdentifier
 
-    # Get and set the HTML for the target page
-    # html = @fetchHTML targetViewIdentifier, document.URL
-    # $targetPage.html html
-
-    # Add the HTML into the DOM
-    # @$ptMain.append $targetPage
-
     options =
-      # el: ".pt-page[data-url='#{url}'][data-index='#{index}']"
       historyState: historyState
       resources: @resources
 
@@ -170,7 +164,6 @@ module.exports = class viewManager
     @$main.append targetView.$el
     targetView.$el.attr 'data-index', index
     .attr 'data-url', url
-
 
     # Save the view in our buffer and return
     @destroyUnwantedViews index

@@ -53,11 +53,11 @@ module.exports = view.extend
     ($ document).foundation 'clearing', 'reflow'
     @renderAdminbar()
 
+
+  populateDOM: ->
     @title = -> @model.get 'title'
     @setTitle()
 
-
-  populateDOM: ->
     # Add the main template
     modelJSON = @model.toJSON()
     modelJSON.category = @resources.categories.findWhere _id: modelJSON.category

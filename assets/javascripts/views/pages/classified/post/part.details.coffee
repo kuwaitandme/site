@@ -91,8 +91,6 @@ module.exports = Backbone.View.extend
     val = @$parentCategory.val()
     children = @resources.categories.getChildren val
 
-    # if not children? or children.length is 0
-
     @$childCategory.html ""
     addChildCategory = (child) =>
       html = @generateOption child._id, child.name
@@ -100,7 +98,6 @@ module.exports = Backbone.View.extend
 
     addChildCategory child for child in children
     window.a = children
-    console.log childrenNames
 
 
   setPrice: (value) ->

@@ -1,4 +1,4 @@
 module.exports =
-  cache:           require './localStorage'
+  cache:           require './cache'
   router:          require './router'
   viewManager:     require './viewManager'
