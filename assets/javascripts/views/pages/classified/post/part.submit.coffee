@@ -22,9 +22,6 @@ module.exports = Backbone.View.extend
 
     @renderCaptcha()
 
-  # render: ->
-
-
   # Checks all the required fields in that particular page and prevents the
   # page from scrolling if any of the fields are empty.
   validate: ->
@@ -58,9 +55,18 @@ module.exports = Backbone.View.extend
     console.log @name, 'setting captcha'
 
     (@$captcha.html "").show()
+    @$submit.hide()
     if grecaptcha?
       if @captcha then grecaptcha.reset @captcha
-      else @captcha = grecaptcha.render @captchaId, sitekey: window.data.captchaKey
+      else @captcha = grecaptcha.render @captchaId,
+        sitekey: window.config.reCaptcha
+        callback: (response) => @captchaSuccess response
+
+
+  captchaSuccess: (response) ->
+    console.log @name, 'captcha success'
+    @$submit.show()
+    @$captcha.hide()
 
 
   resetCaptcha: -> grecaptcha.reset @captcha

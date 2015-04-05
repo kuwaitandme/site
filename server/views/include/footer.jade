@@ -1,6 +1,8 @@
 footer
   section#scripts
-    script window.data = "!{data}";
+    script.
+      window.data = "!{data}";
+      window.config = !{JSON.stringify(config)};
 
     if environment == "development"
       script

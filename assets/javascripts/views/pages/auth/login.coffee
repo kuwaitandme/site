@@ -84,7 +84,7 @@ module.exports = (require '../../mainView').extend
     if grecaptcha?
       if @captcha then @resetCaptcha()
       else @captcha = grecaptcha.render @captchaId,
-        sitekey: window.data.captchaKey
+        sitekey: window.config.reCaptcha
         callback: (response) => @captchaSuccess response
 
 

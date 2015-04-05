@@ -1,8 +1,6 @@
 (function() {
   var $fileref, foundInCache, head, i, isCSS, j, len, localVersion, remoteVersion, script, scriptCache;
 
-  window.data = JSON.parse(atob(window.data));
-
   window.scripts = [
     {
       name: 'lib:normalize-css',
@@ -98,7 +96,7 @@
     }
     if ((typeof localStorage !== "undefined" && localStorage !== null) && false) {
       localVersion = String(localStorage.getItem('ver:library'));
-      remoteVersion = String(window.data.js.libraryVersion);
+      remoteVersion = String(window.config.js.libraryVersion);
       scriptCache = localStorage.getItem(script.name);
       if (localVersion === !remoteVersion) {
         scriptCache = null;

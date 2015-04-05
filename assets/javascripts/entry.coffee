@@ -36,6 +36,8 @@ if not window.App?
 
   class Main
     constructor: (App) ->
+      @decodeData()
+
       @initializeResources()
       @initializeViews()
       @initializeListeners()
@@ -48,6 +50,11 @@ if not window.App?
 
     initializeListeners: ->
       _.extend @, Backbone.Events
+
+
+    decodeData: ->
+      base64 = App.Resources.Library.base64
+      window.data = base64.decode window.data
 
 
     ###

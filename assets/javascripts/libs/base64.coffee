@@ -46,7 +46,7 @@
 #   then an DOMException(5) is thrown.
 ###
 
-base64 = {}
+module.exports = base64 = {}
 base64.PADCHAR = '='
 base64.ALPHA = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
 
