@@ -26,25 +26,15 @@ module.exports = Backbone.Model.extend
 
   initialize: ->
     console.log @name, 'initializing'
-
     @$body = $ 'body'
-    @on 'sync', => console.log @name, 'syncing'
-
-
-    # Redirect fetch to our cached version of fetch
-    @oldFetch = @fetch
-    @fetch = (arg) => if not @newFetch arg then @oldFetch arg
-
-
-  newFetch: ->
-    @$body.removeClass 'loggedin'
-    @$body.addClass 'loggedout'
-
-    if not @id? and window.data.user?
-       @set window.data.user
-       @trigger 'sync'
-       true
-     else false
+    @on 'sync', =>
+      console.log @name, 'syncing'
+      if not @isAnonymous()
+        @$body.addClass 'loggedin'
+        @$body.removeClass 'loggedout'
+      else
+        @$body.removeClass 'loggedin'
+        @$body.addClass 'loggedout'
 
 
   login: (username, password, callback) ->
@@ -62,13 +52,8 @@ module.exports = Backbone.Model.extend
       success: (response) =>
         console.debug @name, 'user logged in', response
 
-        @$body.addClass 'loggedin'
-        @$body.removeClass 'loggedout'
-
         # Save the data from the server
         @set response
-
-        # Signal any listeners that the user has logged in
         @trigger 'sync', response
 
         # Call the callback
@@ -102,11 +87,6 @@ module.exports = Backbone.Model.extend
   logout: ->
     $.get "/api/auth/logout/"
     @clear()
-
-    @$body.removeClass 'loggedin'
-    @$body.addClass 'loggedout'
-
-    # Signal any listeners that the user has logged out
     @trigger 'sync'
 
 

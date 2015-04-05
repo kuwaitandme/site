@@ -1,34 +1,36 @@
-view = require './classified/search'
-module.exports = view.extend
+module.exports = (require '../mainView').extend
   name: '[view:landing]'
-  title: -> "Publish free classifieds"
   template: template['landing']
-
-  enableFilterBox: false
+  title: -> "Publish free classifieds"
 
   events: "submit" : "formSubmit"
 
+  start: ->
+    @$categoryContainer = @$ '#landing-categories'
+    @$classifiedList = @$ ".classifiedList"
+
+    @classifiedList = new @resources.Views.components.classifiedList
+      settings:
+        isAccount: false
+        enableFilterBox: false
+      resources: @resources
+      el: @$classifiedList
+
 
   continue: ->
-    console.log @name, 'rendering'
-    ($ window).on 'scroll', @onScroll
+    console.log @name, 'continue'
 
-    @collection.isAccount = @isAccount
-    @$classifiedList.masonry()
+    @categoryList = new @resources.Views.components.categoryList
+      el: @$categoryContainer
+      resources: @resources
+    console.log @categoryList
 
-    if @enableFilterBox then @filterbox.render()
-    @$spinner.hide()
+    @classifiedList.continue()
 
-    @$categoryContainer = (@$ '#landing-categories')
-    @setupCategoryContainer()
 
-  setupCategoryContainer: ->
-    categoryTemplate = template['components/category-list']
-    @$categoryContainer.html categoryTemplate categories: @resources.categories.toJSON()
-    @$categoryContainer.masonry
-      itemSelector: 'li'
-      isFitWidth: true
-    @resources.router.reattachRouter()
+  pause: ->
+    console.log @name, 'pause'
+    @classifiedList.pause()
 
 
   # This function redirects the app to the classified search page, with the
@@ -43,7 +45,7 @@ module.exports = view.extend
 
     # Redirect the app to the classified search page.
     url = "/classified/search/?keywords=#{text}"
-    app.trigger 'redirect', url
+    @resources.router.redirect url
 
 
   # This method performs the same function as the 'submitClick' method but

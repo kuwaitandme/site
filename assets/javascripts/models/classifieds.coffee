@@ -22,7 +22,8 @@ module.exports = Backbone.Collection.extend
       # data: parameters
       beforeSend: ajax.setHeaders
       success: (response) =>
-        console.debug @consoleSlug, 'fetching classifieds', response
+        console.log @consoleSlug, 'fetching classifieds'
+        console.debug @consoleSlug, response
         newModels = []
 
         # For each classified convert it into a Backbone.Model and

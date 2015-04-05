@@ -94,9 +94,20 @@ if not window.App?
       @resources.locations.resources = @resources
       @resources.currentUser.resources = @resources
 
-      @resources.categories.fetch()
-      @resources.locations.fetch()
-      @resources.currentUser.fetch()
+      asyncCounter = 3
+      setAndCheckCounter = =>
+        asyncCounter--
+        if asyncCounter <= 0 then @viewManager.start()
+
+      @resources.categories.fetch
+        error: setAndCheckCounter
+        success: setAndCheckCounter
+      @resources.locations.fetch
+        error: setAndCheckCounter
+        success: setAndCheckCounter
+      @resources.currentUser.fetch
+        error: setAndCheckCounter
+        success: setAndCheckCounter
 
   ###
   **Main Javascript Execution starts here**

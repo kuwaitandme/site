@@ -3,12 +3,12 @@ body#classified-single
   .post-nav
     color: #999
     font-size: 12px
-    // margin-top: 30px;
     text-transform: uppercase
     a
       text-decoration: none
       &:hover
         color: #000
+
   ul#single-messages
     padding: 0
     margin: 0
@@ -17,6 +17,7 @@ body#classified-single
       color: #FFF
       background: #E74C3C
       padding: 10px
+      font-size: 0.75rem
       text-align: center
       &.warning
         background: #FD8603
@@ -24,6 +25,7 @@ body#classified-single
         background: #2ecc71
       &.error
         color: rgba(255, 255, 255, 0.75)
+
   #admin-controls
     border: 1px solid #ff7302
     display: inline-block
@@ -55,6 +57,8 @@ body#classified-single
     height: 400px
     max-height: 100%
     width: 100%
+  .c-title
+    margin-bottom: 1rem
   .c-content
     margin: 30px auto
     width: 95%
@@ -67,7 +71,7 @@ body#classified-single
       color: #000
       font-size: 12px
       margin: 0
-      padding: 5px 0
+      padding: 1rem 0
       li
         float: left
         &:after
@@ -78,55 +82,22 @@ body#classified-single
           content: ''
           padding: 0
     .c-action
-      // color: red;
-      // &.share, &.print { color: blue }
       a
         text-decoration: none
     .c-description
-      // @extend .font-title;
-      font-size: 16px
-      line-height: 28px
-      padding-bottom: 100px
+      font-size: 0.8rem
+      // padding-bottom: 100px
       white-space: pre-wrap
-      /* CSS 3
       white-space: -moz-pre-wrap
-      /* Mozilla, since 1999
       white-space: -pre-wrap
-      /* Opera 4-6
       white-space: -o-pre-wrap
-      /* Opera 7
       word-wrap: break-word
-      /* Internet Explorer 5.5+
   .c-gallery
-    // border-bottom: 1px solid #CCC;
     margin: 0
-    padding-top: 1px
-    padding: 15px
+    padding-bottom: 15px
     text-align: center
-    background: #fcfcfc
-    background: -moz-linear-gradient(top, #fcfcfc 0%, #ffffff 100%)
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #fcfcfc), color-stop(100%, #ffffff))
-    background: -webkit-linear-gradient(top, #fcfcfc 0%, #ffffff 100%)
-    background: -o-linear-gradient(top, #fcfcfc 0%, #ffffff 100%)
-    background: -ms-linear-gradient(top, #fcfcfc 0%, #ffffff 100%)
-    background: linear-gradient(to bottom, #fcfcfc 0%, #ffffff 100%)
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfcfc', endColorstr='#ffffff',GradientType=0 )
-    img.thumb
-      background: #000
-      // margin-bottom: 15px;
-      // margin-right: 15px;
-      // overflow: hidden;
-      -webkit-box-shadow: 2px 1px 2px rgba(0, 0, 0, 0.25)
-      -moz-box-shadow: 2px 1px 2px rgba(0, 0, 0, 0.25)
-      -o-box-shadow: 2px 1px 2px rgba(0, 0, 0, 0.25)
-      box-shadow: 2px 1px 2px rgba(0, 0, 0, 0.25)
-    .visible-img img
-      margin-left: 0
-      -webkit-transform: translateY(-50%) translateX(-50%)
-      -moz-transform: translateY(-50%) translateX(-50%)
-      -ms-transform: translateY(-50%) translateX(-50%)
-      -o-transform: translateY(-50%) translateX(-50%)
-      transform: translateY(-50%) translateX(-50%)
+    li
+      padding: 0
   .c-disclaimer
     color: #999
     font-size: 10px

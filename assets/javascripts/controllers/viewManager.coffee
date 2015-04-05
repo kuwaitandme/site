@@ -29,6 +29,14 @@ module.exports = class viewManager
     # @header.currentUser = @resources.currentUser
     @resources.currentUser.on 'sync', => @header.update()
 
+  start: ->
+    console.log @name, 'starting'
+    @started = true
+    if @currentView
+      if @currentView.checkRedirect()
+        @progressBar.progress 100
+        return @resources.router.redirect @currentView.redirectUrl()
+      @currentView.trigger 'continue'
 
   routeHandle: (args={}) =>
     viewIdentifier = args.view
@@ -61,19 +69,17 @@ module.exports = class viewManager
 
     @$body.attr 'id', viewIdentifier
 
-    # Attach the basic models to the view
+    # Attach the basic resources to the view
     @currentView.resources = @resources
 
-    # Check for any redirection
-    if @currentView.checkRedirect()
-      @progressBar.progress 100
-      return @resources.router.redirect @currentView.redirectUrl()
+    if @started
+      # Check for any redirection
+      if @currentView.checkRedirect()
+        @progressBar.progress 100
+        return @resources.router.redirect @currentView.redirectUrl()
 
-    # Attempt to cache the HTML for the view
-    # @resources.cache.cacheView @currentView, @currentViewName
-
-    # Now signal the view to manipulate the DOM.
-    @currentView.trigger 'continue'
+      # Now signal the view to manipulate the DOM.
+      @currentView.trigger 'continue'
 
     # All done, set the mouse icon to normal
     @displayMouseLoader false

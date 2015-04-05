@@ -49,13 +49,14 @@ module.exports = view.extend
   continue: ->
     console.log @name, 'continue'
     @$el.fadeIn()
+    @modelChange()
     ($ document).foundation 'clearing', 'reflow'
 
 
   populateDOM: ->
     # Add the main template
     modelJSON = @model.toJSON()
-    modelJSON.category = @resources.categories.findWhere({ _id: modelJSON.category })
+    modelJSON.category = @resources.categories.findWhere _id: modelJSON.category
     ($ '.c-content').html @singleTemplate modelJSON
 
     # Add the image templates
@@ -68,6 +69,7 @@ module.exports = view.extend
 
     @$gmap = @$ '#map-canvas'
     @$gmap.hide()
+
     # Render google maps
     init = => @initializeGoogleMaps()
     if not window.gmapInitialized
@@ -79,7 +81,7 @@ module.exports = view.extend
 
   modelChange: ->
     @$messages.html ""
-    window.location.hash = ""
+    # window.location.hash = ""
 
     # Display a message based on the classified's status.
     moderatorReason = @model.get 'moderatorReason'

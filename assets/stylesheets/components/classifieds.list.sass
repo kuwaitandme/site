@@ -1,12 +1,28 @@
+.classifiedList
+  .ajax-spinner
+    display: none
+    text-align: center
+    padding: 20px
+
+  .ajax-finish
+    @extend .font-title
+    color: #AAA
+    display: none
+    margin: 20px 0 0
+    padding: 20px
+    text-align: center
+    text-transform: uppercase
+
 ul.classified-list
   +clearfix
   margin: 0 auto
   padding: 7px 0
-  // background: #f6f6f6;
+  min-width: 75% !important
+
   a
     text-decoration: none
-  a:visited
-    color: #BBB
+    &:visited
+      color: #BBB
   > li
     float: left
     max-width: 250px
@@ -23,12 +39,13 @@ ul.classified-list
       -webkit-box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.2)
       -moz-box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.2)
       box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.2)
+
       &:hover
         border-color: #000
         margin-top: -5px
-        color: #000
-        li
+        .c-title, li
           color: #000
+
     .heading
       font-size: 20px
     .thumb
@@ -55,18 +72,13 @@ ul.classified-list
         font-size: 0.6rem
         margin: 0
         > li
-          +single-transition(color)
           margin: 0
           padding: 0
-          &:hover
-            color: black
       .c-title
-        +single-transition(color)
         @extend .font-title
         font-size: 0.7rem
         padding-bottom: 0
         overflow: hidden
-      // .c-title, .c-excerpt { border-bottom: 1px solid #EEE; }
     .urgent-banner
       background: #FA2A00
       color: #FFF

@@ -6,6 +6,8 @@ module.exports = Backbone.View.extend
     'click .search-trigger' : 'toggleSearchBar'
     'click #nav-grabber' : 'toggleHeader'
     'click #subheader a' : 'toggleHeader'
+    'click #search-submit' : 'submitQuery'
+    "submit" : "submitQuery"
 
 
   toggleHeader: -> @$body.toggleClass 'show-subheader'
@@ -43,6 +45,20 @@ module.exports = Backbone.View.extend
 
   toggleSearchBar: -> @$header.toggleClass 'show-search'
     #search-close
+
+  # This function redirects the app to the classified search page, with the
+  # text in the search box set as the keywords in the GET query.
+  submitQuery: (event) ->
+    event.preventDefault()
+    $keywords = @$ "[name='keywords']"
+
+    # Get the keywords and covert it into a GET query
+    text = $keywords.val() or ''
+    text.replace ' ', '+'
+
+    # Redirect the app to the classified search page.
+    url = "/classified/search/?keywords=#{text}"
+    @resources.router.redirect url
 
   scrollHandler: ->
     # self = @
