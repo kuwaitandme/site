@@ -63,7 +63,7 @@ module.exports = Backbone.Router.extend
 
     # Set the history index and replace the current state
     @historyIndex = window.history.length
-    window.history.replaceState index: @historyIndex
+    window.history.replaceState {index: @historyIndex}, '', document.URL
 
     console.log @name, 'initializing current history state'
     console.debug @name, 'state:', window.history.state
@@ -109,11 +109,11 @@ module.exports = Backbone.Router.extend
     # If the state index is not defined, then this is a pushstate. So
     # increment our index by 1.
     if state? and not state.index? then @historyIndex += 1
-    window.history.replaceState index: @historyIndex
+    window.history.replaceState {index: @historyIndex}, '', document.URL
 
 
   # This is a safe function that returns the current history state.
-  getHistoryState: -> if @fallback then null else window.history.state
+  getHistoryState: -> if @fallback then {} else window.history.state or {}
 
 
   # Event handler to switch the view in the main page. This event gets
