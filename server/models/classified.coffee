@@ -27,6 +27,7 @@ classifieds = module.exports =
     title:             String
     type:              Number # 0:Sale,1:Want
     views:             Number
+    weight:            Number
 
     authHash:          String
     guest:             Boolean
@@ -97,10 +98,9 @@ classifieds = module.exports =
       classified.babyCategory = data.babyCategory
 
     # Set up some defaults
+    classified.weight = 0
     classified.created = Date.now()
-    classified.perks =
-      promote: false
-      urgent: false
+    classified.perks = []
     classified.views = 0
 
     # If you are logged in, then we will make you the owner of this
@@ -157,7 +157,7 @@ classifieds = module.exports =
     # Prepare a query which searchs with the given parameter and offsets
     # and limits with the 'classifieds per page' and 'page index' parameters
     query = @model.find parameters, authHash: 0
-      .sort created: sort
+      .sort  weight: -1, created: sort
       .skip classifiedsToSkip
       .limit @classifiedPerPage
 

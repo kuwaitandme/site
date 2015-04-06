@@ -27,7 +27,6 @@ module.exports = (request, response, next) ->
 
       data = JSON.parse fields.data
       files = filesRequest['files[]']
-      console.log files
 
       file = global.helpers.file
       file.upload files, (error, files) ->
@@ -39,7 +38,7 @@ module.exports = (request, response, next) ->
         data.images = files
 
         classified = global.models.classified
-        classified.create data, request.user, (error, cl) ->
+        classified.create data, request.user, (error, classified) ->
           # If error was set, then nothing was saved.
           # Send a 400 Bad Request to the client
           if error
@@ -50,7 +49,7 @@ module.exports = (request, response, next) ->
           # If a classified was saved, then return it to the client.
           # The returned classified will contain the id parameter which
           # gets set by the database
-          if cl then return response.end JSON.stringify cl
+          if classified then return response.end JSON.stringify classified
 
 
   reCaptcha = global.helpers.reCaptcha
