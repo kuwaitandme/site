@@ -1,7 +1,6 @@
 url    = (require 'app-helpers').url
-view   = require '../../mainView'
 
-module.exports = view.extend
+module.exports = Backbone.View.extend
   name: "[view:classified-single]"
   template: template['classified/single']
   messages:

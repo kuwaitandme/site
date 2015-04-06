@@ -1,4 +1,4 @@
-module.exports = (require '../../mainView').extend
+module.exports = Backbone.View.extend
   name: '[view:account-index]'
   template: template['account/index']
   title: -> "Manage your account"

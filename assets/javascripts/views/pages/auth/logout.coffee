@@ -1,4 +1,4 @@
-module.exports = (require '../../mainView').extend
+module.exports = Backbone.View.extend
   name: "[view:auth-logout]"
 
   # Let the app know that we want to redirect to the login page

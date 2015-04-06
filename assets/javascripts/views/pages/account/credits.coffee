@@ -1,4 +1,4 @@
-module.exports = (require '../../mainView').extend
+module.exports = Backbone.View.extend
   name: '[view:account-credits]'
   title: -> "Buy Credits"
   template: template['account/credits']

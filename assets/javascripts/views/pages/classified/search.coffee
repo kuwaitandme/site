@@ -1,4 +1,4 @@
-module.exports = (require '../../mainView').extend
+module.exports = Backbone.View.extend
   name: '[view:classifieds-search]'
   template: template['classified/search']
   title: -> "Search classifieds"

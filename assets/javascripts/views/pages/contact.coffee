@@ -1,4 +1,4 @@
-module.exports = (require '../mainView').extend
+module.exports = Backbone.View.extend
   name: '[view:contact]'
   template: template['contact']
   events: 'click .submit': 'submit'

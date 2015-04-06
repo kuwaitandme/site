@@ -22,9 +22,9 @@ if not window.App?
   uniformed way of accessing different components/resources.
   ###
   window.App =
-    Router: (require "app-controllers").router
-    Cache: (require "app-controllers").cache
-    ViewManager: (require "app-controllers").viewManager
+    Router: (require "app-modules").router
+    Cache: (require "app-modules").cache
+    ViewManager: (require "app-modules").viewManager
 
     Resources:
       Library: require "app-libs"
@@ -37,6 +37,7 @@ if not window.App?
   class Main
     constructor: (App) ->
       @decodeData()
+      @applyBackboneHacks()
 
       @initializeResources()
       @initializeViews()
@@ -60,10 +61,19 @@ if not window.App?
     ###
     ## *initializeBackBone():*
 
-    This function initialize Backbone by starting the router and modifying it's
-    sync function.
+    ....
     ###
     initializeBackBone: ->
+      # Start Backbone history to trigger the different routes and to load
+      # the first route.
+      Backbone.history.start
+        pushState: true,
+        hashChange: false,
+        root: '/'
+
+
+    applyBackboneHacks: ->
+      console.log @name, 'applying Backbone hacks'
       # Rewrite backbone sync with our custom sync function. For now add our
       # little hack to bypass the CSRF token. NOTE that we must find another
       # way to have CSRF added into every AJAX call without having to making
@@ -80,12 +90,8 @@ if not window.App?
         backboneSync method, model, options
       Backbone.sync = newSync
 
-      # Start Backbone history to trigger the different routes and to load
-      # the first route.
-      Backbone.history.start
-        pushState: true,
-        hashChange: false,
-        root: '/'
+      newViewProperties = (require "app-views").BaseView
+      _.extend Backbone.View.prototype, newViewProperties
 
 
     initializeResources: ->
