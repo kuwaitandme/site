@@ -14,6 +14,7 @@ module.exports = Backbone.View.extend
 
   initialize: (options) ->
     console.log @name, 'initializing'
+    @resources = App.Resources
 
     # Initialize DOM variables
     @$navHome      = @$ '#nav-logo'
