@@ -10,6 +10,10 @@ module.exports =
     if validator.isMongoId request.query.category
       parameters.category = request.query.category
 
+    # Set the child-category
+    if validator.isMongoId request.query.childCategory
+      parameters.childCategory = request.query.childCategory
+
     # Set price min and max
     price = {}
     priceMax = request.query.priceMax
@@ -42,5 +46,4 @@ module.exports =
           { description: $all: regex }
         ]
       }]
-
     parameters
