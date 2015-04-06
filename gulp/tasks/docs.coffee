@@ -1,5 +1,4 @@
 coffee   = require 'gulp-coffee'
-flatten  = require 'gulp-flatten'
 gulpDoxx = require 'gulp-doxx'
 rename   = require 'gulp-rename'
 

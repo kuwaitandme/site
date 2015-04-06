@@ -1,13 +1,13 @@
 footer
   section#scripts
     script.
-      window.data = "!{data}";
+      window.data = "!{data}";#{typeof mode}
       window.config = !{JSON.stringify(config)};
 
-    if environment == "development"
+    if mode == "development"
       script
         include ../components/footer-scripts/main.js
-    else if environment == "testing"
+    else if mode == "testing"
       script
         include ../components/footer-scripts/main-production.js
     else

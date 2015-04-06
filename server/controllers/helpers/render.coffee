@@ -43,7 +43,7 @@ module.exports = (request, response, args={}, cache=false) ->
     args._ =  global.__
 
     args.title = "#{args.title} | Kuwait and Me"
-
+    args.mode = global.config.mode
     args.data = args.data or {}
     args.data.captchaKey = config.reCaptcha.site
     args.config =
