@@ -68,10 +68,10 @@
   },
   "browser": {
     "app-config": "./assets/javascripts/config.coffee",
-    "app-controllers": "./assets/javascripts/controllers/index.coffee",
     "app-helpers": "./assets/javascripts/helpers/index.coffee",
     "app-libs": "./assets/javascripts/libs/index.coffee",
     "app-models": "./assets/javascripts/models/index.coffee",
+    "app-modules": "./assets/javascripts/modules/index.coffee",
     "app-views": "./assets/javascripts/views/index.coffee"
   }
 }
