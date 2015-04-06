@@ -15,7 +15,7 @@ module.exports = Backbone.View.extend
 
     @$el.html @template()
     @$modal = @$ "#payment-modal"
-    @$submit = @$modal.find ".submit"
+    @$submit = @$ ".submit"
     @$spinner = @$ ".ajax-spinner"
 
     @$expiry = @$ "[name='expiry']"
@@ -29,10 +29,10 @@ module.exports = Backbone.View.extend
     (@$ "form").card container: '.card-wrapper'
 
 
-  setPurchaseOptions: (Credits, KWD, USD) ->
+  setPurchaseOptions: (@credits=0, KWD, USD) ->
     diff = Math.round(((KWD * @KWDtoUSD) - USD) * 100) / 100
 
-    (@$ '.buycredit-count').html Credits
+    (@$ '.buycredit-count').html @credits
     (@$ '.kwd').html "#{KWD}KWD"
     (@$ '.usd').html "$#{USD}"
     (@$ '.usd-converted').html "$#{KWD * @KWDtoUSD}"
@@ -60,8 +60,11 @@ module.exports = Backbone.View.extend
 
 
 
-  handleTransaction: (@credits=10, callback) ->
+  handleTransaction: (callback) ->
+    @$submit.show()
+    @$spinner.hide()
     @$modal.foundation "reveal", "open"
+
     @callback = callback or ->
 
 
@@ -78,7 +81,7 @@ module.exports = Backbone.View.extend
     # Get the credit card details
     creditDetails = @getCreditDetails()
     data =
-      credits: 10 #@credits
+      credits: @credits or 0
       publishableKey: window.config.TCO.publicKey
       sellerId: window.config.TCO.sid
 
@@ -91,9 +94,10 @@ module.exports = Backbone.View.extend
       console.log error, token
       data =
         token: token
-        credits: 10
+        credits: @credits
       @sendDataBackend data, (error, response) =>
         console.log error, response
+        @$modal.foundation "reveal", "close"
         @callback error, response
 
 

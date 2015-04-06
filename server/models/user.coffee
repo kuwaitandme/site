@@ -129,17 +129,15 @@ users = module.exports =
       user.save (error) -> callback error, true
 
 
-  addCredits: (id, credits, callback) ->
-    if not validator.isMongoId id
-      return callback "bad/empty id"
-
-    if not validator.isInt credits
-      return callback "bad/empty credits"
+  addCredits: (id, credits, callback=->) ->
+    if not validator.isMongoId id then return callback "bad/empty id"
+    if not validator.isInt credits then return callback "bad/empty credits"
 
     @model.findOne { _id: id }, (error, user) ->
       if error then return callback error
       if not user then return callback 'user does not exist'
 
+      user.credits = user.credits or 0
       user.credits += credits
       user.save (error) -> callback error, true
 

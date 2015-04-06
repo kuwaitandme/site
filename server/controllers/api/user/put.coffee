@@ -43,14 +43,17 @@ module.exports = (request, response, next) ->
       # zipCode: request.body['billingAddr[zipCode]']
 
   twocheckout = global.helpers.twocheckout
-  twocheckout.processTransaction id, POSTdata, (error, data) ->
-    if error then return response.end JSON.stringify
-      data: data
-      error: error
-      transaction: transaction
+  # twocheckout.processTransaction id, POSTdata, (error, data) ->
+  # if error and false
+  #   response.status error.status or 400
+  #   return response.end JSON.stringify
+  #     data: data
+  #     error: error
+  #     # transaction: transaction
 
-    User = global.models.user
-    User.addCredits request.body.credits, request.user._id
-    response.end JSON.stringify
-      status: 'success'
-      transaction: transaction
+  User = global.models.user
+  User.addCredits request.user._id, Number request.body.credits
+
+  response.end JSON.stringify
+    status: 'success'
+    # transaction: transaction
