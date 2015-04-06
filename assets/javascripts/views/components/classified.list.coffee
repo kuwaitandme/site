@@ -71,16 +71,16 @@ module.exports = Backbone.View.extend
     @$classifiedList.height 0
 
     # Get the query
-    if @enableFilterBox
-      @query = @filterbox.getQuery()
-    else
-      keywords = (urlHelpers.getParam "keywords")or ""
-      @query = {}
-      @query.keywords = if keywords.length > 0 then keywords else null
+    # if @enableFilterBox
+    #   @query = @getQuery()
+    # else
+    #   keywords = (urlHelpers.getParam "keywords")or ""
+    #   @query = {}
+    #   @query.keywords = if keywords.length > 0 then keywords else null
+    @query = @getQuery()
     @query.page = 0
 
     if @enableFilterBox
-      console.log @name, @enableFilterBox
       # Get the current state from the history API
       currentState = router.getHistoryState()
 
@@ -138,10 +138,19 @@ module.exports = Backbone.View.extend
     parameters = @query or {}
     parameters.page = @pageIndex
     @pageIndex += 1
-    # url = app.helpers.url.insertParam('page', @pageIndex)
 
     # Fetch the classifieds from the back-end
     @collection.fetch parameters, @accountClassifieds
+
+
+  getQuery: ->
+      category:      urlHelpers.getParam 'category'
+      childCategory: urlHelpers.getParam 'childCategory'
+      keywords:      urlHelpers.getParam 'keywords'
+      location:      urlHelpers.getParam 'location'
+      priceMax:      urlHelpers.getParam 'priceMax'
+      priceMin:      urlHelpers.getParam 'priceMin'
+      type:          urlHelpers.getParam 'type'
 
 
   # This function gets called whenever a new model has been added into our

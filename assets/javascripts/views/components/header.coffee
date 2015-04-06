@@ -14,7 +14,6 @@ module.exports = Backbone.View.extend
 
   initialize: (options) ->
     console.log @name, 'initializing'
-    @resources = options.resources
 
     # Initialize DOM variables
     @$navHome      = @$ '#nav-logo'
@@ -29,7 +28,6 @@ module.exports = Backbone.View.extend
     @$userthumb    = @$ '.user-thumb img'
 
     @scrollHandler()
-    # @update()
 
   populateHeader: ->
     md5 = App.Resources.Library.md5

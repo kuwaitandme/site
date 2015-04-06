@@ -6,7 +6,18 @@ module.exports = Backbone.View.extend
     console.log @name, 'initializing'
     if options.resources then @resources = options.resources
 
-    @$el.html @template categories: @resources.categories.toJSON()
+    categories = @resources.categories.toJSON()
+
+    for category in categories
+      i = 0
+      j = 0
+      for child in category.children
+        i++
+        j += i
+        child.count = i
+      category.count = j
+
+    @$el.html @template categories: categories
     @$el.masonry
       itemSelector: 'li'
       isFitWidth: true

@@ -6,10 +6,10 @@ ul.categories-list.row.medium-11
       .children
         <% _.each(cat.children, function(child) { %>
         .child
-          a(href!="/classified/search?childcategory=<%= child._id %>", data-view) <%= child.name %>
-          .count 0
+          a(href!="/classified/search?childCategory=<%= child._id %>", data-view) <%= child.name %>
+          .count <%= child.count %>
         <% }) %>
         .child
           a(href!="/classified/search?category=<%= cat._id %>", data-view) View All
-          .count 0
+          .count <%= cat.count %>
   <% }) %>
