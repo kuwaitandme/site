@@ -1,8 +1,16 @@
-emailReport = require './email-report'
+emailReport = require './emailReport'
+clearCache  = require './clearCache'
 
 module.exports = (cron) ->
   cronDaily = ->
-    emailReport()
+    if global.config.mode is 'production'
+      emailReport()
 
-  # setup the daily tasks
-  new cron '00 00 00 * * *', cronDaily, null, true, 'Asia/Kuwait'
+  cronHourly = ->
+      clearCache()
+      # depromoteClassifieds()
+      # expireClassifieds()
+
+  # setup the cron tasks
+  new cron '0 0 0 * * *', cronDaily,  null, true, 'Asia/Kuwait'
+  new cron '0 0 * * * *', cronHourly, null, true, 'Asia/Kuwait'
