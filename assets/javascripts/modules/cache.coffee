@@ -33,7 +33,7 @@ module.exports = class controller
 
   checkVersions: ->
     console.log @name, "checking cache version"
-    versions = window.config.js
+    versions = window.config.js or {}
 
 
     if Number(localStorage.getItem 'ver:library') != versions.libraryVersion
