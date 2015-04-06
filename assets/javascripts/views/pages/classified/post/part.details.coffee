@@ -31,7 +31,6 @@ module.exports = Backbone.View.extend
 
     @initCategories()
     @initLocations()
-    window.a = @
     @setDOM()
 
 
@@ -91,7 +90,10 @@ module.exports = Backbone.View.extend
     val = @$parentCategory.val()
     children = @resources.categories.getChildren val
 
-    @$childCategory.html ""
+    if children.length > 0 then @$childCategory.show()
+    else @$childCategory.hide()
+
+    @$childCategory.html @generateOption '', 'Choose a child-category'
     addChildCategory = (child) =>
       html = @generateOption child._id, child.name
       @$childCategory.append html
@@ -113,6 +115,7 @@ module.exports = Backbone.View.extend
 
   # Initializes the categories option
   initCategories: ->
+    @$childCategory.hide()
     for category in @categories
       html = @generateOption category._id, category.name
       @$parentCategory.append html
