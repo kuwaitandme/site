@@ -13,6 +13,11 @@ window.scripts = [
     localSrc: '/stylesheets/vendor/foundation.min.css'
   }
   {
+    name: 'lib:card-css'
+    remoteSrc: '/stylesheets/vendor/card.min.css'
+    localSrc: '/stylesheets/vendor/card.min.css'
+  }
+  {
     name: 'app:stylesheet'
     remoteSrc: '/stylesheets/build/style.css'
     localSrc: '/stylesheets/build/style.css'
@@ -53,11 +58,6 @@ window.scripts = [
     localSrc: '/javascripts/vendor/masonry.pkgd.min.js'
   }
   {
-    name: 'lib:jquery-imagesloaded'
-    remoteSrc: '/javascripts/vendor/imagesloaded.min.js'
-    localSrc: '/javascripts/vendor/imagesloaded.min.js'
-  }
-  {
     name: 'lib:foundation-js'
     remoteSrc: '/javascripts/vendor/foundation.min.js'
     localSrc: '/javascripts/vendor/foundation.min.js'
@@ -71,6 +71,16 @@ window.scripts = [
     name: 'app:script'
     remoteSrc: '/javascripts/build/app.js'
     localSrc: '/javascripts/build/app.js'
+  }
+  {
+    name: 'lib:card-js'
+    remoteSrc: '/javascripts/vendor/card.min.js'
+    localSrc: '/javascripts/vendor/card.min.js'
+  }
+  {
+    name: 'lib:2co-js'
+    remoteSrc: '/javascripts/vendor/2co.min.js'
+    localSrc: '/javascripts/vendor/2co.min.js'
   }
 ]
 
