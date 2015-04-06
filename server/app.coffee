@@ -1,6 +1,7 @@
 bodyParser         = require 'body-parser'
 cachemanMemory     = require 'cacheman-memory'
 cookieParser       = require 'cookie-parser'
+cronJob            = (require 'cron').CronJob
 csrf               = require 'csurf'
 express            = require 'express'
 expressSession     = require 'express-session'
@@ -14,6 +15,7 @@ path               = require 'path'
 redis              = require 'redis'
 redisStore         = (require 'connect-redis') expressSession
 
+
 # Setup some globals
 global.config      = require '../var/config'
 global.models      = require './models'
@@ -22,11 +24,11 @@ global.controllers = require './controllers'
 global.root        = __dirname
 global.cache       = new cachemanMemory()
 
+
 # Force JADE and Express to work based on the mode set in our config parameter
 if global.config then process.env.NODE_ENV = global.config.mode
 app = express()
 if global.config.mode != 'production' then app.use logger 'dev'
-
 
 
 # International language support
@@ -37,6 +39,7 @@ i18n.configure
   locales: [ 'en', 'ar', 'in' ]
 app.use i18n.init
 global.__ = i18n.__
+
 
 # view engine setup
 app.set 'views', path.join __dirname, 'views'
@@ -149,5 +152,7 @@ else
       message: err.message
       error: err
 
+cronInitialize = require './cron'
+cronInitialize cronJob
 
 module.exports = app
