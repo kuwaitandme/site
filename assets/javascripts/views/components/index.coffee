@@ -5,3 +5,4 @@ module.exports =
   progressBar:    require "./progressBar"
   classifiedList: require "./classified.list"
   categoryList:   require "./category.list"
+  paymentModal:   require "./payment.modal"

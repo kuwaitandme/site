@@ -1,41 +1,47 @@
 .row
-  h3.columns You have # credits
+  h3.columns You have <span class="credit-counter">#</span> credits
   p.columns
     | Making a classified urgent requires 10 credits.
     br
     | Promoting a classified requires 50 credits.
     br
     | Posting more than 1 classified per day requires 5 credits
+    br
+    | Extending the life of a classified by a week requires 5 credits
+    br
+    | Extending the life of a classified by a month requires 15 credits
 .row
   .medium-4.columns
     ul.pricing-table
       li.title 20 Credits
-      li.price 250 fils/c
-      li.description Total: 5 KWD
+      li.price 500 fils/c
+      li.description Total: 10 KWD
       li.bullet-item Mark upto 2 classifieds as urgent
       li.bullet-item Post upto 5 classifieds in a day
       li.bullet-item Unable to promote any classifieds
-      li.cta-button
-        a.button(href='#') Buy now
+      li.cta-button(data-credits=20)
+        a.button Buy now
 
   .medium-4.columns
     ul.pricing-table
       li.title 50 Credits
-      li.price 200 fils/c
-      li.description Total: 10 KWD
+      li.price 400 fils/c
+      li.description Total: 20 KWD
       li.bullet-item Mark upto 5 classifieds as urgent
       li.bullet-item Post upto 10 classifieds in a day
       li.bullet-item Promote upto 1 classified
-      li.cta-button
-        a.button(href='#') Buy now
+      li.cta-button(data-credits=50)
+        a.button Buy now
 
   .medium-4.columns
     ul.pricing-table
       li.title 100 Credits
-      li.price 150 fils/c
-      li.description Total: 15 KWD
+      li.price 300 fils/c
+      li.description Total: 30 KWD
       li.bullet-item Mark upto 10 classifieds as urgent
       li.bullet-item Post upto 100 classifieds in a day
       li.bullet-item Promote upto 2 classifieds
-      li.cta-button
-        a.button(href='#') Buy now
+      li.cta-button(data-credits=100)
+        a.button Buy now
+
+  #payment-modal-container
