@@ -1,2 +1,2 @@
 module.exports = ->
-	global.cache.del 'category-count'
+  global.cache.del 'category-count'

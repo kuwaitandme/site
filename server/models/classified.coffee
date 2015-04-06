@@ -136,6 +136,37 @@ classifieds = module.exports =
       else callback error, result
 
 
+  # Finds out how many classifieds are there in each category.
+  classifiedsPerCategory: (callback) ->
+    # The Mongo way of grouping and counting!
+    agg = [{
+      $group:
+        _id: '$category'
+        total: $sum: 1
+    }]
+    results = {}
+
+    global.cache.get 'category-count', (error, cache) =>
+      if error then return callback error
+      if cache then return callback null, cache
+
+      @model.aggregate agg, (error, result) =>
+        if error then return callback error
+        results.category = result
+
+        agg = [{
+          $group:
+            _id: '$childCategory'
+            total: $sum: 1
+        }]
+        @model.aggregate agg, (error, result) =>
+          if error then return callback error
+          results.childCategory = result
+
+          global.cache.set 'category-count', results
+          callback null, results
+
+
   # Finds all the classifieds with the given parameters. This is abit of a
   # dangerous function in that it does not have any restriction/validation
   # on the search parameters. This function should later be replaced by an
