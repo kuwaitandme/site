@@ -1,29 +1,56 @@
 module.exports = (request, response, next) ->
   response.contentType 'application/json'
-  id = request.params.id
 
-  # If no id was set, get the current user instance
-  if not id
-    user = request.user
+  if not request.body.credits then response.end '"{}"'
 
-    # If there was a logged in user, then return with some fields blanked
-    # out
-    if user
-      user.activationToken = ''
-      user.authHash = ''
-      user.password = ''
-      response.end (JSON.stringify user)
+  id = request.user.id
+  POSTdata = request.body
 
-    # Else return a 404 Not found
-    else response.end '{}'
+  # if not request.body or request.body.length == 0 then return next()
+  # if not request.body.token then return next()
+  # if not /^[0-9A-F]*$/i.test(id) then return next()
 
-  # An id was set, so query the DB for the user with that id
-  else
-    user = global.models.user
-    user.get id, (err, user) ->
-      if not user then response.end '{}'
-      else
-        user.activationToken = ''
-        user.authHash = ''
-        user.password = ''
-        response.end (JSON.stringify user)
+  # perks = request.body['perks[]']
+  # price = 0
+  # perks[0] = true
+  # perks[1] = false
+  # if perks[0] then price += 15
+  # if perks[1] then price += 45
+  config = global.config
+  POSTdata =
+    token: request.body.token
+    currency: 'USD'
+    total: String 30#price
+    billingAddr:
+      "name": "Testing Tester"
+      "addrLine1": "123 Test St"
+      "city": "Columbus"
+      "state": "Ohio"
+      "zipCode": "43123"
+      "country": "USA"
+      "email": "example@2co.com"
+      "phoneNumber": "5555555555"
+
+    # billingAddr:
+      # addrLine1: request.body['billingAddr[addrLine1]']
+      # addrLine2: request.body['billingAddr[addrLine2]']
+      # city: request.body['billingAddr[city]']
+      # country: request.body['billingAddr[country]']
+      # email: request.body['billingAddr[email]']
+      # name: 'name'#request.body['billingAddr[name]']
+      # phoneNumber: request.body['billingAddr[phoneNumber]']
+      # state: request.body['billingAddr[state]']
+      # zipCode: request.body['billingAddr[zipCode]']
+
+  twocheckout = global.helpers.twocheckout
+  twocheckout.processTransaction id, POSTdata, (error, data) ->
+    if error then return response.end JSON.stringify
+      data: data
+      error: error
+      transaction: transaction
+
+    User = global.models.user
+    User.addCredits request.body.credits, request.user._id
+    response.end JSON.stringify
+      status: 'success'
+      transaction: transaction

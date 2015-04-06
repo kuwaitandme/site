@@ -1,5 +1,6 @@
-mongoose = require 'mongoose'
 bCrypt   = require 'bcrypt-nodejs'
+mongoose = require 'mongoose'
+validator = require 'validator'
 
 users = module.exports =
   model: mongoose.model 'user',
@@ -64,6 +65,9 @@ users = module.exports =
       newUser.status = users.status.INACTIVE
       newUser.activationToken = randomHash()
 
+      # Start off the user with 10 credits
+      newUser.credits = 10
+
       # Save and call the callback function
       newUser.save (error) -> callback error, newUser
 
@@ -125,7 +129,24 @@ users = module.exports =
       user.save (error) -> callback error, true
 
 
-  get: (id, callback) -> @model.findOne { _id: id }, callback
+  addCredits: (id, credits, callback) ->
+    if not validator.isMongoId id
+      return callback "bad/empty id"
+
+    if not validator.isInt credits
+      return callback "bad/empty credits"
+
+    @model.findOne { _id: id }, (error, user) ->
+      if error then return callback error
+      if not user then return callback 'user does not exist'
+
+      user.credits += credits
+      user.save (error) -> callback error, true
+
+
+  get: (id, callback) ->
+    @model.findOne { _id: id }, callback
+
 
   auth:
     email:
