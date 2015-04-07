@@ -10,6 +10,7 @@ users = module.exports =
     email: String
     name: String
     description: String
+    profileLink: String
 
     activationToken: String
     moderatorReason: String
@@ -42,34 +43,6 @@ users = module.exports =
     ACTIVE:   1
     BANNED:   2
     SUSPEND: 3
-
-
-  # Creates a new user with the given username and password
-  create: (name, username, password, callback) ->
-    @model.findOne { username: username }, (error, user) ->
-      if error then callback error
-      if user and user.length > 0 then return callback 'user exists'
-
-      # If there is no user with that email, create the user
-      newUser = new users.model
-
-      # set the user's local credentials
-      newUser.name = name
-      newUser.username = username
-      newUser.email = username
-      newUser.password = createHash password
-
-      # Give defaults to other parameters
-      newUser.isModerator = false
-      newUser.language = 0
-      newUser.status = users.status.INACTIVE
-      newUser.activationToken = randomHash()
-
-      # Start off the user with 10 credits
-      newUser.credits = 10
-
-      # Save and call the callback function
-      newUser.save (error) -> callback error, newUser
 
 
   activate: (id, token="", callback) ->
@@ -170,6 +143,63 @@ users = module.exports =
         else
           user.loginFailures = 0
           user.save (error) -> callback error, user
+
+      create: ->
+        users.model.findOne { username: username }, (error, user) ->
+          if error then callback error
+          if user and user.length > 0 then return callback 'user exists'
+
+          # If there is no user with that email, create the user
+          newUser = new users.model
+          newUser.loginStrategies = users.loginStrategies.EMAIL
+
+          # set the user's local credentials
+          newUser.name = name
+          newUser.username = username
+          newUser.email = username
+          newUser.password = createHash password
+
+          # Give defaults to other parameters
+          newUser.isModerator = false
+          newUser.language = 0
+          newUser.status = users.status.INACTIVE
+          newUser.activationToken = randomHash()
+
+          # Start off the user with 10 credits
+          newUser.credits = 10
+
+          # Save and call the callback function
+          newUser.save (error) -> callback error, newUser
+
+    facebook:
+      findOrCreate: (profile, callback) ->
+        parameters =
+          loginStrategies: users.loginStrategies.FACEBOOK
+          username: profile.id
+
+        users.model.findOne parameters, (error, user) ->
+          if error then return callback error
+          if user then return callback null, user
+
+          # If there is no user with that email, create the user
+          newUser = new users.model
+          newUser.loginStrategies = users.loginStrategies.FACEBOOK
+
+          # set the user's local credentials
+          newUser.name = profile.displayName
+          newUser.username = profile.id
+          newUser.profileLink = profile.profileUrl
+
+          # Give defaults to other parameters
+          newUser.isModerator = false
+          newUser.language = 0
+          newUser.status = users.status.ACTIVE
+
+          # Start off the user with 10 credits
+          newUser.credits = 10
+
+          # Save and call the callback function
+          newUser.save (error) -> callback error, newUser
 
 
 # Creates a salted hash from the given password.

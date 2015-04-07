@@ -22,11 +22,7 @@ module.exports = class viewManager
 
     @resources.router.on 'change', @routeHandle
 
-  # start: ->
-  #   self = @
-
     # Attach different listeners
-    # @header.currentUser = @resources.currentUser
     @resources.currentUser.on 'sync', => @header.update()
 
   start: ->

@@ -49,6 +49,7 @@ module.exports = (request, response, args={}, cache=false) ->
     args.config =
       js: config.js
       ga: config.ga
+      # social: config.social
       TCO:
         sid: config._2checkout.sid
         publicKey: config._2checkout.publicKey
