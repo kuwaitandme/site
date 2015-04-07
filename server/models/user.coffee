@@ -33,10 +33,12 @@ users = module.exports =
       # email: String
 
   loginStrategies:
-    EMAIL:    0
-    FACEBOOK: 1
-    TWITTER:  2
-    PHONEGAP: 3
+    EMAIL:       0
+    FACEBOOK:    1
+    TWITTER:     2
+    YAHOO:       3
+    GOOGLEPLUS:  4
+    PHONEGAP:    5
 
   status:
     INACTIVE: 0
@@ -174,7 +176,7 @@ users = module.exports =
     facebook:
       findOrCreate: (profile, callback) ->
         parameters =
-          loginStrategies: users.loginStrategies.FACEBOOK
+          loginStrategy: users.loginStrategies.FACEBOOK
           username: profile.id
 
         users.model.findOne parameters, (error, user) ->
@@ -183,7 +185,7 @@ users = module.exports =
 
           # If there is no user with that email, create the user
           newUser = new users.model
-          newUser.loginStrategies = users.loginStrategies.FACEBOOK
+          newUser.loginStrategy = users.loginStrategies.FACEBOOK
 
           # set the user's local credentials
           newUser.name = profile.displayName
@@ -201,6 +203,66 @@ users = module.exports =
           # Save and call the callback function
           newUser.save (error) -> callback error, newUser
 
+
+    googlePlus:
+      findOrCreate: (profile, callback) ->
+        parameters =
+          loginStrategy: users.loginStrategies.GOOGLEPLUS
+          username: profile.id
+
+        users.model.findOne parameters, (error, user) ->
+          if error then return callback error
+          if user then return callback null, user
+
+          # If there is no user with that email, create the user
+          newUser = new users.model
+          newUser.loginStrategy = users.loginStrategies.GOOGLEPLUS
+
+          # set the user's local credentials
+          newUser.name = profile.displayName
+          newUser.username = profile.id
+          # newUser.profileLink = profile.profileUrl
+
+          # Give defaults to other parameters
+          newUser.isModerator = false
+          newUser.language = 0
+          newUser.status = users.status.ACTIVE
+
+          # Start off the user with 10 credits
+          newUser.credits = 10
+
+          # Save and call the callback function
+          newUser.save (error) -> callback error, newUser
+
+    yahoo:
+      findOrCreate: (profile, callback) ->
+        parameters =
+          loginStrategy: users.loginStrategies.YAHOO
+          username: profile.id
+
+        users.model.findOne parameters, (error, user) ->
+          if error then return callback error
+          if user then return callback null, user
+
+          # If there is no user with that email, create the user
+          newUser = new users.model
+          newUser.loginStrategy = users.loginStrategies.YAHOO
+
+          # set the user's local credentials
+          newUser.name = profile.displayName
+          newUser.username = profile.id
+          newUser.profileLink = profile.profileUrl
+
+          # Give defaults to other parameters
+          newUser.isModerator = false
+          newUser.language = 0
+          newUser.status = users.status.ACTIVE
+
+          # Start off the user with 10 credits
+          newUser.credits = 10
+
+          # Save and call the callback function
+          newUser.save (error) -> callback error, newUser
 
 # Creates a salted hash from the given password.
 createHash = (password) -> bCrypt.hashSync password, bCrypt.genSaltSync(10), null
