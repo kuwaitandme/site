@@ -39,7 +39,7 @@ strategy = module.exports = (passport) ->
         if user then return done status: 'user already exists'
 
         # If there is no user with that email, create the user
-        User.create fullname, username, password, (error, user) ->
+        User.auth.email.create fullname, username, password, (error, user) ->
           if error then return done error
 
           # Send activation email

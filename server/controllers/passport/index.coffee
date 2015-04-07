@@ -1,4 +1,5 @@
-emailStrategy = require './email'
+emailStrategy    = require './email'
+facebookStrategy = require './facebook'
 
 # Passport needs to be able to serialize and de-serialize users to support
 # persistent login sessions. This function defines those functionalities.
@@ -12,3 +13,4 @@ module.exports = (passport) ->
 
   # Setup up Passport strategies for the different auth mechanisms..
   emailStrategy passport
+  facebookStrategy passport
