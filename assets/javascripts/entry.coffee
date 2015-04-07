@@ -40,9 +40,9 @@ if not window.App?
       @decodeData()
       @applyBackboneHacks()
 
+      @initializeListeners()
       @initializeResources()
       @initializeViews()
-      @initializeListeners()
       @initializeBackBone()
 
       $ -> $.smartbanner()
@@ -104,6 +104,7 @@ if not window.App?
       @resources.locations = new App.Resources.Models.locations
       @resources.router = new App.Router
 
+      @resources.currentView = App.ViewManager.currentView
       @resources.categories.resources = @resources
       @resources.locations.resources = @resources
       @resources.currentUser.resources = @resources
@@ -113,15 +114,13 @@ if not window.App?
         asyncCounter--
         if asyncCounter <= 0 then @viewManager.start()
 
-      @resources.categories.fetch
-        error: setAndCheckCounter
-        success: setAndCheckCounter
-      @resources.locations.fetch
-        error: setAndCheckCounter
-        success: setAndCheckCounter
-      @resources.currentUser.fetch
-        error: setAndCheckCounter
-        success: setAndCheckCounter
+      @listenToOnce @resources.categories, 'synced', setAndCheckCounter
+      @listenToOnce @resources.currentUser, 'synced', setAndCheckCounter
+      @listenToOnce @resources.locations, 'synced', setAndCheckCounter
+
+      @resources.categories.fetch()
+      @resources.currentUser.fetch()
+      @resources.locations.fetch()
 
   ###
   **Main Javascript Execution starts here**

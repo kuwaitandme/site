@@ -35,6 +35,8 @@ module.exports = Backbone.Model.extend
       else
         @$body.removeClass 'loggedin'
         @$body.addClass 'loggedout'
+      console.log @name, 'synced'
+      @trigger 'synced'
 
 
   login: (username, password, callback) ->

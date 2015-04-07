@@ -8,14 +8,14 @@ module.exports = Backbone.View.extend
 
     categories = @resources.categories.toJSON()
 
-    for category in categories
-      i = 0
-      j = 0
-      for child in category.children
-        i++
-        j += i
-        child.count = i
-      category.count = j
+    # for category in categories
+    #   i = 0
+    #   j = 0
+    #   for child in category.children
+    #     i++
+    #     j += i
+    #     child.count = i
+    #   category.count = j
 
     @$el.html @template categories: categories
     @$el.masonry

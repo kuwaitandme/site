@@ -1,3 +1,5 @@
+ajax = (require 'app-helpers').ajax
+
 # This file contains a Backbone.Collection representing a list of categories
 # for the site. Ideally the collection is instantiated only once, because the
 # list of categories is immutable.
@@ -24,7 +26,11 @@ module.exports = Backbone.Collection.extend
     @fetch = (options) -> if not @cachedFetch options then @oldFetch options
 
     # The sync event is triggered by the fetch() function.
-    @on 'sync', @setCache
+    @on 'sync', =>
+      @setCache()
+      @getCounters (error, results) =>
+        console.log @name, 'synced'
+        @trigger 'synced'
 
 
   # Save the model into HTML5 localstorage
@@ -32,7 +38,8 @@ module.exports = Backbone.Collection.extend
     console.log @name, 'caching category details'
 
     # localStorage = app.controllers.localStorage
-    @resources.cache.cache 'mod:category', JSON.stringify value
+    if @resources.cache.get 'mod:category'
+      @resources.cache.cache 'mod:category', JSON.stringify value
 
 
   getChildren: (parentId) -> (@find id: parentId).get 'children'
@@ -49,10 +56,48 @@ module.exports = Backbone.Collection.extend
       console.log @name, 'setting categories from cache'
       json = JSON.parse cache
       @set json
-      if options.success then options.success json
+      @trigger 'sync'
       return true
 
     # If nothing was cached then, return false so that the original fetch
     # function is called
     console.log @name, 'fetching from API'
     false
+
+  getCounters: (callback=->) ->
+    # Send the AJAX request
+    $.ajax
+      type: 'GET'
+      url: '/api/category?count=true'
+      dataType: 'json'
+      beforeSend: ajax.setHeaders
+      success: (response) =>
+        console.log @name, 'fetching category counters'
+        @setCounters response
+        callback null, response
+
+      error: (response) =>
+        console.error @name, 'error fetching category counters', response
+        callback response
+
+  setCounters: (counters) ->
+    categories = @toJSON()
+
+    for category in categories
+      for categoryCount in counters.category
+        if categoryCount._id is category._id
+          category.count = categoryCount.total
+          break
+        else
+          category.count = 0
+
+      for childCategory in category.children
+        for categoryCount in counters.childCategory
+          if categoryCount._id is childCategory._id
+            childCategory.count = categoryCount.total
+            break
+          else
+            childCategory.count = 0
+
+
+    @reset categories

@@ -53,7 +53,6 @@ module.exports = Backbone.Model.extend
     EXPIRED: 7
 
   initialize: ->
-    console.log @name, 'initializing'
     @bind 'parse', @parseVariables, this
 
 
@@ -62,7 +61,7 @@ module.exports = Backbone.Model.extend
   # date and the price in a nice human readable format.
   parseVariables: ->
     # Set a condition to avoid arguments from being parsed again
-    console.log @name, 'parsing variables'
+    # console.log @name, 'parsing variables'
     if @attributes.parsed then return
     @attributes.parsed = true
 
@@ -94,9 +93,9 @@ module.exports = Backbone.Model.extend
     # upload is done.
     progressHandler = (event) =>
       if event.lengthComputable
-        @trigger 'ajax:done:partial', event
+        @trigger 'ajax:progrss', event.loaded / event.total * 100
+      # console.debug
       # $('progress').attr({value:e.loaded,max:e.total});
-      return
 
     $.ajax
       beforeSend: ajax.setHeaders

@@ -23,7 +23,6 @@ module.exports = Backbone.View.extend
     @categoryList = new @resources.Views.components.categoryList
       el: @$categoryContainer
       resources: @resources
-    console.log @categoryList
 
     @classifiedList.continue()
 

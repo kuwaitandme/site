@@ -19,15 +19,18 @@ module.exports = Backbone.Collection.extend
     @fetch = (options) -> if not @cachedFetch options then @oldFetch options
 
     # The sync event is triggerd by the fetch() function.
-    @on 'sync', @setCache
+    @on 'sync', ->
+      @setCache()
+      console.log @name, 'synced'
+      @trigger 'synced'
 
 
   # Save the model into HTML5 localstorage
   setCache: (value) ->
     console.log @name, 'caching location details'
 
-    # localStorage = window.app.controllers.localStorage
-    @resources.cache.cache 'mod:locations', JSON.stringify value
+    if @resources.cache.get 'mod:locations'
+      @resources.cache.cache 'mod:locations', JSON.stringify value
 
 
   # A reroute of backbone's fetch which first checks in the browser's
@@ -39,7 +42,7 @@ module.exports = Backbone.Collection.extend
       console.log @name, 'setting locations from cache'
       json = JSON.parse cache
       @set json
-      if options.success then options.success json
+      @trigger 'sync'
       return true
 
     # If nothing was cached then, signal to fetch from the API
