@@ -271,7 +271,6 @@ classifieds = module.exports =
     # it has been flagged, rejected or banned. Also ideally we would want
     # to prevent moderators from archiving a classified.
     archive: (id, callback) ->
-      that = this
       classifieds.model.findOne { _id: id }, (error, classified) =>
         if error then return callback error
         if not classified
@@ -279,14 +278,25 @@ classifieds = module.exports =
           error.status = 404
           return callback error
 
-        # Don't allow banned or flagged classifieds to be archived
-        if classified.status in [@BANNED, @FLAGGED, @REJECTED]
+        # Don't allow banned or flagged or expired classifieds to be archived
+        if classified.status in [@BANNED, @FLAGGED, @REJECTED, @EXPIRED]
           error = new Error "unauthorized to change classified's status"
           error.status = 401
           return callback error
 
         classified.status = @ARCHIVED
+        classified.save (error) -> callback error, classified
 
+
+    expire: (id, callback) ->
+      classifieds.model.findOne { _id: id }, (error, classified) =>
+        if error then return callback error
+        if not classified
+          error = new Error "not found"
+          error.status = 404
+          return callback error
+
+        classified.status = @EXPIRED
         classified.save (error) -> callback error, classified
 
 
@@ -299,6 +309,11 @@ classifieds = module.exports =
         if not classified
           error = new Error "not found"
           error.status = 404
+          return callback error
+
+        if classified.status in [@EXPIRED]
+          error = new Error "unauthorized to change classified's status"
+          error.status = 401
           return callback error
 
         classified.status = @BANNED
@@ -320,7 +335,7 @@ classifieds = module.exports =
           error.status = 404
           return callback error
 
-        if classified.status in [@BANNED, @FLAGGED, @REJECTED]
+        if classified.status in [@BANNED, @FLAGGED, @REJECTED, @EXPIRED]
           error = new Error "unauthorized to change classified's status"
           error.status = 401
           return callback error
@@ -344,6 +359,11 @@ classifieds = module.exports =
           error.status = 404
           return callback error
 
+        if classified.status in [@EXPIRED]
+          error = new Error "unauthorized to change classified's status"
+          error.status = 401
+          return callback error
+
         classified.status = @ACTIVE
 
         classified.save (error) -> callback error, classified
@@ -359,6 +379,11 @@ classifieds = module.exports =
         if not classified
           error = new Error "not found"
           error.status = 404
+          return callback error
+
+        if classified.status in [@EXPIRED]
+          error = new Error "unauthorized to change classified's status"
+          error.status = 401
           return callback error
 
         classified.status = @REJECTED

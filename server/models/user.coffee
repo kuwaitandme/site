@@ -118,8 +118,7 @@ users = module.exports =
       user.save (error) -> callback error, true
 
 
-  get: (id, callback) ->
-    @model.findOne { _id: id }, callback
+  get: (id, callback) -> @model.findOne { _id: id }, callback
 
 
   auth:
@@ -158,6 +157,7 @@ users = module.exports =
           # If there is no user with that email, create the user
           newUser = new users.model
           newUser.loginStrategies = users.loginStrategies.EMAIL
+          newUser.created = Date.now()
 
           # set the user's local credentials
           newUser.name = name
@@ -190,6 +190,7 @@ users = module.exports =
           # If there is no user with that email, create the user
           newUser = new users.model
           newUser.loginStrategy = users.loginStrategies.FACEBOOK
+          newUser.created = Date.now()
 
           # set the user's local credentials
           newUser.name = profile.displayName
@@ -221,6 +222,7 @@ users = module.exports =
           # If there is no user with that email, create the user
           newUser = new users.model
           newUser.loginStrategy = users.loginStrategies.GOOGLEPLUS
+          newUser.created = Date.now()
 
           # set the user's local credentials
           newUser.name = profile.displayName
@@ -253,6 +255,7 @@ users = module.exports =
           # If there is no user with that email, create the user
           newUser = new users.model
           newUser.loginStrategy = users.loginStrategies.YAHOO
+          newUser.created = Date.now()
 
           # set the user's local credentials
           newUser.name = profile.displayName
@@ -283,6 +286,7 @@ users = module.exports =
           # If there is no user with that email, create the user
           newUser = new users.model
           newUser.loginStrategy = users.loginStrategies.TWITTER
+          newUser.created = Date.now()
 
           # set the user's local credentials
           newUser.name = profile.displayName
