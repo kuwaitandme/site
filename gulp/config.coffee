@@ -36,3 +36,7 @@ module.exports =
       dest:              'server/views/components/footer-scripts'
       filenameMin:       'main-production.min.js'
       src:               'server/views/components/footer-scripts/*.coffee'
+    db:
+      dest:              'server/db'
+      filename:          'populate.js'
+      src:               'server/db/*.coffee'
