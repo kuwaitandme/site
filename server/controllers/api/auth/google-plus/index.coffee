@@ -1,7 +1,7 @@
 passport = require 'passport'
 
 module.exports =
-  get: passport.authenticate 'google',  scope: 'profile'
+  get: passport.authenticate 'google', scope: 'profile'
 
   getCallback: passport.authenticate 'google',
     successRedirect: '/account'
