@@ -21,21 +21,18 @@ module.exports = ->
     # Prepare the plain-text body
     text = ""
     for cl in classifieds
-      text += util.format "%s \n \t %s\n\n", cl.title, "http://kuwaitandme.com/classified/#{cl._id}"
-
-    # Prepare the plain-text header
-    header = util.format "%d  unpublished classified(s) for review today\n", classifieds.length
-    header += "-----------------------------------------------\n"
+      text += util.format "%s\n\t%s\n\n", cl.title, "http://kuwaitandme.com/classified/#{cl._id}"
 
     # Render the HTML version of the email
     template = jade.compileFile "#{global.root}/views/email/daily-report.jade"
     html = template
       classifieds: classifieds
+      users: users
       host: 'https://kuwaitandme.com'
 
-    subject = 'Kuwait & Me - Daily report'
-    plaintext = header + text
+    subject = 'Daily report'
+    plaintext = text
     toAddress = Config.email.reportAddress
 
     # Send email report
-    Email.send subject, plaintext, toAddress, html
+    Email.send subject, toAddress, plaintext, html
