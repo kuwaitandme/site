@@ -74,15 +74,12 @@ module.exports = Backbone.Model.extend
     @attributes.price = @priceFormat price
 
     location = @get 'location'
-    if location
-      location = (App.Resources.locations.findWhere _id: location)
-      @attributes.location = location.get 'name'
+    location = (App.Resources.locations.findWhere _id: location)
+    if location then @attributes.location = location.get 'name'
 
     category = @get 'category'
-    if category
-      category = (App.Resources.categories.findWhere _id: category)
-      console.log
-      @attributes.category = category.get 'name'
+    category = (App.Resources.categories.findWhere _id: category)
+    if category then @attributes.category = category.get 'name'
 
 
     # Convert Date to human readable format

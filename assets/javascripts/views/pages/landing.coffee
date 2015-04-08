@@ -16,7 +16,7 @@ module.exports = Backbone.View.extend
         enableFilterBox: false
       resources: @resources
       el: @$classifiedList
-    @setLogo()
+    # @setLogo()
 
 
   continue: ->
