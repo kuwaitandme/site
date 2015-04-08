@@ -31,7 +31,7 @@ module.exports = Backbone.Model.extend
     price: null
     reports: []
     location: null
-    status: 0
+    status: null
     title: ''
     type: null
     views: 0
@@ -80,7 +80,7 @@ module.exports = Backbone.Model.extend
 
     category = @get 'category'
     category = (App.Resources.categories.findWhere _id: category)
-    if category @attributes.category = category.get 'name'
+    if category then @attributes.category = category.get 'name'
     else @attributes.category = null
 
 

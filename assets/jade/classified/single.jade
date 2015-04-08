@@ -8,9 +8,14 @@ section.c-gallery
 
 //- Classified's details go in here
 section.c-content
-
+  .ajax-spinner
+    img(src="/images/loader.gif")
 //- Google Maps
-#map-canvas
+.c-disclaimer.row
+  b Disclaimer:&nbsp;
+  | By viewing this classified, you are agreeing to our&nbsp;
+  a(href='/terms-privacy', data-view) privacy conditions and terms of use</a>. This site is never involved in any transaction, and does not handle payments, shipping, guarantee transactions, provide escrow services, or offer "buyer protection" or "seller certification" for any classified. It is your duty to ensure safety and authenticity while dealing with any buyer/sellers.
+//- #map-canvas
 
 //- #rejectModel.reveal-modal(data-reveal, aria-labelledby="modalTitle", aria-hidden="true", role="dialog")
 //-   form

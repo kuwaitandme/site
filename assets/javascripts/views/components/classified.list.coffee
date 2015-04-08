@@ -49,7 +49,7 @@ module.exports = Backbone.View.extend
     @$classifiedList.masonry()
 
     if @enableFilterBox then @filterbox.render()
-    @$spinner.hide()
+    if @settings.ajaxEnable then @$spinner.fadeIn();
 
 
   pause: -> ($ window).off 'scroll', @onScroll
@@ -246,5 +246,5 @@ module.exports = Backbone.View.extend
   setupMasonry: ->
     @$classifiedList.masonry
       isAnimated: true
-      isFitWidth: true
+      # isFitWidth: true
       itemSelector: '.classified'

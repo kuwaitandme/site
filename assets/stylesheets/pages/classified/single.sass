@@ -62,11 +62,16 @@ body#classified-single
   .row
     max-width: none
   .c-meta
-    border-left: 1px solid #ddd
+    @media only screen and (min-width: 40.063em)
+      border-left: 1px solid #ddd
+    @media only screen and (max-width: 40.063em)
+      padding: 0
   .c-content
     margin: 0 auto
     width: 95%
     padding-top: 1px
+    margin-bottom: 1rem
+
     h1
       font-size: 40px
     .meta
@@ -74,7 +79,7 @@ body#classified-single
       color: #000
       font-size: 0.8rem
       margin: 0
-      margin-bottom: 1rem
+      margin-bottom: .5rem
       padding: 0
       a
         color: blue
@@ -97,11 +102,17 @@ body#classified-single
       margin: 0
     li
       padding: 0
-  .c-disclaimer
-    color: #000
-    font-size: 0.75rem
-    margin-bottom: 3rem
 
+  .c-disclaimer
+    +single-transition(opacity)
+    width: 95%
+    color: #000
+    opacity: 0.5
+    margin-bottom: 1rem
+    font-size: 0.75rem
+
+    &:hover
+      opacity: 1
     a
       color: blue
       border-bottom: 1px solid blue
