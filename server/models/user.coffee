@@ -264,6 +264,37 @@ users = module.exports =
           # Save and call the callback function
           newUser.save (error) -> callback error, newUser
 
+    twitter:
+      findOrCreate: (profile, callback) ->
+        parameters =
+          loginStrategy: users.loginStrategies.TWITTER
+          username: profile.id
+
+        users.model.findOne parameters, (error, user) ->
+          if error then return callback error
+          if user then return callback null, user
+
+          # If there is no user with that email, create the user
+          newUser = new users.model
+          newUser.loginStrategy = users.loginStrategies.TWITTER
+
+          # set the user's local credentials
+          newUser.name = profile.displayName
+          newUser.username = profile.id
+          newUser.profileLink = profile.profileUrl
+
+          # Give defaults to other parameters
+          newUser.isModerator = false
+          newUser.language = 0
+          newUser.status = users.status.ACTIVE
+
+          # Start off the user with 10 credits
+          newUser.credits = 10
+
+          # Save and call the callback function
+          newUser.save (error) -> callback error, newUser
+
+
 # Creates a salted hash from the given password.
 createHash = (password) -> bCrypt.hashSync password, bCrypt.genSaltSync(10), null
 
