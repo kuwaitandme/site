@@ -1,7 +1,30 @@
 html
-  | #{classifieds.length} un-published classified(s) today.
-  br
-  br
-  each classified in classifieds
-    a(href="#{host}/classified/#{classified._id}") #{classified.title}
-    br
+  body
+    h2 Kuwait &amp; Me - Daily report
+
+    p
+      b #{inactiveClassifieds.length} un-published classified(s) today.
+      br
+      b #{newClassifieds.length} new classified(s) today.
+      br
+      b #{newUsers.length} new user(s) today.
+
+    h3 Un-published classified(s)
+    p
+      ol
+        each classified in inactiveClassifieds
+          li
+            a(href="#{host}/classified/#{classified._id}") #{classified.title}
+
+    h3 new classified(s)
+    p
+      ol
+        each classified in newClassifieds
+          li
+            a(href="#{host}/classified/#{classified._id}") #{classified.title}
+
+    h4 new User(s)
+    p
+      ol
+        each user in newUsers
+          li #{user.name}

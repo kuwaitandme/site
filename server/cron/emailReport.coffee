@@ -5,34 +5,67 @@
 # mail.
 jade        = require 'jade'
 util        = require 'util'
+async       = require 'async'
+
+# async.parallel [
+#   (callback) ->
+#     setTimeout (->
+#       callback null, 'one'
+#       return
+#     ), 200
+#     return
+#   (callback) ->
+#     setTimeout (->
+#       callback null, 'two'
+#       return
+#     ), 100
+#     return
+# ], (err, results) ->
+#   # the results array will equal ['one','two'] even though
+  # the second function had a shorter timeout.
+
 
 module.exports = ->
   Config = global.config
   Classified = global.models.classified
+  User = global.models.user
   Email = global.controllers.helpers.email
 
-  # Find all inactive classifieds
-  Classified.model.find {status: Classified.status.INACTIVE}, (err, classifieds) ->
-    if err then return err
+  date = new Date()
+  date.setDate date.getDate() - 7
 
-    # Don't send the report if there are no unpublished classifieds
-    if classifieds.length == 0 then return
+  getInactiveClassifieds = (callback) ->
+    query = status: Classified.status.INACTIVE
+    Classified.model.find query, callback
 
-    # Prepare the plain-text body
-    text = ""
-    for cl in classifieds
-      text += util.format "%s\n\t%s\n\n", cl.title, "http://kuwaitandme.com/classified/#{cl._id}"
+  getNewClassifieds = (callback) ->
+    query = created: $gt: date
+    Classified.model.find query, callback
 
-    # Render the HTML version of the email
-    template = jade.compileFile "#{global.root}/views/email/daily-report.jade"
-    html = template
-      classifieds: classifieds
-      users: users
-      host: 'https://kuwaitandme.com'
+  getNewUsers = (callback) ->
+    query = created: $gt: date
+    User.model.find query, callback
 
-    subject = 'Daily report'
-    plaintext = text
-    toAddress = Config.email.reportAddress
+  async.parallel [getInactiveClassifieds, getNewUsers, getNewClassifieds],
+    (error, results) ->
+      if error then return
 
+      inactiveClassifieds = results[0]
+      newUsers = results[1]
+      newClassifieds = results[2]
+
+      plainText = 'please use a HTML-enabled mail client to view this mail'
+      subject = 'Daily report'
+      toAddress = Config.email.reportAddress
+
+      # Render the HTML version of the email
+      template = jade.compileFile "#{global.root}/views/email/daily-report.jade"
+      html = template
+        host: 'https://kuwaitandme.com'
+        inactiveClassifieds: inactiveClassifieds
+        newClassifieds: newClassifieds
+        newUsers: newUsers
+
+      console.log html
     # Send email report
-    Email.send subject, toAddress, plaintext, html
+      Email.send subject, toAddress, plainText, html

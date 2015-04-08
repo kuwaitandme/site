@@ -4,9 +4,9 @@ expireClassifieds = require './expireClassifieds'
 deleteBadUsers = require './deleteBadUsers'
 
 module.exports = (cron) ->
+  emailReport()
   cronDaily = ->
-    if global.config.mode is 'production'
-      emailReport()
+    # if global.config.mode is 'production'
     deleteBadUsers()
 
   cronHourly = ->
