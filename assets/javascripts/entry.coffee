@@ -55,7 +55,7 @@ if not window.App?
 
     decodeData: ->
       base64 = App.Resources.Library.base64
-      window.data = base64.decode window.data
+      window.data = JSON.parse base64.decode window.data
 
 
     ###
