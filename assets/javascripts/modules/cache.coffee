@@ -35,35 +35,34 @@ module.exports = class controller
     console.log @name, "checking cache version"
     versions = window.config.js or {}
 
-
-    if Number(localStorage.getItem 'ver:library') != versions.libraryVersion
+    if (localStorage.getItem 'version:library') != versions.libraryVersion
       console.log @name, "library caches differ, clearing"
 
       @clearLibrariesCache()
-      localStorage.setItem 'ver:library', versions.libraryVersion
+      localStorage.setItem 'version:library', versions.libraryVersion
 
-    if Number(localStorage.getItem 'ver:models') != versions.modelVersion
+    if (localStorage.getItem 'version:models') != versions.modelVersion
       console.log @name, "model caches differ, clearing"
 
       @clearModelsCache()
-      localStorage.setItem 'ver:models', versions.modelVersion
+      localStorage.setItem 'version:models', versions.modelVersion
 
-    if Number(localStorage.getItem 'ver:application') != versions.applicationVersion
+    if (localStorage.getItem 'version:application') != versions.applicationVersion
       console.log @name, "application caches differ, clearing"
 
       @clearApplicationCache()
-      localStorage.setItem 'ver:application', versions.applicationVersion
+      localStorage.setItem 'version:application', versions.applicationVersion
 
 
   clearApplicationCache:  -> @removeKeysHelper 'app'
-  clearLibrariesCache:    -> @removeKeysHelper 'lib'
-  clearModelsCache:       -> @removeKeysHelper 'mod'
+  clearLibrariesCache:    -> @removeKeysHelper 'library'
+  clearModelsCache:       -> @removeKeysHelper 'models'
   removeKeysHelper: (tag) ->
     keysToRemove = []
     for i in [0...localStorage.length]
       key = localStorage.key i
-      if key? and ((key.substr 0, 3) == tag) then keysToRemove.push key
-    for key in keysToRemove then localStorage.removeItem key
+      if key? and ((key.split ':')[0] == tag) then keysToRemove.push key
+    localStorage.removeItem key for key in keysToRemove
 
   # This function is responsible for saving all the startup scripts
   # (eg: jQuery, Backbone, Masonry) into the localStorage cache. This way the

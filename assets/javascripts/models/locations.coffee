@@ -29,15 +29,15 @@ module.exports = Backbone.Collection.extend
   setCache: (value) ->
     console.log @name, 'caching location details'
 
-    if @resources.cache.get 'mod:locations'
-      @resources.cache.cache 'mod:locations', JSON.stringify value
+    if @resources.cache.get 'models:locations'
+      @resources.cache.cache 'models:locations', JSON.stringify value
 
 
   # A reroute of backbone's fetch which first checks in the browser's
   # localstorage for the collection before making a AJAX call
   cachedFetch: (options={}) ->
     # Attempt to load from HTML5 localStorage
-    cache = @resources.cache.get 'mod:locations'
+    cache = @resources.cache.get 'models:locations'
     if cache
       console.log @name, 'setting locations from cache'
       json = JSON.parse cache

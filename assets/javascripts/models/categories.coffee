@@ -38,8 +38,8 @@ module.exports = Backbone.Collection.extend
     console.log @name, 'caching category details'
 
     # localStorage = app.controllers.localStorage
-    if @resources.cache.get 'mod:category'
-      @resources.cache.cache 'mod:category', JSON.stringify value
+    if @resources.cache.get 'models:category'
+      @resources.cache.cache 'models:category', JSON.stringify value
 
 
   getChildren: (parentId) -> (@find id: parentId).get 'children'
@@ -51,7 +51,7 @@ module.exports = Backbone.Collection.extend
   # version of fetch.
   cachedFetch: (options={}) ->
     # Attempt to load from HTML5 localStorage
-    cache = @resources.cache.get 'mod:category'
+    cache = @resources.cache.get 'models:category'
     if cache
       console.log @name, 'setting categories from cache'
       json = JSON.parse cache

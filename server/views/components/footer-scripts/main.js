@@ -1,17 +1,17 @@
 (function() {
-  var $fileref, foundInCache, head, i, isCSS, j, len, localVersion, remoteVersion, script, scriptCache;
+  var $fileref, appChanged, foundInCache, head, i, isCSS, isLibrary, j, len, libraryChanged, localVersion, localVersionString, remoteVersion, remoteVersionString, script, scriptCache;
 
   window.scripts = [
     {
-      name: 'lib:normalize-css',
+      name: 'library:normalize-css',
       remoteSrc: '/stylesheets/vendor/normalize.min.css',
       localSrc: '/stylesheets/vendor/normalize.min.css'
     }, {
-      name: 'lib:foundation-css',
+      name: 'library:foundation-css',
       remoteSrc: '/stylesheets/vendor/foundation.min.css',
       localSrc: '/stylesheets/vendor/foundation.min.css'
     }, {
-      name: 'lib:card-css',
+      name: 'library:card-css',
       remoteSrc: '/stylesheets/vendor/card.min.css',
       localSrc: '/stylesheets/vendor/card.min.css'
     }, {
@@ -19,35 +19,35 @@
       remoteSrc: '/stylesheets/build/style.css',
       localSrc: '/stylesheets/build/style.css'
     }, {
-      name: 'lib:jquery',
+      name: 'library:jquery',
       remoteSrc: '/javascripts/vendor/jquery.min.js',
       localSrc: '/javascripts/vendor/jquery.min.js'
     }, {
-      name: 'lib:jquery-transit',
+      name: 'library:jquery-transit',
       remoteSrc: '/javascripts/vendor/jquery.transit.min.js',
       localSrc: '/javascripts/vendor/jquery.transit.min.js'
     }, {
-      name: 'lib:underscore',
+      name: 'library:underscore',
       remoteSrc: '/javascripts/vendor/underscore.min.js',
       localSrc: '/javascripts/vendor/underscore.min.js'
     }, {
-      name: 'lib:backbone',
+      name: 'library:backbone',
       remoteSrc: '/javascripts/vendor/backbone.min.js',
       localSrc: '/javascripts/vendor/backbone.min.js'
     }, {
-      name: 'lib:modernizr',
+      name: 'library:modernizr',
       remoteSrc: '/javascripts/vendor/modernizr.min.js',
       localSrc: '/javascripts/vendor/modernizr.min.js'
     }, {
-      name: 'lib:dropzone',
+      name: 'library:dropzone',
       remoteSrc: '/javascripts/vendor/dropzone.min.js',
       localSrc: '/javascripts/vendor/dropzone.min.js'
     }, {
-      name: 'lib:masonry',
+      name: 'library:masonry',
       remoteSrc: '/javascripts/vendor/masonry.pkgd.min.js',
       localSrc: '/javascripts/vendor/masonry.pkgd.min.js'
     }, {
-      name: 'lib:foundation-js',
+      name: 'library:foundation-js',
       remoteSrc: '/javascripts/vendor/foundation.min.js',
       localSrc: '/javascripts/vendor/foundation.min.js'
     }, {
@@ -59,11 +59,11 @@
       remoteSrc: '/javascripts/build/app.js',
       localSrc: '/javascripts/build/app.js'
     }, {
-      name: 'lib:card-js',
+      name: 'library:card-js',
       remoteSrc: '/javascripts/vendor/card.min.js',
       localSrc: '/javascripts/vendor/card.min.js'
     }, {
-      name: 'lib:2co-js',
+      name: 'library:2co-js',
       remoteSrc: '/javascripts/vendor/2co.min.js',
       localSrc: '/javascripts/vendor/2co.min.js'
     }
@@ -103,10 +103,16 @@
       $fileref = document.createElement('script');
     }
     if ((typeof localStorage !== "undefined" && localStorage !== null) && false) {
-      localVersion = String(localStorage.getItem('ver:library'));
-      remoteVersion = String(window.config.js.libraryVersion);
+      appChanged = (localStorage.getItem('version:application')) !== window.config.js.applicationVersion;
+      libraryChanged = (localStorage.getItem('version:library')) !== window.config.js.libraryVersion;
+      isLibrary = (script.name.split(':'))[0] === 'library';
+      localVersionString = isLibrary ? 'version:library' : 'version:application';
+      remoteVersionString = isLibrary ? 'libraryVersion' : 'applicationVersion';
+      localVersion = String(localStorage.getItem(localVersionString));
+      remoteVersion = String(window.config.js[remoteVersionString]);
       scriptCache = localStorage.getItem(script.name);
-      if (localVersion === !remoteVersion) {
+      if (libraryChanged || (appChanged && !isLibrary)) {
+        console.log('skipping', script.name);
         scriptCache = null;
       }
       if (scriptCache) {

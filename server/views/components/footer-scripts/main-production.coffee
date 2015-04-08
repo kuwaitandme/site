@@ -128,18 +128,29 @@ for script in scripts
   # If HTML5 localStorage is supported, attempt to load the scripts from
   # the application cache
   if localStorage?
+    appChanged = (localStorage.getItem 'version:application') != window.config.js.applicationVersion
+    libraryChanged = (localStorage.getItem 'version:library') != window.config.js.libraryVersion
+
+    # Note that the goal of these conditions is to ensure that app files are
+    # compared with their version, but if the library versions differ then
+    # we ignore the app files too.
+    isLibrary = (script.name.split ':')[0] is 'library'
+    localVersionString = if isLibrary then 'version:library' else 'version:application'
+    remoteVersionString = if isLibrary then 'libraryVersion' else 'applicationVersion'
 
     # Check if local and remote version of the libraries differ
-    localVersion = String localStorage.getItem 'ver:library'
-    remoteVersion = String window.config.js.libraryVersion
+    localVersion = String localStorage.getItem localVersionString
+    remoteVersion = String window.config.js[remoteVersionString]
 
     # Check for the script in our cache
-    scriptCache = localStorage.getItem(script.name)
+    scriptCache = localStorage.getItem script.name
 
     # If versions differ, then don't load from cache and instead load
     # the script normally. The app will eventually clear out the cache
     # and update the local version
-    if localVersion is not remoteVersion then scriptCache = null
+    if libraryChanged or (appChanged and not isLibrary)
+      console.log 'skipping', script.name
+      scriptCache = null
 
     # If the cache exists, then read from it; Otherwise set a flag to
     # that will upload the script normally.

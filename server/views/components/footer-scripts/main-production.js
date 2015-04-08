@@ -1,5 +1,5 @@
 (function() {
-  var $fileref, foundInCache, head, i, isCSS, j, len, localVersion, remoteVersion, script, scriptCache;
+  var $fileref, appChanged, foundInCache, head, i, isCSS, isLibrary, j, len, libraryChanged, localVersion, localVersionString, remoteVersion, remoteVersionString, script, scriptCache;
 
   window.scripts = [
     {
@@ -111,10 +111,16 @@
       $fileref = document.createElement('script');
     }
     if (typeof localStorage !== "undefined" && localStorage !== null) {
-      localVersion = String(localStorage.getItem('ver:library'));
-      remoteVersion = String(window.config.js.libraryVersion);
+      appChanged = (localStorage.getItem('version:application')) !== window.config.js.applicationVersion;
+      libraryChanged = (localStorage.getItem('version:library')) !== window.config.js.libraryVersion;
+      isLibrary = (script.name.split(':'))[0] === 'library';
+      localVersionString = isLibrary ? 'version:library' : 'version:application';
+      remoteVersionString = isLibrary ? 'libraryVersion' : 'applicationVersion';
+      localVersion = String(localStorage.getItem(localVersionString));
+      remoteVersion = String(window.config.js[remoteVersionString]);
       scriptCache = localStorage.getItem(script.name);
-      if (localVersion === !remoteVersion) {
+      if (libraryChanged || (appChanged && !isLibrary)) {
+        console.log('skipping', script.name);
         scriptCache = null;
       }
       if (scriptCache) {
