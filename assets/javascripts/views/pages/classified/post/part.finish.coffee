@@ -4,7 +4,7 @@ module.exports = Backbone.View.extend
   events:
     'click .enabled .active': 'managePayment'
     'click .enabled .cancel': 'managePayment'
-    'click .submit': 'makePurchase'
+    # 'click .submit': 'makePurchase'
 
   messages: perkpaid: 'Your perk is now activated'
 

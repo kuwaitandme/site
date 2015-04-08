@@ -213,8 +213,10 @@
   section.page.small-11.medium-9.small-centered.columns#page-submit
     .row
       h2 Wasn't that simple? You're all set to go!
-    .row.hint Your classified is now ready to be uploaded as soon as you click on the button below.
-      //- | <br><br> !{__('page.cform.disclaimer')}
+    .row.hint
+      p Your classified is now ready to be uploaded as soon as you click on the button below.
+      p Make sure that all your changes are final, as you can't make any changes once the classified has been published
+      p.disclaimer <b>Disclaimer:</b> By submitting this classified, you are agreeing to our <a href='/privacy-terms' data-view> privacy and terms of use</a>.
 
     .row.gcaptcha
 
@@ -233,15 +235,19 @@
     .row
       h2 Awesome! Your classified is now up and running!
     .row.hint
-      | You can view it <a href="#" id="finishLink", data-view> here </a>
+      p
+        | Your classified has been successfully uploaded and
+        | <% if(obj.isGuest) { %>
+        | has been sent for review by our moderators.
+        | <% } else { %>
+        | is now online.
+        | <% } %>
+        | &nbsp;It will be online for 20 days after which it will automatically expire and be taken down.
+
       | <% if(obj.isGuest) { %>
-      br
-      br
-      | Since you posted as a guest, use this link <a href="#" id="authLink"></a> to archive/edit your classified
+      p Since you posted as a guest, use will have to use this link <a href="#" id="authLink"></a> to archive your classified.
       | <% } %>
-      br
-      br
-      | Bring attention to your classified by sharing on
+      p You can help bring some attention to your classified by sharing it on your social networks.
     .row.social.hint
       a(href="#").facebook
         div &#xf09a;
@@ -249,3 +255,5 @@
         div &#xf099;
       a(href="#").gplus
         div &#xf0d5;
+    .button.submit
+      a#finishLink(href="", data-view) View your classified

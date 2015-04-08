@@ -76,10 +76,12 @@ module.exports = Backbone.Model.extend
     location = @get 'location'
     location = (App.Resources.locations.findWhere _id: location)
     if location then @attributes.location = location.get 'name'
+    else @attributes.location = null
 
     category = @get 'category'
     category = (App.Resources.categories.findWhere _id: category)
-    if category then @attributes.category = category.get 'name'
+    if category @attributes.category = category.get 'name'
+    else @attributes.category = null
 
 
     # Convert Date to human readable format
