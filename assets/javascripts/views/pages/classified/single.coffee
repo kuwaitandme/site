@@ -37,6 +37,7 @@ module.exports = Backbone.View.extend
 
       if savedClassified and savedClassified._id is id
         @model.set window.data.classified
+        @model.trigger  'parse'
         @populateDOM()
       else
         self = @

@@ -52,7 +52,9 @@ module.exports = Backbone.Model.extend
     VERIFIED: 6
     EXPIRED: 7
 
-  initialize: -> @bind 'parse', @parseVariables, this
+  initialize: ->
+    console.log @name, 'initializing'
+    @bind 'parse', @parseVariables, this
 
 
   # This function parses the attributes of the classified when it comes from
@@ -60,8 +62,12 @@ module.exports = Backbone.Model.extend
   # date and the price in a nice human readable format.
   parseVariables: ->
     # Set a condition to avoid arguments from being parsed again
+    console.log @name, 'parsing variables'
     if @attributes.parsed then return
     @attributes.parsed = true
+
+    @attributes.title = @escape 'title'
+    @attributes.description = @escape 'description'
 
     # Convert the price into 'Free', '## KD' or 'Contact Owner'
     price = @get 'price'
