@@ -11,6 +11,7 @@ users = module.exports =
     name: String
     description: String
     profileLink: String
+    thumb: String
 
     activationToken: String
     moderatorReason: String
@@ -146,7 +147,7 @@ users = module.exports =
           user.loginFailures = 0
           user.save (error) -> callback error, user
 
-      create: (username, password, callback) ->
+      create: (name, username, password, callback) ->
         parameters =
           loginStrategy: users.loginStrategies.EMAIL
           username: username
@@ -224,7 +225,9 @@ users = module.exports =
           # set the user's local credentials
           newUser.name = profile.displayName
           newUser.username = profile.id
-          # newUser.profileLink = profile.profileUrl
+
+          photos = profile.photos or [{}]
+          newUser.thumb = photos[0].value
 
           # Give defaults to other parameters
           newUser.isModerator = false
@@ -284,7 +287,9 @@ users = module.exports =
           # set the user's local credentials
           newUser.name = profile.displayName
           newUser.username = profile.username
-          # newUser.profileLink = profile.sprofileUrl
+
+          photos = profile.photos or [{}]
+          newUser.thumb = photos[0].value
 
           # Give defaults to other parameters
           newUser.isModerator = false

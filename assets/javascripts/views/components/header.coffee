@@ -32,14 +32,26 @@ module.exports = Backbone.View.extend
 
   populateHeader: ->
     md5 = App.Resources.Library.md5
-    currentUser = App.Resources.currentUser
+    currentUser = App.Resources.currentUser.toJSON()
+    strategies = App.Resources.currentUser.loginStrategies
 
-    md5Hash = md5 (currentUser.get 'email') or ''
-    gravatarURL = "https://www.gravatar.com/avatar/#{md5Hash}"
+    switch currentUser.loginStrategy
+      when strategies.FACEBOOK
+        url = "http://graph.facebook.com/#{currentUser.username}/picture?width=80"
+      when strategies.GOOGLEPLUS
+        url = currentUser.thumb or ''
+        url = url.replace 'sz=50', 'sz=80'
+      when strategies.TWITTER
+        url = currentUser.thumb or ''
+        url = url.replace '_normal', '_bigger'
+      when strategies.EMAIL
+        md5Hash = md5 currentUser.email or ''
+        url = "https://www.gravatar.com/avatar/#{md5Hash}"
 
-    @$credits.html currentUser.get 'credits'
-    @$username.html currentUser.get 'name'
-    @$userthumb.attr 'src', gravatarURL
+    console.log url
+    @$credits.html currentUser.credits
+    @$username.html currentUser.name
+    @$userthumb.attr 'src', url
 
 
   toggleSearchBar: -> @$header.toggleClass 'show-search'

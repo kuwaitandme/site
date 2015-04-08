@@ -12,17 +12,25 @@ module.exports = Backbone.Model.extend
 
   defaults:
     adminReason: ''
+    credits: 0
+    description: ''
     email: ''
     isModerator: false
     language: 0
     lastLogin: [ ]
+    loginStrategy: 0
+    name: ''
+    personal: { }
     status: 0
     username: ''
-    credits: 0
-    name: ''
-    description: ''
-    personal: { }
 
+  loginStrategies:
+    EMAIL:       0
+    FACEBOOK:    1
+    TWITTER:     2
+    YAHOO:       3
+    GOOGLEPLUS:  4
+    PHONEGAP:    5
 
   initialize: ->
     console.log @name, 'initializing'
