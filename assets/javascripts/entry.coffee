@@ -45,7 +45,7 @@ if not window.App?
       @initializeViews()
       @initializeBackBone()
 
-      $ -> $.smartbanner()
+      # $ -> $.smartbanner()
 
     initializeViews: ->
       @viewManager = new App.ViewManager @resources
