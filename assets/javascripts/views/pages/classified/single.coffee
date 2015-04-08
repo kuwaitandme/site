@@ -59,6 +59,7 @@ module.exports = Backbone.View.extend
 
 
   populateDOM: ->
+    @model.parseVariables()
     @title = -> @model.get 'title'
     @setTitle()
 
@@ -70,6 +71,8 @@ module.exports = Backbone.View.extend
     (@$ '.c-gallery').hide()
     if images and images.length > 0
       (@$ '.c-gallery').show().html @slideshowTemplate images: images
+      @loadImages()
+      $(document).foundation 'orbit', 'reflow'
 
     # (@$ '.page').css 'min-height', ($ window).height()
 
@@ -238,6 +241,42 @@ module.exports = Backbone.View.extend
     if meta and meta.gmapX and meta.gmapY
       init meta.gmapX, meta.gmapY
       @$gmap.show()
+
+  loadImages: ->
+    imageLoader = @resources.Library.imageLoader
+
+    $imgs = @$ '[data-src]'
+    $imgs.each (i) =>
+      $img = $imgs.eq i
+      $container = $img.parent().parent()
+      src = $img.data 'src'
+
+      $container.addClass 'image-loading'
+      createSuccessHandler = (elem) => =>
+        elem.removeClass 'image-loading'
+        .addClass 'image-success'
+      createFailureHandler = (elem) => =>
+        elem.removeClass 'image-loading'
+        .addClass 'image-failed'
+
+      $img.attr 'src', src
+      # Append element into DOM and reload Masonry
+      # @$classifiedList.append elem
+      # @$classifiedList.masonry 'appended', elem
+
+      # Use our special function to load the images. This function ensures
+      # that the images are loaded smoothly, the containers are setup
+      # properly and add the right CSS classes are set for the any effects
+      imageLoader src,
+        # This function is called when a image successfully loads. It makes
+        # sure that the *image-loading* class is removed from the parent li
+        # and the masonry layout is reset
+        success: createSuccessHandler $container
+        # This function is called when a image successfully loads. It makes
+        # sure that the *image-loading* class is removed from the parent li
+        # and the *image-failed* class is set. The masonry layout is reset
+        failure: createFailureHandler $container
+        target: $img
 
 
   renderAdminbar: ->
