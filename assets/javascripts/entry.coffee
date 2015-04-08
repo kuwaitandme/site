@@ -36,6 +36,7 @@ if not window.App?
 
   class Main
     constructor: (App) ->
+      ($ "#page-loader").hide()
       @decodeData()
       @applyBackboneHacks()
 
