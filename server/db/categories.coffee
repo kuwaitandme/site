@@ -48,55 +48,57 @@ json = {
       'Other'
     }
 
-    'Uniforms': {
-      'School Uniforms'
-      'Work Uniforms'
-      'Sports Uniforms'
-      'Other'
-    }
+    # 'Uniforms': {
+    #   'School Uniforms'
+    #   'Work Uniforms'
+    #   'Sports Uniforms'
+    #   'Other'
+    # }
     'Other'
   }
 
   'Careers, Jobs & Resumes': {
     'Administrative'
-    'Advertising/PR'
-    'Agents/Dealers'
-    'Arts/Culture'
-    'Bankers/Brokers'
-    'Design/Architecture'
-    'Education/Training'
-    'Health Care'
-    'IT/Engineering'
     'Internships'
-    'Labour'
-    'Legal/Consulting/HR'
-    'Management'
-    'Manufacturing'
-    'Retail/Wholesale'
-    'Sales'
     'Service'
-    'Social/Nonprofit'
-    'Tourism/Travel'
-    'Transportation'
+    'Resumes'
+    # 'Advertising/PR'
+    # 'Agents/Dealers'
+    # 'Arts/Culture'
+    # 'Bankers/Brokers'
+    # 'Design/Architecture'
+    # 'Education/Training'
+    # 'Health Care'
+    # 'IT/Engineering'
+    # 'Labour'
+    # 'Legal/Consulting/HR'
+    # 'Management'
+    # 'Manufacturing'
+    # 'Retail/Wholesale'
+    # 'Sales'
+    # 'Service'
+    # 'Social/Nonprofit'
+    # 'Tourism/Travel'
+    # 'Transportation'
     'Other'
   }
 
   'Community, Events & Tickets': {
-    'Tickets & Gift Cards': {
+    'Tickets/Gift Cards': {
       'Food & Travel'
       'Live Music, Theater & Shows'
       'Sports'
       'Other'
     }
 
-    'Classes & Lessons': {
-      'Music'
-      'Education & Training'
-      'Language'
-      'Other'
-    }
+    # 'Classes & Lessons': {
+    #   'Music'
+    #   'Education & Training'
+    #   'Language'
+    #   'Other'
+    # }
 
-    'Local Events & Activities': {
+    'Local Events/Activities': {
       'Music & Theater'
       'Fairs, Festivals & Traveling Shows'
       'Food & BBQs'
@@ -104,13 +106,13 @@ json = {
       'Other'
     }
 
-    'Carpool & Ride Share'
+    # 'Carpool & Ride Share'
     'Lost & Found'
-    'Volunteer Activities'
-    'Yard & Garage Sales'
-    'Elderly Assistance'
-    'Pet Sitting'
-    'Babysitter'
+    # 'Volunteer Activities'
+    # 'Yard & Garage Sales'
+    # 'Elderly Assistance'
+    # 'Pet Sitting'
+    # 'Babysitter'
     'Other'
   }
 
@@ -142,7 +144,7 @@ json = {
       'Other'
     }
 
-    'Phones, Mobile Phones & Music Players': {
+    'Phones & Music Players': {
       'Home Phones'
       'Mobile Phones'
       'MP3 Players'
@@ -164,14 +166,14 @@ json = {
     'Other'
   }
 
-  'Homeware, Furniture & Appliances': {
-    "Indoor Furniture & Accessories"
-    "Outdoor Furniture & Accessories"
-    "Lighting & Fixtures"
-    "Flooring, Window & Decor"
-    "Large Appliances"
-    "Small Appliances"
-    "Homeware & Decor"
+  'Furniture & Appliances': {
+    "Furniture & Accessories"
+    # "Outdoor Furniture & Accessories"
+    # "Lighting & Fixtures"
+    # "Flooring, Window & Decor"
+    "Appliances"
+    "Homeware/Decor"
+    'Other'
   }
 
   'Education & Classes': {
@@ -184,43 +186,38 @@ json = {
     'Other'
   }
 
-  'Health & Beauty': {
-    'Health & Mobility': {
-      'Wheelchairs & Scooters'
-      'Canes, Walkers & Crutches'
-      'Chair Lifts'
-      'Ergonomic & Electronic Beds & Chairs'
-      'Other'
-    }
+  # 'Health & Beauty': {
+  #   'Health & Mobility': {
+  #     'Wheelchairs & Scooters'
+  #     'Canes, Walkers & Crutches'
+  #     'Chair Lifts'
+  #     'Ergonomic & Electronic Beds & Chairs'
+  #     'Other'
+  #   }
 
-    'Vanity': {
-      'Makeup & Perfume'
-      'Wigs & Toupees'
-      'Other'
-    }
-  }
+  #   'Vanity': {
+  #     'Makeup & Perfume'
+  #     'Wigs & Toupees'
+  #     'Other'
+  #   }
+  # }
 
-  'Hobbies, Crafts & DIY': {
-    'Scale Models': {
-      'Finished Models'
-      'Parts & Supplies'
-    }
+  'Hobbies/Crafts/DIY': {
+    # 'Scale Models': {
+    #   'Finished Models'
+    #   'Parts & Supplies'
+    # }
+    'Creative/Crafts'
 
-    'Sewing, Quilting & Knitting': {
+    'Sewing/Quilting/Knitting': {
       'Finished Articles'
       'Sewing Machines & Parts'
       'Supplies'
     }
 
-    'Painting & Art': {
+    'Painting/Art': {
       'Finished Artwork'
       'Equipment & Supplies'
-    }
-
-    'Other Crafts & Hobby Supplies': {
-      'Boxes, Storage & Organization'
-      'Materials & Supplies'
-      'Other'
     }
 
     'Other'
@@ -234,6 +231,7 @@ json = {
   }
 
   'Music, Movies & Books': {
+    'Musical Instruments'
     'Music': {
       'CDs'
       'Records'
@@ -258,57 +256,57 @@ json = {
     'Other'
   }
 
-  'Musical Instruments': {
-    'Keyboards': {
-      'Pianos'
-      'Organs'
-      'Cases, Stands & Boxes'
-    }
+  # 'Musical Instruments': {
+  #   'Keyboards': {
+  #     'Pianos'
+  #     'Organs'
+  #     'Cases, Stands & Boxes'
+  #   }
 
-    'String': {
-      'Violins'
-      'Harps'
-      'Cases, Stands & Boxes'
-    }
+  #   'String': {
+  #     'Violins'
+  #     'Harps'
+  #     'Cases, Stands & Boxes'
+  #   }
 
-    'Percussion': {
-      'Single Drums & Marching Drums'
-      'Drum Kits & Ensembles'
-      'Beaters, Sticks & Mallets'
-      'Cases, Stands & Boxes'
-    }
+  #   # 'Percussion': {
+  #   #   'Single Drums & Marching Drums'
+  #   #   'Drum Kits & Ensembles'
+  #   #   'Beaters, Sticks & Mallets'
+  #   #   'Cases, Stands & Boxes'
+  #   # }
 
-    'Woodwind': {
-      'Flutes'
-      'Clarinets'
-      'Bagpipes'
-      'Cases, Stands & Boxes'
-    }
+  #   'Woodwind': {
+  #     'Flutes'
+  #     'Clarinets'
+  #     'Bagpipes'
+  #     'Cases, Stands & Boxes'
+  #   }
 
-    'Brass': {
-      'Trumpets'
-      'Horns & Bugles'
-      'Tubas'
-      'Cases, Stands & Boxes'
-    }
+  #   'Brass': {
+  #     'Trumpets'
+  #     'Horns & Bugles'
+  #     'Tubas'
+  #     'Cases, Stands & Boxes'
+  #   }
 
-    'Guitars': {
-      'Acoustic'
-      'Electric'
-      'Bass'
-      'Cases, Stands & Boxes'
-    }
+  #   'Guitars': {
+  #     'Acoustic'
+  #     'Electric'
+  #     'Bass'
+  #     'Cases, Stands & Boxes'
+  #   }
 
-    'Amplifiers, Speakers & Distortion': {
-      'Amplifiers'
-      'Speakers'
-      'Distortion Pedals & Boards'
-    }
+  #   # 'Amplifiers, Speakers & Distortion': {
+  #   #   'Amplifiers'
+  #   #   'Speakers'
+  #   #   'Distortion Pedals & Boards'
+  #   # }
 
-    'Recording Equipment'
-    'Storage & Transportation'
-    'Other'
-  }
+  #   # 'Recording Equipment'
+  #   # 'Storage & Transportation'
+  #   'Other'
+  # }
 
   'Pets & Animals': {
     'Birds': {
@@ -317,18 +315,18 @@ json = {
       'Supplies & Accessories'
     }
 
-    'Cats & Kittens': {
+    'Cats/Kittens': {
       'Cats & Kittens'
       'Toys & Scratching Posts'
       'Supplies & Accessories'
     }
 
-    'Dogs & Puppies': {
+    'Dogs/Puppies': {
       'Dogs & Puppies'
       'Supplies & Accessories'
     }
 
-    'Fish & Aquatic Pets': {
+    'Fish/Aquatic Pets': {
       'Fish'
       'Turtles'
       'Other'
@@ -344,167 +342,114 @@ json = {
       'Other'
     }
 
-    'Reptiles & Other': {
-      'Snakes'
-      'Lizards'
-      'Bunnies'
-      'Ferrets'
-      'Rodents'
-      'Other'
-    }
-    'Cages & Aquariums'
-    'Supplies & Accessories'
+    # 'Cages & Aquariums'
+    'Supplies/Accessories'
+    'Others'
   }
 
   'Property & Real-Estate': {
     'Commercial Space'
-    'Farm/Ranch'
-    'Flats'
-    'Flat-shares/Rooms'
-    'Holiday Rentals'
+    # 'Farm/Ranch'
+    'Flats/Rooms'
     'Houses'
     'Land'
-    'Offices'
-    'Parking'
-    'Short Term'
-    'Storage'
-    'Vacation Property'
+    # 'Offices'
+    # 'Parking'
+    # 'Short Term'
+    # 'Storage'
+    # 'Vacation Property'
     'Other'
   }
 
   'Services': {
     'Animal/Pet'
-    'Business'
-    'Career/HR'
+    # 'Career/HR'
     'Child/Elderly'
     'Cleaning'
-    'Computer/IT'
-    'Contractors & Skilled Trades'
-    'Creative/Design'
-    'Entertainment'
-    'Fitness/Personal Trainers'
-    'Health/Beauty'
-    'Lawn/Garden'
-    'Legal/Financial'
+    # 'Computer/IT'
+    'Contractors'
+    'Design/IT'
+    # 'Entertainment'
+    'Fitness/Health'
+    # 'Lawn/Garden'
+    'Legal/Business'
     'Moving/Storage'
-    'Office'
-    'Real Estate'
     'Sales/Marketing'
-    'Translation'
-    'Travel'
-    'Tuitions/Lessons'
-    'Tutoring & Lessons'
+    # 'Translation'
+    # 'Travel'
+    # 'Tuitions/Lessons'
     'Other'
   }
 
-  'Sports & Active Lifestyle': {
-    'Bicycles': {
-      'Kids Bikes'
-      'BMX'
-      'Mountain'
-      'Road Bikes'
-      'Clothing'
-      'Parts & Accessories'
-      'Other'
-    }
+  # 'Sports & Active Lifestyle': {
+  #   'Bicycles': {
+  #     'Kids Bikes'
+  #     'BMX'
+  #     'Mountain'
+  #     'Road Bikes'
+  #     'Clothing'
+  #     'Parts & Accessories'
+  #     'Other'
+  #   }
 
-    'Camping': {
-      'Tents'
-      'Cooking'
-      'Storage & Coolers'
-      'Equipment & Accessories'
-    }
+  #   'Camping': {
+  #     'Tents'
+  #     'Cooking'
+  #     'Storage & Coolers'
+  #     'Equipment & Accessories'
+  #   }
 
-    'Fishing & Hunting': {
-      'Fishing Poles'
-      'Tackle'
-      'Live Bait'
-      'Fishing Equipment & Accessories'
-      'Clothing'
-      'Guns & Bows'
-      'Hunting Equipment & Accessories'
-      'Hunting Clothes'
-    }
+  #   'Fishing & Hunting': {
+  #     'Fishing Poles'
+  #     'Tackle'
+  #     'Live Bait'
+  #     'Fishing Equipment & Accessories'
+  #     'Clothing'
+  #     'Guns & Bows'
+  #     'Hunting Equipment & Accessories'
+  #     'Hunting Clothes'
+  #   }
 
-    'Ball Sports': {
-      'Baseball'
-      'Basketball'
-      'Soccer'
-      'Football'
-      'Other'
-    }
+  #   'Outdoor Sports': {
+  #     'Badminton'
+  #     'Baseball'
+  #     'Basketball'
+  #     'Soccer'
+  #     'Football'
+  #     'Other'
+  #     'Hockey'
+  #     'Golf'
+  #   }
 
-    'Hockey': {
-      'Skates'
-      'Padding & Protective Gear'
-      'Other Equipment & Accessories'
-    }
+  #   'Exercise Equipment': {
+  #     'Weights'
+  #     'Machines'
+  #     'Universals'
+  #     'Equipment & Accessories'
+  #     'Other'
+  #   }
 
-    'Snow & Winter Sports': {
-      'Skis & Snowboards'
-      'Equipment & Accessories'
-      'Clothing'
-      'Other'
-    }
-
-    'Paintball': {
-      'Markers'
-      'Balls, Co2 Tanks, Oxygen Tanks'
-      'Equipment & Accessories'
-      'Clothing & Under Armor'
-      'Other'
-    }
-
-    'Golf': {
-      'Clubs'
-      'Bags & Carriers'
-      'Balls'
-      'Shoes & Clothing'
-      'Other'
-    }
-
-    'Excercise Equipment': {
-      'Weights'
-      'Machines'
-      'Universals'
-      'Equipment & Accessories'
-      'Other'
-    }
-
-    'Skateboarding & Rollerblades': {
-      'Skateboards, Decks, Wheels'
-      'Rollerblades & Rollerblade Parts'
-      'Equipment & Accessories'
-    }
-
-    'Badminton'
-    'Water Sports'
-    'Other'
-  }
+  #   'Water Sports'
+  #   'Other'
+  # }
 
   'Vehicles': {
-    'ATVs & Snowmobiles': {
-      'ATVs'
-      'Snowmobile - Parts & Accessories'
-      'Other'
-    }
     'Campers, RVs & Trailers': {
       'Cargo & utility Trailers'
       'RVs & Motor Homes'
       'Travel Trailers & Accessories'
       'Parts & Accessories'
     }
-    'Cars, Trucks, SUVs, Vans & Crossovers': {
+    'Cars, Trucks, SUVs & Vans': {
       'Cars'
       'Trucks'
-      'SUVs & Crossovers'
       'Classic & Antique'
       'Vans - Passenger'
       'Cargo'
       'Parts & Accessories'
       'Other'
     }
-    'Motorcycles & Mopeds': {
+    'Motorcycles/Bikes': {
       'Dirt & Moto Cross'
       'E-Bikes & Scooters'
       'Sport & Street Bikes'
@@ -512,13 +457,7 @@ json = {
       'Parts & Accessories'
       'Other'
     }
-    'Heavy Equipment': {
-      'Farm Equipment'
-      'Trucks'
-      'Parts & Accessories'
-      'Other'
-    }
-    'Watercraft & Trailers': {
+    'Watercraft/Trailers': {
       'Canoes, Kayaks & Paddleboats'
       'Power & Motor Boats'
       'Sailboats'
@@ -527,6 +466,7 @@ json = {
       'Parts & Accessories'
       'Other'
     }
+    'Other'
   }
 
   'Miscellaneous'
