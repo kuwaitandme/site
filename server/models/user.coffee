@@ -146,7 +146,10 @@ users = module.exports =
           user.loginFailures = 0
           user.save (error) -> callback error, user
 
-      create: ->
+      create: (username, password, callback) ->
+        parameters =
+          loginStrategy: users.loginStrategies.EMAIL
+          username: username
         users.model.findOne { username: username }, (error, user) ->
           if error then callback error
           if user and user.length > 0 then return callback 'user exists'
@@ -280,8 +283,8 @@ users = module.exports =
 
           # set the user's local credentials
           newUser.name = profile.displayName
-          newUser.username = profile.id
-          newUser.profileLink = profile.profileUrl
+          newUser.username = profile.username
+          # newUser.profileLink = profile.sprofileUrl
 
           # Give defaults to other parameters
           newUser.isModerator = false
