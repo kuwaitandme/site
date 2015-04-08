@@ -25,7 +25,7 @@ classifieds = module.exports =
     price:             Number
     status:            Number # 0:Inactive,1:Active,2:Rejected,3:Archived,4:Banned
     title:             String
-    type:              Number # 0:Sale,1:Want
+    type:              Number # 0:Offering,1:Wanted
     views:             Number
     weight:            Number
 
@@ -37,7 +37,7 @@ classifieds = module.exports =
     contact:           { }
     meta:              { }
     perks:             { }
-    reports:           [  ]
+    reports:           [ ]
 
 
   classifiedPerPage:        15
@@ -98,10 +98,10 @@ classifieds = module.exports =
       classified.babyCategory = data.babyCategory
 
     # Set up some defaults
-    classified.weight = 0
+    classified.weight  = 0
     classified.created = Date.now()
-    classified.perks = []
-    classified.views = 0
+    classified.perks   = []
+    classified.views   = 0
 
     # If you are logged in, then we will make you the owner of this
     # classified; Otherwise we will label this classified as a guest

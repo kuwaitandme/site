@@ -1,58 +1,58 @@
-.page
-  h2.c-title <%= title %>
-  p.c-description <%= description %>
+h2.c-title <%= title %>
+.row
+  .medium-8.large-9.columns
+    p.c-description <%= description %>
+  .medium-4.large-3.columns.c-meta
+    .meta
+      b Views:&nbsp;
+      <%= obj.views %>
+    .meta
+      b Type:&nbsp;
+      <%= obj.type %>
 
-//- Views
-ul.c-meta#page-meta
-  li
-    b Views:&nbsp;
-    <%= obj.views %>
-//- Category
-|<% if(category) { %>
-ul.c-meta#page-meta
-  li
-    b Categorized under:&nbsp;
-    | <%= category.get("name") %>
-|<% } %>
+    .meta
+      b Price:&nbsp;
+      <%= obj.price %>
 
-//- ul.c-meta
-  //- Location
-  |<% if(contact.location) {
-  |  var loc = app.models.locations.findWhere({ _id: contact.location });
-  |   if(loc && loc.get('name') != "None") { %>
-  li
-    b Location:&nbsp;
-    | <%= loc.get('name') %>
-  |<% } %>
+    .meta
+      b Posted:&nbsp;
+      | <%= created %>
 
-  //- Email
-  |<% } if(contact.email) { %>
-  li
-    b Email:&nbsp;
-    <%= contact.email %>
+    | <% if(category) { %>
+    .meta
+      b Categorized under:&nbsp;
+      | <%= category %>
 
-  //- Phone
-  |<% } if(contact.phone) { %>
-  li
-    b Phone:&nbsp;
-    <%= contact.phone %>
+    |<% } if(contact.email) { %>
+    .meta
+      b Email:&nbsp;
+      <%= contact.email %>
 
-  //- Address
-  |<% } if(contact.address1) { %>
-  li
-    b Address:&nbsp;<%= contact.address1 %>; <%= contact.address2 %>
-  |<% } %>
+    |<% } if(location) { %>
+    .meta
+      b Location:&nbsp;
+      <%= location %>
 
-//- Post print/report
-ul.c-meta
-  //- li.c-action.share
-  //-   a(href="#") Share
-  li.c-action.print
-    b
-      a(href="javascript:window.print()") Print this classified
-  //- li.c-action.report
-    b
-      a(href='#', data-reveal-id="reportModel") Report
+    |<% } if(contact.phone) { %>
+    .meta
+      b Phone:&nbsp;
+      | <%= contact.phone %>
+
+    |<% } if(contact.address1) { %>
+    .meta
+      b Address:&nbsp;
+      | <%= contact.address1 %>; <%= contact.address2 %>
+    |<% } %>
+
+    //- .meta.contact-owner
+      b
+        a Contact Owner
+    .meta.print
+      b
+        a(href="javascript:window.print()") Print this classified
+    //- .meta.report
+      b
+        a Report classified
 
 //- Disclaimer
-//- .c-disclaimer !{__("page.csingle.disclaimer")}
+.c-disclaimer <b>Disclaimer:<br/></b>By submitting this classified, you are agreeing to our <a href='/terms'>terms and conditions</a> and to our <a href='/privacy'>privacy policy.</a>

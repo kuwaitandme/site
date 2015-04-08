@@ -59,9 +59,7 @@ module.exports = Backbone.View.extend
     @setTitle()
 
     # Add the main template
-    modelJSON = @model.toJSON()
-    modelJSON.category = @resources.categories.findWhere _id: modelJSON.category
-    ($ '.c-content').html @singleTemplate modelJSON
+    ($ '.c-content').html @singleTemplate @model.toJSON()
 
     # Add the image templates
     images = @model.get 'images'

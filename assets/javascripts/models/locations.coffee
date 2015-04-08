@@ -26,11 +26,11 @@ module.exports = Backbone.Collection.extend
 
 
   # Save the model into HTML5 localstorage
-  setCache: (value) ->
+  setCache: () ->
     console.log @name, 'caching location details'
 
-    if @resources.cache.get 'models:locations'
-      @resources.cache.cache 'models:locations', JSON.stringify value
+    if not @resources.cache.get 'models:locations'
+      @resources.cache.cache 'models:locations', JSON.stringify @toJSON()
 
 
   # A reroute of backbone's fetch which first checks in the browser's

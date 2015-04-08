@@ -4,10 +4,10 @@ body#classified-single
     color: #999
     font-size: 12px
     text-transform: uppercase
-    a
-      text-decoration: none
-      &:hover
-        color: #000
+    // a
+    //   text-decoration: none
+    //   &:hover
+    //     color: #000
 
   ul#single-messages
     padding: 0
@@ -59,32 +59,27 @@ body#classified-single
     width: 100%
   .c-title
     margin-bottom: 1rem
+  .row
+    max-width: none
+  .c-meta
+    border-left: 1px solid #ddd
   .c-content
-    margin: 30px auto
+    margin: 0 auto
     width: 95%
     padding-top: 1px
-    margin: 0 auto
     h1
       font-size: 40px
-    ul.c-meta
+    .meta
       +clearfix
       color: #000
-      font-size: 12px
+      font-size: 0.8rem
       margin: 0
       margin-bottom: 1rem
       padding: 0
-      li
-        float: left
-        &:after
-          color: #444
-          content: '\b7\a0'
-          padding: 10px
-        &:last-child:after
-          content: ''
-          padding: 0
-    .c-action
       a
-        text-decoration: none
+        color: blue
+        border-bottom: 1px solid blue
+
     .c-description
       font-size: 0.8rem
       padding-bottom: 2rem
@@ -93,18 +88,23 @@ body#classified-single
       white-space: -pre-wrap
       white-space: -o-pre-wrap
       word-wrap: break-word
+
   .c-gallery
     margin: 0
-    padding-bottom: 15px
+    padding-bottom: 1rem
     text-align: center
+    ul
+      margin: 0
     li
       padding: 0
   .c-disclaimer
-    color: #999
-    font-size: 10px
-    margin: 25px 0
+    color: #000
+    font-size: 0.75rem
+    margin-bottom: 3rem
+
     a
-      color: inherit
+      color: blue
+      border-bottom: 1px solid blue
 
 @media print
   .c-gallery

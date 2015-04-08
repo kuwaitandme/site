@@ -1,8 +1,6 @@
 # This file contains a Backbone.Model representing a single classified. This
 # model contains methods to manipulate and sync with the server as well take
-# care of minor details like XSS and making things readable.
-
-async = require 'async'
+# care of minor details like XSS and making things readable.-
 helpers = require 'app-helpers'
 
 dateHelper = helpers.date
@@ -68,9 +66,24 @@ module.exports = Backbone.Model.extend
     @attributes.title = @escape 'title'
     @attributes.description = @escape 'description'
 
+    type = @get 'type'
+    @attributes.type = if type is 0 then 'Offering' else 'Wanted'
+
     # Convert the price into 'Free', '## KD' or 'Contact Owner'
     price = @get 'price'
     @attributes.price = @priceFormat price
+
+    location = @get 'location'
+    if location
+      location = (App.Resources.locations.findWhere _id: location)
+      @attributes.location = location.get 'name'
+
+    category = @get 'category'
+    if category
+      category = (App.Resources.categories.findWhere _id: category)
+      console.log
+      @attributes.category = category.get 'name'
+
 
     # Convert Date to human readable format
     date = @get 'created'
@@ -100,7 +113,7 @@ module.exports = Backbone.Model.extend
     $.ajax
       beforeSend: ajax.setHeaders
       contentType: false
-      data: @getFormData(files)
+      data: @getFormData files
       processData: false
       type: if (@get '_id')? then "PUT" else "POST"
       url: "#{App.Resources.Config.hostname}/api/classified"
