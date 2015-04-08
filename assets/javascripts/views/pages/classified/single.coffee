@@ -13,7 +13,9 @@ module.exports = Backbone.View.extend
     unpriv:    'You are not allowed to make such bogus requests'
 
 
-  events: "submit form" : "submitHandle"
+  events:
+    "submit form" : "submitHandle"
+    "click .action" : "actionHandle"
 
   start: (@options = {}) ->
     console.debug @name, 'initializing', @options
@@ -21,8 +23,10 @@ module.exports = Backbone.View.extend
     @slideshowTemplate = template['components/slideshow']
     @singleTemplate    = template['components/single']
 
-    @$gmap      = @$ '#map-canvas'
-    @$messages  = @$ "#single-messages"
+    @$gmap              = @$ '#map-canvas'
+    @$messages          = @$ "#single-messages"
+    @$promptModal       = @$ "#promptModal"
+
     if @options.model
       @model = @options.model
 
@@ -79,10 +83,67 @@ module.exports = Backbone.View.extend
     else init()
 
 
+  actionHandle: (event) ->
+    $el = $ event.currentTarget
+    action = $el.data 'action'
+    console.log action
+
+    finish = =>
+      if @model.hasChanged()
+        @model.save @model.changedAttributes(), patch: true
+
+    switch action
+      when 'publish'
+        @model.set 'status', @model.status.ACTIVE
+        finish()
+
+      when 'archive'
+        @model.set 'status', @model.status.ARCHIVED
+        finish()
+
+      when 'repost'
+        if @model.get 'guest' then @model.set status: @model.status.INACTIVE
+        else @model.set status: @model.status.ACTIVE
+        finish()
+
+      when 'ban'
+        @showPromptModal 'banning', (reason) =>
+          @model.set
+            status: @model.status.BANNED
+            moderatorReason: reason
+          finish()
+
+      when 'reject'
+        @showPromptModal 'rejecting', (reason) =>
+          @model.set
+            status: @model.status.REJECTED
+            moderatorReason: reason
+          finish()
+
+      when 'report'
+        @showPromptModal 'reporting', (reason) =>
+          reports = _.clone @model.get 'reports'
+          reports.push reason
+          @model.unset "reports", silent: true
+          @model.set reports: reports
+          finish()
+
+
+  showPromptModal: (actionText, callback) ->
+    @$promptModal.foundation 'reveal', 'open'
+    (@$promptModal.find 'h3 span').html actionText
+    $submitButton = @$promptModal.find '.submit'
+    $textarea = @$promptModal.find 'textarea'
+
+    $submitButton.one 'click', (event) =>
+      @$promptModal.foundation 'reveal', 'close'
+      callback $textarea.val()
+
 
   modelChange: ->
     @$messages.html ""
     # window.location.hash = ""
+    @renderAdminbar()
 
     # Display a message based on the classified's status.
     moderatorReason = @model.get 'moderatorReason'
