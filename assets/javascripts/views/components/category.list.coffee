@@ -20,5 +20,5 @@ module.exports = Backbone.View.extend
     @$el.html @template categories: categories
     @$el.masonry
       itemSelector: 'li'
-      isFitWidth: true
+      # isFitWidth: true
     @resources.router.reattachRouter()
