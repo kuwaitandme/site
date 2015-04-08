@@ -12,6 +12,9 @@ module.exports = Backbone.View.extend
   name: '[view:classified-post]'
   title: -> "Post a classified"
   template: template['classified/post']
+  templateOptions:
+    isGuest: false
+    hasClassified: false
 
   events: 'click a[data-page-nav]' : 'clickHandler'
 

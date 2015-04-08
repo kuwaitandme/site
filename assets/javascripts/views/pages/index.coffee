@@ -13,7 +13,7 @@ module.exports =
   'classified-search':  require './classified/search'
   'classified-single':  require './classified/single'
   'contact':            require './contact'
-  'guest-post':         require './classified/post'
+  'guest-post':         require './guest/post'
   'guest-single':       require './classified/single'
   'landing':            require './landing'
   'terms-privacy':      require './terms-privacy'

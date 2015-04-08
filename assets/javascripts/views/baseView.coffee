@@ -30,7 +30,7 @@ module.exports =
     code lies in the functions defined the below sections.
     ###
     @on 'start', =>
-      if @template? then @$el.html @template()
+      if @template? then @$el.html @template @templateOptions
       @start()
     @on 'continue', =>
       @setTitle()
@@ -45,6 +45,13 @@ module.exports =
     @on 'finish', =>
       @finish()
       @remove()
+
+
+  ###
+   as
+  ###
+  templateOptions: {}
+
 
   ###
   ## *name:*

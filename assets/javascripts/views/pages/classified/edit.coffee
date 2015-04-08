@@ -2,7 +2,10 @@ url    = (require 'app-helpers').url
 view   = require './post'
 
 module.exports = view.extend
-  name: '[view:classifieds-edit]'
+	name: '[view:classifieds-edit]'
+	templateOptions:
+		isGuest: false
+		hasClassified: true
 
   getModel: ->
     id = (document.URL.split '/')[4]

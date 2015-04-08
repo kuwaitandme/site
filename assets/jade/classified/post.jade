@@ -1,9 +1,9 @@
 .row
   section.page.small-11.medium-9.small-centered.columns#page-begin
-    | <% if(obj.classified) { %>
+    | <% if(obj.hasClassified) { %>
     .row
       h2 You are about to edit a classified
-      | <% if(obj.guest) { %>
+      | <% if(obj.isGuest) { %>
       .row.hint
         | Use the 'next' and 'previous' buttons below to navigate
         | between the forms. Fields marked with a '*' are compulsary
@@ -23,13 +23,13 @@
       | and must be filled.
       br
       br
-      | <% if(obj.guest) { %>
+      | <% if(obj.isGuest) { %>
       | We are letting you post a classified as a guest. So we have to
       | review your post before it gets published which can take upto
       | 24 hours.
       br
       br
-      | You can avoid this delay, if you simply <a href="/auth/signup">
+      | You can avoid this delay, if you simply <a href="/auth/signup" data-view>
       | signup</a> with us!
       | <% } else { %>
       | This classified will be published immediately and can be archived
@@ -234,12 +234,13 @@
       h2 Awesome! Your classified is now up and running!
     .row.hint
       | You can view it <a href="#" id="finishLink", data-view> here </a>
+      | <% if(obj.isGuest) { %>
       br
       br
-      //- if robots.guest
-      //-   | Since you posted as a guest, use this link <a href="#" id="authLink"></a> to archive/edit your classified
-      //-   br
-      //-   br
+      | Since you posted as a guest, use this link <a href="#" id="authLink"></a> to archive/edit your classified
+      | <% } %>
+      br
+      br
       | Bring attention to your classified by sharing on
     .row.social.hint
       a(href="#").facebook
