@@ -1,9 +1,9 @@
 extends ./email-template.jade
 
 block definations
-  title= 'Activate your account!'
-  buttonLink= "#{host}/api/auth/email/activate/#{user._id}?token=#{user.activationToken}"
-  buttonText= 'Activate'
+  - var title = 'Activate your account!'
+  - var buttonLink = host + "/api/auth/email/activate/" + user._id + "?token=" + user.activationToken
+  - var buttonText = 'Activate'
 
 block content
   p(style='Margin-top: 0;color: #565656;font-family: Tahoma,sans-serif;font-size: 16px;line-height: 25px;Margin-bottom: 25px')

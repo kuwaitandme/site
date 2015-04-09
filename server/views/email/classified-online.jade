@@ -1,13 +1,27 @@
 extends ./email-template.jade
 
 block definations
-  title= 'Your classified is now online!'
-  buttonLink= "#{host}/classified/#{classified._id}?authHash=#{classified.authHash}"
-  buttonText= 'View classified'
+  - var title = 'Your classified is now online!'
+  if classified.guest
+    - var buttonLink = host + "/guest/" + classified._id + "?authHash=" + classified.authHash
+    - var buttonText = 'Edit/Archive classified'
+  else
+    - var buttonLink = host + "/classified/" + classified._id
+    - var buttonText = 'View your classified'
 
 block content
   p(style='Margin-top: 0;color: #565656;font-family: Tahoma,sans-serif;font-size: 16px;line-height: 25px;Margin-bottom: 25px')
-  	| Your classified is now online and visible to everyone. It will automatically expire in 30 days unless you take it down yourself. If you feel
-
+    if classified.guest
+      |  Your classified is now published and is awaiting to be approved by a moderator. It will automatically expire in 30 days unless you take it down yourself.
+    else
+      |  Your classified is now online and visible to everyone. It will automatically expire in 30 days unless you take it down yourself.
   p(style='Margin-top: 0;color: #565656;font-family: Tahoma,sans-serif;font-size: 16px;line-height: 25px;Margin-bottom: 25px')
-		| If you want to make any changes to your classified such as editing or archiving, then then you must <login into the site and then click on the button below to navigate to the edit page for your classified.
+    | If you want to edit/archive your classified, then&nbsp;
+    if classified.guest
+      | simply click on the button below and you will be taken to a special page.
+      | From this page you will be able to either archive or edit your classified. Don't
+      | share this page to anyone as they too will then be able to edit the classified.
+
+    else
+      | you must login into the site and then simply navigate to the classified. Since you
+      | are the owner for the classified you will see controls to either archive or edit it.
