@@ -132,7 +132,10 @@ module.exports = Backbone.View.extend
           finish()
 
       when 'edit'
-        url = "/classified/#{@model.id}/edit"
+        if @model.get 'guest'
+          url = "/guest/#{@model.id}/edit?authHash=#{@model.get 'authHash'}"
+        else
+          url = "/classified/#{@model.id}/edit"
         @resources.router.redirect url
 
 

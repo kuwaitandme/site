@@ -13,6 +13,7 @@ module.exports =
   'classified-search':  require './classified/search'
   'classified-single':  require './classified/single'
   'contact':            require './contact'
+  'guest-edit':         require './guest/edit'
   'guest-post':         require './guest/post'
   'guest-single':       require './classified/single'
   'landing':            require './landing'

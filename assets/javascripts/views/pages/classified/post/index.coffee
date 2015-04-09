@@ -25,8 +25,6 @@ module.exports = Backbone.View.extend
     @views = {}
     @currentView = null
 
-    @on "close", @close
-
 
   continue: ->
     @getModel =>
@@ -35,7 +33,7 @@ module.exports = Backbone.View.extend
       @listenTo @model, 'post:error', @displayError
 
       console.log @name, 'rendering', @el
-      @navigate "#page-details"
+      @navigate "#page-begin"
 
 
   checkRedirect: -> not @isGuest and @resources.currentUser.isAnonymous()

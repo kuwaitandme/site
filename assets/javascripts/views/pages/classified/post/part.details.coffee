@@ -94,7 +94,6 @@ module.exports = Backbone.View.extend
       @$childCategory.append html
 
     addChildCategory child for child in children
-    window.a = children
 
 
   setPrice: (value) ->
@@ -117,7 +116,7 @@ module.exports = Backbone.View.extend
     for category in @categories
       html = @generateOption category._id, category.name
       @$parentCategory.append html
-    @$parentCategory.val 0
+    @$parentCategory.val ''
 
 
   # Initializes the locations
@@ -154,7 +153,7 @@ module.exports = Backbone.View.extend
 
   setDOM: ->
     model = @model.toJSON()
-    console.log model
+    if not model._id then return #temporary hack
 
     @$address1.val         model.contact.address1
     @$address2.val         model.contact.address2
@@ -169,4 +168,4 @@ module.exports = Backbone.View.extend
     @parentCategoryChange()
     @$childCategory.val    model.childCategory or ""
 
-    @locationChange()
+    @loc1ationChange()
