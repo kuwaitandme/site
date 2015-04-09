@@ -21,11 +21,6 @@ module.exports = Backbone.View.extend
   start: (@options) ->
     console.debug @name, 'initializing', @options
 
-    # Check if we are posting as a guest or not
-    href = window.location.href
-    urlParts = href.split '/'
-    if urlParts[3] == 'guest' then @isGuest = true
-
     # Initialize local variables
     @views = {}
     @currentView = null
@@ -34,14 +29,13 @@ module.exports = Backbone.View.extend
 
 
   continue: ->
-    @getModel()
+    @getModel =>
+      # Setup listeners and event handlers
+      @listenTo @model, 'ajax:done', @onAjaxSuccess
+      @listenTo @model, 'post:error', @displayError
 
-    # Setup listeners and event handlers
-    @listenTo @model, 'ajax:done', @onAjaxSuccess
-    @listenTo @model, 'post:error', @displayError
-
-    console.log @name, 'rendering', @el
-    @navigate "#page-begin"
+      console.log @name, 'rendering', @el
+      @navigate "#page-images"
 
 
   checkRedirect: -> not @isGuest and @resources.currentUser.isAnonymous()
@@ -51,7 +45,9 @@ module.exports = Backbone.View.extend
   pause: -> (@$ '#g-recaptcha-response').remove()
 
 
-  getModel: -> if not @model? then @model = new @resources.Models.classified
+  getModel: (callback) ->
+    if not @model? then @model = new @resources.Models.classified
+    callback()
 
 
   # On successful AJAX request to the server navigate to the finish page.
@@ -77,22 +73,18 @@ module.exports = Backbone.View.extend
   navigate: (href) ->
     console.log @name, 'navigating to', href
 
-    options =
-      el: @$ href
-      model: @model
-      resources: @resources
-
     # If the view wasn't initialized already, initialize it
     if not @views[href]
-      console.debug @name, 'initializing sub-view:', href
+      console.log @name, 'initializing sub-view:', href
       subView = subViews[href]
-      @views[href] = new subView options
-      view = @views[href]
-    else
-      console.debug @name, 'reusing sub-view:', href
-      view = @views[href]
+      view = new subView el: @$ href
+      view.templateOptions =  @templateOptions
+      view.model =  @model
+      view.trigger 'start'
+      @views[href] = view
+    else console.log @name, 'reusing sub-view:', href
 
-    console.debug @name, 'going to sub-view:', view
+    console.log @name, 'going to sub-view:', @views[href]
 
     # Remove all error messages
     ($ 'ul.error-message li').remove()
@@ -102,21 +94,21 @@ module.exports = Backbone.View.extend
     if @currentView
 
       # If the view's validation function failed, stay in the same view
-      if @currentView.validate? and !@currentView.validate()
-        return #@navigate(@currentFragment, trigger: false)
+      if @currentView.validate? and not @currentView.validate() then return
 
       # Animate, render and switch the DOM elements
       $el = @currentView.$el
-      console.debug @name, 'animating previous view', view
+      console.debug @name, 'animating previous view', @views[href]
       $el.transition { opacity: 0 }, =>
         $el.hide()
-        @currentView = view
-        @currentView.render()
+        @currentView = @views[href]
+        @currentView.trigger 'continue'
         @currentView.$el.show().transition opacity: 1
+
     else
       # This is the first view, so set the view variable
-      @currentView = view
-      @currentView.render()
+      @currentView = @views[href]
+      @currentView.trigger 'continue'
       @currentView.$el.show().transition opacity: 1
 
 
@@ -125,12 +117,8 @@ module.exports = Backbone.View.extend
   finish: ->
     # Signal every child view that it's time to close
     for view of @views
-      @views[view].trigger "close"
+      @views[view].trigger "finish"
       @views[view] = null
 
     @currentView = null
     @views = null
-
-    @undelegateEvents()
-    @remove()
-    @unbind()

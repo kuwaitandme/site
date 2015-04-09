@@ -1,0 +1,15 @@
+.row
+  h2 Help people navigate to you!
+.row.hint
+  | Most people have a hard time finding their way to you. Show them exactly where you want to meet by&nbsp;
+  b dragging and dropping the pointer below&nbsp;
+  | to the location of your meeting point.
+#map-canvas
+input#gmapX(name="gmapX", type="hidden")
+input#gmapY(name="gmapY", type="hidden")
+
+ul.error-message
+.post-nav
+  a(href="#page-images", data-page-nav) Previous
+  | &nbsp; &middot; &nbsp;
+  a(href="#page-submit", data-page-nav) Next

@@ -1,0 +1,26 @@
+.row
+  h2 Give the content for your classified
+.row
+  p
+    | Here you give the title and the content for your classified. Describe your classified
+    | giving as much detail as you can!
+  p You can mention other details like the price, location, contact info in the next page.
+
+.row#title
+  .medium-3.columns
+    label(for="right-label") Title *
+  .medium-9.columns.error
+    input(type="text", name="title", placeholder="The title for your classified goes here", tooltipp="Choose a title for your classified. The best titles are clear, meaningful and short", required)
+    small.error
+
+.row#description
+  .medium-3.columns
+    label(for="right-label") Description *
+  .medium-9.columns.error
+    textarea(name='description', placeholder="Your description will go here", required)
+    small.error
+
+.row.post-nav
+  a(href="#page-begin", data-page-nav) Previous
+  | &nbsp; &middot; &nbsp;
+  a(href="#page-details", data-page-nav) Next

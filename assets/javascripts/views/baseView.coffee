@@ -22,7 +22,9 @@ module.exports =
   ###
   initialize: (options={}) ->
     @historyIndex = options.historyIndex
-    @resources = options.resources
+    @resources = App.Resources
+
+    if options.templateOptions? then @templateOptions = options.templateOptions
 
     ###
     These are events that get called by the ViewManager module. You
@@ -45,6 +47,8 @@ module.exports =
     @on 'finish', =>
       @finish()
       @remove()
+      @unbind()
+      @stopListening()
 
 
   ###

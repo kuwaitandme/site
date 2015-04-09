@@ -1,19 +1,15 @@
 module.exports = Backbone.View.extend
   name: '[view:classified-post:maps]'
+  template: template['classified/post/maps']
 
-  initialize: (options) ->
-    if options.model     then     @model = options.model
-    if options.$el       then       @$el = options.$el
-    if options.resources then @resources = options.resources
-
+  start: (options) ->
     @$gmap  = @$ '#map-canvas'
     @$gmapX = @$ '#gmapX'
     @$gmapY = @$ '#gmapY'
 
-    @on "close", @close
     @setDOM()
 
-  render: ->
+  continue: ->
     init = => @initializeGoogleMaps()
 
     # Delete the map if any
@@ -73,9 +69,3 @@ module.exports = Backbone.View.extend
       # # co-ordinates
       # self.$gmapX.val latLng.lat()
       # self.$gmapY.val latLng.lng()
-
-
-  close: ->
-    @remove()
-    @unbind()
-    @stopListening()

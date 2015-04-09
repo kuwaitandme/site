@@ -1,13 +1,9 @@
 module.exports = Backbone.View.extend
   events: 'click .submit': 'submit'
   name: '[view:classified-post:submit]'
+  template: template['classified/post/submit']
 
-
-  initialize: (options) ->
-    if options.model     then     @model = options.model
-    if options.$el       then       @$el = options.$el
-    if options.resources then @resources = options.resources
-
+  start: (options) ->
     @$submit  = @$ '.submit'
     @$spinner = @$ "#ajax-spinner"
 
@@ -22,6 +18,7 @@ module.exports = Backbone.View.extend
 
     @renderCaptcha()
 
+
   # Checks all the required fields in that particular page and prevents the
   # page from scrolling if any of the fields are empty.
   validate: ->
@@ -33,6 +30,7 @@ module.exports = Backbone.View.extend
         @model.trigger 'post:error', 'Please fill in the captcha properly'
         return false
     true
+
 
   # Sends the AJAX request to the back-end
   submit: (event) ->
@@ -48,7 +46,6 @@ module.exports = Backbone.View.extend
     @$spinner.show()
     # @model.save()
     @model.uploadServer()
-
 
 
   renderCaptcha: ->
@@ -78,8 +75,3 @@ module.exports = Backbone.View.extend
     @resetCaptcha()
 
     @model.trigger 'post:error', event.statusText
-
-  close: ->
-    @remove()
-    @unbind()
-    @stopListening()

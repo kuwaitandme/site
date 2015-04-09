@@ -1,23 +1,14 @@
 module.exports = Backbone.View.extend
   name: '[view:classified-post:images]'
+  template: template['classified/post/images']
   events: 'click .dz-preview .delete div': 'removeFile'
 
-  initialize: (options) ->
-    if options.model     then     @model = options.model
-    if options.$el       then       @$el = options.$el
-    if options.resources then @resources = options.resources
-
+  start: (options) ->
     @$filePreview = @$ '#image-upload-preview'
     @filesToDelete = []
 
-    @on "close", @close
-
     @initDropzone()
-
     @setDOM()
-
-
-  render: ->
 
 
   validate: ->
@@ -34,8 +25,7 @@ module.exports = Backbone.View.extend
     index = $li.index()
 
     if $li.data 'uploaded'
-      # Set this in our queue of files that have to removed from the
-      # server
+      # Set this in our queue of files that have to removed from the server
       @filesToDelete.push src
     else
       # Remove it from the file Queue
@@ -72,7 +62,7 @@ module.exports = Backbone.View.extend
 
   addImage: (img) ->
     html = "<li class='dz-preview dz-image-preview' data-uploaded='true'>
-      <img data-dz-thumbnail='' alt='#{img}' src='/uploads/thumb/#{img}'>
+      <img data-dz-thumbnail='' alt='#{img}' height='100' src='/uploads/thumb/#{img}'>
       <div class='font-awesome delete'><div>&#xf00d;</div></div>
     </li>"
     @$filePreview.append html
@@ -93,9 +83,3 @@ module.exports = Backbone.View.extend
   setDOM: ->
     images = @model.get 'images'
     for image in images then @addImage image
-
-
-  close: ->
-    @remove()
-    @unbind()
-    @stopListening()

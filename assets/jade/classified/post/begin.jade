@@ -1,0 +1,39 @@
+.row
+  | <% if(obj.hasClassified) { %>
+  h2 You are about to edit a classified
+  | <% } else { %>
+  h2 You are about to post a classified!
+  | <% }  %>
+
+.row
+  p
+    | Use the 'next' and 'previous' buttons below to navigate
+    | between the forms. Fields marked with a '*' are compulsary
+    | and must be filled.
+
+  | <% if(obj.isGuest) { %>
+  |   <% if(obj.hasClassified) { %>
+  p
+    | Since you are editing this classified as a guest, we will have to
+    | review your changes before the classified goes live again
+  |   <% } else { %>
+  p
+    | We are letting you post a classified as a guest. So we have to
+    | review your post before it gets published which can take upto
+    | 24 hours.
+  |   <% }  %>
+  p
+    | You can avoid this delay, if you simply <a href="/auth/signup" data-view>
+    | signup</a> with us!
+  | <% } else { %>
+  |   <% if(obj.hasClassified) { %>
+  p
+    | All changes to this classified will be effective immediately.
+  |   <% } else { %>
+  p
+    | This classified will be published immediately and can be archived
+    | by accessing your account page.
+  |   <% } %>
+  | <% } %>
+.row.post-nav
+  a(href="#page-info", data-page-nav) Next

@@ -1,29 +1,48 @@
 module.exports = Backbone.View.extend
   name: '[view:classified-post:info]'
+  template: template['classified/post/info']
 
-  initialize: (options) ->
-    if options.model     then     @model = options.model
-    if options.$el       then       @$el = options.$el
-    if options.resources then @resources = options.resources
+  start: (options) ->
+    @$description = @$ '#description textarea'
+    @$title       = @$ '#title input'
+    @$errorTitle  = @$ '#title small.error'
+    @$errorDesc   = @$ '#description small.error'
 
-    @$description = @$ '#description'
-    @$title       = @$ '#title'
-
-    @on "close", @close
-    @setDOM()
+    @populateDOM()
 
 
   validate: ->
     ret = true
-    $els = @$ '[required]'
-    $els.removeClass 'error'
+    $els = (@$ '.show-error').removeClass 'show-error'
 
-    if not @$title.val()
+    title = @$title.val()
+    description = @$description.val()
+
+    console.log title, description
+    if not title
       @$title.parent().addClass 'show-error'
+      @$errorTitle.html 'Please give a title (min 10 char)'
+      ret = false
+    else if title.trim().length < 10
+      @$title.parent().addClass 'show-error'
+      @$errorTitle.html 'Title is too short (min 10 char)'
+      ret = false
+    else if  title.trim().length > 120
+      @$title.parent().addClass 'show-error'
+      @$errorTitle.html 'Title is too long (max 120 char)'
       ret = false
 
-    if not @$description.val()
+    if not description
       @$description.parent().addClass 'show-error'
+      @$errorDesc.html 'Please give a description (min 20 char)'
+      ret = false
+    else if description.trim().length < 20
+      @$description.parent().addClass 'show-error'
+      @$errorDesc.html 'Description is too short (min 20 char)'
+      ret = false
+    else if description.trim().length > 500
+      @$description.parent().addClass 'show-error'
+      @$errorDesc.html 'Description is too long (max 500 char)'
       ret = false
 
     if ret then @setModel()
@@ -36,12 +55,6 @@ module.exports = Backbone.View.extend
       title:       @$title.val()
 
 
-  setDOM: ->
+  populateDOM: ->
     @$description.val @model.get 'description'
     @$title.val       @model.get 'title'
-
-
-  close: ->
-    @remove()
-    @unbind()
-    @stopListening()

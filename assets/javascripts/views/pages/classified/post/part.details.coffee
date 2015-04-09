@@ -1,17 +1,14 @@
 module.exports = Backbone.View.extend
   name: '[view:classified-post:details]'
+  template: template['classified/post/details']
+
   events:
     'change #cat-selector'   : 'parentCategoryChange'
     'change #locations'      : 'locationChange'
     'change #price-selector' : 'priceChange'
 
 
-  initialize: (options) ->
-    if options.model     then     @model = options.model
-    if options.$el       then       @$el = options.$el
-    if options.resources then @resources = options.resources
-
-
+  start: (options) ->
     @$address1        = @$ '#address1'
     @$address2        = @$ '#address2'
     @$parentCategory  = @$ '#cat-selector'
@@ -27,11 +24,9 @@ module.exports = Backbone.View.extend
     @categories = @resources.categories.toJSON()
     @locations  = @resources.locations.toJSON()
 
-    @on "close", @close
-
     @initCategories()
     @initLocations()
-    @setDOM()
+
 
 
   locationChange: (event) ->
@@ -159,7 +154,7 @@ module.exports = Backbone.View.extend
 
     @$address1.val         contact.address1
     @$address2.val         contact.address2
-    @$parentCategory.val  (@model.get 'parentCategory') or ""
+    @$parentCategory.val  (@model.get 'category') or ""
     @$childCategory.val   (@model.get 'childCategory') or ""
     @$email.val            contact.email
     @$locations.val       (@model.get 'location') or ""
@@ -168,9 +163,3 @@ module.exports = Backbone.View.extend
     @setPrice              @model.get 'price'
 
     @locationChange()
-
-
-  close: ->
-    @remove()
-    @unbind()
-    @stopListening()
