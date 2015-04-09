@@ -2,10 +2,6 @@ validator = require 'validator'
 
 controller = module.exports =
   get: (request, response, next) ->
-    # Check if the user is loggedin or not
-    if not request.isAuthenticated()
-      return response.redirect '/auth/login?error=need_login'
-
     # Get and validate the id
     id = request.params.id
     if not validator.isMongoId id then return next()
@@ -15,8 +11,10 @@ controller = module.exports =
     classified.get id, (error, classified) ->
       if error then return next error
 
+      console.log classified.authHash, request.query.authHash
       # Display 404 page if classified is not found
       if not classified then return next()
+      if classified.authHash != request.query.authHash then return next()
 
       render = global.helpers.render
       render request, response,
