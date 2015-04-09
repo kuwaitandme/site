@@ -122,6 +122,62 @@ classifieds = module.exports =
     # Commit to the database and call the callback function
     classified.save (error) -> callback error, classified
 
+  _validate: (classified) ->
+    isEmpty = (string) -> not string? or string.length == 0
+
+    # Validate each field one by one
+    if isEmpty classified then return "empty fields"
+    if isEmpty classified.description then return "empty description"
+    if isEmpty classified.title then return "empty title"
+    if (isEmpty classified.type) or
+    not validator.isInt classified.type
+      return "bad/empty type"
+    if (isEmpty classified.category) or
+    not validator.isMongoId classified.category
+      return "bad/empty category"
+    if (isEmpty classified.price) or
+    not validator.isFloat classified.price
+      return "bad/empty price"
+    if not (isEmpty classified.location) and
+    not validator.isMongoId classified.location
+      return "bad/empty location"
+    if not (isEmpty classified.childCategory) and
+    not validator.isMongoId classified.childCategory
+      return "bad/empty child category"
+    if not (isEmpty classified.babyCategory) and
+    not validator.isMongoId classified.babyCategory
+      return "bad/empty baby category"
+    true
+
+  update: (data, user, callback) ->
+    isValid = @_validate data
+    if isValid is not true then return callback isValid
+
+    classifieds.model.findOne _id: data._id, (error, classified) =>
+      if error then callback error
+      if not classified then callback "not found"
+
+      # Start saving the fields one by one
+      classified.babyCategory     = data.babyCategory
+      classified.category         = data.category
+      classified.childCategory    = data.childCategory
+      classified.contact          = data.contact
+      classified.description      = data.description
+      classified.images           = data.images
+      classified.location         = data.location
+      classified.meta             = data.meta
+      classified.price            = data.price
+      classified.saleby           = data.saleby
+      classified.title            = data.title
+      classified.type             = data.type
+
+      if classified.guest then classified.status = @status.INACTIVE
+      else classified.status = @status.ACTIVE
+
+      # Commit to the database and call the callback function
+      classified.save (error) -> callback error, classified
+
+
 
   # Gets a single classified, given it's id. Returns an error if the id is
   # invalid or empty.

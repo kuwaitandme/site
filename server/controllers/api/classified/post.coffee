@@ -46,6 +46,13 @@ module.exports = (request, response, next) ->
             response.status 400
             return response.end JSON.stringify error
 
+          # # Send classified-online email
+          # toAddress = (classified.contact or {}).email || (request.user or {}).email
+          # Email = global.controllers.helpers.email
+          # Email.sendTemplate toAddress, 'classified-online',
+          #   subject: "Your classified is now online!"
+          #   classified: classified
+
           # If a classified was saved, then return it to the client.
           # The returned classified will contain the id parameter which
           # gets set by the database

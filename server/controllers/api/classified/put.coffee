@@ -1,73 +1,74 @@
+formidable = require 'formidable'
+
 module.exports = (request, response, next) ->
+  Classified = global.models.classified
+  File = global.helpers.file
   response.contentType 'application/json'
-  id = request.params.id
 
-  if !/^[0-9A-F]*$/i.test(id) then return next()
+  captchaFail = ->
+    response.status 401
+    response.end '"captcha failed"'
 
-  # classified = global.models.classified
+  captchaSuccess = ->
+    # Initialize formidable
+    form = new formidable.IncomingForm
+    form.keepExtensions = true
+    form.multiples = true
+    form.maxFieldsSize = 10 * 1024 * 1024 # 2MB
 
-  #   classified.get id, (classified) ->
+    # Setup error handler. This function gets called whenever there is an
+    # error while processing the form.
+    form.on 'error', (error) ->
+      response.status 400
+      response.end JSON.stringify error
 
-  #     # Display 404 page if classified is not found
-  #     if !classified then return next()
+    # Start parsing the form
+    form.parse request, (error, fields, filesRequest) ->
+      if error then return next error
 
-  #     render = global.helpers.render
-  #     render request, response,
-  #       bodyid: 'classified-finish'
-  #       page: 'classified/finish'
-  #       title: response.__('title.guest.finish')
+      data = JSON.parse fields.data
 
-  #       data:
-  #         classified: classified
-  #         _2checkout:
-  #           sid: config._2checkout.sid
-  #           publicKey: config._2checkout.publicKey
-  #         sitekey: config.reCaptcha.site
+      console.log data
+      files = filesRequest['files[]']
+      filesToDelete = data.filesToDelete
+      images = data.images
+      console.log typeof images, images
+      File.delete data.filesToDelete or []
+      images.splice (images.indexOf file), 1 for file in filesToDelete
+      data.images = images
 
+      # console.log data
 
-  # post: (request, response, next) ->
-  #   id = request.params.id
-  #   POSTdata = request.body
+      File.upload files, (error, files) ->
 
-  #   if not request.body or request.body.length == 0 then return next()
-  #   if not request.body.token then return next()
-  #   if not /^[0-9A-F]*$/i.test(id) then return next()
+        if error
+          response.status 400
+          return response.end JSON.stringify error
 
-  #   perks = request.body['perks[]']
-  #   price = 0
-  #   perks[0] = true
-  #   perks[1] = false
-  #   if perks[0] then price += 15
-  #   if perks[1] then price += 45
+        console.log typeof data.images
+        images = data.images or []
+        images.push file for file in files
+        data.images = images
 
-  #   POSTdata =
-  #     sellerId: config._2checkout.sid
-  #     privateKey: config._2checkout.privateKey
-  #     token: request.body.token
-  #     currency: 'USD'
-  #     total: price
-  #     billingAddr:
-  #       addrLine1: request.body['billingAddr[addrLine1]']
-  #       addrLine2: request.body['billingAddr[addrLine2]']
-  #       city: request.body['billingAddr[city]']
-  #       country: request.body['billingAddr[country]']
-  #       email: request.body['billingAddr[email]']
-  #       name: request.body['billingAddr[name]']
-  #       phoneNumber: request.body['billingAddr[phoneNumber]']
-  #       state: request.body['billingAddr[state]']
-  #       zipCode: request.body['billingAddr[zipCode]']
+        Classified.update data, request.user, (error, classified) ->
+          # If error was set, then nothing was updated.
+          # Send a 400 Bad Request to the client
+          if error
+            File.delete files
+            response.status 400
+            return response.end JSON.stringify error
 
-  #   twocheckout = global.helpers.twocheckout
-  #   twocheckout.processTransaction id, POSTdata, (err, data, transaction) ->
-  #     if err then return response.end(
-  #       JSON.stringify
-  #         data: data
-  #         error: err
-  #         transaction: transaction)
+          # # Send classified-online email
+          # toAddress = (classified.contact or {}).email || (request.user or {}).email
+          # Email = global.controllers.helpers.email
+          # Email.sendTemplate toAddress, 'classified-online',
+          #   subject: "Your classified is now online!"
+          #   classified: classified
 
-  #     # Success! Add perks to the classified
-  #     if perks and perks[0] then classified.makeUrgent _id
+          # If a classified was updated, then return it to the client.
+          # The returned classified will contain the id parameter which
+          # gets set by the database
+          if classified then return response.end JSON.stringify classified
 
-  #     response.end JSON.stringify
-  #       status: 'success'
-  #       transaction: transaction
+  reCaptcha = global.helpers.reCaptcha
+  reCaptcha.verify request, captchaSuccess, captchaFail
