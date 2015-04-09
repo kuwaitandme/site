@@ -1,6 +1,7 @@
 module.exports = Backbone.View.extend
   name: '[view:classified-post:images]'
   template: template['classified/post/images']
+
   events: 'click .dz-preview .delete div': 'removeFile'
 
   start: (options) ->

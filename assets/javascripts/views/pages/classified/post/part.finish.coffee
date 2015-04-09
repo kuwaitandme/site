@@ -1,5 +1,6 @@
 module.exports = Backbone.View.extend
   name: '[view:classified-post:finish]'
+  template: template['classified/post/finish']
 
   # events:
     # 'click .enabled .active': 'managePayment'
@@ -58,7 +59,7 @@ module.exports = Backbone.View.extend
     @$gplus      .attr 'href', gplus
 
 
-  parseURL: ->
+  # parseURL: ->
     # getParam = @resources.helpers.url.getParam
     # if getParam 'error'   then app.error @messages[getParam 'error']
     # if getParam 'success' then app.success @messages[getParam 'success']

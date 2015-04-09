@@ -35,7 +35,7 @@ module.exports = Backbone.View.extend
       @listenTo @model, 'post:error', @displayError
 
       console.log @name, 'rendering', @el
-      @navigate "#page-images"
+      @navigate "#page-details"
 
 
   checkRedirect: -> not @isGuest and @resources.currentUser.isAnonymous()

@@ -28,24 +28,19 @@ module.exports = (request, response, next) ->
 
       data = JSON.parse fields.data
 
-      console.log data
       files = filesRequest['files[]']
-      filesToDelete = data.filesToDelete
+      filesToDelete = data.filesToDelete or []
       images = data.images
-      console.log typeof images, images
-      File.delete data.filesToDelete or []
+      File.delete data.filesToDelete
       images.splice (images.indexOf file), 1 for file in filesToDelete
       data.images = images
 
-      # console.log data
-
-      File.upload files, (error, files) ->
+      File.upload files, (error, files=[]) ->
 
         if error
           response.status 400
           return response.end JSON.stringify error
 
-        console.log typeof data.images
         images = data.images or []
         images.push file for file in files
         data.images = images

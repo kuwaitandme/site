@@ -27,7 +27,7 @@ module.exports = Backbone.View.extend
     @initCategories()
     @initLocations()
 
-
+  continue: -> @setDOM()
 
   locationChange: (event) ->
     if @$locations.val()? and @$locations.val() != ""
@@ -101,7 +101,10 @@ module.exports = Backbone.View.extend
     if not value? then @$priceSelector.val ''
     else if value is 0 then @$priceSelector.val 0
     else if value is -1 then @$priceSelector.val -1
-    else @$priceSelector.val 1
+    else
+      @$priceSelector.val 1
+      @priceChange()
+      @$priceField.val value
 
 
   # Generates the HTML code for a select option.
@@ -150,16 +153,20 @@ module.exports = Backbone.View.extend
 
 
   setDOM: ->
-    contact = @model.get 'contact'
+    model = @model.toJSON()
+    console.log model
 
-    @$address1.val         contact.address1
-    @$address2.val         contact.address2
-    @$parentCategory.val  (@model.get 'category') or ""
-    @$childCategory.val   (@model.get 'childCategory') or ""
-    @$email.val            contact.email
-    @$locations.val       (@model.get 'location') or ""
-    @$phone.val            contact.phone
-    @$type.val             @model.get 'type'
-    @setPrice              @model.get 'price'
+    @$address1.val         model.contact.address1
+    @$address2.val         model.contact.address2
+    @$email.val            model.contact.email
+    @$locations.val        model.location or ""
+    @$phone.val            model.contact.phone
+    @$type.val             model.type
+
+    @setPrice              model.price
+
+    @$parentCategory.val   model.category or ""
+    @parentCategoryChange()
+    @$childCategory.val    model.childCategory or ""
 
     @locationChange()

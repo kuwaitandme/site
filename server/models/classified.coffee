@@ -52,30 +52,8 @@ classifieds = module.exports =
   # that are to be added to the classified are already uploaded and are
   # set in the 'images' field.
   create: (data, user, callback) ->
-    isEmpty = (string) -> not string? or string.length == 0
-
-    # Validate each field one by one
-    if isEmpty data then return callback "empty fields"
-    if isEmpty data.description then return callback "empty description"
-    if isEmpty data.title then return callback "empty title"
-    if (isEmpty data.type) or
-    not validator.isInt data.type
-      return callback "bad/empty type"
-    if (isEmpty data.category) or
-    not validator.isMongoId data.category
-      return callback "bad/empty category"
-    if (isEmpty data.price) or
-    not validator.isFloat data.price
-      return callback "bad/empty price"
-    if not (isEmpty data.location) and
-    not validator.isMongoId data.location
-      return callback "bad/empty location"
-    if not (isEmpty data.childCategory) and
-    not validator.isMongoId data.childCategory
-      return callback "bad/empty child category"
-    if not (isEmpty data.babyCategory) and
-    not validator.isMongoId data.babyCategory
-      return callback "bad/empty baby category"
+    isValid = @_validate data
+    if isValid is not true then return callback isValid
 
     classified = new @model
 
@@ -90,11 +68,11 @@ classifieds = module.exports =
     classified.title            = data.title
     classified.type             = data.type
 
-    if not isEmpty data.location
+    if not @_isEmpty data.location
       classified.location = data.location
-    if not isEmpty data.childCategory
+    if not @_isEmpty data.childCategory
       classified.childCategory = data.childCategory
-    if not isEmpty data.babyCategory
+    if not @_isEmpty data.babyCategory
       classified.babyCategory = data.babyCategory
 
     # Set up some defaults
@@ -122,33 +100,6 @@ classifieds = module.exports =
     # Commit to the database and call the callback function
     classified.save (error) -> callback error, classified
 
-  _validate: (classified) ->
-    isEmpty = (string) -> not string? or string.length == 0
-
-    # Validate each field one by one
-    if isEmpty classified then return "empty fields"
-    if isEmpty classified.description then return "empty description"
-    if isEmpty classified.title then return "empty title"
-    if (isEmpty classified.type) or
-    not validator.isInt classified.type
-      return "bad/empty type"
-    if (isEmpty classified.category) or
-    not validator.isMongoId classified.category
-      return "bad/empty category"
-    if (isEmpty classified.price) or
-    not validator.isFloat classified.price
-      return "bad/empty price"
-    if not (isEmpty classified.location) and
-    not validator.isMongoId classified.location
-      return "bad/empty location"
-    if not (isEmpty classified.childCategory) and
-    not validator.isMongoId classified.childCategory
-      return "bad/empty child category"
-    if not (isEmpty classified.babyCategory) and
-    not validator.isMongoId classified.babyCategory
-      return "bad/empty baby category"
-    true
-
   update: (data, user, callback) ->
     isValid = @_validate data
     if isValid is not true then return callback isValid
@@ -158,18 +109,21 @@ classifieds = module.exports =
       if not classified then callback "not found"
 
       # Start saving the fields one by one
-      classified.babyCategory     = data.babyCategory
+      # classified.babyCategory     = data.babyCategory
       classified.category         = data.category
-      classified.childCategory    = data.childCategory
       classified.contact          = data.contact
       classified.description      = data.description
       classified.images           = data.images
-      classified.location         = data.location
       classified.meta             = data.meta
       classified.price            = data.price
       classified.saleby           = data.saleby
       classified.title            = data.title
       classified.type             = data.type
+
+      if not @_isEmpty data.childCategory
+        classified.childCategory = data.childCategory
+      if not @_isEmpty data.location
+        classified.location = data.location
 
       if classified.guest then classified.status = @status.INACTIVE
       else classified.status = @status.ACTIVE
@@ -178,6 +132,33 @@ classifieds = module.exports =
       classified.save (error) -> callback error, classified
 
 
+  _isEmpty: (string) -> not string? or string.length == 0
+
+
+  # Validate each field one by one
+  _validate: (classified) ->
+    if @_isEmpty classified then return "empty fields"
+    if @_isEmpty classified.description then return "empty description"
+    if @_isEmpty classified.title then return "empty title"
+    if (@_isEmpty classified.type) or
+    not validator.isInt classified.type
+      return "bad/empty type"
+    if (@_isEmpty classified.category) or
+    not validator.isMongoId classified.category
+      return "bad/empty category"
+    if (@_isEmpty classified.price) or
+    not validator.isFloat classified.price
+      return "bad/empty price"
+    if not (@_isEmpty classified.location) and
+    not validator.isMongoId classified.location
+      return "bad/empty location"
+    if not (@_isEmpty classified.childCategory) and
+    not validator.isMongoId classified.childCategory
+      return "bad/empty child category"
+    if not (@_isEmpty classified.babyCategory) and
+    not validator.isMongoId classified.babyCategory
+      return "bad/empty baby category"
+    true
 
   # Gets a single classified, given it's id. Returns an error if the id is
   # invalid or empty.
