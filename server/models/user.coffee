@@ -1,5 +1,5 @@
-bCrypt   = require 'bcrypt-nodejs'
-mongoose = require 'mongoose'
+bCrypt    = require 'bcrypt-nodejs'
+mongoose  = require 'mongoose'
 validator = require 'validator'
 
 users = module.exports =
@@ -156,7 +156,7 @@ users = module.exports =
 
           # If there is no user with that email, create the user
           newUser = new users.model
-          newUser.loginStrategies = users.loginStrategies.EMAIL
+          newUser.loginStrategy = users.loginStrategies.EMAIL
           newUser.created = Date.now()
 
           # set the user's local credentials
