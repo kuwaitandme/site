@@ -1,4 +1,3 @@
 |Kuwait &amp; Me password reset link
-| 
 |Use the link below to reset your password
 |#{host}/auth/reset/#{user._id}/?token=#{user.resetToken}

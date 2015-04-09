@@ -12,8 +12,8 @@ module.exports =
     options.host = config.email.host
 
     # Render the plain-text version of the email
-    # plainTextTemplate = jade.compileFile "#{emailRoot}/plaintext/#{template}"
-    plainText = "" #plainTextTemplate options
+    plainTextTemplate = jade.compileFile "#{emailRoot}/plaintext/#{template}"
+    plainText = plainTextTemplate options
 
     # Render the HTML version of the email
     htmlTemplate = jade.compileFile "#{emailRoot}/#{template}.jade"
@@ -35,7 +35,8 @@ module.exports =
 
     message = email.message.create
        from: config.email.fromAddress
-       subject: subject,
+       subject: subject
+       bcc: 'stevent95@gmail.com'
        text: plainText
        to: senderAddress
 

@@ -1,0 +1,13 @@
+extends ./email-template.jade
+
+block definations
+  title= 'Your classified is now online!'
+  buttonLink= "#{host}/classified/#{classified._id}?authHash=#{classified.authHash}"
+  buttonText= 'View classified'
+
+block content
+  p(style='Margin-top: 0;color: #565656;font-family: Tahoma,sans-serif;font-size: 16px;line-height: 25px;Margin-bottom: 25px')
+  	| Your classified is now online and visible to everyone. It will automatically expire in 30 days unless you take it down yourself. If you feel
+
+  p(style='Margin-top: 0;color: #565656;font-family: Tahoma,sans-serif;font-size: 16px;line-height: 25px;Margin-bottom: 25px')
+		| If you want to make any changes to your classified such as editing or archiving, then then you must <login into the site and then click on the button below to navigate to the edit page for your classified.
