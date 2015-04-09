@@ -1,9 +1,9 @@
 module.exports = ->
   User = global.models.user
 
-  # Remove Users inactive for 7 days
+  # Remove Users inactive for the past 3 days
   date = new Date()
-  date.setDate date.getDate() - 7
+  date.setDate date.getDate() - 3
   query =
     $and: [
       { status: User.status.INACTIVE }
