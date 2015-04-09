@@ -131,6 +131,10 @@ module.exports = Backbone.View.extend
           @model.set reports: reports
           finish()
 
+      when 'edit'
+        url = "/classified/#{@model.id}/edit"
+        @resources.router.redirect url
+
 
   showPromptModal: (actionText, callback) ->
     @$promptModal.foundation 'reveal', 'open'
