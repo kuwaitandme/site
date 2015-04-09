@@ -3,7 +3,6 @@ twitterStrategy = (require 'passport-twitter').Strategy
 module.exports = (passport) ->
   callback = (token, tokenSecret, profile, done) ->
     User = global.models.user
-    console.log profile
     User.auth.twitter.findOrCreate profile, done
 
   options =

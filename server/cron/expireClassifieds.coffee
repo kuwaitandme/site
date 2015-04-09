@@ -1,9 +1,9 @@
 module.exports = ->
-  date = new Date()
-  date.setDate date.getDate() - 7
+  expiredate = new Date()
+  expiredate.setDate expiredate.getDate() - 30
 
   Classified = global.models.classified
-  Classified.model.find {'created': {'$lt': date }}, (error, classifieds) ->
+  Classified.model.find { created: $lt: expiredate }, (error, classifieds) ->
 
     # For every classified that has to expire
     for classified in classifieds
@@ -12,4 +12,4 @@ module.exports = ->
       Classified.status.expire classified._id, (error, results) ->
         if error then console.log error
 
-        # send expired email
+        # TODO: send expired email

@@ -9,11 +9,11 @@ module.exports = (cron) ->
     if global.config.mode is 'production'
       emailReport()
     deleteBadUsers()
+    expireClassifieds()
 
   cronHourly = ->
     clearCache()
     # depromoteClassifieds()
-    expireClassifieds()
 
   # setup the cron tasks
   new cron '0 0 21 * * *', cronDaily,  null, true, 'Asia/Kuwait'
