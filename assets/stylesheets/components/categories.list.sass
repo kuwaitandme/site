@@ -1,21 +1,40 @@
 ul.categories-list
+
   li
     // max-width: 250px
+    // margin: 10px
     padding: 10px
 
     .container
       border: 1px solid #ddd
+      // overflow: hidden
 
-      -webkit-border-radius: 3px;
-      -moz-border-radius: 3px;
-      border-radius: 3px;
+      // -webkit-border-radius: 3px;
+      // -moz-border-radius: 3px;
+      // border-radius: 3px;
+
+
     .title
       @extend .font-title
       color: #FFF
       font-size: 12px
-      padding: 15px 0
+      padding: 15px 5px
       text-align: center
+      cursor: pointer
 
+    .total-count
+      font-size: 12px
+      text-align: center
+      padding: 5px
+
+    .children
+      // display: none
+      height: 0
+      +single-transition(height)
+      overflow: hidden
+    .active
+      .total-count
+        display: none
     .child
       border-bottom: 1px solid #EEE
       font-size: 12px
@@ -36,13 +55,16 @@ ul.categories-list
       &:nth-child(odd)
         background: #f6f6f6
 
-    &:nth-child(5n)   .title
-      background: #2ecc71
-    &:nth-child(5n+1) .title
-      background: #3498db
-    &:nth-child(5n+2) .title
-      background: #e74c3c
-    &:nth-child(5n+3) .title
-      background: #16a085
-    &:nth-child(5n+4) .title
-      background: #34495e
+    &:nth-child(6n)   .title
+      background: #DC4632
+    &:nth-child(6n+1) .title
+      background: #106DE5
+    &:nth-child(6n+2) .title
+      background: #DC4632
+    &:nth-child(6n+3) .title
+      background: #FFBA0D
+    &:nth-child(6n+4) .title
+      background: #106DE5
+    &:nth-child(6n+5) .title
+      background: #008F4A
+
