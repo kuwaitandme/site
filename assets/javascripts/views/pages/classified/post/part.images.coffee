@@ -12,11 +12,6 @@ module.exports = Backbone.View.extend
     @setDOM()
 
 
-  validate: ->
-    @setModel()
-    true
-
-
   # Handler function to remove the file from the Uploads queue
   removeFile: (event) ->
     # Find the index of the file

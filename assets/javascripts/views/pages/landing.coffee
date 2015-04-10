@@ -23,9 +23,10 @@ module.exports = Backbone.View.extend
   continue: ->
     console.log @name, 'continue'
 
-    @categoryList = new @resources.Views.components.categoryList
-      el: @$categoryContainer
-      resources: @resources
+    if not @categoryList?
+      @categoryList = new @resources.Views.components.categoryList
+        el: @$categoryContainer
+        resources: @resources
 
     @classifiedList.continue()
 

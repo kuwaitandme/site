@@ -38,10 +38,13 @@ module.exports = class viewManager
     viewIdentifier = args.view
     historyState = args.state
 
+
     console.log @name, "setting view to:", viewIdentifier
     console.debug @name, "using history:", historyState
 
+    @resources.historyState = historyState
     @setView viewIdentifier, historyState
+    @resources.currentView = @currentView
 
     # Signal google Analytics
     @googleAnalyticsSend()

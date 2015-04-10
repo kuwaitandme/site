@@ -13,7 +13,8 @@ module.exports = Backbone.Model.extend
 
   url: ->
     id = @id
-    if id then return "/api/classified/#{id}"
+    authHash = @get 'authHash'
+    if id then return "/api/classified/#{id}?authHash=#{authHash}"
     else '/api/classified'
 
   defaults:
@@ -92,7 +93,7 @@ module.exports = Backbone.Model.extend
   # This function is used to create a request to create a classified on the
   # server. It takes care of all the minor details like uploading the images
   # and handling the data as well as triggering the right backbone events.
-  uploadServer: (captcha, files) ->
+  uploadServer: (callback) ->
     console.debug @name, 'uploading classified details to server', this
 
     # Get the JSON to send in the first request. The first request should
@@ -108,14 +109,22 @@ module.exports = Backbone.Model.extend
         @trigger 'ajax:progrss', event.loaded / event.total * 100
       # console.debug
       # $('progress').attr({value:e.loaded,max:e.total});
+    authHash = @get 'authHash'
+    id = @get 'id'
+    if id
+      type = 'PUT'
+      url = "#{App.Resources.Config.hostname}/api/classified/#{id}?authHash=#{authHash}"
+    else
+      type = 'POST'
+      url = "#{App.Resources.Config.hostname}/api/classified?authHash=#{authHash}"
 
     $.ajax
       beforeSend: ajax.setHeaders
       contentType: false
-      data: @getFormData files
+      data: @getFormData()
       processData: false
-      type: if (@get '_id')? then "PUT" else "POST"
-      url: "#{App.Resources.Config.hostname}/api/classified"
+      type: type
+      url: url
 
       # Attach the progress handler, if it can be supported
       xhr: ->
@@ -134,11 +143,11 @@ module.exports = Backbone.Model.extend
 
         # Let listeners know that we have successfully uploaded the
         # classified
-        @trigger 'ajax:done'
+        callback null, response
 
       error: (response) =>
         console.error @name, 'error uploading classified details', response
-        @trigger 'ajax:error', response
+        callback response
 
 
   # This function create a HTML formdata object that contains all the data
@@ -149,7 +158,7 @@ module.exports = Backbone.Model.extend
     formdata = new FormData
     data = @toJSON()
 
-    files = data.files
+    files = data.files or []
     delete data.files
 
     # Populate the formdata with the JSON and the filemeta
@@ -162,4 +171,5 @@ module.exports = Backbone.Model.extend
   priceFormat: (price) ->
     if price is 0 then "Free"
     else if price is -1 then "Contact Owner"
-    else "#{price.toString().replace /\B(?=(\d{3})+(?!\d))/g, ','} KD"
+    else if price?
+      "#{price.toString().replace /\B(?=(\d{3})+(?!\d))/g, ','} KD"

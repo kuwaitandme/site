@@ -1,0 +1,28 @@
+.row
+  section.page.small-11.medium-9.small-centered.columns
+    .row
+      h2 Awesome! Your classified is now up and running!
+
+    .row.hint
+      p
+        | Your classified has been successfully uploaded and
+        | <% if(obj.isGuest) { %>
+        | has been sent for review by our moderators.
+        | <% } else { %>
+        | is now online.
+        | <% } %>
+        | &nbsp;It will be online for 30 days after which it will automatically expire and be hidden from search results.
+
+      | <% if(obj.isGuest) { %>
+      p Since you posted as a guest, you will have to use this link <a href="#" id="authLink"></a> to archive/edit your classified.
+      | <% } %>
+      p You can help bring some attention to your classified by sharing it on your social networks.
+    .row.social.hint
+      a(href="#").facebook
+        div &#xf09a;
+      a(href="#").twitter
+        div &#xf099;
+      a(href="#").gplus
+        div &#xf0d5;
+    .row.button.submit
+      a#finishLink(href="", data-view) View your classified

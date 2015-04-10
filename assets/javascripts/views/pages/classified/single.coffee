@@ -1,4 +1,4 @@
-url    = (require 'app-helpers').url
+URL    = (require 'app-helpers').url
 
 module.exports = Backbone.View.extend
   name: "[view:classified-single]"
@@ -26,20 +26,22 @@ module.exports = Backbone.View.extend
     @$gmap              = @$ '#map-canvas'
     @$messages          = @$ "#single-messages"
     @$promptModal       = @$ "#promptModal"
+    @$admin             = @$ '#admin-single'
 
-    if @options.model
+    if @options.model and false
       @model = @options.model
 
       @populateDOM()
     else
       href = document.URL
-      id = (href.substr (href.lastIndexOf '/') + 1)
+      id = @resources.historyState.parameters
+
       @model = new @resources.Models.classified
       @listenTo @model, 'sync', @modelChange
 
       savedClassified = window.data.classified
 
-      if savedClassified and savedClassified._id is id
+      if savedClassified and savedClassified._id is id and false
         @model.set window.data.classified
         @model.trigger  'parse'
         @populateDOM()
@@ -54,8 +56,13 @@ module.exports = Backbone.View.extend
     console.log @name, 'continue'
     @$el.fadeIn()
     @modelChange()
+
+    authHash = URL.getParam 'authHash'
+    @model.set 'authHash', authHash
+
     ($ document).foundation 'clearing', 'reflow'
     @renderAdminbar()
+
 
 
   populateDOM: ->
@@ -89,7 +96,6 @@ module.exports = Backbone.View.extend
   actionHandle: (event) ->
     $el = $ event.currentTarget
     action = $el.data 'action'
-    console.log action
 
     finish = =>
       if @model.hasChanged()
@@ -98,15 +104,18 @@ module.exports = Backbone.View.extend
     switch action
       when 'publish'
         @model.set 'status', @model.status.ACTIVE
+        @model.save()
         finish()
 
       when 'archive'
         @model.set 'status', @model.status.ARCHIVED
+        @model.save()
         finish()
 
       when 'repost'
         if @model.get 'guest' then @model.set status: @model.status.INACTIVE
         else @model.set status: @model.status.ACTIVE
+        @model.save()
         finish()
 
       when 'ban'
@@ -114,6 +123,7 @@ module.exports = Backbone.View.extend
           @model.set
             status: @model.status.BANNED
             moderatorReason: reason
+          @model.save()
           finish()
 
       when 'reject'
@@ -121,6 +131,7 @@ module.exports = Backbone.View.extend
           @model.set
             status: @model.status.REJECTED
             moderatorReason: reason
+          @model.save()
           finish()
 
       when 'report'
@@ -129,6 +140,7 @@ module.exports = Backbone.View.extend
           reports.push reason
           @model.unset "reports", silent: true
           @model.set reports: reports
+          @model.save()
           finish()
 
       when 'edit'
@@ -151,6 +163,9 @@ module.exports = Backbone.View.extend
 
 
   modelChange: ->
+    authHash = URL.getParam 'authHash'
+    @model.set 'authHash', authHash
+
     @$messages.html ""
     # window.location.hash = ""
     @renderAdminbar()
@@ -298,17 +313,19 @@ module.exports = Backbone.View.extend
 
     # If this is a guest classified, check the authHash
     if (@model.get 'guest') and
-    (url.getParam 'authHash') and
+    (URL.getParam 'authHash') and
     (location.pathname.split '/')[1] is 'guest' then editable = true
 
     # Check if the user is the owner or the moderator
-    if user.id is @model.get 'owner' then editable = true
+    if user.id == @model.get 'owner' then editable = true
     if user.get 'isModerator' then superEditable = true
+    console.log user.id, @model.get 'owner'
+    console.log editable, superEditable
 
     # Add the admin template
     if editable or superEditable
-      (@$ '#admin-single').html adminTemplate
+      @$admin.show().html adminTemplate
         _id: @model.id
         editable: editable
         superEditable: superEditable
-    else (@$ '#admin-single').hide()
+    else @$admin.hide()

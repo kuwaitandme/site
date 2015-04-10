@@ -40,6 +40,7 @@
     select#cat-selector(name="parent-category", required, tooltipp="Choose the categories that best fit your classified")
       option(value="", disabled) Choose a category
     small.error Please choose a category
+
     .row.collapse#child-row.error
       select#childcat-selector(name="child-category", tooltipp="Choose the categories that best fit your classified")
         option(value="", disabled) Choose a sub-category
@@ -73,13 +74,7 @@
     select#locations(name="location",  tooltipp="Choose the location for your classified. Click on 'None' if a location is not required.")
       option(value="", disabled, selected) Choose a location
       option(value="") None
-//- .row
-//-   input#address1(type="text", name="address1", tooltipp="You can write the contact address for your classified here", placeholder="Address line 1").hide
-//- .row
-//-   input#address2(type="text", name="address2", placeholder="Address line 2").hide
-
-ul.error-message
-.row.post-nav
-  a(href="#page-info", data-page-nav) Previous
-  | &nbsp; &middot; &nbsp;
-  a(href="#page-images", data-page-nav) Next
+.row
+  .columns
+    input#address1(type="text", name="address1", tooltipp="You can write the contact address for your classified here", placeholder="Address line 1").hide
+    input#address2(type="text", name="address2", placeholder="Address line 2").hide

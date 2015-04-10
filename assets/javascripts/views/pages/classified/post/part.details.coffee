@@ -33,37 +33,47 @@ module.exports = Backbone.View.extend
     if @$locations.val()? and @$locations.val() != ""
       @$address1.removeClass "hide"
       @$address2.removeClass "hide"
-
-      # ($ "#page-4-prev, #page-4-next").attr 'href', '#page-maps'
     else
       @$address1.addClass "hide"
       @$address2.addClass "hide"
 
-      # ($ "#page-4-prev").attr 'href', '#page-images'
-      # ($ "#page-4-next").attr 'href', '#page-submit'
 
-
-  validate: (e) ->
-    ret = true
-    $els = @$ '[required]'
-
-    $els.parent().removeClass 'show-error'
-    for el in $els
-      $el = $ el
-      if not $el.val()
-        $el.parent().addClass 'show-error'
-        ret = false
-
+  _validatePrice: (event) ->
     if not @$priceSelector.val()
       @$priceSelector.parent().addClass 'show-error'
-      ret = false
-
-    if not @$priceField.val()
+      return false
+    else if not @$priceField.val() or @$priceField.val() is -1
       @$priceField.parent().parent().addClass 'show-error'
-      ret = false
+      return false
+    true
 
-    if ret then @setModel()
-    ret
+  _validateCategories: (event) ->
+    parentVal = @$parentCategory.val()
+    childVal = @$childCategory.val()
+
+    if not parentVal
+      @$parentCategory.parent().addClass 'show-error'
+      return false
+    # else
+    #   childern = (@resources.categories.getChildren parentVal) or []
+    #   if children.length > 0 and childVal
+    #     @$childCategory.parent().addClass 'show-error'
+    #     return false
+    true
+
+  _validateType: (event) ->
+    type = @$type.val()
+    if not type
+      @$type.parent().addClass 'show-error'
+      return false
+    true
+
+
+  validate: ->
+    isValid = @_validateCategories()
+    isValid = @_validatePrice() and isValid
+    isValid = @_validateType() and isValid
+    isValid
 
 
   # Handler function to change the price boxes
@@ -79,6 +89,7 @@ module.exports = Backbone.View.extend
       when -1 # Contact Owner
         @$priceField.val -1
         @$priceRow.addClass 'hide'
+    @_validatePrice()
 
 
   parentCategoryChange: (event) ->
@@ -94,6 +105,7 @@ module.exports = Backbone.View.extend
       @$childCategory.append html
 
     addChildCategory child for child in children
+    @_validateCategories()
 
 
   setPrice: (value) ->
@@ -168,4 +180,4 @@ module.exports = Backbone.View.extend
     @parentCategoryChange()
     @$childCategory.val    model.childCategory or ""
 
-    @loc1ationChange()
+    @locationChange()

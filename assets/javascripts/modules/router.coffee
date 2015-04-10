@@ -3,26 +3,28 @@ module.exports = Backbone.Router.extend
   fallback: false
 
   routes:
-    "about(/)"               : "about"
-    "account(/)"             : "account"
-    "account/credits(/)"     : "accountCredits"
-    "account/manage(/)"      : "accountManage"
-    "auth/login(/)"          : "authLogin"
-    "auth/logout(/)"         : "authLogout"
-    "auth/signup(/)"         : "authSignup"
-    "auth/signup(/)"         : "authSignup"
-    "classified/post(/)"     : "classifiedPost"
-    "classified/search(/)"   : "classified"
-    "contact(/)"             : "contact"
-    "guest/post(/)"          : "guestPost"
-    "terms-privacy(/)"       : "termsprivacy"
+    "about(/)"                 : "about"
+    "account(/)"               : "account"
+    "account/credits(/)"       : "accountCredits"
+    "account/manage(/)"        : "accountManage"
+    "auth/login(/)"            : "authLogin"
+    "auth/logout(/)"           : "authLogout"
+    "auth/signup(/)"           : "authSignup"
+    "auth/signup(/)"           : "authSignup"
+    "classified/finish/:id(/)" : "classifiedFinish"
+    "classified/post(/)"       : "classifiedPost"
+    "classified/search(/)"     : "classified"
+    "contact(/)"               : "contact"
+    "guest/finish/:id(/)"      : "guestFinish"
+    "guest/post(/)"            : "guestPost"
+    "terms-privacy(/)"         : "termsprivacy"
 
-    "classified/:id(/)"      : "classifiedSingle"
-    "classified/:id/edit(/)" : "classifiedEdit"
-    "guest/:id(/)"           : "guestSingle"
-    "guest/:id/edit(/)"      : "guestEdit"
+    "classified/:id(/)"        : "classifiedSingle"
+    "classified/:id/edit(/)"   : "classifiedEdit"
+    "guest/:id(/)"             : "guestSingle"
+    "guest/:id/edit(/)"        : "guestEdit"
 
-    "*default"               : "landing"
+    "*default"                 : "landing"
 
   about:                    -> @handleRoute 'about'
   account:                  -> @handleRoute 'account-index'
@@ -33,10 +35,12 @@ module.exports = Backbone.Router.extend
   authSignup:               -> @handleRoute 'auth-signup'
   classified:               -> @handleRoute 'classified-search'
   classifiedEdit:   (param) -> @handleRoute 'classified-edit', param
+  classifiedFinish: (param) -> @handleRoute 'classified-finish', param
   classifiedPost:           -> @handleRoute 'classified-post'
   classifiedSingle: (param) -> @handleRoute 'classified-single', param
   contact:                  -> @handleRoute 'contact'
   credits:                  -> @handleRoute 'credits'
+  guestFinish:      (param) -> @handleRoute 'guest-finish', param
   guestEdit:        (param) -> @handleRoute 'guest-edit', param
   guestPost:                -> @handleRoute 'guest-post'
   guestSingle:      (param) -> @handleRoute 'guest-single', param

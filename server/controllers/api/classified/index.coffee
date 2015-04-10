@@ -9,5 +9,5 @@ module.exports =
     router.delete   base + '/classified/:id?', @delete
     router.get      base + '/classified/:id?', @get
     router.post     base + '/classified', @post
-    router.put      base + '/classified', @put
+    router.put      base + '/classified/:id', @put
     router.patch    base + '/classified/:id?', @patch

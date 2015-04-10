@@ -1,13 +1,3 @@
-subViews =
-  "#page-begin":   require './part.begin'
-  "#page-details": require './part.details'
-  "#page-finish":  require './part.finish'
-  "#page-images":  require './part.images'
-  "#page-info":    require './part.info'
-  "#page-maps":    require './part.maps'
-  "#page-submit":  require './part.submit'
-
-
 module.exports = Backbone.View.extend
   name: '[view:classified-post]'
   title: -> "Post a classified"
@@ -16,10 +6,21 @@ module.exports = Backbone.View.extend
     isGuest: false
     hasClassified: false
 
-  events: 'click a[data-page-nav]' : 'clickHandler'
+  subViews:
+    "#page-begin":   require './part.begin'
+    "#page-details": require './part.details'
+    "#page-images":  require './part.images'
+    "#page-info":    require './part.info'
+    # "#page-maps":    require './part.maps'
+    "#page-submit":  require './part.submit'
+
+
+  events: 'click .submit' : 'submitHandle'
+
 
   start: (@options) ->
     console.debug @name, 'initializing', @options
+    console.log @resources
 
     # Initialize local variables
     @views = {}
@@ -28,17 +29,25 @@ module.exports = Backbone.View.extend
 
   continue: ->
     @getModel =>
-      # Setup listeners and event handlers
-      @listenTo @model, 'ajax:done', @onAjaxSuccess
-      @listenTo @model, 'post:error', @displayError
-
       console.log @name, 'rendering', @el
-      @navigate "#page-begin"
 
+      for href of @subViews
+        subView = @subViews[href]
+        view = new subView el: @$ href
+        view.templateOptions =  @templateOptions
+        view.model =  @model
+        view.trigger 'start'
+        view.trigger 'continue'
+        @views[href] = view
+
+      @$submit  = @$ '.submit'
+      @$spinner = @$ "#ajax-spinner"
+      @$errorMessages = @$ 'ul.error-message'
+
+      @delegateEvents()
 
   checkRedirect: -> not @isGuest and @resources.currentUser.isAnonymous()
   redirectUrl: -> '/auth/login?error=need_login'
-
 
   pause: -> (@$ '#g-recaptcha-response').remove()
 
@@ -48,66 +57,50 @@ module.exports = Backbone.View.extend
     callback()
 
 
-  # On successful AJAX request to the server navigate to the finish page.
-  onAjaxSuccess: -> @navigate '#page-finish', trigger: true
-
-
   # function to display an error message in the current view
+  removeAllMessages: -> @$errorMessages.hide().html ''
   displayError: (message) ->
-    @currentView.$el.find('ul.error-message')
-      .hide()
-      .append "<li>#{message}</li>"
-      .fadeIn()
+    console.log message
+    @$errorMessages.show().append "<li>#{message}</li>"
 
 
-  # Function to get the view to navigate to from the anchor tag.
-  clickHandler: (event) ->
+  # Sends the AJAX request to the back-end
+  submitHandle: (event) ->
+    console.log @name, 'submitting form', event
     event.preventDefault()
-    href = ($ event.currentTarget).attr 'href'
-    @navigate href
+
+    @removeAllMessages()
+
+    validated = true
+    for view of @views
+      if @views[view].validate?
+        isViewValid = @views[view].validate()
+        validated = isViewValid and validated
+
+    console.log @name, 'validating form', validated
+    if not validated
+      return @displayError 'Some fields have invalid values, please go back and fill them properly'
 
 
-  # Function to navigate to the view pointed by the href tag
-  navigate: (href) ->
-    console.log @name, 'navigating to', href
+    for view of @views
+      if @views[view].setModel? then @views[view].setModel()
 
-    # If the view wasn't initialized already, initialize it
-    if not @views[href]
-      console.log @name, 'initializing sub-view:', href
-      subView = subViews[href]
-      view = new subView el: @$ href
-      view.templateOptions =  @templateOptions
-      view.model =  @model
-      view.trigger 'start'
-      @views[href] = view
-    else console.log @name, 'reusing sub-view:', href
+    @$submit.hide()
+    @$spinner.show()
+    # @model.save()
+    @model.uploadServer @onAJAXfinish
 
-    console.log @name, 'going to sub-view:', @views[href]
 
-    # Remove all error messages
-    ($ 'ul.error-message li').remove()
+  onAJAXfinish: (error, classified={}) =>
+    if error
+      @$spinner.hide()
+      @views["#page-submit"].trigger 'continue'
+      return @displayError error
 
-    # If there was a view before this, then performs some tasks before
-    # transitioning to the next view
-    if @currentView
+    if not classified.guest then url = "/classified/finish/#{classified._id}"
+    else url = "/guest/finish/#{classified._id}?authHash=#{classified.authHash}"
 
-      # If the view's validation function failed, stay in the same view
-      if @currentView.validate? and not @currentView.validate() then return
-
-      # Animate, render and switch the DOM elements
-      $el = @currentView.$el
-      console.debug @name, 'animating previous view', @views[href]
-      $el.transition { opacity: 0 }, =>
-        $el.hide()
-        @currentView = @views[href]
-        @currentView.trigger 'continue'
-        @currentView.$el.show().transition opacity: 1
-
-    else
-      # This is the first view, so set the view variable
-      @currentView = @views[href]
-      @currentView.trigger 'continue'
-      @currentView.$el.show().transition opacity: 1
+    App.Resources.router.redirect url
 
 
   # This function not only cleans up this view, but it also cleans up the
