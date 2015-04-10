@@ -2,67 +2,39 @@
   var createCategory, getMonogoJson, json;
 
   json = {
-    'Apparel, Jewelery & Accessories': {
-      'Kids': {
-        'Clothing 2T-5T': 'Clothing 2T-5T',
-        'Clothing 6+': 'Clothing 6+',
-        'Accessories & Jewelery': 'Accessories & Jewelery',
-        'Outer Wear': 'Outer Wear',
-        'Shoes & boots': 'Shoes & boots',
-        'Other': 'Other'
-      },
-      'Womens': {
-        'Dresses & Skirts': 'Dresses & Skirts',
-        'Excercise & Activewear': 'Excercise & Activewear',
-        'Hats & Accessories': 'Hats & Accessories',
-        'Jewelery': 'Jewelery',
-        'Tops': 'Tops',
-        'Bottoms': 'Bottoms',
-        'Maternity Clothes': 'Maternity Clothes',
-        'Outerwear': 'Outerwear',
-        'Shoes & Boots': 'Shoes & Boots',
-        'Wedding Dresses': 'Wedding Dresses',
-        'Other': 'Other'
-      },
-      'Mens': {
-        'Watches, Jewelery & Accessories': 'Watches, Jewelery & Accessories',
-        'Excercise & Activewear': 'Excercise & Activewear',
-        'Suits & Formalwear': 'Suits & Formalwear',
-        'Tops': 'Tops',
-        'Bottoms': 'Bottoms',
-        'Outerwear': 'Outerwear',
-        'Shoes & Boots': 'Shoes & Boots',
-        'Other': 'Other'
-      },
-      'Bags, Wallets, Luggage': {
-        'Purses': 'Purses',
-        'Luggage': 'Luggage',
-        'Satchel/Briefcases': 'Satchel/Briefcases',
-        'Other': 'Other'
-      },
-      'Costumes': {
-        'Mens/Womens': 'Mens/Womens',
-        'Kids': 'Kids',
-        'Makeup/Accessories': 'Makeup/Accessories',
-        'Other': 'Other'
-      },
+    'General Items': {
+      'Art & Collectibles': 'Art & Collectibles',
+      'Baby Items': 'Baby Items',
+      'Beauty & Health': 'Beauty & Health',
+      'CDs & DVDs': 'CDs & DVDs',
+      'Clothing & Accessories': 'Clothing & Accessories',
+      'Farm & Garden': 'Farm & Garden',
+      'Furniture': 'Furniture',
+      'Home Appliances': 'Home Appliances',
+      'Jewelery & Watches': 'Jewelery & Watches',
+      'Mobiles & MP3': 'Mobiles & MP3',
+      'Musical Instruments': 'Musical Instruments',
+      'Sports & Exercise': 'Sports & Exercise',
+      'Tools': 'Tools',
+      'Toys & Games': 'Toys & Games',
+      'Video Games & Software': 'Video Games & Software',
       'Other': 'Other'
     },
-    'Careers, Jobs & Resumes': {
+    'Careers & Jobs': {
       'Administrative': 'Administrative',
       'Internships': 'Internships',
       'Service': 'Service',
       'Resumes': 'Resumes',
       'Other': 'Other'
     },
-    'Community, Events & Tickets': {
-      'Tickets/Gift Cards': {
+    'Community & Events': {
+      'Tickets & Gift Cards': {
         'Food & Travel': 'Food & Travel',
         'Live Music, Theater & Shows': 'Live Music, Theater & Shows',
         'Sports': 'Sports',
         'Other': 'Other'
       },
-      'Local Events/Activities': {
+      'Local Events & Activities': {
         'Music & Theater': 'Music & Theater',
         'Fairs, Festivals & Traveling Shows': 'Fairs, Festivals & Traveling Shows',
         'Food & BBQs': 'Food & BBQs',
@@ -73,7 +45,7 @@
       'Other': 'Other'
     },
     'Electronics & Computers': {
-      'Computers, Laptops & Tablets': {
+      'Computers & Laptops': {
         'Desktop & Laptop Computers': 'Desktop & Laptop Computers',
         'Computer Parts & Accessories': 'Computer Parts & Accessories',
         'Tablets': 'Tablets',
@@ -82,7 +54,7 @@
         'Servers': 'Servers',
         'Other': 'Other'
       },
-      'Game Console': {
+      'Gaming': {
         'Handheld & Portable Systems': 'Handheld & Portable Systems',
         'Consoles': 'Consoles',
         'Vintage & Retro Systems': 'Vintage & Retro Systems',
@@ -97,7 +69,7 @@
         'Televisions & projectors': 'Televisions & projectors',
         'Other': 'Other'
       },
-      'Phones & Music Players': {
+      'Phones & Tablets': {
         'Home Phones': 'Home Phones',
         'Mobile Phones': 'Mobile Phones',
         'MP3 Players': 'MP3 Players',
@@ -116,29 +88,14 @@
       },
       'Other': 'Other'
     },
-    'Furniture & Appliances': {
-      "Furniture & Accessories": "Furniture & Accessories",
-      "Appliances": "Appliances",
-      "Homeware/Decor": "Homeware/Decor",
-      'Other': 'Other'
-    },
-    'Education & Classes': {
-      'Art/Music/Dance': 'Art/Music/Dance',
-      'Computers/IT': 'Computers/IT',
-      'Language': 'Language',
-      'Recreational': 'Recreational',
-      'Sports': 'Sports',
-      'Tutors': 'Tutors',
-      'Other': 'Other'
-    },
-    'Hobbies/Crafts/DIY': {
-      'Creative/Crafts': 'Creative/Crafts',
-      'Sewing/Quilting/Knitting': {
+    'Hobbies, Crafts & DIY': {
+      'Creative & Crafts': 'Creative & Crafts',
+      'Sewing & Quilting & Knitting': {
         'Finished Articles': 'Finished Articles',
         'Sewing Machines & Parts': 'Sewing Machines & Parts',
         'Supplies': 'Supplies'
       },
-      'Painting/Art': {
+      'Painting & Art': {
         'Finished Artwork': 'Finished Artwork',
         'Equipment & Supplies': 'Equipment & Supplies'
       },
@@ -151,25 +108,9 @@
       'Other': 'Other'
     },
     'Music, Movies & Books': {
-      'Musical Instruments': 'Musical Instruments',
-      'Music': {
-        'CDs': 'CDs',
-        'Records': 'Records',
-        'Other': 'Other'
-      },
-      'Movies': {
-        'VHS': 'VHS',
-        'DVD': 'DVD',
-        'Blu-Ray': 'Blu-Ray',
-        'Other': 'Other'
-      },
-      'Books': {
-        'Text Books': 'Text Books',
-        'Comics, Anime & graphic Novels': 'Comics, Anime & graphic Novels',
-        'Chapter Books & Novels': 'Chapter Books & Novels',
-        'Children\'s Books': 'Children\'s Books',
-        'Other': 'Other'
-      },
+      'Music': 'Music',
+      'Movies': 'Movies',
+      'Books': 'Books',
       'Other': 'Other'
     },
     'Pets & Animals': {
@@ -178,16 +119,16 @@
         'Food': 'Food',
         'Supplies & Accessories': 'Supplies & Accessories'
       },
-      'Cats/Kittens': {
+      'Cats & Kittens': {
         'Cats & Kittens': 'Cats & Kittens',
         'Toys & Scratching Posts': 'Toys & Scratching Posts',
         'Supplies & Accessories': 'Supplies & Accessories'
       },
-      'Dogs/Puppies': {
+      'Dogs & Puppies': {
         'Dogs & Puppies': 'Dogs & Puppies',
         'Supplies & Accessories': 'Supplies & Accessories'
       },
-      'Fish/Aquatic Pets': {
+      'Fish & Aquatic Pets': {
         'Fish': 'Fish',
         'Turtles': 'Turtles',
         'Other': 'Other',
@@ -201,26 +142,27 @@
         'Supplies & Accessories': 'Supplies & Accessories',
         'Other': 'Other'
       },
-      'Supplies/Accessories': 'Supplies/Accessories',
+      'Supplies & Accessories': 'Supplies & Accessories',
       'Others': 'Others'
     },
     'Property & Real-Estate': {
       'Commercial Space': 'Commercial Space',
-      'Flats/Rooms': 'Flats/Rooms',
+      'Flats & Rooms': 'Flats & Rooms',
       'Houses': 'Houses',
       'Land': 'Land',
       'Other': 'Other'
     },
     'Services': {
-      'Animal/Pet': 'Animal/Pet',
-      'Child/Elderly': 'Child/Elderly',
+      'Animal & Pet': 'Animal & Pet',
+      'Education & Classes': 'Education & Classes',
+      'Child & Elderly': 'Child & Elderly',
       'Cleaning': 'Cleaning',
       'Contractors': 'Contractors',
-      'Design/IT': 'Design/IT',
-      'Fitness/Health': 'Fitness/Health',
-      'Legal/Business': 'Legal/Business',
-      'Moving/Storage': 'Moving/Storage',
-      'Sales/Marketing': 'Sales/Marketing',
+      'Design & IT': 'Design & IT',
+      'Fitness & Health': 'Fitness & Health',
+      'Legal & Business': 'Legal & Business',
+      'Moving & Storage': 'Moving & Storage',
+      'Sales & Marketing': 'Sales & Marketing',
       'Other': 'Other'
     },
     'Vehicles': {
@@ -239,7 +181,7 @@
         'Parts & Accessories': 'Parts & Accessories',
         'Other': 'Other'
       },
-      'Motorcycles/Bikes': {
+      'Motorcycles & Bikes': {
         'Dirt & Moto Cross': 'Dirt & Moto Cross',
         'E-Bikes & Scooters': 'E-Bikes & Scooters',
         'Sport & Street Bikes': 'Sport & Street Bikes',
@@ -247,7 +189,7 @@
         'Parts & Accessories': 'Parts & Accessories',
         'Other': 'Other'
       },
-      'Watercraft/Trailers': {
+      'Watercraft & Trailers': {
         'Canoes, Kayaks & Paddleboats': 'Canoes, Kayaks & Paddleboats',
         'Power & Motor Boats': 'Power & Motor Boats',
         'Sailboats': 'Sailboats',
