@@ -44,9 +44,9 @@ module.exports = Backbone.View.extend
       @$description.parent().addClass 'show-error'
       @$errorDesc.html 'Description is too short (min 20 char)'
       return false
-    else if description.length > 500
+    else if description.length > 1000
       @$description.parent().addClass 'show-error'
-      @$errorDesc.html 'Description is too long (max 500 char)'
+      @$errorDesc.html 'Description is too long (max 1000 char)'
       return false
     true
 
