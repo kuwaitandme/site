@@ -110,7 +110,7 @@ module.exports = Backbone.Model.extend
       # console.debug
       # $('progress').attr({value:e.loaded,max:e.total});
     authHash = @get 'authHash'
-    id = @get 'id'
+    id = @get '_id'
     if id
       type = 'PUT'
       url = "#{App.Resources.Config.hostname}/api/classified/#{id}?authHash=#{authHash}"

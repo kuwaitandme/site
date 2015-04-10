@@ -42,7 +42,10 @@ module.exports = Backbone.Collection.extend
       @resources.cache.cache 'models:category', JSON.stringify @toJSON()
 
 
-  getChildren: (parentId) -> (@find id: parentId).get 'children'
+  getChildren: (parentId) ->
+    parent = @find id: parentId
+    if parent then parent.get 'children'
+    else []
 
   # A reroute of backbone's fetch which first checks in the browser's
   # localStorage for the collection before making a AJAX call.
