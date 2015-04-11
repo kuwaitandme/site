@@ -1,16 +1,19 @@
-ul.categories-list.row.medium-11
-  <% _.each(categories, function(cat) { %>
-  li.columns.large-2.medium-3.small-6
-    .container
-      .title <%= cat.name %>
-      .total-count <%= cat.count %> classifieds
-      .children
-        <% _.each(cat.children, function(child) { %>
-        .child
-          a(href!="/classified/search?childCategory=<%= child._id %>", data-view) <%= child.name %>
-          .count <%= child.count %>
-        <% }) %>
-        .child
-          a(href!="/classified/search?category=<%= cat._id %>", data-view) View All
-          .count <%= cat.count %>
-  <% }) %>
+<% var i = -1 %>
+<% _.each(categories, function(cat) {
+| i += 1;
+| if (i % 4 == 0 && i != 0) { print("</ul>") }
+| if (i % 4 == 0) { print("<ul class='categories-list row'>") } %>
+li.columns.large-3.medium-3.small-6
+  .container
+    .title(class!="<%= cat.classname %>") <%= cat.name %>
+    .total-count <%= cat.count %> classifieds
+    .children
+      <% _.each(cat.children, function(child) { %>
+      .child
+        a(href!="/classified/search?childCategory=<%= child._id %>", data-view) <%= child.name %>
+        .count <%= child.count %>
+      <% }) %>
+      .child
+        a(href!="/classified/search?category=<%= cat._id %>", data-view) View All
+        .count <%= cat.count %>
+<% }) %>

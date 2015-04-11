@@ -51,8 +51,8 @@ module.exports = Backbone.Model.extend
     VERIFIED: 6
     EXPIRED: 7
 
-  initialize: ->
-    @bind 'parse', @parseVariables, this
+
+  initialize: -> @bind 'parse', @parseVariables, this
 
 
   # This function parses the attributes of the classified when it comes from

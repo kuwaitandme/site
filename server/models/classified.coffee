@@ -27,6 +27,7 @@ classifieds = module.exports =
     title:             String
     type:              Number # 0:Offering,1:Wanted
     views:             Number
+    random:            Number
     weight:            Number
 
     authHash:          String
@@ -80,6 +81,7 @@ classifieds = module.exports =
     classified.created = Date.now()
     classified.perks   = []
     classified.views   = 0
+    classified.random  = Math.random()
 
     # If you are logged in, then we will make you the owner of this
     # classified; Otherwise we will label this classified as a guest
@@ -172,6 +174,20 @@ classifieds = module.exports =
       if error then callback error
       else callback error, result
 
+
+  getRandom: (callback) ->
+    rand = Math.random()
+    firstQuery =  random : $lte : rand
+    secondQuery =  random : $gte : rand
+
+    @model.findOne firstQuery, (error, classified) =>
+      if error then return callback error
+      if classified then return callback null, classified
+
+      @model.findOne secondQuery, (error, classified) =>
+        if error then return callback error
+        if classified then return callback null, classified
+        callback null, {}
 
   # Finds out how many classifieds are there in each category.
   classifiedsPerCategory: (callback) ->

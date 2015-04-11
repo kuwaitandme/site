@@ -1,21 +1,13 @@
 json = {
   'General Items' : {
-    'Art & Collectibles'
     'Baby Items'
     'Beauty & Health'
-    'CDs & DVDs'
     'Clothing & Accessories'
-    'Farm & Garden'
-    'Furniture'
+    'Furniture & Decor'
     'Home Appliances'
-    "Homeware & Decor"
     'Jewelery & Watches'
-    'Mobiles & MP3'
-    'Musical Instruments'
     'Sports & Exercise'
-    'Tools'
     'Toys & Games'
-    'Video Games & Software'
     'Other'
   }
 
@@ -37,22 +29,6 @@ json = {
     'Other'
   }
 
-  'Electronics & Computers': {
-    'Camcorders & Cameras'
-    'Computers & Laptops'
-    'Gaming'
-    'Phones & Tablets'
-    'Television & Home Theater'
-    'Other'
-  }
-
-  'Hobbies, Crafts & DIY': {
-    'Creative & Crafts'
-    'Painting & Art'
-    'Sewing & Quilting & Knitting'
-    'Other'
-  }
-
   'Matrimonial': {
     'Bride seeking groom'
     'Groom seeking bride'
@@ -60,21 +36,15 @@ json = {
     'Other'
   }
 
-  'Music, Movies & Books': {
-    'Music'
-    'Movies'
-    'Books'
+  'Electronics & Computers': {
+    'Camcorders & Cameras'
+    'Computers & Laptops'
+    'Gaming'
+    'Phones & Tablets'
+    'Headphones & MP3'
+    'Television & Home Theater'
+    'Video Games & Software'
     'Other'
-  }
-
-  'Pets & Animals': {
-    'Birds'
-    'Cats & Kittens'
-    'Dogs & Puppies'
-    'Fish & Aquatic Pets'
-    'Livestock'
-    'Supplies & Accessories'
-    'Others'
   }
 
   'Property & Real-Estate': {
@@ -82,6 +52,30 @@ json = {
     'Flats & Rooms'
     'Houses'
     'Land'
+    'Other'
+  }
+
+  'Hobbies, Crafts & DIY': {
+    'Art & Collectibles'
+    'Creative & Crafts'
+    'Painting & Art'
+    'Sewing & Quilting & Knitting'
+    'Other'
+  }
+
+
+  'Music, Movies & Books': {
+    'Books'
+    'Instruments'
+    'Movies'
+    'Music'
+    'Other'
+  }
+  'Vehicles': {
+    'Campers, RVs & Trailers'
+    'Cars, Trucks, SUVs & Vans'
+    'Motorcycles & Bikes'
+    'Watercraft & Trailers'
     'Other'
   }
 
@@ -99,12 +93,14 @@ json = {
     'Other'
   }
 
-  'Vehicles': {
-    'Campers, RVs & Trailers'
-    'Cars, Trucks, SUVs & Vans'
-    'Motorcycles & Bikes'
-    'Watercraft & Trailers'
-    'Other'
+  'Pets & Animals': {
+    'Birds'
+    'Cats & Kittens'
+    'Dogs & Puppies'
+    'Fish & Aquatic Pets'
+    'Livestock'
+    'Supplies & Accessories'
+    'Others'
   }
 
   'Miscellaneous'

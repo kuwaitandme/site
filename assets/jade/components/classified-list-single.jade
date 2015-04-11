@@ -6,7 +6,7 @@
 |   if(perks.promoted) classes += "perk-promoted ";
 |}
 |%>
-li.classified.small-6.medium-3.large-2(class!="<%= classes %>")
+li.classified(class!="<%= classes %>")
   a(href!="/classified/<%= _id %>", data-view="classified-single")
     .container
       .urgent-banner Urgent
@@ -16,18 +16,9 @@ li.classified.small-6.medium-3.large-2(class!="<%= classes %>")
         |<% } %>
       .c-info
         .c-title <%= title %>
-        ul.c-meta
-          li <%= price %>
-          li <%= created %>
-          |<% if(contact.location) {
-          |  var loc = app.models.locations.findWhere({ _id: contact.location })
-          |   if(loc) {
-          |     loc = loc.toJSON();
-          |     if (loc.name != "None") { %>
-          li <%= loc.name %>
-          | <%  }
-          |   }
-          | } %>
+        .c-meta
+          b <%= price %>
+          span <%= created %>
       |<%
       | var cl="", message="";
       | switch(status) {
