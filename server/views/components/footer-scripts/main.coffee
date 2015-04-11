@@ -1,87 +1,79 @@
-# Here are the scripts that get loaded during runtime. You must list the
-# scripts here in the order they should be loaded. The app"s localStorage
-# will make sure that they get cached properly.
 window.scripts = [
   {
     name: "library:normalize-css"
-    remoteSrc: "/stylesheets/vendor/normalize.min.css"
+    remoteSrc: "//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.1/css/normalize.min.css"
     localSrc: "/stylesheets/vendor/normalize.min.css"
   }
   {
     name: "library:foundation-css"
-    remoteSrc: "/stylesheets/vendor/foundation.min.css"
+    remoteSrc: "//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.1/css/foundation.min.css"
     localSrc: "/stylesheets/vendor/foundation.min.css"
   }
-  # {
-  #   name: "library:card-css"
-  #   remoteSrc: "/stylesheets/vendor/card.min.css"
-  #   localSrc: "/stylesheets/vendor/card.min.css"
-  # }
   {
-    name: "app:stylesheet"
-    remoteSrc: "/stylesheets/build/style.css?v=#{config.js.applicationVersion}"
+    name: "app:style-css"
+    remoteSrc: "/stylesheets/build/style.min.css?v=#{config.js.applicationVersion}"
     localSrc: "/stylesheets/build/style.css?v=#{config.js.applicationVersion}"
   }
   {
     name: "library:jquery"
-    remoteSrc: "/javascripts/vendor/jquery.min.js"
+    remoteSrc: "//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"
     localSrc: "/javascripts/vendor/jquery.min.js"
   }
   {
     name: "library:jquery-transit"
-    remoteSrc: "/javascripts/vendor/jquery.transit.min.js"
+    remoteSrc: "//cdnjs.cloudflare.com/ajax/libs/jquery.transit/0.9.12/jquery.transit.min.js"
     localSrc: "/javascripts/vendor/jquery.transit.min.js"
   }
   {
     name: "library:underscore"
-    remoteSrc: "/javascripts/vendor/underscore.min.js"
+    remoteSrc: "//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore-min.js"
     localSrc: "/javascripts/vendor/underscore.min.js"
   }
   {
     name: "library:backbone"
-    remoteSrc: "/javascripts/vendor/backbone.min.js"
+    remoteSrc: "//cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js"
     localSrc: "/javascripts/vendor/backbone.min.js"
   }
   {
+    name: "library:google-maps"
+    remoteSrc: "//maps.googleapis.com/maps/api/js?v=3.exp&callback=initializeGmap"
+    localSrc: "/javascripts/vendor/google.maps.min.js"
+  }
+  {
     name: "library:modernizr"
-    remoteSrc: "/javascripts/vendor/modernizr.min.js"
+    remoteSrc: "//cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"
     localSrc: "/javascripts/vendor/modernizr.min.js"
   }
   {
     name: "library:dropzone"
-    remoteSrc: "/javascripts/vendor/dropzone.min.js"
+    remoteSrc: "//cdnjs.cloudflare.com/ajax/libs/dropzone/4.0.1/min/dropzone.min.js"
     localSrc: "/javascripts/vendor/dropzone.min.js"
   }
   {
     name: "library:masonry"
-    remoteSrc: "/javascripts/vendor/masonry.pkgd.min.js"
+    remoteSrc: "//cdnjs.cloudflare.com/ajax/libs/masonry/3.2.2/masonry.pkgd.min.js"
     localSrc: "/javascripts/vendor/masonry.pkgd.min.js"
   }
   {
+    name: "library:jquery-imagesloaded"
+    remoteSrc: "//cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/3.1.8/imagesloaded.pkgd.min.js"
+    localSrc: "/javascripts/vendor/imagesloaded.min.js"
+  }
+  {
     name: "library:foundation-js"
-    remoteSrc: "/javascripts/vendor/foundation.min.js"
+    remoteSrc: "//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.1/js/foundation.min.js"
     localSrc: "/javascripts/vendor/foundation.min.js"
   }
   {
     name: "app:template"
-    remoteSrc: "/javascripts/build/template.js"
-    localSrc: "/javascripts/build/template.js"
+    remoteSrc: "/javascripts/build/template.min.js?v=#{config.js.applicationVersion}"
+    localSrc: "/javascripts/build/template.min.js?v=#{config.js.applicationVersion}"
   }
   {
     name: "app:script"
-    remoteSrc: "/javascripts/build/app.js?v=#{config.js.applicationVersion}"
+    remoteSrc: "/javascripts/build/app.min.js?v=#{config.js.applicationVersion}"
     localSrc: "/javascripts/build/app.js?v=#{config.js.applicationVersion}"
   }
-  # {
-  #   name: "library:card-js"
-  #   remoteSrc: "/javascripts/vendor/card.min.js"
-  #   localSrc: "/javascripts/vendor/card.min.js"
-  # }
-  # {
-  #   name: "library:2co-js"
-  #   remoteSrc: "/javascripts/vendor/2co.min.js"
-  #   localSrc: "/javascripts/vendor/2co.min.js"
-  # }
 ]
 
 ### Special functions and variables to facilitate gmaps ###
@@ -99,13 +91,11 @@ window.initializeGmap = ->
   return
 
 head = document.getElementsByTagName("head")[0]
-i = scripts.length
-# while i >= 1
+production = config.mode == "production"
 for script in scripts
-  # script = scripts[scripts.length - i]
   $fileref = undefined
   foundInCache = false
-  isCSS = script.remoteSrc.substr(-3) == "css"
+  isCSS = script.name.substr(-3) == "css"
 
   # First prepare the element that is going to contain/request for the
   # CSS or JS
@@ -118,7 +108,7 @@ for script in scripts
 
   # If HTML5 localStorage is supported, attempt to load the scripts from
   # the application cache
-  if localStorage? and false
+  if localStorage? and production
     appChanged = (localStorage.getItem "version:application") != window.config.js.applicationVersion
     libraryChanged = (localStorage.getItem "version:library") != window.config.js.libraryVersion
 
@@ -163,11 +153,10 @@ for script in scripts
   # If the script was not found in cache then prepare it to be loaded
   # by the browser
   if not foundInCache
-    $fileref.async = false # <-- this is important
-    if isCSS
-      $fileref.href = script.remoteSrc
-    else
-      $fileref.src = script.remoteSrc
+    $fileref.async = false
+    script.remoteSrc = if production then script.remoteSrc else script.localSrc
+    if isCSS then $fileref.href = script.remoteSrc
+    else $fileref.src = script.remoteSrc
 
   # Finally with whatever element we have created, insert it into the body
   if isCSS

@@ -47,6 +47,7 @@ module.exports = (request, response, args={}, cache=false) ->
     args.data = args.data or {}
     args.data.captchaKey = config.reCaptcha.site
     args.config =
+      mode: config.mode
       js: config.js
       ga: config.ga
       # social: config.social

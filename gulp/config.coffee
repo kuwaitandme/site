@@ -34,7 +34,7 @@ module.exports =
   server:
     footer:
       dest:              'server/views/components/footer-scripts'
-      filenameMin:       'main-production.min.js'
+      filenameMin:       'main.min.js'
       src:               'server/views/components/footer-scripts/*.coffee'
     db:
       dest:              'server/db'
