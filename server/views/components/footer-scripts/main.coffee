@@ -67,7 +67,7 @@ window.scripts = [
   {
     name: "app:template"
     remoteSrc: "/javascripts/build/template.min.js?v=#{config.js.applicationVersion}"
-    localSrc: "/javascripts/build/template.min.js?v=#{config.js.applicationVersion}"
+    localSrc: "/javascripts/build/template.js?v=#{config.js.applicationVersion}"
   }
   {
     name: "app:script"
