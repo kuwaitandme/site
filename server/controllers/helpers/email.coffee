@@ -15,9 +15,11 @@ module.exports =
     plainTextTemplate = jade.compileFile "#{emailRoot}/plaintext/#{template}"
     plainText = plainTextTemplate options
 
+    console.log options
     # Render the HTML version of the email
     htmlTemplate = jade.compileFile "#{emailRoot}/#{template}.jade"
     html = htmlTemplate options
+
 
     # Finally send the email
     @send options.subject, senderAddress, plainText, html
