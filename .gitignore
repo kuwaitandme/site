@@ -11,6 +11,7 @@
 /public/uploads
 /public/javascripts/build
 /public/stylesheets/build
+/server/**/*.js
 /docs
 
 # Hide server configuration file
