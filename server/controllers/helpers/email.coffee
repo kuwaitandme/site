@@ -9,13 +9,12 @@ module.exports =
     if not config.email.enabled then return
 
     emailRoot = "#{global.root}/views/email"
-    options.host = config.email.host
+    options.host = config.host
 
     # Render the plain-text version of the email
     plainTextTemplate = jade.compileFile "#{emailRoot}/plaintext/#{template}"
     plainText = plainTextTemplate options
 
-    console.log options
     # Render the HTML version of the email
     htmlTemplate = jade.compileFile "#{emailRoot}/#{template}.jade"
     html = htmlTemplate options
