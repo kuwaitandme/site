@@ -3,21 +3,14 @@
 
   json = {
     'General Items': {
-      'Art & Collectibles': 'Art & Collectibles',
       'Baby Items': 'Baby Items',
       'Beauty & Health': 'Beauty & Health',
-      'CDs & DVDs': 'CDs & DVDs',
       'Clothing & Accessories': 'Clothing & Accessories',
-      'Farm & Garden': 'Farm & Garden',
-      'Furniture': 'Furniture',
+      'Furniture & Decor': 'Furniture & Decor',
       'Home Appliances': 'Home Appliances',
       'Jewelery & Watches': 'Jewelery & Watches',
-      'Mobiles & MP3': 'Mobiles & MP3',
-      'Musical Instruments': 'Musical Instruments',
       'Sports & Exercise': 'Sports & Exercise',
-      'Tools': 'Tools',
       'Toys & Games': 'Toys & Games',
-      'Video Games & Software': 'Video Games & Software',
       'Other': 'Other'
     },
     'Careers & Jobs': {
@@ -28,77 +21,12 @@
       'Other': 'Other'
     },
     'Community & Events': {
-      'Tickets & Gift Cards': {
-        'Food & Travel': 'Food & Travel',
-        'Live Music, Theater & Shows': 'Live Music, Theater & Shows',
-        'Sports': 'Sports',
-        'Other': 'Other'
-      },
-      'Local Events & Activities': {
-        'Music & Theater': 'Music & Theater',
-        'Fairs, Festivals & Traveling Shows': 'Fairs, Festivals & Traveling Shows',
-        'Food & BBQs': 'Food & BBQs',
-        'Sports & Fitness': 'Sports & Fitness',
-        'Other': 'Other'
-      },
+      'Carpool & Ride Share': 'Carpool & Ride Share',
+      'Local Events & Activities': 'Local Events & Activities',
       'Lost & Found': 'Lost & Found',
-      'Other': 'Other'
-    },
-    'Electronics & Computers': {
-      'Computers & Laptops': {
-        'Desktop & Laptop Computers': 'Desktop & Laptop Computers',
-        'Computer Parts & Accessories': 'Computer Parts & Accessories',
-        'Tablets': 'Tablets',
-        'Tablet Parts & Accessories': 'Tablet Parts & Accessories',
-        'Computer Monitors': 'Computer Monitors',
-        'Servers': 'Servers',
-        'Other': 'Other'
-      },
-      'Gaming': {
-        'Handheld & Portable Systems': 'Handheld & Portable Systems',
-        'Consoles': 'Consoles',
-        'Vintage & Retro Systems': 'Vintage & Retro Systems',
-        'Other': 'Other'
-      },
-      'Home Theater': {
-        'Satellite Dished': 'Satellite Dished',
-        'Speakers': 'Speakers',
-        'Home Theaters': 'Home Theaters',
-        'Home Theater Accessories': 'Home Theater Accessories',
-        'DVD, Blu-Ray & Disc Players': 'DVD, Blu-Ray & Disc Players',
-        'Televisions & projectors': 'Televisions & projectors',
-        'Other': 'Other'
-      },
-      'Phones & Tablets': {
-        'Home Phones': 'Home Phones',
-        'Mobile Phones': 'Mobile Phones',
-        'MP3 Players': 'MP3 Players',
-        'CD & Tape Players': 'CD & Tape Players',
-        'Headphones': 'Headphones',
-        'Accessories & Docking Stations': 'Accessories & Docking Stations',
-        'Other': 'Other'
-      },
-      'Camcorders & Cameras': {
-        'Cameras': 'Cameras',
-        'Lenses': 'Lenses',
-        'Bags & Carrying Cases': 'Bags & Carrying Cases',
-        'Camcorders': 'Camcorders',
-        'Accessories': 'Accessories',
-        'Other': 'Other'
-      },
-      'Other': 'Other'
-    },
-    'Hobbies, Crafts & DIY': {
-      'Creative & Crafts': 'Creative & Crafts',
-      'Sewing & Quilting & Knitting': {
-        'Finished Articles': 'Finished Articles',
-        'Sewing Machines & Parts': 'Sewing Machines & Parts',
-        'Supplies': 'Supplies'
-      },
-      'Painting & Art': {
-        'Finished Artwork': 'Finished Artwork',
-        'Equipment & Supplies': 'Equipment & Supplies'
-      },
+      'Tickets & Gift Cards': 'Tickets & Gift Cards',
+      'Volunteer Activities': 'Volunteer Activities',
+      'Yard & Garage Sales': 'Yard & Garage Sales',
       'Other': 'Other'
     },
     'Matrimonial': {
@@ -107,43 +35,15 @@
       'Wedding Planners': 'Wedding Planners',
       'Other': 'Other'
     },
-    'Music, Movies & Books': {
-      'Music': 'Music',
-      'Movies': 'Movies',
-      'Books': 'Books',
+    'Electronics & Computers': {
+      'Camcorders & Cameras': 'Camcorders & Cameras',
+      'Computers & Laptops': 'Computers & Laptops',
+      'Gaming': 'Gaming',
+      'Phones & Tablets': 'Phones & Tablets',
+      'Headphones & MP3': 'Headphones & MP3',
+      'Television & Home Theater': 'Television & Home Theater',
+      'Video Games & Software': 'Video Games & Software',
       'Other': 'Other'
-    },
-    'Pets & Animals': {
-      'Birds': {
-        'Birds': 'Birds',
-        'Food': 'Food',
-        'Supplies & Accessories': 'Supplies & Accessories'
-      },
-      'Cats & Kittens': {
-        'Cats & Kittens': 'Cats & Kittens',
-        'Toys & Scratching Posts': 'Toys & Scratching Posts',
-        'Supplies & Accessories': 'Supplies & Accessories'
-      },
-      'Dogs & Puppies': {
-        'Dogs & Puppies': 'Dogs & Puppies',
-        'Supplies & Accessories': 'Supplies & Accessories'
-      },
-      'Fish & Aquatic Pets': {
-        'Fish': 'Fish',
-        'Turtles': 'Turtles',
-        'Other': 'Other',
-        'Supplies & Accessories': 'Supplies & Accessories'
-      },
-      'Livestock': {
-        'Horses': 'Horses',
-        'Cattle': 'Cattle',
-        'Pigs': 'Pigs',
-        'Chickens': 'Chickens',
-        'Supplies & Accessories': 'Supplies & Accessories',
-        'Other': 'Other'
-      },
-      'Supplies & Accessories': 'Supplies & Accessories',
-      'Others': 'Others'
     },
     'Property & Real-Estate': {
       'Commercial Space': 'Commercial Space',
@@ -152,53 +52,48 @@
       'Land': 'Land',
       'Other': 'Other'
     },
+    'Hobbies, Crafts & DIY': {
+      'Art & Collectibles': 'Art & Collectibles',
+      'Creative & Crafts': 'Creative & Crafts',
+      'Painting & Art': 'Painting & Art',
+      'Sewing & Quilting & Knitting': 'Sewing & Quilting & Knitting',
+      'Other': 'Other'
+    },
+    'Music, Movies & Books': {
+      'Books': 'Books',
+      'Instruments': 'Instruments',
+      'Movies': 'Movies',
+      'Music': 'Music',
+      'Other': 'Other'
+    },
+    'Vehicles': {
+      'Campers, RVs & Trailers': 'Campers, RVs & Trailers',
+      'Cars, Trucks, SUVs & Vans': 'Cars, Trucks, SUVs & Vans',
+      'Motorcycles & Bikes': 'Motorcycles & Bikes',
+      'Watercraft & Trailers': 'Watercraft & Trailers',
+      'Other': 'Other'
+    },
     'Services': {
       'Animal & Pet': 'Animal & Pet',
-      'Education & Classes': 'Education & Classes',
       'Child & Elderly': 'Child & Elderly',
       'Cleaning': 'Cleaning',
       'Contractors': 'Contractors',
       'Design & IT': 'Design & IT',
+      'Education & Classes': 'Education & Classes',
       'Fitness & Health': 'Fitness & Health',
       'Legal & Business': 'Legal & Business',
       'Moving & Storage': 'Moving & Storage',
       'Sales & Marketing': 'Sales & Marketing',
       'Other': 'Other'
     },
-    'Vehicles': {
-      'Campers, RVs & Trailers': {
-        'Cargo & utility Trailers': 'Cargo & utility Trailers',
-        'RVs & Motor Homes': 'RVs & Motor Homes',
-        'Travel Trailers & Accessories': 'Travel Trailers & Accessories',
-        'Parts & Accessories': 'Parts & Accessories'
-      },
-      'Cars, Trucks, SUVs & Vans': {
-        'Cars': 'Cars',
-        'Trucks': 'Trucks',
-        'Classic & Antique': 'Classic & Antique',
-        'Vans - Passenger': 'Vans - Passenger',
-        'Cargo': 'Cargo',
-        'Parts & Accessories': 'Parts & Accessories',
-        'Other': 'Other'
-      },
-      'Motorcycles & Bikes': {
-        'Dirt & Moto Cross': 'Dirt & Moto Cross',
-        'E-Bikes & Scooters': 'E-Bikes & Scooters',
-        'Sport & Street Bikes': 'Sport & Street Bikes',
-        'Cruisers, Touring, Choppers': 'Cruisers, Touring, Choppers',
-        'Parts & Accessories': 'Parts & Accessories',
-        'Other': 'Other'
-      },
-      'Watercraft & Trailers': {
-        'Canoes, Kayaks & Paddleboats': 'Canoes, Kayaks & Paddleboats',
-        'Power & Motor Boats': 'Power & Motor Boats',
-        'Sailboats': 'Sailboats',
-        'Personal Watercraft': 'Personal Watercraft',
-        'Trailers & Racks': 'Trailers & Racks',
-        'Parts & Accessories': 'Parts & Accessories',
-        'Other': 'Other'
-      },
-      'Other': 'Other'
+    'Pets & Animals': {
+      'Birds': 'Birds',
+      'Cats & Kittens': 'Cats & Kittens',
+      'Dogs & Puppies': 'Dogs & Puppies',
+      'Fish & Aquatic Pets': 'Fish & Aquatic Pets',
+      'Livestock': 'Livestock',
+      'Supplies & Accessories': 'Supplies & Accessories',
+      'Others': 'Others'
     },
     'Miscellaneous': 'Miscellaneous'
   };
