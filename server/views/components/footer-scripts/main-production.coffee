@@ -12,11 +12,11 @@ window.scripts = [
     remoteSrc: '//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.1/css/foundation.min.css'
     localSrc: '/stylesheets/vendor/foundation.min.css'
   }
-  {
-    name: 'lib:card-css'
-    remoteSrc: '//cdnjs.cloudflare.com/ajax/libs/card/0.0.2/css/card.min.css'
-    localSrc: '/stylesheets/vendor/card.min.css'
-  }
+  # {
+  #   name: 'lib:card-css'
+  #   remoteSrc: '//cdnjs.cloudflare.com/ajax/libs/card/0.0.2/css/card.min.css'
+  #   localSrc: '/stylesheets/vendor/card.min.css'
+  # }
   {
     name: 'app:stylesheet'
     remoteSrc: '/stylesheets/build/style.min.css'
@@ -82,16 +82,16 @@ window.scripts = [
     remoteSrc: '/javascripts/build/app.min.js'
     localSrc: '/javascripts/build/app.min.js'
   }
-  {
-    name: 'lib:card-js'
-    remoteSrc: '//cdnjs.cloudflare.com/ajax/libs/card/0.0.2/js/card.min.js'
-    localSrc: '/javascripts/vendor/card.min.js'
-  }
-  {
-    name: 'lib:2co-js'
-    remoteSrc: '//www.2checkout.com/checkout/api/2co.min.js'
-    localSrc: '/javascripts/vendor/2co.min.js'
-  }
+  # {
+  #   name: 'lib:card-js'
+  #   remoteSrc: '//cdnjs.cloudflare.com/ajax/libs/card/0.0.2/js/card.min.js'
+  #   localSrc: '/javascripts/vendor/card.min.js'
+  # }
+  # {
+  #   name: 'lib:2co-js'
+  #   remoteSrc: '//www.2checkout.com/checkout/api/2co.min.js'
+  #   localSrc: '/javascripts/vendor/2co.min.js'
+  # }
 ]
 
 ### Special functions and variables to facilitate gmaps ###
