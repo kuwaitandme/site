@@ -190,8 +190,8 @@ file = module.exports =
 
           # Then create the thumbnail
           gm task.newPath
-          .resize 500, 500
-          .crop 300, 400, 0, 0
+          .resize 400, 500
+          .crop 400, 500, 0, 0
           .autoOrient()
           .write "#{file.thumbsDir}/#{task.newFilename}", finish
 
