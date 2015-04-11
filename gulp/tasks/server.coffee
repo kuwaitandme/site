@@ -9,7 +9,10 @@ module.exports = (gulp, config) ->
   task = ->
     gulp.src config.footer.src
     .pipe coffee()
-    .pipe debug()
+    .pipe gulp.dest config.footer.dest
+    .pipe gulpIgnore.include "**/*production.js"
+    .pipe uglify()
+    .pipe rename config.footer.filenameMin
     .pipe gulp.dest config.footer.dest
 
     gulp.src config.db.src
