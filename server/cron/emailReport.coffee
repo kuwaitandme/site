@@ -66,6 +66,5 @@ module.exports = ->
         newClassifieds: newClassifieds
         newUsers: newUsers
 
-      console.log html
-    # Send email report
+      # Send email report
       Email.send subject, toAddress, plainText, html

@@ -8,7 +8,6 @@ module.exports = (request, response, next) ->
   id = request.params.id
   authHash = request.query.authHash
 
-  console.log id, authHash
   captchaFail = ->
     response.status 401
     response.end '"captcha failed"'
