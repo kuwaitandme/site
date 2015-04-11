@@ -2,10 +2,10 @@ email = require 'emailjs'
 fs    = require 'fs'
 jade  = require 'jade'
 
-config = global.config
 
 module.exports =
   sendTemplate: (senderAddress, template, options) ->
+    config = global.config
     if not config.email.enabled then return
 
     emailRoot = "#{global.root}/views/email"
@@ -24,6 +24,7 @@ module.exports =
 
 
   send: (subject, senderAddress, plainText, html, attachments=[]) ->
+    config = global.config
     if not config.email.enabled then return
 
     # Connect to the SMTP server
