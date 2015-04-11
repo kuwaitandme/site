@@ -1,4 +1,5 @@
 .classifiedList
+  background: #f0f0f0
   .ajax-spinner
     display: none
     text-align: center
@@ -7,43 +8,49 @@
   .ajax-finish
     @extend .font-title
     color: #AAA
+    opacity: 0.8
     display: none
     margin: 20px 0 0
     padding: 20px
     text-align: center
-    text-transform: uppercase
+    // text-transform: uppercase
 
 ul.classified-list
   +clearfix
   margin: 0 auto
   // padding: 7px 0
   // min-width: 85% !important
-  max-width: 1250px
+  // max-width: 1250px
 
   a
     text-decoration: none
     &:visited
-      color: #BBB
+      color: #000
   > li
+    width: 236px + 14px
+    @media only screen and (max-width: 40.063em)
+      width: 100%
     // @media only screen and (min-width: 40.063em)
     //   width: 25%
-    // @media only screen and (min-width: 64.063em)
-    //   width: 20%
+    @media only screen and (min-width: 64.063em)
+      // width: 20%
     float: left
     // max-width: 250px
     padding: 7px
     .container
       +single-transition()
       background: #FFF
-      border: 1px solid #DDD
+      // border: 1px solid #DDD
       overflow: hidden
       position: relative
-      -webkit-border-radius: 2px
-      -moz-border-radius: 2px
-      border-radius: 2px
-      -webkit-box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.2)
-      -moz-box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.2)
-      box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.2)
+
+      -webkit-border-radius: 6px
+      -moz-border-radius: 6px
+      border-radius: 6px
+
+      -webkit-box-shadow: 0 1px 2px 0px rgba(0, 0, 0, 0.2)
+      -moz-box-shadow: 0 1px 2px 0px rgba(0, 0, 0, 0.2)
+      box-shadow: 0 1px 2px 0px rgba(0, 0, 0, 0.2)
 
       &:hover
         border-color: #000
@@ -68,20 +75,23 @@ ul.classified-list
         opacity: 0
     &.image-failed .thumb
       display: none
-    .c-title, .c-meta
-      padding: 10px
     .c-info
-      > ul.c-meta
+      > .c-meta
         padding: 5px 10px 10px
-        color: #BBB
-        font-size: 0.6rem
+        color: #999
+        font-size: 0.7rem
         margin: 0
-        > li
-          margin: 0
-          padding: 0
+        padding: 10px
+        border-top: 1px solid #e7e7e7
+        +clearfix
+        b
+          float: left
+        span
+          float: right
       .c-title
         @extend .font-title
-        font-size: 0.7rem
+        margin: 10px 16px
+        font-size: 0.8rem
         padding-bottom: 0
         overflow: hidden
     .urgent-banner

@@ -39,6 +39,8 @@ module.exports = Backbone.View.extend
 
     # Set to load new classifieds when we have scrolled to the end of the page.
     _.bindAll @, 'onScroll'
+    _.bindAll @, 'resizeClassifieds'
+    ($ window).on 'resize', @resizeClassifieds
 
 
   continue: ->
@@ -52,7 +54,9 @@ module.exports = Backbone.View.extend
     if @settings.ajaxEnable then @$spinner.fadeIn();
 
 
-  pause: -> ($ window).off 'scroll', @onScroll
+  pause: ->
+    ($ window).off 'scroll', @onScroll
+    ($ window).off 'resize', @resizeClassifieds
 
 
   onScroll: -> if @settings.ajaxEnable then @fireAjaxEvent()
@@ -108,12 +112,12 @@ module.exports = Backbone.View.extend
     # Calculate the width of a single 1x1 sqaure. Subtract 5px from th
     # window's width to compensate for the scroll bar
     windowWidth = ($ window).width()
-    columns = Math.floor (windowWidth / @gridMinimumSize)
-    excessSpace = windowWidth - @gridMinimumSize * columns
-    finalSize = Math.floor (@gridMinimumSize + excessSpace / columns)
+    # columns = Math.floor (windowWidth / @gridMinimumSize)
+    # excessSpace = windowWidth - @gridMinimumSize * columns
+    # finalSize = Math.floor (@gridMinimumSize + excessSpace / columns)
 
     # Set each of the blocks with the right size
-    (@$ '.classified').width finalSize - 15
+    (@$ '.classified').css 'max-width', windowWidth/2
 
 
   fireAjaxEvent: ->
@@ -217,12 +221,14 @@ module.exports = Backbone.View.extend
 
     # In case we haven't filled up the page, fire the ajax loader again.
     @fireAjaxEvent()
+    @resizeClassifieds()
 
 
   setupListeners: ->
     # Attach a listener to our collection model
     @stopListening @collection, 'ajax:done'
     @listenTo     @collection, 'ajax:done', @addClassifieds
+
 
 
   setupDOM: ->
@@ -246,5 +252,5 @@ module.exports = Backbone.View.extend
   setupMasonry: ->
     @$classifiedList.masonry
       isAnimated: true
-      # isFitWidth: true
+      isFitWidth: true
       itemSelector: '.classified'

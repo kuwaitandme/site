@@ -17,9 +17,9 @@ header
   width: 100%
   z-index: 2
 
-  -webkit-box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.2)
-  -moz-box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.2)
-  box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.2)
+  -webkit-box-shadow: 2px 2px 15px 0px rgba(0, 0, 0, 0.4)
+  -moz-box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.4)
+  box-shadow: 2px 2px 15px 0px rgba(0, 0, 0, 0.4)
 
   ::-webkit-input-placeholder
     color: #BBB
@@ -224,15 +224,32 @@ header
     border-bottom: 1px solid #ddd
     z-index: -1
     li
-      border-right: 1px solid #ddd
       font-size: 0.75rem
       float: left
-      :hover
-        background: #FF6600
-        color: #fff
       a
+        border-right: 1px solid #ddd
         display: block
         padding: 7px 10px
+        &:hover, &.active
+          border-color: #FF6600
+          background: #FF6600
+          color: #fff
+
+      &.social
+        @extend .font-awesome
+        float: right
+        a
+          border-right: 0
+          color: #FFF
+
+          &.twitter
+            background: #0099B9
+          &.youtube
+            background: #DF2927
+          &.facebook
+            background: #3A5795
+          &.googleplus
+            background: #DF2927
 
   &.nav-up
     ul#sub-nav
