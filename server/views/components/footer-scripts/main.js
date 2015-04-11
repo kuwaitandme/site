@@ -11,10 +11,6 @@
       remoteSrc: '/stylesheets/vendor/foundation.min.css',
       localSrc: '/stylesheets/vendor/foundation.min.css'
     }, {
-      name: 'library:card-css',
-      remoteSrc: '/stylesheets/vendor/card.min.css',
-      localSrc: '/stylesheets/vendor/card.min.css'
-    }, {
       name: 'app:stylesheet',
       remoteSrc: '/stylesheets/build/style.css',
       localSrc: '/stylesheets/build/style.css'
@@ -58,14 +54,6 @@
       name: 'app:script',
       remoteSrc: '/javascripts/build/app.js',
       localSrc: '/javascripts/build/app.js'
-    }, {
-      name: 'library:card-js',
-      remoteSrc: '/javascripts/vendor/card.min.js',
-      localSrc: '/javascripts/vendor/card.min.js'
-    }, {
-      name: 'library:2co-js',
-      remoteSrc: '/javascripts/vendor/2co.min.js',
-      localSrc: '/javascripts/vendor/2co.min.js'
     }
   ];
 
