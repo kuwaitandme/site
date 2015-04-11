@@ -1,5 +1,3 @@
-url = (require 'app-helpers').url
-
 module.exports = Backbone.View.extend
   name: "[view:auth-login]"
   template: template['auth/login']
@@ -66,10 +64,11 @@ module.exports = Backbone.View.extend
   # based on the different GET parameters
   parseURL: ->
     console.log @name, 'parsing URL'
+    urlHelper = @resources.Helpers.url
 
-    error   = url.getParam 'error'
-    success = url.getParam 'success'
-    warning = url.getParam 'warning'
+    error   = urlHelper.getParam 'error'
+    success = urlHelper.getParam 'success'
+    warning = urlHelper.getParam 'warning'
     if error   then @addMessage @messages[error],   'error'
     if success then @addMessage @messages[success], 'success'
     if warning then @addMessage @messages[warning], 'warning'

@@ -1,8 +1,7 @@
 module.exports = Backbone.View.extend
   name: '[view:classifieds-finish]'
   template: template['classified/finish']
-  templateOptions:
-    isGuest: false
+  templateOptions: isGuest: false
 
   title: -> "Classified submitted!"
 

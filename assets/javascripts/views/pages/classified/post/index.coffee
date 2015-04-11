@@ -1,6 +1,7 @@
 module.exports = Backbone.View.extend
   name: '[view:classified-post]'
   title: -> "Post a classified"
+
   template: template['classified/post']
   templateOptions:
     isGuest: false

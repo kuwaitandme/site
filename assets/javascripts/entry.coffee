@@ -22,16 +22,17 @@ if not window.App?
   uniformed way of accessing different components/resources.
   ###
   window.App =
-    Router: (require "app-modules").router
-    Cache: (require "app-modules").cache
+    Cache:       (require "app-modules").cache
+    Router:      (require "app-modules").router
     ViewManager: (require "app-modules").viewManager
 
     Resources:
-      Library: require "app-libs"
-      Config: require "app-config"
-      Models: require "app-models"
-      Views: require "app-views"
-    instance: null
+      Config:     require "app-config"
+      Helpers:    require "app-helpers"
+      Library:    require "app-libs"
+      Models:     require "app-models"
+      Views:      require "app-views"
+    instance:     null
 
 
   class Main

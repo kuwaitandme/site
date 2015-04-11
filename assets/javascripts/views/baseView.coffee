@@ -23,6 +23,7 @@ module.exports =
   initialize: (options={}) ->
     @historyIndex = options.historyIndex
     @resources = App.Resources
+    @helpers = App.helpers
 
     if options.templateOptions? then @templateOptions = options.templateOptions
 

@@ -1,5 +1,3 @@
-url    = (require 'app-helpers').url
-
 module.exports = (require './post').extend
   name: '[view:classified-edit]'
   templateOptions:
@@ -7,12 +5,14 @@ module.exports = (require './post').extend
     hasClassified: true
 
   getModel: (callback) ->
-    id = (document.URL.split '/')[4]
-
+    id = @resources.historyState.parameters
+    urlHelper = @resources.Helpers.url
 
     if not @model? then @model = new @resources.Models.classified _id: id
-    authHash = url.getParam 'authHash'
+
+    authHash = urlHelper.getParam 'authHash'
     @model.set 'authHash', authHash
+
     @model.fetch success: callback
 
 

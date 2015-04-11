@@ -1,6 +1,4 @@
-view   = require '../classified/post'
-
-module.exports = view.extend
+module.exports = (require '../classified/post').extend
   name: '[view:guest-post]'
   templateOptions:
     isGuest: true

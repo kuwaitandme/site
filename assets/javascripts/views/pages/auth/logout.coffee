@@ -5,4 +5,6 @@ module.exports = Backbone.View.extend
   checkRedirect: ->
     @resources.currentUser.logout()
     true
+
+
   redirectUrl: -> '/auth/login?success=logout'

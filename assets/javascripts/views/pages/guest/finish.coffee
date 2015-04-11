@@ -1,5 +1,3 @@
-url = (require 'app-helpers').url
-
 module.exports = (require '../classified/finish').extend
   name: '[view:guest-finish]'
   templateOptions: isGuest: true
@@ -8,7 +6,9 @@ module.exports = (require '../classified/finish').extend
   # and sets them into the DOM.
   generateSocialLinks: ->
     id = @resources.historyState.parameters
-    authHash = url.getParam 'authHash'
+    urlHelpers = @resources.Helpers.url
+
+    authHash = urlHelpers.getParam 'authHash'
     URL = "#{window.location.origin}/classified/#{id}"
     authLink = "#{window.location.origin}/guest/#{id}?authHash=#{authHash}"
     localURL = "/guest/#{id}?authHash=#{authHash}"

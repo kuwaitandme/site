@@ -15,11 +15,14 @@ module.exports = Backbone.View.extend
 
   start: (options) ->
     console.log @name, 'initializing'
+    @initializeDOM()
+    @initializeScrollHandler()
 
-    # Initialize DOM variables
+
+  # Initialize DOM variables
+  initializeDOM: ->
     @$body         = $ 'body'
     @$header       = $ 'header'
-
     @$credits      = @$ '.user-credits .count'
     @$navHome      = @$ '#nav-logo'
     @$navLinks     = @$ '.nav'
@@ -29,12 +32,11 @@ module.exports = Backbone.View.extend
     @$username     = @$ '.user-title .name'
     @$userthumb    = @$ '.user-thumb img'
 
-    @scrollHandler()
 
   populateHeader: ->
-    md5 = App.Resources.Library.md5
-    currentUser = App.Resources.currentUser.toJSON()
-    strategies = App.Resources.currentUser.loginStrategies
+    md5 = @resources.Library.md5
+    currentUser = @resources.currentUser.toJSON()
+    strategies = @resources.currentUser.loginStrategies
 
     switch currentUser.loginStrategy
       when strategies.FACEBOOK
@@ -71,11 +73,13 @@ module.exports = Backbone.View.extend
     url = "/classified/search/?keywords=#{text}"
     @resources.router.redirect url
 
-  scrollHandler: ->
+
+  initializeScrollHandler: ->
     delta = 5
     didScroll = false
     lastScrollTop = 0
     navbarHeight = @$el.outerHeight()
+
     # on scroll, let the interval function know the user has scrolled
     ($ window).scroll (event) -> didScroll = true;
     ($ window).resize (event) -> didScroll = true;
@@ -120,7 +124,6 @@ module.exports = Backbone.View.extend
 
     # Get the current view from the history API
     currentView  = @resources.currentViewName
-
 
     # Add the 'active' class accordingly
     (@$ "[data-view]").removeClass 'active'

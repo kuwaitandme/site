@@ -10,8 +10,7 @@ module.exports = Backbone.View.extend
     @paymentModal = new @resources.Views.components.paymentModal
       el: @$ "#payment-modal-container"
 
-  continue: ->
-    @$credits.html @resources.currentUser.get 'credits'
+  continue: -> @$credits.html @resources.currentUser.get 'credits'
 
   buyHandle: (event) ->
     console.log "buying", event.currentTarget.dataset.credits

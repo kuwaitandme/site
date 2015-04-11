@@ -1,5 +1,3 @@
-urlHelpers = (require 'app-helpers').url
-
 module.exports = Backbone.View.extend
   gridMinimumSize: 250
   pageIndex: 1
@@ -38,13 +36,13 @@ module.exports = Backbone.View.extend
     @newQuery()
 
     # Set to load new classifieds when we have scrolled to the end of the page.
-    _.bindAll @, 'onScroll'
-    _.bindAll @, 'resizeClassifieds'
-    ($ window).on 'resize', @resizeClassifieds
+    _.bindAll this, 'onScroll'
+    _.bindAll this, 'resizeClassifieds'
 
 
   continue: ->
     console.log @name, 'continue'
+    ($ window).on 'resize', @resizeClassifieds
     ($ window).on 'scroll', @onScroll
 
     # @collection.isAccount = @isAccount
@@ -75,12 +73,6 @@ module.exports = Backbone.View.extend
     @$classifiedList.height 0
 
     # Get the query
-    # if @enableFilterBox
-    #   @query = @getQuery()
-    # else
-    #   keywords = (urlHelpers.getParam "keywords")or ""
-    #   @query = {}
-    #   @query.keywords = if keywords.length > 0 then keywords else null
     @query = @getQuery()
     @query.page = 0
 
@@ -92,9 +84,6 @@ module.exports = Backbone.View.extend
       if not @isAccount then baseUrl = '/classified/search?'
       else baseUrl = '/account/manage?'
       newUrl = baseUrl + $.param @query
-
-      # Attempt to replace the history state
-      # router.replaceURL newUrl
 
     # Fire the AJAX event for the first time to load the first set of
     # classifieds
@@ -109,12 +98,7 @@ module.exports = Backbone.View.extend
   resizeClassifieds: ->
     console.log @name, 'resizing classifieds'
 
-    # Calculate the width of a single 1x1 sqaure. Subtract 5px from th
-    # window's width to compensate for the scroll bar
     windowWidth = ($ window).width()
-    # columns = Math.floor (windowWidth / @gridMinimumSize)
-    # excessSpace = windowWidth - @gridMinimumSize * columns
-    # finalSize = Math.floor (@gridMinimumSize + excessSpace / columns)
 
     # Set each of the blocks with the right size
     (@$ '.classified').css 'max-width', windowWidth/2
@@ -148,25 +132,27 @@ module.exports = Backbone.View.extend
 
 
   getQuery: ->
-      category:      urlHelpers.getParam 'category'
-      childCategory: urlHelpers.getParam 'childCategory'
-      keywords:      urlHelpers.getParam 'keywords'
-      location:      urlHelpers.getParam 'location'
-      priceMax:      urlHelpers.getParam 'priceMax'
-      priceMin:      urlHelpers.getParam 'priceMin'
-      type:          urlHelpers.getParam 'type'
+    urlHelper = @resources.Helpers.url
+
+    category:      urlHelper.getParam 'category'
+    childCategory: urlHelper.getParam 'childCategory'
+    keywords:      urlHelper.getParam 'keywords'
+    location:      urlHelper.getParam 'location'
+    priceMax:      urlHelper.getParam 'priceMax'
+    priceMin:      urlHelper.getParam 'priceMin'
+    type:          urlHelper.getParam 'type'
 
 
   # This function gets called whenever a new model has been added into our
   # collection. This function is responsible for adding the classified
   # into the DOM while properly taking care of aligning it too.
   addClassifieds: (classifieds) ->
+    console.log @name, 'adding classifieds'
     imageLoader = @resources.Library.imageLoader
 
     # All done. Hide the spinner and disable the lock
     @$spinner.fadeOut();
     @settings.ajaxLock = false
-    console.log @name, 'adding classifieds'
 
     # Reload Masonry once for all the elements
     @$classifiedList.masonry()
@@ -224,15 +210,14 @@ module.exports = Backbone.View.extend
     @resizeClassifieds()
 
 
+  # Attach a listener to our collection model
   setupListeners: ->
-    # Attach a listener to our collection model
     @stopListening @collection, 'ajax:done'
     @listenTo     @collection, 'ajax:done', @addClassifieds
 
 
-
+  # Setup of local DOM variables
   setupDOM: ->
-    # Setup of local DOM variables
     @$ajaxfinish =     @$ ".ajax-finish"
     @$classifiedList = @$ 'ul'
     @$filterbox =      @$ '#filter-box'
@@ -243,8 +228,8 @@ module.exports = Backbone.View.extend
     if @enableFilterBox
       @filterbox = new @resources.Views.components.filterBox
         $el: @$filterbox
-        resources: @resources
         historyState: @historyState
+        resources: @resources
       @listenTo @filterbox, 'changed', @newQuery
     else @$filterbox.hide()
 

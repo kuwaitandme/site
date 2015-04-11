@@ -1,5 +1,3 @@
-URL    = (require 'app-helpers').url
-
 module.exports = Backbone.View.extend
   name: "[view:classified-single]"
   template: template['classified/single']
@@ -54,10 +52,11 @@ module.exports = Backbone.View.extend
 
   continue: ->
     console.log @name, 'continue'
+    urlHelpers = @resources.Helpers.url
     @$el.fadeIn()
     @modelChange()
 
-    authHash = URL.getParam 'authHash'
+    authHash = urlHelpers.getParam 'authHash'
     @model.set 'authHash', authHash
 
     ($ document).foundation 'clearing', 'reflow'
@@ -163,7 +162,8 @@ module.exports = Backbone.View.extend
 
 
   modelChange: ->
-    authHash = URL.getParam 'authHash'
+    urlHelpers = @resources.Helpers.url
+    authHash = urlHelpers.getParam 'authHash'
     @model.set 'authHash', authHash
 
     @$messages.html ""
@@ -302,6 +302,7 @@ module.exports = Backbone.View.extend
 
 
   renderAdminbar: ->
+    urlHelpers = @resources.Helpers.url
     superEditable = false
     editable = false
 
@@ -313,7 +314,7 @@ module.exports = Backbone.View.extend
 
     # If this is a guest classified, check the authHash
     if (@model.get 'guest') and
-    (URL.getParam 'authHash') and
+    (urlHelpers.getParam 'authHash') and
     (location.pathname.split '/')[1] is 'guest' then editable = true
 
     # Check if the user is the owner or the moderator
