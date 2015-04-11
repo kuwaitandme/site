@@ -9,11 +9,12 @@ module.exports = Backbone.View.extend
     if options.resources then @resources = options.resources
 
     categories = @resources.categories.toJSON()
-
+    for category in categories
+      category.classname = (category.name.replace ',', ' ').split(' ')[0].toLowerCase()
     @$el.html @template categories: categories
-    @$el.masonry
-      isAnimated: true
-      itemSelector: 'li'
+    # @$el.masonry
+    #   isAnimated: true
+    #   itemSelector: 'li'
       # isFitWidth: true
     @resources.router.reattachRouter()
 
@@ -30,7 +31,7 @@ module.exports = Backbone.View.extend
     $el.addClass 'active'
     $list.css 'height', 'auto'
     height = $list.height()
-    @$el.masonry()
+    # @$el.masonry()
     $list.height 0
     $list.stop().transition height: height
 
@@ -38,4 +39,4 @@ module.exports = Backbone.View.extend
     $el = @$ 'li'
     (@$ '.active').removeClass 'active'
     $list = $el.find '.children'
-    $list.stop().transition { height: 0 }, => @$el.masonry()
+    $list.stop().transition { height: 0 }, => #@$el.masonry()

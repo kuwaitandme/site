@@ -1,0 +1,97 @@
+#header-search
+  form
+    input(placeholder="search ...", name='keywords', type='text')
+  #search-close.icon &#xf00d;
+  #search-submit.icon &#xf002;
+  //- #search4-filter.icon &#xf0b0;
+
+nav#mobile-nav.hide-for-large-up.hide-when-searching
+  #mobile-icon
+    a(href="/", data-view)
+      img(src='/images/header-logo.png')
+  ul
+    li.left.icon.search-trigger
+      a &#xf002;
+    li#nav-grabber &#xf0c9;
+  #subheader
+    ul
+      li.nav-item
+        a(href="/", data-view='landing') Home
+      li.nav-item
+        a(href="/classified/search", data-view='classified-search') Browse classifieds
+      li.main-item.hide-if-loggedin
+        a(href="/guest/post", data-view='guest-post') Post a Classified
+      li.main-item.show-if-loggedin
+        a(href="/classified/post", data-view='classified-post') Post a Classified
+      li.nav-item.hide-if-loggedin
+        a(href="/auth/login", data-view='auth-login') Login
+      li.nav-item.hide-if-loggedin
+        a(href="/auth/signup", data-view='auth-signup') Signup
+      li.main-item.show-if-loggedin
+        a(href="/account", data-view='account-index') Manage your account
+      li.main-item.show-if-loggedin
+        a(href="/auth/logout", data-view='auth-logout') Logout
+      li.main-item
+        a(href="/contact", data-view='contact') Contact Us
+      li.main-item
+        a(href="/about", data-view='about') About Us
+      li.main-item
+        a(href="/terms-privacy", data-view='terms-privacy') Terms &amp; Privacy
+nav#main-nav.show-for-large-up.hide-when-searching
+  ul
+    li.main-item.left.home.icon
+      a(href="/", data-view) &#xf015;
+    li.main-item.left.search-trigger.icon
+      a &#xf002;
+    li.main-item.settings.icon &#xf013;
+
+      ul.subnav.hide-if-loggedin
+        li.with-link
+          a(href="/auth/login", data-view) Login
+        li.with-link
+          a(href="/auth/signup", data-view) Signup
+
+      ul.subnav.show-if-loggedin
+        li.user-title
+          span Welcome
+          .name
+        //- li.user-credits
+          span You have&nbsp;
+          span.count 0
+          span &nbsp;Credits
+        li.user-thumb
+          img(src='')
+        //- li.with-link
+          a(href="/account/credits", data-view) Buy Credits
+        li.with-link
+          a(href="/account", data-view) View Account
+        li.with-link
+          a(href="/auth/logout", data-view) Logout
+
+ul#sub-nav.show-for-large-up
+  li
+    a(href="/classified/search", data-view='classified-search') Browse classifieds
+  li.hide-if-loggedin
+    a(href="/guest/post", data-view='guest-post') Post a Classified
+  li.show-if-loggedin
+    a(href="/classified/post", data-view='classified-post') Post a Classified
+  li.nav-item.hide-if-loggedin
+    a(href="/auth/login", data-view='auth-login') Login
+  li.nav-item.hide-if-loggedin
+    a(href="/auth/signup", data-view='auth-signup') Signup
+  li.show-if-loggedin
+    a(href="/account", data-view='account-index') Manage your account
+  li
+    a(href="/contact", data-view='contact') Contact Us
+  li
+    a(href="/about", data-view='about') About Us
+  li
+    a(href="/terms-privacy", data-view='terms-privacy') Terms &amp; Privacy
+  li.social
+    a.facebook(href="https://www.facebook.com/KuwaitandME") &#xf09a;
+  li.social
+    a.googleplus(href="https://www.google.com/+Kuwaitandmeclassifieds") &#xf0d5;
+  li.social
+    a.twitter(href="https://twitter.com/kuwaitandme") &#xf099;
+  //- li.social
+  //-   a.youtube(href="/terms-privacy") &#xf16a;

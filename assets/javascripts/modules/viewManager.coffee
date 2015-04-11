@@ -1,3 +1,4 @@
+
 module.exports = class viewManager
   name: '[viewManager]'
 
@@ -19,6 +20,8 @@ module.exports = class viewManager
     @header = new (@components.header)(el: 'header', resources: @resources)
     @messages = new (@components.messages)(el: '#messages')
     @progressBar = new @components.progressBar
+
+    @header.trigger 'start'
 
     @resources.router.on 'change', @routeHandle
 
@@ -45,6 +48,7 @@ module.exports = class viewManager
     @resources.historyState = historyState
     @setView viewIdentifier, historyState
     @resources.currentView = @currentView
+    @resources.currentViewName = viewIdentifier
 
     # Signal google Analytics
     @googleAnalyticsSend()

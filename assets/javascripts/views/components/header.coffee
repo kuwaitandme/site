@@ -1,6 +1,7 @@
 module.exports = Backbone.View.extend
   sliderAnimateWidth: 200
   name: '[view:header]'
+  template: template['components/header']
   events:
     'click #search-close' : 'toggleSearchBar'
     'click .search-trigger' : 'toggleSearchBar'
@@ -12,19 +13,19 @@ module.exports = Backbone.View.extend
 
   toggleHeader: -> @$body.toggleClass 'show-subheader'
 
-  initialize: (options) ->
+  start: (options) ->
     console.log @name, 'initializing'
-    @resources = App.Resources
 
     # Initialize DOM variables
+    @$body         = $ 'body'
+    @$header       = $ 'header'
+
+    @$credits      = @$ '.user-credits .count'
     @$navHome      = @$ '#nav-logo'
     @$navLinks     = @$ '.nav'
     @$nextLink     = @$ '.next'
     @$previousLink = @$ '.prev'
-    @$header       = $ 'header'
-    @$body         = $ 'body'
     @$sliderNav    = @$ '#slider-nav'
-    @$credits      = @$ '.user-credits .count'
     @$username     = @$ '.user-title .name'
     @$userthumb    = @$ '.user-thumb img'
 
@@ -48,13 +49,12 @@ module.exports = Backbone.View.extend
         md5Hash = md5 currentUser.email or ''
         url = "https://www.gravatar.com/avatar/#{md5Hash}"
 
-    console.log url
     @$credits.html currentUser.credits
     @$username.html currentUser.name
     @$userthumb.attr 'src', url
 
 
-  toggleSearchBar: -> @$header.toggleClass 'show-search'
+  toggleSearchBar: -> @$el.toggleClass 'show-search'
 
 
   # This function redirects the app to the classified search page, with the
@@ -75,7 +75,7 @@ module.exports = Backbone.View.extend
     delta = 5
     didScroll = false
     lastScrollTop = 0
-    navbarHeight = @$header.outerHeight()
+    navbarHeight = @$el.outerHeight()
     # on scroll, let the interval function know the user has scrolled
     ($ window).scroll (event) -> didScroll = true;
     ($ window).resize (event) -> didScroll = true;
@@ -89,15 +89,15 @@ module.exports = Backbone.View.extend
       # This is necessary so you never see what is "behind" the navbar.
       if st > lastScrollTop and st > navbarHeight
         # Scroll Down
-        @$header.addClass 'nav-up'
+        @$el.addClass 'nav-up'
 
       # Scroll Up
       else if st + ($ window).height() < ($ document).height()
-        @$header.removeClass 'nav-up'
+        @$el.removeClass 'nav-up'
 
       # 'Scroll up' if the window has been resized and the header has hit
       # the top..
-      if st is 0 then @$header.removeClass 'nav-up'
+      if st is 0 then @$el.removeClass 'nav-up'
 
       lastScrollTop = st;
 
@@ -119,13 +119,12 @@ module.exports = Backbone.View.extend
     @$el.removeClass 'nav-up'
 
     # Get the current view from the history API
-    currentState = routerController.getHistoryState()
-    currentView  = currentState.view
+    currentView  = @resources.currentViewName
+
 
     # Add the 'active' class accordingly
-    # (@$ "[data-view] li").removeClass 'active'
-    # if @currentView
-    #   (@$ "[data-view='#{currentView}'] li").addClass 'active'
+    (@$ "[data-view]").removeClass 'active'
+    (@$ "[data-view='#{currentView}']").addClass 'active'
 
     # Depending on the user's current login state. Change the header
     if @resources.currentUser.isAnonymous() then @$body.removeClass 'loggedin'
