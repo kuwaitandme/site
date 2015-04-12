@@ -5,11 +5,10 @@ module.exports = Backbone.View.extend
 
   title: -> "Classified submitted!"
 
-  # events:
-    # 'click .enabled .active': 'managePayment'
-    # 'click .enabled .cancel': 'managePayment'
-    # 'click .submit': 'makePurchase'
+  events:
+    'click #promoteLink': 'promoteHandle'
 
+  paywithatweetURL: 'http://www.paywithatweet.com/pay?id=839c89ba-fec9-4b31-8f0a-29043cee27b6'
   # messages: perkpaid: 'Your perk is now activated'
 
   # perkPrices: [
@@ -25,7 +24,6 @@ module.exports = Backbone.View.extend
 
   start: (options) ->
 
-
     # Setup DOM variables
     @$tabPayment    = @$ '#tab-payment'
     @$paymentErrors = @$ '#payment-errors'
@@ -37,6 +35,19 @@ module.exports = Backbone.View.extend
     @$twitter     = @$ ".social .twitter"
     @$gplus       = @$ ".social .gplus"
 
+    @$sharedMessage = @$ "#shared-message"
+    @$unsharedMessage = @$ "#unshared-message"
+
+    cookieHelper = @resources.Helpers.cookie
+    cookieHelper.eraseCookie 'pay-w-tweet'
+    cookieHelper.eraseCookie 'authHash'
+
+    if (window.location.hash.indexOf "shared") != -1
+      @$sharedMessage.show()
+      @$unsharedMessage.hide()
+    else
+      @$sharedMessage.hide()
+      @$unsharedMessage.show()
 
   continue: -> @generateSocialLinks()
 
@@ -59,6 +70,11 @@ module.exports = Backbone.View.extend
     @$twitter    .attr 'href', twitter
     @$gplus      .attr 'href', gplus
 
+
+  promoteHandle: ->
+    cookieHelper = @resources.Helpers.cookie
+    cookieHelper.createCookie 'pay-w-tweet', @resources.historyState.parameters
+    window.location = @paywithatweetURL
 
   # parseURL: ->
     # getParam = @resources.helpers.url.getParam

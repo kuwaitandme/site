@@ -25,6 +25,13 @@ module.exports = (require '../classified/finish').extend
     @$twitter    .attr 'href', twitter
     @$gplus      .attr 'href', gplus
 
+  promoteHandle: ->
+    cookieHelper = @resources.Helpers.cookie
+    urlHelpers = @resources.Helpers.url
+
+    cookieHelper.createCookie 'pay-w-tweet', @resources.historyState.parameters
+    cookieHelper.createCookie 'authHash', urlHelpers.getParam 'authHash'
+    window.location = @paywithatweetURL
 
   # parseURL: ->
     # getParam = @resources.helpers.url.getParam

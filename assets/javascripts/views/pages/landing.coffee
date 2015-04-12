@@ -23,6 +23,14 @@ module.exports = Backbone.View.extend
   continue: ->
     console.log @name, 'continue'
 
+    switch window.location.hash
+      when "#shared"
+        cookieHelper = @resources.Helpers.cookie
+
+        id = cookieHelper.readCookie 'pay-w-tweet'
+        authHash = cookieHelper.readCookie 'auth-hash'
+        @resources.router.redirect "/classified/finish/#{id}#shared?authHash=#{authHash}"
+
     if not @categoryList?
       @categoryList = new @resources.Views.components.categoryList
         el: @$categoryContainer

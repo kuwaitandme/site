@@ -27,7 +27,10 @@
     .row.button.submit
       a#finishLink(href="", data-view) View your classified
     .seperator
-    .row
+    .row#shared-message
+      h3 Your classified is promoted!
+      p Thanks so much for spreading the love! We have promoted your classified as a token of our apprecition :)
+    .row#unshared-message
       h3 Promote with a share!
       p
         | We love doing beautiful things for you! Show us some love back and we
@@ -36,5 +39,4 @@
       p
         | All you have to do is simply share the site in your social network by
         | clicking on the button below
-    .row.button.submit
-      a#promoteLink(href="", data-view) Promote with a share
+      .row.button.submit#promoteLink Promote with a share
