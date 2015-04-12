@@ -224,7 +224,7 @@ module.exports = Backbone.View.extend
 
     texts = [
       "Woops! that's all we got!"
-      "Wowie! that seems to be all we've have!"
+      "Wowie! that seems to be all we have!"
       "Mayday! we're all out of classifieds!"
       # ""
       "Damn, there are no more classifieds!"

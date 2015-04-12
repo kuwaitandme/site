@@ -19,7 +19,7 @@ module.exports =
 
   # Returns the get string of the given url.
   getGETstring: (url) ->
-    if not url then  url = document.URL
+    if not url then url = document.URL
     if url.indexOf('?') > -1
       return url.substr(url.indexOf('?'), url.length)
     ''
@@ -28,9 +28,9 @@ module.exports =
   getParam: (name) ->
     name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]')
     url = window.location.search
-    regex = new RegExp('[\\?&]' + name + '=([^&#]*)')
-    results = regex.exec(url)
-    if results == null then '' else decodeURIComponent(results[1].replace(/\+/g, ' '))
+    regex = new RegExp "[\\?&]#{name}=([^&#]*)"
+    results = regex.exec url
+    if results == null then '' else decodeURIComponent results[1].replace /\+/g, ' '
 
 
   # Re-construct the page's url with the new GET parameters (passed as an
