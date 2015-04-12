@@ -10,6 +10,14 @@ module.exports = Backbone.View.extend
     'click #search-submit' : 'submitQuery'
     "submit" : "submitQuery"
 
+  searchTexts: [
+    "Search for anything you want!"
+    "Search for what you want, here!"
+    "Search your heart's desires"
+    "Search your what you're looking for"
+    # ""
+    # "Damn, there are no more classifieds!"
+  ]
 
   toggleHeader: -> @$body.toggleClass 'show-subheader'
 
@@ -17,7 +25,11 @@ module.exports = Backbone.View.extend
     console.log @name, 'initializing'
     @initializeDOM()
     @initializeScrollHandler()
+    @setupSearchText()
 
+  setupSearchText: ->
+    @$search.attr 'placeholder',
+      @searchTexts[Math.floor Math.random() * @searchTexts.length]
 
   # Initialize DOM variables
   initializeDOM: ->
@@ -31,7 +43,7 @@ module.exports = Backbone.View.extend
     @$sliderNav    = @$ '#slider-nav'
     @$username     = @$ '.user-title .name'
     @$userthumb    = @$ '.user-thumb img'
-
+    @$search       = @$ "[name='keywords']"
 
   populateHeader: ->
     md5 = @resources.Library.md5
@@ -56,14 +68,16 @@ module.exports = Backbone.View.extend
     @$userthumb.attr 'src', url
 
 
-  toggleSearchBar: -> @$el.toggleClass 'show-search'
+  toggleSearchBar: ->
+    @$el.toggleClass 'show-search'
+    if @$el.hasClass 'show-search' then @$search.focus()
 
 
   # This function redirects the app to the classified search page, with the
   # text in the search box set as the keywords in the GET query.
   submitQuery: (event) ->
     event.preventDefault()
-    $keywords = @$ "[name='keywords']"
+    $keywords = @search.val()
 
     # Get the keywords and covert it into a GET query
     text = $keywords.val() or ''
