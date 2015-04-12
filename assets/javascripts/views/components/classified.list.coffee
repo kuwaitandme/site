@@ -223,6 +223,15 @@ module.exports = Backbone.View.extend
     @$filterbox =      @$ '#filter-box'
     @$spinner =        @$ '.ajax-spinner'
 
+    texts = [
+      "Woops! that's all we got!"
+      "Wowie! that seems to be all we've have!"
+      "Mayday! we're all out of classifieds!"
+      # ""
+      "Damn, there are no more classifieds!"
+    ]
+    @$ajaxfinish.html texts[Math.floor(Math.random() * texts.length)]
+
 
   setupFilterBox: ->
     if @enableFilterBox
