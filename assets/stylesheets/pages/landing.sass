@@ -2,13 +2,54 @@ body#landing
   background: #FFF
 
   h4
-    font-size: 1rem
+    font-size: 1.05rem
     text-align: center
     padding: 1px
-    margin-bottom: 1rem;
+    margin-bottom: 1rem
+  #landing-social
+    +clearfix
+    @extend .font-awesome
+    position: absolute
+    right: 10px
+    top: 95px
+
+    li
+      float: right
+    a
+      $radius: 45px
+      border-right: 0
+      color: #FFF
+      display: block
+      font-size: 18px
+      height: $radius
+      margin-left: 10px
+      overflow: hidden
+      padding: 15px 11px
+      // padding-top: 16px
+      text-align: center
+      width: $radius
+
+      -webkit-box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.36)
+      -moz-box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.36)
+      box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.36)
+
+      -webkit-border-radius: $radius
+      -moz-border-radius: $radius
+      border-radius: $radius
+
+      &.twitter
+        background: #0099B9
+      &.youtube
+        background: #DF2927
+      &.facebook
+        background: #3A5795
+      &.googleplus
+        background: #DF2927
+      &.instagram
+        background: #A67056
   #landing-categories
     +single-transition(height)
-    padding-bottom: 30px
+    padding-bottom: 5rem
     margin: 0 auto
   #landing-featured-cl
     padding-top: 20px
