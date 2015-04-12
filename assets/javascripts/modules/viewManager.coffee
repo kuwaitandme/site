@@ -18,24 +18,26 @@ module.exports = class viewManager
 
     # Render different components
     @header = new (@components.header)(el: 'header', resources: @resources)
-    @messages = new (@components.messages)(el: '#messages')
+    # @messages = new (@components.messages)(el: '#messages')
     @progressBar = new @components.progressBar
-
-    @header.trigger 'start'
 
     @resources.router.on 'change', @routeHandle
 
-    # Attach different listeners
-    @resources.currentUser.on 'sync', => @header.update()
 
   start: ->
+    # Attach different listeners
+    @header.trigger 'start'
+
     console.log @name, 'starting'
     @started = true
     if @currentView
       if @currentView.checkRedirect()
         @progressBar.progress 100
         return @resources.router.redirect @currentView.redirectUrl()
+
+      # @resources.currentUser.on 'sync', => @header.update()
       @currentView.trigger 'continue'
+
 
   routeHandle: (args={}) =>
     viewIdentifier = args.view

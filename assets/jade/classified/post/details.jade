@@ -1,26 +1,25 @@
 .row
-  h3 Details about your classified
+  h3(lang-html='page.cform.title.details') Details about your classified
 .row.hint
-  | Here you'll mention things like the price, location, category of your classified.
-  br
-  | This will help make your classified more visible and easily searchable.
+  p(lang-html='page.cform.details.hint1') Here you'll mention things like the price, location, category of your classified.
+  p(lang-html='page.cform.details.hint2') This will help make your classified more visible and easily searchable.
 
 .row
   .medium-3.columns
     label(for="right-label") Price *
   .medium-9.columns.error
     select#price-selector(name="price-option", tooltipp="Choose a price. If you want people to contact you for a quote, choose the 'Contact Owner' option.", required)
-      option(value="", disabled, selected) The price for your classified
-      option(value='0') Free
-      option(value='-1') Contact Owner
-      option(value='1') Specify Value
+      option(value="", disabled, selected, lang-val='page.cform.details.price.select') The price for your classified
+      option(value='0', lang-val='page.cform.details.price.free') Free
+      option(value='-1', lang-val='page.cform.details.price.contact') Contact Owner
+      option(value='1', lang-val='page.cform.details.price.specify') Specify Value
     small.error Please choose a price
 
     .row.collapse.hide#price-row.error
       .small-3.medium-2.columns
         span.prefix KWD
       .small-9.medium-10.columns
-        input#price-field(type="text", name="price", value=0, placeholder="Your price in Kuwati Dinar", required)
+        input#price-field(type="text", name="price", value=0, placeholder="Your price in Kuwati Dinar", required, lang-placeholder='page.cform.details.price.input')
       small.error Please give a price
 
 .row

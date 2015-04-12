@@ -2,51 +2,50 @@ module.exports = Backbone.Router.extend
   name: '[router]'
   fallback: false
 
-  routes:
-    "about(/)"                 : "about"
-    "account(/)"               : "account"
-    "account/credits(/)"       : "accountCredits"
-    "account/manage(/)"        : "accountManage"
-    "auth/login(/)"            : "authLogin"
-    "auth/logout(/)"           : "authLogout"
-    "auth/signup(/)"           : "authSignup"
-    "auth/signup(/)"           : "authSignup"
-    "classified/finish/:id(/)" : "classifiedFinish"
-    "classified/post(/)"       : "classifiedPost"
-    "classified/search(/)"     : "classified"
-    "contact(/)"               : "contact"
-    "guest/finish/:id(/)"      : "guestFinish"
-    "guest/post(/)"            : "guestPost"
-    "terms-privacy(/)"         : "termsprivacy"
+  # routes:
+  #   "account"               : "account"
+  #   "account/credits"       : "accountCredits"
+  #   "account/manage"        : "accountManage"
+  #   "auth/login"            : "authLogin"
+  #   "auth/logout"           : "authLogout"
+  #   "auth/signup"           : "authSignup"
+  #   "auth/signup"           : "authSignup"
+  #   "classified/finish/([a-f0-9]*)" : "classifiedFinish"
+  #   "classified/post"       : "classifiedPost"
+  #   "classified/search"     : "classified"
+  #   "contact"               : "contact"
+  #   "guest/finish/([a-f0-9]*)"      : "guestFinish"
+  #   "guest/post"            : "guestPost"
+  #   "terms-privacy"         : "termsprivacy"
 
-    "classified/:id(/)"        : "classifiedSingle"
-    "classified/:id/edit(/)"   : "classifiedEdit"
-    "guest/:id(/)"             : "guestSingle"
-    "guest/:id/edit(/)"        : "guestEdit"
+  #   "classified/([a-f0-9]*)"        : "classifiedSingle"
+  #   "classified/([a-f0-9]*)/edit"   : "classifiedEdit"
+  #   "guest/([a-f0-9]*)"             : "guestSingle"
+  #   "guest/([a-f0-9]*)/edit"        : "guestEdit"
 
-    "*default"                 : "landing"
+    # "*default"                 : "landing"
 
-  about:                    -> @handleRoute 'about'
-  account:                  -> @handleRoute 'account-index'
-  accountCredits:           -> @handleRoute 'account-credits'
-  accountManage:            -> @handleRoute 'account-manage'
-  authLogin:                -> @handleRoute 'auth-login'
-  authLogout:               -> @handleRoute 'auth-logout'
-  authSignup:               -> @handleRoute 'auth-signup'
-  classified:               -> @handleRoute 'classified-search'
-  classifiedEdit:   (param) -> @handleRoute 'classified-edit', param
-  classifiedFinish: (param) -> @handleRoute 'classified-finish', param
-  classifiedPost:           -> @handleRoute 'classified-post'
-  classifiedSingle: (param) -> @handleRoute 'classified-single', param
-  contact:                  -> @handleRoute 'contact'
-  credits:                  -> @handleRoute 'credits'
-  guestFinish:      (param) -> @handleRoute 'guest-finish', param
-  guestEdit:        (param) -> @handleRoute 'guest-edit', param
-  guestPost:                -> @handleRoute 'guest-post'
-  guestSingle:      (param) -> @handleRoute 'guest-single', param
-  landing:                  -> @handleRoute 'landing'
-  termsprivacy:             -> @handleRoute 'terms-privacy'
-
+  about:            -> @handleRoute 'about'
+  account:          -> @handleRoute 'account-index'
+  accountCredits:   -> @handleRoute 'account-credits'
+  accountManage:    -> @handleRoute 'account-manage'
+  authLogin:        -> @handleRoute 'auth-login'
+  authLogout:       -> @handleRoute 'auth-logout'
+  authSignup:       -> @handleRoute 'auth-signup'
+  classified:       -> @handleRoute 'classified-search'
+  classifiedEdit:   -> @handleRoute 'classified-edit', arguments[1]
+  classifiedFinish: -> @handleRoute 'classified-finish', arguments[1]
+  classifiedPost:   -> @handleRoute 'classified-post'
+  classifiedSingle: -> @handleRoute 'classified-single', arguments[1]
+  contact:          -> @handleRoute 'contact'
+  credits:          -> @handleRoute 'credits'
+  guestFinish:      -> @handleRoute 'guest-finish', arguments[1]
+  guestEdit:        -> @handleRoute 'guest-edit', arguments[1]
+  guestPost:        -> @handleRoute 'guest-post'
+  guestSingle:      -> @handleRoute 'guest-single', arguments[1]
+  landing:          -> @handleRoute 'landing'
+  termsprivacy:     -> @handleRoute 'terms-privacy'
+  fourofour:        -> console.log '404'
 
   # A simple route handler that fires the 'change' event along with all
   # necessary parameters of the route.
@@ -76,6 +75,40 @@ module.exports = Backbone.Router.extend
     @on 'change', @reattachRouter
     ($ window).on 'popstate', (event) => @popstateHandle event
 
+    @prepareRoutes()
+
+  prepareRoutes: ->
+    _url = (url) -> new RegExp "^(en|ar)\/#{url}\/?$"
+
+
+    # @route /^.*/                   , "langRedirect"
+    @route (_url 'about')                         , "about"
+    @route (_url "account")                       , "account"
+    @route (_url "account/credits")               , "accountCredits"
+    @route (_url "account/manage")                , "accountManage"
+    @route (_url "auth/login")                    , "authLogin"
+    @route (_url "auth/logout")                   , "authLogout"
+    @route (_url "auth/signup")                   , "authSignup"
+    @route (_url "classified/finish/([a-f0-9]*)") , "classifiedFinish"
+    @route (_url "classified/post")               , "classifiedPost"
+    @route (_url "classified/search")             , "classified"
+    @route (_url "contact")                       , "contact"
+    @route (_url "guest/finish/([a-f0-9]*)")              , "guestFinish"
+    @route (_url "guest/post")                    , "guestPost"
+    @route (_url "terms-privacy")                 , "termsprivacy"
+
+    @route (_url "classified/([a-f0-9]*)")        , "classifiedSingle"
+    @route (_url "classified/([a-f0-9]*)/edit")   , "classifiedEdit"
+    @route (_url "guest/([a-f0-9]*)")             , "guestSingle"
+    @route (_url "guest/([a-f0-9]*)/edit")        , "guestEdit"
+
+    @route /^(en|ar)\/?$/, "landing"
+    # @route /^(en|ar)\/.*?/, "fourofour"
+    @route "", "langRedirect"
+
+  langRedirect: ->
+    window.location = "en#{location.pathname}"
+    console.log @name, 'redirecting'
 
   start: ->
     console.log @name, 'starting Backbone history'

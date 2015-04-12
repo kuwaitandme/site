@@ -26,6 +26,8 @@ module.exports =
     @helpers = App.helpers
 
     if options.templateOptions? then @templateOptions = options.templateOptions
+    @templateOptions.lang = @resources.language.currentDictonary or {}
+    @templateOptions.lang.href = @resources.language.urlSlug
 
     ###
     These are events that get called by the ViewManager module. You
@@ -33,23 +35,28 @@ module.exports =
     code lies in the functions defined the below sections.
     ###
     @on 'start', =>
-      if @template? then @$el.html @template @templateOptions
       @start()
+    if @template? then @$el.html @template @templateOptions
+
     @on 'continue', =>
       @setTitle()
+      @translatePage()
       @$el.show()
       @undelegateEvents()
       @delegateEvents()
       @continue()
+
     @on 'pause', () =>
       @undelegateEvents()
       @pause()
       @$el.hide()
+
     @on 'finish', =>
       @finish()
       @remove()
       @unbind()
       @stopListening()
+
 
 
   ###
@@ -130,3 +137,26 @@ module.exports =
   ###
   checkRedirect: -> false
   redirectUrl: -> '/'
+
+  # Do not override this function
+  translatePage: ->
+    console.log @name, 'translating view'
+    if not @translated then @translated = true
+    else return
+
+    getLanguageItem = (key) => key#@resources.language.get key
+
+    $els = @$ '[lang-placeholder]'
+    $els.each (i) ->
+      $el = $els.eq i
+      $el.attr 'placeholder', getLanguageItem $el.attr 'lang-placeholder'
+
+    $els = @$ '[lang-val]'
+    $els.each (i) ->
+      $el = $els.eq i
+      $el.val getLanguageItem $el.attr 'lang-val'
+
+    $els = @$ '[lang-html]'
+    $els.each (i) ->
+      $el = $els.eq i
+      $el.html getLanguageItem $el.attr 'lang-html'

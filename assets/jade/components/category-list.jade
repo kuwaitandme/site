@@ -10,10 +10,10 @@ li.columns.large-3.medium-3.small-6
     .children
       <% _.each(cat.children, function(child) { %>
       .child
-        a(href!="/classified/search?childCategory=<%= child._id %>", data-view) <%= child.name %>
+        a(href!="<%= lang.href %>/classified/search?childCategory=<%= child._id %>", data-view) <%= child.name %>
         .count <%= child.count %>
       <% }) %>
       .child
-        a(href!="/classified/search?category=<%= cat._id %>", data-view) View All
+        a(href!="<%= lang.href %>/classified/search?category=<%= cat._id %>", data-view) View All
         .count <%= cat.count %>
 <% }) %>

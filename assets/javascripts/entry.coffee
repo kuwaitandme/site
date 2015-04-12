@@ -25,6 +25,7 @@ if not window.App?
     Cache:       (require "app-modules").cache
     Router:      (require "app-modules").router
     ViewManager: (require "app-modules").viewManager
+    Language:    (require "app-modules").language
 
     Resources:
       Config:     require "app-config"
@@ -56,7 +57,7 @@ if not window.App?
 
     initializeListeners: ->
       console.log @name, 'initializing listeners'
-      _.extend @, Backbone.Events
+      _.extend this, Backbone.Events
 
 
     decodeData: ->
@@ -105,29 +106,33 @@ if not window.App?
       console.log @name, 'initializing resources'
       @resources = App.Resources
 
-      @resources.cache = new App.Cache
-      @resources.categories = new App.Resources.Models.categories
+      @resources.cache       = new App.Cache
+      @resources.categories  = new App.Resources.Models.categories
       @resources.currentUser = new App.Resources.Models.user
-      @resources.locations = new App.Resources.Models.locations
-      @resources.router = new App.Router
+      @resources.locations   = new App.Resources.Models.locations
+      @resources.language    = new App.Language
+      @resources.router      = new App.Router
 
-      @resources.currentView = App.ViewManager.currentView
-      @resources.categories.resources = @resources
-      @resources.locations.resources = @resources
+      @resources.currentView           = App.ViewManager.currentView
+      @resources.categories.resources  = @resources
+      @resources.locations.resources   = @resources
       @resources.currentUser.resources = @resources
 
-      asyncCounter = 3
+      asyncCounter = 4
       setAndCheckCounter = =>
         asyncCounter--
         if asyncCounter <= 0 then @viewManager.start()
 
       @listenToOnce @resources.categories, 'synced', setAndCheckCounter
       @listenToOnce @resources.currentUser, 'synced', setAndCheckCounter
+      @listenToOnce @resources.language, 'synced', setAndCheckCounter
       @listenToOnce @resources.locations, 'synced', setAndCheckCounter
 
       @resources.categories.fetch()
       @resources.currentUser.fetch()
+      @resources.language.fetch()
       @resources.locations.fetch()
+
 
   ###
   **Main Javascript Execution starts here**

@@ -7,7 +7,7 @@
 
 nav#mobile-nav.hide-for-large-up.hide-when-searching
   #mobile-icon
-    a(href="/", data-view)
+    a(href!="<%= lang.href %>/", data-view)
       img(src='/images/header-logo.png')
   ul
     li.left.icon.search-trigger
@@ -16,40 +16,40 @@ nav#mobile-nav.hide-for-large-up.hide-when-searching
   #subheader
     ul
       li.nav-item
-        a(href="/", data-view='landing') Home
+        a(href!="<%= lang.href %>/", data-view='landing') Home
       li.nav-item
-        a(href="/classified/search", data-view='classified-search') Browse classifieds
+        a(href!="<%= lang.href %>/classified/search", data-view='classified-search') Browse classifieds
       li.main-item.hide-if-loggedin
-        a(href="/guest/post", data-view='guest-post') Post a Classified
+        a(href!="<%= lang.href %>/guest/post", data-view='guest-post') Post a Classified
       li.main-item.show-if-loggedin
-        a(href="/classified/post", data-view='classified-post') Post a Classified
+        a(href!="<%= lang.href %>/classified/post", data-view='classified-post') Post a Classified
       li.nav-item.hide-if-loggedin
-        a(href="/auth/login", data-view='auth-login') Login
+        a(href!="<%= lang.href %>/auth/login", data-view='auth-login') Login
       li.nav-item.hide-if-loggedin
-        a(href="/auth/signup", data-view='auth-signup') Signup
+        a(href!="<%= lang.href %>/auth/signup", data-view='auth-signup') Signup
       li.main-item.show-if-loggedin
-        a(href="/account", data-view='account-index') Manage your account
+        a(href!="<%= lang.href %>/account", data-view='account-index') Manage your account
       li.main-item.show-if-loggedin
-        a(href="/auth/logout", data-view='auth-logout') Logout
+        a(href!="<%= lang.href %>/auth/logout", data-view='auth-logout') Logout
       li.main-item
-        a(href="/contact", data-view='contact') Contact Us
+        a(href!="<%= lang.href %>/contact", data-view='contact') Contact Us
       li.main-item
-        a(href="/about", data-view='about') About Us
+        a(href!="<%= lang.href %>/about", data-view='about') About Us
       li.main-item
-        a(href="/terms-privacy", data-view='terms-privacy') Terms &amp; Privacy
+        a(href!="<%= lang.href %>/terms-privacy", data-view='terms-privacy') Terms &amp; Privacy
 nav#main-nav.show-for-large-up.hide-when-searching
   ul
     li.main-item.left.home.icon
-      a(href="/", data-view) &#xf015;
+      a(href!="<%= lang.href %>/", data-view) &#xf015;
     li.main-item.left.search-trigger.icon
       a &#xf002;
     li.main-item.settings.icon &#xf013;
 
       ul.subnav.hide-if-loggedin
         li.with-link
-          a(href="/auth/login", data-view) Login
+          a(href!="<%= lang.href %>/auth/login", data-view) Login
         li.with-link
-          a(href="/auth/signup", data-view) Signup
+          a(href!="<%= lang.href %>/auth/signup", data-view) Signup
 
       ul.subnav.show-if-loggedin
         li.user-title
@@ -62,30 +62,30 @@ nav#main-nav.show-for-large-up.hide-when-searching
         li.user-thumb
           img(src='')
         //- li.with-link
-          a(href="/account/credits", data-view) Buy Credits
+          a(href!="<%= lang.href %>/account/credits", data-view) Buy Credits
         li.with-link
-          a(href="/account", data-view) View Account
+          a(href!="<%= lang.href %>/account", data-view) View Account
         li.with-link
-          a(href="/auth/logout", data-view) Logout
+          a(href!="<%= lang.href %>/auth/logout", data-view) Logout
 ul#sub-nav.show-for-large-up
   li
-    a(href="/classified/search", data-view='classified-search') Browse classifieds
+    a(href!="<%= lang.href %>/classified/search", data-view='classified-search') Browse classifieds
   li.hide-if-loggedin
-    a(href="/guest/post", data-view='guest-post') Post a Classified
+    a(href!="<%= lang.href %>/guest/post", data-view='guest-post') Post a Classified
   li.show-if-loggedin
-    a(href="/classified/post", data-view='classified-post') Post a Classified
+    a(href!="<%= lang.href %>/classified/post", data-view='classified-post') Post a Classified
   li.nav-item.hide-if-loggedin
-    a(href="/auth/login", data-view='auth-login') Login
+    a(href!="<%= lang.href %>/auth/login", data-view='auth-login') Login
   li.nav-item.hide-if-loggedin
-    a(href="/auth/signup", data-view='auth-signup') Signup
+    a(href!="<%= lang.href %>/auth/signup", data-view='auth-signup') Signup
   li.show-if-loggedin
-    a(href="/account", data-view='account-index') Manage your account
+    a(href!="<%= lang.href %>/account", data-view='account-index') Manage your account
   li
-    a(href="/contact", data-view='contact') Contact Us
+    a(href!="<%= lang.href %>/contact", data-view='contact') Contact Us
   li
-    a(href="/about", data-view='about') About Us
+    a(href!="<%= lang.href %>/about", data-view='about') About Us
   li
-    a(href="/terms-privacy", data-view='terms-privacy') Terms &amp; Privacy
+    a(href!="<%= lang.href %>/terms-privacy", data-view='terms-privacy') Terms &amp; Privacy
   li.social
     a.facebook(href="https://www.facebook.com/KuwaitandME") &#xf09a;
   li.social

@@ -28,6 +28,7 @@ classifieds = module.exports =
     type:              Number # 0:Offering,1:Wanted
     views:             Number
     random:            Number
+    language:          Number
     weight:            Number
     keywords:          String
 
@@ -41,6 +42,10 @@ classifieds = module.exports =
     perks:             { }
     reports:           [ ]
 
+  language:
+    ENGLISH: 1
+    ARABIC:  2
+    HINDI:   3
 
   classifiedPerPage:        15
   reportsPerPostBeforeFlag: 3

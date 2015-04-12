@@ -13,7 +13,9 @@ module.exports = Backbone.View.extend
       firstSlug = (category.name.replace ',', ' ').split(' ')[0].toLowerCase()
       category.classname = firstSlug
 
-    @$el.html @template categories: categories
+    @$el.html @template
+      lang: @resources.language.currentDictonary
+      categories: categories
     @resources.router.reattachRouter()
 
 

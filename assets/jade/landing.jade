@@ -13,34 +13,26 @@
   section#search-form
     #landing-logo
       img(src='/images/kme-logo-tagline.png', cached-src='//static.kuwaitandme.com/images/kme-logo-tagline.png')
-    form(action="/classified/search")
-      input(type="text", name="keywords", placeholder="Search classifieds").search-bar
+    form(action!="<%= lang.href %>/classified/search")
+      input(type="text", name="keywords", placeholder="Search classifieds", lang-placeholder="abd").search-bar
       button(type="submit").search-button &#xf002;
     ul#landing-extra
       li.hide-if-loggedin
-        a(href="/guest/post", data-view) Post a classified
+        a(href!="<%= lang.href %>/guest/post", data-view, lang-html="page.landing.") Post a classified
       li.show-if-loggedin
-        a(href="/classified/post", data-view) Post a classified
+        a(href!="<%= lang.href %>/classified/post", data-view) Post a classified
       li.show-if-loggedin
-        a(href="/account", data-view) Account
+        a(href!="<%= lang.href %>/account", data-view) Account
       li.show-if-loggedin
-        a(href="/auth/logout", data-view) Logout
+        a(href!="<%= lang.href %>/auth/logout", data-view) Logout
       li.hide-if-loggedin
-        a(href="/auth/login", data-view) Login
+        a(href!="<%= lang.href %>/auth/login", data-view) Login
       li.hide-if-loggedin
-        a(href="/auth/signup", data-view) Signup
+        a(href!="<%= lang.href %>/auth/signup", data-view) Signup
 
-    //- #landing-message
-    //-   a(href="#") arabic
-    //-   span &nbsp;&middot;&nbsp;
-    //-     a(href="#") Download
-    //-     span &nbsp;the mobile app
-
-  //- #landing-footer Created by Steven Enamakel
 h4 Choose a category
 #landing-categories.large-8
 
-//- Container to hold the classifieds
 #landing-featured-cl
   h4 Featured Classifieds
   .classifiedList

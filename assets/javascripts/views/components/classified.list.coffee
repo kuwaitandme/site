@@ -165,6 +165,7 @@ module.exports = Backbone.View.extend
     # Add each classified into the DOM
     for classified in classifieds
       json = classified.toJSON()
+      json.lang = @resources.language.currentDictonary
 
       if json.images then json.image = "/uploads/thumb/#{json.images[0]}"
 
