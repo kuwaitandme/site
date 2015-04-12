@@ -36,6 +36,8 @@ if not window.App?
 
 
   class Main
+    name: "[app]"
+
     constructor: (App) ->
       ($ "#page-loader").hide()
       @decodeData()
@@ -49,13 +51,16 @@ if not window.App?
       # $ -> $.smartbanner()
 
     initializeViews: ->
+      console.log @name, 'initializing views'
       @viewManager = new App.ViewManager @resources
 
     initializeListeners: ->
+      console.log @name, 'initializing listeners'
       _.extend @, Backbone.Events
 
 
     decodeData: ->
+      console.log @name, 'decoding base64 encode data'
       base64 = App.Resources.Library.base64
       window.data = JSON.parse base64.decode window.data
 
@@ -97,6 +102,7 @@ if not window.App?
 
 
     initializeResources: ->
+      console.log @name, 'initializing resources'
       @resources = App.Resources
 
       @resources.cache = new App.Cache

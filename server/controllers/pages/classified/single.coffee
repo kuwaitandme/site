@@ -22,12 +22,10 @@ module.exports = controller =
       render = global.helpers.render
       render request, response,
         data: classified: classified
-        description: classified.description
+        description: classified.title
         page: 'classified/single'
         title: classified.title
-        templates: [
-          "classified/single"
-        ]
+
 
   # Helper function to asynchronously update the view counter.
   #

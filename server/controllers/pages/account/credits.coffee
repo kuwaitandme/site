@@ -7,5 +7,6 @@ controller = module.exports =
     args =
       page: 'account/credits'
       title: response.__('title.account.credits')
+
     render = global.helpers.render
     render request, response, args, true

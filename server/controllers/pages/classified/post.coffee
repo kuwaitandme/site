@@ -7,9 +7,6 @@ controller = module.exports =
       description: null
       page: 'classified/post'
       title: response.__('title.classified.post')
-      templates: [
-        "classified/post"
-      ]
 
     render = global.helpers.render
     render request, response, args, true

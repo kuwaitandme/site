@@ -34,6 +34,3 @@ controller = module.exports =
         description: classified.description
         page: 'classified/single'
         title: classified.title
-        templates: [
-          "classified/single"
-        ]
