@@ -1,3 +1,4 @@
+async = require 'async'
 
 # Description for the meta tag
 description = 'Sell things that you don\'t want. Buy things at bargain prices!
@@ -7,6 +8,9 @@ description = 'Sell things that you don\'t want. Buy things at bargain prices!
 # classifieds and categories to choose from.
 controller = module.exports =
   get: (request, response, next) ->
+    if request.cookies['pay-w-tweet']
+      async.parallel [=> controller.promoteClassified request]
+
     args =
       description: description
       page: 'landing'
@@ -14,6 +18,13 @@ controller = module.exports =
 
     render = global.helpers.render
     render request, response, args, true
+
+
+  promoteClassified: (request) ->
+    id = request.cookies['pay-w-tweet']
+    authHash = request.cookies['authHash'] + 's'
+    Classified = global.models.classified
+    Classified.perks.promote id, authHash, request.user
 
 
   routes: (router, base) ->

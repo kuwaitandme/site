@@ -263,12 +263,19 @@ classifieds = module.exports =
 
 
     # Promotes a classified
-    promote: (id, callback) ->
+    promote: (id, authHash, user, callback=->) ->
       classifieds.model.findOne _id: id, (error, classified) ->
         if error then callback error
-        if classified
-          classified.perks.promote = true
-          classified.save (error) -> callback error, classified
+        if not classified then return
+
+        if classified.guest
+          if classified.authHash != authHash then return
+        else if user and not user.isModerator and classified.owner is not user._id
+          return
+
+        # classified.perks.promote = true
+        classified.weight = 20
+        classified.save (error) -> callback error, classified
 
 
   # Increments the view counter of the classified. The function should only
