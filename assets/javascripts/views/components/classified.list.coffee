@@ -49,7 +49,7 @@ module.exports = Backbone.View.extend
     @$classifiedList.masonry()
 
     if @enableFilterBox then @filterbox.render()
-    if @settings.ajaxEnable then @$spinner.fadeIn();
+    if @settings.ajaxEnable then @$loader.show();
 
 
   pause: ->
@@ -119,8 +119,7 @@ module.exports = Backbone.View.extend
   ajaxLoadClassifieds: ->
     @settings.ajaxLock = true
 
-    # Show the spinner while loading
-    @$spinner.fadeIn();
+    @$loader.show();
 
     # Obtain the parameters to be sent to the back-end
     parameters = @query or {}
@@ -150,8 +149,8 @@ module.exports = Backbone.View.extend
     console.log @name, 'adding classifieds'
     imageLoader = @resources.Library.imageLoader
 
-    # All done. Hide the spinner and disable the lock
-    @$spinner.fadeOut();
+    # All done. Hide the loader and disable the lock
+    @$loader.hide();
     @settings.ajaxLock = false
 
     # Reload Masonry once for all the elements
@@ -206,7 +205,7 @@ module.exports = Backbone.View.extend
     @resources.router.reattachRouter()
 
     # In case we haven't filled up the page, fire the ajax loader again.
-    @fireAjaxEvent()
+    setTimeout (=> @fireAjaxEvent()), 1000
     @resizeClassifieds()
 
 
@@ -221,7 +220,7 @@ module.exports = Backbone.View.extend
     @$ajaxfinish =     @$ ".ajax-finish"
     @$classifiedList = @$ 'ul'
     @$filterbox =      @$ '#filter-box'
-    @$spinner =        @$ '.ajax-spinner'
+    @$loader =        @$ '.ajax-loading'
 
     texts = [
       "Woops! that's all we got!"
