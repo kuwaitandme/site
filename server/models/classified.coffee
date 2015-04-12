@@ -29,6 +29,7 @@ classifieds = module.exports =
     views:             Number
     random:            Number
     weight:            Number
+    keywords:          String
 
     authHash:          String
     guest:             Boolean

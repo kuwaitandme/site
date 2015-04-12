@@ -16,6 +16,7 @@ users = module.exports =
     activationToken: String
     moderatorReason: String
     credits: Number
+    graceCredits: Number
     isModerator: Boolean
     language: Number
     loginFailures: Number
@@ -172,7 +173,8 @@ users = module.exports =
           newUser.activationToken = randomHash()
 
           # Start off the user with 10 credits
-          newUser.credits = 10
+          newUser.graceCredits = 10
+          newUser.credits = 0
 
           # Save and call the callback function
           newUser.save (error) -> callback error, newUser
@@ -203,7 +205,8 @@ users = module.exports =
           newUser.status = users.status.ACTIVE
 
           # Start off the user with 10 credits
-          newUser.credits = 10
+          newUser.graceCredits = 10
+          newUser.credits = 0
 
           # Save and call the callback function
           newUser.save (error) -> callback error, newUser
@@ -211,6 +214,7 @@ users = module.exports =
 
     googlePlus:
       findOrCreate: (profile, callback) ->
+        console.log 'as', profile
         parameters =
           loginStrategy: users.loginStrategies.GOOGLEPLUS
           username: profile.id
@@ -237,7 +241,8 @@ users = module.exports =
           newUser.status = users.status.ACTIVE
 
           # Start off the user with 10 credits
-          newUser.credits = 10
+          newUser.graceCredits = 10
+          newUser.credits = 0
 
           # Save and call the callback function
           newUser.save (error) -> callback error, newUser
@@ -268,7 +273,8 @@ users = module.exports =
           newUser.status = users.status.ACTIVE
 
           # Start off the user with 10 credits
-          newUser.credits = 10
+          newUser.graceCredits = 10
+          newUser.credits = 0
 
           # Save and call the callback function
           newUser.save (error) -> callback error, newUser
@@ -301,7 +307,8 @@ users = module.exports =
           newUser.status = users.status.ACTIVE
 
           # Start off the user with 10 credits
-          newUser.credits = 10
+          newUser.graceCredits = 10
+          newUser.credits = 0
 
           # Save and call the callback function
           newUser.save (error) -> callback error, newUser
