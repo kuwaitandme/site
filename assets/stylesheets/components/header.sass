@@ -231,15 +231,39 @@ header
       a
         border-right: 1px solid #ddd
         display: block
-        padding: 7px 10px
+        padding: 8px 10px
         &:hover, &.active
           border-color: #FF6600
           background: #FF6600
           color: #fff
 
+      &.social
+        @extend .font-awesome
+        float: right
+
+        a
+          border-right: 0
+          color: #FFF
+          display: block
+          font-size: 16px
+          padding: 10px
+          text-align: center
+          width: 40px
+
+          &.twitter
+            background: #0099B9
+          &.youtube
+            background: #DF2927
+          &.facebook
+            background: #3A5795
+          &.googleplus
+            background: #DF2927
+          &.instagram
+            background: #A67056
   &.nav-up
     ul#sub-nav
       top: 0
+
 body.show-subheader
   main
   overflow-y: hidden
