@@ -2,30 +2,30 @@
   #signup-form
     .row.collapse
       .small-12.columns
-        .auth-title Sign-up
+        .auth-title(lang-html="page.auth.signup.title") Sign-up
     .row.input-row.collapse
       .small-12.columns.error
-        input(type="text", name="fullname", placeholder="full name", required)#auth-fullname
+        input(type="text", name="fullname", placeholder="full name", lang-placeholder="page.auth.signup.name", required)#auth-fullname
         small.error
 
     .row.input-row.collapse
       .small-12.columns.error
-        input(type="email", name="username", placeholder="email", required)#auth-username
+        input(type="email", name="username", placeholder="email", lang-placeholder="page.auth.signup.email", required)#auth-username
         small.error
 
     .row.input-row.collapse
       .small-12.columns.error
-        input(type="password", name="username", placeholder="password", required)#auth-password
+        input(type="password", name="username", placeholder="password", lang-placeholder="page.auth.signup.password", required)#auth-password
         small.error
 
     .row.input-row.collapse
       .small-12.columns.error
-        input(type="password", name="password", placeholder="re-enter password", required)#auth-repassword
+        input(type="password", name="password", placeholder="re-enter password", lang-placeholder="page.auth.signup.repassword", required)#auth-repassword
         small.error
 
     .row.collapse.hide#submit-div
       .small-4.small-offset-8.columns
-        input.submit(type="submit", value="Signup")
+        input.submit(type="submit", value="Signup", lang-value="page.auth.signup.submit")
 
 
     #ajax-spinner

@@ -4,50 +4,50 @@ h2.c-title <%= title %>
     p.c-description <%= description %>
   .medium-4.large-3.columns.c-meta
     .meta
-      b Views:&nbsp;
-      <%= obj.views %>
+      b(lang-html='page.csingle.views') Views:
+      | &nbsp;<%= obj.views %>
 
     .meta
-      b Type:&nbsp;
-      <%= obj.type %>
+      b(lang-html='page.csingle.type') Type:
+      | &nbsp;<%= obj.type %>
 
     .meta
-      b Price:&nbsp;
-      <%= obj.price %>
+      b(lang-html='page.csingle.price') Price:
+      | &nbsp;<%= obj.price %>
 
     .meta
-      b Posted:&nbsp;
-      | <%= created %>
+      b(lang-html='page.csingle.date') Posted:
+      | &nbsp;<%= created %>
 
     | <% if(category) { %>
     .meta
-      b Categorized under:&nbsp;
-      | <%= category %>
+      b(lang-html='page.csingle.category') Categorized under:
+      | &nbsp;<%= category %>
 
     |<% } if(contact.email) { %>
     .meta
-      b Email:&nbsp;
-      <%= contact.email %>
+      b(lang-html='page.csingle.email') Email:
+      | &nbsp;<%= contact.email %>
 
     |<% } if(location) { %>
     .meta
-      b Location:&nbsp;
-      <%= location %>
+      b(lang-html='page.csingle.location') Location:
+      | &nbsp;<%= location %>
 
     |<% } if(contact.phone) { %>
     .meta
-      b Phone:&nbsp;
-      | <%= contact.phone %>
+      b(lang-html='page.csingle.phone') Phone:
+      | &nbsp;<%= contact.phone %>
 
     |<% } if(contact.address1) { %>
     .meta
-      b Address:&nbsp;
-      | <%= contact.address1 %>; <%= contact.address2 %>
+      b(lang-html='page.csingle.address') Address:
+      | &nbsp;<%= contact.address1 %>; <%= contact.address2 %>
     |<% } %>
 
     .meta.print
       b
-        a(href="javascript:window.print()") Print this classified
+        a(href="javascript:window.print()", lang-html='page.csingle.print') Print this classified
     //- .meta.report.action(data-action='report')
       b
         a Report this classified

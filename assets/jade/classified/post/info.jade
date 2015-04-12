@@ -1,26 +1,21 @@
 .row
-  h3 Give the content for your classified
+  h3(lang-html='page.cform.info.title') Give the content for your classified
 .row
-  p
+  p(lang-html='page.cform.info.hint1')
     | Here you give the title and the content for your classified. Describe your classified
     | giving as much detail as you can.
-  p You can mention other details like the price, location, contact info in the next page.
+  p(lang-html='page.cform.info.hint2') You can mention other details like the price, location, contact info in the next page.
 
 .row#title
   .medium-3.columns
-    label(for="right-label") Title *
+    label(for="right-label", lang-html='page.cform.info.label.title') Title *
   .medium-9.columns.error
-    input(type="text", name="title", placeholder="The title for your classified goes here", tooltipp="Choose a title for your classified. The best titles are clear, meaningful and short", required)
+    input(type="text", name="title", placeholder="The title for your classified goes here", required, lang-placeholder='page.cform.info.placeholder.title')
     small.error
 
 .row#description
   .medium-3.columns
-    label(for="right-label") Description *
+    label(for="right-label", lang-html='page.cform.info.label.description') Description *
   .medium-9.columns.error
-    textarea(name='description', placeholder="Your description will go here", required)
+    textarea(name='description', placeholder="Your description will go here", required, lang-placeholder='page.cform.info.placeholder.description')
     small.error
-
-//- .row.post-nav
-  a(href="#page-begin", data-page-nav) Previous
-  | &nbsp; &middot; &nbsp;
-  a(href="#page-details", data-page-nav) Next

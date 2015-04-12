@@ -40,7 +40,7 @@ module.exports =
 
     @on 'continue', =>
       @setTitle()
-      @translatePage()
+      @resources.language.translate @$el
       @$el.show()
       @undelegateEvents()
       @delegateEvents()
@@ -137,26 +137,3 @@ module.exports =
   ###
   checkRedirect: -> false
   redirectUrl: -> '/'
-
-  # Do not override this function
-  translatePage: ->
-    console.log @name, 'translating view'
-    if not @translated then @translated = true
-    else return
-
-    getLanguageItem = (key) => key#@resources.language.get key
-
-    $els = @$ '[lang-placeholder]'
-    $els.each (i) ->
-      $el = $els.eq i
-      $el.attr 'placeholder', getLanguageItem $el.attr 'lang-placeholder'
-
-    $els = @$ '[lang-val]'
-    $els.each (i) ->
-      $el = $els.eq i
-      $el.val getLanguageItem $el.attr 'lang-val'
-
-    $els = @$ '[lang-html]'
-    $els.each (i) ->
-      $el = $els.eq i
-      $el.html getLanguageItem $el.attr 'lang-html'

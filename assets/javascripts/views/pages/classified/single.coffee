@@ -25,6 +25,7 @@ module.exports = Backbone.View.extend
     @$messages          = @$ "#single-messages"
     @$promptModal       = @$ "#promptModal"
     @$admin             = @$ '#admin-single'
+    @$content           = @$ '.c-content'
 
     if @options.model and false
       @model = @options.model
@@ -70,7 +71,8 @@ module.exports = Backbone.View.extend
     @setTitle()
 
     # Add the main template
-    ($ '.c-content').html @singleTemplate @model.toJSON()
+    @$content.html @singleTemplate @model.toJSON()
+    @resources.language.translate @$content
 
     # Add the image templates
     images = @model.get 'images'
@@ -320,8 +322,6 @@ module.exports = Backbone.View.extend
     # Check if the user is the owner or the moderator
     if user.id == @model.get 'owner' then editable = true
     if user.get 'isModerator' then superEditable = true
-    console.log user.id, @model.get 'owner'
-    console.log editable, superEditable
 
     # Add the admin template
     if editable or superEditable

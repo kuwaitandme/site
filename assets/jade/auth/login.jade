@@ -2,20 +2,20 @@
   form#login-form
     .row
       .small-12.columns
-        .auth-title Login
+        .auth-title(lang-html="page.auth.login.title") Login
     .row.input-row
       .small-12.columns.error
-        input(type="email", name="username", placeholder="email", required)#auth-username
-        small.error Please fill this field properly
+        input(type="email", name="username", placeholder="email", required, lang-placeholder="page.auth.login.username")#auth-username
+        small.error
 
     .row.input-row
       .small-12.columns.error
-        input(type="password", name="password", placeholder="password", required)#auth-password
-        small.error Please fill this field properly
+        input(type="password", name="password", placeholder="password", required, lang-placeholder="page.auth.login.password")#auth-password
+        small.error
 
     .row
       .small-4.small-offset-8.columns
-        input.submit(type="submit", value="Login")
+        input.submit(type="submit", value="Login", lang-value="page.auth.login.submit")
 
 
     #ajax-spinner

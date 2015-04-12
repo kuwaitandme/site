@@ -1,21 +1,17 @@
 .row
-  h1 Contact Us
-  p
-    | Want to send us a message? Have an awesome idea? Found a bug? Or want to file
-    | a complaint?
-  p
-    | Leave us a message below and we will get in touch with you as soon as
-    | possible
+  h1(lang-html="page.contact.title") Contact Us
+  p(lang-html="page.contact.hint1") Want to send us a message? Have an awesome idea? Found a bug? Or want to file a complaint?
+  p(lang-html="page.contact.hint2") Leave us a message below and we will get in touch with you as soon as possible
 form
   .row.collapse
     .small-2.medium-1.columns
       span.prefix @
     .small-10.medium-11.columns
-      input(type="email", name="email", placeholder="Your email", required)
+      input(type="email", name="email", placeholder="Your email", required, lang-placeholder="page.contact.email")
   .row.collapse
-    textarea(name="message", required, placeholder="Your message")
+    textarea(name="message", required, placeholder="Your message", lang-placeholder="page.contact.message")
 
   .row.collapse
     .gcaptcha
-    input.submit(type="submit", value="Submit")
+    input.submit(type="submit", value="Submit", lang-value="page.contact.submit")
     ul.messages

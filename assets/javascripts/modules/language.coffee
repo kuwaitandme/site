@@ -56,5 +56,27 @@ module.exports = class controller
     @currentLanguage = lang
     @fetch callback
 
+  translate: ($el) ->
+    if not $el.data 'translated' then $el.data 'translated', true
+    else return
+    console.log @name, 'translating element'
+
+    getLanguageItem = (key) => (@get key) or key
+
+    $els = $el.find '[lang-placeholder]'
+    $els.each (i) ->
+      $el = $els.eq i
+      $el.attr 'placeholder', getLanguageItem $el.attr 'lang-placeholder'
+
+    $els = $el.find '[lang-value]'
+    $els.each (i) ->
+      $el = $els.eq i
+      $el.val getLanguageItem $el.attr 'lang-value'
+
+    $els = $el.find '[lang-html]'
+    $els.each (i) ->
+      $el = $els.eq i
+      $el.html getLanguageItem $el.attr 'lang-html'
+
   # Function to get a key-string pair from the cache, given the key
   get: (key) -> @currentDictonary[key]

@@ -14,6 +14,6 @@ li.columns.large-3.medium-3.small-6
         .count <%= child.count %>
       <% }) %>
       .child
-        a(href!="<%= lang.href %>/classified/search?category=<%= cat._id %>", data-view) View All
+        a(href!="<%= lang.href %>/classified/search?category=<%= cat._id %>", data-view, lang-html="comp.category.viewall") View All
         .count <%= cat.count %>
 <% }) %>
