@@ -39,7 +39,7 @@ module.exports = Backbone.Collection.extend
 
     # localStorage = app.controllers.localStorage
     if not @resources.cache.get 'models:category'
-      @resources.cache.cache 'models:category', JSON.stringify @toJSON()
+      @resources.cache.set 'models:category', JSON.stringify @toJSON()
 
 
   getChildren: (parentId) ->

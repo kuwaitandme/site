@@ -30,7 +30,7 @@ module.exports = Backbone.Collection.extend
     console.log @name, 'caching location details'
 
     if not @resources.cache.get 'models:locations'
-      @resources.cache.cache 'models:locations', JSON.stringify @toJSON()
+      @resources.cache.set 'models:locations', JSON.stringify @toJSON()
 
 
   # A reroute of backbone's fetch which first checks in the browser's

@@ -35,23 +35,23 @@ module.exports = class controller
     console.log @name, "checking cache version"
     versions = window.config.js or {}
 
-    if (localStorage.getItem 'version:library') != versions.libraryVersion
+    if (@get 'version:library') != versions.libraryVersion
       console.log @name, "library caches differ, clearing"
 
       @clearLibrariesCache()
-      localStorage.setItem 'version:library', versions.libraryVersion
+      @set 'version:library', versions.libraryVersion
 
-    if (localStorage.getItem 'version:models') != versions.modelVersion
+    if (@get 'version:models') != versions.modelVersion
       console.log @name, "model caches differ, clearing"
 
       @clearModelsCache()
-      localStorage.setItem 'version:models', versions.modelVersion
+      @set 'version:models', versions.modelVersion
 
-    if (localStorage.getItem 'version:application') != versions.applicationVersion
+    if (@get 'version:application') != versions.applicationVersion
       console.log @name, "application caches differ, clearing"
 
       @clearApplicationCache()
-      localStorage.setItem 'version:application', versions.applicationVersion
+      @set 'version:application', versions.applicationVersion
 
 
   clearApplicationCache:  -> @removeKeysHelper 'app'
@@ -81,7 +81,7 @@ module.exports = class controller
       storageIdentifier = script.name
 
       # Check if the script already exists in the cache
-      if not localStorage.getItem storageIdentifier
+      if not @get storageIdentifier
         console.log @name, "caching script:", script.name
 
         # Start fetching the local version of the script asynchronously.
@@ -90,7 +90,7 @@ module.exports = class controller
           $.ajax
             url: script.localSrc,
             success: (result) =>
-              localStorage.setItem storageIdentifier, result
+              @set storageIdentifier, result
               console.log @name, "cached script:", storageIdentifier
 
         ajax storageIdentifier, script
@@ -110,7 +110,7 @@ module.exports = class controller
     storageIdentifier = 'app:page-' + identifier
 
     # Check if this view has been cached or not
-    if localStorage.getItem(storageIdentifier) then return
+    if @get(storageIdentifier) then return
 
     # If we reach here, then get the HTML we need to cache and store it
     console.log @name, 'saving current view to cache'
@@ -121,21 +121,21 @@ module.exports = class controller
       return console.warn(@name, 'nothing was cached')
 
     # If all went well, save the html
-    localStorage.setItem storageIdentifier, html
+    @set storageIdentifier, html
 
 
   # This function returns the HTML code (if any) that is cached in the local
   # storage.
   getCachedViewHTML: (identifier) ->
     if @fallback then return
-    storageIdentifier = localStorage.getItem('app:page-' + identifier)
+    storageIdentifier = @get('app:page-' + identifier)
 
     if storageIdentifier then console.log @name, 'fetched HTML from cache'
     storageIdentifier
 
 
   # Function to store a key-string pair into the cache
-  cache: (key, string) ->
+  set: (key, string) ->
     if @fallback then return
 
     console.log @name, "setting '#{key}' into cache"
