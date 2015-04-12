@@ -1,7 +1,7 @@
 // @import url(//fonts.googleapis.com/css?family=Bitter);
 // @import url(//fonts.googleapis.com/css?family=Open+Sans:400,600);
 
-// /* Import FontAwesome 
+// /* Import FontAwesome
 // @font-face {
 //   font-family:'FontAwesome';
 //   src:url('//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/fonts/fontawesome-webfont.eot?v=4.3.0');
@@ -12,7 +12,7 @@
 //   font-weight:normal;font-style:normal
 // }
 
-/* Define CSS font-specific classes
+// Define CSS font-specific classes
 .font-bitter
   font-family: 'Bitter', serif
 
@@ -20,15 +20,19 @@
   font-family: 'Open Sans', sans-serif
 
 .font-awesome
-  font-family: 'FontAwesome'
-
-/* Define CSS text-specific classes
+  font: normal normal normal 14px/1 'FontAwesome';
+  font-size: inherit;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transform: translate(0, 0);
+// Define CSS text-specific classes
 .font-text
   @extend .font-open
 
 .font-title
   @extend .font-bitter
 
-/* Default page Font
+// Default page Font
 body
   @extend .font-text

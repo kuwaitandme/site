@@ -9,6 +9,11 @@ window.scripts = [
     remoteSrc: "//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.1/css/foundation.min.css"
     localSrc: "/stylesheets/vendor/foundation.min.css"
   }
+  # {
+  #   name: "library:font-awesome-css"
+  #   remoteSrc: "//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css"
+  #   localSrc: "/stylesheets/vendor/font-awesome.min.css"
+  # }
   {
     name: "app:style-css"
     remoteSrc: "/stylesheets/build/style.min.css?v=#{config.js.applicationVersion}"
@@ -34,11 +39,11 @@ window.scripts = [
     remoteSrc: "//cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js"
     localSrc: "/javascripts/vendor/backbone.min.js"
   }
-  {
-    name: "library:google-maps"
-    remoteSrc: "//maps.googleapis.com/maps/api/js?v=3.exp&callback=initializeGmap"
-    localSrc: "/javascripts/vendor/google.maps.min.js"
-  }
+  # {
+  #   name: "library:google-maps"
+  #   remoteSrc: "//maps.googleapis.com/maps/api/js?v=3.exp&callback=initializeGmap"
+  #   localSrc: "/javascripts/vendor/google.maps.min.js"
+  # }
   {
     name: "library:modernizr"
     remoteSrc: "//cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"
@@ -54,11 +59,11 @@ window.scripts = [
     remoteSrc: "//cdnjs.cloudflare.com/ajax/libs/masonry/3.2.2/masonry.pkgd.min.js"
     localSrc: "/javascripts/vendor/masonry.pkgd.min.js"
   }
-  {
-    name: "library:jquery-imagesloaded"
-    remoteSrc: "//cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/3.1.8/imagesloaded.pkgd.min.js"
-    localSrc: "/javascripts/vendor/imagesloaded.min.js"
-  }
+  # {
+  #   name: "library:jquery-imagesloaded"
+  #   remoteSrc: "//cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/3.1.8/imagesloaded.pkgd.min.js"
+  #   localSrc: "/javascripts/vendor/imagesloaded.min.js"
+  # }
   {
     name: "library:foundation-js"
     remoteSrc: "//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.1/js/foundation.min.js"
