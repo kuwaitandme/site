@@ -7,7 +7,7 @@ controller = module.exports =
       return response.redirect '/auth/login?error=need_login'
 
     # Get and validate the id
-    id = request.params.id
+    id = request.params[0]
     if not validator.isMongoId id then return next()
 
     # Get the classified

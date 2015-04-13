@@ -2,7 +2,7 @@ validator = require 'validator'
 
 controller = module.exports =
   get: (request, response, next) ->
-    id         = request.params.id
+    id         = request.params[0]
     resetToken = request.query.token or ''
 
     # Validate the parameters

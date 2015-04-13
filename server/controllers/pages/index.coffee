@@ -1,8 +1,7 @@
 async = require 'async'
 
 # Description for the meta tag
-description = 'Sell things that you don\'t want. Buy things at bargain prices!
-  Publishing free classifieds in Kuwait have never been so quick and easy.'
+description = 'Publish and Browse classifieds in Kuwait. Quick, easy and absolutely free! Post your classified now and reach thousands'
 
 # Controller for the landing page. Displays the front-page with the top
 # classifieds and categories to choose from.
