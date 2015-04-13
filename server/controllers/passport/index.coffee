@@ -3,6 +3,7 @@ facebookStrategy   = require './facebook'
 yahooStrategy      = require './yahoo'
 googleplusStrategy = require './google-plus'
 twitterStrategy    = require './twitter'
+
 # Passport needs to be able to serialize and de-serialize users to support
 # persistent login sessions. This function defines those functionalities.
 module.exports = (passport) ->
