@@ -78,37 +78,35 @@ module.exports = Backbone.Router.extend
     @prepareRoutes()
 
   prepareRoutes: ->
-    _url = (url) -> new RegExp "^(en|ar)\/#{url}\/?$"
+    _url = (url) -> new RegExp "^(en|ar)\/#{url}(\/\?.*)?$"
+    _route = (regex, view) => @route (_url regex), view
+
+    @route /.*/,                             "langRedirect"
+    @route /^(en|ar)\/?$/,                   "landing"
+
+    _route "about",                          "about"
+    _route "account",                        "account"
+    _route "account/credits",                "accountCredits"
+    _route "account/manage",                 "accountManage"
+    _route "auth/login",                     "authLogin"
+    _route "auth/logout",                    "authLogout"
+    _route "auth/signup",                    "authSignup"
+    _route "contact",                        "contact"
+    _route "terms-privacy",                  "termsprivacy"
+
+    _route "classified/([a-f0-9]*)",         "classifiedSingle"
+    _route "classified/([a-f0-9]*)/edit",    "classifiedEdit"
+    _route "classified/([a-f0-9]*)/finish",  "classifiedFinish"
+    _route "classified/search",              "classified"
+    _route "classified/post",                "classifiedPost"
+
+    _route "guest/([a-f0-9]*)",              "guestSingle"
+    _route "guest/([a-f0-9]*)/edit",         "guestEdit"
+    _route "guest/([a-f0-9]*)/finish",       "guestFinish"
+    _route "guest/post",                     "guestPost"
 
 
-    # @route /^.*/                   , "langRedirect"
-    @route (_url 'about')                         , "about"
-    @route (_url "account")                       , "account"
-    @route (_url "account/credits")               , "accountCredits"
-    @route (_url "account/manage")                , "accountManage"
-    @route (_url "auth/login")                    , "authLogin"
-    @route (_url "auth/logout")                   , "authLogout"
-    @route (_url "auth/signup")                   , "authSignup"
-    @route (_url "classified/finish/([a-f0-9]*)") , "classifiedFinish"
-    @route (_url "classified/post")               , "classifiedPost"
-    @route (_url "classified/search")             , "classified"
-    @route (_url "contact")                       , "contact"
-    @route (_url "guest/finish/([a-f0-9]*)")              , "guestFinish"
-    @route (_url "guest/post")                    , "guestPost"
-    @route (_url "terms-privacy")                 , "termsprivacy"
-
-    @route (_url "classified/([a-f0-9]*)")        , "classifiedSingle"
-    @route (_url "classified/([a-f0-9]*)/edit")   , "classifiedEdit"
-    @route (_url "guest/([a-f0-9]*)")             , "guestSingle"
-    @route (_url "guest/([a-f0-9]*)/edit")        , "guestEdit"
-
-    @route /^(en|ar)\/?$/, "landing"
-    # @route /^(en|ar)\/.*?/, "fourofour"
-    @route "", "langRedirect"
-
-  langRedirect: ->
-    window.location = "en#{location.pathname}"
-    console.log @name, 'redirecting'
+  langRedirect: -> window.location = "#{location.pathname}"
 
   start: ->
     console.log @name, 'starting Backbone history'
@@ -178,4 +176,4 @@ module.exports = Backbone.Router.extend
     console.log @name, 'reattaching href event handlers'
 
     ($ 'a[data-view]').unbind 'click'
-    ($ 'a[data-view]').bind 'click', (event) => @hrefEventHandler event
+    # ($ 'a[data-view]').bind 'click', (event) => @hrefEventHandler event

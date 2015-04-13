@@ -47,8 +47,9 @@ module.exports = Backbone.View.extend
 
       @delegateEvents()
 
+
   checkRedirect: -> not @isGuest and @resources.currentUser.isAnonymous()
-  redirectUrl: -> '/auth/login?error=need_login'
+  redirectUrl: -> "#{@resources.language.urlSlug}/auth/login?error=need_login"
 
   pause: -> (@$ '#g-recaptcha-response').remove()
 
@@ -89,19 +90,19 @@ module.exports = Backbone.View.extend
     @$submit.hide()
     @$spinner.show()
     # @model.save()
-    @model.uploadServer @onAJAXfinish
+    @model.uploadServer (error, classified) => @onAJAXfinish error, classified
 
 
-  onAJAXfinish: (error, classified={}) =>
+  onAJAXfinish: (error, classified={}) ->
     if error
       @$spinner.hide()
       @views["#page-submit"].trigger 'continue'
       return @displayError error
 
-    if not classified.guest then url = "/classified/finish/#{classified._id}"
-    else url = "/guest/finish/#{classified._id}?authHash=#{classified.authHash}"
+    if not classified.guest then url = "classified/#{classified._id}/finish"
+    else url = "guest/#{classified._id}/finish?authHash=#{classified.authHash}"
 
-    App.Resources.router.redirect url
+    @resources.router.redirect "#{@resources.language.urlSlug}/#{url}"
 
 
   # This function not only cleans up this view, but it also cleans up the

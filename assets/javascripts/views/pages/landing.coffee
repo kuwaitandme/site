@@ -58,7 +58,7 @@ module.exports = Backbone.View.extend
     text.replace ' ', '+'
 
     # Redirect the app to the classified search page.
-    url = "/classified/search/?keywords=#{text}"
+    url = "#{@resources.language.urlSlug}/classified/search/?keywords=#{text}"
     @resources.router.redirect url
 
 
@@ -76,5 +76,5 @@ module.exports = Backbone.View.extend
     text.replace ' ', '+'
 
     # Redirect the app to the classified search page.
-    url = "/classified/search?category=#{cat}&keywords=#{text}"
+    url = "#{'en'}/classified/search?category=#{cat}&keywords=#{text}"
     @goto url, 'classified-search'

@@ -1,8 +1,25 @@
+getArabicNoun = (noun) ->
+  dict =
+    'second' : 'ثانية'
+    'minute' : 'دقيقة'
+    'hour' : 'ساعات'
+    'day' : 'أيام'
+    'week' : 'أسابيع'
+    'month' : 'أشهر'
+    'year' : 'سنوات'
+  dict[noun]
+
 createHandler = (divisor, noun, restOfString) ->
   (diff) ->
-    n = Math.floor(diff / divisor)
-    pluralizedNoun = noun + (if n > 1 then 's' else '')
-    '' + n + ' ' + pluralizedNoun + ' ' + restOfString
+    lang = App.Resources.language
+    n = Math.floor diff / divisor
+    if lang.currentLanguage is 'ar'
+      arabicNum = App.Resources.Helpers.numbers.toArabic n
+      arabicNoun = getArabicNoun noun
+      "#{arabicNum} #{arabicNoun}"
+    else
+      pluralizedNoun = "#{noun}#{if n > 1 then 's' else ''}"
+      "#{n} #{pluralizedNoun} #{restOfString}"
 
 module.exports = prettify: (date_raw) ->
   formatters = [

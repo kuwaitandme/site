@@ -16,13 +16,13 @@ module.exports = (require './post').extend
     @model.fetch success: callback
 
 
-  onAJAXfinish: (error, classified={}) =>
+  onAJAXfinish: (error, classified={}) ->
     if error
       @$spinner.hide()
       @views["#page-submit"].trigger 'continue'
       return @displayError error
 
-    if not classified.guest then url = "/classified/#{classified._id}"
-    else url = "/guest/#{classified._id}?authHash=#{classified.authHash}"
+    if not classified.guest then url = "classified/#{classified._id}"
+    else url = "guest/#{classified._id}?authHash=#{classified.authHash}"
 
-    App.Resources.router.redirect url
+    @resources.router.redirect "#{@resources.language.urlSlug}/#{url}"

@@ -35,10 +35,12 @@ module.exports =
     code lies in the functions defined the below sections.
     ###
     @on 'start', =>
+      console.log @name, "start"
+      if @template? then @$el.html @template @templateOptions
       @start()
-    if @template? then @$el.html @template @templateOptions
 
     @on 'continue', =>
+      console.log @name, "continue"
       @setTitle()
       @resources.language.translate @$el
       @$el.show()
@@ -47,11 +49,13 @@ module.exports =
       @continue()
 
     @on 'pause', () =>
+      console.log @name, "pause"
       @undelegateEvents()
       @pause()
       @$el.hide()
 
     @on 'finish', =>
+      console.log @name, "finish"
       @finish()
       @remove()
       @unbind()
@@ -97,14 +101,14 @@ module.exports =
   This is called once, when the App is initializing the view. Ideally all things
   like attach DOM events and other initializations will go in here.
   ###
-  start:    -> console.log @name, "starting"
+  start:    ->
 
   ###
   **continue():**
   This is called every time the App wants to restart the view. Things like
   clearing the screen or resetting variables would go in here.
   ###
-  continue: -> console.log @name, "continuing"
+  continue: ->
 
 
   ###
@@ -113,7 +117,7 @@ module.exports =
   temporarily disable this view. Things like disabling event listeners would
   go in here.
   ###
-  pause:    -> console.log @name, "pausing"
+  pause:    ->
 
 
   ###
@@ -122,7 +126,7 @@ module.exports =
   the app calls this function is when it realizes it has been caching too many
   views and decides to delete unwanted ones. All cleanup procedures go in here.
   ###
-  finish:   -> console.log @name, "finishing"
+  finish:   ->
 
 
   ###

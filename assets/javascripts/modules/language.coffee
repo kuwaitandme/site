@@ -10,13 +10,14 @@ module.exports = class controller
     console.log @name, 'initializing'
 
     _.extend this, Backbone.Events
+    @$html = $ 'html'
 
     str = location.pathname
     lang = location.pathname.match /^\/(..)/
-    if lang? then @currentLanguage =  lang[1]
-    else @currentLanguage =  "en"
+    if lang? and lang[1] in ['en', 'ar'] then currentLanguage =  lang[1]
+    else currentLanguage =  "en"
 
-    @urlSlug = "/#{@currentLanguage}"
+    @setLanguage currentLanguage
 
     console.log @name, "using language", @currentLanguage
 
@@ -54,29 +55,37 @@ module.exports = class controller
   setLanguage: (lang, callback=->) ->
     console.log @name, "switching language to", lang
     @currentLanguage = lang
+    @$html.attr 'lang', lang
+    @urlSlug = "/#{@currentLanguage}"
     @fetch callback
 
-  translate: ($el) ->
-    if not $el.data 'translated' then $el.data 'translated', true
-    else return
+  translate: ($container) ->
     console.log @name, 'translating element'
+    console.debug @name, $container[0]
 
     getLanguageItem = (key) => (@get key) or key
 
-    $els = $el.find '[lang-placeholder]'
+    $els = $container.find '[lang-placeholder]'
     $els.each (i) ->
       $el = $els.eq i
       $el.attr 'placeholder', getLanguageItem $el.attr 'lang-placeholder'
 
-    $els = $el.find '[lang-value]'
+    $els = $container.find '[lang-value]'
     $els.each (i) ->
       $el = $els.eq i
       $el.val getLanguageItem $el.attr 'lang-value'
 
-    $els = $el.find '[lang-html]'
+    $els = $container.find '[lang-html]'
     $els.each (i) ->
       $el = $els.eq i
       $el.html getLanguageItem $el.attr 'lang-html'
+
+
+  localizeNumber: (number) ->
+    if @currentLanguage == 'ar'
+      @resources.Helpers.numbers.toArabic number
+    else number
+
 
   # Function to get a key-string pair from the cache, given the key
   get: (key) -> @currentDictonary[key]

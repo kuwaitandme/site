@@ -117,6 +117,7 @@ if not window.App?
       @resources.categories.resources  = @resources
       @resources.locations.resources   = @resources
       @resources.currentUser.resources = @resources
+      @resources.router.resources      = @resources
 
       asyncCounter = 4
       setAndCheckCounter = =>
@@ -139,7 +140,6 @@ if not window.App?
 
 
   ###
-
   ($ window).ready ->
     console.log '[foundation] initializing'
     $this = ($ document)

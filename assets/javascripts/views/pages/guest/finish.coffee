@@ -7,11 +7,12 @@ module.exports = (require '../classified/finish').extend
   generateSocialLinks: ->
     id = @resources.historyState.parameters
     urlHelpers = @resources.Helpers.url
+    langhref = @resources.language.urlSlug
 
     authHash = urlHelpers.getParam 'authHash'
-    URL = "#{window.location.origin}/classified/#{id}"
-    authLink = "#{window.location.origin}/guest/#{id}?authHash=#{authHash}"
-    localURL = "/guest/#{id}?authHash=#{authHash}"
+    URL = "#{window.location.origin}#{langhref}/classified/#{id}"
+    authLink = "#{window.location.origin}#{langhref}/guest/#{id}?authHash=#{authHash}"
+    localURL = "#{langhref}/guest/#{id}?authHash=#{authHash}"
 
     tweet    = "Check out my classified at #{URL}"
     facebook = "https://www.facebook.com/sharer/sharer.php?u=#{URL}"

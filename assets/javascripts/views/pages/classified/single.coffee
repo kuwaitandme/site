@@ -149,7 +149,7 @@ module.exports = Backbone.View.extend
           url = "/guest/#{@model.id}/edit?authHash=#{@model.get 'authHash'}"
         else
           url = "/classified/#{@model.id}/edit"
-        @resources.router.redirect url
+        @resources.router.redirect "#{@resources.language.urlSlug}/#{url}"
 
 
   showPromptModal: (actionText, callback) ->
@@ -317,7 +317,7 @@ module.exports = Backbone.View.extend
     # If this is a guest classified, check the authHash
     if (@model.get 'guest') and
     (urlHelpers.getParam 'authHash') and
-    (location.pathname.split '/')[1] is 'guest' then editable = true
+    (location.pathname.split '/')[2] is 'guest' then editable = true
 
     # Check if the user is the owner or the moderator
     if user.id == @model.get 'owner' then editable = true
@@ -329,4 +329,6 @@ module.exports = Backbone.View.extend
         _id: @model.id
         editable: editable
         superEditable: superEditable
+
+      @resources.language.translate @$admin
     else @$admin.hide()

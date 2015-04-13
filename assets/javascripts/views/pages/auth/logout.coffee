@@ -7,4 +7,4 @@ module.exports = Backbone.View.extend
     true
 
 
-  redirectUrl: -> '/auth/login?success=logout'
+  redirectUrl: -> "#{@resources.language.urlSlug}/auth/login?success=logout"
