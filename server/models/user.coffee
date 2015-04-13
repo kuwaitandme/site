@@ -214,7 +214,6 @@ users = module.exports =
 
     googlePlus:
       findOrCreate: (profile, callback) ->
-        console.log 'as', profile
         parameters =
           loginStrategy: users.loginStrategies.GOOGLEPLUS
           username: profile.id
