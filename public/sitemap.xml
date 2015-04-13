@@ -4,8 +4,24 @@
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
             http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
-<url>
-  <loc>http://kuwaitandme.com/</loc>
-  <changefreq>weekly</changefreq>
-</url>
+  <url>
+    <loc>http://kuwaitandme.com/en</loc>
+    <changefreq>always</changefreq>
+    <priority>1.00</priority>
+  </url>
+  <url>
+    <loc>http://kuwaitandme.com/en/classified/search</loc>
+    <changefreq>always</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>http://kuwaitandme.com/en/auth/login</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.60</priority>
+  </url>
+  <url>
+    <loc>http://kuwaitandme.com/en/auth/signup</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.60</priority>
+  </url>
 </urlset>

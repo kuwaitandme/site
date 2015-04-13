@@ -1,7 +1,7 @@
 User-agent: *
-Disallow:
-/account/
-/auth/
-/classified/edit/
-/classified/post/
-/guest/
+Disallow: /account/
+Disallow: /ar/account/
+Disallow: /ar/guest/
+Disallow: /en/account/
+Disallow: /en/guest/
+Disallow: /guest/
