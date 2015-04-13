@@ -28,16 +28,28 @@ global.cache       = new cachemanMemory()
 # Force JADE and Express to work based on the mode set in our config parameter
 if global.config then process.env.NODE_ENV = global.config.mode
 app = express()
-if global.config.mode != 'production' then app.use logger 'dev'
+
+
+# In production or testing env, only log errors to stdout
+if global.config.mode != 'development'
+  app.use logger 'combined', skip: (req, res) -> res.statusCode < 400
+# In development however, log everything except for any assets files
+else
+  app.use logger 'dev', skip: (req, res) ->
+    url = req.url
+    rejectedPaths = ['uploads', 'images', 'javascripts', 'stylesheets', 'fonts']
+    for path in rejectedPaths
+      if (url.indexOf path) != -1 then return true
+    false
+
 
 
 # International language support
 i18n.configure
-  cookie: 'lang'
+  cookie: 'l'
   defaultLocale: 'en'
-  directory: __dirname + '/locales'
-  locales: [ 'en', 'ar', 'in' ]
-app.use i18n.init
+  directory: "#{__dirname}/locales"
+  locales: [ 'en', 'ar']
 global.__ = i18n.__
 
 
@@ -62,6 +74,7 @@ app.use expressSession
   secret: global.config.sessionSecret
   store: new redisStore global.config.redis
 
+app.use i18n.init
 
 # Setup the CSRF middleware
 csrfMiddleware = csrf cookie: true
@@ -86,13 +99,6 @@ initPassport passport
 
 # Setup the different routes
 app.use '/', require './routes'
-
-
-# None of the URL matched, so return 404
-app.use (request, response, next) ->
-  error = new Error 'Not Found'
-  error.status = 404
-  next error
 
 
 # Connect to the database
