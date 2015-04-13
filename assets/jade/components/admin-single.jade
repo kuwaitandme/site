@@ -1,12 +1,12 @@
 | <% if(superEditable) { %>
-.action(data-action='publish') Publish
-.action(data-action='reject') Reject
-.action(data-action='ban') Ban
+.action(data-action='publish', lang-html="admin.single.publish") Publish
+.action(data-action='reject', lang-html="admin.single.reject") Reject
+.action(data-action='ban', lang-html="admin.single.ban") Ban
 | <% } %>
 | <% if(editable) { %>
-.action(data-action='archive') Archive
+.action(data-action='archive', lang-html="admin.single.archive") Archive
 | <% } %>
-.action(data-action='edit') Edit
+.action(data-action='edit', lang-html="admin.single.edit") Edit
 //- .action(data-action='report') Re-post
 //- .action(data-action='report') Make Urgent
 //- .acti(data-action='report')on Promote

@@ -14,29 +14,29 @@ nav#mobile-nav.hide-for-large-up.hide-when-searching
       a &#xf002;
     li#nav-grabber &#xf0c9;
   #subheader
-    ul
+    ul.lang
       li.nav-item
-        a(href!="<%= lang.href %>/", data-view='landing') Home
+        a(href!="<%= lang.href %>/", data-view='landing', lang-html="header.home") Home
       li.nav-item
-        a(href!="<%= lang.href %>/classified/search", data-view='classified-search') Browse classifieds
+        a(href!="<%= lang.href %>/classified/search", data-view='classified-search', lang-html="header.csearch") Browse classifieds
       li.main-item.hide-if-loggedin
-        a(href!="<%= lang.href %>/guest/post", data-view='guest-post') Post a Classified
+        a(href!="<%= lang.href %>/guest/post", data-view='guest-post', lang-html="header.cpost") Post a Classified
       li.main-item.show-if-loggedin
-        a(href!="<%= lang.href %>/classified/post", data-view='classified-post') Post a Classified
+        a(href!="<%= lang.href %>/classified/post", data-view='classified-post', lang-html="header.cpost") Post a Classified
       li.nav-item.hide-if-loggedin
-        a(href!="<%= lang.href %>/auth/login", data-view='auth-login') Login
+        a(href!="<%= lang.href %>/auth/login", data-view='auth-login', lang-html="header.login") Login
       li.nav-item.hide-if-loggedin
-        a(href!="<%= lang.href %>/auth/signup", data-view='auth-signup') Signup
+        a(href!="<%= lang.href %>/auth/signup", data-view='auth-signup', lang-html="header.signup") Signup
       li.main-item.show-if-loggedin
-        a(href!="<%= lang.href %>/account", data-view='account-index') Manage your account
+        a(href!="<%= lang.href %>/account", data-view='account-index', lang-html="header.manage") Manage your account
       li.main-item.show-if-loggedin
-        a(href!="<%= lang.href %>/auth/logout", data-view='auth-logout') Logout
+        a(href!="<%= lang.href %>/auth/logout", data-view='auth-logout', lang-html="header.logout") Logout
       li.main-item
-        a(href!="<%= lang.href %>/contact", data-view='contact') Contact Us
+        a(href!="<%= lang.href %>/contact", data-view='contact', lang-html="header.contact") Contact Us
       li.main-item
-        a(href!="<%= lang.href %>/about", data-view='about') About Us
+        a(href!="<%= lang.href %>/about", data-view='about', lang-html="header.about") About Us
       li.main-item
-        a(href!="<%= lang.href %>/terms-privacy", data-view='terms-privacy') Terms &amp; Privacy
+        a(href!="<%= lang.href %>/terms-privacy", data-view='terms-privacy', lang-html="header.terms-privacy") Terms &amp; Privacy
 nav#main-nav.show-for-large-up.hide-when-searching
   ul
     li.main-item.left.home.icon
@@ -47,13 +47,13 @@ nav#main-nav.show-for-large-up.hide-when-searching
 
       ul.subnav.hide-if-loggedin
         li.with-link
-          a(href!="<%= lang.href %>/auth/login", data-view) Login
+          a(href!="<%= lang.href %>/auth/login", data-view, lang-html="header.login") Login
         li.with-link
-          a(href!="<%= lang.href %>/auth/signup", data-view) Signup
+          a(href!="<%= lang.href %>/auth/signup", data-view, lang-html="header.signup") Signup
 
       ul.subnav.show-if-loggedin
-        li.user-title
-          span Welcome
+        li.user-title.lang
+          span(lang-html='header.welcome') Welcome
           .name
         //- li.user-credits
           span You have&nbsp;
@@ -63,29 +63,29 @@ nav#main-nav.show-for-large-up.hide-when-searching
           img(src='')
         //- li.with-link
           a(href!="<%= lang.href %>/account/credits", data-view) Buy Credits
-        li.with-link
-          a(href!="<%= lang.href %>/account", data-view) View Account
-        li.with-link
-          a(href!="<%= lang.href %>/auth/logout", data-view) Logout
+        li.with-link.lang
+          a(href!="<%= lang.href %>/account", data-view, lang-html='header.view') View Account
+        li.with-link.lang
+          a(href!="<%= lang.href %>/auth/logout", data-view, lang-html='header.logout') Logout
 ul#sub-nav.show-for-large-up
-  li
-    a(href!="<%= lang.href %>/classified/search", data-view='classified-search') Browse classifieds
-  li.hide-if-loggedin
-    a(href!="<%= lang.href %>/guest/post", data-view='guest-post') Post a Classified
-  li.show-if-loggedin
-    a(href!="<%= lang.href %>/classified/post", data-view='classified-post') Post a Classified
-  li.nav-item.hide-if-loggedin
-    a(href!="<%= lang.href %>/auth/login", data-view='auth-login') Login
-  li.nav-item.hide-if-loggedin
-    a(href!="<%= lang.href %>/auth/signup", data-view='auth-signup') Signup
-  li.show-if-loggedin
-    a(href!="<%= lang.href %>/account", data-view='account-index') Manage your account
-  li
-    a(href!="<%= lang.href %>/contact", data-view='contact') Contact Us
-  li
-    a(href!="<%= lang.href %>/about", data-view='about') About Us
-  li
-    a(href!="<%= lang.href %>/terms-privacy", data-view='terms-privacy') Terms &amp; Privacy
+  li.lang
+    a(href!="<%= lang.href %>/classified/search", data-view='classified-search', lang-html='header.csearch') Browse classifieds
+  li.hide-if-loggedin.lang
+    a(href!="<%= lang.href %>/guest/post", data-view='guest-post', lang-html='header.cpost') Post a Classified
+  li.show-if-loggedin.lang
+    a(href!="<%= lang.href %>/classified/post", data-view='classified-post', lang-html='header.cpost') Post a Classified
+  li.nav-item.hide-if-loggedin.lang
+    a(href!="<%= lang.href %>/auth/login", data-view='auth-login', lang-html='header.login') Login
+  li.nav-item.hide-if-loggedin.lang
+    a(href!="<%= lang.href %>/auth/signup", data-view='auth-signup', lang-html='header.signup') Signup
+  li.show-if-loggedin.lang
+    a(href!="<%= lang.href %>/account", data-view='account-index', lang-html='header.manage') Manage your account
+  li.lang
+    a(href!="<%= lang.href %>/contact", data-view='contact', lang-html='header.contact') Contact Us
+  li.lang
+    a(href!="<%= lang.href %>/about", data-view='about', lang-html='header.about') About Us
+  li.lang
+    a(href!="<%= lang.href %>/terms-privacy", data-view='terms-privacy', lang-html='header.terms-privacy') Terms &amp; Privacy
   li.social
     a.facebook(href="https://www.facebook.com/KuwaitandME") &#xf09a;
   li.social
