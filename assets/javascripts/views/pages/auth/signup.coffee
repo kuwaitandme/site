@@ -108,4 +108,4 @@ module.exports = (require "./login").extend
         console.debug @name, 'created user', response
 
         # Redirect to the account page on success
-        @resources.router.redirect '/auth/login?success=signup_success'
+        @resources.router.redirect "#{@resources.language.urlSlug}/auth/login?success=signup_success"

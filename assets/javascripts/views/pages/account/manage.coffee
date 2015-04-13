@@ -4,7 +4,7 @@ module.exports = Backbone.View.extend
   title: -> "Manage your classifieds"
 
   checkRedirect: -> @resources.currentUser.isAnonymous()
-  redirectUrl: -> '/auth/login?error=need_login'
+  redirectUrl: -> "#{@resources.language.urlSlug}/auth/login?error=need_login"
 
   start: ->
     @$classifiedList = @$ ".classifiedList"

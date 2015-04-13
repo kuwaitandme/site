@@ -82,14 +82,13 @@ module.exports = Backbone.View.extend
   # text in the search box set as the keywords in the GET query.
   submitQuery: (event) ->
     event.preventDefault()
-    $keywords = @search.val()
 
     # Get the keywords and covert it into a GET query
-    text = $keywords.val() or ''
-    text.replace ' ', '+'
+    keywords = @$search.val() or ''
+    keywords.replace ' ', '+'
 
     # Redirect the app to the classified search page.
-    url = "/classified/search/?keywords=#{text}"
+    url = "#{@resources.language.urlSlug}/classified/search/?keywords=#{keywords}"
     @resources.router.redirect url
 
 

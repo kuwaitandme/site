@@ -190,4 +190,4 @@ module.exports = Backbone.View.extend
         console.debug @name, 'received user', response
 
         # Redirect to the account page on success
-        @resources.router.redirect '/account'
+        @resources.router.redirect "#{@resources.language.urlSlug}/account"
