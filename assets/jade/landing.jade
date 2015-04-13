@@ -21,10 +21,18 @@
         a(href!="<%= lang.href %>/guest/post", data-view, lang-html="header.cpost") Post a classified
       li.show-if-loggedin
         a(href!="<%= lang.href %>/classified/post", data-view, lang-html="header.cpost") Post a classified
-      li
-        a(href="/ar") العربية
-      li
-        a(href="/en") English
+      li.hide-if-loggedin
+        a(href!="<%= lang.href %>/auth/login", data-view, lang-html="header.login") Login
+      li.hide-if-loggedin
+        a(href!="<%= lang.href %>/auth/signup", data-view, lang-html="header.signup") Signup
+      li.show-if-loggedin
+        a(href!="<%= lang.href %>/account", data-view, lang-html="header.view") Account
+      li.show-if-loggedin
+        a(href!="<%= lang.href %>/auth/signup", data-view, lang-html="header.logout") Logout
+      //- li
+      //-   a(href="/ar") العربية
+      //- li
+      //-   a(href="/en") English
 
 .lang
   h4(lang-html="page.landing.category") Choose a category
