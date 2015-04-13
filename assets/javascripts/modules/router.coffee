@@ -2,29 +2,6 @@ module.exports = Backbone.Router.extend
   name: '[router]'
   fallback: false
 
-  # routes:
-  #   "account"               : "account"
-  #   "account/credits"       : "accountCredits"
-  #   "account/manage"        : "accountManage"
-  #   "auth/login"            : "authLogin"
-  #   "auth/logout"           : "authLogout"
-  #   "auth/signup"           : "authSignup"
-  #   "auth/signup"           : "authSignup"
-  #   "classified/finish/([a-f0-9]*)" : "classifiedFinish"
-  #   "classified/post"       : "classifiedPost"
-  #   "classified/search"     : "classified"
-  #   "contact"               : "contact"
-  #   "guest/finish/([a-f0-9]*)"      : "guestFinish"
-  #   "guest/post"            : "guestPost"
-  #   "terms-privacy"         : "termsprivacy"
-
-  #   "classified/([a-f0-9]*)"        : "classifiedSingle"
-  #   "classified/([a-f0-9]*)/edit"   : "classifiedEdit"
-  #   "guest/([a-f0-9]*)"             : "guestSingle"
-  #   "guest/([a-f0-9]*)/edit"        : "guestEdit"
-
-    # "*default"                 : "landing"
-
   about:            -> @handleRoute 'about'
   account:          -> @handleRoute 'account-index'
   accountCredits:   -> @handleRoute 'account-credits'
@@ -33,16 +10,16 @@ module.exports = Backbone.Router.extend
   authLogout:       -> @handleRoute 'auth-logout'
   authSignup:       -> @handleRoute 'auth-signup'
   classified:       -> @handleRoute 'classified-search'
-  classifiedEdit:   -> @handleRoute 'classified-edit', arguments[1]
-  classifiedFinish: -> @handleRoute 'classified-finish', arguments[1]
+  classifiedEdit:   -> @handleRoute 'classified-edit', arguments[0]
+  classifiedFinish: -> @handleRoute 'classified-finish', arguments[0]
   classifiedPost:   -> @handleRoute 'classified-post'
-  classifiedSingle: -> @handleRoute 'classified-single', arguments[1]
+  classifiedSingle: -> @handleRoute 'classified-single', arguments[0]
   contact:          -> @handleRoute 'contact'
   credits:          -> @handleRoute 'credits'
-  guestFinish:      -> @handleRoute 'guest-finish', arguments[1]
-  guestEdit:        -> @handleRoute 'guest-edit', arguments[1]
+  guestFinish:      -> @handleRoute 'guest-finish', arguments[0]
+  guestEdit:        -> @handleRoute 'guest-edit', arguments[0]
   guestPost:        -> @handleRoute 'guest-post'
-  guestSingle:      -> @handleRoute 'guest-single', arguments[1]
+  guestSingle:      -> @handleRoute 'guest-single', arguments[0]
   landing:          -> @handleRoute 'landing'
   termsprivacy:     -> @handleRoute 'terms-privacy'
   fourofour:        -> console.log '404'
@@ -77,8 +54,9 @@ module.exports = Backbone.Router.extend
 
     @prepareRoutes()
 
+
   prepareRoutes: ->
-    _url = (url) -> new RegExp "^(en|ar)\/#{url}(\/\?.*)?$"
+    _url = (url) -> new RegExp "^(?:en|ar)\/#{url}(\/\?.*)?$"
     _route = (regex, view) => @route (_url regex), view
 
     @route /.*/,                             "langRedirect"
@@ -106,6 +84,10 @@ module.exports = Backbone.Router.extend
     _route "guest/post",                     "guestPost"
 
 
+  # If none of the URL matched, then that means that maybe the language slug
+  # was missing, or the URL does not exist. In any case refresh page to this
+  # url, and the server will decide to redirect the user or to display the 404
+  # page
   langRedirect: -> window.location = "#{location.pathname}"
 
   start: ->
@@ -176,4 +158,4 @@ module.exports = Backbone.Router.extend
     console.log @name, 'reattaching href event handlers'
 
     ($ 'a[data-view]').unbind 'click'
-    # ($ 'a[data-view]').bind 'click', (event) => @hrefEventHandler event
+    ($ 'a[data-view]').bind 'click', (event) => @hrefEventHandler event
