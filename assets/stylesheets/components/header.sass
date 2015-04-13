@@ -220,18 +220,20 @@ header
     margin: 0
     position: absolute
     top: $headerHeight + 3px
+    height: 36px
+    overflow: hidden
     width: 100%
     left: 0
     background: #fff
     border-bottom: 1px solid #ddd
     z-index: -1
     li
-      font-size: 0.75rem
       float: left
       a
+        font-size: 0.75em
         border-right: 1px solid #ddd
         display: block
-        padding: 8px 10px
+        padding: 10px
         &:hover, &.active
           border-color: #FF6600
           background: #FF6600
@@ -247,6 +249,7 @@ header
           display: block
           font-size: 16px
           padding: 10px
+          padding-top: 9px
           text-align: center
           width: 40px
 
@@ -276,6 +279,10 @@ body.show-subheader
 .loggedin header li.settings:hover ul.show-if-loggedin
   display: block !important
 
+html[lang='ar']
+  header
+    ul#sub-nav li.lang a
+      padding: 7px 10px
 @media print
   header
     display: none
