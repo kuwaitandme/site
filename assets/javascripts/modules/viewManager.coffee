@@ -27,6 +27,7 @@ module.exports = class viewManager
   start: ->
     # Attach different listeners
     @header.trigger 'start'
+    @header.trigger 'continue'
 
     console.log @name, 'starting'
     @started = true
@@ -35,14 +36,11 @@ module.exports = class viewManager
         @progressBar.progress 100
         return @resources.router.redirect @currentView.redirectUrl()
 
-      # @resources.currentUser.on 'sync', => @header.update()
       @currentView.trigger 'continue'
-
 
   routeHandle: (args={}) =>
     viewIdentifier = args.view
     historyState = args.state
-
 
     console.log @name, "setting view to:", viewIdentifier
     console.debug @name, "using history:", historyState
@@ -54,9 +52,6 @@ module.exports = class viewManager
 
     # Signal google Analytics
     @googleAnalyticsSend()
-
-    # Signal the header to update itself
-    @header.update()
 
 
   # Set's the currentView with all the proper animations and DOM

@@ -27,6 +27,11 @@ module.exports = Backbone.View.extend
     @initializeScrollHandler()
     @setupSearchText()
 
+    @resources.currentUser.on 'sync', => @update()
+    @resources.router.on 'change', => @update()
+
+  continue: -> @update()
+
   setupSearchText: ->
     @$search.attr 'placeholder',
       @searchTexts[Math.floor Math.random() * @searchTexts.length]

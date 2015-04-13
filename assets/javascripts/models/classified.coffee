@@ -169,7 +169,10 @@ module.exports = Backbone.Model.extend
 
   # A simple function that converts the price into a nice readable format
   priceFormat: (price) ->
-    if price is 0 then "Free"
-    else if price is -1 then "Contact Owner"
+    lang = App.Resources.language
+    if price is 0 then lang.get "model.price.free"
+    else if price is -1 then lang.get "model.price.contact"
     else if price?
-      "#{price.toString().replace /\B(?=(\d{3})+(?!\d))/g, ','} KD"
+      prettyPrice = price.toString().replace /\B(?=(\d{3})+(?!\d))/g, ','
+      translatedPrice = lang.localizeNumber prettyPrice
+      "#{translatedPrice} #{lang.get 'model.price.unit'}"
