@@ -32,7 +32,7 @@ module.exports = ->
   Email = global.controllers.helpers.email
 
   date = new Date()
-  date.setDate date.getDate() - 7
+  date.setDate date.getDate() - 1
 
   getInactiveClassifieds = (callback) ->
     query = status: Classified.status.INACTIVE
