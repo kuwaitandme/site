@@ -1,6 +1,9 @@
 module.exports = Backbone.View.extend
   name: "[view:classified-single]"
   template: template['classified/single']
+  templateOptions:
+    isGuest: false
+
   messages:
     archived:  'This classified has been deleted'
     banned:    'This classified has been banned by a moderator'
@@ -145,10 +148,10 @@ module.exports = Backbone.View.extend
           finish()
 
       when 'edit'
-        if @model.get 'guest'
-          url = "/guest/#{@model.id}/edit?authHash=#{@model.get 'authHash'}"
+        if @templateOptions.isGuest
+          url = "guest/#{@model.id}/edit?authHash=#{@model.get 'authHash'}"
         else
-          url = "/classified/#{@model.id}/edit"
+          url = "classified/#{@model.id}/edit"
         @resources.router.redirect "#{@resources.language.urlSlug}/#{url}"
 
 

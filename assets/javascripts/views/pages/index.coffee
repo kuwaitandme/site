@@ -17,6 +17,6 @@ module.exports =
   'guest-edit':         require './guest/edit'
   'guest-finish':       require './guest/finish'
   'guest-post':         require './guest/post'
-  'guest-single':       require './classified/single'
+  'guest-single':       require './guest/single'
   'landing':            require './landing'
   'terms-privacy':      require './terms-privacy'
