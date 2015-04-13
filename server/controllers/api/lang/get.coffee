@@ -16,7 +16,7 @@ get = (request, response, next) ->
   # Check if language is valid
   if not /(en|ar|in)/.test lang
     response.status 404
-    response.end '"Language not found"'
+    return response.end '"Language not found"'
 
   # Read from the language file
   fs.readFile "#{global.root}/locales/#{lang}.json", "utf8", (error, data) ->
