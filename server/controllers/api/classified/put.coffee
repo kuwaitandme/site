@@ -7,6 +7,7 @@ module.exports = (request, response, next) ->
 
   id = request.params.id
   authHash = request.query.authHash
+  user = request.user or {}
 
   captchaFail = ->
     response.status 401
@@ -20,10 +21,11 @@ module.exports = (request, response, next) ->
     form.maxFieldsSize = 10 * 1024 * 1024 # 2MB
 
     Classified.get id, (error, classified) ->
-      if classified.owner is not request.user._id
-        response.status 401
-        return response.end '"not owner"'
-      if classified.guest and classified.authHash is not authHash
+      if classified.guest
+        if classified.authHash is not authHash
+          response.status 401
+          return response.end '"not owner"'
+      else if classified.owner is not user._id
         response.status 401
         return response.end '"not owner"'
 
@@ -31,7 +33,7 @@ module.exports = (request, response, next) ->
       # error while processing the form.
       form.on 'error', (error) ->
         response.status 400
-        response.end JSON.stringify error
+        # return response.end JSON.stringify error
 
       # Start parsing the form
       form.parse request, (error, fields, filesRequest) ->
