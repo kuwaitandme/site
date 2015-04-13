@@ -22,7 +22,7 @@ module.exports = (require './post').extend
       @views["#page-submit"].trigger 'continue'
       return @displayError error
 
-    if not templateOptions.isGuest then url = "classified/#{classified._id}"
+    if not @templateOptions.isGuest then url = "classified/#{classified._id}"
     else url = "guest/#{classified._id}?authHash=#{classified.authHash}"
 
     @resources.router.redirect "#{@resources.language.urlSlug}/#{url}"

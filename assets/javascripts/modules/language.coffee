@@ -61,7 +61,6 @@ module.exports = class controller
 
   translate: ($container) ->
     console.log @name, 'translating element'
-    console.debug @name, $container[0]
 
     getLanguageItem = (key) => (@get key) or key
 
