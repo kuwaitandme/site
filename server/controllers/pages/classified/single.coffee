@@ -3,7 +3,7 @@ validator = require 'validator'
 
 module.exports = controller =
   get: (request, response, next) ->
-    id = request.params.id
+    id = request.params[0]
 
     # Validate the id
     if not validator.isMongoId id then return next()

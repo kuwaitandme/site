@@ -9,4 +9,4 @@ controller = module.exports =
     render request, response, args, true
 
 
-  routes: (router, base) -> router.get base + '/contact', @get
+  routes: (router, localizedUrl) -> router.get (localizedUrl '/contact'), @get

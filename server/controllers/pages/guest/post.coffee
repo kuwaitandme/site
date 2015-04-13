@@ -6,7 +6,7 @@ controller = module.exports =
       data: guest: true
       description: null
       page: 'classified/post'
-      title: response.__('title.guest.post')
+      title: response.__ 'title.guest.post'
 
     render = global.helpers.render
     render request, response, args, true

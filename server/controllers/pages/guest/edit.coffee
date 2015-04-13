@@ -3,7 +3,7 @@ validator = require 'validator'
 controller = module.exports =
   get: (request, response, next) ->
     # Get and validate the id
-    id = request.params.id
+    id = request.params[0]
     if not validator.isMongoId id then return next()
 
     # Get the classified
@@ -11,7 +11,6 @@ controller = module.exports =
     classified.get id, (error, classified) ->
       if error then return next error
 
-      console.log classified.authHash, request.query.authHash
       # Display 404 page if classified is not found
       if not classified then return next()
       if classified.authHash != request.query.authHash then return next()

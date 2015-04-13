@@ -4,4 +4,4 @@ module.exports =
 
   routes: (router) ->
     (require './api').routes router, '/api'
-    (require './pages').routes router, '/(:lang)?'
+    (require './pages').routes router, ''

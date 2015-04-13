@@ -9,14 +9,14 @@ module.exports =
 
     args =
       page: 'account/index'
-      title: response.__('title.account')
+      title: response.__ 'title.account'
 
     render = global.helpers.render
     render request, response, args, true
 
 
-  routes: (router, base) ->
-    router.get base + '/account',         @get
-    router.get base + '/account/manage',  @manage.get
-    router.get base + '/account/credits', @credits.get
-    router.get base + '/account/profile', @profile.get
+  routes: (router, localizedUrl) ->
+    router.get (localizedUrl '/account'),         @get
+    router.get (localizedUrl '/account/manage'),  @manage.get
+    router.get (localizedUrl '/account/credits'), @credits.get
+    router.get (localizedUrl '/account/profile'), @profile.get

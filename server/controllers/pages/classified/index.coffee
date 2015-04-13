@@ -1,17 +1,16 @@
 module.exports =
-  get: (request, response, next) -> response.redirect '/guest/post'
+  get: (request, response, next) -> response.redirect "/guest/post"
 
-  post:   require './post'
-  finish: require './finish'
-  search: require './search'
-  single: require './single'
-  edit:   require './edit'
+  post:   require "./post"
+  finish: require "./finish"
+  search: require "./search"
+  single: require "./single"
+  edit:   require "./edit"
 
-  routes: (router, base) ->
-    # console.log base + '/classified/.*?$'
-    router.get base + '/classified/',            @get
-    router.get base + '/classified/post',        @post.get
-    router.get base + '/classified/search',      @search.get
-    router.get base + '/classified/finish/:id?', @finish.get
-    router.get base + '/classified/:id',        @single.get
-    router.get base + '/classified/:id/edit',    @edit.get
+  routes: (router, localizedUrl) ->
+    router.get (localizedUrl "/classified/"),                    @get
+    router.get (localizedUrl "/classified/post"),                @post.get
+    router.get (localizedUrl "/classified/search"),              @search.get
+    router.get (localizedUrl "/classified/([a-zf0-9]*)/finish"), @finish.get
+    router.get (localizedUrl "/classified/([a-zf0-9]*)/edit"),   @edit.get
+    router.get (localizedUrl "/classified/([a-zf0-9]*)"),        @single.get

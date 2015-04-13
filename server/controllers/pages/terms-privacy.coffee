@@ -3,10 +3,10 @@ controller = module.exports =
   get: (request, response, next) ->
     args =
       page: 'terms-privacy'
-      title: response.__('title.terms-privacy')
+      title: response.__ 'title.terms-privacy'
 
     render = global.helpers.render
     render request, response, args, true
 
 
-  routes: (router, base) -> router.get base + '/terms-privacy', @get
+  routes: (router, localizedUrl) -> router.get (localizedUrl '/terms-privacy'), @get
