@@ -47,6 +47,7 @@ module.exports = Backbone.View.extend
     options.autoProcessQueue = false
     options.paramName = 'files'
     options.uploadMultiple = true
+    options.maxFiles = 8
     options.previewTemplate = '
       <li class="dz-preview">\
         <img data-dz-thumbnail />\
