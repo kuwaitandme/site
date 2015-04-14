@@ -24,4 +24,29 @@
     <changefreq>monthly</changefreq>
     <priority>0.60</priority>
   </url>
+  <url>
+    <loc>http://kuwaitandme.com/en/contact</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.60</priority>
+  </url>
+  <url>
+    <loc>http://kuwaitandme.com/en/about</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.60</priority>
+  </url>
+  <url>
+    <loc>http://kuwaitandme.com/en/terms-privacy</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.60</priority>
+  </url>
+  <url>
+    <loc>http://kuwaitandme.com/en/classified/post</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.70</priority>
+  </url>
+  <url>
+    <loc>http://kuwaitandme.com/en/guest/post</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.70</priority>
+  </url>
 </urlset>
