@@ -7,23 +7,6 @@ jade        = require 'jade'
 util        = require 'util'
 async       = require 'async'
 
-# async.parallel [
-#   (callback) ->
-#     setTimeout (->
-#       callback null, 'one'
-#       return
-#     ), 200
-#     return
-#   (callback) ->
-#     setTimeout (->
-#       callback null, 'two'
-#       return
-#     ), 100
-#     return
-# ], (err, results) ->
-#   # the results array will equal ['one','two'] even though
-  # the second function had a shorter timeout.
-
 
 module.exports = ->
   Config = global.config

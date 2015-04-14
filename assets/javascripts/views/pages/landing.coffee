@@ -30,8 +30,8 @@ module.exports = Backbone.View.extend
         id = cookieHelper.readCookie 'pay-w-tweet'
         authHash = cookieHelper.readCookie 'authHash'
         if authHash
-          url = "/guest/#{id}/finish?authHash=#{authHash}#shared"
-        else url = "/classified/#{id}/finish#shared"
+          url = "guest/#{id}/finish?authHash=#{authHash}#shared"
+        else url = "classified/#{id}/finish#shared"
         @resources.router.redirect "#{@resources.language.urlSlug}/#{url}"
 
     if not @categoryList?
