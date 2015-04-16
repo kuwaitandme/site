@@ -3,6 +3,7 @@ async     = require 'async'
 mongoose  = require 'mongoose'
 util      = require 'util'
 validator = require 'validator'
+xss       = require 'xss'
 
 Schema    = mongoose.Schema
 ObjectId  = Schema.ObjectId
@@ -67,20 +68,24 @@ classifieds = module.exports =
     # Start saving the fields one by one
     classified.category         = data.category
     classified.contact          = data.contact
-    classified.description      = data.description
+    classified.description      = xss data.description
     classified.images           = data.images
     classified.meta             = data.meta
     classified.price            = data.price
     classified.saleby           = data.saleby
-    classified.title            = data.title
+    classified.title            = xss data.title
     classified.type             = data.type
+
+    if data.contact
+      classified.contact =
+        email: xss data.contact.email
+        website: xss data.contact.website
+        phone: xss data.contact.phone
 
     if not @_isEmpty data.location
       classified.location = data.location
     if not @_isEmpty data.childCategory
       classified.childCategory = data.childCategory
-    if not @_isEmpty data.babyCategory
-      classified.babyCategory = data.babyCategory
 
     # Set up some defaults
     classified.weight  = 0
@@ -117,17 +122,21 @@ classifieds = module.exports =
       if not classified then callback "not found"
 
       # Start saving the fields one by one
-      # classified.babyCategory     = data.babyCategory
       classified.category         = data.category
       classified.contact          = data.contact
-      classified.description      = data.description
+      classified.description      = xss data.description
       classified.images           = data.images
       classified.meta             = data.meta
       classified.price            = data.price
       classified.saleby           = data.saleby
-      classified.title            = data.title
+      classified.title            = xss data.title
       classified.type             = data.type
 
+      if data.contact
+        classified.contact =
+          email: xss data.contact.email
+          website: xss data.contact.website
+          phone: xss data.contact.phone
       if not @_isEmpty data.childCategory
         classified.childCategory = data.childCategory
       if not @_isEmpty data.location

@@ -48,7 +48,8 @@
     "request-ip": "0.0.4",
     "supertest": "^0.15.0",
     "validator": "^3.34.0",
-    "webdriverio": "^2.4.5"
+    "webdriverio": "^2.4.5",
+    "xss": "^0.1.21"
   },
   "devDependencies": {
     "gulp": "^3.8.11",
