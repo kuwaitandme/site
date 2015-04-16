@@ -236,4 +236,6 @@ module.exports = class viewManager
 
 
   # Function to safely call the Google analytics script
-  googleAnalyticsSend: -> if ga? then ga 'send', 'pageview'
+  googleAnalyticsSend: ->
+    if ga?
+      ga 'send', 'pageview', page: "#{location.pathname}#{location.search}"
