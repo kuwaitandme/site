@@ -79,10 +79,18 @@ module.exports = Backbone.Model.extend
     if location then @attributes.location = location.get 'name'
     else @attributes.location = null
 
+    # Replace categories with their name instead
     category = @get 'category'
     category = (App.Resources.categories.findWhere _id: category)
-    if category then @attributes.category = category.get 'name'
-    else @attributes.category = null
+    if category
+      @attributes.category = category.get 'name'
+
+      childCategory = @get 'childCategory'
+      for child in category.get 'children'
+        if childCategory is child._id then @attributes.childCategory = child.name
+    else
+      @attributes.category = null
+      @attributes.childCategory = null
 
 
     # Convert Date to human readable format

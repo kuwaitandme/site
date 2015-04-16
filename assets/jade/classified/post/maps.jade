@@ -9,10 +9,12 @@
     | Choose your location by either&nbsp;
     b dragging the pointer below&nbsp;
     | or&nbsp;
-    b by clicking/touching &nbsp;
+    b by clicking/tapping &nbsp;
     | the location of your meeting point.
 .row
   .columns
-    #map-canvas
+    #maps-container
+      #maps-disabled-overlay Click or tap to enable maps
+      #map-canvas
 input#gmapX(name="gmapX", type="hidden")
 input#gmapY(name="gmapY", type="hidden")

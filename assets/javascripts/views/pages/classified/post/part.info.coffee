@@ -8,10 +8,12 @@ module.exports = Backbone.View.extend
 
 
   start: (options) ->
-    @$description = @$ '#description textarea'
-    @$title       = @$ '#title input'
-    @$errorTitle  = @$ '#title small.error'
-    @$errorDesc   = @$ '#description small.error'
+    @$description  = @$ '#description textarea'
+    @$title        = @$ '#title input'
+    @$website      = @$ '#website input'
+    @$errorwebsite = @$ '#website small.error'
+    @$errorTitle   = @$ '#title small.error'
+    @$errorDesc    = @$ '#description small.error'
 
 
   continue: -> @populateDOM()
@@ -44,11 +46,15 @@ module.exports = Backbone.View.extend
       @$description.parent().addClass 'show-error'
       @$errorDesc.html 'Description is too short (min 20 char)'
       return false
-    else if description.length > 1000
+    else if description.length > 5000
       @$description.parent().addClass 'show-error'
-      @$errorDesc.html 'Description is too long (max 1000 char)'
+      @$errorDesc.html 'Description is too long (max 5,000 char)'
       return false
     true
+
+
+  _validateWebsite: -> true
+
 
 
   validate: ->
@@ -60,9 +66,19 @@ module.exports = Backbone.View.extend
     isValid
 
 
-  setModel: -> @model.set description: @$description.val(), title: @$title.val()
+  setModel: ->
+    contact = (@model.get 'contact') or {}
+    contact.website = @$website.val()
+
+    @model.set
+      description: @$description.val(),
+      title: @$title.val(),
+      contact: contact
 
 
   populateDOM: ->
     @$description.val @model.get 'description'
     @$title.val @model.get 'title'
+
+    contact = (@model.get 'contact') or {}
+    @$website.val contact.website

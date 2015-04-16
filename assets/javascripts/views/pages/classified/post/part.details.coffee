@@ -197,6 +197,8 @@ module.exports = Backbone.View.extend
 
     @$parentCategory.val   model.category or ""
     @parentCategoryChange()
-    @$childCategory.val    model.childCategory or ""
+    if model.childCategory
+      @$childCategory.val    model.childCategory
+    @_validateCategories()
 
     @locationChange()

@@ -2,28 +2,36 @@ module.exports = Backbone.View.extend
   name: '[view:classified-post:maps]'
   template: template['classified/post/maps']
 
+  events: "click #maps-disabled-overlay" : "enableMaps"
+
   start: (options) ->
     @$gmap  = @$ '#map-canvas'
     @$gmapX = @$ '#gmapX'
     @$gmapY = @$ '#gmapY'
 
-    @$gmap.css 'max-height', ($ window).height()/2
+    @$mapContainer = @$ "#maps-container"
+    @$mapDisableOverlay = @$ "#maps-disabled-overlay"
+
+    @$mapContainer.css 'max-height', ($ window).height()/2
 
     @setDOM()
 
   continue: ->
+    if not @gmap?
+      GoogleMaps = new @resources.external.GoogleMaps
+      GoogleMaps.onLoad => @initializeGoogleMaps()
 
-    # Delete the map if any
-    @gmap = null
-    GoogleMaps = new @resources.external.GoogleMaps
-    GoogleMaps.onLoad => @initializeGoogleMaps()
+
+  enableMaps: ->
+    @$mapDisableOverlay.hide()
 
 
   setModel: ->
-    meta = (@model.get 'meta') or {}
-    meta.gmapX = @$gmapX.val()
-    meta.gmapY = @$gmapY.val()
-    @model.set 'meta', meta
+    if @$gmapX.val() or @$gmapY.val()
+      meta = (@model.get 'meta') or {}
+      meta.gmapX = @$gmapX.val()
+      meta.gmapY = @$gmapY.val()
+      @model.set 'meta', meta
 
 
   setDOM: ->

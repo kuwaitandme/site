@@ -73,7 +73,9 @@
     select#locations(name="location")
       option(value="", disabled, selected, lang-html='page.cform.details.location.select')
       option(value="", lang-html='page.cform.details.location.select-none')
-.row#address1.hide
-  input.columns(type="text", name="address1", lang-placeholder='page.cform.details.address1')
-.row#address2.hide
-  input.columns(type="text", name="address2", lang-placeholder='page.cform.details.address2')
+.row
+  .columns#address1.hide
+    input(type="text", name="address1", lang-placeholder='page.cform.details.address1')
+.row
+  .columns#address2.hide
+    input(type="text", name="address2", lang-placeholder='page.cform.details.address2')

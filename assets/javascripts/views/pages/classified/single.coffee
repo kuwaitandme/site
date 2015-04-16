@@ -24,35 +24,26 @@ module.exports = Backbone.View.extend
     @slideshowTemplate = template['components/slideshow']
     @singleTemplate    = template['components/single']
 
-    @$gmap              = @$ '#map-canvas'
     @$messages          = @$ "#single-messages"
     @$promptModal       = @$ "#promptModal"
     @$admin             = @$ '#admin-single'
-    @$content           = @$ '.c-content'
-    @$gallery           = @$ '.c-gallery'
+    @$content           = @$ '#classified-container'
 
-    if @options.model and false
-      @model = @options.model
+    id = @resources.historyState.parameters
 
+    @model = new @resources.Models.classified
+    @listenTo @model, 'sync', @modelChange
+
+    savedClassified = window.data.classified
+
+    if savedClassified and savedClassified._id is id and false
+      @model.set window.data.classified
+      @model.trigger 'parse'
       @populateDOM()
     else
-      href = document.URL
-      id = @resources.historyState.parameters
-
-      @model = new @resources.Models.classified
-      @listenTo @model, 'sync', @modelChange
-
-      savedClassified = window.data.classified
-
-      if savedClassified and savedClassified._id is id and false
-        @model.set window.data.classified
-        @model.trigger 'parse'
-        @populateDOM()
-      else
-        self = @
-        @model.id = id
-        @listenToOnce @model, 'sync', @populateDOM
-        @model.fetch()
+      @model.id = id
+      @listenToOnce @model, 'sync', @populateDOM
+      @model.fetch()
 
     _.bindAll this, 'rearrangeGallery'
 
@@ -83,24 +74,22 @@ module.exports = Backbone.View.extend
     @$content.html @singleTemplate @model.toJSON()
     @resources.language.translate @$content
 
+    @$gallery = @$ '.c-gallery'
+    @$gallery.masonry itemSelector: 'li'
+
     # Add the image templates
     images = @model.get 'images'
-    @$gallery.hide()
-    if images and images.length > 0
-      @$gallery.show().html @slideshowTemplate images: images
-      @loadImages()
-      $(document).foundation 'orbit', 'reflow'
-
-    @$gallery.masonry itemSelector: 'li', columnWidth: 1
+    # @$gallery.hide()n
+    if images and images.length > 0 then @loadImages()
 
     @$gmap = @$ '#map-canvas'
+    @$gmap.css 'max-height', ($ window).height()/2
     @$gmap.hide()
 
     # Render google maps
-    init = => @initializeGoogleMaps()
-    if not window.gmapInitialized
-      window.gmapInitializeListeners.push init
-    else init()
+    if not @gmap?
+      GoogleMaps = new @resources.external.GoogleMaps
+      GoogleMaps.onLoad => @initializeGoogleMaps()
 
 
   actionHandle: (event) ->
@@ -272,7 +261,8 @@ module.exports = Backbone.View.extend
     # If there are google co-ordinates saved, load up google maps
     meta = @model.get 'meta'
     if meta and meta.gmapX and meta.gmapY
-      init meta.gmapX, meta.gmapY
+      # set timeout to prevent weird offset effect
+      setTimeout (-> init meta.gmapX, meta.gmapY), 250
       @$gmap.show()
 
   loadImages: ->
