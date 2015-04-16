@@ -22,8 +22,7 @@ module.exports = Backbone.View.extend
       GoogleMaps.onLoad => @initializeGoogleMaps()
 
 
-  enableMaps: ->
-    @$mapDisableOverlay.hide()
+  enableMaps: -> @$mapDisableOverlay.hide()
 
 
   setModel: ->
@@ -37,6 +36,8 @@ module.exports = Backbone.View.extend
   setDOM: ->
     @$gmapX.val (@model.get 'meta').gmapX
     @$gmapY.val (@model.get 'meta').gmapY
+
+    if @$gmapY.val() then @enableMaps()
 
 
   initializeGoogleMaps: ->
