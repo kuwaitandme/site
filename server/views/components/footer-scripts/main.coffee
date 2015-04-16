@@ -39,15 +39,13 @@ window.scripts = [
     remoteSrc: "//cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js"
     localSrc: "/javascripts/vendor/backbone.min.js"
   }
-  # {
-  #   name: "library:google-maps"
-  #   remoteSrc: "//maps.googleapis.com/maps/api/js?v=3.exp&callback=initializeGmap"
-  #   localSrc: "/javascripts/vendor/google.maps.min.js"
-  # }
   {
-    name: "library:modernizr"
-    remoteSrc: "//cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"
-    localSrc: "/javascripts/vendor/modernizr.min.js"
+    name: "library:google-maps"
+    remoteSrc: "//maps.googleapis.com/maps/api/js?key=AIzaSyBUcoOW5jw2GvlFQI49FIGl6I7czXcX5iQ&callback=initializeGmap"
+  }
+  {
+    name: "library:facebook"
+    remoteSrc: "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.3&appId=398935173623108"
   }
   {
     name: "library:dropzone"
@@ -59,11 +57,6 @@ window.scripts = [
     remoteSrc: "//cdnjs.cloudflare.com/ajax/libs/masonry/3.2.2/masonry.pkgd.min.js"
     localSrc: "/javascripts/vendor/masonry.pkgd.min.js"
   }
-  # {
-  #   name: "library:jquery-imagesloaded"
-  #   remoteSrc: "//cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/3.1.8/imagesloaded.pkgd.min.js"
-  #   localSrc: "/javascripts/vendor/imagesloaded.min.js"
-  # }
   {
     name: "library:foundation-js"
     remoteSrc: "//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.1/js/foundation.min.js"
@@ -86,19 +79,11 @@ window.scripts = [
   }
 ]
 
-### Special functions and variables to facilitate gmaps ###
-
-window.gmapInitialized = false
-window.gmapInitializeListeners = []
+# ### Special functions and variables to facilitate gmaps #
+# window.gmapInitialized = false
+# window.gmapInitializeListeners = []
 
 window.initializeGmap = ->
-  window.gmapInitialized = true
-  listeners = window.gmapInitializeListeners
-  i = 0
-  while i < listeners.length
-    listeners[i]()
-    i++
-  return
 
 head = document.getElementsByTagName("head")[0]
 production = config.mode == "production"
@@ -114,11 +99,12 @@ for script in scripts
     $fileref.rel = "stylesheet"
   else
     $fileref = document.createElement "script"
+    $fileref.type = "text/javascript"
 
 
   # If HTML5 localStorage is supported, attempt to load the scripts from
   # the application cache
-  if localStorage? and production
+  if localStorage? and production and script.localSrc
     appChanged = (localStorage.getItem "magic:application") != config.magic.application
     libraryChanged = (localStorage.getItem "magic:library") != config.magic.library
 
@@ -137,7 +123,7 @@ for script in scripts
     scriptCache = localStorage.getItem script.name
 
     # If versions differ, then don"t load from cache and instead load
-    # the script normally. The app will eventually clear out the cache
+    # the sc*ript normally. The app will eventually clear out the cache
     # and update the local version
     if libraryChanged or (appChanged and not isLibrary)
       console.log "skipping:", script.name
@@ -163,9 +149,9 @@ for script in scripts
 
   # If the script was not found in cache then prepare it to be loaded
   # by the browser
+  if not production then script.remoteSrc = script.localSrc or script.remoteSrc
   if not foundInCache
     $fileref.async = false
-    script.remoteSrc = if production then script.remoteSrc else script.localSrc
     if isCSS then $fileref.href = script.remoteSrc
     else $fileref.src = script.remoteSrc
 
@@ -173,6 +159,5 @@ for script in scripts
   if isCSS
     head.appendChild $fileref
   else
-    $fileref.type = "text/javascript"
     head.insertBefore $fileref, head.firstChild
-    head.removeChild $fileref
+    # head.removeChild $fileref

@@ -1,4 +1,5 @@
 module.exports = Backbone.View.extend
+
   name: '[view:classified-post:maps]'
   template: template['classified/post/maps']
 
@@ -10,14 +11,11 @@ module.exports = Backbone.View.extend
     @setDOM()
 
   continue: ->
-    init = => @initializeGoogleMaps()
 
     # Delete the map if any
     @gmap = null
-
-    if not window.gmapInitialized
-      window.gmapInitializeListeners.push init
-    else init()
+    GoogleMaps = new @resources.external.GoogleMaps
+    GoogleMaps.onLoad => @initializeGoogleMaps
 
 
   setModel: ->

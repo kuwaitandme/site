@@ -81,7 +81,7 @@ module.exports = class controller
       storageIdentifier = script.name
 
       # Check if the script already exists in the cache
-      if not @get storageIdentifier
+      if script.localSrc? and not @get storageIdentifier
         console.log @name, "caching script:", script.name
 
         # Start fetching the local version of the script asynchronously.
