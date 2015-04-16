@@ -1,22 +1,22 @@
 .row
-  h3(lang-html='page.cform.images.title') Upload some images
+  h3.columns(lang-html='page.cform.images.title')
 
-.row.hint
-  p
-    b(lang-html='page.cform.images.hint1') Get at least twice the number of views by uploading images.
-    |&nbsp;
-    span(lang-html='page.cform.images.hint2') Upload upto 10 images with each image having a maximum size of 10 MB.
-  p(lang-html='page.cform.images.hint3') Add your images here, by dragging and dropping them into the box below or by clicking on it.
-  p
-    b(lang-html='page.cform.images.hint4') Professionaly taken images get promoted my our moderators and have a better chance to be placed on the homepage.
+  .columns
+    b(lang-html='page.cform.images.hint1')
+  p.columns(lang-html='page.cform.images.hint2')
+  p.columns(lang-html='page.cform.images.hint3')
+  .columns
+    b(lang-html='page.cform.images.hint4')
 
-form#image-form.row
-  #image-upload
-    .dz-message
-      span.heading(lang-html='page.cform.images.dragdrop1') Drag &amp; Drop your images here
-      br
-      span(lang-html='page.cform.images.dragdrop2') or just click/tap.
-
-
-ul.row#image-upload-preview
-.row.hint(lang-html='page.cform.images.hint5') Selected images get displayed above. If you want to remove an image, simply click on it.
+.row
+  .columns
+    form#image-form
+      #image-upload
+        .dz-message
+          span.heading(lang-html='page.cform.images.dragdrop1')
+          br
+          span(lang-html='page.cform.images.dragdrop2')
+  .columns
+    ul#image-upload-preview
+.row
+  p.columns(lang-html='page.cform.images.hint5')

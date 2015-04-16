@@ -31,9 +31,9 @@ module.exports = Backbone.View.extend
 
     @$authLink    = @$ "#authLink"
     @$finishLink  = @$ "#finishLink"
-    @$facebook    = @$ ".social .facebook"
-    @$twitter     = @$ ".social .twitter"
-    @$gplus       = @$ ".social .gplus"
+    @$facebook    = @$ ".social.facebook"
+    @$twitter     = @$ ".social.twitter"
+    @$gplus       = @$ ".social.gplus"
 
     @$sharedMessage = @$ "#shared-message"
     @$unsharedMessage = @$ "#unshared-message"

@@ -91,24 +91,32 @@ body#classified-single
       white-space: -o-pre-wrap
       word-wrap: break-word
 
+  .clearing-blackout
+    background: rgba(0, 0, 0, 0.75)
+    .visible-img,  .carousel
+      background: transparent
   .c-gallery
     margin: 0
-    padding-bottom: 1rem
+    padding: 0
     text-align: center
+    margin-bottom: 2rem
 
-    .clearing-thumbs
-      li
-        padding: 0
-        max-width: 40%
-        margin: 10px
+    li
+      margin: 0
+      // padding: 10px
 
+      .th
+        +single-transition(height)
+        width: 100%
+      img
+        width: 100%
+        opacity: 1
       &.image-loading
         img
-          display: none
-        height: 300px
-        width: 200px
-        background: #eee
-
+          opacity: 0
+        .th
+          background: #eee
+          min-height: 300px
   .c-disclaimer
     +single-transition(opacity)
     width: 95%

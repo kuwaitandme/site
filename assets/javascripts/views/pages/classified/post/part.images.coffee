@@ -79,4 +79,4 @@ module.exports = Backbone.View.extend
 
   setDOM: ->
     images = @model.get 'images'
-    for image in images then @addImage image
+    for image in images then @addImage image.file

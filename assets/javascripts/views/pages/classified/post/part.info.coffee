@@ -52,8 +52,11 @@ module.exports = Backbone.View.extend
 
 
   validate: ->
+    console.log @name, 'validating'
     isValid = @_validateDescription()
     isValid = @_validateTitle() and isValid
+
+    console.debug @name, 'validation:', isValid
     isValid
 
 

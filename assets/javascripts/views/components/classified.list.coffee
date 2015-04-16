@@ -166,32 +166,35 @@ module.exports = Backbone.View.extend
     for classified in classifieds
       json = classified.toJSON()
       json.lang = @resources.language.currentDictonary
+      json.showStatus = @settings.isAccount
 
-      if json.images then json.image = "/uploads/thumb/#{json.images[0]}"
+      if json.images.length > 0 then json.image = json.images[0]
 
       html = @listTemplate json
       elem = $ html
-
-      if json.images then elem.addClass 'image-loading'
-
-      createSuccessHandler = (elem) => =>
-        elem.removeClass 'image-loading'
-        @$classifiedList.masonry()
-
-      createFailureHandler = (elem) => =>
-        elem.removeClass 'image-loading'
-        .addClass 'image-failed'
-        @$classifiedList.masonry()
 
       # Append element into DOM and reload Masonry
       @$classifiedList.append elem
       @$classifiedList.masonry 'appended', elem
 
-      if json.images
+      if json.image
+
+        elem.addClass 'image-loading'
+
+        createSuccessHandler = (elem) => =>
+          elem.removeClass 'image-loading'
+          @$classifiedList.masonry()
+
+        createFailureHandler = (elem) => =>
+          elem.removeClass 'image-loading'
+          .addClass 'image-failed'
+          @$classifiedList.masonry()
+
+        imageURL = "/uploads/thumb/#{json.image.file}"
         # Use our special function to load the images. This function ensures
         # that the images are loaded smoothly, the containers are setup
         # properly and add the right CSS classes are set for the any effects
-        imageLoader json.image,
+        imageLoader imageURL,
           # This function is called when a image successfully loads. It makes
           # sure that the *image-loading* class is removed from the parent li
           # and the masonry layout is reset

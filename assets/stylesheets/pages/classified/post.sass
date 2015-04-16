@@ -1,4 +1,4 @@
-body#classified-post
+body#classified-post main
   background: #FFF
   #ajax-spinner
     position: relative
@@ -14,21 +14,21 @@ body#classified-post
     display: none
   .show-error small.error
     display: block
-  .seperator
-    margin: 0
   .page
-    // opacity: 0
-    // display: none
-    padding: 20px 10px
-    // min-height: 100%
+    margin: 3rem auto
+    .seperator
+      background: #ddd
+      margin: 0
     > .row
-      margin: 0 0 1rem 0
+      margin: 0 0 1.5rem 0
+    #price-row, #child-row
+      margin-top: 1.5rem
   select, input, textarea
     @extend .font-text
     outline: none
     margin: 0
   label
-    margin-bottom: 5px
+    margin-bottom: 10px
   textarea
     min-height: 200px
   h1
@@ -41,7 +41,8 @@ body#classified-post
       text-decoration: none
       border-bottom: 2px solid #E74C3C
       color: #E74C3C
-
+  #authLink
+      word-break: break-all
   .submit
     @extend .font-title
     +single-transition(background)
@@ -50,15 +51,17 @@ body#classified-post
     color: #FFF
     cursor: pointer
     font-weight: 400
-    padding: 10px 20px
-    width: auto
+    padding: 12px
+    width: 100%
+    margin: 10px 0
+
+    -moz-border-radius: 3px
+    -webkit-border-radius: 3px
+    border-radius: 3px
     a
       color: inherit
     &:hover
       background: #27ae60
-  .seperator
-    margin: 1.5rem auto
-    background: #ddd
   #map-canvas
     position: relative
     height: 400px
@@ -80,10 +83,12 @@ body#classified-post
     text-align: center
     &:hover
       border-color: #3498db
+
   #image-upload-preview
     +clearfix
     +single-transition(border-color)
     border: dotted 2px #EEE
+    margin: 0
     margin-top: 10px
     min-height: 50px
     padding: 0
@@ -117,33 +122,48 @@ body#classified-post
           padding-top: 33px
       &:hover .delete
         opacity: 1
-  .social
-    +clearfix
-    overflow: hidden
-    text-align: center
-    padding: 0
-    div
-      @extend .font-awesome
+  #social-links
+    // .columns
+    //   padding-left: 0
+
+    .social
+      +single-transition(background)
       color: #FFF
-      float: left
-      font-size: 20px
-      padding: 10px 0
-      margin: 0px 10px
-      text-align: center
-      width: 50px
-      -webkit-border-radius: 25px
-      -moz-border-radius: 25px
-      border-radius: 25px
-    .facebook div
-      background: #3B5390
-    .twitter div
-      background: #00AFEB
-    .gplus div
-      background: #CC4534
+      display: block
+      margin: 0
+      padding: 0
+
+      -moz-border-radius: 3px
+      -webkit-border-radius: 3px
+      border-radius: 3px
+
+      .icon
+        @extend .font-awesome
+        padding: 14px
+        text-align: center
+      .text
+        border-left: 1px solid rgba(0,0,0,0.2)
+        padding: 10px
+      &.facebook
+        background: #3B5390
+        &:hover
+          background: #293A65
+      &.twitter
+        background: #00AFEB
+        &:hover
+          background: #008CBC
+      &.gplus
+        background: #CC4534
+        &:hover
+          background: #A3372A
+
   .error-message
     margin: 0
     li
-      margin: 10px 0
-      background: #CC4534
+      margin: 1rem 0
+      background: #F04124
       color: #FFF
       padding: 10px
+      -moz-border-radius: 3px
+      -webkit-border-radius: 3px
+      border-radius: 3px

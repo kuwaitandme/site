@@ -29,6 +29,7 @@ module.exports = Backbone.View.extend
     @$promptModal       = @$ "#promptModal"
     @$admin             = @$ '#admin-single'
     @$content           = @$ '.c-content'
+    @$gallery           = @$ '.c-gallery'
 
     if @options.model and false
       @model = @options.model
@@ -45,7 +46,7 @@ module.exports = Backbone.View.extend
 
       if savedClassified and savedClassified._id is id and false
         @model.set window.data.classified
-        @model.trigger  'parse'
+        @model.trigger 'parse'
         @populateDOM()
       else
         self = @
@@ -53,9 +54,10 @@ module.exports = Backbone.View.extend
         @listenToOnce @model, 'sync', @populateDOM
         @model.fetch()
 
+    _.bindAll this, 'rearrangeGallery'
+
 
   continue: ->
-    console.log @name, 'continue'
     urlHelpers = @resources.Helpers.url
     @$el.fadeIn()
     @modelChange()
@@ -66,7 +68,11 @@ module.exports = Backbone.View.extend
     ($ document).foundation 'clearing', 'reflow'
     @renderAdminbar()
 
+    ($ window).on 'resize', @rearrangeGallery
 
+  pause: -> ($ window).off 'resize', @rearrangeGallery
+
+  rearrangeGallery: -> @$gallery.masonry()
 
   populateDOM: ->
     @model.parseVariables()
@@ -79,13 +85,13 @@ module.exports = Backbone.View.extend
 
     # Add the image templates
     images = @model.get 'images'
-    (@$ '.c-gallery').hide()
+    @$gallery.hide()
     if images and images.length > 0
-      (@$ '.c-gallery').show().html @slideshowTemplate images: images
+      @$gallery.show().html @slideshowTemplate images: images
       @loadImages()
       $(document).foundation 'orbit', 'reflow'
 
-    # (@$ '.page').css 'min-height', ($ window).height()
+    @$gallery.masonry itemSelector: 'li', columnWidth: 1
 
     @$gmap = @$ '#map-canvas'
     @$gmap.hide()
@@ -273,6 +279,10 @@ module.exports = Backbone.View.extend
     imageLoader = @resources.Library.imageLoader
 
     $imgs = @$ '[data-src]'
+    total = $imgs.length
+
+    @$gallery.magnificPopup type: 'image', delegate: 'a', gallery: enabled: true
+
     $imgs.each (i) =>
       $img = $imgs.eq i
       $container = $img.parent().parent()
@@ -282,14 +292,16 @@ module.exports = Backbone.View.extend
       createSuccessHandler = (elem) => =>
         elem.removeClass 'image-loading'
         .addClass 'image-success'
+        @$gallery.masonry()
+        if --total is 0 then ($ document).foundation 'clearing', 'reflow'
+
       createFailureHandler = (elem) => =>
         elem.removeClass 'image-loading'
         .addClass 'image-failed'
+        @$gallery.masonry()
+        if --total is 0 then ($ document).foundation 'clearing', 'reflow'
 
       $img.attr 'src', src
-      # Append element into DOM and reload Masonry
-      # @$classifiedList.append elem
-      # @$classifiedList.masonry 'appended', elem
 
       # Use our special function to load the images. This function ensures
       # that the images are loaded smoothly, the containers are setup

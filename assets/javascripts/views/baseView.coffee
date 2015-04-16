@@ -37,7 +37,7 @@ module.exports =
     @on 'start', =>
       console.log @name, "start"
       if @template? then @$el.html @template @templateOptions
-      @start()
+      @start options
 
     @on 'continue', =>
       console.log @name, "continue"

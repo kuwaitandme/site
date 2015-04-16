@@ -1,26 +1,36 @@
 doctype html
 html
   head
-    title 404 | page not found
-    link(rel='stylesheet', href='/stylesheets/build/style.css')
-    link(href='//fonts.googleapis.com/css?family=Jura', rel='stylesheet', type='text/css')
-  body#four-o-four(style="font-family: 'Jura';")
-    section
-      .title Error Code 404
-      pre.trace
-        | <b>#{path}</b> cannot be found.
-      pre.trace
-        | <b>Stack Trace</b>
-        | at io.netty.channel.AbstractChannel$AbstractUnsafe.flush(AbstractChannel.java:651)
-        | at io.netty.channel.DefaultChannelPipeline$HeadHandler.flush(DefaultChannelPipeline.java:1038)
-        | at io.netty.channel.DefaultChannelHandlerContext.invokeFlush(DefaultChannelHandlerContext.java:675)
-        | at io.netty.channel.DefaultChannelHandlerContext.flush(DefaultChannelHandlerContext.java:656)
-        | at io.netty.channel.ChannelOutboundHandlerAdapter.flush(ChannelOutboundHandlerAdapter.java:115)
-        | at io.netty.channel.DefaultChannelHandlerContext.invokeFlush(DefaultChannelHandlerContext.java:675)
-        | at io.netty.channel.DefaultChannelHandlerContext.flush(DefaultChannelHandlerContext.java:656)
-        | at io.netty.channel.ChannelDuplexHandler.flush(ChannelDuplexHandler.java:117)
-        | at io.netty.channel.DefaultChannelHandlerContext.invokeFlush(DefaultChannelHandlerContext.java:675)
-        | at io.netty.channel.DefaultChannelHandlerContext.flush(DefaultChannelHandlerContext.java:656)
-        | at io.netty.channel.DefaultChannelPipeline.flush(DefaultChannelPipeline.java:836)
-        | at io.netty.channel.AbstractChannel.flush(AbstractChannel.java:188)
-
+    title Kuwait &amp; Me
+    style(type='text/css').
+      @import url(//fonts.googleapis.com/css?family=Bitter);
+      @import url(//fonts.googleapis.com/css?family=Open+Sans:400,600);
+      body {
+        background-color: #FFF;
+        margin: 0;
+        padding: 0;
+        font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+      }
+      img { max-width: 100%; }
+      div {
+        margin: 10px auto;
+        padding: 50px 10px;
+        text-align: center;
+        background-color: #fff;
+        font-family: 'Open Sans', sans-serif;
+      }
+      p { font-size: 13px; }
+      .title {
+        font-family: 'Bitter', serif;
+        font-size: 18px;
+      }
+  body
+    div
+      img(src='/images/kme-logo-beta.png')
+      h1.title 404 - Page not found
+      p
+        | This means that page you are looking for doesn't exist. This could
+        | happen if the content has expired/removed or you have simply mistyped
+        | the URL.
+      p
+        | Check the link again and make sure you entered everything correctly.

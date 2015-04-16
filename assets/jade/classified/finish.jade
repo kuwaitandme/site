@@ -1,42 +1,53 @@
 .row
-  section.page.small-11.medium-9.small-centered.columns
+  section.page.small-11.large-10.small-centered.columns
     .row
-      h2 Awesome! Your classified is now up and running!
+        h2.columns Awesome! Your classified is now up and running!
+        p.columns
+          | Your classified has been successfully uploaded and
+          | <% if(obj.isGuest) { %>
+          | has been sent for review by our moderators.
+          | <% } else { %>
+          | is now online.
+          | <% } %>
+          | &nbsp;It will be online for 30 days after which it will automatically expire and be hidden from search results.
 
-    .row.hint
-      p
-        | Your classified has been successfully uploaded and
         | <% if(obj.isGuest) { %>
-        | has been sent for review by our moderators.
-        | <% } else { %>
-        | is now online.
+        p.columns Since you posted as a guest, you will have to use this link <a href="#" id="authLink"></a> to delete/edit your classified.
         | <% } %>
-        | &nbsp;It will be online for 30 days after which it will automatically expire and be hidden from search results.
+        p.columns You can help bring some attention to your classified by sharing it on your social networks.
+    .row
+      .columns
+        ul#social-links.small-block-grid-1.medium-block-grid-3
+          li
+            a(href="#").facebook.social.row
+              .icon.small-3.columns &#xf09a;
+              .text.small-9.columns Share on Facebook
+          li
+            a(href="#").twitter.social.row
+              .icon.small-3.columns &#xf099;
+              .text.small-9.columns Tweet on Twitter
+          li
+            a(href="#").gplus.social.row
+              .icon.small-3.columns &#xf0d5;
+              .text.small-9.columns Share on Google+
+          li
+            .button.submit.small-12
+              a#finishLink(href="", data-view) View your classified
 
-      | <% if(obj.isGuest) { %>
-      p Since you posted as a guest, you will have to use this link <a href="#" id="authLink"></a> to archive/edit your classified.
-      | <% } %>
-      p You can help bring some attention to your classified by sharing it on your social networks.
-    //- .row.social.hint
-    //-   a(href="#").facebook
-    //-     div &#xf09a;
-    //-   a(href="#").twitter
-    //-     div &#xf099;
-    //-   a(href="#").gplus
-    //-     div &#xf0d5;
-    .row.button.submit
-      a#finishLink(href="", data-view) View your classified
     .seperator
     .row#shared-message
-      h3 Your classified is promoted!
-      p Thanks so much for spreading the love! We have promoted your classified as a token of our apprecition :)
+
+      h3.columns Your classified is promoted!
+      p.columns Thanks so much for spreading the love! We have promoted your classified as a token of our apprecition :)
     .row#unshared-message
-      h3 Promote with a share!
-      p
+      h3.columns Promote with a share!
+      p.columns
         | We love doing beautiful things for you! Show us some love back and we
         | will return the favour by <b>promoting your classified onto the
         | front-page</b> and on top of search results.
-      p
+      p.columns
         | All you have to do is simply share the site in your social network by
         | clicking on the button below
-      .row.button.submit#promoteLink Promote with a share
+
+      .columns.medium-4.end
+        .button.submit#promoteLink Promote with a share

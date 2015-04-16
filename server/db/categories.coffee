@@ -5,6 +5,7 @@ json = {
     'Clothing & Accessories'
     'Furniture & Decor'
     'Home Appliances'
+    'Instruments'
     'Jewelery & Watches'
     'Sports & Exercise'
     'Toys & Games'
@@ -40,8 +41,8 @@ json = {
     'Camcorders & Cameras'
     'Computers & Laptops'
     'Gaming'
-    'Phones & Tablets'
     'Headphones & MP3'
+    'Phones & Tablets'
     'Television & Home Theater'
     'Video Games & Software'
     'Other'
@@ -66,7 +67,6 @@ json = {
 
   'Music, Movies & Books': {
     'Books'
-    'Instruments'
     'Movies'
     'Music'
     'Other'

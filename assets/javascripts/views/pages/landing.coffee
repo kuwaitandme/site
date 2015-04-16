@@ -21,7 +21,7 @@ module.exports = Backbone.View.extend
 
 
   continue: ->
-    console.log @name, 'continue'
+    FB.XFBML.parse()
 
     switch window.location.hash
       when "#shared"
@@ -42,9 +42,7 @@ module.exports = Backbone.View.extend
     @classifiedList.continue()
 
 
-  pause: ->
-    console.log @name, 'pause'
-    @classifiedList.pause()
+  pause: -> @classifiedList.pause()
 
 
   # This function redirects the app to the classified search page, with the

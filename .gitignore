@@ -18,4 +18,6 @@
 /var/config.coffee
 
 # hide log files
-/var/*.log
+/var/log/*.log
+/var/log/*.gz
+/var/backups/*.tgz

@@ -1,11 +1,10 @@
 .row
-  h3(lang-html='page.cform.submit.title') Wasn't that simple? You're all set to go!
-.row.hint
-  p(lang-html='page.cform.submit.hint1') Your classified is now ready to be uploaded as soon as you click on the button below.
-  p.disclaimer(lang-html='page.cform.submit.hint2') <b>Disclaimer:</b> By submitting this classified, you are agreeing to our <a href='/privacy-terms' data-view> privacy and terms of use</a>.
+  h3.columns(lang-html='page.cform.submit.title')
+  p.columns(lang-html='page.cform.submit.hint1')
+  p.disclaimer.columns(lang-html='page.cform.submit.hint2')
 
-.row.gcaptcha
-
-ul.row.error-message
-.row.submit-container
-  input.submit(type="submit", value="Submit", lang-value='page.cform.submit.button')
+.row
+  ul.columns.error-message
+  .medium-4.columns
+    input.submit(type="submit", lang-value='page.cform.submit.button')
+  .gcaptcha.columns

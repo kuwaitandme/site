@@ -11,42 +11,11 @@ body#landing
     @extend .font-awesome
     position: absolute
     right: 10px
-    top: 95px
-
+    top: 110px
+    @media only screen and (max-width: 64.063em)
+      top: 75px
     li
       float: right
-    a
-      $radius: 45px
-      border-right: 0
-      color: #FFF
-      display: block
-      font-size: 18px
-      height: $radius
-      margin-left: 10px
-      overflow: hidden
-      padding: 15px 11px
-      // padding-top: 16px
-      text-align: center
-      width: $radius
-
-      -webkit-box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.36)
-      -moz-box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.36)
-      box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.36)
-
-      -webkit-border-radius: $radius
-      -moz-border-radius: $radius
-      border-radius: $radius
-
-      &.twitter
-        background: #0099B9
-      &.youtube
-        background: #DF2927
-      &.facebook
-        background: #3A5795
-      &.googleplus
-        background: #DF2927
-      &.instagram
-        background: #A67056
   #landing-categories
     +single-transition(height)
     padding-bottom: 5rem
@@ -91,7 +60,7 @@ body#landing
         float: none
         margin: 0
     #search-form
-      margin: 10% 0
+      margin: 90px 0
       text-align: center
       width: 100%
       form
@@ -117,108 +86,3 @@ body#landing
           right: 0
           top: 0
           width: 40px
-  // #post-classified {
-  //   background: url('/images/patterns/dark_embroidery.png');
-  //   color: #FFF;
-  //   margin-top: 30px;
-  //   padding: 30px;
-  //   text-align: center;
-  //   width: 100%;
-  //   text-shadow: 0px 4px 3px rgba(0,0,0,0.4),
-  //     0px 8px 13px rgba(0,0,0,0.1),
-  //     0px 18px 23px rgba(0,0,0,0.1);
-  //   h1 { margin: 0; }
-  //   .post-button {
-  //     @include single-transition();
-  //     border: 2px solid #FFF;
-  //     display: inline-block;
-
-  //     font-size: 14px;
-  //     margin: 40px 0;
-  //     padding: 10px 20px;
-  //     text-decoration: none;
-  //     text-transform: uppercase;
-  //     -webkit-border-radius: 3px;
-  //     -moz-border-radius: 3px;
-  //     border-radius: 3px;
-  //     text-shadow: none;
-  //     &:hover {
-  //       background: #FFF;
-  //       color: #363636;
-  //     }
-  //   }
-  // }
-  //   #masonry-container {
-  //     padding-top: 15px;
-  //     .content {
-  //       margin: 0 auto;
-  //       padding: 0;
-  //       .cl-item {
-  //         max-width: 350px;
-  //         padding: 10px;
-  //         width: 100%;
-  //         .cl-container {
-  //           background: #FFF;
-  //           border: 1px solid #DDD;
-  //           overflow: hidden;
-  //           .cl-title {
-  //             @extend .font-title;
-  //             @include single-transition(padding);
-  //             color: #FFF;
-  //             cursor: pointer;
-  //             font-size: 20px;
-  //             padding: 50px 0;
-  //             text-align: center;
-  //           }
-  //           .cl-content {
-  //             ul.cl-list {
-  //               @include clearfix();
-  //               @include single-transition(height);
-  //               height: 0;
-  //               margin: 0;
-  //               overflow: hidden;
-  //               padding: 0;
-  //               a { text-decoration: none; }
-  //               li {
-  //                 @include single-transition(background);
-  //                 border-bottom: 1px solid #EEE;
-  //                 float: left;
-  //                 height: 53px;
-  //                 padding: 5px 10px;
-  //                 width: 50%;
-  //                 &:hover { background: #f9f9f9; }
-  //               }
-  //               a:nth-child(odd) li { border-right: 1px solid #EEE; }
-  //               .count {
-  //                 color: #999;
-  //                 font-size: 10px;
-  //               }
-  //             }
-  //             .cl-footer {
-  //               color: #666;
-  //               font-size: 10px;
-  //               padding: 5px;
-  //               text-align: center;
-  //               text-transform: uppercase;
-  //             }
-  //           }
-  //           &.active .cl-title { padding: 10px 0; }
-  //         }
-  //       }
-  //       .sprite-cat {
-  //         background-image: url(/images/cat-spritesheet.png);
-  //         background-repeat: repeat-x;
-  //         display: block;
-  //         &.Classes {background-position: 0 0;}
-  //         &.Community {background-position: 0 -133px;}
-  //         &.Jobs {background-position: 0 -266px;}
-  //         &.Personal {background-position: 0 -399px;}
-  //         &.Pets {background-position: 0 -532px;}
-  //         &.Real {background-position: 0 -665px;}
-  //         &.Rent {background-position: 0 -798px;}
-  //         &.Sale {background-position: 0 -931px;}
-  //         &.Services {background-position: 0 -1064px;}
-  //         &.Vehicles {background-position: 0 -1197px;}
-  //       }
-  //     }
-  //   }

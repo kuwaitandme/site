@@ -9,15 +9,15 @@ window.scripts = [
     remoteSrc: "//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.1/css/foundation.min.css"
     localSrc: "/stylesheets/vendor/foundation.min.css"
   }
-  # {
-  #   name: "library:font-awesome-css"
-  #   remoteSrc: "//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css"
-  #   localSrc: "/stylesheets/vendor/font-awesome.min.css"
-  # }
+  {
+    name: "library:jquery.magnific-popup-css"
+    remoteSrc: "//cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.0.0/magnific-popup.min.css"
+    localSrc: "/stylesheets/vendor/magnific-popup.min.css"
+  }
   {
     name: "app:style-css"
-    remoteSrc: "/stylesheets/build/style.min.css?v=#{config.js.applicationVersion}"
-    localSrc: "/stylesheets/build/style.css?v=#{config.js.applicationVersion}"
+    remoteSrc: "/stylesheets/build/style.min.css?m=#{config.magic.application}"
+    localSrc: "/stylesheets/build/style.css?m=#{config.magic.application}"
   }
   {
     name: "library:jquery"
@@ -70,14 +70,19 @@ window.scripts = [
     localSrc: "/javascripts/vendor/foundation.min.js"
   }
   {
+    name: "library:magnific-popup"
+    remoteSrc: "//cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.0.0/jquery.magnific-popup.min.js"
+    localSrc: "/javascripts/vendor/jquery.magnific-popup.min.js"
+  }
+  {
     name: "app:template"
-    remoteSrc: "/javascripts/build/template.min.js?v=#{config.js.applicationVersion}"
-    localSrc: "/javascripts/build/template.js?v=#{config.js.applicationVersion}"
+    remoteSrc: "/javascripts/build/template.min.js?m=#{config.magic.application}"
+    localSrc: "/javascripts/build/template.js?m=#{config.magic.application}"
   }
   {
     name: "app:script"
-    remoteSrc: "/javascripts/build/app.min.js?v=#{config.js.applicationVersion}"
-    localSrc: "/javascripts/build/app.js?v=#{config.js.applicationVersion}"
+    remoteSrc: "/javascripts/build/app.min.js?m=#{config.magic.application}"
+    localSrc: "/javascripts/build/app.js?m=#{config.magic.application}"
   }
 ]
 
@@ -100,7 +105,7 @@ production = config.mode == "production"
 for script in scripts
   $fileref = undefined
   foundInCache = false
-  isCSS = script.name.substr(-3) == "css"
+  isCSS = (script.name.substr -3) == "css"
 
   # First prepare the element that is going to contain/request for the
   # CSS or JS
@@ -114,19 +119,19 @@ for script in scripts
   # If HTML5 localStorage is supported, attempt to load the scripts from
   # the application cache
   if localStorage? and production
-    appChanged = (localStorage.getItem "version:application") != window.config.js.applicationVersion
-    libraryChanged = (localStorage.getItem "version:library") != window.config.js.libraryVersion
+    appChanged = (localStorage.getItem "magic:application") != config.magic.application
+    libraryChanged = (localStorage.getItem "magic:library") != config.magic.library
 
     # Note that the goal of these conditions is to ensure that app files are
     # compared with their version, but if the library versions differ then
     # we ignore the app files too.
     isLibrary = (script.name.split ":")[0] is "library"
-    localVersionString = if isLibrary then "version:library" else "version:application"
-    remoteVersionString = if isLibrary then "libraryVersion" else "applicationVersion"
+    localVersionString = if isLibrary then "magic:library" else "magic:application"
+    remoteVersionString = if isLibrary then "library" else "application"
 
     # Check if local and remote version of the libraries differ
     localVersion = String localStorage.getItem localVersionString
-    remoteVersion = String window.config.js[remoteVersionString]
+    remoteVersion = String window.config.magic[remoteVersionString]
 
     # Check for the script in our cache
     scriptCache = localStorage.getItem script.name
@@ -135,19 +140,20 @@ for script in scripts
     # the script normally. The app will eventually clear out the cache
     # and update the local version
     if libraryChanged or (appChanged and not isLibrary)
-      console.log "skipping", script.name
+      console.log "skipping:", script.name
       scriptCache = null
 
     # If the cache exists, then read from it; Otherwise set a flag to
     # that will upload the script normally.
     if scriptCache
+      console.log "fething from cache:", script.name
 
       # IMPORTANT: CSS code should be placed in the "<style></style>"
       # tag and not inside "<link/>". Which is why it is crucial to
       # not to forget that $fileref has to replaced as a new
       # element.
       if isCSS
-        $fileref = document.createElement("style")
+        $fileref = document.createElement "style"
         $fileref.type = "text/css"
 
       # Populate the element with our cached code and set a flag to

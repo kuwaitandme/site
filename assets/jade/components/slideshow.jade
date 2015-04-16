@@ -1,8 +1,7 @@
 |<% if(images) { %>
-ul.clearing-thumbs(data-clearing)
-  |  <% _.each(images, function(img) {  %>
-  li
-    a.th(href!="/uploads/main/<%= img %>")
-      img.thumb(data-src!="/uploads/thumb/<%= img %>")
-  |  <% }); %>
+|  <% _.each(images, function(img) {  %>
+li.small-6.medium-4.large-2
+  a.th(data-lightbox="image-1", href!="/uploads/main/<%= img.file %>", style!="background: <%= img.color %>")
+    img.thumb(data-src!="/uploads/thumb/<%= img.file %>")
+|  <% }); %>
 |<% } %>

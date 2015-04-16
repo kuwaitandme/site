@@ -3,14 +3,15 @@ module.exports = Backbone.View.extend
   template: template['classified/post/details']
 
   events:
-    'change #cat-selector'   : 'parentCategoryChange'
-    'change #locations'      : 'locationChange'
-    'change #price-selector' : 'priceChange'
+    'change #cat-selector'        : 'parentCategoryChange'
+    'change #childcat-selector'   : 'childCategoryChange'
+    'change #locations'           : 'locationChange'
+    'change #price-selector'      : 'priceChange'
 
 
   start: (options) ->
-    @$address1        = @$ '#address1'
-    @$address2        = @$ '#address2'
+    @$address1        = @$ '#address1 input'
+    @$address2        = @$ '#address2 input'
     @$parentCategory  = @$ '#cat-selector'
     @$childCategory   = @$ '#childcat-selector'
     @$email           = @$ '#email'
@@ -31,48 +32,61 @@ module.exports = Backbone.View.extend
 
   locationChange: (event) ->
     if @$locations.val()? and @$locations.val() != ""
-      @$address1.removeClass "hide"
-      @$address2.removeClass "hide"
+      (@$ '#address1').removeClass "hide"
+      (@$ '#address2').removeClass "hide"
     else
-      @$address1.addClass "hide"
-      @$address2.addClass "hide"
+      (@$ '#address1').addClass "hide"
+      (@$ '#address2').addClass "hide"
 
 
   _validatePrice: (event) ->
     if not @$priceSelector.val()
       @$priceSelector.parent().addClass 'show-error'
+      console.error @name, 'price has not been set'
       return false
-    else if not @$priceField.val() or @$priceField.val() is -1
-      @$priceField.parent().parent().addClass 'show-error'
-      return false
+    else
+      customPrice = @$priceField.val()
+      if  @$priceSelector.val() is -1 and customPrice > 0
+        @$priceField.parent().parent().addClass 'show-error'
+        console.error @name, 'price input for custom price has not been set'
+        return false
     true
 
   _validateCategories: (event) ->
     parentVal = @$parentCategory.val()
     childVal = @$childCategory.val()
 
+    @$childCategory.parent().parent().removeClass 'show-error'
+    @$parentCategory.parent().removeClass 'show-error'
+
     if not parentVal
       @$parentCategory.parent().addClass 'show-error'
+      console.error @name, 'parent category has not been set'
       return false
-    # else
-    #   childern = (@resources.categories.getChildren parentVal) or []
-    #   if children.length > 0 and childVal
-    #     @$childCategory.parent().addClass 'show-error'
-    #     return false
+    else
+      children = (@resources.categories.getChildren parentVal) or []
+      if children.length > 0 and (not childVal? or childVal.length == 0)
+        @$childCategory.parent().parent().addClass 'show-error'
+        console.error @name, 'child category has not been set'
+        return false
     true
 
   _validateType: (event) ->
     type = @$type.val()
     if not type
       @$type.parent().addClass 'show-error'
+      console.error @name, 'type has not been set'
       return false
     true
 
 
   validate: ->
+    console.log @name, 'validating'
     isValid = @_validateCategories()
     isValid = @_validatePrice() and isValid
     isValid = @_validateType() and isValid
+
+    console.debug @name, 'validation:', isValid
     isValid
 
 
@@ -92,14 +106,19 @@ module.exports = Backbone.View.extend
     @_validatePrice()
 
 
+  childCategoryChange: ->
+    console.log 'asd'
+    @_validateCategories()
+
+
   parentCategoryChange: (event) ->
     val = @$parentCategory.val()
     children = @resources.categories.getChildren val
 
-    if children.length > 0 then @$childCategory.show()
-    else @$childCategory.hide()
+    if children.length > 0 then (@$ '#child-row').removeClass 'hide'
+    else (@$ '#child-row').addClass 'hide'
 
-    @$childCategory.html @generateOption '', 'Choose a child-category'
+    @$childCategory.html @generateOption '', 'Choose a sub-category'
     addChildCategory = (child) =>
       html = @generateOption child._id, child.name
       @$childCategory.append html
@@ -124,7 +143,7 @@ module.exports = Backbone.View.extend
 
   # Initializes the categories option
   initCategories: ->
-    @$childCategory.hide()
+    (@$ '#child-row').addClass 'hide'
     for category in @categories
       html = @generateOption category._id, category.name
       @$parentCategory.append html

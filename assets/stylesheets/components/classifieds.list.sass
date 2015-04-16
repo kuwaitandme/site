@@ -13,15 +13,11 @@
     margin: 20px 0 0
     padding: 20px
     text-align: center
-    // text-transform: uppercase
 
 ul.classified-list
   min-height: 50%
   +clearfix
   margin: 0 auto
-  // padding: 7px 0
-  // min-width: 85% !important
-  // max-width: 1250px
 
   a
     text-decoration: none
@@ -31,17 +27,11 @@ ul.classified-list
     width: 236px + 14px
     @media only screen and (max-width: 40.063em)
       width: 100%
-    // @media only screen and (min-width: 40.063em)
-    //   width: 25%
-    @media only screen and (min-width: 64.063em)
-      // width: 20%
     float: left
-    // max-width: 250px
     padding: 7px
     .container
       +single-transition()
       background: #FFF
-      // border: 1px solid #DDD
       overflow: hidden
       position: relative
 
@@ -71,7 +61,7 @@ ul.classified-list
         background: #fff
     &.image-loading .thumb
       height: 200px
-      background: #fff
+      background: #f6f6f6
       img
         opacity: 0
     &.image-failed .thumb
@@ -85,10 +75,8 @@ ul.classified-list
         padding: 10px
         border-top: 1px solid #e7e7e7
         +clearfix
-        b
-          float: left
         span
-          float: right
+          text-align: right
       .c-title
         @extend .font-title
         margin: 10px 16px

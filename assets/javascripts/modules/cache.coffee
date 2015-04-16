@@ -33,25 +33,25 @@ module.exports = class controller
 
   checkVersions: ->
     console.log @name, "checking cache version"
-    versions = window.config.js or {}
+    magic = window.config.magic or {}
 
-    if (@get 'version:library') != versions.libraryVersion
+    if (@get 'magic:library') != magic.library
       console.log @name, "library caches differ, clearing"
 
       @clearLibrariesCache()
-      @set 'version:library', versions.libraryVersion
+      @set 'magic:library', magic.library
 
-    if (@get 'version:models') != versions.modelVersion
+    if (@get 'magic:models') != magic.models
       console.log @name, "model caches differ, clearing"
 
       @clearModelsCache()
-      @set 'version:models', versions.modelVersion
+      @set 'magic:models', magic.models
 
-    if (@get 'version:application') != versions.applicationVersion
+    if (@get 'magic:application') != magic.application
       console.log @name, "application caches differ, clearing"
 
       @clearApplicationCache()
-      @set 'version:application', versions.applicationVersion
+      @set 'magic:application', magic.application
 
 
   clearApplicationCache:  -> @removeKeysHelper 'app'

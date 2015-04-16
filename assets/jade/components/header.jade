@@ -16,27 +16,27 @@ nav#mobile-nav.hide-for-large-up.hide-when-searching
   #subheader
     ul.lang
       li.nav-item
-        a(href!="<%= lang.href %>/", data-view='landing', lang-html="header.home") Home
+        a(href!="<%= lang.href %>/", data-view, lang-html="header.home")
       li.nav-item
-        a(href!="<%= lang.href %>/classified/search", data-view='classified-search', lang-html="header.csearch") Browse classifieds
+        a(href!="<%= lang.href %>/classified/search", data-view, lang-html="header.csearch")
       li.main-item.hide-if-loggedin
-        a(href!="<%= lang.href %>/guest/post", data-view='guest-post', lang-html="header.cpost") Post a Classified
+        a(href!="<%= lang.href %>/guest/post", data-view, lang-html="header.cpost")
       li.main-item.show-if-loggedin
-        a(href!="<%= lang.href %>/classified/post", data-view='classified-post', lang-html="header.cpost") Post a Classified
+        a(href!="<%= lang.href %>/classified/post", data-view, lang-html="header.cpost")
       li.nav-item.hide-if-loggedin
-        a(href!="<%= lang.href %>/auth/login", data-view='auth-login', lang-html="header.login") Login
+        a(href!="<%= lang.href %>/auth/login", data-view, lang-html="header.login")
       li.nav-item.hide-if-loggedin
-        a(href!="<%= lang.href %>/auth/signup", data-view='auth-signup', lang-html="header.signup") Signup
+        a(href!="<%= lang.href %>/auth/signup", data-view, lang-html="header.signup")
       li.main-item.show-if-loggedin
-        a(href!="<%= lang.href %>/account", data-view='account-index', lang-html="header.manage") Manage your account
+        a(href!="<%= lang.href %>/account", data-view, lang-html="header.manage")
       li.main-item.show-if-loggedin
-        a(href!="<%= lang.href %>/auth/logout", data-view='auth-logout', lang-html="header.logout") Logout
+        a(href!="<%= lang.href %>/auth/logout", data-view, lang-html="header.logout")
       li.main-item
-        a(href!="<%= lang.href %>/contact", data-view='contact', lang-html="header.contact") Contact Us
+        a(href!="<%= lang.href %>/contact", data-view, lang-html="header.contact")
       li.main-item
-        a(href!="<%= lang.href %>/about", data-view='about', lang-html="header.about") About Us
+        a(href!="<%= lang.href %>/about", data-view, lang-html="header.about")
       li.main-item
-        a(href!="<%= lang.href %>/terms-privacy", data-view='terms-privacy', lang-html="header.terms-privacy") Terms &amp; Privacy
+        a(href!="<%= lang.href %>/terms-privacy", data-view, lang-html="header.terms-privacy")
 nav#main-nav.show-for-large-up.hide-when-searching
   ul
     li.main-item.left.home.icon
@@ -47,13 +47,13 @@ nav#main-nav.show-for-large-up.hide-when-searching
 
       ul.subnav.hide-if-loggedin
         li.with-link
-          a(href!="<%= lang.href %>/auth/login", data-view, lang-html="header.login") Login
+          a(href!="<%= lang.href %>/auth/login", data-view, lang-html="header.login")
         li.with-link
-          a(href!="<%= lang.href %>/auth/signup", data-view, lang-html="header.signup") Signup
+          a(href!="<%= lang.href %>/auth/signup", data-view, lang-html="header.signup")
 
       ul.subnav.show-if-loggedin
         li.user-title.lang
-          span(lang-html='header.welcome') Welcome
+          span(lang-html='header.welcome')
           .name
         //- li.user-credits
           span You have&nbsp;
@@ -64,35 +64,35 @@ nav#main-nav.show-for-large-up.hide-when-searching
         //- li.with-link
           a(href!="<%= lang.href %>/account/credits", data-view) Buy Credits
         li.with-link.lang
-          a(href!="<%= lang.href %>/account", data-view, lang-html='header.view') View Account
+          a(href!="<%= lang.href %>/account", data-view, lang-html='header.view')
         li.with-link.lang
-          a(href!="<%= lang.href %>/auth/logout", data-view, lang-html='header.logout') Logout
+          a(href!="<%= lang.href %>/auth/logout", data-view, lang-html='header.logout')
 ul#sub-nav.show-for-large-up
   li.lang
-    a(href!="<%= lang.href %>/classified/search", data-view='classified-search', lang-html='header.csearch') Browse classifieds
+    a(href!="<%= lang.href %>/classified/search", data-view, lang-html='header.csearch')
   li.hide-if-loggedin.lang
-    a(href!="<%= lang.href %>/guest/post", data-view='guest-post', lang-html='header.cpost') Post a Classified
+    a(href!="<%= lang.href %>/guest/post", data-view, lang-html='header.cpost')
   li.show-if-loggedin.lang
-    a(href!="<%= lang.href %>/classified/post", data-view='classified-post', lang-html='header.cpost') Post a Classified
+    a(href!="<%= lang.href %>/classified/post", data-view, lang-html='header.cpost')
   li.nav-item.hide-if-loggedin.lang
-    a(href!="<%= lang.href %>/auth/login", data-view='auth-login', lang-html='header.login') Login
+    a(href!="<%= lang.href %>/auth/login", data-view, lang-html='header.login')
   li.nav-item.hide-if-loggedin.lang
-    a(href!="<%= lang.href %>/auth/signup", data-view='auth-signup', lang-html='header.signup') Signup
+    a(href!="<%= lang.href %>/auth/signup", data-view, lang-html='header.signup')
   li.show-if-loggedin.lang
-    a(href!="<%= lang.href %>/account", data-view='account-index', lang-html='header.manage') Manage your account
+    a(href!="<%= lang.href %>/account", data-view, lang-html='header.manage')
   li.lang
-    a(href!="<%= lang.href %>/contact", data-view='contact', lang-html='header.contact') Contact Us
+    a(href!="<%= lang.href %>/contact", data-view, lang-html='header.contact')
   li.lang
-    a(href!="<%= lang.href %>/about", data-view='about', lang-html='header.about') About Us
+    a(href!="<%= lang.href %>/about", data-view, lang-html='header.about')
   li.lang
-    a(href!="<%= lang.href %>/terms-privacy", data-view='terms-privacy', lang-html='header.terms-privacy') Terms &amp; Privacy
+    a(href!="<%= lang.href %>/terms-privacy", data-view, lang-html='header.terms-privacy')
   li.social
     a.facebook(href="https://www.facebook.com/KuwaitandME") &#xf09a;
   li.social
     a.googleplus(href="https://www.google.com/+Kuwaitandmeclassifieds") &#xf0d5;
   li.social
     a.twitter(href="https://twitter.com/kuwaitandme") &#xf099;
-  li.social
-    a.youtube(href="https://www.youtube.com/channel/UCRd6d6Tcya8JBwnNB8MFo5A") &#xf16a;
-  li.social
-    a.instagram(href="https://instagram.com/kuwaitandme/") &#xf16d;
+  //- li.social
+  //-   a.youtube(href="https://www.youtube.com/channel/UCRd6d6Tcya8JBwnNB8MFo5A") &#xf16a;
+  //- li.social
+  //-   a.instagram(href="https://instagram.com/kuwaitandme/") &#xf16d;

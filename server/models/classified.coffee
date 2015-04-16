@@ -20,7 +20,6 @@ classifieds = module.exports =
     babyCategory:      ObjectId
     created:           Date
     description:       String
-    images:          [ String ]
     location:          ObjectId
     price:             Number
     status:            Number # 0:Inactive,1:Active,2:Rejected,3:Archived,4:Banned
@@ -38,6 +37,7 @@ classifieds = module.exports =
     owner:             ObjectId
 
     contact:           { }
+    images:            [ ]
     meta:              { }
     perks:             { }
     reports:           [ ]
@@ -47,7 +47,7 @@ classifieds = module.exports =
     ARABIC:  2
     HINDI:   3
 
-  classifiedPerPage:        15
+  classifiedPerPage:        50
   reportsPerPostBeforeFlag: 3
 
 
@@ -183,8 +183,8 @@ classifieds = module.exports =
 
   getRandom: (callback) ->
     rand = Math.random()
-    firstQuery =  random : $lte : rand
-    secondQuery =  random : $gte : rand
+    firstQuery = random : $lte : rand
+    secondQuery = random : $gte : rand
 
     @model.findOne firstQuery, (error, classified) =>
       if error then return callback error

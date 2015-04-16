@@ -1,36 +1,35 @@
 .row
   | <% if(obj.hasClassified) { %>
-  h2(lang-html='page.cform.edit.title') You are about to edit a classified
+  h2.columns(lang-html='page.cform.edit.title') You are about to edit a classified
   | <% } else { %>
-  h2(lang-html='page.cform.begin.title') You are about to post a classified!
+  h2.columns(lang-html='page.cform.begin.title') You are about to post a classified!
   | <% }  %>
 
-.row
-  p(lang-html='page.cform.begin.hint1')
+  .columns(lang-html='page.cform.begin.hint1')
     | Use the 'next' and 'previous' buttons below to navigate
     | between the forms. Fields marked with a '*' are compulsary
     | and must be filled.
 
   | <% if(obj.isGuest) { %>
   |   <% if(obj.hasClassified) { %>
-  p(lang-html='page.cform.edit.guest.hint1')
+  .columns(lang-html='page.cform.edit.guest.hint1')
     | Since you are editing this classified as a guest, we will have to
     | review your changes before the classified goes live again
   |   <% } else { %>
-  p(lang-html='page.cform.begin.guest.hint1')
+  .columns(lang-html='page.cform.begin.guest.hint1')
     | We are letting you post a classified as a guest. So we have to
     | review your post before it gets published which can take upto
     | 24 hours.
   |   <% }  %>
-  p(lang-html='page.cform.begin.guest.hint2')
+  .columns(lang-html='page.cform.begin.guest.hint2')
     | You can avoid this delay, if you simply <a href="<%= lang.href %>/auth/signup" data-view>
     | signup</a> with us!
   | <% } else { %>
   |   <% if(obj.hasClassified) { %>
-  p(lang-html='page.cform.edit.hint2')
+  .columns(lang-html='page.cform.edit.hint2')
     | All changes to this classified will be effective immediately.
   |   <% } else { %>
-  p(lang-html='page.cform.begin.hint2')
+  .columns(lang-html='page.cform.begin.hint2')
     | This classified will be published immediately and can be archived
     | by accessing your account page.
   |   <% } %>

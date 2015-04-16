@@ -37,6 +37,7 @@ module.exports = class viewManager
         return @resources.router.redirect @currentView.redirectUrl()
 
       @currentView.trigger 'continue'
+      @resources.router.reattachRouter()
 
   routeHandle: (args={}) =>
     viewIdentifier = args.view

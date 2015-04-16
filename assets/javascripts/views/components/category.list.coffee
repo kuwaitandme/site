@@ -16,6 +16,7 @@ module.exports = Backbone.View.extend
     @$el.html @template
       lang: @resources.language.currentDictonary
       categories: categories
+    @resources.language.translate @$el
     @resources.router.reattachRouter()
 
 

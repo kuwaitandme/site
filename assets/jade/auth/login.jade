@@ -5,17 +5,17 @@
         .auth-title(lang-html="page.auth.login.title") Login
     .row.input-row
       .small-12.columns.error
-        input(type="email", name="username", placeholder="email", required, lang-placeholder="page.auth.login.username")#auth-username
+        input(type="email", name="username", required, lang-placeholder="page.auth.login.username")#auth-username
         small.error
 
     .row.input-row
       .small-12.columns.error
-        input(type="password", name="password", placeholder="password", required, lang-placeholder="page.auth.login.password")#auth-password
+        input(type="password", name="password", required, lang-placeholder="page.auth.login.password")#auth-password
         small.error
 
     .row
-      .small-7.small-offset-5.columns
-        input.submit(type="submit", value="Login", lang-value="page.auth.login.submit")
+      .medium-7.medium-offset-5.columns
+        input.submit(type="submit", lang-value="page.auth.login.submit")
 
 
     #ajax-spinner

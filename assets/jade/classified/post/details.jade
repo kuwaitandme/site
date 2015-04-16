@@ -1,49 +1,52 @@
 .row
-  h3(lang-html='page.cform.details.title') Details about your classified
-.row.hint
-  p(lang-html='page.cform.details.hint1') Here you'll mention things like the price, location, category of your classified.
-  p(lang-html='page.cform.details.hint2') This will help make your classified more visible and easily searchable.
+  h3.columns(lang-html='page.cform.details.title')
+  .columns(lang-html='page.cform.details.hint1')
+  p.columns(lang-html='page.cform.details.hint2')
 
 .row
   .medium-3.columns
-    label(for="right-label", lang-html='page.cform.details.label.price') Price *
+    label(for="right-label", lang-html='page.cform.details.label.price')
   .medium-9.columns.error
+
     select#price-selector(name="price-option", required)
-      option(value="", disabled, selected, lang-html='page.cform.details.price.select') The price for your classified
-      option(value='0', lang-html='page.cform.details.price.free') Free
-      option(value='-1', lang-html='page.cform.details.price.contact') Contact Owner
-      option(value='1', lang-html='page.cform.details.price.specify') Specify Value
+      option(value="", disabled, selected, lang-html='page.cform.details.price.select')
+      option(value='0', lang-html='page.cform.details.price.free')
+      option(value='-1', lang-html='page.cform.details.price.contact')
+      option(value='1', lang-html='page.cform.details.price.specify')
     small.error Please choose a price
 
-    .row.collapse.hide#price-row.error
+  .columns.medium-9
+    .row.collapse.hide#price-row
       .small-3.medium-2.columns
-        span.prefix(lang-html='model.price.unit') KWD
+        span.prefix(lang-html='model.price.unit')
       .small-9.medium-10.columns
-        input#price-field(type="text", name="price", value=0, placeholder="Your price in Kuwati Dinar", required, lang-placeholder='page.cform.details.price.placeholder')
+        input#price-field(type="text", name="price", value=0, required, lang-placeholder='page.cform.details.price.placeholder')
       small.error Please give a price
 
 .row
   .medium-3.columns
-    label(for="right-label", lang-html='page.cform.details.type.label') Type *
+    label(for="right-label", lang-html='page.cform.details.type.label')
   .medium-9.columns.error
     select#ctype(name="type", required)
-      option(value="", disabled, selected, lang-html='page.cform.details.type.select') What kind of classified is this?
-      option(value="0", lang-html='page.cform.details.type.offering') Offering
-      option(value="1", lang-html='page.cform.details.type.wanted') Wanted
+      option(value="", disabled, selected, lang-html='page.cform.details.type.select')
+      option(value="0", lang-html='page.cform.details.type.offering')
+      option(value="1", lang-html='page.cform.details.type.wanted')
     small.error Please choose a type
 
 .row
   .medium-3.columns
-    label(for="right-label", lang-html='page.cform.details.category.label') Category *
+    label(for="right-label", lang-html='page.cform.details.category.label')
   .medium-9.columns.error
     select#cat-selector(name="parent-category", required)
-      option(value="", disabled, lang-html='page.cform.details.category.choose') Choose a category
+      option(value="", disabled, lang-html='page.cform.details.category.choose')
     small.error Please choose a category
 
-    .row.collapse#child-row.error
-      select#childcat-selector(name="child-category")
-        option(value="", disabled) Choose a sub-category
-      small.error Please choose a sub-category
+  .columns.medium-9
+    .row.collapse#child-row.error.hide
+      .columns
+        select#childcat-selector(name="child-category")
+          option(value="", disabled) Choose a sub-category
+        small.error Please choose a sub-category
 
 .row
   .medium-3.columns
@@ -53,24 +56,24 @@
       .small-3.medium-2.columns
         span.prefix @
       .small-9.medium-10.columns
-        input#email(type="text", name="email", placeholder="A contact email", lang-placeholder='page.cform.details.email.placeholder')
+        input#email(type="text", name="email", lang-placeholder='page.cform.details.email.placeholder')
 .row
   .medium-3.columns
-    label(for="right-label", lang-html='page.cform.details.phone.label') Phone
+    label(for="right-label", lang-html='page.cform.details.phone.label')
   .medium-9.columns
     .row.collapse
       .small-3.medium-2.columns
-        span.prefix(lang-html="page.cform.details.phone.prefix") +965
+        span.prefix(lang-html="page.cform.details.phone.prefix")
       .small-9.medium-10.columns
-        input#phone(type="text", name="phone", placeholder="Contact phone number", lang-placeholder='page.cform.details.phone.placeholder')
+        input#phone(type="text", name="phone", lang-placeholder='page.cform.details.phone.placeholder')
 .row
   .medium-3.columns
-    label(for="right-label", lang-html='page.cform.details.location.label') Location
+    label(for="right-label", lang-html='page.cform.details.location.label')
   .medium-9.columns
     select#locations(name="location")
-      option(value="", disabled, selected, lang-placeholder='page.cform.details.location.select') Choose a location
-      option(value="", lang-placeholder='page.cform.details.location.select-none') None
-.row
-  .columns
-    input#address1(type="text", name="address1", placeholder="Address line 1", lang-placeholder='page.cform.details.address1').hide
-    input#address2(type="text", name="address2", placeholder="Address line 2", lang-placeholder='page.cform.details.address2').hide
+      option(value="", disabled, selected, lang-html='page.cform.details.location.select')
+      option(value="", lang-html='page.cform.details.location.select-none')
+.row#address1.hide
+  input.columns(type="text", name="address1", lang-placeholder='page.cform.details.address1')
+.row#address2.hide
+  input.columns(type="text", name="address2", lang-placeholder='page.cform.details.address2')

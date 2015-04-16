@@ -1,6 +1,6 @@
 |<%
 |var classes = "";
-|if(!images ||images.length == 0) classes = "no-thumb ";
+|if(!obj.image) classes = "no-thumb ";
 |if(obj.perks) {
 |   if(perks.urgent) classes += "perk-urgent ";
 |   if(perks.promoted) classes += "perk-promoted ";
@@ -9,16 +9,18 @@
 li.classified(class!="<%= classes %>")
   a(href!="<%= lang.href %>/classified/<%= _id %>", data-view="classified-single")
     .container
+      <% if(perks.urgent) { %>
       .urgent-banner Urgent
-      .thumb
-        |<% if(images && images.length > 0) { %>
-        img(src!="/uploads/thumb/<%= images[0] %>", alt!="<%= title %>")
-        |<% } %>
+      <% } %>
+      |<% if(obj.image) { %>
+      .thumb(style!="background: <%= image.color %>")
+        img(src!="/uploads/thumb/<%= image.file %>", alt!="<%= title %>")
+      |<% } %>
       .c-info
         .c-title <%= title %>
-        .c-meta
-          b <%= price %>
-          span <%= created %>
+        .c-meta.row.collapse
+          b.columns.small-6 <%= price %>
+          span.columns.small-6 <%= created %>
       |<%
       | var cl="", message="";
       | switch(status) {
@@ -30,4 +32,6 @@ li.classified(class!="<%= classes %>")
       |  case 5: cl="error"; message="Flagged"; break;
       | }
       |%>
+      <% if(showStatus) { %>
       .c-status(class!="<%= cl %>") <%= message %>
+      <% } %>

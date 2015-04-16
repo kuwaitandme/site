@@ -1,44 +1,38 @@
-//- ul#landing-social
+ul#landing-social
   li.social
-    a.facebook(href="https://www.facebook.com/KuwaitandME") &#xf09a;
-  li.social
-    a.googleplus(href="https://www.google.com/+Kuwaitandmeclassifieds") &#xf0d5;
-  li.social
-    a.twitter(href="https://twitter.com/kuwaitandme") &#xf099;
-  li.social
-    a.youtube(href="https://www.youtube.com/channel/UCRd6d6Tcya8JBwnNB8MFo5A") &#xf16a;
-  li.social
-    a.instagram(href="https://instagram.com/kuwaitandme/") &#xf16d;
+    .fb-like(data-href='https://www.facebook.com/KuwaitandME', data-layout='button_count', data-action='like', data-show-faces='true', data-share='false')
+  //- li.social
+  //-   a.twitter-share-button(href='https://twitter.com/share', data-related="twitterdev", data-count="horizontal",   data-text="An amazing site to publish classifieds in Kuwait. Check it out! #KuwaitandME")
 #landing-section
   section#search-form
     #landing-logo
-      img(src='/images/kme-logo-tagline.png', cached-src='//static.kuwaitandme.com/images/kme-logo-tagline.png')
+      img(src='/images/kme-logo-tagline.png')
     form(action!="<%= lang.href %>/classified/search")
-      input(type="text", name="keywords", placeholder="Search classifieds", lang-placeholder="page.landing.search").search-bar
+      input(type="text", name="keywords", lang-placeholder="page.landing.search").search-bar
       button(type="submit").search-button &#xf002;
     ul#landing-extra
       li.hide-if-loggedin
-        a(href!="<%= lang.href %>/guest/post", data-view, lang-html="header.cpost") Post a classified
+        a(href!="<%= lang.href %>/guest/post", data-view, lang-html="header.cpost")
       li.show-if-loggedin
-        a(href!="<%= lang.href %>/classified/post", data-view, lang-html="header.cpost") Post a classified
+        a(href!="<%= lang.href %>/classified/post", data-view, lang-html="header.cpost")
       li.hide-if-loggedin
-        a(href!="<%= lang.href %>/auth/login", data-view, lang-html="header.login") Login
+        a(href!="<%= lang.href %>/auth/login", data-view, lang-html="header.login")
       li.hide-if-loggedin
-        a(href!="<%= lang.href %>/auth/signup", data-view, lang-html="header.signup") Signup
+        a(href!="<%= lang.href %>/auth/signup", data-view, lang-html="header.signup")
       li.show-if-loggedin
-        a(href!="<%= lang.href %>/account", data-view, lang-html="header.view") Account
+        a(href!="<%= lang.href %>/account", data-view, lang-html="header.view")
       li.show-if-loggedin
-        a(href!="<%= lang.href %>/auth/signup", data-view, lang-html="header.logout") Logout
+        a(href!="<%= lang.href %>/auth/signup", data-view, lang-html="header.logout")
       //- li
       //-   a(href="/ar") العربية
       //- li
       //-   a(href="/en") English
 
 .lang
-  h4(lang-html="page.landing.category") Choose a category
+  h4(lang-html="page.landing.category")
 #landing-categories.large-8
 
 #landing-featured-cl
   .lang
-    h4(lang-html="page.landing.classifieds") Featured Classifieds
+    h4(lang-html="page.landing.classifieds")
   .classifiedList
