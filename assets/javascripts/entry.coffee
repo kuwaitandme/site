@@ -26,6 +26,7 @@ if not window.App?
     Router:      (require "app-modules").router
     ViewManager: (require "app-modules").viewManager
     Language:    (require "app-modules").language
+    External:    (require "app-modules").external
 
     Resources:
       Config:     require "app-config"
@@ -112,6 +113,7 @@ if not window.App?
       @resources.locations   = new App.Resources.Models.locations
       @resources.language    = new App.Language
       @resources.router      = new App.Router
+      @resources.external    = App.External
 
       @resources.currentView           = App.ViewManager.currentView
       @resources.categories.resources  = @resources

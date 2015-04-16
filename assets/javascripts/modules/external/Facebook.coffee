@@ -1,5 +1,5 @@
-module.exports = class GoogleMaps
-  name: "[google-maps]"
+module.exports = class Facebook
+  name: "[facebook]"
 
   constructor: ->
     console.log @name, 'initializing'
@@ -7,8 +7,6 @@ module.exports = class GoogleMaps
 
   onLoad: (callback=->) ->
     waitForElement = ->
-      if window.google? and
-      window.google.maps? and
-      window.google.maps.Circle? then callback()
+      if window.FB? then callback()
       else setTimeout (-> waitForElement()), 250
     waitForElement()
