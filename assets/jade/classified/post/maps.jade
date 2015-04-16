@@ -1,14 +1,18 @@
 .row
   h2.columns Help people navigate to you!
 .row
-  .columns
+  p.columns
     | Most people have a hard time finding their way to you. A visual map is an
     | amazing way to show them exactly where you are. We make sure that
     | Google maps works beautifully with your classified, even on mobile.
   .columns
-    | want to meet by&nbsp;
-    b dragging and dropping the pointer below&nbsp;
-    | to the location of your meeting point.
-#map-canvas
+    | Choose your location by either&nbsp;
+    b dragging the pointer below&nbsp;
+    | or&nbsp;
+    b by clicking/touching &nbsp;
+    | the location of your meeting point.
+.row
+  .columns
+    #map-canvas
 input#gmapX(name="gmapX", type="hidden")
 input#gmapY(name="gmapY", type="hidden")

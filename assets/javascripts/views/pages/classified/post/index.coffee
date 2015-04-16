@@ -12,7 +12,7 @@ module.exports = Backbone.View.extend
     "#page-details": require './part.details'
     "#page-images":  require './part.images'
     "#page-info":    require './part.info'
-    # "#page-maps":    require './part.maps'
+    "#page-maps":    require './part.maps'
     "#page-submit":  require './part.submit'
 
 

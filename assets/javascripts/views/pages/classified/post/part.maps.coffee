@@ -1,5 +1,4 @@
 module.exports = Backbone.View.extend
-
   name: '[view:classified-post:maps]'
   template: template['classified/post/maps']
 
@@ -8,6 +7,8 @@ module.exports = Backbone.View.extend
     @$gmapX = @$ '#gmapX'
     @$gmapY = @$ '#gmapY'
 
+    @$gmap.css 'max-height', ($ window).height()/2
+
     @setDOM()
 
   continue: ->
@@ -15,14 +16,14 @@ module.exports = Backbone.View.extend
     # Delete the map if any
     @gmap = null
     GoogleMaps = new @resources.external.GoogleMaps
-    GoogleMaps.onLoad => @initializeGoogleMaps
+    GoogleMaps.onLoad => @initializeGoogleMaps()
 
 
   setModel: ->
-    @model.set
-      meta:
-        gmapX: @$gmapX.val()
-        gmapY: @$gmapY.val()
+    meta = (@model.get 'meta') or {}
+    meta.gmapX = @$gmapX.val()
+    meta.gmapY = @$gmapY.val()
+    @model.set 'meta', meta
 
 
   setDOM: ->
@@ -31,25 +32,36 @@ module.exports = Backbone.View.extend
 
 
   initializeGoogleMaps: ->
-    X = @$gmapX.val() or 29.27985
-    Y = @$gmapY.val() or 47.98448
+    X = @$gmapX.val() or 29.375770981110353
+    Y = @$gmapY.val() or 47.98656463623047
 
     # The default co-ordinates to which we will center the map
-    myLatlng = new (google.maps.LatLng)(X, Y)
+    myLatlng = new google.maps.LatLng X, Y
 
     # Initialize the map
-    @gmap = new (google.maps.Map)(@$gmap[0],
+    @gmap = new google.maps.Map @$gmap[0],
       center: myLatlng
       mapTypeControl: false
       mapTypeId: google.maps.MapTypeId.ROADMAP
       scrollwheel: false
-      zoom: 13)
+      zoom: 13
 
     # Initialize the marker
-    @gmarker = new (google.maps.Marker)(
+    @gmarker = new google.maps.Marker
       draggable: true
       map: @gmap
-      position: myLatlng)
+      position: myLatlng
+
+    google.maps.event.addListener @gmap, 'click', (event) =>
+      latitude = event.latLng.lat()
+      longitude = event.latLng.lng()
+      latLng = new google.maps.LatLng latitude, longitude
+
+      @$gmapX.val latLng.lat()
+      @$gmapY.val latLng.lng()
+
+      @gmarker.setPosition latLng
+      @gmap.panTo latLng
 
     # Add a listener to center the map on the marker whenever th
     # marker has been dragged
@@ -57,13 +69,7 @@ module.exports = Backbone.View.extend
       # Center the map on the position of the marker
       latLng = @gmarker.getPosition()
 
-      @gmap.setCenter latLng
+      @gmap.panTo latLng
 
-      @model.set
-        meta:
-          gmapX: latLng.lat()
-          gmapY: latLng.lng()
-      # # Set our hidden input fields so that the backend can catch the
-      # # co-ordinates
-      # self.$gmapX.val latLng.lat()
-      # self.$gmapY.val latLng.lng()
+      @$gmapX.val latLng.lat()
+      @$gmapY.val latLng.lng()
