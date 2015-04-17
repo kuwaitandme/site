@@ -20,8 +20,6 @@ module.exports = Backbone.View.extend
 
   start: (@options = {}) ->
     console.debug @name, 'initializing', @options
-
-    @slideshowTemplate = template['components/slideshow']
     @singleTemplate    = template['components/single']
 
     @$messages          = @$ "#single-messages"
@@ -29,13 +27,15 @@ module.exports = Backbone.View.extend
     @$admin             = @$ '#admin-single'
     @$content           = @$ '#classified-container'
 
-    id = @resources.historyState.parameters
-
     @model = new @resources.Models.classified
     @listenTo @model, 'sync', @modelChange
 
-    savedClassified = window.data.classified
+    _.bindAll this, 'rearrangeGallery'
 
+
+  continue: ->
+    id = @resources.historyState.parameters
+    savedClassified = window.data.classified
     if savedClassified and savedClassified._id is id and false
       @model.set window.data.classified
       @model.trigger 'parse'
@@ -45,10 +45,6 @@ module.exports = Backbone.View.extend
       @listenToOnce @model, 'sync', @populateDOM
       @model.fetch()
 
-    _.bindAll this, 'rearrangeGallery'
-
-
-  continue: ->
     urlHelpers = @resources.Helpers.url
     @$el.fadeIn()
     @modelChange()
@@ -76,6 +72,7 @@ module.exports = Backbone.View.extend
 
     @$gallery = @$ '.c-gallery'
     @$gallery.masonry itemSelector: 'li'
+    @$gallery.masonry()
 
     # Add the image templates
     images = @model.get 'images'
@@ -280,6 +277,7 @@ module.exports = Backbone.View.extend
 
       $container.addClass 'image-loading'
       createSuccessHandler = (elem) => =>
+        @$gallery.masonry()
         elem.removeClass 'image-loading'
         .addClass 'image-success'
         @$gallery.masonry()
@@ -292,6 +290,8 @@ module.exports = Backbone.View.extend
         if --total is 0 then ($ document).foundation 'clearing', 'reflow'
 
       $img.attr 'src', src
+      console.log @$gallery
+      @$gallery.masonry 'layout'
 
       # Use our special function to load the images. This function ensures
       # that the images are loaded smoothly, the containers are setup

@@ -3,7 +3,7 @@
     ul.c-gallery
       | <% if(images) { %>
       |  <% _.each(images, function(img) {  %>
-      li.small-6.medium-4.large-2
+      li.small-6.medium-4.large-2.image-loading
         a.th(data-lightbox="image-1", href!="/uploads/main/<%= img.file %>", style!="background: <%= img.color %>")
           img.thumb(data-src!="/uploads/thumb/<%= img.file %>")
       |  <% }); %>
