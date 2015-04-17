@@ -56,7 +56,7 @@ module.exports = (request, response, next) ->
 
           images = data.images or []
           images.push file for file in files
-          data.images = images
+          data.images = images.splice 0, 12
 
           Classified.update data, request.user, (error, classified) ->
             # If error was set, then nothing was updated.
