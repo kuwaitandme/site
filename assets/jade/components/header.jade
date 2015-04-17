@@ -44,7 +44,6 @@ nav#main-nav.show-for-large-up.hide-when-searching
     li.main-item.left.search-trigger.icon
       a &#xf002;
     li.main-item.settings.icon &#xf013;
-
       ul.subnav.hide-if-loggedin
         li.with-link
           a(href!="<%= lang.href %>/auth/login", data-view, lang-html="header.login")
@@ -67,6 +66,17 @@ nav#main-nav.show-for-large-up.hide-when-searching
           a(href!="<%= lang.href %>/account", data-view, lang-html='header.view')
         li.with-link.lang
           a(href!="<%= lang.href %>/auth/logout", data-view, lang-html='header.logout')
+    li.main-item.social
+      a.facebook(href="https://www.facebook.com/KuwaitandME") &#xf09a;
+    li.main-item.social
+      a.googleplus(href="https://www.google.com/+Kuwaitandmeclassifieds") &#xf0d5;
+    li.main-item.social
+      a.twitter(href="https://twitter.com/kuwaitandme") &#xf099;
+    li.main-item.social
+      a.youtube(href="https://www.youtube.com/channel/UCRd6d6Tcya8JBwnNB8MFo5A") &#xf16a;
+    li.main-item.social
+      a.instagram(href="https://instagram.com/kuwaitandme/") &#xf16d;
+
 ul#sub-nav.show-for-large-up
   li.lang
     a(href!="<%= lang.href %>/classified/search", data-view, lang-html='header.csearch')
@@ -86,13 +96,3 @@ ul#sub-nav.show-for-large-up
     a(href!="<%= lang.href %>/about", data-view, lang-html='header.about')
   li.lang
     a(href!="<%= lang.href %>/terms-privacy", lang-html='header.terms-privacy')
-  li.social
-    a.facebook(href="https://www.facebook.com/KuwaitandME") &#xf09a;
-  li.social
-    a.googleplus(href="https://www.google.com/+Kuwaitandmeclassifieds") &#xf0d5;
-  li.social
-    a.twitter(href="https://twitter.com/kuwaitandme") &#xf099;
-  //- li.social
-  //-   a.youtube(href="https://www.youtube.com/channel/UCRd6d6Tcya8JBwnNB8MFo5A") &#xf16a;
-  //- li.social
-  //-   a.instagram(href="https://instagram.com/kuwaitandme/") &#xf16d;

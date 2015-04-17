@@ -12,13 +12,38 @@ ul.categories-list
       border-radius: 3px;
 
 
-    .title
+    .image
       @extend .font-title
       color: #FFF
-      font-size: 12px
-      padding: 15px 5px
+      // padding: 15px 5px
+      text-shadow: rgba(0, 0, 0, 0.8) 0px 1px 0px
       text-align: center
       cursor: pointer
+      height: 130px
+      line-height: 130px
+      background: #fff
+      background-size: cover
+      background-position: 50% 50%
+      position: relative
+
+      &:after
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%
+        height: 100%
+        background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0,rgba(0, 0, 0, 0.3) 50%,rgba(0, 0, 0, 0.75) 100%)
+        background: -moz-linear-gradient(to bottom,rgba(0, 0, 0, 0) 0,rgba(0, 0, 0, 0.3) 50%,rgba(0, 0, 0, 0.75) 100%)
+
+      .title
+        font-size: 0.9rem
+        position: absolute
+        top: 0
+        left: 0
+        width: 100%
+        height: 100%
+        z-index: 1
 
     .total-count
       font-size: 12px
@@ -53,11 +78,27 @@ ul.categories-list
       &:nth-child(odd)
         background: #f6f6f6
 
-    .blue, .electronics, .vehicles, .general
-      background: #106DE5
-    .red, .matrimonial, .music, .miscellaneous
-      background: #DC4632
-    .yellow, .hobbies, .pets, .community
-      background: #FFBA0D
-    .green, .careers, .property, .services
-      background: #008F4A
+    .pets
+      background-image: url(/images/cat/cats.png)
+    .general
+      background-image: url(/images/cat/general.png)
+    .electronics
+      background-image: url(/images/cat/electronics.png)
+    .vehicles
+      background-image: url(/images/cat/vehicles.png)
+    .matrimonial
+      background-image: url(/images/cat/matrimonial.png)
+    .music
+      background-image: url(/images/cat/music.png)
+    .hobbies
+      background-image: url(/images/cat/hobbies.png)
+    .community
+      background-image: url(/images/cat/community.png)
+    .careers
+      background-image: url(/images/cat/career.png)
+    .property
+      background-image: url(/images/cat/property.png)
+    .services
+      background-image: url(/images/cat/services.png)
+    .miscellaneous
+      background-image: url(/images/cat/misc.png)

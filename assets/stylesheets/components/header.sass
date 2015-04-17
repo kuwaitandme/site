@@ -106,6 +106,30 @@ header
         float: left
       .right
         float: right
+      .social
+        @extend .font-awesome
+        float: right
+
+        a
+          border-right: 0
+          // color: rgba(0,0,0,0.3)
+          display: block
+          font-size: 15px
+          padding: 18px 0
+          // padding-top: 9px
+          text-align: center
+          width: 28px
+
+          // &.twitter
+          //   background: #00ABEC
+          // &.youtube
+          //   background: #DF2927
+          // &.facebook
+          //   background: #3D57A3
+          // &.googleplus
+          //   background: #DF2927
+          // &.instagram
+          //   background: #A67056
       .icon
         @extend .font-awesome
         &:hover, &.active
@@ -239,30 +263,6 @@ header
           background: #FF6600
           color: #fff
 
-      &.social
-        @extend .font-awesome
-        float: right
-
-        a
-          border-right: 0
-          color: #FFF
-          display: block
-          font-size: 16px
-          padding: 10px
-          padding-top: 9px
-          text-align: center
-          width: 40px
-
-          &.twitter
-            background: #00ABEC
-          &.youtube
-            background: #DF2927
-          &.facebook
-            background: #3D57A3
-          &.googleplus
-            background: #DF2927
-          &.instagram
-            background: #A67056
   &.nav-up
     ul#sub-nav
       top: 0

@@ -2,7 +2,7 @@ module.exports = Backbone.View.extend
   name: '[comp:category-list]'
   template: template['components/category-list']
 
-  events: "click li .title" : "toggleClassified"
+  events: "click li .image" : "toggleClassified"
 
   initialize: (options={}) ->
     console.log @name, 'initializing'

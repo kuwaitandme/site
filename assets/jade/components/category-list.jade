@@ -2,7 +2,8 @@ ul.medium-block-grid-4.small-block-grid-2.categories-list
   <% _.each(categories, function(cat) { %>
   li
     .container
-      .title(class!="<%= cat.classname %>") <%= cat.name %>
+      .image(class!="<%= cat.classname %>")
+        .title <%= cat.name %>
       .total-count <%= cat.count %> classifieds
       .children
         <% _.each(cat.children, function(child) { %>

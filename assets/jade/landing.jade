@@ -10,7 +10,7 @@ ul#landing-social
     form(action!="<%= lang.href %>/classified/search")
       input(type="text", name="keywords", lang-placeholder="page.landing.search").search-bar
       button(type="submit").search-button &#xf002;
-    ul#landing-extra
+    //- ul#landing-extra
       li.hide-if-loggedin
         a(href!="<%= lang.href %>/guest/post", data-view, lang-html="header.cpost")
       li.show-if-loggedin
@@ -28,8 +28,8 @@ ul#landing-social
       //- li
       //-   a(href="/en") English
 
-.lang
-  h4(lang-html="page.landing.category")
+//- .lang
+  //- h4(lang-html="page.landing.category")
 #landing-categories.large-8
 
 #landing-featured-cl
