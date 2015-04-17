@@ -16,7 +16,7 @@ window.scripts = [
   }
   {
     name: "app:style-css"
-    remoteSrc: "/stylesheets/build/style.min.css?m=#{config.magic.application}"
+    remoteSrc: "/stylesheets/build/style.css?m=#{config.magic.application}"
     localSrc: "/stylesheets/build/style.css?m=#{config.magic.application}"
   }
   {
@@ -69,12 +69,12 @@ window.scripts = [
   }
   {
     name: "app:template"
-    remoteSrc: "/javascripts/build/template.min.js?m=#{config.magic.application}"
+    remoteSrc: "/javascripts/build/template.js?m=#{config.magic.application}"
     localSrc: "/javascripts/build/template.js?m=#{config.magic.application}"
   }
   {
     name: "app:script"
-    remoteSrc: "/javascripts/build/app.min.js?m=#{config.magic.application}"
+    remoteSrc: "/javascripts/build/app.js?m=#{config.magic.application}"
     localSrc: "/javascripts/build/app.js?m=#{config.magic.application}"
   }
 ]

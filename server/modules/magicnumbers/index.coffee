@@ -28,7 +28,7 @@ module.exports = (app) ->
     calculateMagic = (file, finish) ->
       fs.stat file, (error, stats) ->
         if error then return finish() #error
-        magic = (magic + stats.size) % 1000
+        magic = (magic + stats.size) % 100000
         finish()
 
     async.each files, calculateMagic, (error) -> callback error, magic

@@ -3,19 +3,19 @@ module.exports =
     dest:              'public/javascripts/build'
     src:               'assets/javascripts/entry.coffee'
     targetFilename:    'app.js'
-    targetFilenameMin: 'app.min.js'
+    targetFilenameMin: 'app.js'
 
   sass:
     dest:              'public/stylesheets/build'
     src:               'assets/stylesheets/style.sass'
     targetFilename:    'style.css'
-    targetFilenameMin: 'style.min.css'
+    targetFilenameMin: 'style.css'
 
   jade:
     dest:              'public/javascripts/build'
     src:               'assets/jade/**/*.jade'
     targetFilename:    'template.js'
-    targetFilenameMin: 'template.min.js'
+    targetFilenameMin: 'template.js'
 
   watch:
     jsPattern:         'assets/javascripts/**/*.coffee'
