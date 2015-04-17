@@ -43,10 +43,10 @@ window.scripts = [
     name: "library:google-maps"
     remoteSrc: "//maps.googleapis.com/maps/api/js?key=AIzaSyBUcoOW5jw2GvlFQI49FIGl6I7czXcX5iQ&callback=initializeGmap"
   }
-  {
-    name: "library:facebook"
-    remoteSrc: "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.3&appId=398935173623108"
-  }
+  # {
+  #   name: "library:facebook"
+  #   remoteSrc: "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.3&appId=398935173623108"
+  # }
   {
     name: "library:dropzone"
     remoteSrc: "//cdnjs.cloudflare.com/ajax/libs/dropzone/4.0.1/min/dropzone.min.js"

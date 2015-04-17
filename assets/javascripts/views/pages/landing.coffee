@@ -21,8 +21,8 @@ module.exports = Backbone.View.extend
 
 
   continue: ->
-    Facebook = new @resources.external.Facebook
-    Facebook.onLoad -> FB.XFBML.parse()
+    # Facebook = new @resources.external.Facebook
+    # Facebook.onLoad -> FB.XFBML.parse()
 
     switch window.location.hash
       when "#shared"
