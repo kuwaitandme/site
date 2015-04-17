@@ -5,7 +5,7 @@ controller = module.exports =
       page: 'contact'
       title: response.__ 'title.contact'
 
-    render = global.modules.render
+    render = global.modules.renderer
     render request, response, args, true
 
 
