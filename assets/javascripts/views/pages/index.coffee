@@ -19,4 +19,3 @@ module.exports =
   'guest-post':         require './guest/post'
   'guest-single':       require './guest/single'
   'landing':            require './landing'
-  'terms-privacy':      require './terms-privacy'

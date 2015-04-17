@@ -21,7 +21,6 @@ module.exports = Backbone.Router.extend
   guestPost:        -> @handleRoute 'guest-post'
   guestSingle:      -> @handleRoute 'guest-single', arguments[0]
   landing:          -> @handleRoute 'landing'
-  termsprivacy:     -> @handleRoute 'terms-privacy'
   fourofour:        -> console.log '404'
 
   # A simple route handler that fires the 'change' event along with all
