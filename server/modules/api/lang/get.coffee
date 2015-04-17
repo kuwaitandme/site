@@ -14,7 +14,7 @@ get = (request, response, next) ->
   lang = request.params.id
 
   # Check if language is valid
-  if not /(en|ar|in)/.test lang
+  if not /(en|ar|dg)/.test lang
     response.status 404
     return response.end '"Language not found"'
 

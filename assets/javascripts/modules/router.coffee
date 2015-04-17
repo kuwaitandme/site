@@ -56,11 +56,11 @@ module.exports = Backbone.Router.extend
 
 
   prepareRoutes: ->
-    _url = (url) -> new RegExp "^(?:en|ar)\/#{url}(\/\?.*)?$"
+    _url = (url) -> new RegExp "^(?:en|ar|dg)\/#{url}(\/\?.*)?$"
     _route = (regex, view) => @route (_url regex), view
 
     @route /.*/,                             "langRedirect"
-    @route /^(en|ar)\/?$/,                   "landing"
+    @route /^(en|ar|dg)\/?$/,                "landing"
 
     _route "about",                          "about"
     _route "account",                        "account"

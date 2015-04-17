@@ -14,7 +14,7 @@ module.exports = class controller
 
     str = location.pathname
     lang = location.pathname.match /^\/(..)/
-    if lang? and lang[1] in ['en', 'ar'] then currentLanguage =  lang[1]
+    if lang? and lang[1] in ['en', 'ar', 'dg'] then currentLanguage =  lang[1]
     else currentLanguage =  "en"
 
     @setLanguage currentLanguage

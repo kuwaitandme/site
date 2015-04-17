@@ -56,9 +56,9 @@ controller = module.exports =
 
 
   routes: (router) ->
-    localizedUrl = (url) -> new RegExp "^/(?:ar|en)#{url}/?$"
+    localizedUrl = (url) -> new RegExp "^/(?:ar|en|dg)#{url}/?$"
 
-    router.get /^\/(ar|en).*\/?$/, @setLanguage
+    router.get /^\/(ar|en|dg).*\/?$/, @setLanguage
     router.get (localizedUrl ''), @get
 
     (require './about')         .routes router, localizedUrl
@@ -73,4 +73,4 @@ controller = module.exports =
     router.get (localizedUrl '.*'), @fourofour
 
     # If language slug is missing and redirect to a preferred language
-    router.get /^(?:[^ae]|a[^r]|e[^n])(.*)/, @langRedirect
+    router.get /^(?:[^aed]|a[^r]|e[^n]|d[^g])(.*)/, @langRedirect

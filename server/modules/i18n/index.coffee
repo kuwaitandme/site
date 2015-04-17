@@ -5,7 +5,7 @@ module.exports = (app) ->
     cookie: 'l'
     defaultLocale: 'en'
     directory: "#{global.root}/modules/i18n"
-    locales: [ 'en', 'ar']
+    locales: [ 'en', 'ar', 'dg']
 
   global.__ = i18n.__
   app.use i18n.init
