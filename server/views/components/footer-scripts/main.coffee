@@ -79,10 +79,6 @@ window.scripts = [
   }
 ]
 
-# ### Special functions and variables to facilitate gmaps #
-# window.gmapInitialized = false
-# window.gmapInitializeListeners = []
-
 window.initializeGmap = ->
 
 head = document.getElementsByTagName("head")[0]
@@ -156,8 +152,5 @@ for script in scripts
     else $fileref.src = script.remoteSrc
 
   # Finally with whatever element we have created, insert it into the body
-  if isCSS
-    head.appendChild $fileref
-  else
-    head.insertBefore $fileref, head.firstChild
-    # head.removeChild $fileref
+  if isCSS then head.appendChild $fileref
+  else then head.insertBefore $fileref, head.firstChild

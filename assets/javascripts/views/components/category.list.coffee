@@ -19,6 +19,23 @@ module.exports = Backbone.View.extend
     @resources.language.translate @$el
     @resources.router.reattachRouter()
 
+    @$container = @$ 'ul'
+    @resizeCategories()
+    @$container.masonry
+      isAnimated: true
+      isFitWidth: true
+      itemSelector: 'li'
+
+    ($ window).resize => @resizeCategories()
+
+
+  resizeCategories: ->
+    _isSmall = -> (matchMedia Foundation.media_queries.small).matches and
+      not (matchMedia Foundation.media_queries.medium).matches
+
+    if _isSmall() then (@$ 'li').width ($ window).width()/2 - 14
+    else (@$ 'li').width ($ window).width()/4
+
 
   toggleClassified: (event) ->
     $el = ($ event.currentTarget).parent()
@@ -26,13 +43,12 @@ module.exports = Backbone.View.extend
     if $list.height() is 0 then @openClassified $el, $list
     else @closeClassified()
 
-
   openClassified: ($el, $list) ->
     @closeClassified()
     $el.addClass 'active'
     $list.css 'height', 'auto'
     height = $list.height()
-
+    @$container.masonry()
     ($list.height 0).stop().transition height: height
 
 
@@ -42,4 +58,4 @@ module.exports = Backbone.View.extend
     (@$ '.active').removeClass 'active'
 
     $list = $el.find '.children'
-    $list.stop().transition height: 0
+    $list.stop().transition {height: 0}, => @$container.masonry()

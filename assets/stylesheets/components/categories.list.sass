@@ -1,48 +1,51 @@
 ul.categories-list
-  margin: 0
+  margin: 0 auto
+
   li
     padding: 7px
+    // min-width: 160px
+    max-width: 210px
 
     .container
       border: 1px solid #ddd
       overflow: hidden
 
-      -webkit-border-radius: 3px;
-      -moz-border-radius: 3px;
-      border-radius: 3px;
+      -webkit-border-radius: 3px
+      -moz-border-radius: 3px
+      border-radius: 3px
 
 
     .image
       @extend .font-title
       color: #FFF
-      // padding: 15px 5px
       text-shadow: rgba(0, 0, 0, 0.8) 0px 1px 0px
       text-align: center
       cursor: pointer
       height: 130px
-      line-height: 130px
       background: #fff
       background-size: cover
       background-position: 50% 50%
       position: relative
 
       &:after
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%
-        height: 100%
-        background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0,rgba(0, 0, 0, 0.3) 50%,rgba(0, 0, 0, 0.75) 100%)
-        background: -moz-linear-gradient(to bottom,rgba(0, 0, 0, 0) 0,rgba(0, 0, 0, 0.3) 50%,rgba(0, 0, 0, 0.75) 100%)
-
-      .title
-        font-size: 0.9rem
+        content: ''
         position: absolute
         top: 0
         left: 0
         width: 100%
         height: 100%
+        background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0,rgba(0, 0, 0, 0.3) 50%,rgba(0, 0, 0, 0.75) 100%)
+        background: -moz-linear-gradient(to bottom,rgba(0, 0, 0, 0) 0,rgba(0, 0, 0, 0.3) 50%,rgba(0, 0, 0, 0.75) 100%)
+
+      h2.title
+        font-size: 0.9rem
+        position: absolute
+        color: #FFF
+        top: 0
+        left: 0
+        width: 100%
+        height: 100%
+        padding-top: 47px
         z-index: 1
 
     .total-count
@@ -51,9 +54,8 @@ ul.categories-list
       padding: 5px
 
     .children
-      // display: none
-      height: 0
       +single-transition(height)
+      height: 0
       overflow: hidden
     .active
       .total-count
@@ -62,6 +64,10 @@ ul.categories-list
       border-bottom: 1px solid #EEE
       font-size: 12px
       position: relative
+      h3
+        @extend .font-text
+        font-size: 12px
+        margin: 0
       a
         display: block
         padding: 5px 10px
@@ -78,27 +84,78 @@ ul.categories-list
       &:nth-child(odd)
         background: #f6f6f6
 
-    .pets
-      background-image: url(/images/cat/cats.png)
-    .general
-      background-image: url(/images/cat/general.png)
-    .electronics
-      background-image: url(/images/cat/electronics.png)
-    .vehicles
-      background-image: url(/images/cat/vehicles.png)
-    .matrimonial
-      background-image: url(/images/cat/matrimonial.png)
-    .music
-      background-image: url(/images/cat/music.png)
-    .hobbies
-      background-image: url(/images/cat/hobbies.png)
-    .community
-      background-image: url(/images/cat/community.png)
+    .cat-sprite
+        background-image: url(/images/cat-spritesheet.jpg)
+        background-repeat: no-repeat
+        display: block
     .careers
-      background-image: url(/images/cat/career.png)
-    .property
-      background-image: url(/images/cat/property.png)
-    .services
-      background-image: url(/images/cat/services.png)
+
+        height: 132px
+        background-position: 0 0
+
+
+    .pets
+
+        height: 132px
+        background-position: -210px 0
+
+
+    .community
+
+        height: 132px
+        background-position: -420px 0
+
+
+    .electronics
+
+        height: 132px
+        background-position: -630px 0
+
+
+    .general
+
+        height: 132px
+        background-position: -840px 0
+
+
+    .hobbies
+
+        height: 132px
+        background-position: -1050px 0
+
+
+    .matrimonial
+
+        height: 132px
+        background-position: -1260px 0
+
+
     .miscellaneous
-      background-image: url(/images/cat/misc.png)
+
+        height: 132px
+        background-position: -1470px 0
+
+
+    .music
+
+        height: 132px
+        background-position: -1680px 0
+
+
+    .property
+
+        height: 132px
+        background-position: -1890px 0
+
+
+    .services
+
+        height: 132px
+        background-position: -2100px 0
+
+
+    .vehicles
+
+        height: 132px
+        background-position: -2310px 0
+
