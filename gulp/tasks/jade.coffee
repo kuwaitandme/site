@@ -12,6 +12,3 @@ module.exports = (gulp, config) ->
       name: (file) -> (file.relative.split '.html')[0]
     .pipe concat dest
     .pipe gulp.dest config.dest
-
-  gulp.task 'jade', -> task false, config.targetFilename
-  gulp.task 'jade:minified', -> task true, config.targetFilenameMin
