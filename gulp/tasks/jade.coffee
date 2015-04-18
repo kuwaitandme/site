@@ -10,5 +10,7 @@ module.exports = (gulp, config) ->
     .pipe template
       namespace: 'template'
       name: (file) -> (file.relative.split '.html')[0]
-    .pipe concat dest
+    .pipe concat config.targetFilename
     .pipe gulp.dest config.dest
+
+  gulp.task "jade", -> task()
