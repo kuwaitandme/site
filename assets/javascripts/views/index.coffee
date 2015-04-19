@@ -1,4 +1,4 @@
 module.exports =
-  components: require './components'
-  pages:      require './pages'
-  BaseView:   require './baseView'
+  components:     require './components'
+  pages:          require './pages'
+  BackboneView:   require './Backbone.View'

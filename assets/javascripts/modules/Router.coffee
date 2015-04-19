@@ -9,7 +9,7 @@ module.exports = Backbone.Router.extend
   authLogin:        -> @handleRoute 'auth-login'
   authLogout:       -> @handleRoute 'auth-logout'
   authSignup:       -> @handleRoute 'auth-signup'
-  classified:       -> @handleRoute 'classified-search'
+  classifiedSearch: -> @handleRoute 'classified-search', arguments
   classifiedEdit:   -> @handleRoute 'classified-edit', arguments[0]
   classifiedFinish: -> @handleRoute 'classified-finish', arguments[0]
   classifiedPost:   -> @handleRoute 'classified-post'
@@ -23,6 +23,7 @@ module.exports = Backbone.Router.extend
   landing:          -> @handleRoute 'landing'
   fourofour:        -> console.log '404'
 
+
   # A simple route handler that fires the 'change' event along with all
   # necessary parameters of the route.
   handleRoute: (view, parameters) ->
@@ -31,7 +32,7 @@ module.exports = Backbone.Router.extend
     @setHistoryState()
     state = @getHistoryState()
     state.parameters = parameters
-    @trigger 'change', { view: view, state: state }
+    @trigger 'change', view: view, state: state
 
 
   initialize: (config) ->
@@ -58,29 +59,33 @@ module.exports = Backbone.Router.extend
     _url = (url) -> new RegExp "^(?:en|ar|dg)\/#{url}(\/\?.*)?$"
     _route = (regex, view) => @route (_url regex), view
 
-    @route /.*/,                             "langRedirect"
-    @route /^(en|ar|dg)\/?$/,                "landing"
+    @route /.*/,                               "langRedirect"
+    @route /^(en|ar|dg)\/?$/,                  "landing"
 
-    _route "about",                          "about"
-    _route "account",                        "account"
-    _route "account/credits",                "accountCredits"
-    _route "account/manage",                 "accountManage"
-    _route "auth/login",                     "authLogin"
-    _route "auth/logout",                    "authLogout"
-    _route "auth/signup",                    "authSignup"
-    _route "contact",                        "contact"
-    _route "terms-privacy",                  "termsprivacy"
+    _route "about",                            "about"
+    _route "account",                          "account"
+    _route "account/credits",                  "accountCredits"
+    _route "account/manage",                   "accountManage"
+    _route "auth/login",                       "authLogin"
+    _route "auth/logout",                      "authLogout"
+    _route "auth/signup",                      "authSignup"
+    _route "contact",                          "contact"
+    _route "terms-privacy",                    "termsprivacy"
 
-    _route "classified/([a-f0-9]*)",         "classifiedSingle"
-    _route "classified/([a-f0-9]*)/edit",    "classifiedEdit"
-    _route "classified/([a-f0-9]*)/finish",  "classifiedFinish"
-    _route "classified/search",              "classified"
-    _route "classified/post",                "classifiedPost"
+    _route "classified/([a-f0-9]*)",           "classifiedSingle"
+    _route "classified/([a-f0-9]*)/edit",      "classifiedEdit"
+    _route "classified/([a-f0-9]*)/finish",    "classifiedFinish"
 
-    _route "guest/([a-f0-9]*)",              "guestSingle"
-    _route "guest/([a-f0-9]*)/edit",         "guestEdit"
-    _route "guest/([a-f0-9]*)/finish",       "guestFinish"
-    _route "guest/post",                     "guestPost"
+    _route "classified/",                      "classifiedSearch"
+    _route "classified/([a-z\-]+)/",           "classifiedSearch"
+    _route "classified/([a-z\-]+)/([a-z\-]+)", "classifiedSearch"
+
+    _route "classified/post",                  "classifiedPost"
+
+    _route "guest/([a-f0-9]*)",                "guestSingle"
+    _route "guest/([a-f0-9]*)/edit",           "guestEdit"
+    _route "guest/([a-f0-9]*)/finish",         "guestFinish"
+    _route "guest/post",                       "guestPost"
 
 
   # If none of the URL matched, then that means that maybe the language slug
@@ -88,13 +93,6 @@ module.exports = Backbone.Router.extend
   # url, and the server will decide to redirect the user or to display the 404
   # page
   langRedirect: -> window.location = "#{location.pathname}"
-
-  start: ->
-    console.log @name, 'starting Backbone history'
-    Backbone.history.start
-      pushState: true,
-      hashChange: false,
-      root: '/'
 
 
   # This function is responsible for properly resetting the history counter

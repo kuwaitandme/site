@@ -3,9 +3,9 @@
 ajax = (require 'app-helpers').ajax
 
 module.exports = Backbone.Collection.extend
-  consoleSlug: '[model:classifieds]'
+  name: '[model:classifieds]'
 
-  model: require './classified'
+  model: require './Classified'
   isAccount: false
 
   fetch: (parameters = {}) ->
@@ -22,8 +22,8 @@ module.exports = Backbone.Collection.extend
       # data: parameters
       beforeSend: ajax.setHeaders
       success: (response) =>
-        console.log @consoleSlug, 'fetching classifieds'
-        console.debug @consoleSlug, response
+        console.log @name, 'fetching classifieds'
+        console.debug @name, response
         newModels = []
 
         # For each classified convert it into a Backbone.Model and
@@ -41,4 +41,4 @@ module.exports = Backbone.Collection.extend
         @trigger 'ajax:done', newModels
 
       error: (response) =>
-        console.error @consoleSlug, 'error fetching classifieds', response
+        console.error @name, 'error fetching classifieds', response

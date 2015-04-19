@@ -99,8 +99,12 @@ if not window.App?
         backboneSync method, model, options
       Backbone.sync = newSync
 
-      newViewProperties = (require "app-views").BaseView
+      newViewProperties = (require "app-views").BackboneView
       _.extend Backbone.View.prototype, newViewProperties
+
+      newModelProperties = (require "app-models").BackboneModel
+      _.extend Backbone.Model.prototype, newModelProperties
+      console.log newModelProperties
 
 
     initializeResources: ->

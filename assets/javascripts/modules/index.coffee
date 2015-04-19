@@ -1,6 +1,6 @@
 module.exports =
-  cache:           require './cache'
+  cache:           require './Cache'
   external:        require './external'
-  language:        require './language'
-  router:          require './router'
-  viewManager:     require './viewManager'
+  language:        require './Language'
+  router:          require './Router'
+  viewManager:     require './ViewManager'

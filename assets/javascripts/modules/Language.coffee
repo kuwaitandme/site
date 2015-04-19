@@ -32,8 +32,6 @@ module.exports = class controller
     else
       console.log @name, "language not found in cache"
       @downloadLanguage @currentLanguage, (error, response) =>
-        console.log @name, response
-
         @currentDictonary = response
         json = JSON.stringify response
         @resources.cache.set "app:language:#{@currentLanguage}", json

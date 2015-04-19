@@ -42,10 +42,21 @@ module.exports = Backbone.Collection.extend
       @resources.cache.set 'models:category', JSON.stringify @toJSON()
 
 
+  findBySlug: (slug) ->
+    categories = @toJSON()
+    for cat in categories
+      if cat.slug is slug then return cat
+      for childcat in cat.children
+        if childcat.slug is slug then return childcat
+    {}
+
+
+
   getChildren: (parentId) ->
     parent = @find id: parentId
     if parent then parent.get 'children'
     else []
+
 
   # A reroute of backbone's fetch which first checks in the browser's
   # localStorage for the collection before making a AJAX call.

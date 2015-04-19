@@ -2,7 +2,6 @@ helpers = require 'app-helpers'
 ajax = helpers.ajax
 
 module.exports = Backbone.Model.extend
-  idAttribute: "_id"
   name: "[model:user]"
 
   url: ->
