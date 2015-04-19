@@ -153,4 +153,4 @@ for script in scripts
 
   # Finally with whatever element we have created, insert it into the body
   if isCSS then head.appendChild $fileref
-  else then head.insertBefore $fileref, head.firstChild
+  else head.insertBefore $fileref, head.firstChild
