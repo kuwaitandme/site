@@ -60,7 +60,7 @@ json = {
     'Art & Collectibles'
     'Creative & Crafts'
     'Painting & Art'
-    'Sewing & Quilting & Knitting'
+    'Sewing, Quilting & Knitting'
     'Other'
   }
 

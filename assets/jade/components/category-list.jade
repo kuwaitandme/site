@@ -3,12 +3,12 @@ ul.categories-list
   li
     .container
       .image.cat-sprite(class!="<%= cat.classname %>")
-        h2.title <%= cat.name %>
+        h1.title <%= cat.name %>
       .total-count <%= cat.count %> classifieds
       .children
         <% _.each(cat.children, function(child) { %>
         .child
-          h3
+          h2
             a(href!="<%= lang.href %>/classified/<%= cat.slug %>/<%= child.slug %>", data-view) <%= child.name %>
           .count <%= child.count %>
         <% }) %>

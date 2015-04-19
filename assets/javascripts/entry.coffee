@@ -104,7 +104,6 @@ if not window.App?
 
       newModelProperties = (require "app-models").BackboneModel
       _.extend Backbone.Model.prototype, newModelProperties
-      console.log newModelProperties
 
 
     initializeResources: ->
