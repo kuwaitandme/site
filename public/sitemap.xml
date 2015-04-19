@@ -459,9 +459,4 @@
     <changefreq>monthly</changefreq>
     <priority>0.70</priority>
   </url>
-  <url>
-    <loc>https://kuwaitandme.com/en/guest/post</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.70</priority>
-  </url>
 </urlset>

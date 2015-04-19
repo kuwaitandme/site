@@ -72,11 +72,12 @@ module.exports = Backbone.Router.extend
     _route "contact",                          "contact"
     _route "terms-privacy",                    "termsprivacy"
 
+    _route "classified",                       "classifiedSearch"
+
     _route "classified/([a-f0-9]*)",           "classifiedSingle"
     _route "classified/([a-f0-9]*)/edit",      "classifiedEdit"
     _route "classified/([a-f0-9]*)/finish",    "classifiedFinish"
 
-    _route "classified",                       "classifiedSearch"
     _route "classified/([a-z\-]+)/",           "classifiedSearch"
     _route "classified/([a-z\-]+)/([a-z\-]+)", "classifiedSearch"
 

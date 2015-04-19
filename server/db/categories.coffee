@@ -108,7 +108,7 @@ json = {
 
 createCategory = (name) ->
   slug = (name.toLowerCase().replace /&/g, '').replace(/[,\s]+/g, '-')
-  { name: name, _id: ObjectId(), slug: slug }
+  name: name, _id: ObjectId(), slug: slug
 
 getMonogoJson = (json) ->
   categories = []
