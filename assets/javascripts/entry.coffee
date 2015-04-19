@@ -37,10 +37,20 @@ if not window.App?
     instance:     null
 
 
+  ###
+  ## class *Main*
+  This class represents the main class of the app. There should be only one
+  instance of this class during a user's window session.
+  ###
   class Main
     name: "[app]"
 
-    constructor: (App) ->
+
+    ###
+    ## *constructor():*
+    This function starts of the app by initializing it's various components.
+    ###
+    constructor: () ->
       ($ "#page-loader").hide()
       @decodeData()
       @applyBackboneHacks()
@@ -50,17 +60,34 @@ if not window.App?
       @initializeViews()
       @initializeBackBone()
 
-      # $ -> $.smartbanner()
 
+    ###
+    ## *initializeViews():*
+    This function initializes the *ViewManager* and the *Router* which in
+    turn initialize all the other subviews
+    ###
     initializeViews: ->
       console.log @name, 'initializing views'
-      @viewManager = new App.ViewManager @resources
+      @Router = new App.Router
+      @resources.router = @Router
+      @ViewManager = new App.ViewManager @resources
 
+
+    ###
+    ## *inintializeListeners():*
+    This function initializes the various listeners for the App. (Probably not
+    needed)
+    ###
     initializeListeners: ->
       console.log @name, 'initializing listeners'
       _.extend this, Backbone.Events
 
 
+    ###
+    ## *decodeServerData():*
+    This function decodes the data that is passed from the server-side. This
+    data is simple base64 encoded and so this function simply base64 decodes it.
+    ###
     decodeData: ->
       console.log @name, 'decoding base64 encode data'
       base64 = App.Resources.Library.base64
@@ -69,18 +96,27 @@ if not window.App?
 
     ###
     ## *initializeBackBone():*
-
-    ....
+    Initializes the Backbone components. Basically the router is only thing
+    that needs to be started, so we start the *Backbone.history* here.
     ###
     initializeBackBone: ->
-      # Start Backbone history to trigger the different routes and to load
-      # the first route.
+      # Start Backbone.history to trigger the different routes and to load
+      # the first route. Start history with HTML5 *pushstate* enabled and
+      # *hashChange* disabled. This way we can avoid hash-urls in our
+      # application.
       Backbone.history.start
         pushState: true,
         hashChange: false,
         root: '/'
 
 
+    ###
+    ## *applyBackboneHacks():*
+    Probably one of the most useful functions in the code. This function
+    rewrites some of the Backbone components such as the Backbone View and Model
+    so that extra features are made available to it. View the content for more
+    explanation.
+    ###
     applyBackboneHacks: ->
       console.log @name, 'applying Backbone hacks'
       # Rewrite backbone sync with our custom sync function. For now add our
@@ -115,7 +151,7 @@ if not window.App?
       @resources.currentUser = new App.Resources.Models.user
       @resources.locations   = new App.Resources.Models.locations
       @resources.language    = new App.Language
-      @resources.router      = new App.Router
+
       @resources.external    = App.External
 
       @resources.currentView           = App.ViewManager.currentView
@@ -139,11 +175,9 @@ if not window.App?
       @resources.language.fetch()
       @resources.locations.fetch()
 
-
   ###
   **Main Javascript Execution starts here**
-
-
+  The code below initializes the foundation library and the App itself.
   ###
   ($ window).ready ->
     console.log '[foundation] initializing'

@@ -12,7 +12,6 @@ module.exports = (require './post').extend
 
     authHash = urlHelper.getParam 'authHash'
     @model.set 'authHash', authHash
-
     @model.fetch success: callback
 
 

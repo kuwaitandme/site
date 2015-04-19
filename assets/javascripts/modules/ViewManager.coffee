@@ -18,7 +18,6 @@ module.exports = class viewManager
 
     # Render different components
     @header = new (@components.header)(el: 'header', resources: @resources)
-    # @messages = new (@components.messages)(el: '#messages')
     @progressBar = new @components.progressBar
 
     @resources.router.on 'change', @routeHandle
@@ -29,7 +28,6 @@ module.exports = class viewManager
     @header.trigger 'start'
     @header.trigger 'continue'
 
-    console.log @name, 'starting'
     @started = true
     if @currentView
       if @currentView.checkRedirect()
@@ -38,6 +36,7 @@ module.exports = class viewManager
 
       @currentView.trigger 'continue'
       @resources.router.reattachRouter()
+
 
   routeHandle: (args={}) =>
     viewIdentifier = args.view
@@ -60,9 +59,6 @@ module.exports = class viewManager
   setView: (viewIdentifier, historyState={}) ->
     # Change the mouse icon to the loader
     @displayMouseLoader true
-
-    # Clear any messages
-    # @messages.clear()    # Get the view
 
     # Check if there was a view before, and if there was then switch the pages
     if @currentView? then @switchPages viewIdentifier, historyState
@@ -98,7 +94,6 @@ module.exports = class viewManager
     index = historyState.index
 
     options =
-      # el: ".pt-page[data-url='#{url}'][data-index='#{index}']"
       historyState: historyState
       resources: @resources
 
@@ -113,7 +108,6 @@ module.exports = class viewManager
 
     # Start the view
     @currentView.trigger 'start'
-
 
 
   switchPages: (targetViewIdentifier, historyState) ->
@@ -186,8 +180,6 @@ module.exports = class viewManager
         return view
 
 
-
-
   # Fetches the HTML for the given view and returns it. This function first
   # checks the local-storage if the view's HTML has been cached or not.
   # If the view has been cached, then it loads the HTML from it and returns.
@@ -205,7 +197,7 @@ module.exports = class viewManager
     $.ajax
       type: 'GET'
       url: url
-      async: false
+      zasync: false
       success: (response) ->
         html = (($ response).find '.html5-cache').parent().html()
       error: (response) ->
@@ -226,9 +218,8 @@ module.exports = class viewManager
     for view in @viewBuffer
       if not view? or not view.$el? then continue
       viewIndex = Number view.$el.data 'index'
-
-      # Destroy views that are in forward of history and those that are
-      # to far behind in history.
+      # Destroy views that are in forward of history and those that are to far
+      # behind in history.
       if viewIndex is historyIndex or (historyIndex - viewIndex) > 5
         @viewBuffer[index] = null
         view.trigger 'finish'

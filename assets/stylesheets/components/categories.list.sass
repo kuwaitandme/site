@@ -2,9 +2,8 @@ ul.categories-list
   margin: 0 auto
 
   li
-    padding: 7px
-    // min-width: 160px
     max-width: 210px
+    padding: 7px
 
     .container
       border: 1px solid #ddd
@@ -14,38 +13,37 @@ ul.categories-list
       -moz-border-radius: 3px
       border-radius: 3px
 
-
     .image
       @extend .font-title
+      background-position: 50% 50%
+      background-size: cover
+      background: #fff
       color: #FFF
-      text-shadow: rgba(0, 0, 0, 0.8) 0px 1px 0px
-      text-align: center
       cursor: pointer
       height: 130px
-      background: #fff
-      background-size: cover
-      background-position: 50% 50%
       position: relative
+      text-align: center
+      text-shadow: rgba(0, 0, 0, 0.8) 0px 1px 0px
 
       &:after
+        background: -moz-linear-gradient(to bottom,rgba(0, 0, 0, 0) 0,rgba(0, 0, 0, 0.3) 50%,rgba(0, 0, 0, 0.75) 100%)
+        background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0,rgba(0, 0, 0, 0.3) 50%,rgba(0, 0, 0, 0.75) 100%)
         content: ''
+        height: 100%
+        left: 0
         position: absolute
         top: 0
-        left: 0
         width: 100%
-        height: 100%
-        background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0,rgba(0, 0, 0, 0.3) 50%,rgba(0, 0, 0, 0.75) 100%)
-        background: -moz-linear-gradient(to bottom,rgba(0, 0, 0, 0) 0,rgba(0, 0, 0, 0.3) 50%,rgba(0, 0, 0, 0.75) 100%)
 
       h1.title
-        font-size: 0.9rem
-        position: absolute
         color: #FFF
-        top: 0
-        left: 0
-        width: 100%
+        font-size: 0.9rem
         height: 100%
+        left: 0
         padding-top: 47px
+        position: absolute
+        top: 0
+        width: 100%
         z-index: 1
 
     .total-count
@@ -64,7 +62,7 @@ ul.categories-list
       border-bottom: 1px solid #EEE
       font-size: 12px
       position: relative
-      h3
+      h2
         @extend .font-text
         font-size: 12px
         margin: 0
@@ -88,74 +86,28 @@ ul.categories-list
         background-image: url(/images/cat-spritesheet.jpg)
         background-repeat: no-repeat
         display: block
+        height: 132px
     .careers
-
-        height: 132px
         background-position: 0 0
-
-
     .pets
-
-        height: 132px
         background-position: -210px 0
-
-
     .community
-
-        height: 132px
         background-position: -420px 0
-
-
     .electronics
-
-        height: 132px
         background-position: -630px 0
-
-
     .general
-
-        height: 132px
         background-position: -840px 0
-
-
     .hobbies
-
-        height: 132px
         background-position: -1050px 0
-
-
     .matrimonial
-
-        height: 132px
         background-position: -1260px 0
-
-
     .miscellaneous
-
-        height: 132px
         background-position: -1470px 0
-
-
     .music
-
-        height: 132px
         background-position: -1680px 0
-
-
     .property
-
-        height: 132px
         background-position: -1890px 0
-
-
     .services
-
-        height: 132px
         background-position: -2100px 0
-
-
     .vehicles
-
-        height: 132px
         background-position: -2310px 0
-
