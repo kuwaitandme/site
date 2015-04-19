@@ -13,10 +13,18 @@ module.exports = Backbone.View.extend
       resources: @resources
       el: @$classifiedList
 
-  continue: ->
-    console.log @name, 'continue'
-    @classifiedList.continue()
+    @classifiedList.trigger 'start'
 
-  pause: ->
-    console.log @name, 'pause'
-    @classifiedList.pause()
+
+  continue: ->
+    Category = @resources.categories
+    parentCategory = @resources.historyState.parameters[0]
+    childCategory = @resources.historyState.parameters[1]
+
+    @classifiedList.settings.query.parentCategory = Category.findBySlug parentCategory
+    @classifiedList.settings.query.childCategory = Category.findBySlug childCategory
+
+    @classifiedList.trigger 'continue'
+
+
+  pause: -> @classifiedList.trigger 'pause'

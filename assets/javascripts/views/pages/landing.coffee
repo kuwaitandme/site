@@ -16,9 +16,15 @@ module.exports = Backbone.View.extend
         enableFilterBox: false
       resources: @resources
       el: @$classifiedList
-    @$categoryList = @$el.find '#masonry-container .content'
-    @$categoryList.hide()
+    @classifiedList.trigger 'start'
 
+    # @$categoryList.hide()
+
+    @$categoryList = @$el.find '#masonry-container .content'
+    @categoryList = new @resources.Views.components.categoryList
+      el: @$categoryContainer
+      resources: @resources
+    @categoryList.trigger 'start'
 
   continue: ->
     # Facebook = new @resources.external.Facebook
@@ -35,12 +41,11 @@ module.exports = Backbone.View.extend
         else url = "classified/#{id}/finish#shared"
         @resources.router.redirect "#{@resources.language.urlSlug}/#{url}"
 
-    if not @categoryList?
-      @categoryList = new @resources.Views.components.categoryList
-        el: @$categoryContainer
-        resources: @resources
+    # if not @categoryList?
 
-    @classifiedList.continue()
+    @classifiedList.trigger 'continue'
+    @categoryList.trigger 'continue'
+
 
 
   pause: -> @classifiedList.pause()

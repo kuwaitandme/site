@@ -4,10 +4,7 @@ module.exports = Backbone.View.extend
 
   events: "click li .image" : "toggleClassified"
 
-  initialize: (options={}) ->
-    console.log @name, 'initializing'
-    if options.resources then @resources = options.resources
-
+  continue: (options={}) ->
     categories = @resources.categories.toJSON()
     for category in categories
       firstSlug = (category.name.replace ',', ' ').split(' ')[0].toLowerCase()

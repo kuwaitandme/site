@@ -8,14 +8,35 @@ controller = module.exports =
     page = 1
     reverse = false
 
-    classified = global.models.classified
-    classified.search parameters, page, reverse, (error, classifieds) ->
-      if error then return next error
+    Category = global.models.category
+    Category.getAll (error, categories) ->
+      if error then next error
 
-      args =
-        data: classifieds: classifieds
-        page: 'classified/search'
-        title: response.__ 'title.classified.search'
+      category = request.params[0]
+      childCategory = request.params[1]
 
-      render = global.modules.renderer
-      render request, response, args
+      # Query on the parent category based on the first slug
+      if category then for cat in categories
+        if cat.slug == category
+          parameters.category = cat._id
+
+          # Query on the child category based on the second slug
+          if childCategory then for child in cat.children
+            if child.slug == childCategory
+              parameters.childCategory = child._id
+
+      # Render the page with the resulting query parameters
+      renderPage()
+
+    renderPage = ->
+      Classified = global.models.classified
+      Classified.search parameters, page, reverse, (error, classifieds) ->
+        if error then return next error
+
+        args =
+          data: classifieds: classifieds
+          page: 'classified/search'
+          title: response.__ 'title.classified.search'
+
+        render = global.modules.renderer
+        render request, response, args

@@ -7,13 +7,11 @@ ObjectId  = Schema.ObjectId
 categories = module.exports =
   model: mongoose.model 'categories',
     name: String
+    slug: String
     children: [
       _id: ObjectId
       name: String
-      children: [
-        _id: ObjectId
-        name: String
-      ]
+      slug: String
     ]
 
 

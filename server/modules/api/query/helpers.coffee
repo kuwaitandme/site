@@ -5,10 +5,11 @@ module.exports =
     classified = global.models.classified
     parameters = {}
     parameters.status = classified.status.ACTIVE
+    urlParameters = request.params
 
     # Set the category
-    if validator.isMongoId request.query.category
-      parameters.category = request.query.category
+    if validator.isMongoId request.query.parentCategory
+      parameters.category = request.query.parentCategory
 
     # Set the child-category
     if validator.isMongoId request.query.childCategory
@@ -46,4 +47,5 @@ module.exports =
           { description: $all: regex }
         ]
       }]
+
     parameters

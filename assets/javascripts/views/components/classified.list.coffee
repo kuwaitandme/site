@@ -7,21 +7,21 @@ module.exports = Backbone.View.extend
     ajaxLock: false
     isAccount: false
     enableFilterBox: true
+    query:
+      parentCategory: null
+      childCategory: null
 
   name: '[comp:classified-list]'
   template: template['components/classified-list']
 
-  initialize: (options={}) ->
-    if options.resources then @resources = options.resources
-    console.log @name, 'initializing'
-    console.debug @name, options
 
+  start: (options={}) ->
     # Extend the settings
     _.extend @settings, options.settings
     console.debug @name, @settings
 
     # Initialize the collection model
-    @collection = new App.Resources.Models.classifieds
+    @collection = new @resources.Models.classifieds
     @collection.isAccount = @settings.isAccount
 
     # Setup the templates
@@ -33,22 +33,20 @@ module.exports = Backbone.View.extend
     @setupFilterBox()
     @setupMasonry()
 
-    @newQuery()
-
     # Set to load new classifieds when we have scrolled to the end of the page.
     _.bindAll this, 'onScroll'
     _.bindAll this, 'resizeClassifieds'
 
 
   continue: ->
-    console.log @name, 'continue'
     ($ window).on 'resize', @resizeClassifieds
     ($ window).on 'scroll', @onScroll
 
     # @collection.isAccount = @isAccount
+    @newQuery()
     @$classifiedList.masonry()
 
-    if @enableFilterBox then @filterbox.render()
+    # if @enableFilterBox then @filterbox.render()
     if @settings.ajaxEnable then @$loader.show();
 
 
@@ -61,6 +59,7 @@ module.exports = Backbone.View.extend
 
 
   newQuery: ->
+    console.log @name, 'preparing new query'
     router = @resources.router
 
     # Blank out all the classifieds we have so far and reset the page count
@@ -74,6 +73,7 @@ module.exports = Backbone.View.extend
 
     # Get the query
     @query = @getQuery()
+    console.log @name, @query
     @query.page = 0
 
     if @enableFilterBox
@@ -133,13 +133,14 @@ module.exports = Backbone.View.extend
   getQuery: ->
     urlHelper = @resources.Helpers.url
 
-    category:      urlHelper.getParam 'category'
-    childCategory: urlHelper.getParam 'childCategory'
-    keywords:      urlHelper.getParam 'keywords'
-    location:      urlHelper.getParam 'location'
-    priceMax:      urlHelper.getParam 'priceMax'
-    priceMin:      urlHelper.getParam 'priceMin'
-    type:          urlHelper.getParam 'type'
+    childCategory:  (@settings.query.childCategory or {})._id
+    parentCategory: (@settings.query.parentCategory or {})._id
+
+    keywords:       urlHelper.getParam 'keywords'
+    location:       urlHelper.getParam 'location'
+    priceMax:       urlHelper.getParam 'priceMax'
+    priceMin:       urlHelper.getParam 'priceMin'
+    type:           urlHelper.getParam 'type'
 
 
   # This function gets called whenever a new model has been added into our
@@ -178,7 +179,6 @@ module.exports = Backbone.View.extend
       @$classifiedList.masonry 'appended', elem
 
       if json.image
-
         elem.addClass 'image-loading'
 
         createSuccessHandler = (elem) => =>
@@ -244,6 +244,7 @@ module.exports = Backbone.View.extend
         resources: @resources
       @listenTo @filterbox, 'changed', @newQuery
     else @$filterbox.hide()
+
 
   # Sets Masonry on the classified list
   setupMasonry: ->
