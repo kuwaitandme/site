@@ -18,7 +18,7 @@ nav#mobile-nav.hide-for-large-up.hide-when-searching
       li.nav-item
         a(href!="<%= lang.href %>/", data-view, lang-html="header.home")
       li.nav-item
-        a(href!="<%= lang.href %>/classified/search", data-view, lang-html="header.csearch")
+        a(href!="<%= lang.href %>/classified", data-view, lang-html="header.csearch")
       li.main-item.hide-if-loggedin
         a(href!="<%= lang.href %>/guest/post", data-view, lang-html="header.cpost")
       li.main-item.show-if-loggedin
@@ -79,7 +79,7 @@ nav#main-nav.show-for-large-up.hide-when-searching
 
 ul#sub-nav.show-for-large-up
   li.lang
-    a(href!="<%= lang.href %>/classified/search", data-view, lang-html='header.csearch')
+    a(href!="<%= lang.href %>/classified", data-view, lang-html='header.csearch')
   li.hide-if-loggedin.lang
     a(href!="<%= lang.href %>/guest/post", data-view, lang-html='header.cpost')
   li.show-if-loggedin.lang

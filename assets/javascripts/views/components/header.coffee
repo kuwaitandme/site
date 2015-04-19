@@ -14,10 +14,7 @@ module.exports = Backbone.View.extend
     "Search for anything you want!"
     "Search for what you want, here!"
     "Search your heart's desires"
-    "Search your what you're looking for"
-    # ""
-    # "Damn, there are no more classifieds!"
-  ]
+    "Search what you're looking for"  ]
 
   toggleHeader: -> @$body.toggleClass 'show-subheader'
 
