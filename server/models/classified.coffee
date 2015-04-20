@@ -210,12 +210,19 @@ classifieds = module.exports =
   # Finds out how many classifieds are there in each category.
   classifiedsPerCategory: (callback) ->
     # The Mongo way of grouping and counting!
-    agg = [{
-      $group:
-        _id: '$category'
-        total: $sum: 1
-    }]
+    agg = [
+      {
+        $match: status: @status.ACTIVE
+      }
+      {
+        $group:
+          _id: '$category'
+          total: $sum: 1
+      }
+    ]
     results = {}
+
+    console.log agg
 
     global.cache.get 'category-count', (error, cache) =>
       if error then return callback error
@@ -225,11 +232,16 @@ classifieds = module.exports =
         if error then return callback error
         results.category = result
 
-        agg = [{
-          $group:
-            _id: '$childCategory'
-            total: $sum: 1
-        }]
+        agg = [
+          {
+            $match: status: @status.ACTIVE
+          }
+          {
+            $group:
+              _id: '$childCategory'
+              total: $sum: 1
+          }
+        ]
         @model.aggregate agg, (error, result) =>
           if error then return callback error
           results.childCategory = result
