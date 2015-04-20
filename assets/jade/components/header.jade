@@ -79,20 +79,20 @@ nav#main-nav.show-for-large-up.hide-when-searching
 
 ul#sub-nav.show-for-large-up
   li.lang
-    a(href!="<%= lang.href %>/classified", data-view, lang-html='header.csearch')
+    a(href!="<%= lang.href %>/classified", data-view='classified-search', lang-html='header.csearch')
   li.hide-if-loggedin.lang
-    a(href!="<%= lang.href %>/guest/post", data-view, lang-html='header.cpost')
+    a(href!="<%= lang.href %>/guest/post", data-view='guest-post', lang-html='header.cpost')
   li.show-if-loggedin.lang
-    a(href!="<%= lang.href %>/classified/post", data-view, lang-html='header.cpost')
+    a(href!="<%= lang.href %>/classified/post", data-view='classified-post', lang-html='header.cpost')
   li.nav-item.hide-if-loggedin.lang
-    a(href!="<%= lang.href %>/auth/login", data-view, lang-html='header.login')
+    a(href!="<%= lang.href %>/auth/login", data-view='auth-login', lang-html='header.login')
   li.nav-item.hide-if-loggedin.lang
-    a(href!="<%= lang.href %>/auth/signup", data-view, lang-html='header.signup')
+    a(href!="<%= lang.href %>/auth/signup", data-view='auth-signup', lang-html='header.signup')
   li.show-if-loggedin.lang
-    a(href!="<%= lang.href %>/account", data-view, lang-html='header.manage')
+    a(href!="<%= lang.href %>/account", data-view='account-index', lang-html='header.manage')
   li.lang
-    a(href!="<%= lang.href %>/contact", data-view, lang-html='header.contact')
+    a(href!="<%= lang.href %>/contact", data-view='contact', lang-html='header.contact')
   li.lang
-    a(href!="<%= lang.href %>/about", data-view, lang-html='header.about')
+    a(href!="<%= lang.href %>/about", data-view='about', lang-html='header.about')
   li.lang
     a(href!="<%= lang.href %>/terms-privacy", lang-html='header.terms-privacy')
