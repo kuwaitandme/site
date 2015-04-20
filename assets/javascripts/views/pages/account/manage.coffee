@@ -15,3 +15,8 @@ module.exports = Backbone.View.extend
         enableFilterBox: false
       resources: @resources
       el: @$classifiedList
+
+    @classifiedList.trigger 'start'
+
+  continue: -> @classifiedList.trigger 'continue'
+  pause: -> @classifiedList.trigger 'pause'
