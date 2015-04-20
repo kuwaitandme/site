@@ -93,6 +93,7 @@ classifieds = module.exports =
     classified.perks   = []
     classified.views   = 0
     classified.random  = Math.random()
+    classified.language = @language.ENGLISH
 
     # If you are logged in, then we will make you the owner of this
     # classified; Otherwise we will label this classified as a guest
@@ -177,6 +178,7 @@ classifieds = module.exports =
       return "bad/empty baby category"
     true
 
+
   # Gets a single classified, given it's id. Returns an error if the id is
   # invalid or empty.
   get: (id, callback) ->
@@ -192,8 +194,8 @@ classifieds = module.exports =
 
   getRandom: (callback) ->
     rand = Math.random()
-    firstQuery = random : $lte : rand
-    secondQuery = random : $gte : rand
+    firstQuery = random: $lte: rand
+    secondQuery = random: $gte: rand
 
     @model.findOne firstQuery, (error, classified) =>
       if error then return callback error
@@ -203,6 +205,7 @@ classifieds = module.exports =
         if error then return callback error
         if classified then return callback null, classified
         callback null, {}
+
 
   # Finds out how many classifieds are there in each category.
   classifiedsPerCategory: (callback) ->
@@ -393,7 +396,6 @@ classifieds = module.exports =
 
         classified.status = @BANNED
         classified.moderatorReason = reason
-
         classified.save (error) -> callback error, classified
 
 
@@ -417,7 +419,6 @@ classifieds = module.exports =
 
         if classified.guest then classified.status = @INACTIVE
         else classified.status = @ACTIVE
-
         classified.save (error) -> callback error, classified
 
 
@@ -440,7 +441,6 @@ classifieds = module.exports =
           return callback error
 
         classified.status = @ACTIVE
-
         classified.save (error) -> callback error, classified
 
 
@@ -463,7 +463,6 @@ classifieds = module.exports =
 
         classified.status = @REJECTED
         classified.moderatorReason = reason
-
         classified.save (error) -> callback error, classified
 
 
@@ -478,7 +477,6 @@ classifieds = module.exports =
           return callback error
 
         classified.status = @INACTIVE
-
         classified.save (error) -> callback error, classified
 
 
@@ -486,4 +484,4 @@ classifieds = module.exports =
 # Helper function to create a random hash with a GUID-type format
 randomHash = ->
   s4 = -> Math.floor((1 + Math.random()) * 0x10000).toString(16).substring 1
-  s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4()
+  "#{s4()}#{s4()}-#{s4()}-#{s4()}-#{s4()}-#{s4()}#{s4()}#{s4()}"

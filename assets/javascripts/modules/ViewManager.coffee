@@ -1,4 +1,3 @@
-
 module.exports = class viewManager
   name: '[viewManager]'
 
@@ -16,14 +15,14 @@ module.exports = class viewManager
     @$body           = $ 'body'
     @$main           = $ 'main'
 
-    # Render different components
-    @header = new (@components.header)(el: 'header', resources: @resources)
-    @progressBar = new @components.progressBar
-
     @resources.router.on 'change', @routeHandle
+    @progressBar = new @components.progressBar
 
 
   start: ->
+    # Render different components
+    @header = new (@components.header)(el: 'header', resources: @resources)
+
     # Attach different listeners
     @header.trigger 'start'
     @header.trigger 'continue'
@@ -37,7 +36,12 @@ module.exports = class viewManager
       @currentView.trigger 'continue'
       @resources.router.reattachRouter()
 
-
+  ###
+  ## *routeHandle(args):*
+  This function is called when the route of the current app has changed. This
+  function is responsible for making sure of properly unloading the previous
+  view and loading the next view.
+  ###
   routeHandle: (args={}) =>
     viewIdentifier = args.view
     historyState = args.state
@@ -50,12 +54,14 @@ module.exports = class viewManager
     @resources.currentView = @currentView
     @resources.currentViewName = viewIdentifier
 
-    # Signal google Analytics
     @googleAnalyticsSend()
 
 
-  # Set's the currentView with all the proper animations and DOM
-  # manipulations.
+  ###
+  ## *setView(viewIdentifier, historyState):*
+  Sets the current view, performing all the necessary actions, animations and
+  DOM manipulations.
+  ###
   setView: (viewIdentifier, historyState={}) ->
     # Change the mouse icon to the loader
     @displayMouseLoader true
@@ -110,6 +116,11 @@ module.exports = class viewManager
     @currentView.trigger 'start'
 
 
+  ###
+  ## *switchPages(targetViewIdentifier, historyState):*
+  This function is called specifically when there is a view that is already
+  initialized and has to be replaced with a new target view.
+  ###
   switchPages: (targetViewIdentifier, historyState) ->
     # Clean up the view before switching to the next one. Detach
     # all event handlers and signal the view to run any 'closing'
@@ -178,31 +189,6 @@ module.exports = class viewManager
       (view.$el.data 'index') is index
         console.log @name, "view found in buffer. reusing view"
         return view
-
-
-  # Fetches the HTML for the given view and returns it. This function first
-  # checks the local-storage if the view's HTML has been cached or not.
-  # If the view has been cached, then it loads the HTML from it and returns.
-  # If the view wasn't cached, then the function loads the HTML via a AJAX
-  # request.
-  fetchHTML: (view, url) ->
-    console.log @name, 'trying to find HTML in cache for view', view
-    html = @resources.cache.getCachedViewHTML view
-
-    if html
-      console.log @name, 'HTML found from cache!'
-      return html
-
-    console.debug @name, 'no HTML in cache, fetching HTML via AJAX', url
-    $.ajax
-      type: 'GET'
-      url: url
-      zasync: false
-      success: (response) ->
-        html = (($ response).find '.html5-cache').parent().html()
-      error: (response) ->
-        console.error @name, 'error sending GET request', response
-    html
 
 
   # Sets the mouse pointer to the loading icon.

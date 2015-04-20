@@ -53,10 +53,10 @@ module.exports = class controller
     console.log @name, "checking cache version"
     magic = window.config.magic or {}
 
-    _clearApplicationCache:  -> @_removeKeysHelper 'app'
-    _clearLibrariesCache:    -> @_removeKeysHelper 'library'
-    _clearModelsCache:       -> @_removeKeysHelper 'models'
-    _removeKeysHelper: (tag) ->
+    _clearApplicationCache =  -> _removeKeysHelper 'app'
+    _clearLibrariesCache =    -> _removeKeysHelper 'library'
+    _clearModelsCache =       -> _removeKeysHelper 'models'
+    _removeKeysHelper = (tag) ->
       keysToRemove = []
       for i in [0...localStorage.length]
         key = localStorage.key i
@@ -65,17 +65,17 @@ module.exports = class controller
 
     if (@get 'magic:library') != magic.library
       console.log @name, "library caches differ, clearing"
-      @_clearLibrariesCache()
+      _clearLibrariesCache()
       @set 'magic:library', magic.library
 
     if (@get 'magic:models') != magic.models
       console.log @name, "model caches differ, clearing"
-      @_clearModelsCache()
+      _clearModelsCache()
       @set 'magic:models', magic.models
 
     if (@get 'magic:application') != magic.application
       console.log @name, "application caches differ, clearing"
-      @_clearApplicationCache()
+      _clearApplicationCache()
       @set 'magic:application', magic.application
 
 

@@ -21,7 +21,6 @@ module.exports =
   models to play with.
   ###
   initialize: (options={}) ->
-    console.log @name, 'initializing'
     @resources = App.Resources
     @start()
 

@@ -73,7 +73,6 @@ module.exports = Backbone.View.extend
 
     # Get the query
     @query = @getQuery()
-    console.log @name, @query
     @query.page = 0
 
     if @enableFilterBox

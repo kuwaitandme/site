@@ -68,8 +68,6 @@ if not window.App?
     ###
     initializeViews: ->
       console.log @name, 'initializing views'
-      @Router = new App.Router
-      @resources.router = @Router
       @ViewManager = new App.ViewManager @resources
 
 
@@ -140,6 +138,7 @@ if not window.App?
 
       newModelProperties = (require "app-models").BackboneModel
       _.extend Backbone.Model.prototype, newModelProperties
+      _.extend Backbone.Collection.prototype, newModelProperties
 
 
     initializeResources: ->
@@ -152,18 +151,23 @@ if not window.App?
       @resources.locations   = new App.Resources.Models.locations
       @resources.language    = new App.Language
 
-      @resources.external    = App.External
+      @Router = new App.Router
+      @resources.router = @Router
+      @resources.router.resources = @resources
 
-      @resources.currentView           = App.ViewManager.currentView
-      @resources.categories.resources  = @resources
-      @resources.locations.resources   = @resources
+      @resources.external    = App.External
+      @resources.currentView = App.ViewManager.currentView
+      @resources.categories.resources = @resources
+      @resources.locations.resources = @resources
       @resources.currentUser.resources = @resources
-      @resources.router.resources      = @resources
+      # @resources.categories.resources = @resources
 
       asyncCounter = 4
       setAndCheckCounter = =>
         asyncCounter--
-        if asyncCounter <= 0 then @viewManager.start()
+        if asyncCounter <= 0
+          # @ViewManager = new App.ViewManager @resources
+          @ViewManager.start()
 
       @listenToOnce @resources.categories, 'synced', setAndCheckCounter
       @listenToOnce @resources.currentUser, 'synced', setAndCheckCounter

@@ -1,13 +1,13 @@
 body#classified-single
   ul#single-messages
-    padding: 0
-    margin: 0
     @extend .font-title
+    margin: 0
+    padding: 0
     li
-      color: #FFF
       background: #E74C3C
-      padding: 10px
+      color: #FFF
       font-size: 0.75rem
+      padding: 10px
       text-align: center
       &.warning
         background: #FD8603
@@ -35,8 +35,8 @@ body#classified-single
       +single-transition
       background: #ff7302
       border-radius: 0
-      color: #FFF
       border: 0
+      color: #FFF
       font-weight: 700
       padding-top: 8px
       width: auto
@@ -45,13 +45,11 @@ body#classified-single
         color: #ff7302
   #map-canvas
     height: 400px
-    max-height: 100%
     margin: 20px 0
+    max-height: 100%
     width: 100%
   .c-title
     margin-bottom: 1rem
-  // .row
-    // max-width: none
   .c-meta
     padding-left: 15px
     @media only screen and (min-width: 40.063em)
@@ -61,16 +59,16 @@ body#classified-single
     width: 95%
     padding-top: 1px
     margin-bottom: 1rem
-
     h1
       font-size: 40px
     .meta
       +clearfix
       color: #000
       font-size: 0.8rem
-      margin: 0
       margin-bottom: .5rem
+      margin: 0
       padding: 0
+      word-wrap: break-word
       a
         color: blue
         border-bottom: 1px solid blue
@@ -111,11 +109,11 @@ body#classified-single
           min-height: 100px
   .c-disclaimer
     +single-transition(opacity)
-    width: 95%
     color: #000
-    opacity: 0.5
-    margin-bottom: 1rem
     font-size: 0.75rem
+    margin-bottom: 1rem
+    opacity: 0.5
+    width: 95%
 
     &:hover
       opacity: 1
@@ -136,4 +134,4 @@ body#classified-single
     img
       max-width: 45% !important
   .gmnoprint
-    display:none;
+    display:none
