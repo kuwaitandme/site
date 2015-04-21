@@ -7,8 +7,9 @@
   section#search-form
     #landing-logo
       img(src='/images/kme-logo-tagline.png')
-    form(action!="<%= lang.href %>/classified/search")
-      input(type="text", name="keywords", lang-placeholder="page.landing.search").search-bar
+    form(action!="<%= lang.href %>/classified/search", itemprop="potentialAction", itemscope, itemtype="http://schema.org/SearchAction")
+      meta(itemprop="target" content!="https://kuwaitandme.com/<%= lang.href %>/classified/search?keywords={keywords}")
+      input(type="text", itemprop="query-input", name="keywords", lang-placeholder="page.landing.search").search-bar
       button(type="submit").search-button &#xf002;
     //- ul#landing-extra
       li.hide-if-loggedin

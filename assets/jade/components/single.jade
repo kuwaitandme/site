@@ -15,7 +15,7 @@ section.c-content
       h2.c-title <%= title %>
   .row
     .medium-8.large-9.columns
-      p.c-description <%= description %>
+      p.c-description(itemprop="description") <%= description %>
       | <% if(contact.website) { %>
       .meta
         b(lang-html='page.csingle.website')
@@ -33,12 +33,15 @@ section.c-content
         | &nbsp;<%= obj.type %>
 
       .meta
-        b(lang-html='page.csingle.price')
+        b(lang-html='page.csingle.price', itemprop="priceCurrency", content="KWD")
         | &nbsp;<%= obj.price %>
 
       .meta
-        b(lang-html='page.csingle.created')
-        | &nbsp;<%= created %>
+        meta(itemprop="datePublished" content="<%= meta.datePublished %>")
+        //- April 1, 2011
+        time
+          b(lang-html='page.csingle.created')
+          | &nbsp;<%= created %>
 
       | <% if(obj.category) { %>
       .meta

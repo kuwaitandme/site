@@ -21,10 +21,18 @@ module.exports = Backbone.View.extend
     parentCategory = @resources.historyState.parameters[0]
     childCategory = @resources.historyState.parameters[1]
 
-    @classifiedList.settings.query.parentCategory = Category.findBySlug parentCategory
-    @classifiedList.settings.query.childCategory = Category.findBySlug childCategory
+    parentCategory = Category.findBySlug parentCategory
+    childCategory = Category.findBySlug childCategory
+
+    @classifiedList.settings.query.parentCategory = parentCategory
+    @classifiedList.settings.query.childCategory = childCategory
 
     @classifiedList.trigger 'continue'
+
+    if parentCategory?
+      @title = parentCategory.name
+      if childCategory.name? then @title = "#{childCategory.name} - #{@title}"
+      @setTitle()
 
 
   pause: -> @classifiedList.trigger 'pause'

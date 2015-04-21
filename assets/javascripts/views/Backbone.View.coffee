@@ -86,8 +86,10 @@ module.exports =
   Use this function to generate the title for the page. It is mandatory
   for every view to define this. UX thing you know...
   ###
-  title: -> "Publish free classifieds"
-  setTitle: -> document.title = @title() + " | Kuwait and Me"
+  title: "Publish free classifieds"
+  setTitle: (title=@title)->
+    if typeof title is 'function' then title = title()
+    document.title = "#{title} - Kuwait and Me"
 
   ###
   ## *start(), continue(), pause(), finish():*
