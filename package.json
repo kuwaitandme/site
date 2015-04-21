@@ -46,6 +46,7 @@
     "pm2": "^0.12.7",
     "redis": "^0.12.1",
     "request-ip": "0.0.4",
+    "rss": "^1.1.1",
     "supertest": "^0.15.0",
     "validator": "^3.34.0",
     "webdriverio": "^2.4.5",

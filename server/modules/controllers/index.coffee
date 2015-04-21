@@ -68,6 +68,7 @@ controller = module.exports =
     (require './contact')       .routes router, localizedUrl
     (require './guest')         .routes router, localizedUrl
     (require './terms-privacy') .routes router, localizedUrl
+    (require './rss')           .routes router, localizedUrl
 
     # If language slug is present by page has not matched any url give 404 page
     router.get (localizedUrl '.*'), @fourofour

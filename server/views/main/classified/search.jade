@@ -2,4 +2,5 @@ extends ../../layout.jade
 
 block robots
   each classified in robots.classifieds
-    a(href="/classified/#{classified._id}")= classified.title
+    h1
+      a(href="/classified/#{classified._id}")= classified.title

@@ -19,16 +19,18 @@ controller = module.exports =
       if category then for cat in categories
         if cat.slug == category
           parameters.category = cat._id
+          title = cat.name
 
           # Query on the child category based on the second slug
           if childCategory then for child in cat.children
             if child.slug == childCategory
               parameters.childCategory = child._id
+              title = "#{child.name} - #{cat.name}"
 
       # Render the page with the resulting query parameters
-      renderPage()
+      renderPage title
 
-    renderPage = ->
+    renderPage = (title) ->
       Classified = global.models.classified
       Classified.search parameters, page, reverse, (error, classifieds) ->
         if error then return next error
@@ -36,7 +38,7 @@ controller = module.exports =
         args =
           data: classifieds: classifieds
           page: 'classified/search'
-          title: response.__ 'title.classified.search'
+          title: title or response.__ 'title.classified.search'
 
         render = global.modules.renderer
         render request, response, args
