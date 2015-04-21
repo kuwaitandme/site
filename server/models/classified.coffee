@@ -222,8 +222,6 @@ classifieds = module.exports =
     ]
     results = {}
 
-    console.log agg
-
     global.cache.get 'category-count', (error, cache) =>
       if error then return callback error
       if cache then return callback null, cache
