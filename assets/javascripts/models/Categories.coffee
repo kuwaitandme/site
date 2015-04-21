@@ -78,6 +78,7 @@ module.exports = Backbone.Collection.extend
     console.log @name, 'fetching from API'
     false
 
+
   getCounters: (callback=->) ->
     # Send the AJAX request
     $.ajax
@@ -93,6 +94,7 @@ module.exports = Backbone.Collection.extend
       error: (response) =>
         console.error @name, 'error fetching category counters', response
         callback response
+
 
   setCounters: (counters) ->
     categories = @toJSON()
