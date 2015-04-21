@@ -5,19 +5,19 @@
   h2.columns(lang-html='page.cform.begin.title')
   | <% }  %>
 
-  .columns(lang-html='page.cform.begin.hint1')
+  p.columns(lang-html='page.cform.begin.hint1')
 
   | <% if(obj.isGuest) { %>
   |   <% if(obj.hasClassified) { %>
-  .columns(lang-html='page.cform.edit.guest.hint1')
+  p.columns(lang-html='page.cform.edit.guest.hint1')
   |   <% } else { %>
-  .columns(lang-html='page.cform.begin.guest.hint1')
+  p.columns(lang-html='page.cform.begin.guest.hint1')
   |   <% }  %>
-  .columns(lang-html='page.cform.begin.guest.hint2')
+  p.columns(lang-html='page.cform.begin.guest.hint2')
   | <% } else { %>
   |   <% if(obj.hasClassified) { %>
-  .columns(lang-html='page.cform.edit.hint2')
+  p.columns(lang-html='page.cform.edit.hint2')
   |   <% } else { %>
-  .columns(lang-html='page.cform.begin.hint2')
+  p.columns(lang-html='page.cform.begin.hint2')
   |   <% } %>
   | <% } %>
