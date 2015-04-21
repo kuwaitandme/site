@@ -11,26 +11,20 @@ module.exports = Backbone.View.extend
       parentCategory: null
       childCategory: null
 
-  name: '[comp:classified-list]'
   template: template['components/classified-list']
+  name: '[comp:classified-list]'
 
 
   start: (options={}) ->
     # Extend the settings
     _.extend @settings, options.settings
-    console.debug @name, @settings
 
     # Initialize the collection model
     @collection = new @resources.Models.classifieds
     @collection.isAccount = @settings.isAccount
 
-    # Setup the templates
-    @$el.html template['components/classified-list']()
-    @listTemplate = template['components/classified-list-single']
-
     @setupDOM()
     @setupListeners()
-    @setupFilterBox()
     @setupMasonry()
 
     # Set to load new classifieds when we have scrolled to the end of the page.
@@ -42,11 +36,13 @@ module.exports = Backbone.View.extend
     ($ window).on 'resize', @resizeClassifieds
     ($ window).on 'scroll', @onScroll
 
-    # @collection.isAccount = @isAccount
     if not @query? then @newQuery()
     @$classifiedList.masonry()
 
-    # if @enableFilterBox then @filterbox.render()
+    # Set masonry to reset itself in 2 seconds if needed. This fixes the issue
+    # in mobile where masonry does not realign itself.
+    setTimeout (=> @$classifiedList.masonry()), 2000
+
     if @settings.ajaxEnable then @$loader.show();
 
 
@@ -117,7 +113,6 @@ module.exports = Backbone.View.extend
   # the user know that more classifieds are loading.
   ajaxLoadClassifieds: ->
     @settings.ajaxLock = true
-
     @$loader.show();
 
     # Obtain the parameters to be sent to the back-end
@@ -215,34 +210,25 @@ module.exports = Backbone.View.extend
   # Attach a listener to our collection model
   setupListeners: ->
     @stopListening @collection, 'ajax:done'
-    @listenTo     @collection, 'ajax:done', @addClassifieds
+    @listenTo      @collection, 'ajax:done', @addClassifieds
 
 
   # Setup of local DOM variables
   setupDOM: ->
-    @$ajaxfinish =     @$ ".ajax-finish"
+    @$ajaxfinish     = @$ ".ajax-finish"
     @$classifiedList = @$ 'ul'
-    @$filterbox =      @$ '#filter-box'
-    @$loader =        @$ '.ajax-loading'
+    @$filterbox      = @$ '#filter-box'
+    @$loader         = @$ '.ajax-loading'
+
+    @listTemplate = template['components/classified-list-single']
 
     texts = [
       "Woops! that's all we got!"
       "Wowie! that seems to be all we have!"
       "Mayday! we're all out of classifieds!"
-      # ""
       "Damn, there are no more classifieds!"
     ]
-    @$ajaxfinish.html texts[Math.floor(Math.random() * texts.length)]
-
-
-  setupFilterBox: ->
-    if @enableFilterBox
-      @filterbox = new @resources.Views.components.filterBox
-        $el: @$filterbox
-        historyState: @historyState
-        resources: @resources
-      @listenTo @filterbox, 'changed', @newQuery
-    else @$filterbox.hide()
+    @$ajaxfinish.html texts[Math.floor Math.random() * texts.length ]
 
 
   # Sets Masonry on the classified list

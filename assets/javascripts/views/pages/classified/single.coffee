@@ -290,7 +290,6 @@ module.exports = Backbone.View.extend
         if --total is 0 then ($ document).foundation 'clearing', 'reflow'
 
       $img.attr 'src', src
-      console.log @$gallery
       @$gallery.masonry 'layout'
 
       # Use our special function to load the images. This function ensures
