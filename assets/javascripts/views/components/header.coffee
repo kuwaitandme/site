@@ -14,9 +14,12 @@ module.exports = Backbone.View.extend
     "Search for anything you want!"
     "Search for what you want, here!"
     "Search your heart's desires"
-    "Search what you're looking for"  ]
+    "Search what you're looking for"
+  ]
+
 
   toggleHeader: -> @$body.toggleClass 'show-subheader'
+
 
   start: (options) ->
     console.log @name, 'initializing'
@@ -27,7 +30,9 @@ module.exports = Backbone.View.extend
     @resources.currentUser.on 'sync', => @update()
     @resources.router.on 'change', => @update()
 
+
   continue: -> @update()
+
 
   setupSearchText: ->
     @$search.attr 'placeholder',
@@ -46,6 +51,7 @@ module.exports = Backbone.View.extend
     @$username     = @$ '.user-title .name'
     @$userthumb    = @$ '.user-thumb img'
     @$search       = @$ "[name='keywords']"
+
 
   populateHeader: ->
     md5 = @resources.Library.md5

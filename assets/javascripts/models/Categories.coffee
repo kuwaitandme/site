@@ -50,7 +50,13 @@ module.exports = Backbone.Collection.extend
         if childcat.slug is slug then return childcat
     {}
 
-
+  findById: (id) ->
+    categories = @toJSON()
+    for cat in categories
+      if cat._id is id then return cat
+      for childcat in cat.children
+        if childcat._id is id then return childcat
+    {}
 
   getChildren: (parentId) ->
     parent = @find id: parentId

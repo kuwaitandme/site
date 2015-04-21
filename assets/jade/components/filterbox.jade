@@ -1,12 +1,10 @@
-form#filter-box.row
-  .keywords.large-6.columns
-    input(type="text", name="keywords")#filter-keywords.search-bar
-    button(type="submit").search-button &#xf002;
-  .large-6.columns
+#filterbox-icon &#xf0b0;
+#filterbox-modal.large-9.row.reveal-modal(data-reveal)
+  .keywords.columns
+    input(type="text", name="keywords", placeholder='Type your keywords here')#filter-keywords.search-bar
+  .columns
     .row
-      //- .float-container
-      //-   .title  :&nbsp;
-      .medium-4.columns
+      .columns
         .row.collapse
           .small-5.columns
             label.inline(for="right-label") Price
@@ -16,26 +14,33 @@ form#filter-box.row
               option Free
               //- option Range
               option Contact Owner
-      .medium-4.columns
-          .row.collapse
-            .small-5.columns
-              label.inline(for="right-label") Type
-            .small-7.columns
-              select#select-type(data-field="type")
-                option(value='') All
-                option(value='0') Offering
-                option(value='1') Wanted
-      .medium-4.columns
-          .row.collapse
-            .small-5.columns
-              label.inline(for="right-label") Category
-            .small-7.columns
-              select#select-category
-
-    //- li
-    //-   span.title Location :&nbsp;
-    //-   span.val Salwa
-    //- li
-    //-   span.title Categories :&nbsp;
-    //-   span.val Art
+      .columns
+        .row.collapse
+          .small-5.columns
+            label.inline(for="right-label") Type
+          .small-7.columns
+            select#select-type(data-field="type")
+              option(value='') All
+              option(value='0') Offering
+              option(value='1') Wanted
+      .columns
+        .row.collapse
+          .small-5.columns
+            label.inline(for="right-label") Category
+          .small-7.columns
+            select#select-category
+              option(value="", disabled, lang-html='page.cform.details.category.choose')
+          .small-7.columns#child-row.hide
+            select#select-subcategory
+              option(value="", disabled) Choose a sub-category
+      .columns
+        .row.collapse
+          .small-5.columns
+            label.inline(for="right-label") Location
+          .small-7.columns
+            select#select-location
+              option(value="", disabled, selected, lang-html='page.cform.details.location.select')
+              option(value="", lang-html='page.cform.details.location.select-none')
+  button.submit Save filters
+  //- a.close-reveal-modal(aria-label="Close") &#215;
     //- li.result-count found 123,232 classifieds

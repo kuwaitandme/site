@@ -1,44 +1,49 @@
-urlHelpers = (require 'app-helpers').url
-
 module.exports = Backbone.View.extend
-  consoleSlug: '[view:filterbox]'
+  name: '[view:filterbox]'
+  events: "click #filterbox-icon" : "showFilterbox"
 
   query:
-    category: null
     keywords: null
     location: null
     priceMax: null
     priceMin: null
     type: null
 
-  events:
-    'change #select-type' : 'updateType'
-    'change #select-price' : 'updatePrice'
-    'change #select-category': 'updateCategory'
-    'submit #filter-box' : 'submitHandle'
-    'keypress #filter-keywords': 'updateKeywords'
+  template: template['components/filterbox']
 
 
-  initialize: (options) ->
-    console.log @consoleSlug, 'initializing'
-    console.debug @consoleSlug, options
-    if options
-      @resources = options.resources
-      if options.$el then @$el = options.$el
-      if options.query then @query = options.query
+  start: (options) ->
+    if options and options.query then @query = options.query
 
     # Setup DOM elements
     @$keywords       = @$ "#filter-keywords"
-    @$category       = @$ "#select-category"
+    @$parentCategory = @$ "#select-category"
+    @$childCategory  = @$ "#select-subcategory"
     @$selectPrice    = @$ "#select-price"
-    @$selectType     = @$ "#select-type"
-
+    @$location       = @$ "#select-location"
+    @$type           = @$ "#select-type"
+    @$submit         = @$ ".submit"
+    @$modal          = @$ "#filterbox-modal"
     @keywordsLock = 0
+
+
+  continue: ->
+    urlHelpers = @resources.Helpers.url
+
+    @_initializeCategory()
+    @_initializeLocations()
+
+    @delegateEvents()
+
+    # Set the event handler
+    handler = (event) => @submitHandle event
+    @$parentCategory.on 'change', (event) => @parentCategoryChange event
+    @$submit.on 'click', (event) => @submitHandle event
 
     # Start populating with contents from the URL
     urlQuery =
-      category: urlHelpers.getParam 'category'
       keywords: urlHelpers.getParam 'keywords'
+      location: urlHelpers.getParam 'location'
       location: urlHelpers.getParam 'location'
       priceMax: urlHelpers.getParam 'priceMax'
       priceMin: urlHelpers.getParam 'priceMin'
@@ -47,37 +52,37 @@ module.exports = Backbone.View.extend
     @populateBox urlQuery
 
 
-  render: ->
-    console.log @consoleSlug, 'rendering'
-
-    # Populate the category box
-    @initializeCategory()
-
-    # Set the event handler
-    handler = (event) => @submitHandle(event)
-    @$el.off 'submit', handler
-    @$el.on  'submit', handler
-
-
-  # Gets a query object that can be passed to the backened
-  getQuery: ->
-    query = @query or {}
-
-    # Get the keywords
-    keywords = @$keywords.val() or ""
-    query.keywords = if keywords.length > 0 then keywords else null
-
-    query
-
+  showFilterbox: -> @$modal.foundation 'reveal', 'open'
+  hideFilterbox: -> @$modal.foundation 'reveal', 'close'
 
   # Populates the box with the given data
-  populateBox: (@query) ->
-    console.debug @consoleSlug, "setting query to filterbox", @query
+  populateBox: (query) ->
+    console.log @name, "populating filterbox"
+    Category = @resources.categories
 
-    @$category.val   @query.category
-    @$keywords.val   @query.keywords
-    @$selectType.val @query.type
+    # Set the parent category
+    parentCategory = @resources.historyState.parameters[0]
+    parentCategory = Category.findBySlug parentCategory
+    if parentCategory._id? then @$parentCategory.val parentCategory._id
+    @parentCategoryChange()
 
+    # Set the child category
+    childCategory = @resources.historyState.parameters[1]
+    childCategory = Category.findBySlug childCategory
+    if childCategory._id? then @$childCategory.val childCategory._id
+
+    # Set the price
+    @setPrice query.priceMax, query.priceMin
+
+    # Set the keywords, the type and the location
+    @$keywords.val query.keywords
+    @$type.val query.type
+    @$location.val query.location
+
+
+  setPrice: (priceMax, priceMin) ->
+    if priceMax is '0' and priceMin is '0' then @$selectPrice.val 'Free'
+    if priceMax is '-1' and priceMin is '-1' then @$selectPrice.val 'Contact Owner'
 
   # Prevent the form from submitting, but instead pass all the query variables
   # to any listeners
@@ -86,18 +91,26 @@ module.exports = Backbone.View.extend
     @trigger 'changed'
 
 
+  _initializeLocations: ->
+    locationsModel = @resources.locations
+    locations = locationsModel.toJSON()
+    for location in locations
+      html = @generateOption location._id, location.name
+      @$location.append html
+
+
   # Initializes the parent category options
-  initializeCategory: ->
+  _initializeCategory: ->
     categoriesModel = @resources.categories
-    categories = categoriesModel.toJSON null
-    @$category.html ""
+    categories = categoriesModel.toJSON()
+    @$parentCategory.val ""
 
     # Add the 'all' option
-    @$category.append (@generateOption '', 'Everything', false, true)
+    @$parentCategory.append @generateOption '', 'Everything', false, true
 
     # Add the rest of the parent categories
     for category in categories
-      @$category.append (@generateOption category._id, category.name)
+      @$parentCategory.append @generateOption category._id, category.name
 
 
   # Generates the option box with the given values
@@ -110,57 +123,52 @@ module.exports = Backbone.View.extend
     "<option #{ attributes }>#{ name }</option>"
 
 
-  # Handler for when the price field changed.
-  updatePrice: ->
-    value = @$selectPrice.val()
-    switch(value)
-      when "Free" then @query.priceMin = @query.priceMax = 0
-      when "Contact Owner" then @query.priceMin = @query.priceMax = -1
-      when "All" then @query.priceMin = @query.priceMax = null
 
-    @trigger 'changed'
+  parentCategoryChange: (event) ->
+    val = @$parentCategory.val()
+    children = @resources.categories.getChildren val
+    if children.length > 0 then @$childCategory.parent().removeClass 'hide'
+    else @$childCategory.parent().addClass 'hide'
 
+    @$childCategory.html @generateOption '', 'Choose a sub-category'
 
-  # Handler for when the classified type field changed.
-  updateType: ->
-    value = @$selectType.val()
-    switch(value)
-      when "All" then @query.type = null
-      when "Offering" then @query.type = 0
-      when "Wanted" then @query.type = 1
-
-    @trigger 'changed'
+    addChildCategory = (child) =>
+      html = @generateOption child._id, child.name
+      @$childCategory.append html
+    addChildCategory child for child in children
 
 
-  # Handler for when the classified list changed
-  updateCategory: ->
-    @query.category = @$category.val() or ''
-    @trigger 'changed'
+  getQuery: ->
+    query = {}
+    switch @$selectPrice.val()
+      when "Free" then query.priceMin = query.priceMax = 0
+      when "Contact Owner" then query.priceMin = query.priceMax = -1
+      else query.priceMin = query.priceMax = ""
+
+    query.category = @$parentCategory.val() or ""
+    query.childCategory = @$childCategory.val() or ""
+    query.keywords = @$keywords.val() or ""
+    query.location = @$location.val() or ""
+    query.type = @$type.val() or ""
+    query
 
 
-  # Handler for when the keywords change. This is a nice little function that
-  # applies somewhat of a mutex functionality. The end result is that the
-  # function will fire the 'changed' event for the last keypress that is
-  # uninterrupted for a 1 second delay. 'uninterrupted' here means that
-  # the user has not typed anything (this we assume is the min. time that the
-  # user would to consider his/her query complete
-  updateKeywords: ->
-    # Update the lock
-    @keywordsLock += 1
+  submitHandle: ->
+    urlHelpers = @resources.Helpers.url
+    Category = @resources.categories
 
-    timeoutFunction = =>
-      # if we greater than the lock's threshold then that means some other
-      # keypress event was fired before us. So we must decrement the lock
-      # and return so that when the last keypress event comes in this
-      # function it will validate and go through
-      if @keywordsLock > 1 then return @keywordsLock -= 1
+    query = @getQuery()
 
-      # Get the keywords and fire the event
-      @query.keywords = @$keywords.val() or ''
-      @trigger 'changed'
+    parentCategory = Category.findById query.category
+    childCategory = Category.findById query.childCategory
 
-      # Reset the lock for future events
-      @keywordsLock = 0
+    url = "classified"
+    if parentCategory.slug?
+      url = "#{url}/#{parentCategory.slug}"
+      if childCategory.slug? then url = "#{url}/#{childCategory.slug}"
 
-    # We set the timegap between events to be a 1000 ms
-    setTimeout timeoutFunction, 1000
+    url = "#{url}?#{urlHelpers.serializeGET query}"
+    url = "#{@resources.language.urlSlug}/#{url}"
+
+    @resources.router.redirect url
+    @hideFilterbox()

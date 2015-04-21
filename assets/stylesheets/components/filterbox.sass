@@ -1,44 +1,51 @@
-#filter-box
-  max-width: none
-  padding: 25px 0
-  // background: #fefefe;
-  // background: -moz-linear-gradient(top,  #fefefe 0%, #ffffff 100%);
-  // background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fefefe), color-stop(100%,#ffffff));
-  // background: -webkit-linear-gradient(top,  #fefefe 0%,#ffffff 100%);
-  // background: -o-linear-gradient(top,  #fefefe 0%,#ffffff 100%);
-  // background: -ms-linear-gradient(top,  #fefefe 0%,#ffffff 100%);
-  // background: linear-gradient(to bottom,  #fefefe 0%,#ffffff 100%);
-  // filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fefefe', endColorstr='#ffffff',GradientType=0 );
-  #li-childcategory
-    display: none
+#filterbox-icon
+  @extend .font-awesome
+  +single-transition(opacity)
+  background: #FF6600
+  bottom: 30px
+  color: #FFF
+  cursor: pointer
+  height: 55px
+  left: 30px
+  padding: 20px
+  position: fixed
+  text-align: center
+  width: 55px
+  opacity: 0.7
+
+  -webkit-box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.3)
+  -moz-box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.3)
+  box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.3)
+
+  -webkit-border-radius: 200px
+  -moz-border-radius: 200px
+  border-radius: 200px
+
+  &:hover
+    opacity: 1
+#filterbox-modal
+  padding: 0
+  padding-top: 2rem
+  background: #fefefe
+  min-height: 0
+  border: 0
+  border-radius: 0
   .title
     float: left
   label
     @extend .font-title
-    // text-transform: uppercase;
     font-size: 12px
     padding: 0.7625rem 0
   input, select
     font-size: 12px
     outline: none
   .keywords
-    @extend .font-title
     position: relative
     .search-bar
       border-bottom: 1px solid #EEE
-      font-size: 17px
-      padding: 10px 0
+      padding: 10px
       &:active, &:focus
         outline: none
-    .search-button
-      @extend .font-awesome
-      background: none
-      border: none
-      height: 100%
-      padding: 10px 0
-      color: #000
-      position: absolute
-      right: 30px
-      top: -8px
-      &:active, &:focus
-        outline: none
+  .submit
+    background: #2ecc71
+    width: 100%
