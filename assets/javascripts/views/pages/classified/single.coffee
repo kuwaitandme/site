@@ -63,7 +63,7 @@ module.exports = Backbone.View.extend
 
   populateDOM: ->
     @model.parseVariables()
-    @title = -> @model.get 'title'
+    @title = @model.get 'title'
     @setTitle()
 
     # Add the main template

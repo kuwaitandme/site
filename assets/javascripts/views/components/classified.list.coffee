@@ -43,7 +43,7 @@ module.exports = Backbone.View.extend
     ($ window).on 'scroll', @onScroll
 
     # @collection.isAccount = @isAccount
-    @newQuery()
+    if not @query? then @newQuery()
     @$classifiedList.masonry()
 
     # if @enableFilterBox then @filterbox.render()
