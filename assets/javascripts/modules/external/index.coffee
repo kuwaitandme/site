@@ -1,3 +1,4 @@
 module.exports =
-  Facebook:   require './Facebook'
-  GoogleMaps: require './GoogleMaps'
+  Facebook:        require './Facebook'
+  GoogleMaps:      require './GoogleMaps'
+  GoogleRecaptcha: require './GoogleRecaptcha'

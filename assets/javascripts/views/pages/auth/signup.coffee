@@ -1,11 +1,9 @@
 module.exports = (require "./login").extend
   name: "[view:auth-signup]"
   template: template['auth/signup']
-  title: -> "Signup"
+  title: "Signup"
 
-  start: (@options) ->
-    console.debug @name, 'initializing', @options
-
+  start: ->
     # Set the model. Here the model for the classified will be the currently
     # logged in user.
     @model = @resources.currentUser
@@ -25,8 +23,6 @@ module.exports = (require "./login").extend
 
 
   continue: ->
-    console.log @name, 'continuing'
-
     @$captcha.removeClass 'hide'
     @$submit.addClass 'hide'
     @renderCaptcha()

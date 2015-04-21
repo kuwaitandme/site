@@ -2,7 +2,7 @@ module.exports = Backbone.View.extend
   name: "[view:auth-login]"
   template: template['auth/login']
   events: 'click .submit': 'submit'
-  title: -> "Login"
+  title: "Login"
 
   messages:
     activate_fail: 'Something went wrong while activating your account'
@@ -26,9 +26,7 @@ module.exports = Backbone.View.extend
     signup_taken: 'That account name has already been taken!'
 
 
-  start: (@options) ->
-    console.debug @name, 'initializing', @options
-
+  start: ->
     # Set the model. Here the model for the classified will be the currently
     # logged in user.
     @model = @resources.currentUser
@@ -44,9 +42,7 @@ module.exports = Backbone.View.extend
 
 
 
-  continue: ->
-    console.log @name, 'continuing'
-    @parseURL()
+  continue: -> @parseURL()
 
 
   pause: -> (@$ '#g-recaptcha-response').remove()
@@ -55,7 +51,7 @@ module.exports = Backbone.View.extend
   setupCaptcha: ->
     # Generate a random id to put in place of the captcha's id
     randomId = Math.floor (Math.random() * 1000)
-    @captchaId = 'gcaptcha' + randomId
+    @captchaId = "gcaptcha-#{randomId}"
     @$captcha = @$ '.gcaptcha'
     @$captcha.attr 'id', @captchaId
 
@@ -80,7 +76,9 @@ module.exports = Backbone.View.extend
     console.log @name, 'setting captcha'
 
     (@$captcha.html "").show()
-    if grecaptcha?
+
+    GoogleRecaptcha = new @resources.external.GoogleRecaptcha
+    GoogleRecaptcha.onLoad =>
       if @captcha then @resetCaptcha()
       else @captcha = grecaptcha.render @captchaId,
         sitekey: window.config.reCaptcha
@@ -92,7 +90,9 @@ module.exports = Backbone.View.extend
 
 
   # Resets the Captcha properly by calling on google's reset function
-  resetCaptcha: ->  if grecaptcha? then grecaptcha.reset @captcha
+  resetCaptcha: ->
+    GoogleRecaptcha = new @resources.external.GoogleRecaptcha
+    GoogleRecaptcha.onLoad => grecaptcha.reset @captcha
 
   showError: ($el, error) ->
     $parent = $el.parent().parent()

@@ -2,7 +2,7 @@ module.exports = Backbone.View.extend
   name: '[view:contact]'
   template: template['contact']
   events: 'click .submit': 'submit'
-  title: -> "Contact Us"
+  title: "Contact Us"
 
 
   start: ->
@@ -14,7 +14,7 @@ module.exports = Backbone.View.extend
     @$message   = @$ "[name='message']"
     @$messages  = @$ "ul.messages"
 
-    @captchaId  = 'gcaptcha' + randomId
+    @captchaId = "gcaptcha-#{randomId}"
     @$captcha.attr 'id', @captchaId
     @renderCaptcha()
 
@@ -23,7 +23,9 @@ module.exports = Backbone.View.extend
     console.log @name, 'setting captcha'
     @$submit.hide()
     (@$captcha.html "").show()
-    if grecaptcha?
+
+    GoogleRecaptcha = new @resources.external.GoogleRecaptcha
+    GoogleRecaptcha.onLoad =>
       if @captcha then @resetCaptcha()
       else @captcha = grecaptcha.render @captchaId,
         sitekey: window.config.reCaptcha

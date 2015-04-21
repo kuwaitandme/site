@@ -7,7 +7,7 @@ module.exports = Backbone.View.extend
 
     # Generate a random id to put in place of the captcha's id
     randomId    = Math.floor (Math.random() * 1000)
-    @captchaId  = 'gcaptcha' + randomId
+    @captchaId = "gcaptcha-#{randomId}"
     @$captcha   = @$ '.gcaptcha'
     @$captcha.attr 'id', @captchaId
 
@@ -26,7 +26,8 @@ module.exports = Backbone.View.extend
 
     (@$captcha.html "").show()
     @$submit.hide()
-    if grecaptcha?
+    GoogleRecaptcha = new @resources.external.GoogleRecaptcha
+    GoogleRecaptcha.onLoad =>
       if @captcha then grecaptcha.reset @captcha
       else @captcha = grecaptcha.render @captchaId,
         sitekey: window.config.reCaptcha
