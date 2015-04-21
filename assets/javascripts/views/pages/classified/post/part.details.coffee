@@ -80,11 +80,21 @@ module.exports = Backbone.View.extend
     true
 
 
+  _validateEmail: (event) ->
+    email = @$email.val()
+    if not email
+      @$email.parent().parent().addClass 'show-error'
+      console.error @name, 'email has not been set'
+      return false
+    true
+
+
   validate: ->
     console.log @name, 'validating'
     isValid = @_validateCategories()
     isValid = @_validatePrice() and isValid
     isValid = @_validateType() and isValid
+    isValid = @_validateEmail() and isValid
 
     console.debug @name, 'validation:', isValid
     isValid

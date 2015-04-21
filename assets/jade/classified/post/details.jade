@@ -52,11 +52,12 @@
   .medium-3.columns
     label(for="right-label", lang-html='page.cform.details.email.label') Email
   .medium-9.columns
-    .row.collapse
+    .row.collapse.error
       .small-3.medium-2.columns
         span.prefix @
       .small-9.medium-10.columns
         input#email(type="text", name="email", lang-placeholder='page.cform.details.email.placeholder', required)
+        small.error Please give an email
 .row
   .medium-3.columns
     label(for="right-label", lang-html='page.cform.details.phone.label')

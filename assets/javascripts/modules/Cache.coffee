@@ -128,5 +128,4 @@ module.exports = class controller
   ###
   get: (key) ->
     if @fallback then return
-    console.log @name, "retrieving '#{key}' from cache"
     localStorage.getItem key
