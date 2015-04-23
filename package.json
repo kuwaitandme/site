@@ -43,6 +43,7 @@
     "passport-local": "^1.0.0",
     "passport-twitter": "^1.0.3",
     "passport-yahoo-oauth": "^0.1.2",
+    "paypal-rest-sdk": "^1.5.2",
     "pm2": "^0.12.7",
     "redis": "^0.12.1",
     "request-ip": "0.0.4",

@@ -16,8 +16,7 @@ file = module.exports =
 
 
   # Returns the extension of the given filename
-  getExtension: (filename) -> (/(?:\.([^.]+))?$/.exec filename)[1]
-
+  getExtension: (filename) -> (/(?:\.([^.]+))?$/.exec filename)[1] or 'jpeg'
 
   getDominantColor: (filepath) ->
     rgbToHex = (rgb) ->
@@ -27,7 +26,8 @@ file = module.exports =
       "##{componentToHex rgb[0]}#{componentToHex rgb[1]}#{componentToHex rgb[2]}"
 
     colorThief = new ColorThief()
-    rgbToHex colorThief.getColor filepath
+    "#DDD"
+    # rgbToHex colorThief.getColor filepath
 
 
 
@@ -38,8 +38,7 @@ file = module.exports =
   # This gives a probability of a filename collision should be 14^63 as per
   # the algorithm that is being used.
   createUniqueFilename: (filename) ->
-    extension = @getExtension(filename)
-    if not extension then return false
+    extension = @getExtension filename
 
     # Creates a unique string, that is 'length' characters long.
     makeUniqueId = (length) ->
@@ -74,6 +73,7 @@ file = module.exports =
     # recast it into an array.
     if not files.length? then files = [files]
 
+    console.log files
 
     # Start iterating through each file
     for f in files
@@ -144,9 +144,6 @@ file = module.exports =
   validate: (file) ->
     status = true
 
-    # Undefined extension
-    if not (@getExtension file.path)? then status = false
-
     # 10MB limit per file
     if not (0 < file.size < (4 * 1024 * 1024)) then status = false
 
@@ -165,6 +162,7 @@ file = module.exports =
   # we are done we create another asynchronous task to start creating
   # thumbnails. For more explanation see below function.
   operate: (tasks) ->
+    console.log tasks
     # Start analyzing each file and either upload or delete it
     asyncJob = (task, finish) ->
 
