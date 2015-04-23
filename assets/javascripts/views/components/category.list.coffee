@@ -46,7 +46,6 @@ module.exports = Backbone.View.extend
     $list.css 'height', 'auto'
     height = $list.height()
     @$container.masonry()
-    ($list.height 0).stop().transition height: height
 
 
   closeClassified: ->
@@ -55,4 +54,5 @@ module.exports = Backbone.View.extend
     (@$ '.active').removeClass 'active'
 
     $list = $el.find '.children'
-    $list.stop().transition {height: 0}, => @$container.masonry()
+    $list.height 0
+    @$container.masonry()
