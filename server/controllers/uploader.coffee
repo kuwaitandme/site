@@ -9,16 +9,16 @@ path        = require 'path'
 # specifically image uploads for a classified. It takes care of doing things
 # like compressing the image, validating it, creating thumbnails etc while
 # at the same time doing it all asynchronously.
-file = module.exports =
-  maxFiles: 12
-  thumbsDir: "#{__dirname}/../../../public/uploads/thumb"
-  uploadDir: "#{__dirname}/../../../public/uploads/main"
-
+exports = module.exports = (settings) ->
+  uploader = ->
+    @maxFiles = 12
+    @thumbsDir = "#{settings.appDir}/uploads/thumb"
+    @uploadDir = "#{settings.appDir}/uploads/main"
 
   # Returns the extension of the given filename
-  getExtension: (filename) -> (/(?:\.([^.]+))?$/.exec filename)[1] or 'jpeg'
+  uploader.getExtension = (filename) -> (/(?:\.([^.]+))?$/.exec filename)[1] or 'jpeg'
 
-  getDominantColor: (filepath) ->
+  uploader.getDominantColor = (filepath) ->
     rgbToHex = (rgb) ->
       componentToHex = (c) ->
         hex = c.toString 16
@@ -26,9 +26,7 @@ file = module.exports =
       "##{componentToHex rgb[0]}#{componentToHex rgb[1]}#{componentToHex rgb[2]}"
 
     colorThief = new ColorThief()
-    "#DDD"
-    # rgbToHex colorThief.getColor filepath
-
+    rgbToHex colorThief.getColor filepath
 
 
   # Creates a unique filename from the given one, by keeping the extension of
@@ -37,7 +35,7 @@ file = module.exports =
   #
   # This gives a probability of a filename collision should be 14^63 as per
   # the algorithm that is being used.
-  createUniqueFilename: (filename) ->
+  uploader.createUniqueFilename = (filename) ->
     extension = @getExtension filename
 
     # Creates a unique string, that is 'length' characters long.
@@ -54,14 +52,13 @@ file = module.exports =
     "#{makeUniqueId 14}.#{@getExtension filename}"
 
 
-
   # Starts the upload of files into the server. It makes sure that the files
   # are valid files (using validation logic in the function below this one)
   # and does not exceed the files per limit.
   #
   # It does the file uploads (asynchronously) and at the same time creates
   # the thumbnails for each image (asynchronously too).
-  upload: (files, callback) ->
+  uploader.upload = (files, callback) ->
     asyncTasks = []
     ret = []
 
@@ -114,7 +111,7 @@ file = module.exports =
   # A quick function to delete the files at the given locations.
   #
   # TODO: test this function
-  delete: (files) ->
+  uploader.delete = (files) ->
     asyncJob = (filepath, finish) ->
       # Prepare the functions to remove the files
       removeImage = (callback) ->
@@ -141,7 +138,7 @@ file = module.exports =
   # This function is a helper function that checks if the given files is a
   # valid file for upload or not. It checks the size, extension and type for
   # now.
-  validate: (file) ->
+  uploader.validate = (file) ->
     status = true
 
     # 10MB limit per file
@@ -161,7 +158,7 @@ file = module.exports =
   # We do this asynchronously and wait for all the files to be uploaded. Once
   # we are done we create another asynchronous task to start creating
   # thumbnails. For more explanation see below function.
-  operate: (tasks) ->
+  uploader.operate = (tasks) ->
     console.log tasks
     # Start analyzing each file and either upload or delete it
     asyncJob = (task, finish) ->
@@ -190,7 +187,7 @@ file = module.exports =
   # before we start making the thumbnails, since we don't want to work on
   # empty files. So that's we needed to make another async call on the
   # previous function, to give us the signal that the file upload is over.
-  createThumbnails: (tasks) ->
+  uploader.createThumbnails = (tasks) ->
     asyncJob = (task, finish) ->
       if task.isValid
 
@@ -210,3 +207,8 @@ file = module.exports =
           .write "#{path.normalize file.thumbsDir}/#{task.newFilename}", finish
 
     async.each tasks, asyncJob, ->
+
+  new uploader
+
+exports['@require'] = [ 'igloo/settings' ]
+exports['@singleton'] = true
