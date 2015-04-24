@@ -32,6 +32,7 @@ exports = module.exports = ->
     pkg: pkg
     cache: false
     showStack: true
+    appDir: appDir
     assetsDir: assetsDir
     publicDir: publicDir
     views:
