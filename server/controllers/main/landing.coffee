@@ -7,15 +7,32 @@ description = 'Publish and Browse classifieds in Kuwait. Quick, easy and absolut
 # classifieds and categories to choose from.
 exports = module.exports = (renderer) ->
 
+  promoteClassified = (request) ->
+    id = request.cookies['pay-w-tweet']
+    authHash = request.cookies['authHash']
+    Classified = global.models.classified
+    Classified.perks.promote id, authHash, request.user
+
+    userid = (request.user or {})._id or "anonymous"
+
+    # Send an email to admin notifying
+    Email = global.modules.email
+    message = "#{userid} shared and promoted classified with id:#{id}"
+    Email.send 'pay-with-tweet success', 'stevent95@gmail.com', message
+
+    logger = global.modules.logger
+    logger request, message
+
+
   app = this
   this.get = (request, response, next) ->
-    # if request.cookies['pay-w-tweet']
-    #   async.parallel [=> controller.promoteClassified request]
+    if request.cookies['pay-w-tweet']
+      async.parallel [=> promoteClassified request]
 
     args =
       description: description
       page: 'landing'
-      # title: response.__ 'title.landing'
+      title: response.__ 'title.landing'
 
     renderer request, response, args, true
 
@@ -32,20 +49,3 @@ exports['@singleton'] = true
   #   response.cookie 'l', request.params[0]
   #   response.setLocale request.params[0]
   #   next()
-
-
-  # promoteClassified: (request) ->
-  #   id = request.cookies['pay-w-tweet']
-  #   authHash = request.cookies['authHash']
-  #   Classified = global.models.classified
-  #   Classified.perks.promote id, authHash, request.user
-
-  #   userid = (request.user or {})._id or "anonymous"
-
-  #   # Send an email to admin notifying
-  #   Email = global.modules.email
-  #   message = "#{userid} shared and promoted classified with id:#{id}"
-  #   Email.send 'pay-with-tweet success', 'stevent95@gmail.com', message
-
-  #   logger = global.modules.logger
-  #   logger request, message
