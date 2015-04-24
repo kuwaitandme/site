@@ -1,0 +1,29 @@
+moment = require 'moment'
+
+
+exports = module.exports = (IoC, settings) ->
+  app = this
+
+  # add dynamic helpers for views
+  app.use (req, res, next) ->
+    isXHR = req.xhr
+    res.locals.settings = settings
+    res.locals.req = req
+    res.locals.messages =
+      success: req.flash('success')
+      error: req.flash('error')
+      info: req.flash('info')
+      warning: req.flash('warning')
+    res.locals.moment = moment
+    if settings.csrf.enabled and !isXHR and req.path.indexOf('/api') != 0
+      res.locals.csrf = req.csrfToken()
+    else
+      res.locals.csrf = ''
+    next()
+    return
+  return
+
+exports['@require'] = [
+  '$container'
+  'igloo/settings'
+]
