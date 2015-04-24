@@ -4,7 +4,7 @@ parentDir = path.join __dirname, '../..'
 appDir    = path.join parentDir, 'server'
 
 pkg          = require path.join parentDir, 'package'
-assetsDir    = path.join parentDir, 'assets'
+assetsDir    = path.join parentDir, 'public'
 publicDir    = path.join parentDir, 'public'
 templatesDir = path.join assetsDir, 'emails'
 viewsDir     = path.join appDir, 'views'
@@ -131,8 +131,8 @@ exports = module.exports = ->
     password:
       minStrength: 1
       limitAttempts: true
-    views: dir: path.join(assetsDir, 'dist')
-    publicDir: path.join(assetsDir, 'dist')
+    views: dir: path.join assetsDir, 'dist'
+    publicDir:  path.join assetsDir, 'dist'
     showStack: false
     updateNotifier: enabled: false
     server:
