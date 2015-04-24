@@ -1,1 +1,0 @@
-describe 'models.', -> require './classified'

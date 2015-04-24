@@ -1,1 +1,0 @@
-describe 'classified.', -> require './create'

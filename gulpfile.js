@@ -19,5 +19,6 @@ gulp.task('js:minified', ['coffee:minified']);
 gulp.task('minify', ['js:minified', 'css:minified'])
 gulp.task('build', ['js', 'css', 'html']);
 
-gulp.task('deploy', ['build', 'minify', 'server']);
+// gulp.task('deploy', ['build', 'minify', 'server']);
+gulp.task('deploy', ['build', 'minify']);
 gulp.task('default', ['build', 'watch']);

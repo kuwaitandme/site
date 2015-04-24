@@ -1,5 +1,0 @@
-{
-  "glob": ["assets/**/*.coffee", "server/**/*.coffee", "README.md", "assets/**/*.sass", "assets/**/*.jade"],
-  "github": false,
-  "out": "docs"
-}
