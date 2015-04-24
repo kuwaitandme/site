@@ -7,31 +7,31 @@
   section#search-form
     #landing-logo
       img(src='/images/kme-logo-tagline.png')
-    form(action!="<%= lang.href %>/classified", itemprop="potentialAction", itemscope, itemtype="http://schema.orgAction")
-      meta(itemprop="target" content!="https://kuwaitandme.com/<%= lang.href %>/classified?keywords={keywords}")
-      input(type="text", itemprop="query-input", name="keywords", lang-placeholder="page.landing.search").search-bar
+    form(action!="en/classified", itemprop="potentialAction", itemscope, itemtype="http://schema.orgAction")
+      meta(itemprop="target" content!="https://kuwaitandme.com/en/classified?keywords={keywords}")
+      input(type="text", ng-model="keywords" itemprop="query-input", name="keywords", placeholder="{{ 'page.landing.search' | translate }}").search-bar
       button(type="submit").search-button &#xf002;
     //- ul#landing-extra
       li.hide-if-loggedin
-        a(href!="<%= lang.href %>/guest/post", data-view, lang-html="header.cpost")
+        a(href!="en/guest/post", data-view, lang-html="header.cpost")
       li.show-if-loggedin
-        a(href!="<%= lang.href %>/classified/post", data-view, lang-html="header.cpost")
+        a(href!="en/classified/post", data-view, lang-html="header.cpost")
       li.hide-if-loggedin
-        a(href!="<%= lang.href %>/auth/login", data-view, lang-html="header.login")
+        a(href!="en/auth/login", data-view, lang-html="header.login")
       li.hide-if-loggedin
-        a(href!="<%= lang.href %>/auth/signup", data-view, lang-html="header.signup")
+        a(href!="en/auth/signup", data-view, lang-html="header.signup")
       li.show-if-loggedin
-        a(href!="<%= lang.href %>/account", data-view, lang-html="header.view")
+        a(href!="en/account", data-view, lang-html="header.view")
       li.show-if-loggedin
-        a(href!="<%= lang.href %>/auth/signup", data-view, lang-html="header.logout")
+        a(href!="en/auth/signup", data-view, lang-html="header.logout")
       //- li
       //-   a(href="/ar") العربية
       //- li
       //-   a(href="/en") English
 
-#landing-categories
+#landing-categories(ng-include="'partials/category-list'")
 
 #landing-featured-cl
   .lang
-    h4(lang-html="page.landing.classifieds")
-  .classifiedList
+    h4 {{ "page.landing.classifieds" | translate }}
+  .classifiedList(ng-include="'partials/classified-list'", ng-controller='partial:classified-list')

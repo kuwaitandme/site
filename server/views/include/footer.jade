@@ -2,7 +2,7 @@ footer
   section#scripts
     script.
       window.data = "!{data}";
-      window.config = !{JSON.stringify(config)};
+      window.config = {magic:{}}//-!{JSON.stringify(config)};
 
     if mode != "production"
       script

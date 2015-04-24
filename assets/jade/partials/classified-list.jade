@@ -1,0 +1,20 @@
+ul.classified-list
+  li.classified(ng-repeat="classified in classifieds")
+    a(data-view='classified-single')
+      .container
+        .urgent-banner Urgent
+        .thumb
+          img(alt='{{ classified.title }}')
+        .c-info
+          .c-title {{ classified.title }}
+          ul.c-meta
+            li {{ classified.price | price }}
+            li {{ classified.created | prettydate }}
+            li {{ classified.contact.location }}
+            li(style='list-style: none; display: inline')
+              .c-status(class='{{ classified.statusClass }}') {{ classified.statusMessage }}
+
+.ajax-loading {{ "comp.classifiedlist.loading" | translate }}
+
+//- The message that gets displayed when there are no more classifieds
+.ajax-finish No classified(s)

@@ -1,0 +1,23 @@
+ul.categories-list
+  div(ng-repeat="n in [42, 444, 43] ")
+    {{n}}
+
+
+  <% _.each(obj.categories, function(cat) { %>
+  li
+    .container
+      .image.cat-sprite(class!="<%= cat.classname %>")
+        h1.title <%= cat.name %>
+      .total-count <%= cat.count %> classifieds
+      .children
+        <% _.each(cat.children, function(child) { %>
+        .child
+          h2
+            a(href!="<%= lang.href %>/classified/<%= cat.slug %>/<%= child.slug %>", data-view) <%= child.name %>
+          .count <%= child.count %>
+        <% }) %>
+        .child
+          h3
+            a(href!="<%= lang.href %>/classified/<%= cat.slug %>", data-view, lang-html="comp.category.viewall")
+          .count <%= cat.count %>
+  | <% }) %>

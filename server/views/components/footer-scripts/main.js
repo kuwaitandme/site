@@ -21,11 +21,15 @@
     }, {
       name: "library:jquery",
       remoteSrc: "//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js",
-      localSrc: "/javascripts/vendor/jquery.min.js"
+      localSrc: "/javascripts/vendor/angular.min.js"
     }, {
       name: "library:jquery-transit",
       remoteSrc: "//cdnjs.cloudflare.com/ajax/libs/jquery.transit/0.9.12/jquery.transit.min.js",
-      localSrc: "/javascripts/vendor/jquery.transit.min.js"
+      localSrc: "/javascripts/vendor/angular-route.min.js"
+    }, {
+      name: "library:jquery-transit",
+      remoteSrc: "//cdnjs.cloudflare.com/ajax/libs/jquery.transit/0.9.12/jquery.transit.min.js",
+      localSrc: "/javascripts/vendor/angular-sanitize.min.js"
     }, {
       name: "library:underscore",
       remoteSrc: "//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore-min.js",
@@ -35,21 +39,21 @@
       remoteSrc: "//cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js",
       localSrc: "/javascripts/vendor/backbone.min.js"
     }, {
-      name: "library:google-maps",
-      remoteSrc: "//maps.googleapis.com/maps/api/js?key=AIzaSyBUcoOW5jw2GvlFQI49FIGl6I7czXcX5iQ&callback=initializeGmap"
-    }, {
+    //   name: "library:google-maps",
+    //   remoteSrc: "//maps.googleapis.com/maps/api/js?key=AIzaSyBUcoOW5jw2GvlFQI49FIGl6I7czXcX5iQ&callback=initializeGmap"
+    // }, {
       name: "library:dropzone",
       remoteSrc: "//cdnjs.cloudflare.com/ajax/libs/dropzone/4.0.1/min/dropzone.min.js",
       localSrc: "/javascripts/vendor/dropzone.min.js"
     }, {
-      name: "library:masonry",
-      remoteSrc: "//cdnjs.cloudflare.com/ajax/libs/masonry/3.2.2/masonry.pkgd.min.js",
-      localSrc: "/javascripts/vendor/masonry.pkgd.min.js"
-    }, {
-      name: "library:foundation-js",
-      remoteSrc: "//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.1/js/foundation.min.js",
-      localSrc: "/javascripts/vendor/foundation.min.js"
-    }, {
+    //   name: "library:masonry",
+    //   remoteSrc: "//cdnjs.cloudflare.com/ajax/libs/masonry/3.2.2/masonry.pkgd.min.js",
+    //   localSrc: "/javascripts/vendor/masonry.pkgd.min.js"
+    // }, {
+    //   name: "library:foundation-js",
+    //   remoteSrc: "//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.1/js/foundation.min.js",
+    //   localSrc: "/javascripts/vendor/foundation.min.js"
+    // }, {
       name: "library:magnific-popup",
       remoteSrc: "//cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.0.0/jquery.magnific-popup.min.js",
       localSrc: "/javascripts/vendor/jquery.magnific-popup.min.js"
@@ -61,9 +65,9 @@
       name: "app:script",
       remoteSrc: "/javascripts/build/app.js?m=" + config.magic.application,
       localSrc: "/javascripts/build/app.js?m=" + config.magic.application
-    }, {
-      name: "library:google-recaptcha",
-      remoteSrc: '//www.google.com/recaptcha/api.js?render=explicit&hl=#{lang}'
+    // }, {
+    //   name: "library:google-recaptcha",
+    //   remoteSrc: '//www.google.com/recaptcha/api.js?render=explicit&hl=#{lang}'
     }
   ];
 
