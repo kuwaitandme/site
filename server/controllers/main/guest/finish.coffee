@@ -1,8 +1,9 @@
-controller = module.exports =
-  get: (request, response, next) ->
-      args =
-        page: 'classified/finish'
-        title: response.__('title.classified.finish')
+exports = module.exports = (renderer) ->
+  controller = (request, response, next) ->
+    options =
+      page: 'classified/finish'
+      title: response.__ 'title.classified.finish'
+    renderer request, response, options, false
 
-      render = global.modules.renderer
-      render request, response, args, true
+exports['@require'] = [ 'controllers/renderer' ]
+exports['@singleton'] = true

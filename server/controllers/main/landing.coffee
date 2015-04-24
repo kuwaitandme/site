@@ -24,8 +24,7 @@ exports = module.exports = (renderer) ->
     logger request, message
 
 
-  app = this
-  this.get = (request, response, next) ->
+  controller = (request, response, next) ->
     if request.cookies['pay-w-tweet']
       async.parallel [=> promoteClassified request]
 
@@ -38,14 +37,3 @@ exports = module.exports = (renderer) ->
 
 exports['@require'] = [ 'controllers/renderer.coffee' ]
 exports['@singleton'] = true
-
-  # langRedirect: (request, response, next) ->
-  #   if not request.cookies['l'] then response.cookie 'l', request.getLocale()
-  #   response.setLocale request.cookies['l']
-  #   response.redirect "/#{request.getLocale()}#{request.url}"
-
-
-  # setLanguage: (request, response, next) ->
-  #   response.cookie 'l', request.params[0]
-  #   response.setLocale request.params[0]
-  #   next()

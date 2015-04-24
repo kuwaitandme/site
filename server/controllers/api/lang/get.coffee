@@ -9,18 +9,19 @@ fs = require 'fs'
  * @method api.lang.get
  * @return JSON
 ###
-get = (request, response, next) ->
-  response.contentType 'application/json'
-  lang = request.params.id
+exports = module.exports = ->
+  controller = (request, response, next) ->
+    response.contentType 'application/json'
+    lang = request.params.id
 
-  # Check if language is valid
-  if not /(en|ar|dg)/.test lang
-    response.status 404
-    return response.end '"Language not found"'
+    # Check if language is valid
+    if not /(en|ar|dg)/.test lang
+      response.status 404
+      return response.end '"Language not found"'
 
-  # Read from the language file
-  fs.readFile "#{global.root}/modules/i18n/#{lang}.json", "utf8", (error, data) ->
-    if (error) then next error
-    else response.end data
+    # Read from the language file
+    fs.readFile "#{global.root}/modules/i18n/#{lang}.json", "utf8", (error, data) ->
+      if (error) then next error
+      else response.end data
 
-module.exports = get
+exports['@singleton'] = true

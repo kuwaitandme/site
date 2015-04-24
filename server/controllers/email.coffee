@@ -2,7 +2,6 @@ email = require 'emailjs'
 fs    = require 'fs'
 jade  = require 'jade'
 
-
 module.exports =
   sendTemplate: (senderAddress, template, options) ->
     config = global.config

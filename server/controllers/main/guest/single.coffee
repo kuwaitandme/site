@@ -1,13 +1,8 @@
 validator = require 'validator'
 
+exports = module.exports = (renderer) ->
+  controller = (request, response, next) ->
 
-# Controller for the classified posting page. Creates a new classified and
-# saves it to the database.
-#
-# If the post is successfully validated, create the post and redirect to the
-# account page or else stay in the same page and display an error
-controller = module.exports =
-  get: (request, response, next) ->
     id = request.params[0]
     authHash = request.query.authHash
 
@@ -28,9 +23,12 @@ controller = module.exports =
       if classified.authHash != authHash then return next()
 
       # Generate the response
-      render = global.modules.renderer
-      render request, response,
+      options =
         data: classified: classified
         description: classified.description
         page: 'classified/single'
         title: classified.title
+      renderer request, response, options, false
+
+exports['@require'] = [ 'controllers/renderer' ]
+exports['@singleton'] = true

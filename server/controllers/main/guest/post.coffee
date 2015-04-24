@@ -1,12 +1,11 @@
-classified = global.models.classified
-
-controller = module.exports =
-  get: (request, response, next) ->
-    args =
+exports = module.exports = (renderer) ->
+  controller = (request, response, next) ->
+    options =
       data: guest: true
       description: null
       page: 'classified/post'
       title: response.__ 'title.guest.post'
+    renderer request, response, options, false
 
-    render = global.modules.renderer
-    render request, response, args, true
+exports['@require'] = [ 'controllers/renderer' ]
+exports['@singleton'] = true

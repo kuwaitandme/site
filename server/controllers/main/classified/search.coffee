@@ -1,8 +1,18 @@
-getQueryParameters = (require '../../api/query/helpers').getQueryParameters
+# getQueryParameters = (require '../../api/query/helpers').getQueryParameters
+
+exports = module.exports = (renderer) ->
+  controller = (request, response, next) ->
+    options =
+      page: 'classified/finish'
+      title: response.__ 'title.classified.finish'
+    renderer request, response, options, false
+
+exports['@require'] = [ 'controllers/renderer' ]
+exports['@singleton'] = true
 
 # Controller for the classified search page. Searches for classifieds with
 # some search parameters passed on as GET variables.
-controller = module.exports =
+controller = module.exports_dis =
   get: (request, response, next) ->
     parameters = getQueryParameters request
     page = 1
