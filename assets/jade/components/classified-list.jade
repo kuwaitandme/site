@@ -1,11 +1,10 @@
-ul.classified-list(ng-controller='component:classified-list')
-
-  li.classified(ng-repeat="classified in classifieds")
+ul.classified-list.row(ng-controller='component:classified-list')
+  li.columns.medium-3.small-6.columns.classified(ng-repeat="classified in classifieds")
     a(href="/en/classified/{{ classified._id }}")
       .container
         .urgent-banner Urgent
-        //- .thumb(ng-if="false && classified.hasImages")
-          //- img(src="uploads/thumb/{{ classified.images[0].url }}/", alt="{{ classified.title }}")
+        .thumb(ng-if="false && classified.hasImages")
+          img(src="uploads/thumb/{{ classified.images[0].url }}/", alt="{{ classified.title }}")
         .c-info
           .c-title {{ classified.title }}
           ul.c-meta

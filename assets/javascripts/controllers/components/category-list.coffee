@@ -1,5 +1,5 @@
 controller = ($scope, $location, $http, category) ->
-  @name = '[partial:category-list]'
+  @name = '[component:category-list]'
   console.log @name, "initializing"
 
   $scope.categories = []

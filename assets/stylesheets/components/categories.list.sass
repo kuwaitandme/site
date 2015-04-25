@@ -1,19 +1,15 @@
 ul.categories-list
   margin: 0 auto
+  // max-width: auto
   +clearfix
 
   li
     float: left
-    max-width: 210px
+    // max-width: 280px
     padding: 7px
 
     .container
-      border: 1px solid #ddd
       overflow: hidden
-
-      -webkit-border-radius: 3px
-      -moz-border-radius: 3px
-      border-radius: 3px
 
     .image
       @extend .font-title
@@ -22,7 +18,7 @@ ul.categories-list
       background: #fff
       color: #FFF
       cursor: pointer
-      height: 130px
+      // height: 200px
       position: relative
       text-align: center
       text-shadow: rgba(0, 0, 0, 0.8) 0px 1px 0px
@@ -37,21 +33,18 @@ ul.categories-list
         top: 0
         width: 100%
 
-      h1.title
-        color: #FFF
-        font-size: 0.9rem
-        height: 100%
-        left: 0
-        padding-top: 47px
-        position: absolute
-        top: 0
-        width: 100%
-        z-index: 1
+    h2.title
+      font-size: 0.8rem
+      height: 100%
+      margin: 5px
+      padding-top: 6px
+      border-top: 1px solid #EEE
+      width: 100%
+      z-index: 1
 
     .total-count
-      font-size: 12px
-      text-align: center
-      padding: 5px
+      font-size: 0.7rem
+      margin: 5px
 
     .children
       +single-transition(height)
@@ -61,10 +54,9 @@ ul.categories-list
       .total-count
         display: none
     .child
-      border-bottom: 1px solid #EEE
-      font-size: 12px
+      font-size: 0.8rem
       position: relative
-      h2, h3
+      h2, h3, h4
         @extend .font-text
         font-size: 12px
         margin: 0
@@ -84,14 +76,26 @@ ul.categories-list
       &:nth-child(odd)
         background: #f6f6f6
 
-    &.show-children .children
-      height: auto
+    &.show-children
+      &:hover .cat-sprite
+        height: 132px
+      .children
+        height: auto
+      .total-count, .title
+        display: none
 
     .cat-sprite
+      +single-transition
+      background: #000
       background-image: url(/images/cat-spritesheet.jpg)
       background-repeat: no-repeat
       display: block
+      height: 100%
+    .sprite-container
       height: 132px
+    &:hover
+      .cat-sprite
+        height: 90%
     .careers
       background-position: 0 0
     .pets

@@ -1,5 +1,5 @@
 controller = ($scope, $location, classified) ->
-  @name = '[partial:classified-list]'
+  @name = '[component:classified-list]'
   console.log @name, "initializing"
 
   $scope.classifieds = []

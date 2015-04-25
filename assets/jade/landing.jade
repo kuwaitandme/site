@@ -3,7 +3,7 @@
 //-     .fb-like(data-href='https://www.facebook.com/KuwaitandME', data-layout='button_count', data-action='like', data-show-faces='true', data-share='false')
   //- li.social
   //-   a.twitter-share-button(href='https://twitter.com/share', data-related="twitterdev", data-count="horizontal",   data-text="An amazing site to publish classifieds in Kuwait. Check it out! #KuwaitandME")
-#landing-section
+//- #landing-section
   section#search-form
     #landing-logo
       img(src='/images/kme-logo-tagline.png')
@@ -29,9 +29,10 @@
       //- li
       //-   a(href="/en") English
 
-//- #landing-categories(ng-include="'components/category-list'")
+#landing-categories.row
+  h1 Categories
+  section(ng-include="'components/category-list'")
 
-#landing-featured-cl
-  .lang
-    h4 {{ "page.landing.classifieds" | translate }}
+#landing-featured-cl.row
+  h1 {{ "page.landing.classifieds" | translate }} Featured classifieds
   .classifiedList(ng-include="'components/classified-list'")

@@ -1,4 +1,5 @@
 .classifiedList
+
   // background: #f0f0f0
   .ajax-spinner
     display: none
@@ -15,18 +16,19 @@
     text-align: center
 
 ul.classified-list
-  min-height: 50%
   +clearfix
   margin: 0 auto
+  max-width: 100%
+  min-height: 50%
 
   a
     text-decoration: none
     &:visited
       color: #000
   > li
-    width: 236px + 14px
-    @media only screen and (max-width: 40.063em)
-      width: 100%
+    // width: 236px + 14px
+    // @media only screen and (max-width: 40.063em)
+    //   width: 100%
     float: left
     padding: 7px
     .container
