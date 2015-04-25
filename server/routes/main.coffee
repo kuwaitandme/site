@@ -20,7 +20,8 @@ exports = module.exports = (IoC) ->
   fourofour = (request, response, next) ->
     error = new Error "Not Found"
     error.status = 404
-    next error
+    response.end '404'
+    # next error
 
   # This helper function shortens the long line of writings routes and calling
   # the dependency injector.
@@ -46,7 +47,7 @@ exports = module.exports = (IoC) ->
   # _route "/auth/login",  "auth/login"
   # _route "/auth/signup", "auth/signup"
 
-  # _route "/guest/post",                "guest/post"
+  _route "/guest/post",                "guest/post"
   # _route "/guest/([a-zf0-9]*)/finish", "guest/finish"
   # _route "/guest/([a-zf0-9]*)/edit",   "guest/edit"
   # _route "/guest/([a-zf0-9]*)",        "guest/single"
@@ -65,7 +66,7 @@ exports = module.exports = (IoC) ->
   # _route "/account/profile", "account/profile"
 
   # If language slug is present but page has not matched any url give 404 page
-  _route  ".*", fourofour
+  # _route  ".*", fourofour
 
   # If language slug is missing and redirect to a preferred language
   router.get /^(?:[^aed]|a[^r]|e[^n]|d[^g])(.*)/, langRedirect

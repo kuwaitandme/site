@@ -1,18 +1,14 @@
-module.exports = [
-  '$http',
-  ($http) ->
+module.exports = ($http) ->
+  query: (page=1) -> $http
+    method: 'POST'
+    url: "/api/query?page=#{page}"
 
-    query: (page=1) -> $http
-      method: 'POST'
-      url: "/api/query?page=#{page}"
+  create: ->
 
-    create: ->
+  update: ->
 
-    update: ->
+  patch: ->
 
-    patch: ->
-
-    get: (id) -> $http
-      method: 'GET'
-      url: "/api/classified/#{id}"
-]
+  get: (id) -> $http
+    method: 'GET'
+    url: "/api/classified/#{id}"

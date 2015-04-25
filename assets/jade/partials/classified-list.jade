@@ -1,18 +1,19 @@
-ul.classified-list
+ul.classified-list(ng-controller='partials:classified-list')
+
   li.classified(ng-repeat="classified in classifieds")
-    a(data-view='classified-single')
+    a(href="/en/#/classified/{{ classified._id }}")
       .container
         .urgent-banner Urgent
-        .thumb
-          img(alt='{{ classified.title }}')
+        //- .thumb(ng-if="false && classified.hasImages")
+          //- img(src="uploads/thumb/{{ classified.images[0].url }}/", alt="{{ classified.title }}")
         .c-info
           .c-title {{ classified.title }}
           ul.c-meta
             li {{ classified.price | price }}
-            li {{ classified.created | prettydate }}
-            li {{ classified.contact.location }}
-            li(style='list-style: none; display: inline')
-              .c-status(class='{{ classified.statusClass }}') {{ classified.statusMessage }}
+            //- li {{ classified.created | prettydate }}
+            li(ng-if="classified.contact.location") {{ classified.contact.location }}
+            li(style="list-style: none; display: inline", ng-if="classified.showStatus")
+              .c-status(class="{{ classified.statusClass }}") {{ classified.statusMessage }}
 
 .ajax-loading {{ "comp.classifiedlist.loading" | translate }}
 

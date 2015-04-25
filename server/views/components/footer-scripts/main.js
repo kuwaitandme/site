@@ -11,10 +11,10 @@
       remoteSrc: "//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.1/css/foundation.min.css",
       localSrc: "/stylesheets/vendor/foundation.min.css"
     }, {
-      name: "library:jquery.magnific-popup-css",
-      remoteSrc: "//cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.0.0/magnific-popup.min.css",
-      localSrc: "/stylesheets/vendor/magnific-popup.min.css"
-    }, {
+    //   name: "library:jquery.magnific-popup-css",
+    //   remoteSrc: "//cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.0.0/magnific-popup.min.css",
+    //   localSrc: "/stylesheets/vendor/magnific-popup.min.css"
+    // }, {
       name: "app:style-css",
       remoteSrc: "/stylesheets/build/style.css?m=" + config.magic.application,
       localSrc: "/stylesheets/build/style.css?m=" + config.magic.application
@@ -31,21 +31,21 @@
       remoteSrc: "//cdnjs.cloudflare.com/ajax/libs/jquery.transit/0.9.12/jquery.transit.min.js",
       localSrc: "/javascripts/vendor/angular-sanitize.min.js"
     }, {
-      name: "library:underscore",
-      remoteSrc: "//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore-min.js",
-      localSrc: "/javascripts/vendor/underscore.min.js"
-    }, {
-      name: "library:backbone",
-      remoteSrc: "//cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js",
-      localSrc: "/javascripts/vendor/backbone.min.js"
-    }, {
+    //   name: "library:underscore",
+    //   remoteSrc: "//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore-min.js",
+    //   localSrc: "/javascripts/vendor/underscore.min.js"
+    // }, {
+    //   name: "library:backbone",
+    //   remoteSrc: "//cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js",
+    //   localSrc: "/javascripts/vendor/backbone.min.js"
+    // }, {
     //   name: "library:google-maps",
     //   remoteSrc: "//maps.googleapis.com/maps/api/js?key=AIzaSyBUcoOW5jw2GvlFQI49FIGl6I7czXcX5iQ&callback=initializeGmap"
     // }, {
-      name: "library:dropzone",
-      remoteSrc: "//cdnjs.cloudflare.com/ajax/libs/dropzone/4.0.1/min/dropzone.min.js",
-      localSrc: "/javascripts/vendor/dropzone.min.js"
-    }, {
+    //   name: "library:dropzone",
+    //   remoteSrc: "//cdnjs.cloudflare.com/ajax/libs/dropzone/4.0.1/min/dropzone.min.js",
+    //   localSrc: "/javascripts/vendor/dropzone.min.js"
+    // }, {
     //   name: "library:masonry",
     //   remoteSrc: "//cdnjs.cloudflare.com/ajax/libs/masonry/3.2.2/masonry.pkgd.min.js",
     //   localSrc: "/javascripts/vendor/masonry.pkgd.min.js"
@@ -54,10 +54,10 @@
     //   remoteSrc: "//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.1/js/foundation.min.js",
     //   localSrc: "/javascripts/vendor/foundation.min.js"
     // }, {
-      name: "library:magnific-popup",
-      remoteSrc: "//cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.0.0/jquery.magnific-popup.min.js",
-      localSrc: "/javascripts/vendor/jquery.magnific-popup.min.js"
-    }, {
+    //   name: "library:magnific-popup",
+    //   remoteSrc: "//cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.0.0/jquery.magnific-popup.min.js",
+    //   localSrc: "/javascripts/vendor/jquery.magnific-popup.min.js"
+    // }, {
       name: "app:template",
       remoteSrc: "/javascripts/build/template.js?m=" + config.magic.application,
       localSrc: "/javascripts/build/template.js?m=" + config.magic.application

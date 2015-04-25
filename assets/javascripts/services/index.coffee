@@ -1,4 +1,4 @@
 module.exports = (app) ->
   console.log "[services] initializing"
 
-  # app.factory 'model:classified', require './classified'
+  # (angular.module 'App').factory 'model:classified', require './classified'

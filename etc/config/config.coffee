@@ -95,7 +95,7 @@ exports = module.exports = ->
     logger:
       console: true
       requests: true
-      mongo: false
+      mongo: true
       file: false
       hipchat: false
       slack: false
@@ -122,8 +122,8 @@ exports = module.exports = ->
       env: 'development'
       port: 3000
     mongo:
-      dbname: 'igloo-development'
-      db: 'igloo-development'
+      dbname: 'kuwaitandme'
+      db: 'kuwaitandme'
     redis: prefix: 'igloo-development'
 
   production:

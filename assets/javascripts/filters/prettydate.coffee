@@ -42,7 +42,6 @@ prettify = (date_raw) ->
     {
       threshold: 172800
       handler: -> "yesterday"
-
     }
     {
       threshold: 604800
@@ -68,8 +67,8 @@ prettify = (date_raw) ->
   i = 0
   while i < formatters.length
     if diff < formatters[i].threshold
-      return formatters[i].handler(diff)
+      return formatters[i].handler diff
     i++
   ""
 
-module.exports =  -> (date) -> prettify date
+module.exports =  -> prettify
