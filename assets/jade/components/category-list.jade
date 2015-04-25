@@ -1,4 +1,4 @@
-ul.categories-list(ng-controller='partials:category-list')
+ul.categories-list(ng-controller='component:category-list')
   li(ng-repeat="category in categories", ng-class="category.extraClass")
     .container
       .image.cat-sprite(class="{{ category.sprite }}", ng-click="category.toggleChildren()")
@@ -7,9 +7,9 @@ ul.categories-list(ng-controller='partials:category-list')
       .children
         .child(ng-repeat="child in category.children")
           h2
-            a(href!="/classified/{{ category.slug }}/{{ child.slug }}", data-view) {{ child.name }}
+            a(href="/classified/{{ category.slug }}/{{ child.slug }}", data-view) {{ child.name }}
           .count {{ child.count }}
         .child
           h3
-            a(href!="/classified/{{ category.slug }}", data-vie) {{ "comp.category.viewall" | translate }}
+            a(href="/classified/{{ category.slug }}", data-vie) {{ "comp.category.viewall" | translate }}
           .count {{ category.count }}
