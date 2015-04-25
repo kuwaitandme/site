@@ -1,290 +1,44 @@
-$headerHeight: 51px
-$sidebarWidth: 200px
+$headerHeight: 60px
 
 main
-  padding-top: $headerHeight + 35px + 3px
-  @media only screen and (max-width: 64.063em)
-    padding-top: $headerHeight + 3px
-
+  padding-top: $headerHeight
 header
-  +single-transition
-  background: #fff
-  height: $headerHeight
-  left: 0
+  background: #FFF
   position: fixed
   top: 0
-  width: 100%
+  left: 0
   width: 100%
   z-index: 2
 
-  -webkit-box-shadow: 2px 2px 15px 0px rgba(0, 0, 0, 0.4)
-  -moz-box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.4)
-  box-shadow: 2px 2px 15px 0px rgba(0, 0, 0, 0.4)
 
-  ::-webkit-input-placeholder
-    color: #BBB
-  :-moz-placeholder
-    color: #BBB
-  ::-moz-placeholder
-    color: #BBB
-  :-ms-input-placeholder
-    color: #BBB
-
-  .disabled
-    color: #999 !important
-  nav#main-nav
-    ul,li
-      padding: 0
-      margin: 0
-    .main-item
-      @extend .font-title
-      float: right
-      // font-size: 13px
-      position: relative
-      color: #000
-      &.nav
-        color: #DDD
-        float: left
-        font-size: 18px
-        margin-top: 8px
-      &#nav-logo
-        float: left
-        height: 45px
-        left: 5px
-        position: absolute
-        top: 10px
-        width: 131px
-    &:hover
-      opacity: 1
-  #header-search
-    display: none
-    left: 0
-    top: 0
-    width: 100%
-    z-index: 3
-    #search-close
-      left: 0
-    #search-submit
-      right: 0
-    .icon
-      @extend .font-awesome
-      cursor: pointer
-      height: $headerHeight
-      padding: 16px 14px
-      position: absolute
-      text-align: center
-      top: 0
-      color: #000
-    input
-      @extend .font-title
-      border: 0
-      color: #000
-      height: $headerHeight
-      outline: none
-      padding: 0 20px
-      margin: 0
-      padding-left: $headerHeight
-      width: 100%
-  &.show-search
-    #header-search
-      display: block
-    .hide-when-searching
-      display: none !important
-  nav#main-nav, nav#mobile-nav, #header-search
-    background: #fff
-    border-bottom: 3px solid #FF6600
-
-  nav#main-nav, nav#mobile-nav
-    width: 100%
-    z-index: 1
-    > ul
-      height: $headerHeight
-      +clearfix
-      margin: 0
-      padding: 0
-      position: relative
-      width: 100%
-      .left
-        float: left
-      .right
-        float: right
-      .social
-        @extend .font-awesome
-        float: right
-
-        a
-          border-right: 0
-          // color: rgba(0,0,0,0.3)
-          display: block
-          font-size: 15px
-          padding: 18px 0
-          // padding-top: 9px
-          text-align: center
-          width: 28px
-
-          // &.twitter
-          //   background: #00ABEC
-          // &.youtube
-          //   background: #DF2927
-          // &.facebook
-          //   background: #3D57A3
-          // &.googleplus
-          //   background: #DF2927
-          // &.instagram
-          //   background: #A67056
-      .icon
-        @extend .font-awesome
-        &:hover, &.active
-          border-bottom-color: transparent
-    a, .settings
-      +single-transition(color)
-      display: block
-      font-size: 16px;
-      color: inherit
-      text-decoration: none
-      padding: 18px 14px;
-    // .settings
-    //   padding: 12px 14px
-    ul.subnav
-      @extend .font-title
-      background: #FFF
-      border: 1px solid #DDD
-      border-bottom-color: #FF6600
-      border-bottom-width: 2px
-      border-top: 0
-      cursor: default
-      display: none
-      padding: 0
-      position: absolute
-      right: 0
-      font-size: 12px
-      top: $headerHeight - 6px
-      width: 200px
-      li
-        +single-transition(background)
-        color: #000
-        &.with-link:hover
-          background: #f6f6f6
-        a
-          font-size: 12px
-          padding: 8px 11px
-      .user-title
-        border: 0
-        font-size: 14px
-        padding-bottom: 0
-        text-align: center
-      .user-credits
-        @extend .font-text
-        border: 0
-        font-size: 10px
-        padding: 0
-        text-align: center
-      .user-thumb
-        text-align: center
-        img
-          background: #EEE
-          border: 1px solid #DDD
-          height: 80px
-          margin: 5px auto
-          overflow: none
-          width: 80px
-
-          -moz-border-radius: 100px
-          -webkit-border-radius: 100px
-          border-radius: 100px
-
-  nav#mobile-nav
-    #mobile-icon
-      position: absolute
-      top: 0
-      left: 50%
-      margin-left: 208 * -0.5px
-      z-index: 1
-      a
-        padding: 0
-    #subheader
-      +single-transition(bottom)
-      @extend .font-title
-      bottom: -100%
-      min-height: 100%
-      position: fixed
-      width: 100%
-      z-index: -1
-      ul
-        position: absolute
-        top: $headerHeight
-        text-align: center
-        left: 0
-        width: 100%
-        margin: 0
-        padding: 0
-        height: 100%
-        background: rgba(0,0,0,0.95)
-      li
-        padding: 15px
-        a
-          color: #FFF
-          text-decoration: none
-          padding: 0
-
-    #nav-grabber
-      @extend .font-awesome
-      color: #000
-      cursor: pointer
-      font-size: 20px
-      padding: 16px 14px
-      position: absolute
-      right: 0
-
-    li.search-trigger a
-      padding: 16px 14px
-
-  ul#sub-nav
+  #main-header
+    height: $headerHeight
     +clearfix
-    +single-transition(top)
-    @extend .font-title
-    margin: 0
-    position: absolute
-    top: $headerHeight + 3px
-    height: 36px
-    overflow: hidden
-    width: 100%
-    left: 0
-    background: #fff
-    border-bottom: 1px solid #ddd
-    z-index: -1
-    li
+
+    #header-logo
       float: left
       a
-        font-size: 0.75em
-        border-right: 1px solid #ddd
         display: block
-        padding: 8px 10px
-        &:hover, &.active
-          border-color: #FF6600
-          background: #FF6600
-          color: #fff
+        padding: 14px 5px
+    #grabber
+      float: right
+      padding: 17px 5px
 
-  &.nav-up
-    ul#sub-nav
-      top: 0
+  nav#sub-header
+    +single-transition
+    background: #222
+    height: 0
 
 body.show-subheader
-  main
-  overflow-y: hidden
-  #subheader
-    bottom: 0 !important
+  nav#sub-header
+    height: 300px
 
-.loggedout header li.settings:hover ul.hide-if-loggedin
-  display: block !important
-
-.loggedin header li.settings:hover ul.show-if-loggedin
-  display: block !important
-
-html[lang='ar']
-  header
-    ul#sub-nav li.lang a
-      padding: 7px 10px
-@media print
-  header
-    display: none
+  main:before
+    position: absolute
+    top: 0
+    left: 0
+    height: 100%
+    width: 100%
+    content: ''
+    background: rgba(255, 255, 255, 0.8)
+    z-index: 1

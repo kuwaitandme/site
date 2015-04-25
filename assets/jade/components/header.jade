@@ -1,97 +1,106 @@
-#header-search
-  form
-    input(placeholder="search ...", name='keywords', type='text')
-  #search-close.icon &#xf00d;
-  #search-submit.icon &#xf002;
+.row(ng-controller='component:header')
+  #main-header.columns
+    #header-logo
+      a(href="/en")
+        img(src='/images/header-logo.png')
+    #grabber(ng-click="toggleHeader()")
+      img(src='/images/hamburger.png')
 
-nav#mobile-nav.hide-for-large-up.hide-when-searching
-  #mobile-icon
-    a(href!="/en/", data-view)
-      img(src='/images/header-logo.png')
-  ul
-    li.left.icon.search-trigger
-      a &#xf002;
-    li#nav-grabber &#xf0c9;
-  #subheader
-    ul.lang
-      li.nav-item
-        a(href!="/en/", data-view) {{ "header.home" | translate }}
-      li.nav-item
-        a(href!="/en/classified", data-view) {{ "header.csearch" | translate }}
-      li.main-item.hide-if-loggedin
-        a(href!="/en/guest/post", data-view) {{ "header.cpost" | translate }}
-      li.main-item.show-if-loggedin
-        a(href!="/en/classified/post", data-view) {{ "header.cpost" | translate }}
-      li.nav-item.hide-if-loggedin
-        a(href!="/en/auth/login", data-view) {{ "header.login" | translate }}
-      li.nav-item.hide-if-loggedin
-        a(href!="/en/auth/signup", data-view) {{ "header.signup" | translate }}
-      li.main-item.show-if-loggedin
-        a(href!="/en/account", data-view) {{ "header.manage" | translate }}
-      li.main-item.show-if-loggedin
-        a(href!="/en/auth/logout", data-view) {{ "header.logout" | translate }}
-      li.main-item
-        a(href!="/en/contact", data-view) {{ "header.contact" | translate }}
-      li.main-item
-        a(href!="/en/about", data-view) {{ "header.about" | translate }}
-      li.main-item
-        a(href!="/en/terms-privacy") {{ "header.terms-privacy" | translate }}
-nav#main-nav.show-for-large-up.hide-when-searching
-  ul
-    li.main-item.left.home.icon
-      a(href!="/en/", data-view) &#xf015;
-    li.main-item.left.search-trigger.icon
-      a &#xf002;
-    li.main-item.settings.icon &#xf013;
-      ul.subnav.hide-if-loggedin
-        li.with-link
-          a(href!="/en/auth/login", data-view) {{ "header.login" | translate }}
-        li.with-link
-          a(href!="/en/auth/signup", data-view) {{ "header.signup" | translate }}
+  nav#sub-header.columns
 
-      ul.subnav.show-if-loggedin
-        li.user-title.lang
-          span {{ "header.welcome" | translate }}
-          .name
-        //- li.user-credits
-        //-   span You have&nbsp;
-        //-   span.count 0
-        //-   span &nbsp;Credits
-        li.user-thumb
-          img(src='')
-        //- li.with-link
-          a(href!="/en/account/credits", data-view) Buy Credits
-        li.with-link.lang
-          a(href!="/en/account", data-view) {{ "header.view" | translate }}
-        li.with-link.lang
-          a(href!="/en/auth/logout", data-view) {{ "header.logout" | translate }}
-    li.main-item.social
-      a.facebook(href="https://www.facebook.com/KuwaitandME") &#xf09a;
-    li.main-item.social
-      a.googleplus(href="https://www.google.com/+Kuwaitandmeclassifieds") &#xf0d5;
-    li.main-item.social
-      a.twitter(href="https://twitter.com/kuwaitandme") &#xf099;
-    li.main-item.social
-      a.youtube(href="https://www.youtube.com/channel/UCRd6d6Tcya8JBwnNB8MFo5A") &#xf16a;
-    li.main-item.social
-      a.instagram(href="https://instagram.com/kuwaitandme/") &#xf16d;
+//- #header-search
+//-   form
+//-     input(placeholder="search ...", name='keywords', type='text')
+//-   #search-close.icon &#xf00d;
+//-   #search-submit.icon &#xf002;
 
-ul#sub-nav.show-for-large-up
-  li.lang
-    a(href!="/en/classified", data-view='classified-search') {{ "header.csearch" | translate }}
-  li.hide-if-loggedin.lang
-    a(href!="/en/guest/post", data-view='guest-post') {{ "header.cpost" | translate }}
-  li.show-if-loggedin.lang
-    a(href!="/en/classified/post", data-view='classified-post') {{ "header.cpost" | translate }}
-  li.nav-item.hide-if-loggedin.lang
-    a(href!="/en/auth/login", data-view='auth-login') {{ "header.login" | translate }}
-  li.nav-item.hide-if-loggedin.lang
-    a(href!="/en/auth/signup", data-view='auth-signup') {{ "header.signup" | translate }}
-  li.show-if-loggedin.lang
-    a(href!="/en/account", data-view='account-index') {{ "header.manage" | translate }}
-  li.lang
-    a(href!="/en/contact", data-view='contact') {{ "header.contact" | translate }}
-  li.lang
-    a(href!="/en/about", data-view='about') {{ "header.about" | translate }}
-  li.lang
-    a(href!="/en/terms-privacy") {{ "header.terms-privacy" | translate }}
+//- nav#mobile-nav.hide-for-large-up.hide-when-searching
+//-   #mobile-icon
+//-       img(src='/images/header-logo.png')
+//-   ul
+//-     li.left.icon.search-trigger
+//-       a &#xf002;
+//-     li#nav-grabber &#xf0c9;
+//-   #subheader
+//-     ul.lang
+//-       li.nav-item
+//-         a(href!="/en/", data-view) {{ "header.home" | translate }}
+//-       li.nav-item
+//-         a(href!="/en/classified", data-view) {{ "header.csearch" | translate }}
+//-       li.main-item.hide-if-loggedin
+//-         a(href!="/en/guest/post", data-view) {{ "header.cpost" | translate }}
+//-       li.main-item.show-if-loggedin
+//-         a(href!="/en/classified/post", data-view) {{ "header.cpost" | translate }}
+//-       li.nav-item.hide-if-loggedin
+//-         a(href!="/en/auth/login", data-view) {{ "header.login" | translate }}
+//-       li.nav-item.hide-if-loggedin
+//-         a(href!="/en/auth/signup", data-view) {{ "header.signup" | translate }}
+//-       li.main-item.show-if-loggedin
+//-         a(href!="/en/account", data-view) {{ "header.manage" | translate }}
+//-       li.main-item.show-if-loggedin
+//-         a(href!="/en/auth/logout", data-view) {{ "header.logout" | translate }}
+//-       li.main-item
+//-         a(href!="/en/contact", data-view) {{ "header.contact" | translate }}
+//-       li.main-item
+//-         a(href!="/en/about", data-view) {{ "header.about" | translate }}
+//-       li.main-item
+//-         a(href!="/en/terms-privacy") {{ "header.terms-privacy" | translate }}
+//- nav#main-nav.show-for-large-up.hide-when-searching
+//-   ul
+//-     li.main-item.left.home.icon
+//-       a(href!="/en/", data-view) &#xf015;
+//-     li.main-item.left.search-trigger.icon
+//-       a &#xf002;
+//-     li.main-item.settings.icon &#xf013;
+//-       ul.subnav.hide-if-loggedin
+//-         li.with-link
+//-           a(href!="/en/auth/login", data-view) {{ "header.login" | translate }}
+//-         li.with-link
+//-           a(href!="/en/auth/signup", data-view) {{ "header.signup" | translate }}
+
+//-       ul.subnav.show-if-loggedin
+//-         li.user-title.lang
+//-           span {{ "header.welcome" | translate }}
+//-           .name
+//-         //- li.user-credits
+//-         //-   span You have&nbsp;
+//-         //-   span.count 0
+//-         //-   span &nbsp;Credits
+//-         li.user-thumb
+//-           img(src='')
+//-         //- li.with-link
+//-           a(href!="/en/account/credits", data-view) Buy Credits
+//-         li.with-link.lang
+//-           a(href!="/en/account", data-view) {{ "header.view" | translate }}
+//-         li.with-link.lang
+//-           a(href!="/en/auth/logout", data-view) {{ "header.logout" | translate }}
+//-     li.main-item.social
+//-       a.facebook(href="https://www.facebook.com/KuwaitandME") &#xf09a;
+//-     li.main-item.social
+//-       a.googleplus(href="https://www.google.com/+Kuwaitandmeclassifieds") &#xf0d5;
+//-     li.main-item.social
+//-       a.twitter(href="https://twitter.com/kuwaitandme") &#xf099;
+//-     li.main-item.social
+//-       a.youtube(href="https://www.youtube.com/channel/UCRd6d6Tcya8JBwnNB8MFo5A") &#xf16a;
+//-     li.main-item.social
+//-       a.instagram(href="https://instagram.com/kuwaitandme/") &#xf16d;
+
+//- ul#sub-nav.show-for-large-up
+//-   li.lang
+//-     a(href!="/en/classified", data-view='classified-search') {{ "header.csearch" | translate }}
+//-   li.hide-if-loggedin.lang
+//-     a(href!="/en/guest/post", data-view='guest-post') {{ "header.cpost" | translate }}
+//-   li.show-if-loggedin.lang
+//-     a(href!="/en/classified/post", data-view='classified-post') {{ "header.cpost" | translate }}
+//-   li.nav-item.hide-if-loggedin.lang
+//-     a(href!="/en/auth/login", data-view='auth-login') {{ "header.login" | translate }}
+//-   li.nav-item.hide-if-loggedin.lang
+//-     a(href!="/en/auth/signup", data-view='auth-signup') {{ "header.signup" | translate }}
+//-   li.show-if-loggedin.lang
+//-     a(href!="/en/account", data-view='account-index') {{ "header.manage" | translate }}
+//-   li.lang
+//-     a(href!="/en/contact", data-view='contact') {{ "header.contact" | translate }}
+//-   li.lang
+//-     a(href!="/en/about", data-view='about') {{ "header.about" | translate }}
+//-   li.lang
+//-     a(href!="/en/terms-privacy") {{ "header.terms-privacy" | translate }}
