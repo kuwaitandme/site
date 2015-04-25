@@ -1,13 +1,13 @@
 ul.categories-list(ng-controller='partials:category-list')
-  li(ng-repeat="category in categories")
+  li(ng-repeat="category in categories", ng-class="category.extraClass")
     .container
-      .image.cat-sprite(class="{{ category.className }}")
+      .image.cat-sprite(class="{{ category.sprite }}", ng-click="category.toggleChildren()")
         h1.title {{ category.name }}
       .total-count {{ category.count }} classifieds
       .children
         .child(ng-repeat="child in category.children")
           h2
-            a(href!="/classified/{{ category.slug }}/{{ child.slug }}", data-view) {{ child.name }
+            a(href!="/classified/{{ category.slug }}/{{ child.slug }}", data-view) {{ child.name }}
           .count {{ child.count }}
         .child
           h3

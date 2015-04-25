@@ -1,21 +1,24 @@
-controller = ($scope, $location, $http) ->
+controller = ($scope, $location, $http, cache) ->
   @name = '[partial:category-list]'
   console.log @name, "initializing"
 
   $scope.categories = []
 
+
   $http.get "/api/category"
   .success (categories) ->
-    # console.log categories
+
     for category in categories
-      category.className = (category.name.replace ',', ' ').split(' ')[0].toLowerCase()
-      # classified.isUrgent = false
-      # console.log classified
-      # console.log 'sd', category
+      category.sprite = (category.name.replace ',', ' ').split(' ')[0].toLowerCase()
+
+      # Add the click handler
+      category.extraClass = ''
+      category.toggleChildren = ->
+        @extraClass = if @extraClass is 'show-children' then '' else 'show-children'
 
     $scope.categories = categories
 
-    # console.log response
+    # console.log responses
 
   $scope.onScroll = ->
     console.log @name, "scrolling"

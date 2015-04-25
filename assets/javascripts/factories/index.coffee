@@ -1,3 +1,4 @@
 module.exports = (app) ->
   console.log "[services] initializing"
-  app.service "classified", require "./classified"
+
+  app.factory 'cache', require './cache'

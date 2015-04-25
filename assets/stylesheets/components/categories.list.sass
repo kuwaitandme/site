@@ -1,7 +1,9 @@
 ul.categories-list
   margin: 0 auto
+  +clearfix
 
   li
+    float: left
     max-width: 210px
     padding: 7px
 
@@ -82,32 +84,35 @@ ul.categories-list
       &:nth-child(odd)
         background: #f6f6f6
 
+    &.show-children .children
+      height: auto
+
     .cat-sprite
-        background-image: url(/images/cat-spritesheet.jpg)
-        background-repeat: no-repeat
-        display: block
-        height: 132px
+      background-image: url(/images/cat-spritesheet.jpg)
+      background-repeat: no-repeat
+      display: block
+      height: 132px
     .careers
-        background-position: 0 0
+      background-position: 0 0
     .pets
-        background-position: -210px 0
+      background-position: -210px 0
     .community
-        background-position: -420px 0
+      background-position: -420px 0
     .electronics
-        background-position: -630px 0
+      background-position: -630px 0
     .general
-        background-position: -840px 0
+      background-position: -840px 0
     .hobbies
-        background-position: -1050px 0
+      background-position: -1050px 0
     .matrimonial
-        background-position: -1260px 0
+      background-position: -1260px 0
     .miscellaneous
-        background-position: -1470px 0
+      background-position: -1470px 0
     .music
-        background-position: -1680px 0
+      background-position: -1680px 0
     .property
-        background-position: -1890px 0
+      background-position: -1890px 0
     .services
-        background-position: -2100px 0
+      background-position: -2100px 0
     .vehicles
-        background-position: -2310px 0
+      background-position: -2310px 0

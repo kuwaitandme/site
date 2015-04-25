@@ -3,11 +3,12 @@ module.exports = ($http) ->
     method: 'POST'
     url: "/api/query?page=#{page}"
 
-  create: ->
+  save: ->
 
-  update: ->
-
-  patch: ->
+  search: (parameters, callback) ->
+    $http.get '/api/classified'
+    .success (classifieds) -> callback null, classifieds
+    .error callback
 
   get: (id) -> $http
     method: 'GET'
