@@ -58,6 +58,11 @@
     //   remoteSrc: "//cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.0.0/jquery.magnific-popup.min.js",
     //   localSrc: "/javascripts/vendor/jquery.magnific-popup.min.js"
     // }, {
+    //
+      name: "app:template",
+      remoteSrc: "/javascripts/vendor/angular.uiroute.js",
+      localSrc: "/javascripts/vendor/angular.uiroute.js"
+    }, {
       name: "app:template",
       remoteSrc: "/javascripts/build/template.js?m=" + config.magic.application,
       localSrc: "/javascripts/build/template.js?m=" + config.magic.application

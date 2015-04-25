@@ -3,5 +3,3 @@ module.exports = ($scope, $rootScope) ->
   console.log @name, 'initializing'
 
   $rootScope.bodyid = 'landing'
-  $scope.firstName = 'John'
-  $scope.lastName = 'Doe'

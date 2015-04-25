@@ -10,6 +10,7 @@ module.exports = ($http) ->
     .success (classifieds) -> callback null, classifieds
     .error callback
 
-  get: (id) -> $http
-    method: 'GET'
-    url: "/api/classified/#{id}"
+  get: (id, callback) ->
+    $http.get "/api/classified/#{id}"
+    .success (classified) -> callback null, classified
+    .error callback

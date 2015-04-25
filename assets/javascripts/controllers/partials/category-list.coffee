@@ -1,14 +1,12 @@
-controller = ($scope, $location, $http, cache) ->
+controller = ($scope, $location, $http, category) ->
   @name = '[partial:category-list]'
   console.log @name, "initializing"
 
   $scope.categories = []
 
-
-  $http.get "/api/category"
-  .success (categories) ->
-
+  category.getAll (error, categories) ->
     for category in categories
+      # The sprite is the classname we will use to add the category's image
       category.sprite = (category.name.replace ',', ' ').split(' ')[0].toLowerCase()
 
       # Add the click handler
@@ -17,8 +15,6 @@ controller = ($scope, $location, $http, cache) ->
         @extraClass = if @extraClass is 'show-children' then '' else 'show-children'
 
     $scope.categories = categories
-
-    # console.log responses
 
   $scope.onScroll = ->
     console.log @name, "scrolling"

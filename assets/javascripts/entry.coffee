@@ -1,5 +1,5 @@
 console.log '[app] initializing'
-app = angular.module 'App', ['ngRoute']
+app = angular.module 'App', ['ui.router']
 
 (require './controllers')   app
 (require './decorators')    app

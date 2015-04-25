@@ -93,11 +93,6 @@ coverage/
 boot/local.js
 .vagrant/
 
-# node files
-/assets/.sass-cache
-/node_modules
-/npm-debug.log
-
 /public/uploads
 /public/javascripts/build
 /public/stylesheets/build

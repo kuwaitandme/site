@@ -1,0 +1,94 @@
+//- Container for the admin panel
+#admin-single
+
+ul#single-messages
+
+section(ng-switch="!!classified")
+  .row(ng-switch-when="true")#classified
+    .columns
+      ul.gallery(ng-if="images")
+        li.small-6.medium-4.large-3.image-loading(ng-repeat="image in images")
+          a.th(data-lightbox="image-1", href="/uploads/main/{{ image.file }}", style="background: {{ image.color }}")
+            img.thumb(src="/uploads/thumb/{{ image.file }}")
+
+    h2.columns.c-title {{ classified.title }}
+    .columns
+      .row
+        .medium-8.large-9.columns
+          p.c-description(itemprop="description") {{ description }}
+          .meta(ng-if="classified.contact.website")
+            b {{ "page.csingle.website" | translate }}&nbsp;
+            {{ classified.contact.website }}
+            //- a(href!="<%= obj.contact.website %>") <%= obj.contact.website.replace(/.*?:\/\//, "") %>
+
+        .medium-4.large-3.columns.c-meta
+          .meta
+            b {{ "page.csingle.views" | translate }}&nbsp;
+            {{ classified.views }}
+
+          .meta
+            b {{ "page.csingle.type" | translate }}&nbsp;
+            {{ classified.type }}
+
+          .meta
+            b(itemprop="priceCurrency", content="KWD") {{ "page.csingle.price" | translate }}&nbsp;
+            {{ classified.price | price }}
+
+          .meta
+            meta(itemprop="datePublished" content="{{ created }}")
+            //- April 1, 2011
+            time
+              b {{ "page.csingle.created" | translate }}&nbsp;
+              {{ created | prettydate }}
+
+          .meta(ng-if='classified.category')
+            b {{ "page.csingle.category" | translate }}&nbsp;
+            {{ classified.category }}
+            span(ng-if="classified.childCategory") {{ classified.childCategory }}
+
+          .meta(ng-if='classified.category')
+            b {{ "page.csingle.email" | translate }}&nbsp;
+            {{ classified.contact.email }}
+
+          .meta(ng-if='classified.location')
+            b {{ "page.csingle.location" | translate }}&nbsp;
+            {{ classified.location }}
+
+          .meta(ng-if='classified.contact.phone')
+            b {{ "page.csingle.phone" | translate }}&nbsp;
+            {{ classified.contact.phone }}
+
+          .meta(ng-if='classified.contact.address1')
+            b {{ "page.csingle.address" | translate }}&nbsp;
+            {{ classified.contact.address1 + "; " + classified.contact.address2}}
+
+
+          //- .meta.print
+          //-   b
+          //-     a(href="javascript:window.print()", lang-html="page.csingle.print")
+          //- .meta.report.action(data-action="report")
+            b
+              a Report this classified
+    .page-break
+    .columns
+      #map-canvas
+
+    .columns.c-disclaimer
+      b {{ "page.csingle.disclaimer-t" | translate }}&nbsp;
+      {{ "page.csingle.disclaimer" | translate }}
+
+  .row(ng-switch-default)#classified
+    #ajax-spinner
+      img(src="/images/loader.gif")
+
+
+//- #promptModal.reveal-modal(data-reveal="", aria-hidden="true", role="dialog")
+//-   h3 Please give your reason for <span>action</span> this classified
+//-   .row.collapse
+//-     textarea(name="message", required, placeholder="Your reason")
+
+//-   .row.collapse
+//-     .gcaptcha
+//-     button.submit Submit
+//-     ul.messages
+//-   a.close-reveal-modal(aria-label="Close") &times;

@@ -29,7 +29,8 @@ module.exports = ->
 
       # Check if localStorage is supported
       if Storage?
-        @checkVersions()
+
+        # @checkVersions()
 
         # Cache the startup scripts for the next time the user visits the
         # site. Begin the cache after 3 seconds so that other AJAX requests
@@ -117,18 +118,13 @@ module.exports = ->
     ## *set(key, value):*
     A simple function to store a key-value pair into the cache
     ###
-    set: (key, string) ->
-      if @fallback then return
-      console.log @name, "setting '#{key}' into cache"
-      localStorage.setItem key, string
+    set: (key, string) -> if not @fallback then localStorage.setItem key, string
 
 
     ###
     ## *get(key):*
     Function to get a key-string pair from the cache, given the key
     ###
-    get: (key) ->
-      if @fallback then return
-      localStorage.getItem key
+    get: (key) -> if not @fallback then cache = localStorage.getItem key
 
   new Cache
