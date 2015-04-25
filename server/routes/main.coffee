@@ -36,7 +36,7 @@ exports = module.exports = (IoC) ->
   router.get /^\/(ar|en|dg).*\/?$/, setLanguage
 
   # Then start matching all the different routes for the app
-  _route "/", "landing"
+  _route "", "landing"
   _route "/about",         "about"
   _route "/contact",       "contact"
   # _route "/donate",        "donate"
@@ -58,7 +58,7 @@ exports = module.exports = (IoC) ->
   # _route "/classified/([a-z\-]*)/([a-z\-]*)", "classified/search"
   # _route "/classified/([a-zf0-9]*)/finish",   "classified/finish"
   # _route "/classified/([a-zf0-9]*)/edit",     "classified/edit"
-  # _route "/classified/([a-zf0-9]*)",          "classified/single"
+  _route "/classified/([a-zf0-9]*)",          "classified/single"
 
   # _route "/account",         "account"
   # _route "/account/manage",  "account/manage"
@@ -66,7 +66,7 @@ exports = module.exports = (IoC) ->
   # _route "/account/profile", "account/profile"
 
   # If language slug is present but page has not matched any url give 404 page
-  # _route  ".*", fourofour
+  _route  ".+", fourofour
 
   # If language slug is missing and redirect to a preferred language
   router.get /^(?:[^aed]|a[^r]|e[^n]|d[^g])(.*)/, langRedirect

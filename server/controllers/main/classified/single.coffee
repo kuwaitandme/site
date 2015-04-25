@@ -9,7 +9,7 @@ exports = module.exports = (renderer, Classified) ->
     if not validator.isMongoId id then return next()
 
     # Update the view counter asynchronously
-    controller.updateViewCount request, id
+    # controller.updateViewCount request, id
 
     # Get the classified
     Classified.get id, (error, classified) ->
@@ -18,7 +18,6 @@ exports = module.exports = (renderer, Classified) ->
       # Display 404 page if classified is not found
       if not classified then return next()
 
-      render = global.modules.renderer
       options =
         data: classified: classified
         description: classified.title
