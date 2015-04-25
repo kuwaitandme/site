@@ -1,0 +1,17 @@
+form.row
+  .page.small-centered.columns#page-begin
+    section(ng-include="'classified/post-partials/begin'")
+  .page.small-centered.columns#page-info
+    section(ng-include="'classified/post-partials/info'")
+  .page.small-centered.columns#page-details
+    section(ng-include="'classified/post-partials/details'")
+  .page.small-centered.columns#page-images
+    section(ng-include="'classified/post-partials/images'")
+  .page.small-centered.columns#page-maps
+    section(ng-include="'classified/post-partials/maps'")
+  .page.small-centered.columns#page-submit
+    section(ng-include="'classified/post-partials/submit'")
+
+  section.page.small-centered.columns
+    .row#ajax-spinner
+      img(src="/images/loader.gif")

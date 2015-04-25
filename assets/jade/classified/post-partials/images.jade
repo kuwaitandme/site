@@ -1,0 +1,22 @@
+.row
+  h3.columns(lang-html='page.cform.images.title')
+
+  .columns
+    b(lang-html='page.cform.images.hint1')
+  p.columns(lang-html='page.cform.images.hint2')
+  p.columns(lang-html='page.cform.images.hint3')
+  .columns
+    b(lang-html='page.cform.images.hint4')
+
+.row
+  .columns
+    form#image-form
+      #image-upload
+        .dz-message
+          span.heading(lang-html='page.cform.images.dragdrop1')
+          br
+          span(lang-html='page.cform.images.dragdrop2')
+  .columns
+    ul#image-upload-preview
+.row
+  p.columns(lang-html='page.cform.images.hint5')

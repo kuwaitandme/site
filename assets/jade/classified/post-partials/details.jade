@@ -1,0 +1,82 @@
+.row
+  h3.columns {{ 'page.cform.details.title' | translate }}
+  .columns {{ 'page.cform.details.hint1' | translate }}
+  p.columns {{ 'page.cform.details.hint2' | translate }}
+
+.row
+  .medium-3.columns
+    label(for="right-label") {{ 'page.cform.details.label.price' | translate }}
+  .medium-9.columns.error
+
+    select#price-selector(name="price-option", required)
+      option(value="", disabled, selected) {{ 'page.cform.details.price.select' | translate }}
+      option(value='0') {{ 'page.cform.details.price.free' | translate }}
+      option(value='-1') {{ 'page.cform.details.price.contact' | translate }}
+      option(value='1') {{ 'page.cform.details.price.specify' | translate }}
+    small.error Please choose a price
+
+  .columns.medium-9
+    .row.collapse.hide#price-row
+      .small-3.medium-2.columns
+        span.prefix {{ 'model.price.unit' | translate }}
+      .small-9.medium-10.columns
+        input#price-field(type="text", name="price", value=0, required, placeholder="{{ 'page.cform.details.price.placeholder' | translate }}")
+      small.error Please give a price
+
+.row
+  .medium-3.columns
+    label(for="right-label") {{ 'page.cform.details.type.label' | translate }}
+  .medium-9.columns.error
+    select#ctype(name="type", required)
+      option(value="", disabled, selected) {{ 'page.cform.details.type.select' | translate }}
+      option(value="0") {{ 'page.cform.details.type.offering' | translate }}
+      option(value="1") {{ 'page.cform.details.type.wanted' | translate }}
+    small.error Please choose a type
+
+.row
+  .medium-3.columns
+    label(for="right-label") {{ 'page.cform.details.category.label' | translate }}
+  .medium-9.columns.error
+    select#cat-selector(name="parent-category", required)
+      option(value="", disabled) {{ 'page.cform.details.category.choose' | translate }}
+    small.error Please choose a category
+
+  .columns.medium-9
+    .row.collapse#child-row.error.hide
+      .columns
+        select#childcat-selector(name="child-category")
+          option(value="", disabled) Choose a sub-category
+        small.error Please choose a sub-category
+
+.row
+  .medium-3.columns
+    label(for="right-label") {{ 'page.cform.details.email.label' | translate }}
+  .medium-9.columns
+    .row.collapse.error
+      .small-3.medium-2.columns
+        span.prefix @
+      .small-9.medium-10.columns
+        input#email(type="text", name="email", placeholder="{{ 'page.cform.details.email.placeholder' | translate }}", required)
+        small.error Please give an email
+.row
+  .medium-3.columns
+    label(for="right-label") {{ 'page.cform.details.phone.label' | translate }}
+  .medium-9.columns
+    .row.collapse
+      .small-3.medium-2.columns
+        span.prefix {{ "page.cform.details.phone.prefix" }}
+      .small-9.medium-10.columns
+        input#phone(type="text", name="phone", placeholder="{{ 'page.cform.details.phone.placeholder' | translate }}")
+.row
+  .medium-3.columns
+    label(for="right-label") {{ 'page.cform.details.location.label' | translate }}
+  .medium-9.columns
+    select#locations(name="location")
+      option(value="", disabled, selected) {{ 'page.cform.details.location.select' | translate }}
+      option(value="") {{ 'page.cform.details.location.select-none' | translate }}
+.row
+  .columns#address1.hide
+    input(type="text", name="address1", placeholder="{{ 'page.cform.details.address1' | translate }}")
+.row
+  .columns#address2.hide
+    input(type="text", name="address2", placeholder="{{ 'page.cform.details.address2' | translate }}")

@@ -1,0 +1,24 @@
+.row
+  //- | <% if(obj.hasClassified) { %>
+  h2.columns {{ "page.cform.edit.title" | translate }}
+  h3 {{ asd }}
+  //- | <% } else { %>
+  h2.columns {{ "page.cform.begin.title" | translate }}
+  //- | <% }  %>
+
+  p.columns {{ "page.cform.begin.hint1" | translate }}
+
+  //- | <% if(obj.isGuest) { %>
+  //- |   <% if(obj.hasClassified) { %>
+  p.columns {{ "page.cform.edit.guest.hint1" | translate }}
+  //- |   <% } else { %>
+  p.columns {{ "page.cform.begin.guest.hint1" | translate }}
+  //- |   <% }  %>
+  p.columns {{ "page.cform.begin.guest.hint2" | translate }}
+  //- | <% } else { %>
+  //- |   <% if(obj.hasClassified) { %>
+  p.columns {{ "page.cform.edit.hint2" | translate }}
+  //- |   <% } else { %>
+  p.columns {{ "page.cform.begin.hint2" | translate }}
+  //- |   <% } %>
+  //- | <% } %>
