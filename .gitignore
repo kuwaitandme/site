@@ -94,8 +94,8 @@ boot/local.js
 .vagrant/
 
 /public/uploads
-/public/javascripts/build
-/public/stylesheets/build
+/public/javascripts/*.js
+/public/stylesheets/*.css
 /server/**/*.js
 /docs
 
