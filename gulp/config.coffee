@@ -1,42 +1,46 @@
 module.exports =
   coffee:
-    dest:              'public/javascripts/build'
-    src:               'assets/javascripts/entry.coffee'
-    targetFilename:    'app.js'
-    targetFilenameMin: 'app.js'
+    dest:                "public/javascripts"
+    src:                 "assets/javascripts/entry.coffee"
+    targetFilename:      "app.js"
+    targetFilenameMin:   "app.js"
 
   sass:
-    dest:              'public/stylesheets/build'
-    src:               'assets/stylesheets/style.sass'
-    targetFilename:    'style.css'
-    targetFilenameMin: 'style.css'
+    dest:                "public/stylesheets"
+    src:                 "assets/stylesheets/style.sass"
+    targetFilename:      "style.css"
+    targetFilenameMin:   "style.css"
 
   jade:
-    dest:              'public/javascripts/build'
-    src:               'assets/jade/**/*.jade'
-    targetFilename:    'template.js'
-    targetFilenameMin: 'template.js'
+    dest:                "public/javascripts"
+    src:                 "assets/jade/**/*.jade"
+    targetFilename:      "templates.js"
+    targetFilenameMin:   "templates.js"
 
   watch:
-    jsPattern:         'assets/javascripts/**/*.coffee'
-    cssPattern:        'assets/stylesheets/**/*.{sass,scss}'
-    jadePattern:       'assets/jade/**/*.jade'
+    jsPattern:           "assets/javascripts/**/*.coffee"
+    cssPattern:          "assets/stylesheets/**/*.{sass,scss}"
+    jadePattern:         "assets/jade/**/*.jade"
 
   docs:
-    hostname:           'http://localhost:8000'
+    hostname:            "http://localhost:8000"
     backend:
-      dest:              'docs/backend'
-      src:               'server/**/*.coffee'
+      dest:              "docs/backend"
+      src:               "server/**/*.coffee"
     frontend:
-      dest:              'docs/frontend'
-      src:               'assets/javascripts/**/*.coffee'
+      dest:              "docs/frontend"
+      src:               "assets/javascripts/**/*.coffee"
 
   server:
     footer:
-      dest:              'server/views/components/footer-scripts'
-      filenameMin:       'main.min.js'
-      src:               'server/views/components/footer-scripts/*.coffee'
+      dest:              "server/views/components/footer-scripts"
+      filenameMin:       "main.min.js"
+      src:               "server/views/components/footer-scripts/*.coffee"
     db:
-      dest:              'server/db'
-      filename:          'populate.js'
-      src:               'server/db/*.coffee'
+      dest:              "server/db"
+      filename:          "populate.js"
+      src:               "server/db/*.coffee"
+
+  bower:
+    dest:                "public/javascripts/"
+    targetFilename:      "libraries.js"
