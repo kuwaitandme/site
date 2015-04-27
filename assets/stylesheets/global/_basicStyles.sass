@@ -8,7 +8,8 @@ a, a:visited, a:active
 
 li, ul
   list-style: none
-
+ul
+  padding-left: 0
 ol
   > li
     list-style: decimal
@@ -232,5 +233,24 @@ h1, h2, h3, h4, h5, h6
   padding: 20px
   text-align: center
 
-.row
-  max-width: 800px
+#page-hero
+  // opacity: 0.6
+  width: 100%
+  height: 100%
+  position: absolute
+  top: 0
+  left: 0
+  background: no-repeat center center
+  -webkit-background-size: cover
+  -moz-background-size: cover
+  -o-background-size: cover
+  background-size: cover
+  &:after
+    background: -moz-linear-gradient(to bottom,rgba(255,255,255,0) 20%,rgba(255,255,255,0.3) 50%,rgba(255,255,255,1) 100%)
+    background: linear-gradient(to bottom, rgba(255,255,255,0) 20%,rgba(255,255,255,0.3) 50%,rgba(255,255,255,1) 100%)
+    content: ''
+    height: 100%
+    left: 0
+    position: absolute
+    top: 0
+    width: 100%

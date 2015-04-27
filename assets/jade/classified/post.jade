@@ -1,17 +1,90 @@
-form.row
-  .page.small-centered.columns#page-begin
-    section(ng-include="'classified/post-partials/begin'")
-  .page.small-centered.columns#page-info
-    section(ng-include="'classified/post-partials/info'")
-  .page.small-centered.columns#page-details
-    section(ng-include="'classified/post-partials/details'")
-  .page.small-centered.columns#page-images
-    section(ng-include="'classified/post-partials/images'")
-  .page.small-centered.columns#page-maps
-    section(ng-include="'classified/post-partials/maps'")
-  .page.small-centered.columns#page-submit
-    section(ng-include="'classified/post-partials/submit'")
+section#classified
+  form(name="form", novalidate).row
+    input(type='file', multiple, ng-model-file='files', ng-model-file-finish="fileChange").hide
+    .columns
+      ul.gallery.row.collapse
+        li.small-6.medium-4.large-3.columns(ng-repeat="image in files track by $index")
+          img.thumb(image-loader!="/uploads/thumb/{{ image.file }}", image-success="update", image-fail="update")
+        li.medium-4.large-3.columns(ng-click="addImages()")
+          .message Add an Image
 
-  section.page.small-centered.columns
-    .row#ajax-spinner
-      img(src="/images/loader.gif")
+
+    .columns.title
+      input(type="text", placeholder="Your title goes here", ng-model="title",
+        ng-change="validate()", ng-minlength="20", ng-maxlength="140", ng-required="true")
+      .error(max="max. 140 characters", min="min. 20 characters") {{ remainingTitle }}
+
+    //- ul.columns.tags
+      li.whatsapp Whatsapp
+      li.viber Viber
+      li.green Free Delivery
+      li.yellow Expired
+      li.red Banned
+      li.green Delivery included
+      li.yellow Promoted
+      li.red Urgent
+
+    .columns.description(itemprop="description")
+      textarea(placeholder="Your description goes here",
+        ng-model="description",
+        ng-minlength="50",
+        ng-maxlength="2000",
+        ng-required="true")
+      .error(max="max. 2000 characters", min="min. 50 characters") {{ remainingDescription }}
+
+    ul.meta.columns.medium-6
+      li
+        .meta-title Price:
+        select
+          option(disabled, selected) Choose a price
+          option Free
+          option Contact Owner
+      li
+        .meta-title Category:
+        select
+          option(disabled, selected) Choose a price
+          option Free
+          option Contact Owner
+        span(ng-if="classified.childCategory") {{ classified.childCategory | category }}
+      li
+        .meta-title Location:
+        select
+          option(disabled, selected) Choose a price
+          option Free
+          option Contact Owner
+      li
+        .meta-title Address:
+        input(type="text", placeholder="Address line 1")
+
+    .user.columns.medium-6
+      .avatar
+      .details
+        b Posted by&nbsp;
+        .name John Doe
+        b Member for: &nbsp;
+        | 30 days
+
+    .google-maps.columns
+      .maps-container
+
+    .disclaimer.columns
+      b {{ "page.csingle.disclaimer-t" | translate }} &nbsp;
+      | {{ "page.csingle.disclaimer" | translate }}
+
+//- form.row
+//-   .page.small-centered.columns#page-begin
+//-     section(ng-include="'classified/post-partials/begin'")
+//-   .page.small-centered.columns#page-info
+//-     section(ng-include="'classified/post-partials/info'")
+//-   .page.small-centered.columns#page-details
+//-     section(ng-include="'classified/post-partials/details'")
+//-   .page.small-centered.columns#page-images
+//-     section(ng-include="'classified/post-partials/images'")
+//-   .page.small-centered.columns#page-maps
+//-     section(ng-include="'classified/post-partials/maps'")
+//-   .page.small-centered.columns#page-submit
+//-     section(ng-include="'classified/post-partials/submit'")
+
+//-   section.page.small-centered.columns
+//-     .row#ajax-spinner
+//-       img(src="/images/loader.gif")

@@ -1,6 +1,5 @@
 .classifiedList
-
-  // background: #f0f0f0
+  background: #fff
   .ajax-spinner
     display: none
     text-align: center
@@ -26,31 +25,26 @@ ul.classified-list
     &:visited
       color: #000
   > li
-    // width: 236px + 14px
-    // @media only screen and (max-width: 40.063em)
-    //   width: 100%
-    float: left
     padding: 7px
+    .border
+      +single-transition
+      background: #e7e7e7
+      margin: 10px 0
+      width: 75%
+      height: 1px
+
     .container
-      border-bottom: 1px solid #e7e7e7
-      +single-transition()
+      +single-transition
       background: #FFF
       overflow: hidden
       position: relative
 
-      // -webkit-border-radius: 6px
-      // -moz-border-radius: 6px
-      // border-radius: 6px
-
-      // -webkit-box-shadow: 0 1px 2px 0px rgba(0, 0, 0, 0.2)
-      // -moz-box-shadow: 0 1px 2px 0px rgba(0, 0, 0, 0.2)
-      // box-shadow: 0 1px 2px 0px rgba(0, 0, 0, 0.2)
-
       &:hover
-        border-color: #000
-        margin-top: -5px
-        .c-title, li
+        .title, li
           color: #000
+        .border
+          background: #000
+          width: 100%
 
     .heading
       font-size: 20px
@@ -58,33 +52,30 @@ ul.classified-list
       overflow: hidden
       background: #000
       img
-        +single-transition(opacity)
-        opacity: 1
         width: 100%
-        background: #fff
-    &.image-loading .thumb
-      height: 200px
-      background: #f6f6f6
-      img
-        opacity: 0
-    &.image-failed .thumb
-      display: none
-    .c-info
-      > .c-meta
-        padding: 5px 10px 10px
+        &.image-loading
+          height: 200px
+          opacity: 0
+        &.image-fail
+          display: none
+    .info
+      padding: 5px
+      > .meta
+        +clearfix
+        +single-transition
         color: #999
         font-size: 0.7rem
         margin: 0
-        padding: 10px
-        +clearfix
         span
           text-align: right
-      .c-title
+      .title
         @extend .font-title
-        margin: 10px 16px
         font-size: 0.8rem
-        padding-bottom: 0
+        margin: 10px 0
         overflow: hidden
+        padding-bottom: 0
+        width: 90%
+        word-wrap: break-word
     .urgent-banner
       background: #FA2A00
       color: #FFF
@@ -97,7 +88,7 @@ ul.classified-list
       .urgent-banner
         display: block
 
-  .c-status
+  .status
     @extend .font-title
     background: green
     color: #FFF
@@ -110,5 +101,5 @@ ul.classified-list
     &.warn
       background: orange
   &.show-statuses
-    .c-status
+    .status
       display: block

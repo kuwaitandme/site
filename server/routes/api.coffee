@@ -7,7 +7,7 @@ exports = module.exports = (IoC) ->
 
   _api = (controller) -> IoC.create "controllers/api/#{controller}"
 
-  router.get "/",     _api ""
+  router.get    "/",          _api ""
 
   router.get    "/category",  _api "category/get"
   router.get    "/location",  _api "location/get"
@@ -32,7 +32,5 @@ exports = module.exports = (IoC) ->
   # router.put    "/user/:id?", _api "user/put"
 
   app.use "/api", router
-
-
 exports["@require"] = [ "$container" ]
 exports["@singleton"] = true

@@ -1,182 +1,250 @@
-body#classified-post main
-  background: #FFF
-  #ajax-spinner
-    position: relative
-    height: 50px
-    width: 50px
-    display: none
-    margin: 0 70px
-  .prefix
-    z-index: 0
-  #price-row
-    margin: 0 0 1rem 0
-  small.error
-    display: none
-  .show-error small.error
-    display: block
-  .page
-    margin: 3rem auto
-    .seperator
-      background: #ddd
-      margin: 0
-    > .row
-      margin: 0 0 1.5rem 0
-    #price-row, #child-row
-      margin-top: 1.5rem
-  select, input, textarea
+body#classified-post
+  @extend body#classified-single
+  input
     @extend .font-text
-    outline: none
+    &[type='text']
+      font-size: 1rem
+  input, select, textarea, button
+    +single-transition
+    border: 1px solid #ddd
     margin: 0
-  label
-    margin-bottom: 10px
-  textarea
-    min-height: 200px
-  h1
+    &:focus
+      outline: none
+
+    &.ng-invalid-minlength
+      border: 2px solid #FFB604
+      ~ .error
+        background: #FFB604
+        color: #FFF
+        &:before
+          content: attr(min)
+
+    &.ng-invalid-maxlength
+      border: 2px solid #E04B2A
+      ~ .error
+        background: #E04B2A
+        color: #FFF
+        &:before
+          content: attr(max) !important
+
+    &.ng-invalid-required
+      ~ .error
+        background: #D3402A
+        color: #FFF
+        &:before
+          content: "required"
+
+  .error
+    font-size: 11px
     display: inline-block
-    margin-bottom: 0
-    width: auto
-  p
-    a
-      font-weight: bold
-      text-decoration: none
-      border-bottom: 2px solid #E74C3C
-      color: #E74C3C
-  #authLink
-      word-break: break-all
-  .submit
-    @extend .font-title
-    +single-transition(background)
-    background: #2ecc71
-    border: none
-    color: #FFF
-    cursor: pointer
-    font-weight: 400
-    padding: 12px
-    width: 100%
-    margin: 10px 0
+    padding: 5px 10px
 
-    -moz-border-radius: 3px
-    -webkit-border-radius: 3px
-    border-radius: 3px
-    a
-      color: inherit
-    &:hover
-      background: #27ae60
-  .post-nav
-    color: #777
-    font-size: 12px
-    text-transform: uppercase
-    a
-      text-decoration: none
-      &:active, &:hover
-        color: #000
-  #image-upload
-    background: #f9f9f9
-    border: 2px dotted #3498db
-    color: rgba(0, 0, 0, 0.75)
-    min-height: 200px
-    padding-top: 75px
-    text-align: center
-
-  #maps-container
-    position: relative
-    border: 1px solid #DDD
-    height: 400px
-
-    #maps-disabled-overlay
+  .gallery
+    [ng-click]
+      background: #eee
+      padding: 0 20px
       @extend .font-title
-      background: rgba(255, 255, 255, 0.8)
-      cursor: pointer
-      height: 100%
-      line-height: 350px
-      position: absolute
+      color: #999
       text-align: center
-      vertical-align: text-top;
-      width: 100%
-      z-index: 1
-    #map-canvas
-      position: relative
-      width: 100%
-      height: 100%
+      padding-top: 80px
+      height: 200px
 
 
-  #image-upload-preview
-    +clearfix
-    +single-transition(border-color)
-    border: dotted 2px #EEE
-    margin: 0
-    margin-top: 10px
-    min-height: 50px
-    padding: 0
-    img
-      max-width: none
-      min-width: 100%
+  .title, .description
+    input, textarea
+      width: 100%
+      padding: 0.5rem
+  .description
+    white-space: initial !important
+    textarea
       height: 100%
-    &:hover
-      border-color: #3498db
-    .dz-preview
-      border-right: 1px solid #DDD
-      float: left
-      height: 100px
-      overflow: hidden
-      position: relative
-      width: 100px
-      .delete
-        +single-transition(opacity)
-        background: rgba(255, 255, 255, 0.8)
-        color: #e74c3c
-        height: 100px
-        left: 0
-        opacity: 0
-        position: absolute
-        text-align: center
-        top: 0
-        width: 100px
-        div
-          cursor: pointer
-          font-size: 25px
-          padding-top: 33px
-      &:hover .delete
-        opacity: 1
-  #social-links
-    .social
-      +single-transition(background)
-      color: #FFF
-      display: block
+      left: 0
       margin: 0
-      padding: 0
+      min-height: 200px
+      top: 0
+  .meta
+    select
+      width: 50%
 
-      -moz-border-radius: 3px
-      -webkit-border-radius: 3px
-      border-radius: 3px
 
-      .icon
-        @extend .font-awesome
-        padding: 14px
-        text-align: center
-      .text
-        border-left: 1px solid rgba(0,0,0,0.2)
-        padding: 10px
-      &.facebook
-        background: #3B5390
-        &:hover
-          background: #293A65
-      &.twitter
-        background: #00AFEB
-        &:hover
-          background: #008CBC
-      &.gplus
-        background: #CC4534
-        &:hover
-          background: #A3372A
+  // background: #FFF
+  // #ajax-spinner
+  //   position: relative
+  //   height: 50px
+  //   width: 50px
+  //   display: none
+  //   margin: 0 70px
+  // .prefix
+  //   z-index: 0
+  // #price-row
+  //   margin: 0 0 1rem 0
+  // small.error
+  //   display: none
+  // .show-error small.error
+  //   display: block
+  // .page
+  //   margin: 3rem auto
+  //   .seperator
+  //     background: #ddd
+  //     margin: 0
+  //   > .row
+  //     margin: 0 0 1.5rem 0
+  //   #price-row, #child-row
+  //     margin-top: 1.5rem
+  // select, input, textarea
+  //   @extend .font-text
+  //   outline: none
+  //   margin: 0
+  // label
+  //   margin-bottom: 10px
+  // textarea
+  //   min-height: 200px
+  // h1
+  //   display: inline-block
+  //   margin-bottom: 0
+  //   width: auto
+  // p
+  //   a
+  //     font-weight: bold
+  //     text-decoration: none
+  //     border-bottom: 2px solid #E74C3C
+  //     color: #E74C3C
+  // #authLink
+  //     word-break: break-all
+  // .submit
+  //   @extend .font-title
+  //   +single-transition(background)
+  //   background: #2ecc71
+  //   border: none
+  //   color: #FFF
+  //   cursor: pointer
+  //   font-weight: 400
+  //   padding: 12px
+  //   width: 100%
+  //   margin: 10px 0
 
-  .error-message
-    margin: 0
-    li
-      margin: 1rem 0
-      background: #F04124
-      color: #FFF
-      padding: 10px
-      -moz-border-radius: 3px
-      -webkit-border-radius: 3px
-      border-radius: 3px
+  //   -moz-border-radius: 3px
+  //   -webkit-border-radius: 3px
+  //   border-radius: 3px
+  //   a
+  //     color: inherit
+  //   &:hover
+  //     background: #27ae60
+  // .post-nav
+  //   color: #777
+  //   font-size: 12px
+  //   text-transform: uppercase
+  //   a
+  //     text-decoration: none
+  //     &:active, &:hover
+  //       color: #000
+  // #image-upload
+  //   background: #f9f9f9
+  //   border: 2px dotted #3498db
+  //   color: rgba(0, 0, 0, 0.75)
+  //   min-height: 200px
+  //   padding-top: 75px
+  //   text-align: center
+
+  // #maps-container
+  //   position: relative
+  //   border: 1px solid #DDD
+  //   height: 400px
+
+  //   #maps-disabled-overlay
+  //     @extend .font-title
+  //     background: rgba(255, 255, 255, 0.8)
+  //     cursor: pointer
+  //     height: 100%
+  //     line-height: 350px
+  //     position: absolute
+  //     text-align: center
+  //     vertical-align: text-top;
+  //     width: 100%
+  //     z-index: 1
+  //   #map-canvas
+  //     position: relative
+  //     width: 100%
+  //     height: 100%
+
+
+  // #image-upload-preview
+  //   +clearfix
+  //   +single-transition(border-color)
+  //   border: dotted 2px #EEE
+  //   margin: 0
+  //   margin-top: 10px
+  //   min-height: 50px
+  //   padding: 0
+  //   img
+  //     max-width: none
+  //     min-width: 100%
+  //     height: 100%
+  //   &:hover
+  //     border-color: #3498db
+  //   .dz-preview
+  //     border-right: 1px solid #DDD
+  //     float: left
+  //     height: 100px
+  //     overflow: hidden
+  //     position: relative
+  //     width: 100px
+  //     .delete
+  //       +single-transition(opacity)
+  //       background: rgba(255, 255, 255, 0.8)
+  //       color: #e74c3c
+  //       height: 100px
+  //       left: 0
+  //       opacity: 0
+  //       position: absolute
+  //       text-align: center
+  //       top: 0
+  //       width: 100px
+  //       div
+  //         cursor: pointer
+  //         font-size: 25px
+  //         padding-top: 33px
+  //     &:hover .delete
+  //       opacity: 1
+  // #social-links
+  //   .social
+  //     +single-transition(background)
+  //     color: #FFF
+  //     display: block
+  //     margin: 0
+  //     padding: 0
+
+  //     -moz-border-radius: 3px
+  //     -webkit-border-radius: 3px
+  //     border-radius: 3px
+
+  //     .icon
+  //       @extend .font-awesome
+  //       padding: 14px
+  //       text-align: center
+  //     .text
+  //       border-left: 1px solid rgba(0,0,0,0.2)
+  //       padding: 10px
+  //     &.facebook
+  //       background: #3B5390
+  //       &:hover
+  //         background: #293A65
+  //     &.twitter
+  //       background: #00AFEB
+  //       &:hover
+  //         background: #008CBC
+  //     &.gplus
+  //       background: #CC4534
+  //       &:hover
+  //         background: #A3372A
+
+  // .error-message
+  //   margin: 0
+  //   li
+  //     margin: 1rem 0
+  //     background: #F04124
+  //     color: #FFF
+  //     padding: 10px
+  //     -moz-border-radius: 3px
+  //     -webkit-border-radius: 3px
+  //     border-radius: 3px

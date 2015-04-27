@@ -1,7 +1,6 @@
 jade      = require 'gulp-jade'
 rename    = require 'gulp-rename'
 concat    = require 'gulp-concat'
-template  = require 'gulp-template-compile'
 template  = require 'gulp-lodash-template'
 
 module.exports = (gulp, config) ->

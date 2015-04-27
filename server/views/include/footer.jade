@@ -5,8 +5,12 @@ footer
       window.config = {magic:{}}//-!{JSON.stringify(config)};
 
     if mode != "production"
-      script
-        include ../components/footer-scripts/main.js
+      link(rel="stylesheet", type="text/css", href="/stylesheets/style.css")
+      script(src="/javascripts/libraries.js")
+      script(src="/javascripts/templates.js")
+      script(src="/javascripts/app.js")
+      //- script
+      //-   include ../components/footer-scripts/main.js
     else
       script
         include ../components/footer-scripts/main.min.js

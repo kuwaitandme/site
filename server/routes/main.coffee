@@ -36,7 +36,7 @@ exports = module.exports = (IoC) ->
   router.get /^\/(ar|en|dg).*\/?$/, setLanguage
 
   # Then start matching all the different routes for the app
-  _route "", "landing"
+  _route "",               "landing"
   _route "/about",         "about"
   _route "/contact",       "contact"
   # _route "/donate",        "donate"
@@ -44,15 +44,15 @@ exports = module.exports = (IoC) ->
   _route "/terms-privacy", "terms-privacy"
 
   # _route "/auth/forgot", "auth/forgot"
-  # _route "/auth/login",  "auth/login"
-  # _route "/auth/signup", "auth/signup"
+  _route "/auth/login",  "auth/login"
+  _route "/auth/signup", "auth/signup"
 
   _route "/guest/post",                "guest/post"
   # _route "/guest/([a-zf0-9]*)/finish", "guest/finish"
   # _route "/guest/([a-zf0-9]*)/edit",   "guest/edit"
   # _route "/guest/([a-zf0-9]*)",        "guest/single"
 
-  # _route "/classified/post",                  "classified/post"
+  _route "/classified/post",                  "classified/post"
   # _route "/classified",                       "classified/search"
   # _route "/classified/([a-z\-]*)",            "classified/search"
   # _route "/classified/([a-z\-]*)/([a-z\-]*)", "classified/search"

@@ -12,18 +12,21 @@ module.exports = ($http, $cache) ->
   ###
   getAll: (callback) ->
     cache = $cache.get 'models:category'
-
     # A helper function to retrieve the categories from the API
-    _fetchFromAPI = ->
+    _fetchFromAPI = =>
       $http.get "/api/category/"
-      .success (categories) ->
+      .success (categories) =>
+        @categories = categories
         $cache.set 'models:category', JSON.stringify categories
+        console.log @
         callback null, categories
 
     if cache?
       # Categories was found in cache, prepare to translate it and return
       console.log @name, 'retrieving categories from cache'
-      try callback null, JSON.parse cache
+      try
+        @categories = JSON.parse cache
+        callback null, @categories
       catch exception
         # Something went wrong while parsing the categories. No problem, we'll
         # retrieve it from the API.
@@ -32,3 +35,17 @@ module.exports = ($http, $cache) ->
       # Categories were never saved. So retrieve it from the API.
       console.log @name, 'retrieving categories from API'
       _fetchFromAPI()
+
+  findBySlug: (slug) ->
+    for cat in @categories
+      if cat.slug is slug then return cat
+      for childcat in cat.children
+        if childcat.slug is slug then return childcat
+    {}
+
+  findById: (id) ->
+    for cat in @categories
+      if cat._id is id then return cat
+      for childcat in cat.children
+        if childcat._id is id then return childcat
+    {}

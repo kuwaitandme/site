@@ -11,15 +11,15 @@ getArabicNoun = (noun) ->
 
 createHandler = (divisor, noun, restOfString) ->
   (diff) ->
-    lang = App.Resources.language
+    # lang = App.Resources.language
     n = Math.floor diff / divisor
-    if lang.currentLanguage is "ar"
-      arabicNum = App.Resources.Helpers.numbers.toArabic n
-      arabicNoun = getArabicNoun noun
-      "#{arabicNum} #{arabicNoun}"
-    else
-      pluralizedNoun = "#{noun}#{if n > 1 then "s" else ""}"
-      "#{n} #{pluralizedNoun} #{restOfString}"
+    # if lang.currentLanguage is "ar"
+    #   arabicNum = App.Resources.Helpers.numbers.toArabic n
+    #   arabicNoun = getArabicNoun noun
+    #   "#{arabicNum} #{arabicNoun}"
+    # else
+    pluralizedNoun = "#{noun}#{if n > 1 then "s" else ""}"
+    "#{n} #{pluralizedNoun} #{restOfString}"
 
 prettify = (date_raw) ->
   formatters = [

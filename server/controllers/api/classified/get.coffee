@@ -2,7 +2,6 @@ validator = require 'validator'
 
 # singleController = require '../../controllers/classified/single'
 
-
 exports = module.exports = (Classified) ->
   controller = (request, response, next) ->
     _query = (request, response, next) ->

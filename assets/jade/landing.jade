@@ -29,10 +29,11 @@
       //- li
       //-   a(href="/en") English
 
-#landing-categories.row
+//- #landing-categories.row
   h1 Categories
   section(ng-include="'components/category-list'")
 
 #landing-featured-cl.row
-  h1 {{ "page.landing.classifieds" | translate }} Featured classifieds
+  //- h1 {{ "page.landing.classifieds" | translate }}
+  h1 Featured classifieds
   .classifiedList(ng-include="'components/classified-list'")

@@ -1,137 +1,194 @@
 body#classified-single
-  ul#single-messages
-    @extend .font-title
-    margin: 0
-    padding: 0
-    li
-      background: #E74C3C
-      color: #FFF
-      font-size: 0.75rem
-      padding: 10px
-      text-align: center
-      &.warning
-        background: #FD8603
-      &.success
-        background: #2ecc71
-      &.error
-        color: rgba(255, 255, 255, 0.75)
+  #classified
+    > .row .columns
+      margin-bottom: 1rem
 
-  #admin-controls
-    border: 1px solid #ff7302
-    display: inline-block
-    height: 37px
-    margin: 30px
-    margin-bottom: 0
-    overflow: hidden
-    .meta
-      border-right: 1px solid #FFF
-      float: left
-      &:last-child
-        border-right: none
-    form
-      margin: 0
-      padding: 0
-    input, .input
-      +single-transition
-      background: #ff7302
-      border-radius: 0
-      border: 0
-      color: #FFF
-      font-weight: 700
-      padding-top: 8px
-      width: auto
-      &:hover
-        background: #FFF
-        color: #ff7302
-  #map-canvas
-    height: 400px
-    margin: 20px 0
-    max-height: 100%
-    width: 100%
-  .c-title
-    margin-bottom: 1rem
-  .c-meta
-    padding-left: 15px
-    @media only screen and (min-width: 40.063em)
-      border-left: 1px solid #eee
-  .c-content
-    margin: 0 auto
-    width: 95%
-    padding-top: 1px
-    margin-bottom: 1rem
-    h1
-      font-size: 40px
-    .meta
+    .gallery
+      li
+        margin-bottom: 0 !important
+        img
+          width: 100%
+
+    .title
+      @extend .font-title
+
+    .tags
       +clearfix
-      color: #000
-      font-size: 0.8rem
-      margin: 0
-      margin-bottom: .5rem
-      padding: 0
-      word-wrap: break-word
-      a
-        color: blue
-        border-bottom: 1px solid blue
+      margin-left: 0
+      li
+        margin-right: 5px
+        margin-bottom: 5px
+        text-transform: uppercase
+        font-size: 0.7rem
+        background: red
+        color: #FFF
+        padding: 5px 10px
+        float: left
 
-    .c-description
+        &.whatsapp
+          background: #11AE09
+        &.viber
+          background: #774F98
+        &.green
+          background: #019C58
+        &.yellow
+          background: #FFB604
+        &.red
+          background: #D3402A
+
+    .description
+      @extend .font-text
       font-size: 0.8rem
-      padding-right: 15px
-      padding-bottom: 2rem
+      padding-bottom: 4rem
       white-space: pre-wrap
       white-space: -moz-pre-wrap
       white-space: -pre-wrap
       white-space: -o-pre-wrap
       word-wrap: break-word
 
-  .clearing-blackout
-    background: rgba(0, 0, 0, 0.75)
-    .visible-img,  .carousel
-      background: transparent
-  .c-gallery
-    margin: 2rem 0
-    padding: 0
-    text-align: center
+    .user
+      font-size: 0.8rem
+      position: relative
+      min-height: 100px
+      .details
+        padding-right: 100px
+      .avatar
+        position: absolute
+        top: 0
+        right: 10px
+        width: 100px
+        height: 100px
+        background: red
+      .name
+        font-size: 1rem
+        margin-bottom: 10px
+      @media only screen and (max-width: 20em)
+        .avatar
+          position: relative
+          margin: 0 auto
+          margin-bottom: 15px
 
-    li
-      margin: 0
 
-      .th
-        +single-transition(height)
-        width: 100%
-      img
-        width: 100%
+    .meta
+      margin-top: 0
+      li
+        font-size: 0.8rem
+        margin-bottom: 0.5rem
+        .meta-title
+          display: inline-block
+          width: 70px
+
+    .google-maps
+      .maps-container
+        background: red
+        opacity: 0.1
+        min-height: 300px
+
+    .disclaimer
+      +single-transition(opacity)
+      color: #000
+      font-size: 0.75rem
+      opacity: 0.5
+      &:hover
         opacity: 1
-      &.image-loading
-        img
-          opacity: 0
-        .th
-          background: #eee
-          min-height: 100px
-  .c-disclaimer
-    +single-transition(opacity)
-    color: #000
-    font-size: 0.75rem
-    margin-bottom: 1rem
-    opacity: 0.5
-    width: 95%
+      a
+        color: blue
+        border-bottom: 1px solid blue
 
-    &:hover
-      opacity: 1
-    a
-      color: blue
-      border-bottom: 1px solid blue
+//   ul#single-messages
+//     @extend .font-title
+//     margin: 0
+//     padding: 0
+//     li
+//       background: #E74C3C
+//       color: #FFF
+//       font-size: 0.75rem
+//       padding: 10px
+//       text-align: center
+//       &.warning
+//         background: #FD8603
+//       &.success
+//         background: #2ecc71
+//       &.error
+//         color: rgba(255, 255, 255, 0.75)
 
-  #promptModal
-    textarea
-      border-top: 1px solid #ddd
-    .messages
-      margin: 0
 
-@media print
-  .c-gallery
-    border-bottom: none !important
-    background: #FFF !important
-    img
-      max-width: 45% !important
-  .gmnoprint
-    display:none
+//   #map-canvas
+//     height: 400px
+//     margin: 20px 0
+//     max-height: 100%
+//     width: 100%
+//   .c-title
+//   // .c-meta
+//   //   padding-left: 15px
+//   //   @media only screen and (min-width: 40.063em)
+//   //     border-left: 1px solid #eee
+//   .c-content
+//     margi#n: 0 auto
+//     width: 95%
+//     padding-top: 1px
+//     margin-bottom: 1rem
+//     h1
+//       font-size: 40px
+//     .meta
+//       +clearfix
+//       color: #000
+//       font-size: 0.8rem
+//       margin: 0
+//       margin-bottom: .5rem
+//       padding: 0
+//       word-wrap: break-word
+//       a
+//         color: blue
+//         border-bottom: 1px solid blue
+
+//     .c-description
+//       font-size: 0.8rem
+//       padding-right: 15px
+//       padding-bottom: 2rem
+//       white-space: pre-wrap
+//       white-space: -moz-pre-wrap
+//       white-space: -pre-wrap
+//       white-space: -o-pre-wrap
+//       word-wrap: break-word
+
+//   .clearing-blackout
+//     background: rgba(0, 0, 0, 0.75)
+//     .visible-img,  .carousel
+//       background: transparent
+//   .c-gallery
+//     margin: 2rem 0
+//     padding: 0
+//     text-align: center
+
+//     li
+//       margin: 0
+
+//       .th
+//         +single-transition(height)
+//         width: 100%
+//       img
+//         width: 100%
+//         opacity: 1
+//       &.image-loading
+//         img
+//           opacity: 0
+//         .th
+//           background: #eee
+//           min-height: 100px
+//   .c-disclaimer
+
+//   #promptModal
+//     textarea
+//       border-top: 1px solid #ddd
+//     .messages
+//       margin: 0
+
+// @media print
+//   .c-gallery
+//     border-bottom: none !important
+//     background: #FFF !important
+//     img
+//       max-width: 45% !important
+//   .gmnoprint
+//     display:none

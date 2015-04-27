@@ -1,6 +1,6 @@
 coffee     = require 'gulp-coffee'
 concat     = require 'gulp-concat'
-debug      = require('gulp-debug')
+debug      = require 'gulp-debug'
 gulpIgnore = require 'gulp-ignore'
 rename     = require 'gulp-rename'
 uglify     = require 'gulp-uglifyjs'

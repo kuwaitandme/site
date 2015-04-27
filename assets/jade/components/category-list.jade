@@ -1,5 +1,5 @@
 ul.row.categories-list(ng-controller='component:category-list')
-  li.columns.medium-3.small-6(ng-repeat="category in categories", ng-class="category.extraClass")
+  li.columns.large-3.medium-4.small-6(ng-repeat="category in categories", ng-class="category.extraClass")
     .container
       .sprite-container
         .image.cat-sprite(class="{{ category.sprite }}", ng-click="category.toggleChildren()")
