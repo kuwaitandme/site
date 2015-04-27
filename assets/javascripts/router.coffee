@@ -25,6 +25,16 @@ module.exports = (app) ->
       templateUrl: "classified/post"
       url: "/en/guest/post"
 
+    .state "auth-login",
+      controller: "page:auth/login"
+      templateUrl: "auth/login"
+      url: "/en/auth/login"
+
+    .state "auth-signup",
+      controller: "page:auth/signup"
+      templateUrl: "auth/signup"
+      url: "/en/auth/signup"
+
     $locationProvider.html5Mode
       enabled: true
       requireBase: false
