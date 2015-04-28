@@ -26,6 +26,22 @@ exports = module.exports = (IoC) ->
       status: error.status or 500
 
 
+  error = (error, request, response, next) ->
+    # Set the default error code to 500
+    response.status error.status or 500
+
+    # In production, no stack-traces leaked to user
+    # if global.config.mode == 'production' then error = {}
+    # else error = error
+
+    # else log error into a file and show error page
+    # if error.status != 404 then logError err, request
+    response.render 'error',
+      status: error.status or 500
+      message: error.message
+      error: error
+
+
   # This helper function shortens the long line of writings routes and calling
   # the dependency injector.
   _route = (url, controller) ->
@@ -64,7 +80,7 @@ exports = module.exports = (IoC) ->
   _route "/classified/([a-zf0-9]*)",          "classified/single"
 
   _route "/account",                          "account/index"
-  # _route "/account/manage",  "account/manage"
+  _route "/account/manage",                   "account/manage"
   # _route "/account/credits", "account/credits"
   # _route "/account/profile", "account/profile"
 
@@ -76,6 +92,8 @@ exports = module.exports = (IoC) ->
 
   app.use router
 
+  # Error page hander
+  app.use error
 
 exports["@require"] = [ "$container" ]
 exports["@singleton"] = true
