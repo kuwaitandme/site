@@ -89,18 +89,18 @@ exports = module.exports = (IoC, settings, sessions, User, policies) ->
   # passport.deserializeUser(User.deserializeUser());
 
   # Google Authentication
-  if settings.google.enabled
-    # web-based
-    passport.use new GoogleStrategy({
-      callbackURL: settings.url + '/auth/google/callback'
-      clientID: settings.google.clientID
-      clientSecret: settings.google.clientSecret
-    }, providerAuthCallback)
-    # token-based
-    passport.use new GoogleTokenStrategy({
-      clientID: settings.google.clientID
-      clientSecret: settings.google.clientSecret
-    }, providerAuthCallback)
+  # if settings.google.enabled
+  #   # web-based
+  #   passport.use new GoogleStrategy({
+  #     callbackURL: settings.url + '/auth/google/callback'
+  #     clientID: settings.google.clientID
+  #     clientSecret: settings.google.clientSecret
+  #   }, providerAuthCallback)
+  #   # token-based
+  #   passport.use new GoogleTokenStrategy({
+  #     clientID: settings.google.clientID
+  #     clientSecret: settings.google.clientSecret
+  #   }, providerAuthCallback)
 
   # Facebook Authentication
   if settings.facebook.enabled

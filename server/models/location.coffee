@@ -2,7 +2,7 @@ mongoose = require 'mongoose'
 
 # This is a model that contains locations of different provinces
 exports = module.exports =
-	model: mongoose.model('locations', name: String)
+	model: mongoose.model 'locations', name: String
 
 	# Returns all the locations in the database.
 	getAll: (callback) ->

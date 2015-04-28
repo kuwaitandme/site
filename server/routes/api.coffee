@@ -16,6 +16,12 @@ exports = module.exports = (IoC) ->
   router.post   "/contact",   _api "contact/post"
   router.post   "/query",     _api "query/post"
 
+  # router.patch  "/auth/email/:email?",       _api "auth/email/post-login"
+  # router.put    "/auth/email/:email?",       _api "auth/email/put"
+  router.get    "/auth/email/activate/:id?", _api "auth/email/get-activate"
+  router.post   "/auth/email/",              _api "auth/email/post-signup"
+  router.post   "/auth/email/:email?",       _api "auth/email/post-login"
+
   # router.get    "/auth/yahoo",          passport.authenticate 'yahoo'
   # router.get    "/auth/yahoo/callback", passport.authenticate 'yahoo',
   #   successRedirect: '/account'

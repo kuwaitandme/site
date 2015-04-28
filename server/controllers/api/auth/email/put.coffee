@@ -6,7 +6,8 @@ validator = require 'validator'
 # to be passed as data variables in the request.
 #
 # It returns HTTP 200 iff the password reset was successful.
-reset = (request, response, next) ->
+exports = module.exports = (user) ->
+  (request, response, next) ->
   id = request.params.id
   resetToken = request.query.resetToken or ''
 

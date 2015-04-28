@@ -18,17 +18,20 @@ exports = module.exports = ->
       pass: 'password'
     facebook:
       enabled: false
-      appID: ''
-      appSecret: ''
+      clientid: '398935173623108'
+      secret: '8a7cb62a5f7bf1d5a444870a82c0cf07'
       scope: [ 'email' ]
-    google:
+    twitter:
+      consumerKey: 'dpQcjGDL7Ih8JmETnlZP28bYu'
+      consumerSecret: 's1amDz0gIt917RhnkddsDWyTXVZAhjbm7n89rXT7CXE4tKZ10g'
+    googlePlus:
       enabled: false
       scope: [
         'https://www.googleapis.com/auth/userinfo.profile'
         'https://www.googleapis.com/auth/userinfo.email'
       ]
-      clientID: ''
-      clientSecret: ''
+      clientId: '384211238362-0iahk91emk4spn58bp53ngk5rn7vb2s0.apps.googleusercontent.com'
+      clientSecret: 'wz18RM2bMEeJ9spcjNraIkE2'
     pkg: pkg
     cache: false
     showStack: true
