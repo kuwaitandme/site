@@ -2,10 +2,12 @@ module.exports = ($scope, $location, $element, classified) ->
   @name = '[component:classified-list]'
   console.log @name, "initializing"
 
-  @masonry = new Masonry $element[0]#, itemSelector: '> li'
+  $el = angular.element document.querySelectorAll ".classified-list"
+  @masonry = new Masonry $el[0]#, itemSelector: '> li'
 
-  $scope.$watch (-> $element[0].childElementCount), =>
-    for child in $element[0].children then @masonry.appended child
+  console.log $el[0].childElementCount
+  $scope.$watch (-> $el[0].childElementCount), =>
+    for child in $el[0].children then @masonry.appended child
     @masonry.layout()
 
   $scope.classifieds = []

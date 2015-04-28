@@ -1,20 +1,22 @@
-ul.classified-list.row(ng-controller='component:classified-list')
-  li.large-3.medium-4.small-6.columns(ng-repeat="classified in classifieds")
-    a(href="/classified/{{ classified._id }}")
-      .container
-        //- .urgent-banner Urgent
-        .thumb(ng-if="classified.images.length > 0", ng-style="{'background':classified.images[0].color}")
-          img(image-loader!="uploads/thumb/{{ classified.images[0].file }}", image-success="classified.imageLoaded", image-fail="classified.imageLoaded", alt="{{ classified.title }}")
-        .info
-          .title {{ classified.title | limitTo: 120 }}
-          .border
-          ul.meta.row.collapse
-            li.small-6.columns {{ classified.price | price }}
-            li.small-6.columns.text-right {{ classified.created | prettydate }}
-            li(style="list-style: none; display: inline", ng-if="classified.showStatus")
-              .status(class="{{ classified.statusClass }}") {{ classified.statusMessage }}
+section(ng-controller='component:classified-list')
+  ul.classified-list.row
+    li.large-3.medium-4.small-6.columns(ng-repeat="classified in classifieds")
+      a(href="/classified/{{ classified._id }}")
+        .container
+          //- .urgent-banner Urgent
+          .thumb(ng-if="classified.images.length > 0", ng-style="{'background':classified.images[0].color}")
+            img(image-loader!="uploads/thumb/{{ classified.images[0].file }}", image-success="classified.imageLoaded", image-fail="classified.imageLoaded", alt="{{ classified.title }}")
+          .info
+            .title {{ classified.title | limitTo: 120 }}
+            .border
+            ul.meta.row.collapse
+              li.small-6.columns {{ classified.price | price }}
+              li.small-6.columns.text-right {{ classified.created | prettydate }}
+              li(style="list-style: none; display: inline", ng-if="classified.showStatus")
+                .status(class="{{ classified.statusClass }}") {{ classified.statusMessage }}
 
-.ajax-loading {{ "comp.classifiedlist.loading" | translate }}
+  .ajax-loading(ng-show="classifieds.length == 0") Loading classifieds!
+  //- #{{ "comp.classifiedlist.loading" | translate }}
 
-//- The message that gets displayed when there are no more classifieds
-.ajax-finish No classified(s)
+  //- The message that gets displayed when there are no more classifieds
+  //- .ajax-finish No classified(s)
