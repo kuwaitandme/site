@@ -100,7 +100,7 @@ boot/local.js
 /docs
 
 # Hide server configuration file
-# /etc/config.coffee
+# /etc/config/local.coffee
 
 # hide log files
 /var/logs/*.log
