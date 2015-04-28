@@ -9,18 +9,56 @@ body#landing
     background-image: url('/images/hero/landing.jpg')
 
   #splash
-    text-align: center
     min-height: 400px
 
-    h1
-      color: #FFF
-      // @extend .font-text
-      // text-transform: uppercase
-      font-size: 1rem
-      background: rgba(255,255,255,0.9)
+    .tagline
+      text-align: right
+      h1
+        background: #FFF
+        color: #000
+        font-size: 1.1rem
+        max-width: 80%
+        margin: 0
+        padding: 1rem
+      @media only screen and (max-width: 40em)
+        text-align: left
+        padding: 0.9375rem
+        h1
+          max-width: 100%
+
+    h1, h2 a
       display: inline-block
-      padding: 1rem 2rem
-      color: #000
+    h2
+      font-size: 0.9rem
+      margin: 0.5rem 0
+      a
+        +single-transition
+        background: rgba(0,0,0,0.3)
+        border: #FFF 3px solid
+        color: #FFF
+        padding: 1rem
+        text-decoration: none
+        &:hover
+          background: #F60
+          border-color: #f60
+    .testimonials
+      max-height: 400px
+      overflow-y: hidden
+      padding: 0
+      li
+        @extend .font-title
+        background: #F60
+        color: #FFF
+        padding: 1rem
+        padding-left: 40px
+        position: relative
+        &:before
+          position: absolute
+          top: 9px
+          left: 12px
+          font-size: 1.3rem
+          @extend .font-awesome
+          content: '\f10d'
 
   h4
     font-size: 1.05em
