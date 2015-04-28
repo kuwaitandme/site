@@ -1,7 +1,9 @@
 h1.row Login
-form.row
-    input.columns(type="email", ng-model="username", ng-required, placeholder="your email *")
-    input.columns(type="password", ng-model="password", ng-required, placeholder="your password *")
+form.row(ng-submit="processForm()")
+    input.columns(type="email", ng-model="username", required,
+      placeholder="your email *")
+    input.columns(type="password", ng-model="password", required,
+      placeholder="your password *")
     input.columns(type="submit", lang-value="page.auth.login.submit")
 
 

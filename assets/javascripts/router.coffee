@@ -39,10 +39,15 @@ module.exports = (app) ->
       templateUrl: "auth/signup"
       url: "/auth/signup"
 
-    .state "account",
+    .state "account-index",
       controller: "page:account"
       templateUrl: "account/index"
       url: "/account"
+
+    .state "account-manage",
+      controller: "page:account/manage"
+      templateUrl: "account/manage"
+      url: "/account/manage"
 
     $locationProvider.html5Mode
       enabled: true

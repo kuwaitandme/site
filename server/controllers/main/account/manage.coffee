@@ -1,12 +1,13 @@
-controller = module.exports =
-  get: (request, response, next) ->
-    if not request.isAuthenticated()
-      return response.redirect '/auth/login?error=need_login'
+exports = module.exports = (renderer) ->
+  controller = (request, response, next) ->
+    # if not request.isAuthenticated()
+    #   return response.redirect '/auth/login?error=need_login'
 
-    args =
+    options =
       page: 'account/manage'
-      title: response.__('title.account.manage')
-      data: classifieds: []
+      title: response.__ 'title.account.manage'
 
-    render = global.modules.renderer
-    render request, response, args, true
+    renderer request, response, options, true
+
+exports['@require'] = [ 'controllers/renderer' ]
+exports['@singleton'] = true
