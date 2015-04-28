@@ -4,9 +4,7 @@ localStrategy = (require 'passport-local').Strategy
 
 # Registers a passport strategy to authenticate a user into the backend.
 module.exports = (settings, passport, user) ->
-  console.log  user.get
   _authenticate = (request, username, password, done) ->
-    console.log username, password
     resetLoginAttempts = (session) -> session.attempts = 0
     checkLoginAttempts = (session, id) ->
       session.attempts = session.attempts or 0
@@ -22,7 +20,6 @@ module.exports = (settings, passport, user) ->
 
     # Check in Mongo if a user with username exists or not
     user.model.findOne { 'username': username }, (error, result) ->
-      console.log error, result
       if error then return done error
       # Username does not exist or User exists but wrong password
       if not result then return done status: 'user not found'
@@ -43,7 +40,6 @@ module.exports = (settings, passport, user) ->
           return done reason
 
       user.auth.email.validate result, password, (error, result={}) ->
-        console.log error, result
         # Password mismatch
         if error
           # logger = global.modules.logger

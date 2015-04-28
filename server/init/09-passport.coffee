@@ -1,8 +1,8 @@
 passport           = require 'passport'
 
+# yahooStrategy      = require './passport/yahoo'
 emailStrategy      = require './passport/email'
 facebookStrategy   = require './passport/facebook'
-yahooStrategy      = require './passport/yahoo'
 googleplusStrategy = require './passport/google-plus'
 twitterStrategy    = require './passport/twitter'
 
@@ -11,7 +11,6 @@ exports = module.exports = (settings, user) ->
   app.use passport.initialize()
   app.use passport.session()
 
-  console.log 'sdf1', user
   # Passport needs to be able to serialize and de-serialize users to support
   # persistent login sessions. This function defines those functionalities.
   passport.serializeUser (result, done) -> done null, result._id
