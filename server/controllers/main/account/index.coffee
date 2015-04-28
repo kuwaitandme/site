@@ -1,22 +1,17 @@
-module.exports =
-  manage:  require './manage'
-  profile: require './profile'
-  credits: require './credits'
+require './manage'
+require './profile'
+require './credits'
 
-  get: (request, response, next) ->
-    if not request.isAuthenticated()
-      return response.redirect '/auth/login?error=need_login'
+exports = module.exports = (renderer) ->
+  controller = (request, response, next) ->
+    # if not request.isAuthenticated()
+    #   return response.redirect '/auth/login?error=need_login'
 
-    args =
+    options =
       page: 'account/index'
       title: response.__ 'title.account'
 
-    render = global.modules.renderer
-    render request, response, args, true
+    renderer request, response, options, true
 
-
-  routes: (router, localizedUrl) ->
-    router.get (localizedUrl '/account'),         @get
-    router.get (localizedUrl '/account/manage'),  @manage.get
-    router.get (localizedUrl '/account/credits'), @credits.get
-    router.get (localizedUrl '/account/profile'), @profile.get
+exports['@require'] = [ 'controllers/renderer' ]
+exports['@singleton'] = true

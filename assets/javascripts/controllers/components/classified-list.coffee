@@ -4,16 +4,11 @@ controller = ($scope, $location, $element, classified) ->
 
   @masonry = new Masonry $element[0]#, itemSelector: '> li'
 
-  $scope.$watch ->
-    $element[0].childElementCount
-  , =>
-    for child in $element[0].children
-      console.log child, $element
-      @masonry.appended child
+  $scope.$watch (-> $element[0].childElementCount), =>
+    for child in $element[0].children then @masonry.appended child
     @masonry.layout()
 
   $scope.classifieds = []
-  window.a = $element[0]
   classified.search {}, (error, classifieds) =>
     for classified in classifieds
       classified.showStatus = true

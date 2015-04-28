@@ -1,33 +1,29 @@
 # getQueryParameters = (require '../../api/query/helpers').getQueryParameters
 
-exports = module.exports = (renderer) ->
+exports = module.exports = (renderer, category, classified) ->
   controller = (request, response, next) ->
-    options =
-      page: 'classified/finish'
-      title: response.__ 'title.classified.finish'
-    renderer request, response, options, false
-
-exports['@require'] = [ 'controllers/renderer' ]
-exports['@singleton'] = true
-
-# Controller for the classified search page. Searches for classifieds with
-# some search parameters passed on as GET variables.
-controller = module.exports_dis =
-  get: (request, response, next) ->
-    parameters = getQueryParameters request
+    parameters = {} #getQueryParameters request
     page = 1
     reverse = false
 
-    Category = global.models.category
-    Category.getAll (error, categories) ->
+    _renderPage = (title) ->
+      classified.search parameters, page, reverse, (error, classifieds) ->
+        if error then return next error
+        options =
+          data: classifieds: classifieds
+          page: 'classified/search'
+          title: title or response.__ 'title.classified.search'
+        renderer request, response, options, false
+
+    category.getAll (error, result) ->
       if error then next error
 
-      category = request.params[0]
+      parentCategory = request.params[0]
       childCategory = request.params[1]
 
       # Query on the parent category based on the first slug
-      if category then for cat in categories
-        if cat.slug == category
+      if parentCategory then for cat in result
+        if cat.slug == parentCategory
           parameters.category = cat._id
           title = cat.name
 
@@ -38,17 +34,12 @@ controller = module.exports_dis =
               title = "#{child.name} - #{cat.name}"
 
       # Render the page with the resulting query parameters
-      renderPage title
+      _renderPage title
 
-    renderPage = (title) ->
-      Classified = global.models.classified
-      Classified.search parameters, page, reverse, (error, classifieds) ->
-        if error then return next error
 
-        args =
-          data: classifieds: classifieds
-          page: 'classified/search'
-          title: title or response.__ 'title.classified.search'
-
-        render = global.modules.renderer
-        render request, response, args
+exports['@require'] = [
+  'controllers/renderer'
+  'models/category'
+  'models/classified'
+]
+exports['@singleton'] = true

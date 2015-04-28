@@ -8,7 +8,6 @@ module.exports = ($scope, $rootScope, $stateParams, classified, $element) ->
   classified.get $stateParams.id, (error, result) =>
     $scope.classified = result
 
-    console.log 'asd,', $element[0]
     setTimeout =>
       $imgContainer =  angular.element $element[0].querySelector '.gallery'
       @masonry = new Masonry $imgContainer[0], itemSelector: 'li'
@@ -16,4 +15,3 @@ module.exports = ($scope, $rootScope, $stateParams, classified, $element) ->
         console.log 'updating'
         @masonry.layout()
     , 100
-

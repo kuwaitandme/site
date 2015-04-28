@@ -1,9 +1,9 @@
 h1.row Signup
 form.row
-  input.columns(type="email", ng-model="fullname", ng-required, placeholder="your full-name")
-  input.columns(type="email", ng-model="username", ng-required, placeholder="your email")
-  input.columns(type="password", ng-model="password", ng-required, placeholder="your password")
-  input.columns(type="password", ng-model="repassword", ng-required, placeholder="re-enter password")
+  input.columns(type="email", ng-model="fullname", ng-required, placeholder="your full-name *")
+  input.columns(type="email", ng-model="username", ng-required, placeholder="your email *")
+  input.columns(type="password", ng-model="password", ng-required, placeholder="your password *")
+  input.columns(type="password", ng-model="repassword", ng-required, placeholder="re-enter password *")
   input.columns(type="submit", lang-value="page.auth.login.submit")
 
 .row.collapse#social-login
@@ -18,4 +18,4 @@ form.row
 
 .row.extra-links
   .columns Already have an account? Login&nbsp;
-    a(href="/en/auth/login") here
+    a(href="/auth/login") here

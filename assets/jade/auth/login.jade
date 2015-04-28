@@ -1,7 +1,7 @@
 h1.row Login
 form.row
-    input.columns(type="email", ng-model="username", ng-required, placeholder="your email")
-    input.columns(type="password", ng-model="password", ng-required, placeholder="your password")
+    input.columns(type="email", ng-model="username", ng-required, placeholder="your email *")
+    input.columns(type="password", ng-model="password", ng-required, placeholder="your password *")
     input.columns(type="submit", lang-value="page.auth.login.submit")
 
 
@@ -15,7 +15,7 @@ form.row
 
 .row.extra-links
   .columns Is this your first time here?&nbsp;
-    a(href="/en/auth/signup") Sign up!
+    a(href="/auth/signup") Sign up!
   //- .columns Forgot your password? Click&nbsp;
   //-   a(href="/auth/forgot") here
   //-   | , to reset it.

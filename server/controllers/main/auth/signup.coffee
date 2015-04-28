@@ -1,10 +1,10 @@
 exports = module.exports = (renderer) ->
   controller = (request, response, next) ->
-    args =
+    options =
       page: 'auth/signup'
       title: response.__ 'title.auth.signup'
 
-    renderer request, response, args, true
+    renderer request, response, options, true
 
 exports['@require'] = [ 'controllers/renderer' ]
 exports['@singleton'] = true
