@@ -8,19 +8,19 @@ body#landing
   #page-hero
     background-image: url('/images/hero/landing.jpg')
 
-  h1, h2
-    color: #FFF
-    // font-weight: bold
-
-  h1
-    @extend .font-text
-    // text-transform: uppercase
-    font-size: 1rem
-    background: rgba(255,255,255,0.9)
-    display: inline-block
+  #splash
     text-align: center
-    padding: 1rem 2rem
-    color: #000
+    min-height: 400px
+
+    h1
+      color: #FFF
+      // @extend .font-text
+      // text-transform: uppercase
+      font-size: 1rem
+      background: rgba(255,255,255,0.9)
+      display: inline-block
+      padding: 1rem 2rem
+      color: #000
 
   h4
     font-size: 1.05em
@@ -34,10 +34,13 @@ body#landing
   #featured-classifieds, #landing-categories
     // max-width: 90%
     > h2
-      text-shadow: rgba(0, 0, 0, 0.8) 1px 1px 0
-      padding: 0 7px
+      background: #FFF
+      color: #000
+      display: inline-block
+      font-size: 0.9rem
+      margin-bottom: 0
+      padding: 0.5rem 1rem
       text-transform: uppercase
-      font-size: 1rem
   // #landing-social
   //   +clearfix
   //   @extend .font-awesome
