@@ -1,34 +1,54 @@
-.collapse.row(ng-controller='component:header')
+.collapse.row(ng-controller="component:header")
   #main-header.columns
     #header-logo
-      a(href="/en")
-        img(src='/images/header-logo.png')
+      a(href="/")
+        img(src="/images/header-logo.png")
     #grabber(ng-click="toggleHeader()")
-      img(src='/images/hamburger.png')
+      img(src="/images/hamburger.png")
 
   nav#sub-header.columns
     ul#notifications
-      li Your account has been activated!
-      li Your account has been activated!
-      li Your account has been activated!
+      li You have no new notifications
     #nav-widgets
-    #nav-links
-    #nav-footer
-      div
-        | Copyright &copy; - Kuwait &amp; Me - 2015
-        | &nbsp;&middot;&nbsp;
-        a(href='/terms-privacy') Terms &amp; Privacy
+    #nav-links.row
+      .row
+        .columns
+          .title Main
+        .link.columns.medium-4
+          a(href="/" , ng-click="toggleHeader()") Home
+        .link.columns.medium-4
+          a(href="/classified/post", ng-click="toggleHeader()") Post a classified
+        .link.columns.medium-4
+          a(href="/classified", ng-click="toggleHeader()") Browse classifieds
+      .row
+        .columns
+          .title Account
+        .link.columns.medium-4
+          a(href="/auth/login", ng-click="toggleHeader()") Login
+        .link.columns.medium-4
+          a(href="/auth/signup", ng-click="toggleHeader()") Signup
+      .row
+        .columns
+          .title More
+        .link.columns.medium-4
+          a(href='/contact', ng-click="toggleHeader()") Contact Us
+        .link.columns.medium-4
+          a(href="/donate", ng-click="toggleHeader()") Donate
+        .link.columns.medium-4
+          a(href="/terms-privacy", ng-click="toggleHeader()") Usage &amp; Privacy
+
+    #nav-footer Copyright &copy; &middot; Kuwait &amp; Me &middot; 2015
 
 
 //- #header-search
 //-   form
-//-     input(placeholder="search ...", name='keywords', type='text')
+//-     input(placeholder="search ...", name="keywords", type="text")
 //-   #search-close.icon &#xf00d;
 //-   #search-submit.icon &#xf002;
 
 //- nav#mobile-nav.hide-for-large-up.hide-when-searching
 //-   #mobile-icon
-//-       img(src='/images/header-logo.png')
+//-       img(src="/images/header-logo.png")
 //-   ul
 //-     li.left.icon.search-trigger
 //-       a &#xf002;
@@ -66,9 +86,9 @@
 //-     li.main-item.settings.icon &#xf013;
 //-       ul.subnav.hide-if-loggedin
 //-         li.with-link
-//-           a(href!="/en/auth/login", data-view) {{ "header.login" | translate }}
+//-           a(href!="/en/auth/, ng-click="toggleHeader()"login", data-view) {{ "header.login" | translate }}
 //-         li.with-link
-//-           a(href!="/en/auth/signup", data-view) {{ "header.signup" | translate }}
+//-           a(href!="/en/auth/, ng-click="toggleHeader()"signup", data-view) {{ "header.signup" | translate }}
 
 //-       ul.subnav.show-if-loggedin
 //-         li.user-title.lang
@@ -79,13 +99,13 @@
 //-         //-   span.count 0
 //-         //-   span &nbsp;Credits
 //-         li.user-thumb
-//-           img(src='')
+//-           img(src="")
 //-         //- li.with-link
-//-           a(href!="/en/account/credits", data-view) Buy Credits
+//-           a(href!="/en/account/, ng-click="toggleHeader()"credits", data-view) Buy Credits
 //-         li.with-link.lang
-//-           a(href!="/en/account", data-view) {{ "header.view" | translate }}
+//-           a(href!="/en/account", ng-click="toggleHeader()", data-view) {{ "header.view" | translate }}
 //-         li.with-link.lang
-//-           a(href!="/en/auth/logout", data-view) {{ "header.logout" | translate }}
+//-           a(href!="/en/auth/, ng-click="toggleHeader()"logout", data-view) {{ "header.logout" | translate }}
 //-     li.main-item.social
 //-       a.facebook(href="https://www.facebook.com/KuwaitandME") &#xf09a;
 //-     li.main-item.social
@@ -99,20 +119,20 @@
 
 //- ul#sub-nav.show-for-large-up
 //-   li.lang
-//-     a(href!="/en/classified", data-view='classified-search') {{ "header.csearch" | translate }}
+//-     a(href!="/en/classified", data-view="classified-search") {{ "header.csearch" | translate }}
 //-   li.hide-if-loggedin.lang
-//-     a(href!="/en/guest/post", data-view='guest-post') {{ "header.cpost" | translate }}
+//-     a(href!="/en/guest/post", data-view="guest-post") {{ "header.cpost" | translate }}
 //-   li.show-if-loggedin.lang
-//-     a(href!="/en/classified/post", data-view='classified-post') {{ "header.cpost" | translate }}
+//-     a(href!="/en/classified/post", data-view="classified-post") {{ "header.cpost" | translate }}
 //-   li.nav-item.hide-if-loggedin.lang
-//-     a(href!="/en/auth/login", data-view='auth-login') {{ "header.login" | translate }}
+//-     a(href!="/en/auth/login", data-view="auth-login") {{ "header.login" | translate }}
 //-   li.nav-item.hide-if-loggedin.lang
-//-     a(href!="/en/auth/signup", data-view='auth-signup') {{ "header.signup" | translate }}
+//-     a(href!="/en/auth/signup", data-view="auth-signup") {{ "header.signup" | translate }}
 //-   li.show-if-loggedin.lang
-//-     a(href!="/en/account", data-view='account-index') {{ "header.manage" | translate }}
+//-     a(href!="/en/account", data-view="account-index") {{ "header.manage" | translate }}
 //-   li.lang
-//-     a(href!="/en/contact", data-view='contact') {{ "header.contact" | translate }}
+//-     a(href!="/en/contact", data-view="contact") {{ "header.contact" | translate }}
 //-   li.lang
-//-     a(href!="/en/about", data-view='about') {{ "header.about" | translate }}
+//-     a(href!="/en/about", data-view="about") {{ "header.about" | translate }}
 //-   li.lang
 //-     a(href!="/en/terms-privacy") {{ "header.terms-privacy" | translate }}

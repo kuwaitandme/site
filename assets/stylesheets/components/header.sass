@@ -3,12 +3,13 @@ $headerHeight: 60px
 main
   padding-top: $headerHeight !important
 header
+  // overflow-y: scroll
   position: fixed
   top: 0
+  bottom: 0
   left: 0
   width: 100%
   z-index: 2
-
 
   #main-header
     +clearfix
@@ -24,6 +25,10 @@ header
       float: right
       padding: 17px 25px
 
+    &:hover ~ nav#sub-header ul#notifications
+      height: 35px !important
+
+
   nav#sub-header
     background: #222
 
@@ -33,45 +38,87 @@ header
       margin: 0
       overflow: hidden
       height: 0
-      background: #50C0C1
+      background: #D8432E
       li
         padding: 0.5rem 1rem
         color: #FFF
         font-size: 0.8rem
         position: relative
-        &:nth-child(odd)
+        &:nth-child(even)
           background: rgba(0,0,0,0.1)
-        &:after
-          position: absolute
-          top: 6px
-          right: 8px
-          content: 'x'
+        // &:after
+        //   position: absolute
+        //   top: 6px
+        //   right: 8px
+        //   content: 'x'
+
+    #nav-links
+      @extend .font-title
+      +single-transition
+      overflow: hidden
+      background: #35C7C4
+      font-size: 1rem
+      font-weight: bold
+      height: 0
+      text-align: center
+      text-transform: uppercase
+
+      .row
+        border-bottom: 2px solid rgba(0,0,0,0.1)
+        margin-top: 1rem
+        padding-bottom: 1rem
+      .title
+        color: #000
+        display: inline-block
+        font-size: 1.2rem
+        padding: 0.5rem
+      .link
+        color: #FFF
+        text-transform: uppercase
+      li
+        padding: 0
+      a
+        +single-transition(background)
+        color: #FFF
+        display: block
+        padding: 1rem
+        text-decoration: none
+        width: 100%
+        &:hover
+          color: #000
+          background: #FFF
 
     #nav-footer
-      color: #999
-      text-align: center
+      @extend .font-title
+      background: #FFF
+      color: #000
       font-size: 0.7rem
       height: 0
       overflow: hidden
+      text-align: center
       a
         color: inherit
-      div
-        display: inline-block
-        margin: 5px
+        text-decoration: none
 
 
-  &:hover
-    ul#notifications
-      height: 100px !important
 
 
 body.show-subheader
+  // overflow-y: hidden
+  header
+    overflow-y: scroll
   nav#sub-header
+    #nav-links
+      height: auto !important
     #nav-footer
-      height: 50px !important
+      padding: 0.5rem 1rem
+      height: 32px !important
+    ul#notifications
+      height: 35px !important
 
   main:before
     background: rgba(255, 255, 255, 0.8)
+    background: rgba(0, 0, 0, 0.8)
     content: ''
     height: 100%
     left: 0
