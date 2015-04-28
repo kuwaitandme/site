@@ -7,21 +7,11 @@ module.exports = (app) ->
     $urlMatcherFactoryProvider.strictMode false
     _route = (page, route) ->
       $stateProvider.state "#{page}",
-        # controller: "page:#{page.replace '-', '/'}"
         controller: "page:#{page}"
         templateUrl: "#{page}"
         url: route
         resolve:
           downloadUser: (user) -> user.downloadCurrentUser()
-            # deferred = $q.defer()
-            # $timeout (->
-            #   deferred.resolve 'Hello!'
-            #   console.log 'sdf'
-            #   return
-            # ), 3000
-            # deferred.promise
-        # resolve:
-        #   user:
 
     _route "account/index",     "/account/index"
     _route "account/manage",    "/account/manage"
