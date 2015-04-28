@@ -1,5 +1,5 @@
 module.exports = ($http, $cache) ->
-  name: "[model:category]"
+  name: "[service:category]"
 
   ###
   ## *getAll(callback):*
@@ -35,6 +35,8 @@ module.exports = ($http, $cache) ->
       # Categories were never saved. So retrieve it from the API.
       console.log @name, 'retrieving categories from API'
       _fetchFromAPI()
+
+
 
   findBySlug: (slug) ->
     for cat in @categories

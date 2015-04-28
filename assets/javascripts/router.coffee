@@ -3,51 +3,36 @@ module.exports = (app) ->
   console.log @name, "initializing"
 
   app.config ($stateProvider, $locationProvider, $urlMatcherFactoryProvider) ->
+    # console.log user
     $urlMatcherFactoryProvider.strictMode false
-    $stateProvider.state "landing",
-      controller: "page:landing"
-      templateUrl: "landing"
-      url: "/"
+    _route = (page, route) ->
+      $stateProvider.state "#{page}",
+        # controller: "page:#{page.replace '-', '/'}"
+        controller: "page:#{page}"
+        templateUrl: "#{page}"
+        url: route
+        resolve:
+          downloadUser: (user) -> user.downloadCurrentUser()
+            # deferred = $q.defer()
+            # $timeout (->
+            #   deferred.resolve 'Hello!'
+            #   console.log 'sdf'
+            #   return
+            # ), 3000
+            # deferred.promise
+        # resolve:
+        #   user:
 
-    .state "classified-single",
-      controller: "page:classified/single"
-      templateUrl: "classified/single"
-      url: "/classified/{id:[a-f0-9]+}"
+    _route "account/index",     "/account/index"
+    _route "account/manage",    "/account/manage"
+    _route "auth/login",        "/auth/login"
+    _route "auth/signup",       "/auth/signup"
+    _route "classified/post",   "/classified/post"
+    _route "classified/search", "/classified"
+    _route "classified/single", "/classified/{id:[a-f0-9]+}"
+    _route "guest/post",        "/guest/post"
+    _route "landing",           "/"
 
-    .state "classified-search",
-      controller: "page:classified/search"
-      templateUrl: "classified/search"
-      url: "/classified"
-
-    .state "classified-post",
-      controller: "page:classified/post"
-      templateUrl: "classified/post"
-      url: "/classified/post"
-
-    .state "guest-post",
-      controller: "page:classified/post"
-      templateUrl: "classified/post"
-      url: "/guest/post"
-
-    .state "auth-login",
-      controller: "page:auth/login"
-      templateUrl: "auth/login"
-      url: "/auth/login"
-
-    .state "auth-signup",
-      controller: "page:auth/signup"
-      templateUrl: "auth/signup"
-      url: "/auth/signup"
-
-    .state "account-index",
-      controller: "page:account"
-      templateUrl: "account/index"
-      url: "/account"
-
-    .state "account-manage",
-      controller: "page:account/manage"
-      templateUrl: "account/manage"
-      url: "/account/manage"
 
     $locationProvider.html5Mode
       enabled: true

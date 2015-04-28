@@ -1,17 +1,23 @@
-module.exports = ($scope, $rootScope, $http) ->
+module.exports = ($scope, $rootScope, $location, $http, user) ->
   @name = "[page:landing]"
   console.log @name, "initializing"
   $rootScope.bodyid = "auth-login"
 
-  $scope.processForm = ->
+  $scope.processForm = =>
     $http
       method: "POST"
       url: "/api/auth/email/#{ $scope.username }"
       data:
         username: $scope.username
         password: $scope.password
-    .success (data) ->
-      console.log data
+
+    .success (data, status) =>
+      console.log @name, 'login successful! redirecting to account page'
+      user.setCurrentUser data
+      $location.path '/account'
+
+    .error (data, status) ->
+      console.error data, status
       # if not data.success
       #   # if not successful, bind errors to error variables
       #   $scope.errorName = data.errors.name
