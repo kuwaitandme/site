@@ -1,15 +1,41 @@
 body#account-index
   main
+
     .columns
       color: #FFF
-      padding: 1rem
-
-      .content
+      padding: 1rem 2rem
+      text-align: center
+      a
+        +single-transition
+        border: 2px solid #FFF
+        color: #FFF
+        display: inline-block
         @extend .font-title
-        background: #F60
-        border-bottom: 4px solid #D9600F
-        padding: 1rem
-        text-align: center
+        font-size: 0.8rem
+        margin: 1rem
+        padding: 0.5rem 1rem
+        text-decoration: none
+        text-transform: uppercase
+        &:hover
+          background: #FFF
+          color: #000
+
+      h1
+        @extend .font-title
+        font-size: 1rem
+        margin-bottom: 10px
+        padding-bottom: 10px
+        border-bottom: 2px solid #FFF
+        text-transform: uppercase
+      &:nth-child(odd)
+        background: #8200E5
+      &:nth-child(even)
+        background: #f60
+      &.disabled
+        background: #BABEC8
+
+
+
 
   // background: #e8e8e8;
   // #aD9600Fccount-container

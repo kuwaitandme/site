@@ -1,4 +1,4 @@
-controller = ($scope, $rootScope) ->
+module.exports = ($scope, $rootScope) ->
   @name = '[component:header]'
   console.log @name, "initializing"
 
@@ -10,5 +10,3 @@ controller = ($scope, $rootScope) ->
   $scope.toggleHeader = ->
     cl = $rootScope.extraClass
     $rootScope.extraClass = if cl is 'show-subheader' then '' else 'show-subheader'
-
-module.exports = controller

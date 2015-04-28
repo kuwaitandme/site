@@ -1,4 +1,4 @@
-controller = ($scope, $location, $element, classified) ->
+module.exports = ($scope, $location, $element, classified) ->
   @name = '[component:classified-list]'
   console.log @name, "initializing"
 
@@ -19,6 +19,3 @@ controller = ($scope, $location, $element, classified) ->
     $scope.classifieds = classifieds
 
   $scope.onScroll = -> console.log @name, "scrolling"
-
-
-module.exports = controller

@@ -1,4 +1,4 @@
-controller = ($scope, $location, $http, category) ->
+module.exports = ($scope, $location, $http, category) ->
   @name = '[component:category-list]'
   console.log @name, "initializing"
 
@@ -18,6 +18,3 @@ controller = ($scope, $location, $http, category) ->
 
   $scope.onScroll = ->
     console.log @name, "scrolling"
-
-
-module.exports = controller

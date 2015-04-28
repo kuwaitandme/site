@@ -3,10 +3,8 @@ $headerHeight: 60px
 main
   padding-top: $headerHeight !important
 header
-  // overflow-y: scroll
   position: fixed
   top: 0
-  bottom: 0
   left: 0
   width: 100%
   z-index: 2
@@ -36,6 +34,7 @@ header
       +single-transition
     ul#notifications
       margin: 0
+      display: none
       overflow: hidden
       height: 0
       background: #D8432E
@@ -46,11 +45,6 @@ header
         position: relative
         &:nth-child(even)
           background: rgba(0,0,0,0.1)
-        // &:after
-        //   position: absolute
-        //   top: 6px
-        //   right: 8px
-        //   content: 'x'
 
     #nav-links
       @extend .font-title
@@ -104,12 +98,14 @@ header
 
 
 body.show-subheader
-  // overflow-y: hidden
   header
-    overflow-y: scroll
+    bottom: 0
+    overflow-y: auto
   nav#sub-header
     #nav-links
-      height: auto !important
+      height: 402px !important
+      @media only screen and (max-width: 40em)
+        height: 682px !important
     #nav-footer
       padding: 0.5rem 1rem
       height: 32px !important
