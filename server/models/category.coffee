@@ -8,11 +8,11 @@ exports = module.exports = (IoC, mongoose, cache) ->
     # function this model should ever have. The front-end JS takes the heavy
     # burden of performing different functions with it.
     getAll: (callback) ->
-
+      # console.log cache
       # First check in the memory cache for the categories
-      cache.get 'categories', (error, result) =>
-        if error then return callback error, null
-        if result then return callback null, JSON.parse result
+      # cache.get 'categories', (error, result) =>
+      #   if error then return callback error, null
+      #   if result then return callback null, JSON.parse result
 
         # If not then get the categories from the DB before saving it back
         # into the memory cache

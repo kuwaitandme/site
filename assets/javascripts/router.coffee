@@ -7,33 +7,42 @@ module.exports = (app) ->
     $stateProvider.state "landing",
       controller: "page:landing"
       templateUrl: "landing"
-      url: "/{lang:(?:en|ar)}"
-      # url: "/en"
+      url: "/"
 
     .state "classified-single",
       controller: "page:classified/single"
       templateUrl: "classified/single"
-      url: "/{lang:(?:en|ar)}/classified/{id:[a-f0-9]*}"
+      url: "/classified/{id:[a-f0-9]+}"
+
+    .state "classified-search",
+      controller: "page:classified/search"
+      templateUrl: "classified/search"
+      url: "/classified"
 
     .state "classified-post",
       controller: "page:classified/post"
       templateUrl: "classified/post"
-      url: "/en/classified/post"
+      url: "/classified/post"
 
     .state "guest-post",
       controller: "page:classified/post"
       templateUrl: "classified/post"
-      url: "/en/guest/post"
+      url: "/guest/post"
 
     .state "auth-login",
       controller: "page:auth/login"
       templateUrl: "auth/login"
-      url: "/en/auth/login"
+      url: "/auth/login"
 
     .state "auth-signup",
       controller: "page:auth/signup"
       templateUrl: "auth/signup"
-      url: "/en/auth/signup"
+      url: "/auth/signup"
+
+    .state "account",
+      controller: "page:account"
+      templateUrl: "account/index"
+      url: "/account"
 
     $locationProvider.html5Mode
       enabled: true

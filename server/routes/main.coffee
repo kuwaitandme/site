@@ -20,20 +20,23 @@ exports = module.exports = (IoC) ->
   fourofour = (request, response, next) ->
     error = new Error "Not Found"
     error.status = 404
-    response.end '404'
-    # next error
+    response.render 'error',
+      error: error
+      message: error.message
+      status: error.status or 500
+
 
   # This helper function shortens the long line of writings routes and calling
   # the dependency injector.
   _route = (url, controller) ->
-    _localizedUrl = (url) -> new RegExp "^/(?:ar|en|dg)#{url}/?$"
     if typeof controller is "string"
       controller = IoC.create "controllers/main/#{controller}"
-    router.get (_localizedUrl url), controller
+    router.get (new RegExp "^#{url}/?$"), controller
 
-  # First off, based on the language slug in the URL set the variables
-  # in the request.
-  router.get /^\/(ar|en|dg).*\/?$/, setLanguage
+
+  # # First off, based on the language slug in the URL set the variables
+  # # in the request.
+  # router.get /^\/(ar|en|dg).*\/?$/, setLanguage
 
   # Then start matching all the different routes for the app
   _route "",               "landing"
@@ -53,14 +56,14 @@ exports = module.exports = (IoC) ->
   # _route "/guest/([a-zf0-9]*)",        "guest/single"
 
   _route "/classified/post",                  "classified/post"
-  # _route "/classified",                       "classified/search"
-  # _route "/classified/([a-z\-]*)",            "classified/search"
-  # _route "/classified/([a-z\-]*)/([a-z\-]*)", "classified/search"
+  _route "/classified",                       "classified/search"
+  _route "/classified/([a-z\-]*)",            "classified/search"
+  _route "/classified/([a-z\-]*)/([a-z\-]*)", "classified/search"
   # _route "/classified/([a-zf0-9]*)/finish",   "classified/finish"
   # _route "/classified/([a-zf0-9]*)/edit",     "classified/edit"
   _route "/classified/([a-zf0-9]*)",          "classified/single"
 
-  # _route "/account",         "account"
+  _route "/account",                          "account/index"
   # _route "/account/manage",  "account/manage"
   # _route "/account/credits", "account/credits"
   # _route "/account/profile", "account/profile"
@@ -68,8 +71,8 @@ exports = module.exports = (IoC) ->
   # If language slug is present but page has not matched any url give 404 page
   _route  ".+", fourofour
 
-  # If language slug is missing and redirect to a preferred language
-  router.get /^(?:[^aed]|a[^r]|e[^n]|d[^g])(.*)/, langRedirect
+  # # If language slug is missing and redirect to a preferred language
+  # router.get /^(?:[^aed]|a[^r]|e[^n]|d[^g])(.*)/, langRedirect
 
   app.use router
 
