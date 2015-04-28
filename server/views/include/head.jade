@@ -32,11 +32,28 @@ meta(name="author", content="Kuwait & Me")
 if environment == "development"
   style
     include ../components/localfonts.css
-else
-  style.
-    @import url(//fonts.googleapis.com/css?family=Bitter);
-    @import url(//fonts.googleapis.com/css?family=Open+Sans:400,600);
-    @import url(//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css);
+
+style.
+  body[ng-cloak] {
+    background: #FFF; }
+    body[ng-cloak] #page-loading {
+      display: block; }
+    body[ng-cloak] main, body[ng-cloak] header, body[ng-cloak] #page-hero, body[ng-cloak] footer {
+      display: none; }
+
+  #page-loading {
+    display: none;
+    position: absolute;
+    background: #eee;
+    top: 50%;
+    left: 50%;
+    margin-left: -100px;
+    width: 200px; }
+    #page-loading #page-loading-bar {
+      transition: all 300ms ease-out;
+      width: 0%;
+      background: #f60;
+      height: 2px; }
 
 //- SEO description tag
 if description

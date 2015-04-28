@@ -1,85 +1,52 @@
 window.scripts = [
   {
-    name: "library:normalize-css"
-    remoteSrc: "//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.1/css/normalize.min.css"
-    localSrc: "/stylesheets/vendor/normalize.min.css"
-  }
-  {
-    name: "library:foundation-css"
-    remoteSrc: "//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.1/css/foundation.min.css"
-    localSrc: "/stylesheets/vendor/foundation.min.css"
-  }
-  {
-    name: "library:jquery.magnific-popup-css"
-    remoteSrc: "//cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.0.0/magnific-popup.min.css"
-    localSrc: "/stylesheets/vendor/magnific-popup.min.css"
-  }
-  {
     name: "app:style-css"
-    remoteSrc: "/stylesheets/build/style.css?m=#{config.magic.application}"
-    localSrc: "/stylesheets/build/style.css?m=#{config.magic.application}"
-  }
-  {
-    name: "library:jquery"
-    remoteSrc: "//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"
-    localSrc: "/javascripts/vendor/jquery.min.js"
-  }
-  {
-    name: "library:jquery-transit"
-    remoteSrc: "//cdnjs.cloudflare.com/ajax/libs/jquery.transit/0.9.12/jquery.transit.min.js"
-    localSrc: "/javascripts/vendor/jquery.transit.min.js"
-  }
-  {
-    name: "library:underscore"
-    remoteSrc: "//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore-min.js"
-    localSrc: "/javascripts/vendor/underscore.min.js"
-  }
-  {
-    name: "library:backbone"
-    remoteSrc: "//cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js"
-    localSrc: "/javascripts/vendor/backbone.min.js"
+    remoteSrc: "/stylesheets/style.css?m=#{config.magic.application}"
+    localSrc: "/stylesheets/style.css?m=#{config.magic.application}"
   }
   {
     name: "library:google-maps"
     remoteSrc: "//maps.googleapis.com/maps/api/js?key=AIzaSyBUcoOW5jw2GvlFQI49FIGl6I7czXcX5iQ&callback=initializeGmap"
   }
-  # {
-  #   name: "library:facebook"
-  #   remoteSrc: "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.3&appId=398935173623108"
-  # }
-  {
-    name: "library:dropzone"
-    remoteSrc: "//cdnjs.cloudflare.com/ajax/libs/dropzone/4.0.1/min/dropzone.min.js"
-    localSrc: "/javascripts/vendor/dropzone.min.js"
-  }
   {
     name: "library:masonry"
-    remoteSrc: "//cdnjs.cloudflare.com/ajax/libs/masonry/3.2.2/masonry.pkgd.min.js"
-    localSrc: "/javascripts/vendor/masonry.pkgd.min.js"
-  }
-  {
-    name: "library:foundation-js"
-    remoteSrc: "//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.1/js/foundation.min.js"
-    localSrc: "/javascripts/vendor/foundation.min.js"
-  }
-  {
-    name: "library:magnific-popup"
-    remoteSrc: "//cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.0.0/jquery.magnific-popup.min.js"
-    localSrc: "/javascripts/vendor/jquery.magnific-popup.min.js"
+    remoteSrc: "/javascripts/libraries.js"
   }
   {
     name: "app:template"
-    remoteSrc: "/javascripts/build/template.js?m=#{config.magic.application}"
-    localSrc: "/javascripts/build/template.js?m=#{config.magic.application}"
+    remoteSrc: "/javascripts/templates.js?m=#{config.magic.application}"
+    localSrc:  "/javascripts/templates.js?m=#{config.magic.application}"
   }
   {
     name: "app:script"
-    remoteSrc: "/javascripts/build/app.js?m=#{config.magic.application}"
-    localSrc: "/javascripts/build/app.js?m=#{config.magic.application}"
+    remoteSrc: "/javascripts/app.js?m=#{config.magic.application}"
+    localSrc:  "/javascripts/app.js?m=#{config.magic.application}"
+  }
+  {
+    name: "library:font-opensans-css"
+    remoteSrc: "//fonts.googleapis.com/css?family=Open+Sans:400,600"
+  }
+  {
+    name: "library:font-roboto-css"
+    remoteSrc: "//fonts.googleapis.com/css?family=Roboto"
+  }
+  {
+    name: "library:font-awesome-css"
+    remoteSrc: "//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css"
   }
 ]
 
 window.initializeGmap = ->
+
+totalScriptsLoaded = 0
+(document.getElementsByTagName 'body')[0].className += 'page-loading'
+incrementProgressBar = ->
+  setProgressBar = (i, total) ->
+    progressBarStyle = document.getElementById("page-loading-bar").style
+    progressBarStyle.width = "#{i * 1.0 / total * 100}%"
+  totalScriptsLoaded++
+  setProgressBar totalScriptsLoaded, window.scripts.length
+
 
 head = document.getElementsByTagName("head")[0]
 production = config.mode == "production"
@@ -96,6 +63,9 @@ for script in scripts
   else
     $fileref = document.createElement "script"
     $fileref.type = "text/javascript"
+  $fileref.onreadystatechange = ->
+    if @readyState is "complete" then incrementProgressBar();
+  $fileref.onload = incrementProgressBar
 
 
   # If HTML5 localStorage is supported, attempt to load the scripts from
@@ -128,7 +98,7 @@ for script in scripts
     # If the cache exists, then read from it; Otherwise set a flag to
     # that will upload the script normally.
     if scriptCache
-      console.log "fething from cache:", script.name
+      console.log "fetching from cache:", script.name
 
       # IMPORTANT: CSS code should be placed in the "<style></style>"
       # tag and not inside "<link/>". Which is why it is crucial to

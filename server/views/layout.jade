@@ -2,7 +2,7 @@ doctype html
 html(lang= lang, dir= dir, ng-app='App')
   head
     include ./include/head.jade
-  body(itemscope, itemtype="http://schema.org/WebSite", id="{{ bodyid }}", ng-class="extraClass")
+  body(itemscope, itemtype="http://schema.org/WebSite", id="{{ bodyid }}", ng-class="extraClass", ng-cloak)
     #fb-root
 
     meta(itemprop="url" content="https://kuwaitandme.com/")
@@ -11,6 +11,9 @@ html(lang= lang, dir= dir, ng-app='App')
     //-   .text(style="font-family: 'Bitter'; color: #000; text-align: center; padding-top: 15%") Loading
     //- #page-progressbar
     header(ng-include="'components/header'")
+
+    #page-loading
+      #page-loading-bar
 
     //- Message container
     ul#messages
