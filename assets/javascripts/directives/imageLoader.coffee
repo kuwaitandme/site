@@ -1,18 +1,23 @@
 module.exports = ->
-  link = (scope, elm, attr) ->
-    isType = (o, t) -> (typeof o).indexOf(t.charAt(0).toLowerCase()) == 0
-    img = elm[0]
-    src = attr.imageLoader
+  scope:
+    imageSuccess: "&"
+    imageFail: "&"
 
-    elm.addClass "image-loading"
+
+  link: (scope, element, attributes) ->
+    isType = (o, t) -> (typeof o).indexOf(t.charAt(0).toLowerCase()) == 0
+    img = element[0]
+    src = attributes.imageLoader
+    element.addClass "image-loading"
+
     success = ->
-      elm.removeClass "image-loading"
-      elm.addClass "image-success"
+      element.removeClass "image-loading"
+      element.addClass "image-success"
       fn = (scope.imageSuccess and scope.imageSuccess()) or ->
       fn()
     failure = ->
-      elm.removeClass "image-loading"
-      elm.addClass "image-fail"
+      element.removeClass "image-loading"
+      element.addClass "image-fail"
       fn = (scope.imageFail and scope.imageFail()) or ->
       fn()
 
@@ -24,8 +29,3 @@ module.exports = ->
     else
       img.onload = success
       img.onerror = failure
-
-  scope:
-    imageSuccess: "&"
-    imageFail: "&"
-  link: ["scope", "element", "attributes", link]

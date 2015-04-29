@@ -5,7 +5,7 @@ section(ng-controller='component:classified-list')
         .container
           //- .urgent-banner Urgent
           .thumb(ng-if="classified.images.length > 0", ng-style="{'background':classified.images[0].color}")
-            img(image-loader!="uploads/thumb/{{ classified.images[0].file }}", image-success="classified.imageLoaded", image-fail="classified.imageLoaded", alt="{{ classified.title }}")
+            img(image-loader!="/uploads/thumb/{{ classified.images[0].file }}", image-success="classified.imageLoaded", image-fail="classified.imageLoaded", alt="{{ classified.title }}")
           .info
             .title {{ classified.title | limitTo: 120 }}
             .border
