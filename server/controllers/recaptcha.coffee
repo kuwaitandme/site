@@ -1,5 +1,3 @@
-config = global.config
-
 ###!
 # node-recaptcha
 # Copyright(c) 2010 Michael Hampton <mirhampt+github@gmail.com>

@@ -1,9 +1,11 @@
-module.exports = ($scope, $rootScope, $stateParams, classified, $element) ->
+module.exports = ($scope, $stateParams, classified, $element) ->
   @name = '[page:classified-single]'
-  $rootScope.bodyid = 'classified-single'
 
   console.log @name, "initializing"
   console.debug @name, "routeParams", $stateParams
+
+  body = document.getElementsByTagName "body"
+  body[0].id = "classified-single"
 
   classified.get $stateParams.id, (error, result) =>
     $scope.classified = result

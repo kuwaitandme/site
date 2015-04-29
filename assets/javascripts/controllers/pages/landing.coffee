@@ -1,7 +1,9 @@
-module.exports = ($scope, $rootScope, $scroller) ->
+module.exports = ($scope, $scroller) ->
   @name = '[page:landing]'
   console.log @name, 'initializing'
-  $rootScope.bodyid = 'landing'
+
+  body = document.getElementsByTagName "body"
+  body[0].id = "landing"
 
   console.log $scroller
   $scope.gotoElement = (eID) -> setTimeout (-> $scroller.scrollTo eID), 100
