@@ -8,9 +8,10 @@ ul.row.categories-list(ng-controller='component:category-list')
       .children
         .child(ng-repeat="child in category.children")
           h3
-            a(href="/classified/{{ category.slug }}/{{ child.slug }}", data-view) {{ child.name }}
+            a(href="/classified/{{ category.slug }}/{{ child.slug }}") {{ child.name }}
           .count {{ child.count }}
         .child
-          h4
-            a(href="/classified/{{ category.slug }}", data-vie) {{ "comp.category.viewall" | translate }}
+          h3
+            a(href="/classified/{{ category.slug }}") View all
+            //-{{ "comp.category.viewall" | translate }}
           .count {{ category.count }}

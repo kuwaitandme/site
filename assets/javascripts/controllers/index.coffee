@@ -10,6 +10,6 @@ module.exports = (app) ->
   app.controller 'page:classified/post',      require './pages/classified/post'
   app.controller 'page:classified/search',    require './pages/classified/search'
   app.controller 'page:classified/single',    require './pages/classified/single'
-  app.controller 'page:account',              require './pages/account'
+  app.controller 'page:account/index',        require './pages/account'
   app.controller 'page:account/manage',       require './pages/account/manage'
   app.controller 'page:landing',              require './pages/landing'

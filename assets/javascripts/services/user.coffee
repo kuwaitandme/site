@@ -5,7 +5,7 @@ module.exports = ($http) ->
   getCurrentUser: -> @currentUser or {}
   isLoggedIn: -> @getCurrentUser()._id?
 
-  downloadCurrentUser: ->
+  download: ->
     if not @currentUser?
       console.log @name, "downloading user"
       ($http.get '/api/user').success (data) => @currentUser = data

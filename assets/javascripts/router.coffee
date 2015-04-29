@@ -11,9 +11,10 @@ module.exports = (app) ->
         templateUrl: "#{page}"
         url: route
         resolve:
-          downloadUser: (user) -> user.downloadCurrentUser()
+          downloadUser: (user) -> user.download()
+          downloadCategories: (category) -> category.download()
 
-    _route "account/index",     "/account/index"
+    _route "account/index",     "/account"
     _route "account/manage",    "/account/manage"
     _route "auth/login",        "/auth/login"
     _route "auth/signup",       "/auth/signup"

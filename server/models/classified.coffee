@@ -242,24 +242,24 @@ exports = module.exports = (IoC, mongoose, cache) ->
     classifiedsPerCategory: (callback) ->
       # The Mongo way of grouping and counting!
       agg = [
-        {
-          $match: status: @status.ACTIVE
-        }
+        # {
+        #   $match: status: @status.ACTIVE
+        # }
         {
           $group:
             _id: '$category'
             total: $sum: 1
         }
       ]
-      results = {}
+      counters = {}
 
-      global.cache.get 'category-count', (error, cache) =>
+      cache.get 'category-count', (error, results) =>
         if error then return callback error
-        if cache then return callback null, cache
+        if results then return callback null, results
 
-        @model.aggregate agg, (error, result) =>
+        @model.aggregate agg, (error, results) =>
           if error then return callback error
-          results.category = result
+          counters.category = results
 
           agg = [
             {
@@ -271,12 +271,12 @@ exports = module.exports = (IoC, mongoose, cache) ->
                 total: $sum: 1
             }
           ]
-          @model.aggregate agg, (error, result) =>
+          @model.aggregate agg, (error, results) =>
             if error then return callback error
-            results.childCategory = result
+            counters.childCategory = results
 
-            global.cache.set 'category-count', results
-            callback null, results
+            cache.set 'category-count', counters
+            callback null, counters
 
 
     # Finds all the classifieds with the given parameters. This is abit of a

@@ -1,15 +1,15 @@
-exports = module.exports = (Classified, Category) ->
+exports = module.exports = (classified, category) ->
   controller = (request, response, next) ->
     response.contentType 'application/json'
 
     if request.query.count
-      Classified.classifiedsPerCategory (error, result) ->
+      classified.classifiedsPerCategory (error, result) ->
         if error then next error
 
         json = JSON.stringify result
         response.end json
     else
-      Category.getAll (error, result) ->
+      category.getAll (error, result) ->
         if error then next error
 
         json = JSON.stringify result

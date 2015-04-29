@@ -31,7 +31,6 @@
 
 //- #landing-categories.row
   h1 Categories
-  section(ng-include="'components/category-list'")
 //- #
 #splash
   .tagline
@@ -41,11 +40,14 @@
       h2
         a(href="/classified/post") Submit your classified
       h2
-        a(href="/classified") Browse through classifieds
+        a(ng-click="showcategories=true") Browse through classifieds
       h2
         a(href="/auth/signup") Signup for an account
     //- ul.large-6.columns.thumb.testimonials
       li asd
+#landing-categories(ng-if="showcategories").row
+  h2 Categories
+  section(ng-include="'components/category-list'")
 #featured-classifieds.row
   //- h1 {{ "page.landing.classifieds" | translate }}
   h2 Featured classifieds

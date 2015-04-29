@@ -1,8 +1,8 @@
 ul.categories-list
-  margin: 0 auto
-  background: #FFF
-  // max-width: auto
   +clearfix
+  +single-transition
+  background: #FFF
+  margin: 0 auto
 
   li
     float: left
@@ -52,6 +52,7 @@ ul.categories-list
         margin: 0
       a
         display: block
+        text-decoration: none
         padding: 5px 10px
         width: 80%
         &:hover
@@ -64,7 +65,7 @@ ul.categories-list
         font-size: 12px
         right: 5px
       &:nth-child(odd)
-        background: #f6f6f6
+        background: #f3f3f3
 
     &.show-children
       &:hover .cat-sprite
