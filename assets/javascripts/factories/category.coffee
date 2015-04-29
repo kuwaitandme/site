@@ -1,4 +1,4 @@
-module.exports = ($http, $cache) ->
+exports = module.exports = ($http, $cache) ->
   class Model
     name: "[model:category]"
 
@@ -89,3 +89,9 @@ module.exports = ($http, $cache) ->
         _fetchFromAPI().then -> _getCounters()
 
   new Model
+
+
+exports.$inject = [
+  '$http'
+  '$cache'
+]

@@ -1,9 +1,5 @@
 module.exports = ->
-  scope:
-    imageSuccess: "&"
-    imageFail: "&"
-
-  link: (scope, elm, attr) ->
+  link = (scope, elm, attr) ->
     isType = (o, t) -> (typeof o).indexOf(t.charAt(0).toLowerCase()) == 0
     img = elm[0]
     src = attr.imageLoader
@@ -28,3 +24,8 @@ module.exports = ->
     else
       img.onload = success
       img.onerror = failure
+
+  scope:
+    imageSuccess: "&"
+    imageFail: "&"
+  link: ['scope', 'element', 'attributes', link]

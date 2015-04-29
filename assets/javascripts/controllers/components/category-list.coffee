@@ -1,4 +1,4 @@
-module.exports = ($scope, $location, $element, category) ->
+exports = module.exports = ($scope, $location, $element, category) ->
   @name = "[component:category-list]"
   console.log @name, "initializing"
 
@@ -22,3 +22,11 @@ module.exports = ($scope, $location, $element, category) ->
       setTimeout (-> masonry.layout()), 100
 
   $scope.categories = categories
+
+
+exports.$inject = [
+  '$scope'
+  '$location'
+  '$element'
+  'model.category'
+]

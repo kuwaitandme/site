@@ -1,6 +1,5 @@
-module.exports = ($scope, $stateParams, classified, $element) ->
+exports = module.exports = ($scope, $element, $stateParams, classified) ->
   @name = '[page:classified-single]'
-
   console.log @name, "initializing"
   console.debug @name, "routeParams", $stateParams
 
@@ -17,3 +16,11 @@ module.exports = ($scope, $stateParams, classified, $element) ->
         console.log 'updating'
         @masonry.layout()
     , 100
+
+
+exports.$inject = [
+  '$scope'
+  '$element'
+  '$stateParams'
+  'model.classified'
+]

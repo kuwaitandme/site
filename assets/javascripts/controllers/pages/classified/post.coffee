@@ -1,4 +1,4 @@
-module.exports = ($scope, $element, classified, category) ->
+exports = module.exports = ($scope, $element, classified, category) ->
   @name = "[page:classified-post]"
   console.log @name, "initializing"
 
@@ -44,3 +44,11 @@ module.exports = ($scope, $element, classified, category) ->
 
   $scope.validate = -> # _validateTitle()
   $scope.validate()
+
+
+exports.$inject = [
+  '$scope'
+  '$element'
+  'model.classified'
+  'model.category'
+]

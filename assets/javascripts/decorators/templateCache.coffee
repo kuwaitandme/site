@@ -1,5 +1,5 @@
-module.exports = ($provide) ->
-  $provide.decorator '$templateCache', ($delegate, $sniffer) ->
+exports = module.exports = ($provide) ->
+  decorator = ($delegate, $sniffer) ->
     originalGet = $delegate.get
 
     $delegate.get = (key) ->
@@ -12,3 +12,8 @@ module.exports = ($provide) ->
       value
     $delegate
   this
+
+  $provide.decorator '$templateCache', ['$delegate', '$sniffer', decorator]
+
+
+exports.$inject = ['$provide']

@@ -56,3 +56,9 @@ module.exports = ($http, $cache) ->
         console.log @name, 'retrieving categories from API'
         _fetchFromAPI()
   new Model
+
+
+exports.$inject = [
+  '$http'
+  'cache'
+]

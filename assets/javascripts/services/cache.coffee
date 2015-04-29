@@ -23,7 +23,7 @@ module.exports = ->
 
   Also, if the browser does not support localStorage use fallback methods.
   ###
-  constructor: (app, @config) ->
+  constructor: ->
     console.log @name, 'initializing'
 
     # Check if localStorage is supported

@@ -1,4 +1,4 @@
-module.exports = ($http) ->
+exports = module.exports = ($http) ->
   class Model
     name: "[model:user]"
 
@@ -15,3 +15,6 @@ module.exports = ($http) ->
     save: ->
 
   new Model
+
+
+exports.$inject = ['$http']

@@ -2,8 +2,7 @@ module.exports = (app) ->
   @name = "[router]"
   console.log @name, "initializing"
 
-  app.config ($stateProvider, $locationProvider, $urlMatcherFactoryProvider) ->
-    # console.log user
+  router = ($stateProvider, $locationProvider, $urlMatcherFactoryProvider) ->
     $urlMatcherFactoryProvider.strictMode false
     _route = (page, route) ->
       $stateProvider.state "#{page}",
@@ -11,8 +10,8 @@ module.exports = (app) ->
         templateUrl: "#{page}"
         url: route
         resolve:
-          downloadUser: (user) -> user.download()
-          downloadCategories: (category) -> category.download()
+          categories: ['model.category', (category) -> category.download()]
+          user:       ['model.user', (user) -> user.download()]
 
     _route "account/index",     "/account"
     _route "account/manage",    "/account/manage"
@@ -24,7 +23,11 @@ module.exports = (app) ->
     _route "guest/post",        "/guest/post"
     _route "landing",           "/"
 
-
+    # Enable HTML5 pushstate for hash-less URLs
     $locationProvider.html5Mode
       enabled: true
-      requireBase: false
+      requireBases: false
+
+
+  app.config ['$stateProvider', '$locationProvider',
+    '$urlMatcherFactoryProvider', router]

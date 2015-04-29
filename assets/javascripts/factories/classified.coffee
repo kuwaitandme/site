@@ -1,4 +1,4 @@
-module.exports = ($http) ->
+exports = module.exports = ($http) ->
   class Model
     name: "[model:classified]"
 
@@ -18,3 +18,6 @@ module.exports = ($http) ->
       .success (classified) -> callback null, classified
       .error callback
   new Model
+
+
+exports.$inject = ['$http']

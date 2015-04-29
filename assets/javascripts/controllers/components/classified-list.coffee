@@ -1,4 +1,4 @@
-module.exports = ($scope, $location, $element, classified) ->
+exports = module.exports = ($scope, $location, $element, classified) ->
   @name = "[component:classified-list]"
   console.log @name, "initializing"
   console.log @name, $scope
@@ -21,3 +21,11 @@ module.exports = ($scope, $location, $element, classified) ->
     $scope.classifieds = classifieds
 
   $scope.onScroll = -> console.log @name, "scrolling"
+
+
+exports.$inject = [
+  '$scope'
+  '$location'
+  '$element'
+  'model.classified'
+]

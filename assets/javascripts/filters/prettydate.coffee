@@ -71,4 +71,4 @@ prettify = (date_raw) ->
     i++
   ""
 
-module.exports =  -> prettify
+exports = module.exports =  -> prettify

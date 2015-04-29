@@ -1,4 +1,4 @@
-module.exports = ($scope, $element) ->
+exports = module.exports = ($scope, $element) ->
   @name = "[page:account-index]"
   console.log @name, "initializing"
 
@@ -7,3 +7,9 @@ module.exports = ($scope, $element) ->
 
   # $el = angular.element document.querySelectorAll "main > .row"
   # @masonry = new Masonry $el[0], itemSelector: ".columns"
+
+
+exports.$inject = [
+  '$scope'
+  '$element'
+]

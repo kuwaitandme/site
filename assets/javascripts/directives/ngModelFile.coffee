@@ -1,8 +1,5 @@
 module.exports = ->
-  scope:
-    ngModelFile: "&"
-
-  link: (scope, element, attributes) ->
+  link = (scope, element, attributes) ->
     element.bind 'change', (changeEvent) ->
       reader = new FileReader
       files = changeEvent.target.files
@@ -23,3 +20,6 @@ module.exports = ->
 
       # Start recursively reading the files
       readFile 0
+
+  scope: ngModelFile: "&"
+  link: ['scope', 'element', 'attributes', link]

@@ -1,4 +1,12 @@
-module.exports = ($scope, $rootScope, $element) ->
+exports = module.exports = ($scope, $rootScope, $element) ->
   @name = '[page:account-manage]'
   console.log @name, 'initializing'
-  $rootScope.bodyid = 'account-manage'
+
+  body = document.getElementsByTagName "body"
+  body[0].id = "account-manage"
+
+
+exports.$inject = [
+  '$scope'
+  '$element'
+]

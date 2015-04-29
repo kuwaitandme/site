@@ -1,7 +1,9 @@
-module.exports = ($scope, $rootScope, $location, $http, user) ->
-  @name = "[page:landing]"
+exports = module.exports = ($scope, $location, $http, user) ->
+  @name = "[page:auth-login]"
   console.log @name, "initializing"
-  $rootScope.bodyid = "auth-login"
+
+  body = document.getElementsByTagName "body"
+  body[0].id = "auth-login"
 
   $scope.processForm = =>
     $http
@@ -28,29 +30,10 @@ module.exports = ($scope, $rootScope, $location, $http, user) ->
       #   $scope.errorName = ""
       #   $scope.errorSuperhero = ""
 
-  # login: (username, password, callback) ->
-  #   console.debug @name, 'logging in user'
 
-  #   $.ajax
-  #     type: 'POST'
-  #     url: "/api/auth/email/#{username}"
-  #     beforeSend: ajax.setHeaders
-  #     data:
-  #       username: username
-  #       password: password
-
-  #     # This function gets called when the user successfully logs in
-  #     success: (response) =>
-  #       console.debug @name, 'user logged in', response
-
-  #       # Save the data from the server
-  #       @set response
-  #       @trigger 'sync', response
-
-  #       # Call the callback
-  #       callback null, response
-
-  #     # This function sends the error message to the callback
-  #     error: (error) =>
-  #       console.error @name, 'error logging in', error
-  #       callback error
+exports.$inject = [
+  '$scope'
+  '$location'
+  '$http'
+  'model.user'
+]

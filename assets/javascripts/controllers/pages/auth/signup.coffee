@@ -1,4 +1,14 @@
-module.exports = ($scope, $rootScope) ->
-  @name = '[page:landing]'
+exports = module.exports = ($scope, $location, $http, user) ->
+  @name = '[page:auth-signup]'
   console.log @name, 'initializing'
-  $rootScope.bodyid = 'auth-signup'
+
+  body = document.getElementsByTagName "body"
+  body[0].id = "auth-signup"
+
+
+exports.$inject = [
+  '$scope'
+  '$location'
+  '$http'
+  'model.user'
+]
