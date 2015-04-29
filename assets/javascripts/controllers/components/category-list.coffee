@@ -4,8 +4,7 @@ module.exports = ($scope, $location, $element, category) ->
 
   $scope.categories = []
   $el = angular.element document.querySelectorAll ".categories-list"
-  console.log $el
-  masonry = new Masonry $el[0]
+  masonry = new Masonry $el[0], isAnimated: false
 
   $scope.$watch (-> $el[0].childElementCount), =>
     for child in $el[0].children then masonry.appended child

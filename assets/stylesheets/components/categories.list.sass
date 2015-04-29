@@ -6,7 +6,6 @@ ul.categories-list
 
   li
     float: left
-    // max-width: 280px
     padding: 7px
 
     .container
@@ -27,8 +26,6 @@ ul.categories-list
       font-size: 0.8rem
       height: 100%
       margin: 5px
-      // padding-top: 6px
-      // border-top: 1px solid #EEE
       width: 100%
       z-index: 1
 
@@ -40,32 +37,33 @@ ul.categories-list
       +single-transition(height)
       height: 0
       overflow: hidden
+      .child
+        font-size: 0.8rem
+        position: relative
+        h2, h3, h4
+          @extend .font-text
+          font-size: 12px
+          margin: 0
+        a
+          display: block
+          text-decoration: none
+          padding: 5px 10px
+          width: 80%
+          &:hover
+            color: blue
+            text-decoration: underline
+        .count
+          position: absolute
+          top: 5px
+          color: #999
+          font-size: 12px
+          right: 5px
+        &:nth-child(odd)
+          background: #f3f3f3
+
     .active
       .total-count
         display: none
-    .child
-      font-size: 0.8rem
-      position: relative
-      h2, h3, h4
-        @extend .font-text
-        font-size: 12px
-        margin: 0
-      a
-        display: block
-        text-decoration: none
-        padding: 5px 10px
-        width: 80%
-        &:hover
-          color: blue
-          text-decoration: underline
-      .count
-        position: absolute
-        top: 5px
-        color: #999
-        font-size: 12px
-        right: 5px
-      &:nth-child(odd)
-        background: #f3f3f3
 
     &.show-children
       &:hover .cat-sprite
