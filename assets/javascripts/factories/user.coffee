@@ -1,6 +1,6 @@
 module.exports = ($http) ->
   class Model
-    name: "[service:user]"
+    name: "[model:user]"
 
     setCurrentUser: (@currentUser) ->
     getCurrentUser: -> @currentUser or {}
@@ -13,4 +13,5 @@ module.exports = ($http) ->
 
     get: (id) ->
     save: ->
+
   new Model

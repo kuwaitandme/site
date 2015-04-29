@@ -1,5 +1,7 @@
 module.exports = ($http) ->
   class Model
+    name: "[model:classified]"
+
     query: (page=1) -> $http
       method: 'POST'
       url: "/api/query?page=#{page}"

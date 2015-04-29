@@ -1,6 +1,6 @@
 module.exports = ($http, $cache) ->
   class Model
-    name: "[service:language]"
+    name: "[model:language]"
 
     ###
     ## *getAll(callback):*

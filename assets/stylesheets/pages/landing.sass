@@ -41,24 +41,24 @@ body#landing
         &:hover
           background: #F60
           border-color: #f60
-    .testimonials
-      max-height: 400px
-      overflow-y: hidden
-      padding: 0
-      li
-        @extend .font-title
-        background: #F60
-        color: #FFF
-        padding: 1rem
-        padding-left: 40px
-        position: relative
-        &:before
-          position: absolute
-          top: 9px
-          left: 12px
-          font-size: 1.3rem
-          @extend .font-awesome
-          content: '\f10d'
+    // .testimonials
+    //   max-height: 400px
+    //   overflow-y: hidden
+    //   padding: 0
+    //   li
+    //     @extend .font-title
+    //     background: #F60
+    //     color: #FFF
+    //     padding: 1rem
+    //     padding-left: 40px
+    //     position: relative
+    //     &:before
+    //       position: absolute
+    //       top: 9px
+    //       left: 12px
+    //       font-size: 1.3rem
+    //       @extend .font-awesome
+    //       content: '\f10d'
 
   h4
     font-size: 1.05em
@@ -70,6 +70,7 @@ body#landing
     .classified-list
       margin: 0
   #landing-categories
+    padding-top: 60px
     .categories-list
       margin: 0
   #featured-classifieds, #landing-categories
@@ -81,80 +82,3 @@ body#landing
       margin-bottom: 0
       padding: 0.5rem 1rem
       text-transform: uppercase
-  // #landing-social
-  //   +clearfix
-  //   @extend .font-awesome
-  //   position: absolute
-  //   right: 10px
-  //   top: 110px
-  //   @media only screen and (max-width: 64.063em)
-  //     top: 75px
-  //   li
-  //     float: right
-  // #landing-categories
-  //   +single-transition(height)
-  //   margin: 100px auto
-  //   .categories-list
-  //     margin: 0
-
-  // #landing-footer
-  //   @extend .font-title
-  //   color: #999
-  //   font-size: 12px
-  //   text-align: center
-  // #landing-section
-  //   #landing-logo
-  //     max-width: 75%
-  //     margin: 20px auto
-  //     text-align: center
-  //   ul#landing-extra
-  //     +clearfix
-  //     color: #000
-  //     display: inline-block
-  //     margin: 0 auto
-  //     padding: 0
-  //     text-align: center
-  //   #landing-message a, ul#landing-extra li
-  //     @extend .font-title
-  //     +single-transition
-  //     border-bottom: 1px solid #DDD
-  //     float: left
-  //     font-size: 12px
-  //     margin: 7px
-  //     &:hover
-  //       border-bottom: 2px solid #FF6600
-  //   #landing-message
-  //     margin-top: 30px
-  //     font-size: 13px
-  //     @extend .font-title
-  //     a
-  //       text-decoration: none
-  //       float: none
-  //       margin: 0
-  //   #search-form
-  //     margin: 100px 0
-  //     text-align: center
-  //     width: 100%
-  //     form
-  //       font-size: 14px
-  //       margin: 0 auto
-  //       max-width: 600px
-  //       position: relative
-  //       width: 85%
-  //       .search-bar
-  //         +single-transition
-  //         border: 1px solid #d9d9d9
-  //         border-top-color: #c0c0c0
-  //         padding: 20px 10px
-  //         outline: none
-  //       .search-button
-  //         @extend .font-awesome
-  //         background: none
-  //         border: none
-  //         color: #000
-  //         height: 100%
-  //         padding: 10px 0
-  //         position: absolute
-  //         right: 0
-  //         top: 0
-  //         width: 40px

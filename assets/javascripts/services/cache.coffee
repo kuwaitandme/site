@@ -11,7 +11,7 @@ the user navigates to the page for the second time, shortening load time to <
 the categories of classifieds.
 ###
 module.exports = ->
-  name: '[cache]'
+  name: '[service:cache]'
   fallback: false
 
   ###
