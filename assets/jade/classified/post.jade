@@ -35,16 +35,15 @@ section#classified
     ul.meta.columns.medium-6
       li
         .meta-title Price:
-        select
+        select(ngModel="classified.price")
           option(disabled, selected) Choose a price
           option Free
           option Contact Owner
       li
         .meta-title Category:
-        select
-          option(disabled, selected) Choose a price
-          option Free
-          option Contact Owner
+        select(ngModel="classified.category", required, ngRequired, ngOptions="comprehension_expression")
+          option(ng-repeat="category in categories") {{ category.name }}
+
         span(ng-if="classified.childCategory") {{ classified.childCategory | category }}
       li
         .meta-title Location:
