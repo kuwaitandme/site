@@ -47,8 +47,8 @@ exports = module.exports = ($scope, $element, classified, category) ->
 
 
 exports.$inject = [
-  '$scope'
-  '$element'
-  'model.classified'
-  'model.category'
+  "$scope"
+  "$element"
+  "model.classified"
+  "model.category"
 ]

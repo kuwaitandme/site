@@ -10,6 +10,6 @@ exports = module.exports = ($scope, $element) ->
 
 
 exports.$inject = [
-  '$scope'
-  '$element'
+  "$scope"
+  "$element"
 ]

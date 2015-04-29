@@ -33,32 +33,32 @@ module.exports = ($http, $cache) ->
     download: ->
       if @categories? then return
 
-      console.log @name, 'downloading categories'
-      cache = $cache.get 'models:category'
+      console.log @name, "downloading categories"
+      cache = $cache.get "models:category"
       # A helper function to retrieve the categories from the API
       _fetchFromAPI = =>
         $http.get "/api/category/"
         .success (categories) =>
           @categories = categories
-          $cache.set 'models:category', JSON.stringify categories
+          $cache.set "models:category", JSON.stringify categories
 
       if cache?
         # Categories was found in cache, prepare to translate it and return
-        console.log @name, 'retrieving categories from cache'
+        console.log @name, "retrieving categories from cache"
         try
           @categories = JSON.parse cache
         catch exception
-          # Something went wrong while parsing the categories. No problem, we'll
+          # Something went wrong while parsing the categories. No problem, we"ll
           # retrieve it from the API.
           _fetchFromAPI()
       else
         # Categories were never saved. So retrieve it from the API.
-        console.log @name, 'retrieving categories from API'
+        console.log @name, "retrieving categories from API"
         _fetchFromAPI()
   new Model
 
 
 exports.$inject = [
-  '$http'
-  'cache'
+  "$http"
+  "cache"
 ]

@@ -9,7 +9,7 @@ exports = module.exports = ($http) ->
     download: ->
       if not @currentUser?
         console.log @name, "downloading user"
-        ($http.get '/api/user').success (data) => @currentUser = data
+        ($http.get "/api/user").success (data) => @currentUser = data
 
     get: (id) ->
     save: ->
@@ -17,4 +17,4 @@ exports = module.exports = ($http) ->
   new Model
 
 
-exports.$inject = ['$http']
+exports.$inject = ["$http"]

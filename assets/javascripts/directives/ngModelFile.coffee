@@ -1,6 +1,6 @@
 module.exports = ->
   link = (scope, element, attributes) ->
-    element.bind 'change', (changeEvent) ->
+    element.bind "change", (changeEvent) ->
       reader = new FileReader
       files = changeEvent.target.files
       results = []
@@ -22,4 +22,4 @@ module.exports = ->
       readFile 0
 
   scope: ngModelFile: "&"
-  link: ['scope', 'element', 'attributes', link]
+  link: ["scope", "element", "attributes", link]

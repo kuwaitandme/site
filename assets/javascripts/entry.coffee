@@ -1,10 +1,10 @@
-console.log '[app] initializing'
-app = angular.module 'App', ['ui.router']
+console.log "[app] initializing"
+app = angular.module "App", ["ui.router"]
 
-(require './controllers')   app
-(require './decorators')    app
-(require './directives')    app
-(require './factories')     app
-(require './filters')       app
-(require './router')        app
-(require './services')      app
+(require "./controllers")   app
+(require "./decorators")    app
+(require "./directives")    app
+(require "./factories")     app
+(require "./filters")       app
+(require "./router")        app
+(require "./services")      app

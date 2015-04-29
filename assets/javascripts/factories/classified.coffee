@@ -2,14 +2,12 @@ exports = module.exports = ($http) ->
   class Model
     name: "[model:classified]"
 
-    query: (page=1) -> $http
-      method: 'POST'
-      url: "/api/query?page=#{page}"
+    query: (page=1) -> $http.post "/api/query?page=#{page}"
 
     save: ->
 
     search: (parameters, callback) ->
-      $http.get '/api/classified'
+      $http.get "/api/classified"
       .success (classifieds) -> callback null, classifieds
       .error callback
 
@@ -20,4 +18,4 @@ exports = module.exports = ($http) ->
   new Model
 
 
-exports.$inject = ['$http']
+exports.$inject = ["$http"]

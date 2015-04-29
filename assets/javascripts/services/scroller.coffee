@@ -30,8 +30,6 @@ module.exports = ->
     stopY = elmYPosition eID
     distance = if stopY > startY then stopY - startY else startY - topY
 
-
-
     if distance < 100 then return @scrollTo 0, stopY
 
     speed = Math.round distance / 100
@@ -44,7 +42,6 @@ module.exports = ->
     if stopY > startY
       i = startY
       while i < stopY
-        console.log 'sdf'
         setTimeout "window.scrollTo(0, #{leapY})", timer * speed
         leapY += step
         if leapY > stopY then leapY = stopY
@@ -54,7 +51,6 @@ module.exports = ->
 
     i = startY
     while i > stopY
-      console.log 'sdf1'
       setTimeout "window.scrollTo(0, #{leapY})", timer * speed
       leapY -= step
       if leapY < stopY then leapY = stopY

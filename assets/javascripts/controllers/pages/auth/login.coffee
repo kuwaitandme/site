@@ -14,9 +14,9 @@ exports = module.exports = ($scope, $location, $http, user) ->
         password: $scope.password
 
     .success (data, status) =>
-      console.log @name, 'login successful! redirecting to account page'
+      console.log @name, "login successful! redirecting to account page"
       user.setCurrentUser data
-      $location.path '/account'
+      $location.path "/account"
 
     .error (data, status) ->
       console.error data, status
@@ -32,8 +32,8 @@ exports = module.exports = ($scope, $location, $http, user) ->
 
 
 exports.$inject = [
-  '$scope'
-  '$location'
-  '$http'
-  'model.user'
+  "$scope"
+  "$location"
+  "$http"
+  "model.user"
 ]

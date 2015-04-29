@@ -1,5 +1,5 @@
 exports = module.exports = ($scope, $element, $stateParams, classified) ->
-  @name = '[page:classified-single]'
+  @name = "[page:classified-single]"
   console.log @name, "initializing"
   console.debug @name, "routeParams", $stateParams
 
@@ -10,17 +10,17 @@ exports = module.exports = ($scope, $element, $stateParams, classified) ->
     $scope.classified = result
 
     setTimeout =>
-      $imgContainer =  angular.element $element[0].querySelector '.gallery'
-      @masonry = new Masonry $imgContainer[0], itemSelector: 'li'
+      $imgContainer =  angular.element $element[0].querySelector ".gallery"
+      @masonry = new Masonry $imgContainer[0], itemSelector: "li"
       $scope.update = =>
-        console.log 'updating'
+        console.log "updating"
         @masonry.layout()
     , 100
 
 
 exports.$inject = [
-  '$scope'
-  '$element'
-  '$stateParams'
-  'model.classified'
+  "$scope"
+  "$element"
+  "$stateParams"
+  "model.classified"
 ]

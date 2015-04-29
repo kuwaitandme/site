@@ -4,19 +4,19 @@ module.exports = ->
     img = elm[0]
     src = attr.imageLoader
 
-    elm.addClass 'image-loading'
+    elm.addClass "image-loading"
     success = ->
-      elm.removeClass 'image-loading'
-      elm.addClass 'image-success'
+      elm.removeClass "image-loading"
+      elm.addClass "image-success"
       fn = (scope.imageSuccess and scope.imageSuccess()) or ->
       fn()
     failure = ->
-      elm.removeClass 'image-loading'
-      elm.addClass 'image-fail'
+      elm.removeClass "image-loading"
+      elm.addClass "image-fail"
       fn = (scope.imageFail and scope.imageFail()) or ->
       fn()
 
-    prop = if isType img.naturalWidth, 'u' then 'width' else 'naturalWidth'
+    prop = if isType img.naturalWidth, "u" then "width" else "naturalWidth"
     img.src = src
     if img.complete
       if img[prop] then success img
@@ -28,4 +28,4 @@ module.exports = ->
   scope:
     imageSuccess: "&"
     imageFail: "&"
-  link: ['scope', 'element', 'attributes', link]
+  link: ["scope", "element", "attributes", link]

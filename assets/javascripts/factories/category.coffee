@@ -48,50 +48,50 @@ exports = module.exports = ($http, $cache) ->
 
     download: ->
       _getCounters = (callback=->) =>
-        console.log @name, 'fetching category counters'
-        $http.get '/api/category?count=true'
+        console.log @name, "fetching category counters"
+        $http.get "/api/category?count=true"
         .success (response) =>
-          console.log @name, 'fetched category counters'
+          console.log @name, "fetched category counters"
           @setCounters response
           callback null, response
         .error (response) =>
-          console.error @name, 'error fetching category counters', response
+          console.error @name, "error fetching category counters", response
           callback response
 
       # A helper function to retrieve the categories from the API
       _fetchFromAPI = =>
-        console.log @name, 'fetching categories from API'
+        console.log @name, "fetching categories from API"
         $http.get "/api/category/"
         .success (categories) =>
-          console.log @name, 'fetched categories from API'
+          console.log @name, "fetched categories from API"
           @categories = categories
-          $cache.set 'models:category', JSON.stringify categories
+          $cache.set "models:category", JSON.stringify categories
 
       if @categories? then return
 
-      console.log @name, 'downloading categories'
-      cache = $cache.get 'models:category'
+      console.log @name, "downloading categories"
+      cache = $cache.get "models:category"
 
 
       if cache?
         # Categories was found in cache, prepare to translate it and return
-        console.log @name, 'retrieving categories from cache'
+        console.log @name, "retrieving categories from cache"
         try
           @categories = JSON.parse cache
           _getCounters()
         catch exception
-          # Something went wrong while parsing the categories. No problem, we'll
+          # Something went wrong while parsing the categories. No problem, we"ll
           # retrieve it from the API.
           _fetchFromAPI().then -> _getCounters()
       else
         # Categories were never saved. So retrieve it from the API.
-        console.log @name, 'retrieving categories from API'
+        console.log @name, "retrieving categories from API"
         _fetchFromAPI().then -> _getCounters()
 
   new Model
 
 
 exports.$inject = [
-  '$http'
-  '$cache'
+  "$http"
+  "$cache"
 ]

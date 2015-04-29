@@ -13,7 +13,7 @@ exports = module.exports = ($provide) ->
     $delegate
   this
 
-  $provide.decorator '$templateCache', ['$delegate', '$sniffer', decorator]
+  $provide.decorator "$templateCache", ["$delegate", "$sniffer", decorator]
 
 
-exports.$inject = ['$provide']
+exports.$inject = ["$provide"]

@@ -1,5 +1,5 @@
 exports = module.exports = ($scope, $rootScope) ->
-  @name = '[component:header]'
+  @name = "[component:header]"
   console.log @name, "initializing"
 
   $scope.showNavigation = ->
@@ -7,10 +7,10 @@ exports = module.exports = ($scope, $rootScope) ->
 
   $scope.toggleHeader = ->
     cl = $rootScope.extraClass
-    $rootScope.extraClass = if cl is 'show-subheader' then '' else 'show-subheader'
+    $rootScope.extraClass = if cl is "show-subheader" then "" else "show-subheader"
 
 
 exports.$inject = [
-  '$scope'
-  '$rootScope'
+  "$scope"
+  "$rootScope"
 ]

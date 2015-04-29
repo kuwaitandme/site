@@ -10,8 +10,8 @@ module.exports = (app) ->
         templateUrl: "#{page}"
         url: route
         resolve:
-          categories: ['model.category', (category) -> category.download()]
-          user:       ['model.user', (user) -> user.download()]
+          categories: ["model.category", (category) -> category.download()]
+          user:       ["model.user",     (user)     -> user.download()]
 
     _route "account/index",     "/account"
     _route "account/manage",    "/account/manage"
@@ -29,5 +29,5 @@ module.exports = (app) ->
       requireBases: false
 
 
-  app.config ['$stateProvider', '$locationProvider',
-    '$urlMatcherFactoryProvider', router]
+  app.config ["$stateProvider", "$locationProvider",
+    "$urlMatcherFactoryProvider", router]

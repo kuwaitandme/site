@@ -7,11 +7,11 @@ increase responsiveness of the site.
 
 This module in production mode caches all startup scripts and reuses them when
 the user navigates to the page for the second time, shortening load time to <
-100ms. It also caches data that doesn't change that often like the locations and
+100ms. It also caches data that doesn"t change that often like the locations and
 the categories of classifieds.
 ###
 module.exports = ->
-  name: '[service:cache]'
+  name: "[service:cache]"
   fallback: false
 
   ###
@@ -24,7 +24,7 @@ module.exports = ->
   Also, if the browser does not support localStorage use fallback methods.
   ###
   constructor: ->
-    console.log @name, 'initializing'
+    console.log @name, "initializing"
 
     # Check if localStorage is supported
     if Storage?
@@ -39,8 +39,8 @@ module.exports = ->
     else
       # Setup fallback methods
       @fallback = true
-      console.log @name, 'HTML5 Storage not supported. Using fallback methods'
-      console.warn @name, 'no fallback methods for cache have been implemented so far'
+      console.log @name, "HTML5 Storage not supported. Using fallback methods"
+      console.warn @name, "no fallback methods for cache have been implemented so far"
 
 
   ###
@@ -54,30 +54,30 @@ module.exports = ->
     console.log @name, "checking cache version"
     magic = window.config.magic or {}
 
-    _clearApplicationCache =  -> _removeKeysHelper 'app'
-    _clearLibrariesCache =    -> _removeKeysHelper 'library'
-    _clearModelsCache =       -> _removeKeysHelper 'models'
+    _clearApplicationCache =  -> _removeKeysHelper "app"
+    _clearLibrariesCache =    -> _removeKeysHelper "library"
+    _clearModelsCache =       -> _removeKeysHelper "models"
     _removeKeysHelper = (tag) ->
       keysToRemove = []
       for i in [0...localStorage.length]
         key = localStorage.key i
-        if key? and ((key.split ':')[0] == tag) then keysToRemove.push key
+        if key? and ((key.split ":")[0] == tag) then keysToRemove.push key
       localStorage.removeItem key for key in keysToRemove
 
-    if (@get 'magic:library') != magic.library
+    if (@get "magic:library") != magic.library
       console.log @name, "library caches differ, clearing"
       _clearLibrariesCache()
-      @set 'magic:library', magic.library
+      @set "magic:library", magic.library
 
-    if (@get 'magic:models') != magic.models
+    if (@get "magic:models") != magic.models
       console.log @name, "model caches differ, clearing"
       _clearModelsCache()
-      @set 'magic:models', magic.models
+      @set "magic:models", magic.models
 
-    if (@get 'magic:application') != magic.application
+    if (@get "magic:application") != magic.application
       console.log @name, "application caches differ, clearing"
       _clearApplicationCache()
-      @set 'magic:application', magic.application
+      @set "magic:application", magic.application
 
 
   ###
@@ -88,13 +88,13 @@ module.exports = ->
   from the cache and avoid making requests from the CDN.
 
   The code that loads the script that is saved in the local path of the app.
-  This is done, because most browsers don't allow cross-browser requests
+  This is done, because most browsers don"t allow cross-browser requests
   and saving the scripts local is a solution for this.
   ###
   cacheStartupScripts: ->
     if @fallback then return
 
-    # The list of scripts is accessible to us by the global variable 'scripts'
+    # The list of scripts is accessible to us by the global variable "scripts"
     for script in scripts
       storageIdentifier = script.name
 
