@@ -1,8 +1,7 @@
-module.exports = (Location) ->
+exports = module.exports = (location) ->
   controller = (request, response, next) ->
     response.contentType 'application/json'
-
-    Location.getAll (error, result) ->
+    location.getAll (error, result) ->
       if error then next error
 
       json = JSON.stringify result
