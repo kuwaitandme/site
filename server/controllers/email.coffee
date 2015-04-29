@@ -46,3 +46,5 @@ module.exports =
 
     # Start sending the message
     server.send message
+
+exports['@singleton'] = true

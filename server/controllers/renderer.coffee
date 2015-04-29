@@ -81,3 +81,4 @@ exports['@require'] = [
   'igloo/settings'
   'controllers/cache'
 ]
+exports['@singleton'] = true

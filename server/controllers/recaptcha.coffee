@@ -144,3 +144,5 @@ exports.verify = (request, captchaSuccess, captchaFail) ->
   recaptcha.verify (err, success) ->
     if success then captchaSuccess err, success
     else captchaFail err, success
+
+exports['@singleton'] = true
