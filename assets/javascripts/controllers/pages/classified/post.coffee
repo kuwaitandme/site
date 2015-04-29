@@ -1,11 +1,13 @@
 module.exports = ($scope, $element, classified, category) ->
   @name = "[page:classified-post]"
-  console.log @name, "initializing", category
+  console.log @name, "initializing"
 
   body = document.getElementsByTagName "body"
   body[0].id = "classified-post"
 
+  $scope.classified = {}
   $scope.categories = category.getAll()
+  $scope.locations = category.getAll()
 
   # Function to listen for changes with classified title
   titleChange = (newValue="") ->
@@ -32,7 +34,13 @@ module.exports = ($scope, $element, classified, category) ->
     console.log "clicked", $el
     $el[0].click()
 
-  $scope.fileChange = -> console.log "changing"
+  $scope.fileChange = (files) ->
+    $scope.files = $scope.files or []
+    $scope.$apply ->
+      for file in files then $scope.files.push file: file
+    console.log $scope.files
+    $scope.$apply()
+    console.log "changing", files
 
   $scope.validate = -> # _validateTitle()
   $scope.validate()

@@ -1,11 +1,11 @@
 section#classified
   form(name="form", novalidate).row
-    input(type='file', multiple, ng-model-file='files', ng-model-file-finish="fileChange").hide
+    input(type='file', multiple, ng-model-file="fileChange").hide
     .columns
       ul.gallery.row.collapse
         li.small-6.medium-4.large-3.columns(ng-repeat="image in files track by $index")
-          img.thumb(image-loader!="/uploads/thumb/{{ image.file }}", image-success="update", image-fail="update")
-        li.medium-4.large-3.columns(ng-click="addImages()")
+          img.thumb(src!="{{ image.file }}")
+        li.medium-4.large-3.columns.end(ng-click="addImages()")
           .message Add an Image
 
 
@@ -33,35 +33,46 @@ section#classified
       .error(max="max. 2000 characters", min="min. 50 characters") {{ remainingDescription }}
 
     ul.meta.columns.medium-6
-      li
-        .meta-title Price:
-        select(ngModel="classified.price")
-          option(disabled, selected) Choose a price
-          option Free
-          option Contact Owner
-      li
-        .meta-title Category:
-        select(ngModel="classified.category", required, ngRequired, ngOptions="comprehension_expression")
-          option(ng-repeat="category in categories") {{ category.name }}
+      li.row
+        .meta-title.columns.medium-2 Price*
+        .columns.medium-9
+          select(ng-model="classified.price", ng-required="true")
+            option(disabled, selected, value="") Choose a price
+            option(value="0") Free
+            option(value="-1") Contact Owner
+            option(value="1") Specify Value
 
-        span(ng-if="classified.childCategory") {{ classified.childCategory | category }}
-      li
-        .meta-title Location:
-        select
-          option(disabled, selected) Choose a price
-          option Free
-          option Contact Owner
-      li
-        .meta-title Address:
-        input(type="text", placeholder="Address line 1")
+      li.row(ng-if="classified.price == 1")
+        .meta-title.columns.medium-2
+        .columns.medium-9
+          input(placeholder="give your price here", ng-model="classified.priceCustom", ng-required="true")
 
-    .user.columns.medium-6
-      .avatar
-      .details
-        b Posted by&nbsp;
-        .name John Doe
-        b Member for: &nbsp;
-        | 30 days
+      li.row
+        .meta-title.columns.medium-2 Category*
+        .columns.medium-9
+          select(ng-model="classified.parentCategory", ng-options="category.name for category in categories", ng-required="true")
+            option(disabled, selected, value="") Choose a category
+
+      li.row(ng-if="classified.parentCategory.children.length > 0")
+        .meta-title.columns.medium-2
+        .columns.medium-9
+          select(ng-model="classified.childCategory", ng-options="child.name for child in classified.parentCategory.children", ng-required="true")
+            option(disabled, selected, value="") Choose a sub-category
+
+      li.row
+        .meta-title.columns.medium-2 Location*
+        .columns.medium-9
+          select(ng-model="classified.location", ng-options="location.name for location in categories", ng-required="true")
+            option(disabled, selected, value="") Choose a location
+
+      li.row
+        .meta-title.columns.medium-2 Address
+        .columns.medium-9
+          input(type="text", placeholder="Address line 1")
+      li.row
+        .meta-title.columns.medium-2
+        .columns.medium-9
+          input(type="text", placeholder="Address line 2")
 
     .google-maps.columns
       .maps-container
@@ -69,7 +80,9 @@ section#classified
     .disclaimer.columns
       b {{ "page.csingle.disclaimer-t" | translate }} &nbsp;
       | {{ "page.csingle.disclaimer" | translate }}
-
+  .row
+    .columns
+      button.submit Submit classified
 //- form.row
 //-   .page.small-centered.columns#page-begin
 //-     section(ng-include="'classified/post-partials/begin'")

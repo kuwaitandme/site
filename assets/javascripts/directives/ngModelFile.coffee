@@ -1,15 +1,25 @@
 module.exports = ->
   scope:
-    ngModelFile: '='
-    ngModelFileFinish: "&"
+    ngModelFile: "&"
 
   link: (scope, element, attributes) ->
     element.bind 'change', (changeEvent) ->
       reader = new FileReader
+      files = changeEvent.target.files
+      results = []
 
-      reader.onload = (loadEvent) ->
-        scope.$apply -> scope.ngModelFile = loadEvent.target.result
-        console.log scope.ngModelFileFinish()
-        (scope.ngModelFileFinish or ->)()
+      readFile = (index) ->
+        if index >= files.length then return finish()
+        file = files[index]
 
-      reader.readAsDataURL changeEvent.target.files[0]
+        reader.onload = (event) ->
+          results.push event.target.result
+          readFile index + 1
+
+        reader.readAsDataURL file
+
+
+      finish = -> (scope.ngModelFile or ->)() results
+
+      # Start recursively reading the files
+      readFile 0

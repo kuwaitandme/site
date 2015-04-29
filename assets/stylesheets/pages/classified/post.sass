@@ -41,30 +41,64 @@ body#classified-post
 
   .gallery
     [ng-click]
-      background: #eee
-      padding: 0 20px
       @extend .font-title
+      background: #eee
       color: #999
+      height: 250px
+      padding: 0 20px
+      padding-top: 110px
       text-align: center
-      padding-top: 80px
-      height: 200px
 
 
   .title, .description
     input, textarea
       width: 100%
       padding: 0.5rem
+
+  .title input
+    margin-bottom: -2px
+
   .description
     white-space: initial !important
+    padding-bottom: 1rem !important
     textarea
       height: 100%
       left: 0
       margin: 0
+      margin-bottom: -6px
       min-height: 200px
       top: 0
   .meta
+    .meta-title
+      width: auto
+      line-height: 40px
+    .columns
+      margin-bottom: 0 !important
     select
-      width: 50%
+      background: transparent
+    select, input
+      width: 100%
+      padding:  0.5rem
+      font-size: 0.8rem
+      &.ng-invalid-required
+        border: 2px solid #D3402A
+  .submit
+    @extend font-title
+    background: #30cd72
+    color: #FFF
+    font-size: 0.9rem
+    padding: 0.5rem
+    text-transform: uppercase
+    width: 100%
+    @media only screen and (max-width: 64.063em)
+      padding: 0.8rem 0.5rem
+      position: fixed
+      bottom: -1px
+      left: 0
+
+      // background: #999
+      // color: #FFF
+      // width: 70%
 
 
   // background: #FFF
