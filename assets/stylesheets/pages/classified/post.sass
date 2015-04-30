@@ -22,6 +22,8 @@ body#classified-post
     margin: 0
     &:focus
       outline: none
+      ~ .error:before
+        color: #FFF !important
 
     &.ng-valid
       ~ .error
@@ -29,12 +31,19 @@ body#classified-post
         &:before
           content: attr(valid)
 
+    &.ng-invalid.ng-invalid-required, &.ng-valid
       &:focus
         border-color: $color-valid
-        ~ .error.show-on-focus
+
+    &.ng-invalid.ng-invalid-required:focus
+      ~ .error
           display: inline-block
           background: $color-valid
-          color: #FFF
+    &.ng-valid:focus
+      ~ .error.show-on-focus
+        display: inline-block
+        background: $color-valid
+
 
     &.ng-invalid
       border-color: $border-color
@@ -46,7 +55,6 @@ body#classified-post
         border-color: $color-warn
         ~ .error
           background: $color-warn
-          color: #FFF
           &:before
             content: attr(min) !important
       &.ng-invalid-number, &.ng-invalid-url, &.ng-invalid-email
