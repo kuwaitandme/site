@@ -1,4 +1,4 @@
-exports = module.exports = ($scope, $element, classified, category) ->
+exports = module.exports = ($scope, $element, $googleMaps, classified, category, location) ->
   @name = "[page:classified-post]"
   console.log @name, "initializing"
 
@@ -7,7 +7,8 @@ exports = module.exports = ($scope, $element, classified, category) ->
 
   $scope.classified = {}
   $scope.categories = category.getAll()
-  $scope.locations = category.getAll()
+  $scope.locations = location.getAll()
+
 
   # Function to listen for changes with classified title
   titleChange = (newValue="") ->
@@ -19,6 +20,7 @@ exports = module.exports = ($scope, $element, classified, category) ->
     else $scope.remainingTitle = ""
   $scope.$watch "title", titleChange
 
+
   # Function to listen for changes with classified description
   descriptionChange = (newValue="") ->
     minDescription = 50
@@ -29,26 +31,75 @@ exports = module.exports = ($scope, $element, classified, category) ->
     else $scope.remainingDescription = ""
   $scope.$watch "description", descriptionChange
 
+
   $scope.addImages = ->
     $el = angular.element document.querySelectorAll "[type='file']"
-    console.log "clicked", $el
     $el[0].click()
+
 
   $scope.fileChange = (files) ->
     $scope.files = $scope.files or []
     $scope.$apply ->
       for file in files then $scope.files.push file: file
-    console.log $scope.files
     $scope.$apply()
-    console.log "changing", files
+
 
   $scope.validate = -> # _validateTitle()
   $scope.validate()
 
 
+  $scope.drawMap = ->
+    X = 29.375770981110353
+    Y = 47.98656463623047
+
+    initMap = ->
+      # The default co-ordinates to which we will center the map
+      myLatlng = new google.maps.LatLng X, Y
+
+      # Initialize the map
+      gmap = document.getElementById "maps-container"
+      map = new google.maps.Map gmap,
+        center: myLatlng
+        mapTypeControl: false
+        style: $googleMaps.defaultStyle
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+        scrollwheel: false
+        zoom: 13
+
+      # Initialize the marker
+      marker = new google.maps.Marker
+        draggable: true
+        map: map
+        position: myLatlng
+
+      google.maps.event.addListener map, 'click', (event) ->
+        latitude = event.latLng.lat()
+        longitude = event.latLng.lng()
+
+        latLng = new google.maps.LatLng latitude, longitude
+        $scope.meta.gmapX = latLng.lat()
+        $scope.meta.gmapY = latLng.lng()
+
+        marker.setPosition latLng
+        map.panTo latLng
+
+      # Add a listener to center the map on the marker whenever th
+      # marker has been dragged
+      google.maps.event.addListener marker, 'dragend', (event) ->
+        latLng = marker.getPosition()
+        $scope.meta.gmapX = latLng.lat()
+        $scope.meta.gmapY = latLng.lng()
+
+        # Center the map on the position of the marker
+        map.panTo latLng
+
+    $googleMaps.onLoad -> initMap()
+
 exports.$inject = [
   "$scope"
   "$element"
+  "$googleMaps"
   "model.classified"
   "model.category"
+  "model.location"
 ]

@@ -1,6 +1,6 @@
 section#classified
   form(name="form", novalidate).row
-    input(type='file', multiple, ng-model-file="fileChange").hide
+    input(type="file", multiple, ng-model-file="fileChange").hide
     .columns
       ul.gallery.row.collapse
         li.small-6.medium-4.large-3.columns(ng-repeat="image in files track by $index")
@@ -12,17 +12,7 @@ section#classified
     .columns.title
       input(type="text", placeholder="Your title goes here", ng-model="title",
         ng-change="validate()", ng-minlength="20", ng-maxlength="140", ng-required="true")
-      .error(max="max. 140 characters", min="min. 20 characters") {{ remainingTitle }}
-
-    //- ul.columns.tags
-      li.whatsapp Whatsapp
-      li.viber Viber
-      li.green Free Delivery
-      li.yellow Expired
-      li.red Banned
-      li.green Delivery included
-      li.yellow Promoted
-      li.red Urgent
+      .error.show-on-focus(max="max. 140 characters", min="min. 20 characters", valid="{{ remainingTitle }}")
 
     .columns.description(itemprop="description")
       textarea(placeholder="Your description goes here",
@@ -30,73 +20,106 @@ section#classified
         ng-minlength="50",
         ng-maxlength="2000",
         ng-required="true")
-      .error(max="max. 2000 characters", min="min. 50 characters") {{ remainingDescription }}
+      .error.show-on-focus(max="max. 2000 characters", min="min. 50 characters", valid="{{ remainingDescription }}")
 
-    ul.meta.columns.medium-6
+    ul.classified.meta.columns.medium-6
       li.row
-        .meta-title.columns.medium-2 Price*
+        .meta-title.columns.medium-2 Price
         .columns.medium-9
-          select(ng-model="classified.price", ng-required="true")
+          select(ng-model="classified.priceType", ng-required="true")
             option(disabled, selected, value="") Choose a price
             option(value="0") Free
-            option(value="-1") Contact Owner
-            option(value="1") Specify Value
+            option(value="1") Contact Owner
+            option(value="2") Specify Value
+          .error
 
-      li.row(ng-if="classified.price == 1")
+      li.row(ng-if="classified.priceType == 2")
         .meta-title.columns.medium-2
         .columns.medium-9
-          input(placeholder="give your price here", ng-model="classified.priceCustom", ng-required="true")
+          input(type="number", placeholder="give your price here", ng-model="classified.priceValue", ng-required="true", min=0)
+          .error(message='price must only contain numbers')
 
       li.row
-        .meta-title.columns.medium-2 Category*
+        .meta-title.columns.medium-2 Email
+        .columns.medium-9
+          input(type="email", placeholder="contact@website.com", ng-model="classified.priceValue", ng-required="true")
+          .error(message='email must be valid')
+
+      li.row
+        .meta-title.columns.medium-2 Category
         .columns.medium-9
           select(ng-model="classified.parentCategory", ng-options="category.name for category in categories", ng-required="true")
             option(disabled, selected, value="") Choose a category
+          .error
 
       li.row(ng-if="classified.parentCategory.children.length > 0")
         .meta-title.columns.medium-2
         .columns.medium-9
           select(ng-model="classified.childCategory", ng-options="child.name for child in classified.parentCategory.children", ng-required="true")
             option(disabled, selected, value="") Choose a sub-category
+          .error
 
       li.row
-        .meta-title.columns.medium-2 Location*
+        .meta-title.columns.medium-2 Location
         .columns.medium-9
-          select(ng-model="classified.location", ng-options="location.name for location in categories", ng-required="true")
+          select(ng-model="classified.location", ng-options="location.name for location in locations", ng-required="true")
             option(disabled, selected, value="") Choose a location
+          .error
 
+    ul.classified.meta.columns.medium-6
+      li.row
+        .meta-title.columns.medium-2 Phone
+        .columns.medium-9
+          input(type="text", placeholder="+965 12345678", ng-model="classified.contact.phone")
       li.row
         .meta-title.columns.medium-2 Address
         .columns.medium-9
-          input(type="text", placeholder="Address line 1")
+          input(type="text", placeholder="Address line 1", ng-model="classified.contact.address1")
       li.row
         .meta-title.columns.medium-2
         .columns.medium-9
-          input(type="text", placeholder="Address line 2")
+          input(type="text", placeholder="Address line 2", ng-model="classified.contact.address2")
+      li.row
+        .meta-title.columns.medium-2 Link
+        .columns.medium-9
+          input(type="url", placeholder="https://example.com", ng-model="classified.contact.website")
+          .error(message="link must be a valid url")
+      li.row.extras
+        .meta-title.columns.medium-2 Extras
+        .columns.medium-9
+          .row
+            .columns
+              input(type="checkbox", ng-model="classified.meta.hideEmail")
+              label Keep my email hidden
+            .columns
+              input(type="checkbox", ng-model="classified.meta.deliveryIncluded")
+              label I provide delivery
+            .columns(ng-if="classified.meta.deliveryIncluded")
+              input(type="checkbox", ng-model="classified.meta.freeDeliveryIncluded")
+              label I provide free delivery
+            .columns(ng-if="classified.contact.phone")
+              input(type="checkbox", ng-model="classified.meta.whatsapp")
+              label I am available on Whatsapp
+            .columns(ng-if="classified.contact.phone")
+              input(type="checkbox", ng-model="classified.meta.viber")
+              label I am available on Viber
 
-    .google-maps.columns
-      .maps-container
+
+    .google-maps.columns(ng-if="classified.location", ng-init="drawMap()")
+      .row.collapse
+        .columns
+          input(type="checkbox", name="toggled", id="toggleMaps", ng-model="mapsEnabled")
+          label Enable maps
+        .columns
+          #maps-container(ng-class="{disabled: !mapsEnabled}")
+
 
     .disclaimer.columns
-      b {{ "page.csingle.disclaimer-t" | translate }} &nbsp;
-      | {{ "page.csingle.disclaimer" | translate }}
+        b Disclaimer:&nbsp;
+        | By submitting this classified, you agree to our&nbsp;
+        a(href="/privacy-terms") privacy and terms of use.
+
+
   .row
     .columns
       button.submit Submit classified
-//- form.row
-//-   .page.small-centered.columns#page-begin
-//-     section(ng-include="'classified/post-partials/begin'")
-//-   .page.small-centered.columns#page-info
-//-     section(ng-include="'classified/post-partials/info'")
-//-   .page.small-centered.columns#page-details
-//-     section(ng-include="'classified/post-partials/details'")
-//-   .page.small-centered.columns#page-images
-//-     section(ng-include="'classified/post-partials/images'")
-//-   .page.small-centered.columns#page-maps
-//-     section(ng-include="'classified/post-partials/maps'")
-//-   .page.small-centered.columns#page-submit
-//-     section(ng-include="'classified/post-partials/submit'")
-
-//-   section.page.small-centered.columns
-//-     .row#ajax-spinner
-//-       img(src="/images/loader.gif")

@@ -1,38 +1,70 @@
 body#classified-post
   @extend body#classified-single
+  $color-inactive: rgba(0, 0, 0, 0.02)
+  $border-color: #e0e0e0
+  $color-error: #E04B2A
+  $color-valid: #30cd72
+  $color-warn: #FFB604
+
   input
     @extend .font-text
+    &[type='checkbox']
+      margin-right: 5px !important
+      width: auto !important
     &[type='text']
       font-size: 1rem
+
   input, select, textarea, button
     +single-transition
-    border: 1px solid #ddd
+    background: $color-inactive
+    border: 0
+    border-bottom: 2px solid $border-color
     margin: 0
     &:focus
       outline: none
 
-    &.ng-invalid-minlength
-      border: 2px solid #FFB604
+    &.ng-valid
       ~ .error
-        background: #FFB604
-        color: #FFF
+        display: none
         &:before
-          content: attr(min)
+          content: attr(valid)
 
-    &.ng-invalid-maxlength
-      border: 2px solid #E04B2A
-      ~ .error
-        background: #E04B2A
-        color: #FFF
-        &:before
-          content: attr(max) !important
+      &:focus
+        border-color: $color-valid
+        ~ .error.show-on-focus
+          display: inline-block
+          background: $color-valid
+          color: #FFF
 
-    &.ng-invalid-required
-      ~ .error
-        background: #D3402A
+    &.ng-invalid
+      border-color: $border-color
+      ~ .error:before
         color: #FFF
-        &:before
-          content: "required"
+        content: attr(message)
+
+      &.ng-invalid-minlength
+        border-color: $color-warn
+        ~ .error
+          background: $color-warn
+          color: #FFF
+          &:before
+            content: attr(min) !important
+      &.ng-invalid-number, &.ng-invalid-url, &.ng-invalid-email
+        border-color: $color-error
+        ~ .error
+          background: $color-error
+      &.ng-invalid-maxlength
+        border-color: $color-error
+        ~ .error
+          background: $color-error
+          &:before
+            content: attr(max) !important
+      &.ng-invalid-required
+        ~ .error
+          background: $border-color
+          &:before
+            color: #000
+            content: "required"
 
   .error
     font-size: 11px
@@ -40,27 +72,33 @@ body#classified-post
     padding: 5px 10px
 
   .gallery
+    margin-bottom: 2rem
     [ng-click]
       @extend .font-title
-      background: #eee
+      border: 2px solid $border-color
+      background: $color-inactive
       color: #999
-      height: 250px
+      cursor: pointer
+      height: 100px
       padding: 0 20px
-      padding-top: 110px
+      padding-top: 35px
       text-align: center
 
 
   .title, .description
     input, textarea
-      width: 100%
       padding: 0.5rem
+      width: 100%
+
 
   .title input
-    margin-bottom: -2px
+    @extend .font-bitter
+    margin-bottom: -3px
+
 
   .description
-    white-space: initial !important
     padding-bottom: 1rem !important
+    white-space: initial !important
     textarea
       height: 100%
       left: 0
@@ -68,217 +106,61 @@ body#classified-post
       margin-bottom: -6px
       min-height: 200px
       top: 0
+
+
   .meta
     .meta-title
-      width: auto
       line-height: 40px
+      width: auto
     .columns
       margin-bottom: 0 !important
-    select
-      background: transparent
     select, input
-      width: 100%
-      padding:  0.5rem
       font-size: 0.8rem
-      &.ng-invalid-required
-        border: 2px solid #D3402A
+      padding:  0.5rem
+      width: 100%
+
+    @media only screen and (min-width: 40.063em)
+      .extras
+        .row
+          margin-top: 15px
+
+
+  .google-maps
+    position: relative
+    label
+      font-size: 0.8rem
+    > .row
+      margin-left: 0
+      margin-right: 0
+    #maps-container
+      &.disabled:before
+        background: $color-inactive
+        border: 2px solid $border-color
+        content: ''
+        height: 100%
+        left: 0
+        padding: 2rem
+        position: absolute
+        top: 0
+        width: 100%
+        z-index: 2
+      min-height: 300px
+
+
   .submit
     @extend font-title
-    background: #30cd72
+    background: $color-valid
     color: #FFF
     font-size: 0.9rem
     padding: 0.5rem
-    text-transform: uppercase
     width: 100%
     @media only screen and (max-width: 64.063em)
-      padding: 0.8rem 0.5rem
-      position: fixed
       bottom: -1px
       left: 0
-
-      // background: #999
-      // color: #FFF
-      // width: 70%
+      padding: 0.8rem 0.5rem
+      position: fixed
 
 
-  // background: #FFF
-  // #ajax-spinner
-  //   position: relative
-  //   height: 50px
-  //   width: 50px
-  //   display: none
-  //   margin: 0 70px
-  // .prefix
-  //   z-index: 0
-  // #price-row
-  //   margin: 0 0 1rem 0
-  // small.error
-  //   display: none
-  // .show-error small.error
-  //   display: block
-  // .page
-  //   margin: 3rem auto
-  //   .seperator
-  //     background: #ddd
-  //     margin: 0
-  //   > .row
-  //     margin: 0 0 1.5rem 0
-  //   #price-row, #child-row
-  //     margin-top: 1.5rem
-  // select, input, textarea
-  //   @extend .font-text
-  //   outline: none
-  //   margin: 0
-  // label
-  //   margin-bottom: 10px
-  // textarea
-  //   min-height: 200px
-  // h1
-  //   display: inline-block
-  //   margin-bottom: 0
-  //   width: auto
-  // p
-  //   a
-  //     font-weight: bold
-  //     text-decoration: none
-  //     border-bottom: 2px solid #E74C3C
-  //     color: #E74C3C
-  // #authLink
-  //     word-break: break-all
-  // .submit
-  //   @extend .font-title
-  //   +single-transition(background)
-  //   background: #2ecc71
-  //   border: none
-  //   color: #FFF
-  //   cursor: pointer
-  //   font-weight: 400
-  //   padding: 12px
-  //   width: 100%
-  //   margin: 10px 0
-
-  //   -moz-border-radius: 3px
-  //   -webkit-border-radius: 3px
-  //   border-radius: 3px
-  //   a
-  //     color: inherit
-  //   &:hover
-  //     background: #27ae60
-  // .post-nav
-  //   color: #777
-  //   font-size: 12px
-  //   text-transform: uppercase
-  //   a
-  //     text-decoration: none
-  //     &:active, &:hover
-  //       color: #000
-  // #image-upload
-  //   background: #f9f9f9
-  //   border: 2px dotted #3498db
-  //   color: rgba(0, 0, 0, 0.75)
-  //   min-height: 200px
-  //   padding-top: 75px
-  //   text-align: center
-
-  // #maps-container
-  //   position: relative
-  //   border: 1px solid #DDD
-  //   height: 400px
-
-  //   #maps-disabled-overlay
-  //     @extend .font-title
-  //     background: rgba(255, 255, 255, 0.8)
-  //     cursor: pointer
-  //     height: 100%
-  //     line-height: 350px
-  //     position: absolute
-  //     text-align: center
-  //     vertical-align: text-top;
-  //     width: 100%
-  //     z-index: 1
-  //   #map-canvas
-  //     position: relative
-  //     width: 100%
-  //     height: 100%
-
-
-  // #image-upload-preview
-  //   +clearfix
-  //   +single-transition(border-color)
-  //   border: dotted 2px #EEE
-  //   margin: 0
-  //   margin-top: 10px
-  //   min-height: 50px
-  //   padding: 0
-  //   img
-  //     max-width: none
-  //     min-width: 100%
-  //     height: 100%
-  //   &:hover
-  //     border-color: #3498db
-  //   .dz-preview
-  //     border-right: 1px solid #DDD
-  //     float: left
-  //     height: 100px
-  //     overflow: hidden
-  //     position: relative
-  //     width: 100px
-  //     .delete
-  //       +single-transition(opacity)
-  //       background: rgba(255, 255, 255, 0.8)
-  //       color: #e74c3c
-  //       height: 100px
-  //       left: 0
-  //       opacity: 0
-  //       position: absolute
-  //       text-align: center
-  //       top: 0
-  //       width: 100px
-  //       div
-  //         cursor: pointer
-  //         font-size: 25px
-  //         padding-top: 33px
-  //     &:hover .delete
-  //       opacity: 1
-  // #social-links
-  //   .social
-  //     +single-transition(background)
-  //     color: #FFF
-  //     display: block
-  //     margin: 0
-  //     padding: 0
-
-  //     -moz-border-radius: 3px
-  //     -webkit-border-radius: 3px
-  //     border-radius: 3px
-
-  //     .icon
-  //       @extend .font-awesome
-  //       padding: 14px
-  //       text-align: center
-  //     .text
-  //       border-left: 1px solid rgba(0,0,0,0.2)
-  //       padding: 10px
-  //     &.facebook
-  //       background: #3B5390
-  //       &:hover
-  //         background: #293A65
-  //     &.twitter
-  //       background: #00AFEB
-  //       &:hover
-  //         background: #008CBC
-  //     &.gplus
-  //       background: #CC4534
-  //       &:hover
-  //         background: #A3372A
-
-  // .error-message
-  //   margin: 0
-  //   li
-  //     margin: 1rem 0
-  //     background: #F04124
-  //     color: #FFF
-  //     padding: 10px
-  //     -moz-border-radius: 3px
-  //     -webkit-border-radius: 3px
-  //     border-radius: 3px
+  @media only screen and (max-width: 64.063em)
+    form
+      margin-bottom: 32px

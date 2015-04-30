@@ -3,4 +3,5 @@ module.exports = (app) ->
 
   app.factory "model.category",   require "./category"
   app.factory "model.classified", require "./classified"
+  app.factory "model.location",   require "./location"
   app.factory "model.user",       require "./user"

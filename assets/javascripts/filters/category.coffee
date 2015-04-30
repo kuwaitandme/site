@@ -5,4 +5,4 @@ exports = module.exports = (category) ->
     "dog"
 
 
-exports.$inject = ["category"]
+exports.$inject = ["model.category"]
