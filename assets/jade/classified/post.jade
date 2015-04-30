@@ -37,13 +37,13 @@ section#classified
         .meta-title.columns.medium-2
         .columns.medium-9
           input(type="number", placeholder="give your price here", ng-model="classified.priceValue", ng-required="true", min=0)
-          .error(message='price must only contain numbers')
+          .error(invalid='price must only contain numbers')
 
       li.row
         .meta-title.columns.medium-2 Email
         .columns.medium-9
           input(type="email", placeholder="contact@website.com", ng-model="classified.email", ng-required="true")
-          .error(message='email must be valid')
+          .error(invalid='email must be valid')
 
       li.row
         .meta-title.columns.medium-2 Category
@@ -83,7 +83,7 @@ section#classified
         .meta-title.columns.medium-2 Link
         .columns.medium-9
           input(type="url", placeholder="https://example.com", ng-model="classified.contact.website")
-          .error(message="link must be a valid url")
+          .error(invalid="link must be a valid url")
       li.row.extras
         .meta-title.columns.medium-2 Extras
         .columns.medium-9

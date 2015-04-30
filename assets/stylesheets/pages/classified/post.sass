@@ -25,49 +25,38 @@ body#classified-post
       ~ .error:before
         color: #FFF !important
 
-    &.ng-valid
-      ~ .error
-        display: none
-        &:before
-          content: attr(valid)
+    &.ng-valid ~ .error
+      display: none
+      &:before
+        content: attr(valid)
 
     &.ng-invalid.ng-invalid-required, &.ng-valid
       &:focus
         border-color: $color-valid
 
-    &.ng-invalid.ng-invalid-required:focus
-      ~ .error
-          display: inline-block
-          background: $color-valid
-    &.ng-valid:focus
-      ~ .error.show-on-focus
-        display: inline-block
-        background: $color-valid
-
-
+    &.ng-valid:focus ~ .error.show-on-focus
+      display: inline-block
+      background: $color-valid
     &.ng-invalid
       border-color: $border-color
       ~ .error:before
         color: #FFF
-        content: attr(message)
-
-      &.ng-invalid-minlength
+        content: attr(invalid)
+      &.ng-invalid-minlength, &.ng-invalid-required:focus
         border-color: $color-warn
         ~ .error
           background: $color-warn
-          &:before
-            content: attr(min) !important
-      &.ng-invalid-number, &.ng-invalid-url, &.ng-invalid-email
+      &.ng-invalid-number, &.ng-invalid-url, &.ng-invalid-email, &.ng-invalid-maxlength
         border-color: $color-error
         ~ .error
           background: $color-error
-      &.ng-invalid-maxlength
-        border-color: $color-error
-        ~ .error
-          background: $color-error
-          &:before
-            content: attr(max) !important
+      &.ng-invalid-minlength ~ .error:before
+        content: attr(min) !important
+      &.ng-invalid-maxlength ~ .error:before
+        content: attr(max) !important
       &.ng-invalid-required
+        &:focus ~ .error
+            display: inline-block
         ~ .error
           background: $border-color
           &:before
@@ -142,7 +131,7 @@ body#classified-post
       margin-right: 0
     #maps-container
       &.disabled:before
-        background: $color-inactive
+        background: rgba(255, 255, 255, 0.5)
         border: 2px solid $border-color
         content: ''
         height: 100%
@@ -163,7 +152,7 @@ body#classified-post
     padding: 0.5rem
     width: 100%
     @media only screen and (max-width: 64.063em)
-      bottom: -1px
+      bottom: -3px
       left: 0
       padding: 0.8rem 0.5rem
       position: fixed
