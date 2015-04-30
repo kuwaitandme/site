@@ -1,4 +1,4 @@
-module.exports =
+module.exports = ->
   name: "[google-recaptcha]"
 
   onLoad: (callback=->) ->
