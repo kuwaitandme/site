@@ -2,6 +2,16 @@ $headerHeight: 60px
 
 main
   padding-top: $headerHeight !important
+  &:before
+    +single-transition
+    background: rgba(0, 0, 0, 0.8)
+    content: ""
+    left: 0
+    opacity: 0
+    position: fixed
+    top: 0
+    width: 100%
+    z-index: 1
 header
   position: fixed
   top: 0
@@ -13,112 +23,118 @@ header
     +clearfix
     background: #FFF
     height: $headerHeight
+    z-index: 1
 
     #header-logo
       float: left
       a
         display: block
-        padding: 15px 20px
+        padding: 13px 20px
     #grabber
       float: right
-      padding: 17px 25px
+      padding: 16px 25px
 
     &:hover ~ nav#sub-header ul#notifications
       height: 35px !important
 
-
   nav#sub-header
-    background: #222
+    top: -400px
+    overflow-y: auto
+    position: fixed
+    max-width: 62.5rem
+
+    @media only screen and (max-width: 40em)
+      top: -1000px
 
     &, ul#notifications, #nav-footer
-      +single-transition
+      +single-transition(all, 500ms)
     ul#notifications
-      margin: 0
-      display: none
-      overflow: hidden
-      height: 0
       background: #D8432E
+      display: none
+      margin: 0
+      overflow: hidden
       li
-        padding: 0.5rem 1rem
         color: #FFF
         font-size: 0.8rem
+        padding: 0.5rem 1rem
         position: relative
         &:nth-child(even)
           background: rgba(0,0,0,0.1)
 
     #nav-links
       @extend .font-title
-      +single-transition
-      overflow: hidden
-      background: #f60
+      background: #fff
       font-size: 1rem
       font-weight: bold
-      height: 0
-      text-align: center
+      margin-top: 20px
+      overflow: hidden
       text-transform: uppercase
 
-      .row
-        border-bottom: 2px solid rgba(0,0,0,0.1)
-        margin-top: 1rem
-        padding-bottom: 1rem
       .title
-        color: #000
-        display: inline-block
-        font-size: 1.2rem
-        border-bottom: 3px solid #000
-        margin-bottom: 20px
-        padding: 0.5rem
-      .link
+        background: #F60
         color: #FFF
+        display: inline-block
         font-size: 1rem
-        text-transform: uppercase
+        padding: 1rem
+        text-align: right
+        @media only screen and (min-width: 40em)
+          &.dark
+            background: #DB5800
+      .link
+        text-align: center
+        font-size: 0.8rem
       li
         padding: 0
       a
-        +single-transition(background)
-        color: #FFF
+        +single-transition
+        border-bottom: 3px solid transparent
+        color: #000
         display: block
-        padding: 1rem
+        height: 56px
+        padding: 1rem 0
         text-decoration: none
         width: 100%
         &:hover
-          color: #000
-          background: #FFF
+          border-bottom-color: #F60
 
     #nav-footer
       @extend .font-title
       background: #FFF
       color: #000
       font-size: 0.7rem
-      height: 0
+      padding: 1rem
       overflow: hidden
       text-align: center
       a
         color: inherit
         text-decoration: none
 
+#nav-widget-user
+  margin-top: 20px
+  overflow: hidden
+  background: #FFF
+  .thumb
+    padding: 20px
+    text-align: center
+
+    img
+      width: 100px
+      height: 100px
+      background: #F60
+
+      -webkit-border-radius: 50px
+      -moz-border-radius: 50px
+      border-radius: 50px
+
 
 body.show-subheader
-  header
+  header, nav#sub-header
     bottom: 0
     overflow-y: auto
   nav#sub-header
-    #nav-links
-      height: 470px !important
-      @media only screen and (max-width: 40em)
-        height: 682px !important
-    #nav-footer
-      padding: 0.5rem 1rem
-      height: 32px !important
-    ul#notifications
-      height: 35px !important
+    top: 60px
 
   main:before
-    background: rgba(0, 0, 0, 0.8)
+    opacity: 1
     content: ''
     height: 100%
-    left: 0
-    position: fixed
-    top: 0
-    width: 100%
-    z-index: 1

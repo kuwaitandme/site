@@ -9,32 +9,34 @@
   nav#sub-header.columns
     ul#notifications
       li You have no new notifications
-    #nav-widgets
+    //- #nav-widgets
+      #nav-widget-user.row
+        .columns.medium-3.thumb
+          img
+
+
     #nav-links.row
       .row
-        .columns
-          .title Main
-        .link.columns.medium-4
+        .columns.medium-3.title Main
+        .link.columns.medium-3
           a(href="/" , ng-click="toggleHeader()") Home
-        .link.columns.medium-4
+        .link.columns.medium-3
           a(href="/classified/post", ng-click="toggleHeader()") Post a classified
-        .link.columns.medium-4
+        .link.columns.medium-3
           a(href="/classified", ng-click="toggleHeader()") Browse classifieds
       .row
-        .columns
-          .title Account
-        .link.columns.medium-4
+        .columns.medium-3.title.dark Account
+        .link.columns.medium-3
           a(href="/auth/login", ng-click="toggleHeader()") Login
-        .link.columns.medium-4
+        .link.columns.medium-3.end
           a(href="/auth/signup", ng-click="toggleHeader()") Signup
       .row
-        .columns
-          .title More
-        .link.columns.medium-4
+        .columns.medium-3.title More
+        .link.columns.medium-3
           a(href='/contact', ng-click="toggleHeader()") Contact Us
-        .link.columns.medium-4
+        .link.columns.medium-3
           a(href="/donate", ng-click="toggleHeader()") Donate
-        .link.columns.medium-4
+        .link.columns.medium-3
           a(href="/terms-privacy", ng-click="toggleHeader()") Usage &amp; Privacy
 
     #nav-footer Copyright &copy; &middot; Kuwait &amp; Me &middot; 2015
