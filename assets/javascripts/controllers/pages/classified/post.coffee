@@ -51,6 +51,7 @@ exports = module.exports = ($scope, $element, $googleMaps, classified, category,
   $scope.drawMap = ->
     X = 29.375770981110353
     Y = 47.98656463623047
+    loaded = false
 
     initMap = ->
       # The default co-ordinates to which we will center the map
@@ -93,7 +94,9 @@ exports = module.exports = ($scope, $element, $googleMaps, classified, category,
         # Center the map on the position of the marker
         map.panTo latLng
 
-    $googleMaps.onLoad -> initMap()
+      loaded = true
+
+    if not loaded then $googleMaps.onLoad -> initMap()
 
 exports.$inject = [
   "$scope"

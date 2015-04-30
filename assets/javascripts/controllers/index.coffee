@@ -5,6 +5,7 @@ module.exports = (app) ->
   app.controller "component:classified-list", require "./components/classified-list"
   app.controller "component:header",          require "./components/header"
 
+  app.controller "page:404",                  require "./pages/404"
   app.controller "page:account/index",        require "./pages/account"
   app.controller "page:account/manage",       require "./pages/account/manage"
   app.controller "page:auth/login",           require "./pages/auth/login"
