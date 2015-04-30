@@ -12,6 +12,7 @@ module.exports = (app) ->
         resolve:
           categories: ["model.category", (category) -> category.download()]
           user:       ["model.user",     (user)     -> user.download()]
+          location:   ["model.location", (location) -> location.download()]
 
     _route "account/index",     "/account"
     _route "account/manage",    "/account/manage"
