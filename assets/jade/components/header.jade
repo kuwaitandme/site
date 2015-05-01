@@ -1,7 +1,7 @@
 .collapse.row(ng-controller="component:header")
   #main-header.columns
     #header-logo
-      a(href="/")
+      a(href="/", ng-click="closeHeader()")
         img(src="/images/header-logo.png")
     #grabber(ng-click="toggleHeader()")
       img(src="/images/hamburger.png")
@@ -19,25 +19,25 @@
       .row
         .columns.medium-3.title Main
         .link.columns.medium-3
-          a(href="/" , ng-click="toggleHeader()") Home
+          a(href="/" , ng-click="closeHeader()") Home
         .link.columns.medium-3
-          a(href="/classified/post", ng-click="toggleHeader()") Post a classified
+          a(href="/classified/post", ng-click="closeHeader()") Post a classified
         .link.columns.medium-3
-          a(href="/classified", ng-click="toggleHeader()") Browse classifieds
+          a(href="/classified", ng-click="closeHeader()") Browse classifieds
       .row
         .columns.medium-3.title.dark Account
         .link.columns.medium-3
-          a(href="/auth/login", ng-click="toggleHeader()") Login
+          a(href="/auth/login", ng-click="closeHeader()") Login
         .link.columns.medium-3.end
-          a(href="/auth/signup", ng-click="toggleHeader()") Signup
+          a(href="/auth/signup", ng-click="closeHeader()") Signup
       .row
         .columns.medium-3.title More
         .link.columns.medium-3
-          a(href='/contact', ng-click="toggleHeader()") Contact Us
+          a(href='/contact', ng-click="closeHeader()") Contact Us
         .link.columns.medium-3
-          a(href="/donate", ng-click="toggleHeader()") Donate
+          a(href="/donate", ng-click="closeHeader()") Donate
         .link.columns.medium-3
-          a(href="/terms-privacy", ng-click="toggleHeader()") Usage &amp; Privacy
+          a(href="/terms-privacy", target="_self", ng-click="closeHeader()") Usage &amp; Privacy
 
     #nav-footer Copyright &copy; &middot; Kuwait &amp; Me &middot; 2015
 
@@ -88,9 +88,9 @@
 //-     li.main-item.settings.icon &#xf013;
 //-       ul.subnav.hide-if-loggedin
 //-         li.with-link
-//-           a(href!="/en/auth/, ng-click="toggleHeader()"login", data-view) {{ "header.login" | translate }}
+//-           a(href!="/en/auth/, ng-click="closeHeader()"login", data-view) {{ "header.login" | translate }}
 //-         li.with-link
-//-           a(href!="/en/auth/, ng-click="toggleHeader()"signup", data-view) {{ "header.signup" | translate }}
+//-           a(href!="/en/auth/, ng-click="closeHeader()"signup", data-view) {{ "header.signup" | translate }}
 
 //-       ul.subnav.show-if-loggedin
 //-         li.user-title.lang
@@ -103,11 +103,11 @@
 //-         li.user-thumb
 //-           img(src="")
 //-         //- li.with-link
-//-           a(href!="/en/account/, ng-click="toggleHeader()"credits", data-view) Buy Credits
+//-           a(href!="/en/account/, ng-click="closeHeader()"credits", data-view) Buy Credits
 //-         li.with-link.lang
-//-           a(href!="/en/account", ng-click="toggleHeader()", data-view) {{ "header.view" | translate }}
+//-           a(href!="/en/account", ng-click="closeHeader()", data-view) {{ "header.view" | translate }}
 //-         li.with-link.lang
-//-           a(href!="/en/auth/, ng-click="toggleHeader()"logout", data-view) {{ "header.logout" | translate }}
+//-           a(href!="/en/auth/, ng-click="closeHeader()"logout", data-view) {{ "header.logout" | translate }}
 //-     li.main-item.social
 //-       a.facebook(href="https://www.facebook.com/KuwaitandME") &#xf09a;
 //-     li.main-item.social
