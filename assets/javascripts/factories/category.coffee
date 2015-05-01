@@ -17,7 +17,8 @@ exports = module.exports = ($http, $cache) ->
     findBySlug: (slug) ->
       for cat in @categories
         if cat.slug is slug then return cat
-        for childcat in cat.children
+
+        if cat.children? then for childcat in cat.children
           if childcat.slug is slug then return childcat
       {}
 
@@ -25,7 +26,7 @@ exports = module.exports = ($http, $cache) ->
     findById: (id) ->
       for cat in @categories
         if cat._id is id then return cat
-        for childcat in cat.children
+        if cat.children? then for childcat in cat.children
           if childcat._id is id then return childcat
       {}
 
