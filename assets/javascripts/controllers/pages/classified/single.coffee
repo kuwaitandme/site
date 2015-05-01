@@ -18,6 +18,7 @@ exports = module.exports = ($scope, $element, $stateParams, $googleMaps, classif
     , 100
 
 
+  $scope.showClassified = true
   $scope.drawMap = ->
     X = 29.375770981110353
     Y = 47.98656463623047

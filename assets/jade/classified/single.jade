@@ -1,7 +1,7 @@
 section(ng-switch="!!classified")#classified
   .row(ng-switch-when="true")
     .columns
-      ul.gallery.row.collapse(ng-if="classified.images && classified.status == 1")
+      ul.gallery.row.collapse(ng-if="classified.images && showClassified")
         li.small-6.medium-4.large-3.columns.image-loading(ng-repeat="image in classified.images track by $index")
           a(target="_self", ng-href="/uploads/main/{{ image.file }}", style="background: {{ image.color }}")
             img.thumb(image-loader!="/uploads/thumb/{{ image.file }}", image-success="update", image-fail="update")
@@ -23,7 +23,7 @@ section(ng-switch="!!classified")#classified
       //- li.yellow Promoted
       //- li.red Urgent
 
-    pre.columns.description(itemprop="description", ng-if="classified.status == 1")
+    pre.columns.description(itemprop="description", ng-if="showClassified")
       | Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
       | &nbsp;
       | Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
@@ -31,7 +31,7 @@ section(ng-switch="!!classified")#classified
 
 
 
-    .columns(ng-if="classified.status == 1")
+    .columns(ng-if="showClassified")
       ul.meta.row
         li.large-3.medium-4.columns.end
           .meta-title Views
@@ -54,7 +54,7 @@ section(ng-switch="!!classified")#classified
           .meta-value {{ classified.contact.address1 }}, {{ classified.contact.address2 }}
 
 
-    .columns.user(ng-if="classified.status == 1")
+    .columns.user(ng-if="showClassified")
       .avatar
       .info
         .name John Doe
@@ -67,13 +67,19 @@ section(ng-switch="!!classified")#classified
             a(href="tel:+965 123 1234434") +965 123 1234434
         button.contact(ng-if="classified.contact.email") Contact Me
 
-    .google-maps.columns(ng-if="classified.meta.gmapX && classified.status == 1", ng-init="drawMap(); mapHeight = window.innerHeight / 2", style="height: {{ window.innerHeight / 2 }}px")
+    .google-maps.columns(ng-if="classified.meta.gmapX && showClassified", ng-init="drawMap(); mapHeight = window.innerHeight / 2", style="height: {{ window.innerHeight / 2 }}px")
       #maps-container
 
 
     .disclaimer.columns
-      b {{ "page.csingle.disclaimer-t" | translate }} &nbsp;
-      | {{ "page.csingle.disclaimer" | translate }}
+      b Disclaimer:&nbsp;
+      | By viewing this classified, you are agreeing to our&nbsp;
+      a(target="_self", href="/terms-privacy") privacy conditions and terms of use
+      | . This site is never involved in any transaction, and does not handle
+      | payments, shipping, guarantee transactions, provide escrow services, or
+      | offer 'buyer protection' or'seller certification' for any classified.
+      | It is your duty to ensure safety and authenticity while dealing with any
+      | buyer/sellers.
 
   .row(ng-switch-default)
     #ajax-spinner
