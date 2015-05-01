@@ -14,9 +14,8 @@ module.exports = (app) ->
           user:       ["model.user",     (user)     -> user.download()]
           location:   ["model.location", (location) -> location.download()]
 
-    $urlRouterProvider.otherwise "/page-not-found"
+    # $urlRouterProvider.otherwise "/page-not-found"
 
-    _route "404",                "/page-not-found"
     _route "account/index",      "/account"
     _route "account/manage",     "/account/manage"
     _route "auth/login",         "/auth/login"
@@ -27,6 +26,7 @@ module.exports = (app) ->
     _route "guest/post",         "/guest/post"
     _route "landing",            "/"
 
+    _route "404",                "*page"
     # Enable HTML5 pushstate for hash-less URLs
     $locationProvider.html5Mode
       enabled: true
