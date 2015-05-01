@@ -65,7 +65,7 @@ body#classified-post
 
   .error
     font-size: 11px
-    display: inline-block
+    float: left
     padding: 5px 10px
 
   .gallery
@@ -91,7 +91,7 @@ body#classified-post
   .title input
     @extend .font-bitter
     font-size: 0.9rem
-    margin-bottom: -3px
+    margin-bottom: -2px
 
 
   .description
@@ -131,6 +131,7 @@ body#classified-post
       margin-left: 0
       margin-right: 0
     #maps-container
+      min-height: 300px
       &.disabled:before
         background: rgba(255, 255, 255, 0.5)
         border: 2px solid $border-color
@@ -142,7 +143,6 @@ body#classified-post
         top: 0
         width: 100%
         z-index: 2
-      min-height: 300px
 
 
   .submit

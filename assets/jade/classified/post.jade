@@ -42,7 +42,7 @@ section#classified
       li.row
         .meta-title.columns.medium-2 Email
         .columns.medium-9
-          input(type="email", placeholder="contact@website.com", ng-model="classified.email", ng-required="true")
+          input(type="email", placeholder="contact@website.com", ng-model="classified.contact.email", ng-required="true")
           .error(invalid='email must be valid')
 
       li.row
@@ -71,11 +71,11 @@ section#classified
         .meta-title.columns.medium-2 Phone
         .columns.medium-9
           input(type="text", placeholder="+965 12345678", ng-model="classified.contact.phone")
-      li.row
+      li.row(ng-if="classified.location")
         .meta-title.columns.medium-2 Address
         .columns.medium-9
           input(type="text", placeholder="Address line 1", ng-model="classified.contact.address1")
-      li.row
+      li.row(ng-if="classified.location")
         .meta-title.columns.medium-2
         .columns.medium-9
           input(type="text", placeholder="Address line 2", ng-model="classified.contact.address2")
@@ -88,9 +88,12 @@ section#classified
         .meta-title.columns.medium-2 Extras
         .columns.medium-9
           .row
-            .columns
+            .columns(ng-if="classified.email")
               input(type="checkbox", ng-model="classified.meta.hideEmail")
               label Keep my email hidden
+            .columns
+              input(type="checkbox", ng-model="classified.meta.hideSearchEngine")
+              label Hide this classified from search engines
             .columns
               input(type="checkbox", ng-model="classified.meta.deliveryIncluded")
               label I provide delivery

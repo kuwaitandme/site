@@ -255,3 +255,16 @@ h1, h2, h3, h4, h5, h6
     position: absolute
     top: 0
     width: 100%
+
+button
+  @extend font-roboto
+  +single-transition
+  background: #2ecc71
+  border: 0
+  color: #FFF
+  font-size: 0.8rem
+  padding: 0.5rem 1rem
+  border-bottom: 3px solid rgba(0,0,0,0.3)
+  &:hover, &:focus
+    outline: none
+    background: #2cc36b

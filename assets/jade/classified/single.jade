@@ -1,54 +1,75 @@
 section(ng-switch="!!classified")#classified
   .row(ng-switch-when="true")
     .columns
-      ul.gallery.row.collapse(ng-if="classified.images")
+      ul.gallery.row.collapse(ng-if="classified.images && classified.status == 1")
         li.small-6.medium-4.large-3.columns.image-loading(ng-repeat="image in classified.images track by $index")
-          a(href="/uploads/main/{{ image.file }}", style="background: {{ image.color }}")
+          a(target="_self", ng-href="/uploads/main/{{ image.file }}", style="background: {{ image.color }}")
             img.thumb(image-loader!="/uploads/thumb/{{ image.file }}", image-success="update", image-fail="update")
 
     h2.columns.title {{ classified.title }}
     ul.columns.tags
-      li.whatsapp Whatsapp
-      li.viber Viber
-      li.green Free Delivery
-      li.yellow Expired
-      li.red Banned
-      li.green Delivery included
-      li.yellow Promoted
-      li.red Urgent
+      li.whatsapp(ng-if="classified.meta.whatsapp") Whatsapp
+      li.viber(ng-if="classified.meta.viber") Viber
+      li.yellow(ng-if="classified.status == 0") Under Review
+      li.green(ng-if="classified.status == 1") Active
+      li.red(ng-if="classified.status == 2") Rejected
+      li.red(ng-if="classified.status == 3") Banned
+      li.red(ng-if="classified.status == 4") Archived
 
-    pre.columns.description(itemprop="description") {{ classified.description }}
-    ul.meta.columns.medium-6
-      li
-        b Views:&nbsp;
-        | {{ classified.views }}
-      li
-        b Price:&nbsp;
-        | {{ classified.price | price }}
-      li
-        b Published:&nbsp;
-        | {{ classified.created | prettydate }}
-      li(ng-if='classified.category')
-        b Category:&nbsp;
-        | {{ classified.category | category }}&nbsp;
-        span(ng-if="classified.childCategory") {{ classified.childCategory | category }}
-      li(ng-if='classified.location')
-        b Location:&nbsp;
-        | Salwa
-      li(ng-if='classified.address1')
-        b Address:&nbsp;
-        | ABCD Road, 213 fake street
+      //- li.green Free Delivery
+      //- li.yellow Expired
+      //- li.red Banned
+      //- li.green Delivery included
+      //- li.yellow Promoted
+      //- li.red Urgent
 
-    .user.columns.medium-6
+    pre.columns.description(itemprop="description", ng-if="classified.status == 1")
+      | Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+      | &nbsp;
+      | Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
+      //- {{ classified.description }}
+
+
+
+    .columns(ng-if="classified.status == 1")
+      ul.meta.row
+        li.large-3.medium-4.columns.end
+          .meta-title Views
+          .meta-value {{ classified.views || 0 }}
+        li.large-3.medium-4.columns.end
+          .meta-title Price
+          .meta-value {{ classified.price | price }}
+        li.large-3.medium-4.columns.end(ng-if="classified.created")
+          .meta-title Published
+          .meta-value {{ classified.created | prettydate }}
+        li.large-3.medium-4.columns.end(ng-if="classified.category")
+          .meta-title Category
+          .meta-value {{ classified.category | category }}&nbsp;
+          span(ng-if="classified.childCategory") {{ classified.childCategory | category }}
+        li.large-3.medium-4.columns.end(ng-if="classified.location")
+          .meta-title Location
+          .meta-value {{ classified.location || location }}
+        li.large-3.medium-4.columns.end(ng-if="classified.contact.address1")
+          .meta-title Address
+          .meta-value {{ classified.contact.address1 }}, {{ classified.contact.address2 }}
+
+
+    .columns.user(ng-if="classified.status == 1")
       .avatar
-      .details
-        b Posted by&nbsp;
+      .info
         .name John Doe
-        b Member for: &nbsp;
-        | 30 days
+        div
+          .email(ng-if="classified.contact.email && !classified.meta.hideEmail")
+            b Email:
+            a(ng-href="mailto:{{ classified.contact.email }}?subject=Reply to your classified: {{ classified.title }}") {{ classified.contact.email }}
+          .phone(ng-if="classified.contact.phone")
+            b Phone:
+            a(href="tel:+965 123 1234434") +965 123 1234434
+        button.contact(ng-if="classified.contact.email") Contact Me
 
-    .google-maps.columns
-      .maps-container
+    .google-maps.columns(ng-if="classified.meta.gmapX && classified.status == 1", ng-init="drawMap(); mapHeight = window.innerHeight / 2", style="height: {{ window.innerHeight / 2 }}px")
+      #maps-container
+
 
     .disclaimer.columns
       b {{ "page.csingle.disclaimer-t" | translate }} &nbsp;
