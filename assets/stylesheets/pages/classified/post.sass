@@ -1,5 +1,5 @@
-body#classified-post
-  @extend body#classified-single
+body#classified-post main
+  @extend body#classified-single main
   $color-inactive: rgba(0, 0, 0, 0.02)
   $border-color: #e0e0e0
   $color-error: #E04B2A
@@ -13,6 +13,11 @@ body#classified-post
       width: auto !important
     &[type='text']
       font-size: 1rem
+
+  .error
+    font-size: 11px
+    float: left
+    padding: 5px 10px
 
   input, select, textarea, button
     +single-transition
@@ -63,10 +68,13 @@ body#classified-post
             color: #000
             content: "required"
 
-  .error
-    font-size: 11px
-    float: left
-    padding: 5px 10px
+  // If the user has attempted to submit, highlight all required fields as 'red'
+  form.attempted .ng-invalid-required
+    border-color: $color-error
+    ~ .error
+      background: $color-error
+      &:before
+        color: #FFF
 
   .gallery
     @extend .font-bitter
@@ -74,6 +82,8 @@ body#classified-post
     li
       position: relative
       margin-bottom: 10px
+      &.to-delete-from-server, &.to-delete
+        display: none
       img, .close
         width: 90% !important
       .message
@@ -177,6 +187,7 @@ body#classified-post
     padding: 0.5rem
     width: 100%
     border-bottom: 4px solid rgba(0,0,0,0.1)
+    z-index: 3
     @media only screen and (max-width: 64.063em)
       bottom: -3px
       left: 0

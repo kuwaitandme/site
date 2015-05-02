@@ -4,7 +4,8 @@ exports = module.exports = ($http) ->
 
     query: (page=1) -> $http.post "/api/query?page=#{page}"
 
-    save: ->
+    save: (classified) ->
+
 
     search: (parameters, callback) ->
       $http.get "/api/classified"
@@ -15,6 +16,15 @@ exports = module.exports = ($http) ->
       $http.get "/api/classified/#{id}"
       .success (classified) -> callback null, classified
       .error callback
+
+    getDefault: ->
+      contact:       {}
+      filesToDelete: []
+      images:        []
+      meta:          {}
+      perks:         {}
+      reports:       []
+
   new Model
 
 

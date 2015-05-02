@@ -1,27 +1,30 @@
 section#classified
-  form(name="form", novalidate).row
+  form(name="form", novalidate, ng-class="{attempted:attempted}").row
     input(type="file", multiple, ng-model-file="fileChange").hide
     .columns
       ul.gallery.row.collapse
-        li.small-6.medium-4.large-3.columns(ng-repeat="image in files track by $index")
-          .close remove this image
+        li.small-6.medium-4.large-3.columns(data-id="{{ image.id }}",
+          class="{{ image.status }}",
+          ng-repeat="image in classified.images track by $index")
+          .close(ng-click="removeFile($event)") remove this image
           img.thumb(src!="{{ image.file }}")
         li.small-6.medium-4.large-3.columns.end(ng-click="addImages()")
           .message Add an Image
 
 
     .columns.title
-      input(type="text", placeholder="Your title goes here", ng-model="title",
-        ng-change="validate()", ng-minlength="20", ng-maxlength="140", ng-required="true")
-      .error.show-on-focus(max="max. 140 characters", min="min. 20 characters", valid="{{ remainingTitle }}")
+      input(type="text", placeholder="Your title goes here",
+        ng-model="classified.title", ng-change="validate()", ng-minlength="20",
+        ng-maxlength="140", ng-required="true")
+      .error.show-on-focus(max="max. 140 characters", min="min. 20 characters",
+        valid="{{ remainingTitle }}")
 
     .columns.description(itemprop="description")
       textarea(placeholder="Your description goes here",
-        ng-model="description",
-        ng-minlength="50",
-        ng-maxlength="2000",
-        ng-required="true")
-      .error.show-on-focus(max="max. 2000 characters", min="min. 50 characters", valid="{{ remainingDescription }}")
+        ng-model="classified.description", ng-minlength="50",
+        ng-maxlength="2000", ng-required="true")
+      .error.show-on-focus(max="max. 2000 characters", min="min. 50 characters",
+        valid="{{ remainingDescription }}")
 
     ul.classified.meta.columns.medium-6
       li.row
@@ -37,33 +40,41 @@ section#classified
       li.row(ng-if="classified.priceType == 2")
         .meta-title.columns.medium-2
         .columns.medium-9
-          input(type="number", placeholder="give your price here", ng-model="classified.priceValue", ng-required="true", min=0)
+          input(type="number", placeholder="give your price here",
+            ng-model="classified.priceValue", ng-required="true", min=0)
           .error(invalid='price must only contain numbers')
 
       li.row
         .meta-title.columns.medium-2 Email
         .columns.medium-9
-          input(type="email", placeholder="contact@website.com", ng-model="classified.contact.email", ng-required="true")
+          input(type="email", placeholder="contact@website.com",
+            ng-model="classified.contact.email", ng-required="true")
           .error(invalid='email must be valid')
 
       li.row
         .meta-title.columns.medium-2 Category
         .columns.medium-9
-          select(ng-model="classified.parentCategory", ng-options="category.name for category in categories", ng-required="true")
+          select(ng-model="classified.parentCategory",
+            ng-options="category.name for category in categories",
+            ng-required="true")
             option(disabled, selected, value="") Choose a category
           .error
 
       li.row(ng-if="classified.parentCategory.children.length > 0")
         .meta-title.columns.medium-2
         .columns.medium-9
-          select(ng-model="classified.childCategory", ng-options="child.name for child in classified.parentCategory.children", ng-required="true")
+          select(ng-model="classified.childCategory",
+            ng-options="child.name for child in classified.parentCategory.children",
+            ng-required="true")
             option(disabled, selected, value="") Choose a sub-category
           .error
 
       li.row
         .meta-title.columns.medium-2 Location
         .columns.medium-9
-          select(ng-model="classified.location", ng-options="location.name for location in locations", ng-required="true")
+          select(ng-model="classified.location",
+            ng-options="location.name for location in locations",
+            ng-required="true")
             option(disabled, selected, value="") Choose a location
           .error
 
@@ -71,51 +82,62 @@ section#classified
       li.row
         .meta-title.columns.medium-2 Phone
         .columns.medium-9
-          input(type="text", placeholder="+965 12345678", ng-model="classified.contact.phone")
+          input(type="text", placeholder="+965 12345678",
+            ng-model="classified.contact.phone")
       li.row(ng-if="classified.location")
         .meta-title.columns.medium-2 Address
         .columns.medium-9
-          input(type="text", placeholder="Address line 1", ng-model="classified.contact.address1")
+          input(type="text", placeholder="Address line 1",
+            ng-model="classified.contact.address1")
       li.row(ng-if="classified.location")
         .meta-title.columns.medium-2
         .columns.medium-9
-          input(type="text", placeholder="Address line 2", ng-model="classified.contact.address2")
+          input(type="text", placeholder="Address line 2",
+            ng-model="classified.contact.address2")
       li.row
         .meta-title.columns.medium-2 Link
         .columns.medium-9
-          input(type="url", placeholder="https://example.com", ng-model="classified.contact.website")
+          input(type="url", placeholder="https://example.com",
+            ng-model="classified.contact.website")
           .error(invalid="link must be a valid url")
       li.row.extras
         .meta-title.columns.medium-2 Extras
         .columns.medium-9
           .row
-            .columns(ng-if="classified.email")
-              input(type="checkbox", ng-model="classified.meta.hideEmail")
+            .columns(ng-if="classified.contact.email")
+              input(type="checkbox",
+                ng-model="classified.meta.hideEmail")
               label Keep my email hidden
             .columns
-              input(type="checkbox", ng-model="classified.meta.hideSearchEngine")
+              input(type="checkbox",
+                ng-model="classified.meta.hideSearchEngine")
               label Hide this classified from search engines
             .columns
-              input(type="checkbox", ng-model="classified.meta.deliveryIncluded")
+              input(type="checkbox",
+                ng-model="classified.meta.deliveryIncluded")
               label I provide delivery
             .columns(ng-if="classified.meta.deliveryIncluded")
-              input(type="checkbox", ng-model="classified.meta.freeDeliveryIncluded")
+              input(type="checkbox",
+                ng-model="classified.meta.freeDeliveryIncluded")
               label Delivery will be free of charge
             .columns(ng-if="classified.contact.phone")
-              input(type="checkbox", ng-model="classified.meta.whatsapp")
+              input(type="checkbox",
+                ng-model="classified.meta.whatsapp")
               label I am available on Whatsapp
             .columns(ng-if="classified.contact.phone")
-              input(type="checkbox", ng-model="classified.meta.viber")
+              input(type="checkbox",
+                ng-model="classified.meta.viber")
               label I am available on Viber
 
 
     .google-maps.columns(ng-if="classified.location", ng-init="drawMap()")
       .row.collapse
         .columns
-          input(type="checkbox", name="toggled", id="toggleMaps", ng-model="mapsEnabled")
+          input(type="checkbox", name="toggled", id="toggleMaps",
+            ng-model="classified.meta.mapsEnabled")
           label Enable maps
         .columns
-          #maps-container(ng-class="{disabled: !mapsEnabled}")
+          #maps-container(ng-class="{disabled: !classified.meta.mapsEnabled}")
 
 
     .disclaimer.columns
@@ -126,4 +148,4 @@ section#classified
 
   .row
     .columns
-      button.submit Submit classified
+      button.submit(ng-click="submit()") Submit classified

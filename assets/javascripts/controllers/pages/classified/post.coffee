@@ -1,3 +1,5 @@
+## TODO: Add automatic resize of content
+
 exports = module.exports = ($scope, $element, $googleMaps, $imageResizer,
 classified, category, location) ->
   @name = "[page:classified-post]"
@@ -6,10 +8,11 @@ classified, category, location) ->
   body = document.getElementsByTagName "body"
   body[0].id = "classified-post"
 
-  $scope.classified = {}
+  # If classified is not defined, then set it to it's default values
+  if not $scope.classified? then $scope.classified = classified.getDefault()
+
   $scope.categories = category.getAll()
   $scope.locations = location.getAll()
-
 
   # Function to listen for changes with classified title
   titleChange = (newValue="") ->
@@ -19,7 +22,7 @@ classified, category, location) ->
       remaining = maxTitle - newValue.length
       $scope.remainingTitle = "#{remaining} characters left"
     else $scope.remainingTitle = ""
-  $scope.$watch "title", titleChange
+  $scope.$watch "classified.title", titleChange
 
 
   # Function to listen for changes with classified description
@@ -30,39 +33,57 @@ classified, category, location) ->
       remaining = maxDescription - newValue.length
       $scope.remainingDescription = "#{remaining} characters left"
     else $scope.remainingDescription = ""
-  $scope.$watch "description", descriptionChange
+  $scope.$watch "classified.description", descriptionChange
 
 
+  # Function to popup the file selector dialog
   $scope.addImages = ->
     $el = angular.element document.querySelectorAll "[type='file']"
     $el[0].click()
 
 
-  $scope.fileChange = (files) ->
-    console.log files
-    console.log $imageResizer
-    $scope.files = [] if not $scope.files?
-
+  # This function is called when files have been selected by the user. Here we
+  # pass the files into our imageResizer for resizing into nice square
+  # thumbnails.
+  $scope.fileChange = (files=[]) ->
+    $scope.classified.images = [] if not $scope.classified.images?
     for file in files
       $imageResizer.createThumbnail file,
         thumbnailWidth: 300
         thumbnailHeight: 300
-        callback: (dataURL) =>
-          $scope.$apply -> $scope.files.push file: dataURL
-      # $scope.$apply()
+        callback: (dataURL) => $scope.$apply -> $scope.classified.images.push
+          id: Math.random() * 100000
+          file: dataURL
+          status: "to-upload"
+
+
+  # Handler function to remove the file from the Uploads queue
+  $scope.removeFile = ($event) ->
+    $li = angular.element $event.target.parentNode
+    status = $li.data().$scope.classified.images.status
+
+    if status is "on-server"
+      $li.data().$scope.classified.images.status = "to-delete-from-server"
+    else $li.data().$scope.classified.images.status = "to-delete"
 
 
   $scope.validate = -> # _validateTitle()
   $scope.validate()
 
 
+  $scope.submit = ->
+    $scope.attempted = true
+    console.log $scope.classified
+
+
+  # Function to draw the Google Map if needed.
   $scope.drawMap = ->
+    # These are the default co-ordinates. They center to Kuwait City.
     X = 29.375770981110353
     Y = 47.98656463623047
     loaded = false
 
     initMap = ->
-      # The default co-ordinates to which we will center the map
       myLatlng = new google.maps.LatLng X, Y
 
       # Initialize the map
@@ -70,9 +91,9 @@ classified, category, location) ->
       map = new google.maps.Map gmap,
         center: myLatlng
         mapTypeControl: false
-        style: $googleMaps.defaultStyle
         mapTypeId: google.maps.MapTypeId.ROADMAP
         scrollwheel: false
+        style: $googleMaps.defaultStyle
         zoom: 13
 
       # Initialize the marker
@@ -103,8 +124,8 @@ classified, category, location) ->
         map.panTo latLng
 
       loaded = true
-
     if not loaded then $googleMaps.onLoad -> initMap()
+
 
 exports.$inject = [
   "$scope"
