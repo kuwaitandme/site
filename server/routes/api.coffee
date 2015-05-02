@@ -28,10 +28,11 @@ exports = module.exports = (IoC) ->
   #   failureRedirect: '/auth/login?error=yahoo_failed'
 
   # router.delete "/classified/:id?",     _api "classified/delete"
-  router.get    "/classified/:id?",     _api "classified/get"
-  router.patch  "/classified/:id?",     _api "classified/patch"
-  router.post   "/classified/:id?",     _api "classified/post"
-  router.put    "/classified/:id?",     _api "classified/put"
+  router.get    "/classified/slug/:slug?",   _api "classified/slug/get"
+  router.get    "/classified/:id?",          _api "classified/get"
+  router.patch  "/classified/:id?",          _api "classified/patch"
+  router.post   "/classified/:id?",          _api "classified/post"
+  router.put    "/classified/:id?",          _api "classified/put"
 
   router.get    "/user/:id?", _api "user/get"
   # router.post   "/user/",     _api "user/post"

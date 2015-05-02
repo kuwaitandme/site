@@ -2,6 +2,7 @@ exports.up = (knex, Promise) ->
   knex.schema.createTable "classifieds", (table) ->
     table.increments().primary()
     (table.string "title").notNull()
+    (table.string "slug").notNull()
     (table.text "description").notNull()
     (table.integer "parent_category").notNull().references("id").inTable "categories"
     (table.integer "child_category").references("id").inTable "categories"

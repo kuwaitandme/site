@@ -3,17 +3,17 @@ validator = require 'validator'
 
 exports = module.exports = (renderer, Classified) ->
   controller = (request, response, next) ->
-    id = request.params[0]
+    slug = request.params[0]
 
-    # Validate the id
-    if not validator.isMongoId id then return next()
+    console.log slug
 
     # Update the view counter asynchronously
     # controller.updateViewCount request, id
 
-    # Get the classified
-    Classified.get id, (error, classified) ->
-      if error then return next error
+    new Classified slug: slug
+    .fetch()
+    .then (classified) ->
+      # response.end JSON.stringify classified
 
       # Display 404 page if classified is not found
       if not classified then return next()
@@ -24,6 +24,11 @@ exports = module.exports = (renderer, Classified) ->
         page: 'classified/single'
         title: classified.title
       renderer request, response, options, false
+
+    # Get the classified
+    # Classified.get id, (error, classified) ->
+    #   if error then return next error
+
 
 
   # # Helper function to asynchronously update the view counter.

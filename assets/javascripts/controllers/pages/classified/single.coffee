@@ -6,7 +6,7 @@ exports = module.exports = ($scope, $element, $stateParams, $googleMaps, classif
   body = document.getElementsByTagName "body"
   body[0].id = "classified-single"
 
-  classified.get $stateParams.id, (error, result) =>
+  classified.getBySlug $stateParams.slug, (error, result) =>
     $scope.classified = result
 
     setTimeout =>

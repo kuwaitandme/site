@@ -17,19 +17,23 @@ exports = module.exports = (Classified) ->
 
 
     _single = (request, response, next) ->
-      Classified.get id, (error, classified) ->
-        if error then next error
-        if not classified
-          response.status 404
-          response.end '{}'
-        else
-          response.end JSON.stringify classified
+      new Classified id: id
+      .fetch()
+      .then (classified) ->
+        response.end JSON.stringify classified
+
+      # Classified.fetch {id: id}, (error, classified) ->
+      #   if error then next error
+      #   if not classified
+      #     response.status 404
+      #     response.end '{}'
+      #   else
 
     response.contentType 'application/json'
     id = request.params.id
 
-    if not validator.isMongoId id then _query request, response, next
-    else _single request, response, next
+    # if not validator.isMongoId id then _query request, response, next
+    _single request, response, next
 
     # if request.query.random
     #   return Classified.getRandom (error, classified) ->
