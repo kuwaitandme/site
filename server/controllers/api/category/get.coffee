@@ -32,7 +32,7 @@ exports = module.exports = (Classified, Categories, cache) ->
 
 exports["@require"] = [
   "models/classified"
-  "models/category"
+  "models/categories"
   "controllers/cache"
 ]
 exports["@singleton"] = true

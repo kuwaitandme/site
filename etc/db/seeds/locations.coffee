@@ -1,79 +1,88 @@
-db.locations.drop()
-db.locations.insert [
-  { name: 'Abdullah Al-Salem' }
-  { name: 'Abraq Khaitan' }
-  { name: 'Abu Fteira' }
-  { name: 'Abu Halifa' }
-  { name: 'Adiliya' }
-  { name: 'Adān' }
-  { name: 'Ahmadi' }
-  { name: 'Al-Jabriya' }
-  { name: 'Al-Zour' }
-  { name: 'Andalus' }
-  { name: 'Ardiyah' }
-  { name: 'Bayan' }
-  { name: 'Bayān' }
-  { name: 'Bi-di' }
-  { name: 'Bnied Al-Gar' }
-  { name: 'Daiya' }
-  { name: 'Dasman' }
-  { name: 'Doha' }
-  { name: 'Fahaheel' }
-  { name: 'Faiha' }
-  { name: 'Fardaws' }
-  { name: 'Farwaniyah' }
-  { name: 'Fintās' }
-  { name: 'Funaitīs' }
-  { name: 'Ghirnata' }
-  { name: 'Hadiya' }
-  { name: 'Hawally' }
-  { name: 'Hittin' }
-  { name: 'Jabir al-Ahmad City' }
-  { name: 'Jabriya' }
-  { name: 'Jahra' }
-  { name: 'Jibla' }
-  { name: 'Jleeb Al-Shuyoukh' }
-  { name: 'Keifan' }
-  { name: 'Khaitan' }
-  { name: 'Khaldiya' }
-  { name: 'Kuwait City' }
-  { name: 'Mahboula' }
-  { name: 'Maidan Hawalli' }
-  { name: 'Mangaf' }
-  { name: 'Mansouriya' }
-  { name: 'Mirgāb' }
-  { name: 'Mishref' }
-  { name: 'Misīla' }
-  { name: 'Mubarak aj-Jabir suburb' }
-  { name: 'Mubarak al-Kabeer' }
-  { name: 'Nahdha' }
-  { name: 'Nigra' }
-  { name: 'Nuzha' }
-  { name: 'Omariya' }
-  { name: 'Qadsiya' }
-  { name: 'Qurain' }
-  { name: 'Qurtuba' }
-  { name: 'Qusūr' }
-  { name: 'Rabiya' }
-  { name: 'Rai' }
-  { name: 'Rawdah' }
-  { name: 'Riqqah' }
-  { name: 'Rumaithiya' }
-  { name: 'Sabah Al-Nasser' }
-  { name: 'Sabah Al-Salem' }
-  { name: 'Sabahiyah' }
-  { name: 'Sabhān' }
-  { name: 'Salhiya' }
-  { name: 'Salmiya' }
-  { name: 'Salwa' }
-  { name: 'Sawābir' }
-  { name: 'Sha-ab' }
-  { name: 'Shammiya' }
-  { name: 'Sharq' }
-  { name: 'Shuwaikh' }
-  { name: 'Sulaibikhat' }
-  { name: 'Surra' }
-  { name: 'Udailiya' }
-  { name: 'Wafra' }
-  { name: 'Yarmūk' }
-]
+exports.seed = (knex, Promise) ->
+  _ins = (name="") ->
+    values =
+      slug: name.toLowerCase().replace(/&/g, "").replace /[,\s]+/g, "-"
+      name: name
+    (knex "locations").insert values
+
+  Promise.join(
+    # Deletes ALL existing entries
+    knex("locations").del(),
+
+    _ins("Abdullah Al-Salem"),
+    _ins("Abraq Khaitan"),
+    _ins("Abu Fteira"),
+    _ins("Abu Halifa"),
+    _ins("Adiliya"),
+    _ins("Adan"),
+    _ins("Ahmadi"),
+    _ins("Al-Jabriya"),
+    _ins("Al-Zour"),
+    _ins("Andalus"),
+    _ins("Ardiyah"),
+    _ins("Bayan"),
+    _ins("Bayan"),
+    _ins("Bi-di"),
+    _ins("Bnied Al-Gar"),
+    _ins("Daiya"),
+    _ins("Dasman"),
+    _ins("Doha"),
+    _ins("Fahaheel"),
+    _ins("Faiha"),
+    _ins("Fardaws"),
+    _ins("Farwaniyah"),
+    _ins("Fintas"),
+    _ins("Funaitīs"),
+    _ins("Ghirnata"),
+    _ins("Hadiya"),
+    _ins("Hawally"),
+    _ins("Hittin"),
+    _ins("Jabir al-Ahmad City"),
+    _ins("Jabriya"),
+    _ins("Jahra"),
+    _ins("Jibla"),
+    _ins("Jleeb Al-Shuyoukh"),
+    _ins("Keifan"),
+    _ins("Khaitan"),
+    _ins("Khaldiya"),
+    _ins("Kuwait City"),
+    _ins("Mahboula"),
+    _ins("Maidan Hawalli"),
+    _ins("Mangaf"),
+    _ins("Mansouriya"),
+    _ins("Mirgab"),
+    _ins("Mishref"),
+    _ins("Misila"),
+    _ins("Mubarak aj-Jabir suburb"),
+    _ins("Mubarak al-Kabeer"),
+    _ins("Nahdha"),
+    _ins("Nigra"),
+    _ins("Nuzha"),
+    _ins("Omariya"),
+    _ins("Qadsiya"),
+    _ins("Qurain"),
+    _ins("Qurtuba"),
+    _ins("Qusur"),
+    _ins("Rabiya"),
+    _ins("Rai"),
+    _ins("Rawdah"),
+    _ins("Riqqah"),
+    _ins("Rumaithiya"),
+    _ins("Sabah Al-Nasser"),
+    _ins("Sabah Al-Salem"),
+    _ins("Sabahiyah"),
+    _ins("Sabhan"),
+    _ins("Salhiya"),
+    _ins("Salmiya"),
+    _ins("Salwa"),
+    _ins("Sawabir"),
+    _ins("Sha-ab"),
+    _ins("Shammiya"),
+    _ins("Sharq"),
+    _ins("Shuwaikh"),
+    _ins("Sulaibikhat"),
+    _ins("Surra"),
+    _ins("Udailiya"),
+    _ins("Wafra"),
+    _ins("Yarmuk")
+  )
