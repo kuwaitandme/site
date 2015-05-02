@@ -5,10 +5,6 @@ window.scripts = [
     localSrc: "/stylesheets/style.css?m=#{config.magic.application}"
   }
   {
-    name: "library:google-maps"
-    remoteSrc: "//maps.googleapis.com/maps/api/js?key=AIzaSyBUcoOW5jw2GvlFQI49FIGl6I7czXcX5iQ&callback=initializeGmap"
-  }
-  {
     name: "library:masonry"
     remoteSrc: "/javascripts/libraries.js"
   }
@@ -22,18 +18,26 @@ window.scripts = [
     remoteSrc: "/javascripts/app.js?m=#{config.magic.application}"
     localSrc:  "/javascripts/app.js?m=#{config.magic.application}"
   }
-  {
-    name: "library:font-opensans-css"
-    remoteSrc: "//fonts.googleapis.com/css?family=Open+Sans:400,600"
-  }
-  {
-    name: "library:font-roboto-css"
-    remoteSrc: "//fonts.googleapis.com/css?family=Roboto"
-  }
-  {
-    name: "library:font-awesome-css"
-    remoteSrc: "//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css"
-  }
+  # {
+  #   name: "library:google-maps"
+  #   remoteSrc: "//maps.googleapis.com/maps/api/js?key=AIzaSyBUcoOW5jw2GvlFQI49FIGl6I7czXcX5iQ&callback=initializeGmap"
+  # }
+  # {
+  #   name: "library:font-opensans-css"
+  #   remoteSrc: "//fonts.googleapis.com/css?family=Open+Sans:400,600"
+  # }
+  # {
+  #   name: "library:font-roboto-css"
+  #   remoteSrc: "//fonts.googleapis.com/css?family=Roboto"
+  # }
+  # {
+  #   name: "library:font-bitter-css"
+  #   remoteSrc: "//fonts.googleapis.com/css?family=Bitter"
+  # }
+  # {
+  #   name: "library:font-awesome-css"
+  #   remoteSrc: "//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css"
+  # }
 ]
 
 window.initializeGmap = ->
