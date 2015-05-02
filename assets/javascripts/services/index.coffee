@@ -5,4 +5,5 @@ module.exports = (app) ->
   app.service "$facebook",          require "./facebook"
   app.service "$googleMaps",        require "./googleMaps"
   app.service "$googleRecaptcha",   require "./googleRecaptcha"
+  app.service "$imageResizer",      require "./imageResizer"
   app.service "$scroller",          require "./scroller"
