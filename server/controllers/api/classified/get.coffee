@@ -1,38 +1,23 @@
-validator = require 'validator'
+validator = require "validator"
 
-# singleController = require '../../controllers/classified/single'
-
-exports = module.exports = (Classified) ->
+exports = module.exports = (Classified, Classifieds) ->
   controller = (request, response, next) ->
+    response.contentType "application/json"
+
     _query = (request, response, next) ->
       parameters = {} #getQueryParameters request
-
-      page = request.query.page or 1
-
-      finish = (error, classifieds={}) ->
-        # console.log classifieds
-        if error then next error
-        else response.end JSON.stringify classifieds
-      Classified.search parameters, page, false, finish
-
+      Classifieds.forge parameters
+      .query()
+      .then (classified={}) -> response.end JSON.stringify classified, null, 2
 
     _single = (request, response, next) ->
-      new Classified id: id
+      Classified.forge id: id
       .fetch()
-      .then (classified) ->
-        response.end JSON.stringify classified
+      .then (classified={}) -> response.end JSON.stringify classified, null, 2
 
-      # Classified.fetch {id: id}, (error, classified) ->
-      #   if error then next error
-      #   if not classified
-      #     response.status 404
-      #     response.end '{}'
-      #   else
-
-    response.contentType 'application/json'
     id = request.params.id
 
-    # if not validator.isMongoId id then _query request, response, next
+    if not id then _query request, response, next
     _single request, response, next
 
     # if request.query.random
@@ -44,5 +29,8 @@ exports = module.exports = (Classified) ->
     # singleController.updateViewCount request, id
 
 
-exports['@require'] = [ 'models/classified' ]
-exports['@singleton'] = true
+exports["@require"] = [
+  "models/classified"
+  "models/classifieds"
+]
+exports["@singleton"] = true
