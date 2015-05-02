@@ -1,7 +1,7 @@
 section(ng-controller='component:classified-list')
   ul.classified-list.row
     li.large-3.medium-4.small-6.columns(ng-repeat="classified in classifieds")
-      a(href="/classified/{{ classified._id }}")
+      a(href="/{{ classified.slug }}")
         .container
           //- .urgent-banner Urgent
           .thumb(ng-if="classified.images.length > 0", ng-style="{'background':classified.images[0].color}")

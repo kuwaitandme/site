@@ -10,7 +10,7 @@ exports = module.exports = (Classified) ->
     console.log request.params
     new Classified slug: slug
     .fetch().then (classified) ->
-      response.end JSON.stringify classified
+      response.end JSON.stringify classified, null, 2
 
 exports['@require'] = [ 'models/classified' ]
 exports['@singleton'] = true

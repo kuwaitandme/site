@@ -20,7 +20,7 @@ exports = module.exports = (Classified, Categories, cache) ->
                   parentCategory.children.push category
                   break
 
-          json = JSON.stringify results
+          json = JSON.stringify results, null, 2
           cache.set "categories", json
           response.end json
 

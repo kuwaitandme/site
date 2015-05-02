@@ -8,7 +8,7 @@ exports = module.exports = (Locations, cache) ->
 
       # Categories was not cached, so query and then save in cache
       new Locations().fetch().then (collection) ->
-        json = JSON.stringify collection
+        json = JSON.stringify collection, null, 2
         cache.set "locations", json
         response.end json
 
