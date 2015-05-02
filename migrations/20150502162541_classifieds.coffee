@@ -6,7 +6,7 @@ exports.up = (knex, Promise) ->
     (table.integer "parent_category").notNull().references("id").inTable "categories"
     (table.integer "child_category").references("id").inTable "categories"
     (table.integer "location").notNull().references("id").inTable "locations"
-    (table.integer "owner")
+    (table.integer "owner").references("id").inTable "users"
     (table.integer "priceType").notNull()
     (table.integer "priceValue")
     (table.integer "status").notNull()
