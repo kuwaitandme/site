@@ -4,6 +4,8 @@
   "private": "true",
   "author": "Steven Enamakel",
   "scripts": {
+    "schema": "knex --knexfile ./etc/config/knexfile.coffee migrate:latest --cwd .",
+    "schema-down": "knex --knexfile ./etc/config/knexfile.coffee migrate:rollback --cwd .",
     "populate-db": "mongo kuwaitandme ./server/db/populate.js",
     "start": "coffee ./server.coffee",
     "test": "mocha --compilers coffee:coffee-script/register -b",
@@ -14,6 +16,7 @@
     "basic-auth": "^1.0.0",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "~1.10.2",
+    "bookshelf": "^0.8.0",
     "bootable": "^0.2.3",
     "bootable-environment": "^0.2.0",
     "cacheman-memory": "^0.1.2",

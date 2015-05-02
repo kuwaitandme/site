@@ -67,13 +67,9 @@ classified, category, location) ->
     else $li.data().$scope.classified.images.status = "to-delete"
 
 
-  $scope.validate = -> # _validateTitle()
-  $scope.validate()
-
-
   $scope.submit = ->
+    if not $scope.form.$invalid then classified.save $scope.classified
     $scope.attempted = true
-    console.log $scope.classified
 
 
   # Function to draw the Google Map if needed.
