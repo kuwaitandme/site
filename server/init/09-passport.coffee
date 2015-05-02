@@ -1,13 +1,15 @@
-passport           = require 'passport'
+passport           = require "passport"
 
-# yahooStrategy      = require './passport/yahoo'
-emailStrategy      = require './passport/email'
-facebookStrategy   = require './passport/facebook'
-googleplusStrategy = require './passport/google-plus'
-twitterStrategy    = require './passport/twitter'
+# yahooStrategy      = require "./passport/yahoo"
+emailStrategy      = require "./passport/email"
+facebookStrategy   = require "./passport/facebook"
+googleplusStrategy = require "./passport/google-plus"
+twitterStrategy    = require "./passport/twitter"
 
-exports = module.exports = (settings, user) ->
-  app = this
+exports = module.exports = (IoC, settings, user) ->
+  app     = this
+  logger  = IoC.create "igloo/logger"
+
   app.use passport.initialize()
   app.use passport.session()
 
@@ -24,8 +26,11 @@ exports = module.exports = (settings, user) ->
   twitterStrategy     settings, passport, user
   # yahooStrategy       settings, passport, user
 
-exports['@require'] = [
-  'igloo/settings'
-  'models/user'
+  logger.info "passport initialized"
+
+exports["@require"] = [
+  "$container"
+  "igloo/settings"
+  "models/user"
 ]
-exports['@singleton'] = true
+exports["@singleton"] = true

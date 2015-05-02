@@ -10,6 +10,8 @@ templatesDir = path.join assetsDir, 'emails'
 viewsDir     = path.join appDir, 'views'
 maxAge       = 24 * 60 * 60 * 1000
 
+knexConfig   = require './knexfile'
+
 exports = module.exports = ->
   defaults:
     basicAuth:
@@ -102,12 +104,15 @@ exports = module.exports = ->
       file: false
       hipchat: false
       slack: false
+    knex:
+      client: "postgres"
     jade: amd:
       path: '/js/tmpl/'
       options: {}
 
   # Testing-specific options
   test:
+    knex: knexConfig['staging']
     url: 'http://localhost:5000'
     server:
       env: 'test'
@@ -119,6 +124,7 @@ exports = module.exports = ->
 
   # Development-specific options
   development:
+    knex: knexConfig['development']
     cache: true
     url: 'http://localhost:3000'
     server:
@@ -130,6 +136,7 @@ exports = module.exports = ->
     redis: prefix: 'igloo-development'
 
   production:
+    knex: knexConfig['production']
     cache: true
     url: 'http://localhost:3080'
     password:

@@ -1,23 +1,38 @@
-exports = module.exports = (classified, category) ->
+exports = module.exports = (Classified, Categories, cache) ->
   controller = (request, response, next) ->
-    response.contentType 'application/json'
+    response.contentType "application/json"
 
-    if request.query.count
-      classified.classifiedsPerCategory (error, result) ->
-        if error then next error
+    _getAll = ->
+      # Check in cache
+      cache.get "categories", (error, results) =>
+        if results then return response.end results
 
-        json = JSON.stringify result
-        response.end json
-    else
-      category.getAll (error, result) ->
-        if error then next error
+        # Categories was not cached, so query and then save in cache
+        new Categories().fetch().then (collection) ->
+          results = []
+          for category in collection.toJSON()
+            if not category.parent_category?
+              category.children = []
+              results.push category
+            else
+              for parentCategory in results
+                if parentCategory.id is category.parent_category
+                  parentCategory.children.push category
+                  break
 
-        json = JSON.stringify result
-        response.end json
+          json = JSON.stringify results
+          cache.set "categories", json
+          response.end json
 
-exports['@require'] = [
-  'models/classified'
-  'models/category'
+    _getCounters = -> response.end '{}'
+
+    if request.query.count then _getCounters()
+    else _getAll()
+
+
+exports["@require"] = [
+  "models/classified"
+  "models/category"
+  "controllers/cache"
 ]
-exports['@singleton'] = true
-# http://development.kuwaitandme.com/api/category
+exports["@singleton"] = true

@@ -1,6 +1,6 @@
-cachemanMemory     = require 'cacheman-memory'
-helmet             = require 'helmet'
-path               = require 'path'
+cachemanMemory     = require "cacheman-memory"
+helmet             = require "helmet"
+path               = require "path"
 
 exports = module.exports = (IoC, settings) ->
   app = this
@@ -12,10 +12,14 @@ exports = module.exports = (IoC, settings) ->
     # Enable cache if NOT an XHR (AJAX) request
     app.use (req, res, next) ->
       if req.xhr then return next()
-      res.setHeader 'Cache-Control', 'public'
-      res.setHeader 'Pragma', ''
-      res.setHeader 'Expires', settings.staticServer.maxAge
+      res.setHeader "Cache-Control", "public"
+      res.setHeader "Pragma", ""
+      res.setHeader "Expires", settings.staticServer.maxAge
       next()
 
-exports['@require'] = [ '$container', 'igloo/settings' ]
-exports['@singleton'] = true
+
+exports["@require"] = [
+  "$container"
+  "igloo/settings"
+]
+exports["@singleton"] = true
