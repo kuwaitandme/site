@@ -1,7 +1,5 @@
 module.exports = ->
-
   scope: ngModelFile: "&"
-
 
   link: (scope, element, attributes) ->
     element.bind "change", (changeEvent) ->
@@ -9,18 +7,18 @@ module.exports = ->
       files = changeEvent.target.files
       results = []
 
-      readFile = (index) ->
-        if index >= files.length then return finish()
-        file = files[index]
+      # readFile = (index) ->
+      #   if index >= files.length then return finish()
+      #   file = files[index]
 
-        reader.onload = (event) ->
-          results.push event.target.result
-          readFile index + 1
+      #   reader.onload = (event) ->
+      #     results.push event.target.result
+      #     readFile index + 1
 
-        reader.readAsDataURL file
+      #   reader.readAsDataURL file
 
 
-      finish = -> (scope.ngModelFile or ->)() results
+      (scope.ngModelFile or ->)() files
 
-      # Start recursively reading the files
-      readFile 0
+      # # Start recursively reading the files
+      # readFile 0

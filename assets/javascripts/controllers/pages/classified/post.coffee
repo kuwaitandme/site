@@ -1,4 +1,5 @@
-exports = module.exports = ($scope, $element, $googleMaps, classified, category, location) ->
+exports = module.exports = ($scope, $element, $googleMaps, $imageResizer,
+classified, category, location) ->
   @name = "[page:classified-post]"
   console.log @name, "initializing"
 
@@ -38,10 +39,17 @@ exports = module.exports = ($scope, $element, $googleMaps, classified, category,
 
 
   $scope.fileChange = (files) ->
-    $scope.files = $scope.files or []
-    $scope.$apply ->
-      for file in files then $scope.files.push file: file
-    $scope.$apply()
+    console.log files
+    console.log $imageResizer
+    $scope.files = [] if not $scope.files?
+
+    for file in files
+      $imageResizer.createThumbnail file,
+        thumbnailWidth: 300
+        thumbnailHeight: 300
+        callback: (dataURL) =>
+          $scope.$apply -> $scope.files.push file: dataURL
+      # $scope.$apply()
 
 
   $scope.validate = -> # _validateTitle()
@@ -102,6 +110,7 @@ exports.$inject = [
   "$scope"
   "$element"
   "$googleMaps"
+  "$imageResizer"
   "model.classified"
   "model.category"
   "model.location"

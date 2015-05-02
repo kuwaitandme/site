@@ -69,17 +69,41 @@ body#classified-post
     padding: 5px 10px
 
   .gallery
+    @extend .font-bitter
     margin-bottom: 2rem
-    [ng-click]
-      @extend .font-title
-      border: 2px solid $border-color
-      background: $color-inactive
-      color: #999
-      cursor: pointer
-      height: 100px
-      padding: 0 20px
-      padding-top: 35px
-      text-align: center
+    li
+      position: relative
+      margin-bottom: 10px
+      img, .close
+        width: 90% !important
+      .message
+        border: 2px solid $border-color
+        background: $color-inactive
+        color: #999
+        cursor: pointer
+        height: 100px
+        width: 90%
+        padding: 0 20px
+        padding-top: 35px
+        text-align: center
+      .close
+        +single-transition
+        background: #E74C3C
+        color: #FFF
+        content: '\f00d'
+        cursor: pointer
+        font-size: 0.8rem
+        height: 60px
+        left: 0
+        opacity: 0.5
+        padding: 10px
+        position: absolute
+        text-align: center
+        top: 0
+      &:hover .close
+        height: 50%
+        opacity: 1
+
 
 
   .title, .description
@@ -152,6 +176,7 @@ body#classified-post
     font-size: 0.9rem
     padding: 0.5rem
     width: 100%
+    border-bottom: 4px solid rgba(0,0,0,0.1)
     @media only screen and (max-width: 64.063em)
       bottom: -3px
       left: 0
