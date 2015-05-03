@@ -1,16 +1,16 @@
-flash                 = require 'connect-flash'
-passport              = require 'passport'
-session               = require 'express-session'
-cookieParser          = require 'cookie-parser'
-randomstring          = require 'randomstring-extended'
-connectLiveReload     = require 'connect-livereload'
-validator             = require 'validator'
-_                     = require 'underscore'
+flash                 = require "connect-flash"
+passport              = require "passport"
+session               = require "express-session"
+cookieParser          = require "cookie-parser"
+randomstring          = require "randomstring-extended"
+connectLiveReload     = require "connect-livereload"
+validator             = require "validator"
+_                     = require "underscore"
 
-GoogleStrategy        = (require 'passport-google-oauth').OAuth2Strategy
-GoogleTokenStrategy   = (require 'passport-google-token').Strategy
-FacebookStrategy      = (require 'passport-facebook').Strategy
-FacebookTokenStrategy = (require 'passport-facebook-token').Strategy
+GoogleStrategy        = (require "passport-google-oauth").OAuth2Strategy
+GoogleTokenStrategy   = (require "passport-google-token").Strategy
+FacebookStrategy      = (require "passport-facebook").Strategy
+FacebookTokenStrategy = (require "passport-facebook-token").Strategy
 
 
 exports = module.exports = (IoC, settings, sessions, User, policies) ->
@@ -19,8 +19,9 @@ exports = module.exports = (IoC, settings, sessions, User, policies) ->
 
   providerAuthCallback = (accessToken, refreshToken, profile, done) ->
     if profile.emails.length == 0 or !_.isObject(profile.emails[0]) or !validator.isEmail(profile.emails[0].value)
-      return done(new Error('Your account did not have an email address associated with it'))
+      return done(new Error("Your account did not have an email address associated with it"))
     $or = [ { email: profile.emails[0].value } ]
+
     # normalize the auth callbacks by simply pushing to the
     # $or query that will be executed with User.findOne below
     # this allows us to simply have one auth callback for
@@ -30,35 +31,37 @@ exports = module.exports = (IoC, settings, sessions, User, policies) ->
 
     # note that we unshift instead of push, since we want findOne
     # to return the user based off `profile.id` which takes
-    # precedence over the user's email address in `profile.emails`
+    # precedence over the user"s email address in `profile.emails`
     $or.unshift provider
-    User.findOne { $or: $or }, (err, user) ->
-      if err
-        return done(err)
+    User.findOne { $or: $or }, (error, user) ->
+      if error then return done error
       if user
-        if !user[profile.provider + '_id']
-          user[profile.provider + '_id'] = profile.id
+        if not user["#{profile.provider}_id"]
+          user["#{profile.provider}_id"] = profile.id
         if accessToken
-          user[profile.provider + '_access_token'] = accessToken
+          user["#{profile.provider}_access_token"] = accessToken
         if refreshToken
-          user[profile.provider + '_refresh_token'] = refreshToken
-        return user.save(done)
+          user["#{profile.provider}_refresh_token"] = refreshToken
+        return user.save done
+
       user =
         email: profile.emails[0].value
         name: profile.name.givenName
         surname: profile.name.familyName
-      user[profile.provider + '_id'] = profile.id
+
+      user["#{profile.provider}_id"] = profile.id
       if accessToken
-        user[profile.provider + '_access_token'] = accessToken
+        user["#{profile.provider}_access_token"] = accessToken
       if refreshToken
-        user[profile.provider + '_refresh_token'] = refreshToken
+        user["#{profile.provider}_refresh_token"] = refreshToken
+
       # if the user signed in with another service
       # then create a random password for them
-      User.register user, randomstring.token(), (err, user) ->
-        if err
-          return done(err)
-        if !user
-          return done(new Error('An error has occured while registering, please try later'))
+      User.register user, randomstring.token(), (error, user) ->
+        if error then return done error
+        if not user?
+          return done new Error "An error has occured while registering, please try later"
+
         done null, user
         user.sendWelcomeEmail()
 
@@ -71,7 +74,7 @@ exports = module.exports = (IoC, settings, sessions, User, policies) ->
   # # support live reload
   # # (note this must come after sessions)
   # # <http://stackoverflow.com/a/26740588>
-  # if (settings.server.env === 'development')
+  # if (settings.server.env === "development")
   #   app.all(policies.notApiRouteRegexp, connectLiveReload(settings.liveReload));
   # add support for authentication
 
@@ -92,7 +95,7 @@ exports = module.exports = (IoC, settings, sessions, User, policies) ->
   # if settings.google.enabled
   #   # web-based
   #   passport.use new GoogleStrategy({
-  #     callbackURL: settings.url + '/auth/google/callback'
+  #     callbackURL: settings.url + "/auth/google/callback"
   #     clientID: settings.google.clientID
   #     clientSecret: settings.google.clientSecret
   #   }, providerAuthCallback)
@@ -105,22 +108,22 @@ exports = module.exports = (IoC, settings, sessions, User, policies) ->
   # Facebook Authentication
   if settings.facebook.enabled
     # web-based
-    passport.use new FacebookStrategy({
-      callbackURL: settings.url + '/auth/facebook/callback'
+    passport.use new FacebookStrategy
+      callbackURL:  "#{settings.url}/auth/facebook/callback"
       clientID: settings.facebook.appID
       clientSecret: settings.facebook.appSecret
-    }, providerAuthCallback)
+    , providerAuthCallback
 
     # token-based
-    passport.use new FacebookTokenStrategy({
+    passport.use new FacebookTokenStrategy
       clientID: settings.facebook.appID
       clientSecret: settings.facebook.appSecret
-    }, providerAuthCallback)
+    , providerAuthCallback
 
-exports['@require'] = [
-  '$container'
-  'igloo/settings'
-  'igloo/sessions'
-  'models/user'
-  'policies'
+exports["@require"] = [
+  "$container"
+  "igloo/settings"
+  "igloo/sessions"
+  "models/user"
+  "policies"
 ]

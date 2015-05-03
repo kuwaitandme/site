@@ -3,4 +3,4 @@ exports = module.exports = (knex) ->
   bookshelf.Model.extend tableName: "classifieds"
 
 exports["@singleton"] = true
-exports["@require"] = [ "igloo/knex" ]
+exports["@require"] = ["igloo/knex"]

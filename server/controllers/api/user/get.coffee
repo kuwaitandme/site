@@ -4,7 +4,7 @@ module.exports = (User) ->
     id = request.params.id
 
     # If no id was set, get the current user instance
-    if not id
+    if not id?
       user = request.user
 
       # If there was a logged in user, then return with some fields blanked
@@ -20,7 +20,7 @@ module.exports = (User) ->
 
     # An id was set, so query the DB for the user with that id
     else
-      User.get id, (err, user) ->
+      User.findOne { id: id }, (err, user) ->
         if not user then response.end '{}'
         else
           user.activationToken = ''

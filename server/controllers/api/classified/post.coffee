@@ -1,4 +1,28 @@
-formidable = require 'formidable'
+formidable        = require "formidable"
+keyword_extractor = require "keyword-extractor"
+
+_generateURLslug = (classified) ->
+  maxLength = 70
+
+  keywords = keyword_extractor.extract classified.id,
+    language: "english"
+    return_changed_case: true
+    remove_duplicates: true
+
+  keywords = keywords.join "-"
+
+  # clean the string off unwanted characters
+  cleanedString = keywords.replace /[^\w- ]+/g, ''
+
+  slug = "#{cleanedString}-#{classified.id}"
+  # trim the string to the maximum length
+  # trimmedString = cleanedString.substr 0, maxLength
+
+  # # trim the slug if we are in the middle of a word
+  # trimmedSlug = trimmedString.substr 0, Math.min trimmedString.length,
+  #   trimmedString.lastIndexOf "-"
+  # console.log
+
 
 exports = module.exports = (Classified, reCaptcha, uploader) ->
   controller = (request, response, next) ->
@@ -23,12 +47,13 @@ exports = module.exports = (Classified, reCaptcha, uploader) ->
 
       # Start parsing the form
       form.parse request, (error, fields, filesRequest) ->
-        if error then return next error
+        if error
+          response.status 400
+          return response.end JSON.stringify error
 
         data = JSON.parse fields.classified
         files = filesRequest['images[]']
-        data.slug = data.title.toLowerCase().replace(/[^\w ]+/g,'')
-          .replace(/ +/g,'-')
+        data.slug = _generateURLslug data
         data.status = 0
 
         uploader.upload files, (error, files) ->

@@ -6,7 +6,7 @@
   "scripts": {
     "schema-up": "knex --knexfile ./etc/config/knexfile.coffee migrate:latest --cwd ./etc/db",
     "schema-down": "knex --knexfile ./etc/config/knexfile.coffee migrate:rollback --cwd ./etc/db",
-    "seed" : "knex seed:run --cwd ./etc/db --knexfile ./etc/config/knexfile.coffee",
+    "seed": "knex seed:run --cwd ./etc/db --knexfile ./etc/config/knexfile.coffee",
     "populate-db": "mongo kuwaitandme ./server/db/populate.js",
     "start": "coffee ./server.coffee",
     "test": "mocha --compilers coffee:coffee-script/register -b",
@@ -47,6 +47,7 @@
     "igloo": "0.0.6",
     "jade": "~1.9.1",
     "jade-amd": "^0.2.2",
+    "keyword-extractor": "0.0.12",
     "knex": "^0.8.2",
     "less": "^1.7.5",
     "less-middleware": "^1.0.3",

@@ -1,39 +1,39 @@
 # config
-path      = require 'path'
-parentDir = path.join __dirname, '../..'
-appDir    = path.join parentDir, 'server'
+path      = require "path"
+parentDir = path.join __dirname, "../.."
+appDir    = path.join parentDir, "server"
 
-pkg          = require path.join parentDir, 'package'
-assetsDir    = path.join parentDir, 'public'
-publicDir    = path.join parentDir, 'public'
-templatesDir = path.join assetsDir, 'emails'
-viewsDir     = path.join appDir, 'views'
+pkg          = require path.join parentDir, "package"
+assetsDir    = path.join parentDir, "public"
+publicDir    = path.join parentDir, "public"
+templatesDir = path.join assetsDir, "emails"
+viewsDir     = path.join appDir, "views"
 maxAge       = 24 * 60 * 60 * 1000
 
-knexConfig   = require './knexfile'
+knexConfig   = require "./knexfile"
 
 exports = module.exports = ->
   defaults:
     basicAuth:
       enabled: false
-      name: 'admin'
-      pass: 'password'
+      name: "admin"
+      pass: "password"
     facebook:
       enabled: false
-      clientid: '398935173623108'
-      secret: '8a7cb62a5f7bf1d5a444870a82c0cf07'
-      scope: [ 'email' ]
+      clientid: "398935173623108"
+      secret: "8a7cb62a5f7bf1d5a444870a82c0cf07"
+      scope: [ "email" ]
     twitter:
-      consumerKey: 'dpQcjGDL7Ih8JmETnlZP28bYu'
-      consumerSecret: 's1amDz0gIt917RhnkddsDWyTXVZAhjbm7n89rXT7CXE4tKZ10g'
+      consumerKey: "dpQcjGDL7Ih8JmETnlZP28bYu"
+      consumerSecret: "s1amDz0gIt917RhnkddsDWyTXVZAhjbm7n89rXT7CXE4tKZ10g"
     googlePlus:
       enabled: false
       scope: [
-        'https://www.googleapis.com/auth/userinfo.profile'
-        'https://www.googleapis.com/auth/userinfo.email'
+        "https://www.googleapis.com/auth/userinfo.profile"
+        "https://www.googleapis.com/auth/userinfo.email"
       ]
-      clientId: '384211238362-0iahk91emk4spn58bp53ngk5rn7vb2s0.apps.googleusercontent.com'
-      clientSecret: 'wz18RM2bMEeJ9spcjNraIkE2'
+      clientId: "384211238362-0iahk91emk4spn58bp53ngk5rn7vb2s0.apps.googleusercontent.com"
+      clientSecret: "wz18RM2bMEeJ9spcjNraIkE2"
     pkg: pkg
     cache: false
     showStack: true
@@ -42,7 +42,7 @@ exports = module.exports = ->
     publicDir: publicDir
     views:
       dir: viewsDir
-      engine: 'jade'
+      engine: "jade"
 
     password:
       minStrength: 0
@@ -53,15 +53,15 @@ exports = module.exports = ->
         dir: templatesDir
         options: {}
       transport:
-        service: 'gmail'
+        service: "gmail"
         auth:
-          user: 'hi@eskimo.io'
-          pass: 'abc123'
-      headers: from: 'hi@eskimo.io'
+          user: "hi@eskimo.io"
+          pass: "abc123"
+      headers: from: "hi@eskimo.io"
 
     session:
-      secret: 'igloo-change-me'
-      key: 'igloo'
+      secret: "kme-change-me"
+      key: "kme"
       cookie: maxAge: maxAge
       resave: true
       saveUninitialized: true
@@ -75,22 +75,22 @@ exports = module.exports = ->
       updateCheckTimeout: 1000 * 20
     staticServer: maxAge: maxAge
     server:
-      host: 'localhost'
+      host: "localhost"
       cluster: false
       ssl:
         enabled: false
         options: {}
-    cookieParser: 'igloo-change-me'
+    cookieParser: "kme-change-me"
     csrf:
       enabled: false
       options: cookie: maxAge: maxAge
     mongo:
-      host: 'localhost'
+      host: "localhost"
       port: 27017
       opts: {}
       safe: false
     redis:
-      host: 'localhost'
+      host: "localhost"
       port: 6379
       maxAge: maxAge
     output:
@@ -107,53 +107,50 @@ exports = module.exports = ->
     knex:
       client: "postgres"
     jade: amd:
-      path: '/js/tmpl/'
+      path: "/js/tmpl/"
       options: {}
 
   # Testing-specific options
   test:
-    knex: knexConfig['staging']
-    url: 'http://localhost:5000'
+    knex: knexConfig["staging"]
+    url: "http://localhost:5000"
     server:
-      env: 'test'
+      env: "test"
       port: 5000
-    redis: prefix: 'igloo_test'
+    redis: prefix: "kme_test"
     logger:
       console: false
       requests: false
 
   # Development-specific options
   development:
-    knex: knexConfig['development']
+    knex: knexConfig["development"]
     cache: true
-    url: 'http://localhost:3000'
+    url: "http://localhost:3000"
     server:
-      env: 'development'
+      env: "development"
       port: 3000
     mongo:
-      dbname: 'kuwaitandme'
-      db: 'kuwaitandme'
-    redis: prefix: 'igloo-development'
+      dbname: "kuwaitandme"
+      db: "kuwaitandme"
+    redis: prefix: "kme-development"
 
   production:
-    knex: knexConfig['production']
+    knex: knexConfig["production"]
     cache: true
-    url: 'http://localhost:3080'
+    url: "http://localhost:3080"
     password:
       minStrength: 1
       limitAttempts: true
-    views: dir: path.join assetsDir, 'dist'
-    publicDir:  path.join assetsDir, 'dist'
+    views: dir: path.join assetsDir, "dist"
+    publicDir:  path.join assetsDir, "dist"
     showStack: false
     updateNotifier: enabled: false
     server:
-      env: 'production'
+      env: "production"
       port: 3080
       cluster: true
-    mongo:
-      dbname: 'igloo-production'
-      db: 'igloo-production'
-    redis: prefix: 'igloo_production'
+    redis: prefix: "kme_production"
     output: colorize: false
     logger:
       console: true
@@ -162,4 +159,4 @@ exports = module.exports = ->
       file: false
 
 
-exports['@singleton'] = true
+exports["@singleton"] = true

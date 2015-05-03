@@ -1,6 +1,6 @@
 body#classified-post
   @extend body#classified-single
-  $color-inactive: rgba(0, 0, 0, 0.02)
+  $color-inactive: rgba(0, 0, 0, 0.04)
   $border-color: #e0e0e0
   $color-error: #E04B2A
   $color-valid: #30cd72
@@ -21,11 +21,12 @@ body#classified-post
 
   input, select, textarea, button
     +single-transition
-    background: $color-inactive
+    background: transparent
     border: 0
     border-bottom: 2px solid $border-color
     margin: 0
     &:focus
+      background: $color-inactive
       outline: none
       ~ .error:before
         color: #FFF !important
@@ -132,6 +133,7 @@ body#classified-post
     padding-bottom: 1rem !important
     white-space: initial !important
     textarea
+      font-size: 0.9rem
       height: 100%
       left: 0
       margin: 0
