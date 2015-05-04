@@ -6,7 +6,7 @@ module.exports = (request, response, next) ->
 
   captchaFail = (error, res) ->
     response.status 401
-    response.end '"captcha failed"'
+    response.json "captcha failed"
 
   captchaSuccess = (error) ->
     email = request.param.email
@@ -14,7 +14,7 @@ module.exports = (request, response, next) ->
     # Check if email is valid
     if not validator.isEmail email
       response.status 400
-      response.end '"bad email"'
+      response.json "bad email"
 
     # Generate the reset token and send the email
     User = global.models.user
@@ -22,12 +22,12 @@ module.exports = (request, response, next) ->
       # Handle if there was some internal error
       if error
         response.status 500
-        response.end JSON.stringify error
+        response.json error
 
       # handle if user was not found
       else if not user
         response.status 400
-        response.end '"user not found"'
+        response.json "user not found"
 
       # All good otherwise, send reset email
       else
@@ -35,7 +35,7 @@ module.exports = (request, response, next) ->
           subject: "Reset your password"
           user: user
 
-        response.end '"reset sent"'
+        response.json "reset sent"
 
   # Check the captcha
   reCaptcha.verify request, captchaSuccess, captchaFail

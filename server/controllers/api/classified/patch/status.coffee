@@ -15,15 +15,15 @@ module.exports = (classified, request, response, next) ->
     if classified.guest
       if newStatus in [status.ACTIVE, status.REJECTED, status.BANNED]
         response.status 401
-        return response.end '"only a moderator can set that status"'
+        return response.json "only a moderator can set that status"
     else
       if newStatus in [status.REJECTED, status.BANNED, status.INACTIVE]
         response.status 401
-        return response.end '"only a moderator can set that status"'
+        return response.json "only a moderator can set that status"
   else
     if newStatus is status.ARCHIVED
       response.status 401
-      return response.end '"moderators should not archive a classified"'
+      return response.json "moderators should not archive a classified"
 
   # The callback function that gets called after the status of the classified
   # has been changed.
@@ -31,10 +31,10 @@ module.exports = (classified, request, response, next) ->
     if error
       if error.status
         response.status error.status
-        return response.end JSON.stringify error.message
+        return response.json error.message
       else next error
 
-    response.end JSON.stringify result
+    response.json result
 
   # Finally, switch on the status and perform the necessary action.
   switch newStatus

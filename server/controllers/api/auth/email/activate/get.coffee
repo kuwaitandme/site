@@ -6,13 +6,12 @@ validator = require "validator"
 # It returns HTTP 200 iff the activation was successful.
 exports = module.exports = (IoC, user) ->
   (request, response, next) ->
-    response.contentType "application/json"
     id = request.params.id
 
     # First check if the user id is valid
     if not validator.isMongoId id
       response.status 400
-      return response.end "'invalid user id'"
+      return response.json "invalid user id"
 
     # Get the parameters
     token = request.query.token or ""

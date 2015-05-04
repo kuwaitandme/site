@@ -21,31 +21,29 @@ exports = module.exports = (Classified) ->
     user = request.user or {}
     isModerator = request.user and user.isModerator or false
 
-    response.contentType "application/json"
-
     # First check for any invalid parameters.
     if not id
       response.status 404
-      return response.end '"need id"'
+      return response.json "need id"
     if not validator.isMongoId id
       response.status 400
-      return response.end '"invalid id"'
+      return response.json "invalid id"
 
     # Check if the parameters that we accepts are there or not
     if not data.status? and not data.perks? and not data.reports?
       response.status 400
-      return response.end "'patch only specific parameters'"
+      return response.json "patch only specific parameters"
 
     # For each parameter, validate it before continuing
     if data.status  and not isValidStatus data.status, data.moderatorReason
       response.status 400
-      return response.end "'invalid status/reason'"
+      return response.json "invalid status/reason"
     if data.perks and not isValidPerk data.perks
       response.status 400
-      return response.end "'invalid perks'"
+      return response.json "invalid perks"
     if data.reports and not isValidReport data.reports
       response.status 400
-      return response.end "'invalid report'"
+      return response.json "invalid report"
 
     # If all the parameters are valid, then get the classified and start
     # validating against the user
@@ -53,7 +51,7 @@ exports = module.exports = (Classified) ->
       # Check if the classified first of all, exists.
       if not classified
         response.status 404
-        return response.end "'not found'"
+        return response.json "not found"
 
       # This condition determines if the currently loggedin in user is the
       # owner of the classified or not
@@ -66,7 +64,7 @@ exports = module.exports = (Classified) ->
         if classified.authHash != request.query.authHash and
           not isModerator
             response.status 401
-            return response.end "'unauthorized'"
+            return response.json "unauthorized"
 
       # Check conditions for regular classified
       else
@@ -74,7 +72,7 @@ exports = module.exports = (Classified) ->
         # classified.
         if user and not isModerator and not isOwner
           response.status 401
-          return response.end "'unauthorized'"
+          return response.json "unauthorized"
 
       # All the data coming in has been validated properly, so now call the
       # specific function to update the respective field.
@@ -86,7 +84,7 @@ exports = module.exports = (Classified) ->
       # checks above, but no harm in having it here.
       else
         response.status 412
-        return response.end "'patch only specific parameters'"
+        return response.json "patch only specific parameters"
 
 
 exports["@require"] = ["models/classifieds"]

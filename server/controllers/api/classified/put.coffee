@@ -4,7 +4,6 @@ exports = module.exports = (Classified, reCaptcha, uploader) ->
   controller = (request, response, next) ->
     # Classified = global.models.classified
     Uploader = global.modules.uploader
-    response.contentType "application/json"
 
     id = request.params.id
     authHash = request.query.authHash
@@ -12,7 +11,7 @@ exports = module.exports = (Classified, reCaptcha, uploader) ->
 
     captchaFail = ->
       response.status 401
-      response.end '"captcha failed"'
+      response.json "captcha failed"
 
     captchaSuccess = ->
       # Initialize formidable
@@ -25,16 +24,16 @@ exports = module.exports = (Classified, reCaptcha, uploader) ->
         if classified.guest
           if classified.authHash is not authHash
             response.status 401
-            return response.end '"not owner"'
+            return response.json "not owner"
         else if classified.owner is not user._id
           response.status 401
-          return response.end '"not owner"'
+          return response.json "not owner"
 
         # Setup error handler. This function gets called whenever there is an
         # error while processing the form.
         form.on "error", (error) ->
           response.status 400
-          # return response.end JSON.stringify error
+          # return response.json error
 
         # Start parsing the form
         form.parse request, (error, fields, filesRequest) ->
@@ -53,7 +52,7 @@ exports = module.exports = (Classified, reCaptcha, uploader) ->
 
             if error
               response.status 400
-              return response.end JSON.stringify error
+              return response.json error
 
             images = data.images or []
             images.push file for file in files
@@ -64,7 +63,7 @@ exports = module.exports = (Classified, reCaptcha, uploader) ->
               if error
                 Uploader.delete files
                 response.status 400
-                return response.end JSON.stringify error
+                return response.json error
 
               userid = (request.user or {})._id or "anonymous"
               logger = global.modules.logger
@@ -73,7 +72,7 @@ exports = module.exports = (Classified, reCaptcha, uploader) ->
               # If a classified was updated, then return it to the client.
               # The returned classified will contain the id parameter which
               # gets set by the database
-              if classified then return response.end JSON.stringify classified
+              if classified then return response.json classified
 
     reCaptcha = global.modules.recaptcha
     reCaptcha.verify request, captchaSuccess, captchaFail

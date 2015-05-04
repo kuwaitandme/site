@@ -1,10 +1,10 @@
 exports = module.exports = (Classified, Categories, cache) ->
   controller = (request, response, next) ->
     response.contentType "application/json"
-
     # Check in cache
     cache.get "route:api/categories", (error, results) =>
-      if results then return response.end results
+      if results
+        return response.end results
 
       # Categories was not cached, so query and then save in cache
       Categories.getAll (error, categories) ->
