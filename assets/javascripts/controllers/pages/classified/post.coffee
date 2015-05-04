@@ -1,7 +1,7 @@
 ## TODO: Add automatic resize of content
 
 exports = module.exports = ($scope, $element, $googleMaps, $imageResizer,
-classified, category, location) ->
+  $location, classified, category, location) ->
   @name = "[page:classified-post]"
   console.log @name, "initializing"
 
@@ -68,7 +68,9 @@ classified, category, location) ->
 
 
   $scope.submit = ->
-    if not $scope.form.$invalid then classified.save $scope.classified
+    if not $scope.form.$invalid
+      classified.save $scope.classified, (error, classified) ->
+        $location.path "/#{classified.slug}/finish"
     $scope.attempted = true
 
 
@@ -128,6 +130,7 @@ exports.$inject = [
   "$element"
   "$googleMaps"
   "$imageResizer"
+  "$location"
   "model.classified"
   "model.category"
   "model.location"

@@ -20,5 +20,10 @@ exports = module.exports = (knex) -> new class
       .fetch().then (classified={}) -> callback null, classified
 
 
+  create: (parameters, callback=->) ->
+    newClassified = parameters
+    @model.forge newClassified
+      .save().then (classified) -> callback null, classified
+
 exports["@singleton"] = true
 exports["@require"] = ["igloo/knex"]
