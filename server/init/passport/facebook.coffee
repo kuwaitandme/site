@@ -1,4 +1,4 @@
-FacebookStrategy = (require 'passport-facebook').Strategy
+FacebookStrategy = (require "passport-facebook").Strategy
 
 module.exports = (settings, passport, User) ->
   callback = (accessToken, refreshToken, profile, done) ->

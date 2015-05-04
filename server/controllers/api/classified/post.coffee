@@ -12,11 +12,13 @@ _generateURLslug = (classified) ->
   keywords = keywords.join "-"
 
   # clean the string off unwanted characters
-  cleanedString = keywords.replace /[^\w- ]+/g, ''
+  # WARN: check for arabic characters
+  cleanedString = keywords.replace /[^\w- ]+/g, ""
 
   slug = "#{cleanedString}-#{classified.id}"
+
   # trim the string to the maximum length
-  # trimmedString = cleanedString.substr 0, maxLength
+  trimmedString = cleanedString.substr 0, maxLength
 
   # # trim the slug if we are in the middle of a word
   # trimmedSlug = trimmedString.substr 0, Math.min trimmedString.length,
@@ -26,7 +28,7 @@ _generateURLslug = (classified) ->
 
 exports = module.exports = (Classified, reCaptcha, uploader) ->
   controller = (request, response, next) ->
-    response.contentType 'application/json'
+    response.contentType "application/json"
 
     captchaFail = ->
       response.status 401

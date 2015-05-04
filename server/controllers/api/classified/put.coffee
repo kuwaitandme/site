@@ -42,7 +42,7 @@ exports = module.exports = (Classified, reCaptcha, uploader) ->
 
           data = JSON.parse fields.data
 
-          files = filesRequest['files[]']
+          files = filesRequest["files[]"]
           filesToDelete = data.filesToDelete or []
           images = data.images
           Uploader.delete data.filesToDelete

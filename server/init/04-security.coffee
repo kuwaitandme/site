@@ -1,11 +1,11 @@
-helmet = require 'helmet'
-csrf   = require 'csurf'
+helmet = require "helmet"
+csrf   = require "csurf"
 
 
 exports = module.exports = (IoC, settings, policies) ->
   app = this
   # trust proxy
-  if settings.trustProxy then app.enable 'trust proxy'
+  if settings.trustProxy then app.enable "trust proxy"
 
   # use helmet for security
   app.use helmet()
@@ -18,8 +18,8 @@ exports = module.exports = (IoC, settings, policies) ->
       if req.xhr then return next()
       csrf(settings.csrf.options) req, res, next
 
-exports['@require'] = [
-  '$container'
-  'igloo/settings'
-  'policies'
+exports["@require"] = [
+  "$container"
+  "igloo/settings"
+  "policies"
 ]
