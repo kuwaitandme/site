@@ -23,8 +23,8 @@ exports = module.exports = (IoC, logger, settings, policies) ->
     # jade-amd templates
     app.use settings.jade.amd.path, jadeAmd.jadeAmdMiddleware(settings.jade.amd.options)
 
-  # static server (always keep this first)
-  # <http://goo.gl/j2BEl5>
+  # # static server (always keep this first)
+  # # <http://goo.gl/j2BEl5>
   app.use serveStatic(settings.publicDir, settings.staticServer)
   # add global policy for non api prefixed endpoints
   if settings.basicAuth.enabled
@@ -57,7 +57,7 @@ exports = module.exports = (IoC, logger, settings, policies) ->
   app.use bodyParser.json(), bodyParser.urlencoded(extended: true), methodOverride("_method")
 
   # pagination
-  app.use paginate.middleware(10, 50)
+  app.use paginate.middleware 10, 50
 
 
 exports["@require"] = [

@@ -2,10 +2,11 @@ exports = module.exports = ($http) ->
   class Model
     name: "[model:classified]"
 
+
     query: (page=1) -> $http.post "/api/query?page=#{page}"
 
 
-    save: (classified={}) ->
+    save: (classified={}, callback=->) ->
       if not classified._id?
         method = "POST"
         url = "/api/classified"
@@ -17,15 +18,15 @@ exports = module.exports = ($http) ->
 
       # Convert the json array into a formdata object
       formdata = @_getFormdata classified
-      window.a = formdata
-      console.log formdata
+      # Send the request with a 'multi-part/formdata' encoding.
       $http
         url: url
         data: formdata
         method: method
         transformRequest: angular.identity
         headers: "Content-Type": undefined
-      .success (response) -> console.log response
+      .success (response) -> callback null, response
+      .error (response) -> callback response
 
 
     search: (parameters, callback) ->
@@ -39,10 +40,12 @@ exports = module.exports = ($http) ->
       .success (classified) -> callback null, classified
       .error callback
 
+
     getBySlug: (slug, callback) ->
       $http.get "/api/classified/slug/#{slug}"
       .success (classified) -> callback null, classified
       .error callback
+
 
     getDefault: ->
       contact:       {}
@@ -78,7 +81,6 @@ exports = module.exports = ($http) ->
       for image in images then if image.status is "to-upload"
         formdata.append "images[]", image.file
       formdata
-
 
 
   new Model
