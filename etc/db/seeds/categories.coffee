@@ -3,8 +3,8 @@ exports.seed = (knex, Promise) ->
     values =
       slug: name.toLowerCase().replace(/&/g, '').replace /[,\s]+/g, '-'
       name: name
-      parent_category: parent
     if id? then values.id = id
+    if parent? then values.parent_category = parent
     (knex "categories").insert values
 
   Promise.join(
@@ -34,13 +34,13 @@ exports.seed = (knex, Promise) ->
     (_ins null, "Jewelery & Watches", 1),
     (_ins null, "Sports & Exercise", 1),
     (_ins null, "Toys & Games", 1),
-    (_ins null, "Other", 1),
+    (_ins null, "Others", 1),
 
     (_ins null, "Administrative", 2),
     (_ins null, "Internships", 2),
     (_ins null, "Service", 2),
     (_ins null, "Resumes", 2),
-    (_ins null, "Other", 2),
+    (_ins null, "Others", 2),
 
     (_ins null, "Carpool & Ride Share", 3),
     (_ins null, "Local Events & Activities", 3),
@@ -48,12 +48,12 @@ exports.seed = (knex, Promise) ->
     (_ins null, "Tickets & Gift Cards", 3),
     (_ins null, "Volunteer Activities", 3),
     (_ins null, "Yard & Garage Sales", 3),
-    (_ins null, "Other", 3),
+    (_ins null, "Others", 3),
 
     (_ins null, "Bride seeking groom", 4),
     (_ins null, "Groom seeking bride", 4),
     (_ins null, "Wedding Planners", 4),
-    (_ins null, "Other", 4),
+    (_ins null, "Others", 4),
 
     (_ins null, "Camcorders & Cameras", 5),
     (_ins null, "Computers & Laptops", 5),
@@ -62,30 +62,30 @@ exports.seed = (knex, Promise) ->
     (_ins null, "Phones & Tablets", 5),
     (_ins null, "Television & Home Theater", 5),
     (_ins null, "Video Games & Software", 5),
-    (_ins null, "Other", 5),
+    (_ins null, "Others", 5),
 
     (_ins null, "Commercial Space", 6),
     (_ins null, "Flats & Rooms", 6),
     (_ins null, "Houses", 6),
     (_ins null, "Land", 6),
-    (_ins null, "Other", 6),
+    (_ins null, "Others", 6),
 
     (_ins null, "Art & Collectibles", 7),
     (_ins null, "Creative & Crafts", 7),
     (_ins null, "Painting & Art", 7),
     (_ins null, "Sewing, Quilting & Knitting", 7),
-    (_ins null, "Other", 7),
+    (_ins null, "Others", 7),
 
     (_ins null, "Books", 8),
     (_ins null, "Movies", 8),
     (_ins null, "Music", 8),
-    (_ins null, "Other", 8),
+    (_ins null, "Others", 8),
 
     (_ins null, "Campers, RVs & Trailers", 9),
     (_ins null, "Cars, Trucks, SUVs & Vans", 9),
     (_ins null, "Motorcycles & Bikes", 9),
     (_ins null, "Watercraft & Trailers", 9),
-    (_ins null, "Other", 9),
+    (_ins null, "Others", 9),
 
     # Services
     (_ins null, "Animal & Pet", 10),
@@ -98,7 +98,7 @@ exports.seed = (knex, Promise) ->
     (_ins null, "Legal & Business", 10),
     (_ins null, "Moving & Storage", 10),
     (_ins null, "Sales & Marketing", 10),
-    (_ins null, "Other", 10),
+    (_ins null, "Others", 10),
 
     # Pets
     (_ins null, "Birds", 11),
