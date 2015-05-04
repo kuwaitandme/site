@@ -63,6 +63,6 @@ exports = module.exports = (renderer, Classified) ->
 
 exports['@require'] = [
   'controllers/renderer'
-  'models/classified'
+  'models/classifieds'
 ]
 exports['@singleton'] = true

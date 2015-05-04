@@ -1,4 +1,4 @@
-# getQueryParameters = (require '../../api/query/helpers').getQueryParameters
+# getQueryParameters = (require "../../api/query/helpers").getQueryParameters
 
 exports = module.exports = (renderer, category, classified) ->
   controller = (request, response, next) ->
@@ -7,12 +7,13 @@ exports = module.exports = (renderer, category, classified) ->
     reverse = false
 
     _renderPage = (title) ->
-      classified.search parameters, page, reverse, (error, classifieds) ->
+      # classified.query parameters, page, reverse, (error, classifieds) ->
+      classified.query parameters, (error, classifieds) ->
         if error then return next error
         options =
           data: classifieds: classifieds
-          page: 'classified/search'
-          title: title or response.__ 'title.classified.search'
+          page: "classified/search"
+          title: title or response.__ "title.classified.search"
         renderer request, response, options, false
 
     category.getAll (error, result) ->
@@ -37,9 +38,9 @@ exports = module.exports = (renderer, category, classified) ->
       _renderPage title
 
 
-exports['@require'] = [
-  'controllers/renderer'
-  'models/categories'
-  'models/classified'
+exports["@require"] = [
+  "controllers/renderer"
+  "models/categories"
+  "models/classifieds"
 ]
-exports['@singleton'] = true
+exports["@singleton"] = true

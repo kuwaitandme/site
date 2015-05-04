@@ -89,5 +89,5 @@ exports = module.exports = (Classified) ->
         return response.end "'patch only specific parameters'"
 
 
-exports["@require"] = ["models/classified"]
+exports["@require"] = ["models/classifieds"]
 exports["@singleton"] = true

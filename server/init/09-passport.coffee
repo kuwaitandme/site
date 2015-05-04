@@ -31,6 +31,6 @@ exports = module.exports = (IoC, settings, user) ->
 exports["@require"] = [
   "$container"
   "igloo/settings"
-  "models/user"
+  "models/users"
 ]
 exports["@singleton"] = true

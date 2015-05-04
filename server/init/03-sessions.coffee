@@ -124,6 +124,6 @@ exports["@require"] = [
   "$container"
   "igloo/settings"
   "igloo/sessions"
-  "models/user"
+  "models/users"
   "policies"
 ]

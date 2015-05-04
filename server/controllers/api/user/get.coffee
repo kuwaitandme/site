@@ -1,4 +1,4 @@
-module.exports = (User) ->
+module.exports = (Users) ->
   controller = (request, response, next) ->
     response.contentType "application/json"
     id = request.params.id
@@ -7,8 +7,7 @@ module.exports = (User) ->
     if not id?
       user = request.user
 
-      # If there was a logged in user, then return with some fields blanked
-      # out
+      # If there was a logged in user, then return with some fields blanked out
       if user
         user.activationToken = ""
         user.authHash = ""
@@ -20,7 +19,7 @@ module.exports = (User) ->
 
     # An id was set, so query the DB for the user with that id
     else
-      User.findOne { id: id }, (err, user) ->
+      Users.findOne { id: id }, (err, user) ->
         if not user then response.end "{}"
         else
           user.activationToken = ""
@@ -28,5 +27,5 @@ module.exports = (User) ->
           user.password = ""
           response.end JSON.stringify user
 
-exports["@require"] = [ "models/user" ]
+exports["@require"] = ["models/users"]
 exports["@singleton"] = true

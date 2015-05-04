@@ -2,37 +2,31 @@ exports = module.exports = (Classified, Categories, cache) ->
   controller = (request, response, next) ->
     response.contentType "application/json"
 
-    _getAll = ->
-      # Check in cache
-      cache.get "categories", (error, results) =>
-        if results then return response.end results
+    # Check in cache
+    cache.get "route:api/categories", (error, results) =>
+      if results then return response.end results
 
-        # Categories was not cached, so query and then save in cache
-        new Categories().fetch().then (collection) ->
-          results = []
-          for category in collection.toJSON()
-            if not category.parent_category?
-              category.children = []
-              results.push category
-            else
-              for parentCategory in results
-                if parentCategory.id is category.parent_category
-                  parentCategory.children.push category
-                  break
+      # Categories was not cached, so query and then save in cache
+      Categories.getAll (error, categories) ->
+        results = []
+        for category in categories
+          if not category.parent_category?
+            category.children = []
+            results.push category
+          else
+            for parentCategory in results
+              if parentCategory.id is category.parent_category
+                parentCategory.children.push category
+                break
 
-          json = JSON.stringify results, null, 2
-          cache.set "categories", json
-          response.end json
-
-    _getCounters = -> response.end '{}'
-
-    if request.query.count then _getCounters()
-    else _getAll()
+        json = JSON.stringify results, null, 2
+        cache.set "route:api/categories", json
+        response.end json
 
 
+exports["@singleton"] = true
 exports["@require"] = [
-  "models/classified"
+  "models/classifieds"
   "models/categories"
   "controllers/cache"
 ]
-exports["@singleton"] = true

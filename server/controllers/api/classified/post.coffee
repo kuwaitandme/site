@@ -101,7 +101,7 @@ exports = module.exports = (Classified, reCaptcha, uploader) ->
 
 
 exports["@require"] = [
-  "models/classified"
+  "models/classifieds"
   "controllers/recaptcha"
   "controllers/uploader"
 ]

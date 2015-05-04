@@ -3,13 +3,13 @@ exports = module.exports = (Locations, cache) ->
     response.contentType "application/json"
 
     # Check in cache
-    cache.get "locations", (error, results) =>
+    cache.get "route:api/locations", (error, results) =>
       if results then return response.end results
 
       # Categories was not cached, so query and then save in cache
-      new Locations().fetch().then (collection) ->
+      Locations.getAll (error, collection) ->
         json = JSON.stringify collection, null, 2
-        cache.set "locations", json
+        cache.set "route:api/locations", json
         response.end json
 
 

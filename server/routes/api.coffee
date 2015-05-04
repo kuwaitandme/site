@@ -9,12 +9,14 @@ exports = module.exports = (IoC) ->
 
   router.get    "/",          _api ""
 
-  router.get    "/category",  _api "category/get"
-  router.get    "/location",  _api "location/get"
+  router.get    "/category",           _api "category/get"
+  router.get    "/category/counters",  _api "category/counters/get"
+  router.get    "/location",           _api "location/get"
 
-  router.get    "/lang/:id",  _api "lang/get"
-  # router.post   "/contact",   _api "contact/post"
-  router.post   "/query",     _api "query/post"
+  router.get    "/lang/:id",           _api "lang/get"
+  router.post   "/query",              _api "query/post"
+
+  # router.post   "/contact",            _api "contact/post"
 
   # router.get    "/auth/email/activate/:id?", _api "auth/email/activate/get"
   # router.post   "/auth/email",               _api "auth/email/post"

@@ -1,16 +1,14 @@
-validator = require 'validator'
+validator = require "validator"
 
-# singleController = require '../../controllers/classified/single'
+# singleController = require "../../controllers/classified/single"
 
-exports = module.exports = (Classified) ->
+exports = module.exports = (Classifieds) ->
   controller = (request, response, next) ->
-    response.contentType 'application/json'
+    response.contentType "application/json"
     slug = request.params.slug
 
-    console.log request.params
-    new Classified slug: slug
-    .fetch().then (classified) ->
+    Classifieds.getBySlug slug, (error, classified) ->
       response.end JSON.stringify classified, null, 2
 
-exports['@require'] = [ 'models/classified' ]
-exports['@singleton'] = true
+exports["@require"] = ["models/classifieds"]
+exports["@singleton"] = true
