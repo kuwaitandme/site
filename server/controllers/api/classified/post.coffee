@@ -4,35 +4,33 @@ keyword_extractor = require "keyword-extractor"
 _generateURLslug = (classified) ->
   maxLength = 70
 
-  keywords = keyword_extractor.extract classified.id,
+  # Get the keywords and make a sentence seperated by '-'s.
+  keywords = keyword_extractor.extract classified.title,
     language: "english"
-    return_changed_case: true
     remove_duplicates: true
-
+    return_changed_case: true
   keywords = keywords.join "-"
 
-  # clean the string off unwanted characters
-  # WARN: check for arabic characters
+  # Clean the string off unwanted characters
+  # TODO: check for Arabic characters
   cleanedString = keywords.replace /[^\w- ]+/g, ""
 
-  slug = "#{cleanedString}-#{classified.id}"
-
-  # trim the string to the maximum length
+  # Trim the string to the maximum length
   trimmedString = cleanedString.substr 0, maxLength
 
-  # # trim the slug if we are in the middle of a word
-  # trimmedSlug = trimmedString.substr 0, Math.min trimmedString.length,
-  #   trimmedString.lastIndexOf "-"
-  # console.log
+  # Trim the slug if we are in the middle of a word
+  trimmedSentence = trimmedString.substr 0, Math.min trimmedString.length,
+    trimmedString.lastIndexOf "-"
+
+  # Finally generate the slug
+  slug = "#{trimmedSentence}-#{classified.id}"
 
 
 exports = module.exports = (Classified, reCaptcha, uploader) ->
   controller = (request, response, next) ->
-    response.contentType "application/json"
-
     captchaFail = ->
       response.status 401
-      response.end '"captcha failed"'
+      response.end "captcha failed"
 
     captchaSuccess = ->
       # Initialize formidable
@@ -45,28 +43,32 @@ exports = module.exports = (Classified, reCaptcha, uploader) ->
       # error while processing the form.
       form.on "error", (error) ->
         response.status 400
-        response.end JSON.stringify error
+        response.json error
 
       # Start parsing the form
       form.parse request, (error, fields, filesRequest) ->
         if error
           response.status 400
-          return response.end JSON.stringify error
+          return response.json error
 
         data = JSON.parse fields.classified
         files = filesRequest["images[]"]
-        data.slug = _generateURLslug data
+        data.slug = ""
         data.status = 0
 
         uploader.upload files, (error, files) ->
           if error
             response.status 400
-            return response.end JSON.stringify error
+            return response.json error
 
           data.images = files
-          classified = new Classified data
-          classified.save().then (model) ->
-            response.end JSON.stringify model.toJSON()
+          Classified.create data, (error, classified) ->
+            # Generate the slug (which is based on the 'id')
+            classified.slug = _generateURLslug classified
+
+            # Update the classified with the new slug and return
+            classified.save().then (classified) ->
+              response.json classified.toJSON()
 
           # new Post({name: 'New Article'}).save().then(function(model) {
 #   // ...

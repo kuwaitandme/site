@@ -12,6 +12,9 @@ exports = module.exports = (IoC, settings) ->
   # set the default views directory
   app.set "views", settings.views.dir
 
+  # set to two spaces for JSON
+  app.set "json spaces", 2
+
   # set the default view engine
   app.set "view engine", settings.views.engine
 
