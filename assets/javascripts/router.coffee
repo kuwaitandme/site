@@ -19,12 +19,15 @@ module.exports = (app) ->
     _route "account/index",      "/account"
     _route "account/manage",     "/account/manage"
     _route "auth/login",         "/auth/login"
+    _route "auth/logout",        "/auth/logout"
     _route "auth/signup",        "/auth/signup"
-    _route "classified/post",    "/classified/post"
-    _route "classified/search",  "/classified"
     _route "guest/post",         "/guest/post"
     _route "landing",            "/"
+
+    _route "classified/finish",  "/{slug:[^/]+}/finish"
     _route "classified/single",  "/{slug:[^/]+}"
+    _route "classified/post",    "/classified/post"
+    _route "classified/search",  "/classified"
 
     _route "404",                "*page"
     # Enable HTML5 pushstate for hash-less URLs

@@ -6,8 +6,9 @@ exports = module.exports = ($scope, $rootScope) ->
   $scope.hideNavigation = ->
 
   $scope.toggleHeader = ->
-    cl = $rootScope.extraClass
-    $rootScope.extraClass = if cl is "show-subheader" then "" else "show-subheader"
+    currentState = $rootScope.extraClass["show-subheader"]
+    $rootScope.extraClass = $rootScope.extraClass or {}
+    $rootScope.extraClass["show-subheader"] = not currentState
   $scope.closeHeader = -> $rootScope.extraClass = ""
 
 exports.$inject = [

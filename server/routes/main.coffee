@@ -63,8 +63,15 @@ exports = module.exports = (IoC) ->
   _route "/terms-privacy", "terms-privacy"
 
   # _route "/auth/forgot", "auth/forgot"
-  _route "/auth/login",  "auth/login"
-  _route "/auth/signup", "auth/signup"
+  _route "/auth/login",                    "auth/login"
+  _route "/auth/logout",                   "auth/logout"
+  _route "/auth/signup",                   "auth/signup"
+  _route "/auth/social/facebook",          "auth/social/facebook"
+  _route "/auth/social/facebook/callback", "auth/social/callback/facebook"
+  _route "/auth/social/google",            "auth/social/google"
+  _route "/auth/social/google/callback",   "auth/social/callback/google"
+  _route "/auth/social/twitter",           "auth/social/twitter"
+  _route "/auth/social/twitter/callback",  "auth/social/callback/twitter"
 
   _route "/guest/post",                "guest/post"
   # _route "/guest/([a-zf0-9]*)/finish", "guest/finish"

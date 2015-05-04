@@ -24,15 +24,16 @@ exports = module.exports = ->
       secret: "8a7cb62a5f7bf1d5a444870a82c0cf07"
       scope: [ "email" ]
     twitter:
+      enabled: false
       consumerKey: "dpQcjGDL7Ih8JmETnlZP28bYu"
       consumerSecret: "s1amDz0gIt917RhnkddsDWyTXVZAhjbm7n89rXT7CXE4tKZ10g"
-    googlePlus:
-      enabled: false
+    google:
+      enabled: true
       scope: [
         "https://www.googleapis.com/auth/userinfo.profile"
         "https://www.googleapis.com/auth/userinfo.email"
       ]
-      clientId: "384211238362-0iahk91emk4spn58bp53ngk5rn7vb2s0.apps.googleusercontent.com"
+      clientID: "384211238362-0iahk91emk4spn58bp53ngk5rn7vb2s0.apps.googleusercontent.com"
       clientSecret: "wz18RM2bMEeJ9spcjNraIkE2"
     pkg: pkg
     cache: false
@@ -117,7 +118,7 @@ exports = module.exports = ->
     server:
       env: "test"
       port: 5000
-    redis: prefix: "kme_test"
+    redis: prefix: "kme-testing:"
     logger:
       console: false
       requests: false
@@ -126,14 +127,14 @@ exports = module.exports = ->
   development:
     knex: knexConfig["development"]
     cache: true
-    url: "http://localhost:3000"
+    url: "http://development.kuwaitandme.com"
     server:
       env: "development"
       port: 3000
     mongo:
       dbname: "kuwaitandme"
       db: "kuwaitandme"
-    redis: prefix: "kme-development"
+    redis: prefix: "kme-development:"
 
   production:
     knex: knexConfig["production"]
@@ -150,7 +151,7 @@ exports = module.exports = ->
       env: "production"
       port: 3080
       cluster: true
-    redis: prefix: "kme_production"
+    redis: prefix: "kme:"
     output: colorize: false
     logger:
       console: true

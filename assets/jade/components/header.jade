@@ -26,12 +26,18 @@
           a(href="/classified", ng-click="closeHeader()") Browse classifieds
       .row
         .columns.medium-3.title.dark Account
-        .link.columns.medium-3
+        .link.columns.medium-3.hide-if-loggedin
           a(href="/auth/login", ng-click="closeHeader()") Login
-        .link.columns.medium-3.end
+        .link.columns.medium-3.end.hide-if-loggedin
           a(href="/auth/signup", ng-click="closeHeader()") Signup
-        .link.columns.medium-3.end
+        .link.columns.medium-3.end.hide-if-loggedin
           a(href="/auth/reset", ng-click="closeHeader()") Reset password
+        .link.columns.medium-3.show-if-loggedin
+          a(href="/account", ng-click="closeHeader()") Manage account
+        .link.columns.medium-3.end.show-if-loggedin
+          a(href="/settings", ng-click="closeHeader()") Settings
+        .link.columns.medium-3.end.show-if-loggedin
+          a(href="/auth/logout", ng-click="closeHeader()") Logout
       .row
         .columns.medium-3.title More
         .link.columns.medium-3

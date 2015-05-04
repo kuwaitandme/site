@@ -5,15 +5,28 @@ exports = module.exports = (knex, cache) -> new class
     @collection = bookshelf.Collection.extend model: @model
 
 
-  query: (parameters, callback) ->
+  query: (parameters, callback=->) ->
     @collection.forge parameters
-      .query().then (categories={}) -> callback null, categories
+      .query().then (users) -> callback null, users
 
 
-  get: (id, callback) ->
-    @model.forge id: id
-      .fetch().then (category={}) -> callback null, category
+  findOne: (parameters={}, callback=->) ->
+    @model.forge parameters
+      .fetch().then (user) -> callback null, user
 
+
+  get: (id, callback=->) ->
+    @findOne { id: id }, (error, user) -> callback error, user
+
+
+  create: (parameters, callback=->) ->
+    newUser = parameters
+    @model.forge newUser
+      .save().then (user) -> callback null, user
+
+  # Serialize and de-serialize functions for passport
+  serialize: -> (user, callback) => callback null, user.id
+  deserialize: -> (id, callback) => @get id, (err, user) -> callback err, user
 
 exports["@singleton"] = true
 exports["@require"] = [

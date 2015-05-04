@@ -18,9 +18,11 @@ exports = module.exports = (IoC) ->
 
   # router.post   "/contact",            _api "contact/post"
 
-  # router.get    "/auth/email/activate/:id?", _api "auth/email/activate/get"
-  # router.post   "/auth/email",               _api "auth/email/post"
-  # router.put    "/auth/email",               _api "auth/email/put"
+  router.get    "/auth/email/activate/:id?", _api "auth/email/activate/get"
+  router.post   "/auth/email/login",         _api "auth/email/login/post"
+  router.post   "/auth/email/signup",        _api "auth/email/signup/post"
+  router.put    "/auth/email",               _api "auth/email/put"
+  router.get    "/auth/logout",              _api "auth/logout/get"
 
   # router.get    "/auth/yahoo",          passport.authenticate 'yahoo'
   # router.get    "/auth/yahoo/callback", passport.authenticate 'yahoo',
@@ -34,7 +36,8 @@ exports = module.exports = (IoC) ->
   router.post   "/classified/:id?",          _api "classified/post"
   router.put    "/classified/:id?",          _api "classified/put"
 
-  router.get    "/user/:id?", _api "user/get"
+  router.get    "/user/current",             _api "user/current/get"
+  router.get    "/user/:id?",                _api "user/get"
   # router.post   "/user/",     _api "user/post"
   # router.put    "/user/:id?", _api "user/put"
 

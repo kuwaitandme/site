@@ -3,7 +3,7 @@ localStrategy = (require "passport-local").Strategy
 
 
 # Registers a passport strategy to authenticate a user into the backend.
-module.exports = (settings, passport, user) ->
+module.exportsdis = (settings, passport, user) ->
   _authenticate = (request, username, password, done) ->
     resetLoginAttempts = (session) -> session.attempts = 0
     checkLoginAttempts = (session, id) ->
