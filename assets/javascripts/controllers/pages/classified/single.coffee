@@ -3,22 +3,32 @@ exports = module.exports = ($scope, $element, $stateParams, $googleMaps, classif
   console.log @name, "initializing"
   console.debug @name, "routeParams", $stateParams
 
-  body = document.getElementsByTagName "body"
-  body[0].id = "classified-single"
 
-  classified.getBySlug $stateParams.slug, (error, result) =>
-    $scope.classified = result
+  # body = document.getElementsByTagName "body"
+  # body[0].id = "classified-single"
 
-    setTimeout =>
-      $imgContainer =  angular.element $element[0].querySelector ".gallery"
-      @masonry = new Masonry $imgContainer[0], itemSelector: "li"
-      $scope.update = =>
-        console.log "updating"
-        @masonry.layout()
-    , 100
+  console.log $scope
+  try $scope.classified = $scope.$parent.$parent.currentClassified
+  catch e
 
+  $scope.$on "classified-changed", (event, classified) ->
+    $scope.classified = classified
 
+  if not $scope.classified?
+    classified.getBySlug $stateParams.slug, (error, result) =>
+      $scope.classified = result
+
+      # setTimeout =>
+      #   $imgContainer =  angular.element $element[0].querySelector ".gallery"
+      #   @masonry = new Masonry $imgContainer[0], itemSelector: "li"
+      #   $scope.update = =>
+      #     console.log "updating"
+      #     @masonry.layout()
+      # , 100
+
+  window.b = $scope
   $scope.showClassified = true
+  $scope.showContactForm = false
   $scope.drawMap = ->
     X = 29.375770981110353
     Y = 47.98656463623047

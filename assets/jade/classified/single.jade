@@ -65,8 +65,9 @@ section(ng-switch="!!classified")#classified
           .phone(ng-if="classified.contact.phone")
             b Phone:
             a(href="tel:+965 123 1234434") +965 123 1234434
-        button.contact(ng-if="classified.contact.email") Contact Me
+        a.contact(ng-click="showContactForm = true", ng-if="classified.contact.email") Contact Me
 
+    .contact-form.columns(ng-if="showContactForm") I shall send your message!
     .google-maps.columns(ng-if="classified.meta.gmapX && showClassified", ng-init="drawMap(); mapHeight = window.innerHeight / 2", style="height: {{ window.innerHeight / 2 }}px")
       #maps-container
 
@@ -75,10 +76,7 @@ section(ng-switch="!!classified")#classified
       b Disclaimer:&nbsp;
       | By viewing this classified, you are agreeing to our&nbsp;
       a(target="_self", href="/terms-privacy") privacy conditions and terms of use
-      | . This site is never involved in any transaction, and does not handle
-      | payments, shipping, guarantee transactions, provide escrow services, or
-      | offer 'buyer protection' or'seller certification' for any classified.
-      | It is your duty to ensure safety and authenticity while dealing with any
+      | . It is your duty to ensure safety and authenticity while dealing with any
       | buyer/sellers.
 
   .row(ng-switch-default)

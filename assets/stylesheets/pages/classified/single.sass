@@ -102,7 +102,8 @@ body#classified-single
           font-size: 1rem
           padding-bottom: 5px
         .contact
-          margin-top: 15px
+          display: inline-block
+          margin-top: 5px
         .email, .phone
           display: inline-block
         .email
@@ -120,16 +121,12 @@ body#classified-single
         min-height: 300px
 
     .disclaimer
-      +single-transition(opacity)
       color: #000
-      font-size: 0.75rem
-      opacity: 0.5
-      &:hover
-        opacity: 1
-      a
-        color: blue
-        text-decoration: none
-        border-bottom: 1px solid blue
+      font-size: 0.7rem
+  a
+    color: blue
+    text-decoration: none
+    border-bottom: 1px solid blue
 
 // @media print
 //   .c-gallery

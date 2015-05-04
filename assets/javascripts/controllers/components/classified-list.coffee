@@ -9,6 +9,15 @@ exports = module.exports = ($scope, $location, $element, classified) ->
     for child in $el[0].children then @masonry.appended child
     @masonry.layout()
 
+  $scope.toggleClassified = (classified) ->
+    if not $scope.currentClassified?
+      $scope.$broadcast "classified-changed", classified
+      # history.pushState {}, classified.title, '/sdf'
+      $scope.currentClassified = classified
+    else
+      $scope.currentClassified = undefined
+
+
   $scope.classifieds = []
   classified.search {}, (error, classifieds) =>
     for classified in classifieds
