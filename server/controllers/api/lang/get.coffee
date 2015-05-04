@@ -10,7 +10,7 @@ GET /api/lang/en
 @method api.lang.get
 @return JSON
 ###
-exports = module.exports = (settings) ->
+exports = module.exports = (settings, cache) ->
   controller = (request, response, next) ->
     response.contentType "application/json"
     lang = request.params.id
@@ -18,14 +18,21 @@ exports = module.exports = (settings) ->
     # Check if language is valid
     if not /(en|ar|dg)/.test lang
       response.status 404
-      return response.end '"Language not found"'
+      return response.json "Language not found"
 
-    # Read from the language file
-    fs.readFile "#{settings.appDir}/locales/#{lang}.json", "utf8",
+    # Check in cache
+    cache.get "route:api/lang/#{lang}", (error, results) =>
+      if results then return response.end results
+
+      # Categories was not cached, so query and then save in cache
+      fs.readFile "#{settings.appDir}/locales/#{lang}.json", "utf8",
       (error, data) ->
-        if (error) then next error
-        else response.end data
+        cache.set "route:api/lang/#{lang}", data
+        response.end data
 
 
-exports["@require"] = ["igloo/settings"]
+exports["@require"] = [
+  "igloo/settings"
+  "controllers/cache"
+]
 exports["@singleton"] = true
