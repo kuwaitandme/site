@@ -1,7 +1,7 @@
 module.exports = (request, response, next) ->
-  response.contentType 'application/json'
+  response.contentType "application/json"
 
-  if not request.body.credits then response.end '"{}"'
+  if not request.body.credits then response.end ""{}""
 
   id = request.user.id
   POSTdata = request.body
@@ -10,7 +10,7 @@ module.exports = (request, response, next) ->
   # if not request.body.token then return next()
   # if not /^[0-9A-F]*$/i.test(id) then return next()
 
-  # perks = request.body['perks[]']
+  # perks = request.body["perks[]"]
   # price = 0
   # perks[0] = true
   # perks[1] = false
@@ -19,7 +19,7 @@ module.exports = (request, response, next) ->
   config = global.config
   POSTdata =
     token: request.body.token
-    currency: 'USD'
+    currency: "USD"
     total: String 30#price
     billingAddr:
       "name": "Testing Tester"
@@ -32,15 +32,15 @@ module.exports = (request, response, next) ->
       "phoneNumber": "5555555555"
 
     # billingAddr:
-      # addrLine1: request.body['billingAddr[addrLine1]']
-      # addrLine2: request.body['billingAddr[addrLine2]']
-      # city: request.body['billingAddr[city]']
-      # country: request.body['billingAddr[country]']
-      # email: request.body['billingAddr[email]']
-      # name: 'name'#request.body['billingAddr[name]']
-      # phoneNumber: request.body['billingAddr[phoneNumber]']
-      # state: request.body['billingAddr[state]']
-      # zipCode: request.body['billingAddr[zipCode]']
+      # addrLine1: request.body["billingAddr[addrLine1]"]
+      # addrLine2: request.body["billingAddr[addrLine2]"]
+      # city: request.body["billingAddr[city]"]
+      # country: request.body["billingAddr[country]"]
+      # email: request.body["billingAddr[email]"]
+      # name: "name"#request.body["billingAddr[name]"]
+      # phoneNumber: request.body["billingAddr[phoneNumber]"]
+      # state: request.body["billingAddr[state]"]
+      # zipCode: request.body["billingAddr[zipCode]"]
 
   twocheckout = global.modules.twocheckout
   # twocheckout.processTransaction id, POSTdata, (error, data) ->
@@ -55,5 +55,5 @@ module.exports = (request, response, next) ->
   User.addCredits request.user._id, Number request.body.credits
 
   response.end JSON.stringify
-    status: 'success'
+    status: "success"
     # transaction: transaction

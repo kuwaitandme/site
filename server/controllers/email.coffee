@@ -1,6 +1,6 @@
-email = require 'emailjs'
-fs    = require 'fs'
-jade  = require 'jade'
+email = require "emailjs"
+fs    = require "fs"
+jade  = require "jade"
 
 module.exports =
   sendTemplate: (senderAddress, template, options) ->
@@ -37,7 +37,7 @@ module.exports =
     message = email.message.create
        from: config.email.fromAddress
        subject: subject
-       bcc: 'stevent95@gmail.com'
+       bcc: "stevent95@gmail.com"
        text: plainText
        to: senderAddress
 
@@ -47,4 +47,4 @@ module.exports =
     # Start sending the message
     server.send message
 
-exports['@singleton'] = true
+exports["@singleton"] = true

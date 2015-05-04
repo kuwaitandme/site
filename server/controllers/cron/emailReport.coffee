@@ -3,9 +3,9 @@
 #
 # It sends an email to all moderators as well as CCs the site admins in the
 # mail.
-jade        = require 'jade'
-util        = require 'util'
-async       = require 'async'
+jade        = require "jade"
+util        = require "util"
+async       = require "async"
 
 
 module.exports = ->
@@ -37,14 +37,14 @@ module.exports = ->
       newUsers = results[1]
       newClassifieds = results[2]
 
-      plainText = 'please use a HTML-enabled mail client to view this mail'
-      subject = 'Daily report'
+      plainText = "please use a HTML-enabled mail client to view this mail"
+      subject = "Daily report"
       toAddress = Config.email.reportAddress
 
       # Render the HTML version of the email
       template = jade.compileFile "#{global.root}/views/email/daily-report.jade"
       html = template
-        host: 'https://kuwaitandme.com'
+        host: "https://kuwaitandme.com"
         inactiveClassifieds: inactiveClassifieds
         newClassifieds: newClassifieds
         newUsers: newUsers

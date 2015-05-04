@@ -1,9 +1,9 @@
-passport = require 'passport'
+passport = require "passport"
 
 # Controller for the Registering a user via email
 exports = module.exports = (user) ->
   (request, response, next) ->
-    response.contentType 'application/json'
+    response.contentType "application/json"
 
     finish = (error, user, errorcode) ->
       if error
@@ -11,7 +11,7 @@ exports = module.exports = (user) ->
         response.end JSON.stringify error
       else response.end JSON.stringify user
 
-    (passport.authenticate 'email-signup', finish) request, response, next
+    (passport.authenticate "email-signup", finish) request, response, next
 
-exports['@require'] = [ 'models/users' ]
-exports['@singleton'] = true
+exports["@require"] = [ "models/users" ]
+exports["@singleton"] = true

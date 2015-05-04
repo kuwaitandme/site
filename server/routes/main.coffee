@@ -20,7 +20,7 @@ exports = module.exports = (IoC) ->
   fourofour = (request, response, next) ->
     error = new Error "Not Found"
     error.status = 404
-    response.render 'error',
+    response.render "error",
       error: error
       message: error.message
       status: error.status or 500
@@ -31,12 +31,12 @@ exports = module.exports = (IoC) ->
     response.status error.status or 500
 
     # In production, no stack-traces leaked to user
-    # if global.config.mode == 'production' then error = {}
+    # if global.config.mode == "production" then error = {}
     # else error = error
 
     # else log error into a file and show error page
     # if error.status != 404 then logError err, request
-    response.render 'error',
+    response.render "error",
       status: error.status or 500
       message: error.message
       error: error

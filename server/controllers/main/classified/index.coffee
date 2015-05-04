@@ -1,5 +1,0 @@
-require "./post"
-require "./finish"
-require "./search"
-require "./single"
-require "./edit"

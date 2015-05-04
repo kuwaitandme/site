@@ -1,12 +1,12 @@
-jade = require 'jade'
+jade = require "jade"
 
 # A helper function to render the page properly with the right parameters and
 # some default values.
 exports = module.exports = (settings, cache) ->
   fn = (request, response, options={}) ->
-    # First generate the page's bodyid. This is what we will use for adding
+    # First generate the page"s bodyid. This is what we will use for adding
     # the right CSS as well as the key used for caching the page.
-    options.bodyid = options.page.replace '/', '-'
+    options.bodyid = options.page.replace "/", "-"
 
     # cacheId = "page:#{request.getLocale()}:#{options.bodyid}"
     cacheId = "page:en:#{options.bodyid}"
@@ -24,7 +24,7 @@ exports = module.exports = (settings, cache) ->
 
       # options.lang = request.getLocale()
       options.lang = "en"
-      if options.lang == 'ar' then options.dir = 'rtl'
+      if options.lang == "ar" then options.dir = "rtl"
 
       options.title = options.title or "Publish or Browse free classifieds"
       options.title = "#{options.title} - #{settings.sitename}"
@@ -43,11 +43,11 @@ exports = module.exports = (settings, cache) ->
           # sandbox: config._2checkout.sandbox
 
       options.robots = options.data
-      options.data = (new Buffer JSON.stringify options.data).toString 'base64'
+      options.data = (new Buffer JSON.stringify options.data).toString "base64"
       # options.data.csrf = csrfToken
 
       # Setup options for the jade compiler
-      isDevelopment = options.environment == 'development'
+      isDevelopment = options.environment == "development"
       jadeOptions =
         cache: not isDevelopment
         pretty: isDevelopment
@@ -77,8 +77,8 @@ exports = module.exports = (settings, cache) ->
     # Render the page if we are not looking in the cache
     else render null
 
-exports['@require'] = [
-  'igloo/settings'
-  'controllers/cache'
+exports["@require"] = [
+  "igloo/settings"
+  "controllers/cache"
 ]
-exports['@singleton'] = true
+exports["@singleton"] = true

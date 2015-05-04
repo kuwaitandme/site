@@ -1,5 +1,5 @@
-validator     = require 'validator'
-localStrategy = (require 'passport-local').Strategy
+validator     = require "validator"
+localStrategy = (require "passport-local").Strategy
 
 
 # Registers a passport strategy to authenticate a user into the backend.
@@ -12,31 +12,31 @@ module.exports = (settings, passport, user) ->
       true
 
     if not checkLoginAttempts request.session
-      return done status: 'too many failed attempts'
+      return done status: "too many failed attempts"
 
     # Validate the username & password
     if not (validator.isEmail username) or not password
-      return done status: 'invalid username/password'
+      return done status: "invalid username/password"
 
     # Check in Mongo if a user with username exists or not
-    user.model.findOne { 'username': username }, (error, result) ->
+    user.model.findOne { "username": username }, (error, result) ->
       if error then return done error
       # Username does not exist or User exists but wrong password
-      if not result then return done status: 'user not found'
+      if not result then return done status: "user not found"
 
       switch result.status
         # User is not activated
         when user.status.INACTIVE
-          return done status: 'user not activated'
+          return done status: "user not activated"
 
         # User is banned
         when user.status.BANNED
-          reason = status: 'banned', reason: result.adminReason
+          reason = status: "banned", reason: result.adminReason
           return done reason
 
         # User is suspended
         when user.status.SUSPEND
-          reason = status: 'suspended', reason: result.adminReason
+          reason = status: "suspended", reason: result.adminReason
           return done reason
 
       user.auth.email.validate result, password, (error, result={}) ->
@@ -53,5 +53,5 @@ module.exports = (settings, passport, user) ->
         resetLoginAttempts request.session, result
         done null, result
 
-  passport.use 'email-login',
+  passport.use "email-login",
     new localStrategy { passReqToCallback: true }, _authenticate

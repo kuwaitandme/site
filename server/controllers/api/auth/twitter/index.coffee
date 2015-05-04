@@ -1,11 +1,11 @@
-passport = require 'passport'
+passport = require "passport"
 
 module.exports = auth =
-  get: passport.authenticate 'twitter'
+  get: passport.authenticate "twitter"
 
-  callback: passport.authenticate 'twitter',
-    successRedirect: '/account'
-    failureRedirect: '/auth/login?error=twitter_failed'
+  callback: passport.authenticate "twitter",
+    successRedirect: "/account"
+    failureRedirect: "/auth/login?error=twitter_failed"
 
   getCallback: (request, response, next) ->
     logger = global.modules.logger

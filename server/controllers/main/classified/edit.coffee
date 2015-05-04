@@ -1,10 +1,10 @@
-validator = require 'validator'
+validator = require "validator"
 
 controller = module.exports =
   get: (request, response, next) ->
     # Check if the user is loggedin or not
     if not request.isAuthenticated()
-      return response.redirect '/auth/login?error=need_login'
+      return response.redirect "/auth/login?error=need_login"
 
     # Get and validate the id
     id = request.params[0]
@@ -22,5 +22,5 @@ controller = module.exports =
       render request, response,
         data: classified: classified
         description: classified.description
-        page: 'classified/edit'
-        title: response.__ 'title.classified.edit'
+        page: "classified/edit"
+        title: response.__ "title.classified.edit"

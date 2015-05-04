@@ -1,5 +1,0 @@
-require './forgot'
-require './login'
-require './logout'
-require './reset'
-require './signup'

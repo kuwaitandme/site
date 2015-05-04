@@ -2,10 +2,10 @@
 exports = module.exports = (renderer) ->
   controller = (request, response, next) ->
     args =
-      page: 'terms-privacy'
-      title: response.__ 'title.terms-privacy'
+      page: "terms-privacy"
+      title: response.__ "title.terms-privacy"
 
     renderer request, response, args, true
 
-exports['@require'] = [ 'controllers/renderer' ]
-exports['@singleton'] = true
+exports["@require"] = [ "controllers/renderer" ]
+exports["@singleton"] = true

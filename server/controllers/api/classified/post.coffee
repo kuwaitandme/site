@@ -43,7 +43,7 @@ exports = module.exports = (Classified, reCaptcha, uploader) ->
 
       # Setup error handler. This function gets called whenever there is an
       # error while processing the form.
-      form.on 'error', (error) ->
+      form.on "error", (error) ->
         response.status 400
         response.end JSON.stringify error
 
@@ -54,7 +54,7 @@ exports = module.exports = (Classified, reCaptcha, uploader) ->
           return response.end JSON.stringify error
 
         data = JSON.parse fields.classified
-        files = filesRequest['images[]']
+        files = filesRequest["images[]"]
         data.slug = _generateURLslug data
         data.status = 0
 

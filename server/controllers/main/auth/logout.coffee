@@ -3,4 +3,4 @@
 controller = module.exports =
   get: (request, response, next) ->
     request.session.destroy()
-    response.redirect '/auth/login?success=logout'
+    response.redirect "/auth/login?success=logout"

@@ -3,9 +3,9 @@ exports = module.exports = (renderer) ->
     options =
       data: guest: true
       description: null
-      page: 'classified/post'
-      title: response.__ 'title.guest.post'
+      page: "classified/post"
+      title: response.__ "title.guest.post"
     renderer request, response, options, false
 
-exports['@require'] = [ 'controllers/renderer' ]
-exports['@singleton'] = true
+exports["@require"] = [ "controllers/renderer" ]
+exports["@singleton"] = true

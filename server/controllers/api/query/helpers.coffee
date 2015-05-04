@@ -1,4 +1,4 @@
-validator = require 'validator'
+validator = require "validator"
 
 module.exports =
   getQueryParameters: (request) ->
@@ -30,16 +30,16 @@ module.exports =
     # Set the classified type
     if validator.isInt request.query.type
       type = Number request.query.type
-      if type in ['0', '1'] then parameters.type = type
+      if type in ["0", "1"] then parameters.type = type
 
     # Set the keywords
     if request.query.keywords
-      keywords = request.query.keywords.split ' '
+      keywords = request.query.keywords.split " "
       regex = []
 
       for keyword in keywords
         if validator.isAlphanumeric keyword
-          regex.push (new RegExp keyword, 'i')
+          regex.push (new RegExp keyword, "i")
 
       parameters.$and = [{
         $or: [

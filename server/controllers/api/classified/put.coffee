@@ -1,10 +1,10 @@
-formidable = require 'formidable'
+formidable = require "formidable"
 
 exports = module.exports = (Classified, reCaptcha, uploader) ->
   controller = (request, response, next) ->
     # Classified = global.models.classified
     Uploader = global.modules.uploader
-    response.contentType 'application/json'
+    response.contentType "application/json"
 
     id = request.params.id
     authHash = request.query.authHash
@@ -32,7 +32,7 @@ exports = module.exports = (Classified, reCaptcha, uploader) ->
 
         # Setup error handler. This function gets called whenever there is an
         # error while processing the form.
-        form.on 'error', (error) ->
+        form.on "error", (error) ->
           response.status 400
           # return response.end JSON.stringify error
 

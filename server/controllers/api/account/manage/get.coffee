@@ -20,7 +20,7 @@ module.exports = (request, response, next) ->
 
   finish = (err, classifieds) ->
     if err then next err
-    else response.end JSON.stringify(classifieds)
+    else response.end JSON.stringify classifieds
 
   classified = global.models.classified
   classified.search parameters, page, true, finish

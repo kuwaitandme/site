@@ -1,11 +1,11 @@
-passport = require 'passport'
+passport = require "passport"
 
 # Controller for the login page. Attempts to log the user in.
 #
 # TODO improve error handling here
 exports = module.exports = (user) ->
   (request, response, next) ->
-    response.contentType 'application/json'
+    response.contentType "application/json"
 
     # Modify the request by assigning the email from the URL as a POST data
     request.body.username = request.params.email
@@ -20,7 +20,7 @@ exports = module.exports = (user) ->
         if error then return next error
         response.end JSON.stringify user
 
-    (passport.authenticate 'email-login', finish) request, response, next
+    (passport.authenticate "email-login", finish) request, response, next
 
-exports['@require'] = [ 'models/users' ]
-exports['@singleton'] = true
+exports["@require"] = [ "models/users" ]
+exports["@singleton"] = true

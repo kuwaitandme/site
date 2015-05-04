@@ -1,8 +1,8 @@
-validator     = require 'validator'
+validator     = require "validator"
 
 exports = module.exports = (reCaptcha) ->
   controller = (request, response, next) ->
-    response.contentType 'application/json'
+    response.contentType "application/json"
 
     captchaFail = ->
       response.status 401
@@ -27,7 +27,7 @@ exports = module.exports = (reCaptcha) ->
         return response.end '"Message is missing"'
 
       Email = global.modules.email
-      Email.send "Message from #{email}", message, 'stevent95@gmail.com', message
+      Email.send "Message from #{email}", message, "stevent95@gmail.com", message
 
     response.end '"Message sent"'
     reCaptcha.verify request, captchaSuccess, captchaFail

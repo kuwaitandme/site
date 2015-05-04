@@ -1,9 +1,9 @@
-async       = require 'async'
-formidable  = require 'formidable'
-fs          = require 'fs'
-gm          = require 'gm'
-ColorThief  = require 'color-thief'
-path        = require 'path'
+async       = require "async"
+formidable  = require "formidable"
+fs          = require "fs"
+gm          = require "gm"
+ColorThief  = require "color-thief"
+path        = require "path"
 
 # This module is responsible for only one thing; Performing file uploads. More
 # specifically image uploads for a classified. It takes care of doing things
@@ -17,7 +17,7 @@ exports = module.exports = (settings) ->
       @uploadDir = "#{settings.appDir}/uploads/main"
 
     # Returns the extension of the given filename
-    getExtension: (filename) -> (/(?:\.([^.]+))?$/.exec filename)[1] or 'jpeg'
+    getExtension: (filename) -> (/(?:\.([^.]+))?$/.exec filename)[1] or "jpeg"
 
     getDominantColor: (filepath) ->
       rgbToHex = (rgb) ->
@@ -39,10 +39,10 @@ exports = module.exports = (settings) ->
     createUniqueFilename: (filename) ->
       extension = @getExtension filename
 
-      # Creates a unique string, that is 'length' characters long.
+      # Creates a unique string, that is "length" characters long.
       makeUniqueId = (length) ->
-        text = ''
-        possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+        text = ""
+        possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
 
         i = 0
         while i < length
@@ -91,7 +91,7 @@ exports = module.exports = (settings) ->
           newPath: path.normalize uploadPath
           oldPath: f.path
 
-        # Add the file into our list of 'accepted' files and get it's dominant
+        # Add the file into our list of "accepted" files and get it"s dominant
         # color.
         if isValid then ret.push
           file: newFilename
@@ -101,7 +101,7 @@ exports = module.exports = (settings) ->
       # storage into the public uploads folder.
       #
       # Note that this is done asynchronously. Which is quite neat since
-      # we don't have to wait for the files to get uploaded and can
+      # we don"t have to wait for the files to get uploaded and can
       # continue to continue performing operations on the DB.
       file.operate asyncTasks
 
@@ -128,10 +128,10 @@ exports = module.exports = (settings) ->
         # error.
         async.retry 3, retryJob, finish
 
-      # For each file in the list, attempt to remove it's thumbnail and
+      # For each file in the list, attempt to remove it"s thumbnail and
       # main image.
       #
-      # Here we really don't care about the errors that will come. So our
+      # Here we really don"t care about the errors that will come. So our
       # error handler is a blank function.
       async.each files, asyncJob, (error, result) ->
 
@@ -146,15 +146,15 @@ exports = module.exports = (settings) ->
       if not (0 < file.size < (4 * 1024 * 1024)) then status = false
 
       # Invalid filetype
-      if not file.type in ['image/gif', 'image/png', 'image/jpg',
-      'image/jpeg'] then status = false
+      if not file.type in ["image/gif", "image/png", "image/jpg",
+      "image/jpeg"] then status = false
 
       status
 
 
     # Given the asynchronous tasks for this function, perform them. Delete
-    # the temporary file if 'isValid' is false; Move the temporary file
-    # into permanent storage if 'isValid' is true.
+    # the temporary file if "isValid" is false; Move the temporary file
+    # into permanent storage if "isValid" is true.
     #
     # We do this asynchronously and wait for all the files to be uploaded. Once
     # we are done we create another asynchronous task to start creating
@@ -184,9 +184,9 @@ exports = module.exports = (settings) ->
     # callback functions. This is bad for us, so we work around by using the
     # async module.
     #
-    # What's more is that we need to wait for all the files to be uploaded
-    # before we start making the thumbnails, since we don't want to work on
-    # empty files. So that's we needed to make another async call on the
+    # What"s more is that we need to wait for all the files to be uploaded
+    # before we start making the thumbnails, since we don"t want to work on
+    # empty files. So that"s we needed to make another async call on the
     # previous function, to give us the signal that the file upload is over.
     createThumbnails: (tasks) ->
       asyncJob = (task, finish) ->
@@ -194,7 +194,7 @@ exports = module.exports = (settings) ->
 
           # First compress the image
           gm task.newPath
-          .compress 'BZip'
+          .compress "BZip"
           .resize 1500, 1500
           .autoOrient()
           .write task.newPath, (error) ->
@@ -211,5 +211,5 @@ exports = module.exports = (settings) ->
 
   new uploader
 
-exports['@require'] = [ 'igloo/settings' ]
-exports['@singleton'] = true
+exports["@require"] = [ "igloo/settings" ]
+exports["@singleton"] = true

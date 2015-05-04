@@ -1,14 +1,14 @@
-passport = require 'passport'
+passport = require "passport"
 
 module.exports = auth =
   # Redirect the user to Facebook for authentication.  When complete,
   # Facebook will redirect the user back to the application at
   #     /auth/facebook/callback
-  get: passport.authenticate 'facebook'
+  get: passport.authenticate "facebook"
 
-  callback: passport.authenticate 'facebook',
-    successRedirect: '/account'
-    failureRedirect: '/auth/login?error=facebook_failed'
+  callback: passport.authenticate "facebook",
+    successRedirect: "/account"
+    failureRedirect: "/auth/login?error=facebook_failed"
 
 
   # Facebook will redirect the user to this URL after approval.  Finish the

@@ -1,5 +1,5 @@
-async     = require 'async'
-validator = require 'validator'
+async     = require "async"
+validator = require "validator"
 
 exports = module.exports = (renderer, Classified) ->
   controller = (request, response, next) ->
@@ -21,7 +21,7 @@ exports = module.exports = (renderer, Classified) ->
       options =
         data: classified: classified
         description: classified.title
-        page: 'classified/single'
+        page: "classified/single"
         title: classified.title
       renderer request, response, options, false
 
@@ -58,11 +58,11 @@ exports = module.exports = (renderer, Classified) ->
   #   # call the update task function through async
   #   async.series [ updateTask ]
   #   options =
-  #     page: 'classified/finish'
-  #     title: response.__ 'title.classified.finish'
+  #     page: "classified/finish"
+  #     title: response.__ "title.classified.finish"
 
-exports['@require'] = [
-  'controllers/renderer'
-  'models/classifieds'
+exports["@require"] = [
+  "controllers/renderer"
+  "models/classifieds"
 ]
-exports['@singleton'] = true
+exports["@singleton"] = true

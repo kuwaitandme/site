@@ -1,4 +1,4 @@
-twitterStrategy = (require 'passport-twitter').Strategy
+twitterStrategy = (require "passport-twitter").Strategy
 
 module.exports = (settings, passport, user) ->
   callback = (token, tokenSecret, profile, done) ->

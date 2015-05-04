@@ -1,4 +1,4 @@
-YahooStrategy = (require 'passport-yahoo-oauth').Strategy
+YahooStrategy = (require "passport-yahoo-oauth").Strategy
 
 module.exportsDisabled = (passport) ->
   callback = (token, tokenSecret, profile, done) ->

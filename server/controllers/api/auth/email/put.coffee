@@ -1,4 +1,4 @@
-validator = require 'validator'
+validator = require "validator"
 
 # This controller attempts to reset the password for the given user. It expects
 # the user's id to part of the url and the reset token to be passed as a GET
@@ -42,14 +42,14 @@ exports = module.exports = (user) ->
         response.status 400
         return response.end 'reset_fail'
 
-      return response.end 'success'
+      return response.end "success"
 
 
   # Check the captcha, which then calls the function to reset the password
   reCaptcha.verify request, captchaSuccess, captchaFail
 
 module.exports = (request, response, next) ->
-  response.contentType 'application/json'
+  response.contentType "application/json"
 
   # First check if the user id is valid
   if not validator.isMongoId id

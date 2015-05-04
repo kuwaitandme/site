@@ -1,4 +1,4 @@
-GooglePlusStrategy = (require 'passport-google-oauth').OAuth2Strategy
+GooglePlusStrategy = (require "passport-google-oauth").OAuth2Strategy
 
 module.exports = (settings, passport, user) ->
   callback = (accessToken, refreshToken, profile, done) ->

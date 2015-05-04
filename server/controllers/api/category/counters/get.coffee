@@ -23,7 +23,7 @@ exports = module.exports = (Classified, Categories, cache) ->
       #     cache.set "route:api/categories/counters", json
       #     response.end json
 
-    response.end '{}'
+    response.end "{}"
 
 
 exports["@singleton"] = true

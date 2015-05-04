@@ -1,4 +1,4 @@
-validator     = require 'validator'
+validator     = require "validator"
 
 # The patch method for this route is used to request a password reset token for
 # the user with the given id
@@ -31,8 +31,8 @@ module.exports = (request, response, next) ->
 
       # All good otherwise, send reset email
       else
-        Email.sendTemplate user.email, 'passwdreset',
-          subject: 'Reset your password'
+        Email.sendTemplate user.email, "passwdreset",
+          subject: "Reset your password"
           user: user
 
         response.end '"reset sent"'

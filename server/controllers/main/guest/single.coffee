@@ -1,4 +1,4 @@
-validator = require 'validator'
+validator = require "validator"
 
 exports = module.exports = (renderer) ->
   controller = (request, response, next) ->
@@ -26,9 +26,9 @@ exports = module.exports = (renderer) ->
       options =
         data: classified: classified
         description: classified.description
-        page: 'classified/single'
+        page: "classified/single"
         title: classified.title
       renderer request, response, options, false
 
-exports['@require'] = [ 'controllers/renderer' ]
-exports['@singleton'] = true
+exports["@require"] = [ "controllers/renderer" ]
+exports["@singleton"] = true

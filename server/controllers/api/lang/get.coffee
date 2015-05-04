@@ -1,4 +1,4 @@
-fs = require 'fs'
+fs = require "fs"
 
 
 ###
@@ -12,7 +12,7 @@ GET /api/lang/en
 ###
 exports = module.exports = (settings) ->
   controller = (request, response, next) ->
-    response.contentType 'application/json'
+    response.contentType "application/json"
     lang = request.params.id
 
     # Check if language is valid
