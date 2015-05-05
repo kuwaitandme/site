@@ -12,13 +12,13 @@ section(ng-controller="component:classified-list")
             .title {{ classified.title | limitTo: 120 }}
             .border
             ul.meta.row.collapse
-              li.price.small-6.columns {{ classified.priceType | price }}
+              li.price.small-6.columns {{ classified.priceValue | price:classified.priceType }}
               li.date.small-6.columns.text-right {{ classified.created | prettydate }}
               li(style="list-style: none; display: inline", ng-if="classified.showStatus")
                 .status(class="{{ classified.statusClass }}") {{ classified.statusMessage }}
 
-  .ajax-loading(ng-show="classifieds.length == 0") Loading classifieds!
+  .ajax-loading(ng-show="classifieds.length == 0 && !queryFinished") Loading classifieds!
   //- #{{ "comp.classifiedlist.loading" | translate }}
 
   //- The message that gets displayed when there are no more classifieds
-  //- .ajax-finish No classified(s)
+  .ajax-finish(ng-if="queryFinished") No classified(s)

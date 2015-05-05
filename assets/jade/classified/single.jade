@@ -32,23 +32,33 @@ section(ng-switch="!!classified")#classified
           .meta-value {{ classified.views || 0 }}
         li.large-3.medium-4.columns.end
           .meta-title Price
-          .meta-value {{ classified.price | price }}
+          .meta-value {{ classified.priceValue | price:classified.priceType }}
         li.large-3.medium-4.columns.end(ng-if="classified.created")
           .meta-title Published
           .meta-value {{ classified.created | prettydate }}
-        li.large-3.medium-4.columns.end(ng-if="classified.category")
+        li.large-3.medium-4.columns.end(ng-if="classified.parent_category")
           .meta-title Category
-          .meta-value {{ classified.category | category }}&nbsp;
-          span(ng-if="classified.childCategory") {{ classified.childCategory | category }}
+          .meta-value {{ classified.parent_category | category }} -&nbsp;
+            span(ng-if="classified.child_category") {{ classified.child_category | category }}
         li.large-3.medium-4.columns.end(ng-if="classified.location")
           .meta-title Location
-          .meta-value {{ classified.location || location }}
+          .meta-value {{ classified.location | location }}
         li.large-3.medium-4.columns.end(ng-if="classified.contact.address1")
           .meta-title Address
           .meta-value {{ classified.contact.address1 }}, {{ classified.contact.address2 }}
+        li.large-3.medium-4.columns.end(ng-if="classified.contact.address1")
+          .meta-title Address
+          .meta-value {{ classified.contact.address1 }}, {{ classified.contact.address2 }}
+        li.large-3.medium-4.columns.end(ng-if="classified.contact.email")
+          .meta-title Email
+          .meta-value
+            a(ng-href="mailto:{{ classified.contact.email }}?subject=Reply to your classified: {{ classified.title }}") {{ classified.contact.email }}
+        li.large-3.medium-4.columns.end(ng-if="classified.contact.phone")
+          .meta-title Phone
+          .meta-value
+            a(ng-href="tel:{{ classified.contact.phone }}") {{ classified.contact.phone }}
 
-
-    .columns.user(ng-if="showClassified")
+    //- .columns.user(ng-if="showClassified")
       .avatar
       .info
         .name John Doe
@@ -58,7 +68,7 @@ section(ng-switch="!!classified")#classified
             a(ng-href="mailto:{{ classified.contact.email }}?subject=Reply to your classified: {{ classified.title }}") {{ classified.contact.email }}
           .phone(ng-if="classified.contact.phone")
             b Phone:
-            a(href="tel:+965 123 1234434") +965 123 1234434
+            a
         a.contact(ng-click="showContactForm = true", ng-if="classified.contact.email") Contact Me
 
     .contact-form.columns(ng-if="showContactForm") I shall send your message!

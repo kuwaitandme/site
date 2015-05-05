@@ -13,6 +13,7 @@ exports = module.exports = ($scope, $element, $stateParams, $googleMaps, classif
     classified.getBySlug $stateParams.slug, (error, result) =>
       $scope.classified = result
 
+
       # setTimeout =>
       #   $imgContainer =  angular.element $element[0].querySelector ".gallery"
       #   @masonry = new Masonry $imgContainer[0], itemSelector: "li"
