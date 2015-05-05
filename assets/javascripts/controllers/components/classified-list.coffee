@@ -2,6 +2,7 @@ exports = module.exports = ($scope, $location, $element, classified) ->
   @name = "[component:classified-list]"
   console.log @name, "initializing"
 
+  document.body.scrollTop = 0
   $el = angular.element document.querySelectorAll ".classified-list"
   @masonry = new Masonry $el[0]#, itemSelector: "> li"
 
