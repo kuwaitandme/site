@@ -1,20 +1,30 @@
 module.exports = ->
   name: "[scroller]"
   scrollTo: (eID) ->
-    console.log @name, "scrolling to", eID
+    console.log @name, "scrolling to ##{eID}"
+    isAnimating = true
+    html = document.documentElement
+    body = document.body
 
-    currentYPosition = ->
-      # Firefox, Chrome, Opera, Safari
-      if self.pageYOffset
-        return self.pageYOffset
-      # Internet Explorer 6 - standards mode
-      if document.documentElement and document.documentElement.scrollTop
-        return document.documentElement.scrollTop
-      # Internet Explorer 6, 7 and 8
-      if document.body.scrollTop
-        return document.body.scrollTop
-      0
+    # Get the height of the document body
+    # http://james.padolsey.com/javascript/get-document-height-cross-browser/
+    documentHeight = Math.max(
+      body.clientHeight
+      body.offsetHeight
+      body.scrollHeight
+      html.clientHeight
+      html.offsetHeight
+      html.scrollHeight
+    )
 
+    # Get the height of the window
+    windowHeight =  window.innerHeight
+
+    # http://stackoverflow.com/questions/3464876/javascript-get-window-x-y-position-for-scroll
+    windowScrollTop = (window.pageYOffset or html.scrollTop) -
+      (html.clientTop or 0)
+
+    # This gets the position (scrollTop) of the target element
     elmYPosition = (eID) ->
       elm = document.getElementById eID
       y = elm.offsetTop
@@ -24,35 +34,24 @@ module.exports = ->
         y += node.offsetTop
       y
 
-    # This scrolling function
-    # is from http://www.itnewb.com/tutorial/Creating-the-Smooth-Scroll-Effect-with-JavaScript
-    startY = currentYPosition()
-    stopY = elmYPosition eID
-    distance = if stopY > startY then stopY - startY else startY - topY
+    # This calculates the distance we have to scroll
+    avail = documentHeight - windowHeight
+    scroll = elmYPosition eID
+    if scroll > avail then scroll = avail
 
-    if distance < 100 then return @scrollTo 0, stopY
+    # When we set these styles, the animation get triggered.
+    html.style.transition = "1s ease-in-out"
+    html.style.marginTop = "#{windowScrollTop - scroll}px"
 
-    speed = Math.round distance / 100
-    if speed >= 20 then speed = 20
-    speed = 20
-    step = Math.round distance / 25
-    leapY = if stopY > startY then startY + step else startY - step
-    timer = 0
+    # This function gets executed whenever the transition gets over.
+    onAnimationEnd = (event) ->
+      if event.currentTarget is event.target and isAnimating
+        body.scrollTop = scroll
+        html.style.transition = ""
+        html.style.marginTop = ""
+        isAnimating = false
 
-    if stopY > startY
-      i = startY
-      while i < stopY
-        setTimeout "window.scrollTo(0, #{leapY})", timer * speed
-        leapY += step
-        if leapY > stopY then leapY = stopY
-        timer++
-        i += step
-      return
-
-    i = startY
-    while i > stopY
-      setTimeout "window.scrollTo(0, #{leapY})", timer * speed
-      leapY -= step
-      if leapY < stopY then leapY = stopY
-      timer++
-      i -= step
+    # http://stackoverflow.com/questions/2794148/css3-transition-events
+    html.addEventListener "webkitTransitionEnd", onAnimationEnd
+    html.addEventListener "transitionend", onAnimationEnd
+    html.addEventListener "oTransitionEnd", onAnimationEnd
