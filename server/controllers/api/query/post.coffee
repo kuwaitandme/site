@@ -15,5 +15,6 @@ exports = module.exports = (Classified) ->
     # Classified.model.find {}, finish
     Classified.search parameters, page, false, finish
 
-exports["@require"] = [ "models/classifieds" ]
+
+exports["@require"] = ["models/classifieds"]
 exports["@singleton"] = true

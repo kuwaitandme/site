@@ -6,5 +6,6 @@ exports = module.exports = (renderer) ->
 
     renderer request, response, options, true
 
-exports["@require"] = [ "controllers/renderer" ]
+
+exports["@require"] = ["controllers/renderer"]
 exports["@singleton"] = true

@@ -26,5 +26,6 @@ exports = module.exports = (IoC, user) ->
       if error or not success then response.redirect "/auth/login?success=activate_fail"
       else response.redirect "/auth/login?success=activate_success"
 
-exports["@require"] = [ "models/users" ]
+
+exports["@require"] = ["models/users"]
 exports["@singleton"] = true

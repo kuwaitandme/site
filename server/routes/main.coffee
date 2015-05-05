@@ -103,5 +103,6 @@ exports = module.exports = (IoC) ->
   # Error page hander
   app.use error
 
-exports["@require"] = [ "$container" ]
+
+exports["@require"] = ["$container"]
 exports["@singleton"] = true

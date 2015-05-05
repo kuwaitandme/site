@@ -5,11 +5,18 @@ exports = module.exports = (IoC, settings) ->
     cookie: "l"
     defaultLocale: "en"
     directory: "#{settings.appDir}/locales"
-    locales: [ "en", "ar", "dg"]
+    locales: [
+      "en"
+      "ar"
+      "dg"
+    ]
   global.__ = i18n.__
 
   app = this
   app.use i18n.init
 
-exports["@require"] = [ "$container", "igloo/settings" ]
+exports["@require"] = [
+  "$container"
+  "igloo/settings"
+]
 exports["@singleton"] = true

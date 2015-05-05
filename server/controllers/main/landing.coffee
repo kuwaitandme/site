@@ -35,5 +35,6 @@ exports = module.exports = (renderer) ->
 
     renderer request, response, args, true
 
-exports["@require"] = [ "controllers/renderer.coffee" ]
+
+exports["@require"] = ["controllers/renderer.coffee"]
 exports["@singleton"] = true

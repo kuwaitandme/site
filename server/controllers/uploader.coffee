@@ -211,5 +211,6 @@ exports = module.exports = (settings) ->
 
   new uploader
 
-exports["@require"] = [ "igloo/settings" ]
+
+exports["@require"] = ["igloo/settings"]
 exports["@singleton"] = true

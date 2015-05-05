@@ -7,5 +7,6 @@ exports = module.exports = (renderer) ->
       title: response.__ "title.guest.post"
     renderer request, response, options, false
 
-exports["@require"] = [ "controllers/renderer" ]
+
+exports["@require"] = ["controllers/renderer"]
 exports["@singleton"] = true

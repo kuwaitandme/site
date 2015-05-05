@@ -21,5 +21,6 @@ exports = module.exports = (renderer, classified) ->
         title: response.__ "title.classified.edit"
       renderer request, response, options, false
 
-exports["@require"] = [ "controllers/renderer" ]
+
+exports["@require"] = ["controllers/renderer"]
 exports["@singleton"] = true

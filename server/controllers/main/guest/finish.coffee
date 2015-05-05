@@ -5,5 +5,6 @@ exports = module.exports = (renderer) ->
       title: response.__ "title.classified.finish"
     renderer request, response, options, false
 
-exports["@require"] = [ "controllers/renderer" ]
+
+exports["@require"] = ["controllers/renderer"]
 exports["@singleton"] = true

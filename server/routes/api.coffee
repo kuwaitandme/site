@@ -44,5 +44,5 @@ exports = module.exports = (IoC) ->
   app.use "/api", router
 
 
-exports["@require"] = [ "$container" ]
+exports["@require"] = ["$container"]
 exports["@singleton"] = true

@@ -29,8 +29,9 @@ exports = module.exports = (reCaptcha) ->
       Email = global.modules.email
       Email.send "Message from #{email}", message, "stevent95@gmail.com", message
 
-    response.end '"Message sent"'
+    response.json "Message sent"
     reCaptcha.verify request, captchaSuccess, captchaFail
 
-exports["@require"] = [ "controllers/recaptcha" ]
+
+exports["@require"] = ["controllers/recaptcha"]
 exports["@singleton"] = true

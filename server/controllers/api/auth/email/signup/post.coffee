@@ -11,5 +11,6 @@ exports = module.exports = (user) ->
 
     (passport.authenticate "email-signup", finish) request, response, next
 
-exports["@require"] = [ "models/users" ]
+
+exports["@require"] = ["models/users"]
 exports["@singleton"] = true
