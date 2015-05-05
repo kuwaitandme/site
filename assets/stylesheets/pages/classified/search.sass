@@ -1,24 +1,39 @@
 body#classified-search
   #page-hero:after
-    content: ''
-  &.property-real-estate #page-hero
-    background-image: url('/images/hero/cl-real-estate.jpeg')
-  &.general-items #page-hero
-    background-image: url('/images/hero/cl-general-items.jpeg')
-  &.pets-animals #page-hero
-    background-image: url('/images/hero/cl-pets.jpg')
-  &.vehicles #page-hero
-    background-image: url('/images/hero/cl-vehicles.jpg')
-  &.community-events #page-hero
-    background-image: url('/images/hero/cl-community.jpg')
-  &.music-movies-books #page-hero
-    background-image: url('/images/hero/cl-music.jpg')
-  &.hobbies-crafts-diy #page-hero
-    background-image: url('/images/hero/cl-art.jpg')
-  &.electronics-computers #page-hero
-    background-image: url('/images/hero/cl-electronics.jpg')
+    content: ""
+    // background-color: #000
+  &.cl-property-real-estate #page-hero
+    background-image: url("/images/hero/cl-real-estate.jpeg")
+  &.cl-general-items #page-hero
+    background-image: url("/images/hero/cl-general-items.jpeg")
+  &.cl-pets-animals #page-hero
+    background-image: url("/images/hero/cl-pets.jpg")
+  &.cl-vehicles #page-hero
+    background-image: url("/images/hero/cl-vehicles.jpg")
+  &.cl-community-events #page-hero
+    background-image: url("/images/hero/cl-community.jpg")
+  &.cl-music-movies-books #page-hero
+    background-image: url("/images/hero/cl-music.jpg")
+  &.cl-hobbies-crafts-diy #page-hero
+    background-image: url("/images/hero/cl-art.jpg")
+  &.cl-electronics-computers #page-hero
+    background-image: url("/images/hero/cl-electronics.jpg")
   main
     background: transparent
 
     .classified-list-container
-      margin-top: 50%
+      margin-top: 100px
+
+    > h1, > h2
+      @extend .font-open
+      color: #FFF
+      margin: 0
+      font-weight: bold
+      padding: 0 1rem
+      text-shadow: 1px 1px 2px #000
+    > h1
+      margin-top: 100px
+      font-size: 2rem
+    > h2
+      margin-bottom: 2rem
+      font-size: 1.8rem

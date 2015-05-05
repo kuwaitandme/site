@@ -1,12 +1,11 @@
 body#landing
-
   main
     background: transparent
 
   #page-hero
-    background-image: url('/images/hero/landing.jpg')
+    background-image: url("/images/hero/landing.jpg")
     &:after
-      content: ''
+      content: ""
 
   #splash
     margin: 3rem 0
@@ -15,41 +14,37 @@ body#landing
       padding-bottom: 50px
       h1
         @extend .font-open
-        // background: #FFF
         color: #FFF
-        font-weight: bold
         font-size: 2rem
-        text-shadow: 1px 1px 2px #000
-        // max-width: 80%
+        font-weight: bold
         margin: 2rem 0
         padding: 1rem
+        text-shadow: 1px 1px 2px #000
       @media only screen and (max-width: 40em)
         text-align: left
         padding: 0.9375rem
         h1
           max-width: 100%
 
-    // h1, h2 a
-    //   display: inline-block
     h2
       font-size: 0.9rem
       a
-        @extend .font-open
         +single-transition
-        display: block
-        text-align: center
-        width: 100%
-        font-weight: bold
-        text-shadow: 1px 1px 2px #000
+        @extend .font-open
         background: rgba(255, 255, 255, 0.1)
         border: #FFF 3px solid
         color: #fff
+        display: block
+        font-weight: bold
         padding: 1rem
+        text-align: center
         text-decoration: none
+        text-shadow: 1px 1px 2px #000
+        width: 100%
         &:hover
           background: #F60
-          text-shadow: none
           border-color: rgba(0,0,0,0.3)
+          text-shadow: none
 
   h4
     font-size: 1.05em
