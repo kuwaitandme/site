@@ -6,7 +6,7 @@ passport = require "passport"
 exports = module.exports = (user) ->
   (request, response, next) ->
     finish = (error, user) ->
-      if error
+      if error or not user
         response.status 400
         return response.json error
 

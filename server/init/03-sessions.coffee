@@ -72,11 +72,12 @@ exports = module.exports = (IoC, settings, sessions, User, policies) ->
   if settings.emailAuth.enabled
     passport.use new LocalStrategy (username, password, done) ->
       User.findOne { email: username }, (error, user) ->
+        console.log user
         if error then return done error
-        if not user then return done null, false
+        if not user? then return done "bad username/email", false
         # User exists, check password
         if not User.isPasswordValid password, user.toJSON().password
-          return done null, false
+          return done "password mismatch", false
         # Login successful! return user
         done null, user
 
