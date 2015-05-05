@@ -5,9 +5,6 @@ exports = module.exports = ($scope, $element, $googleMaps, $imageResizer,
   @name = "[page:classified-post]"
   console.log @name, "initializing"
 
-  body = document.getElementsByTagName "body"
-  body[0].id = "classified-post"
-
   # If classified is not defined, then set it to it's default values
   if not $scope.classified? then $scope.classified = classified.getDefault()
 

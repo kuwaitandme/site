@@ -3,10 +3,6 @@ exports = module.exports = ($scope, $element, $stateParams, $googleMaps, classif
   console.log @name, "initializing"
   console.debug @name, "routeParams", $stateParams
 
-
-  # body = document.getElementsByTagName "body"
-  # body[0].id = "classified-single"
-
   try $scope.classified = $scope.$parent.$parent.currentClassified
   catch e
 

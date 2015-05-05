@@ -2,9 +2,6 @@ exports = module.exports = ($scope, $location, $http, user) ->
   @name = "[page:auth-login]"
   console.log @name, "initializing"
 
-  body = document.getElementsByTagName "body"
-  body[0].id = "auth-login"
-
   $scope.processForm = =>
     $http
       method: "POST"
