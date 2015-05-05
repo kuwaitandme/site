@@ -29,7 +29,8 @@ exports = module.exports = (knex, cache) -> new class
 
   # Function to create/validate hashed password
   isPasswordValid: (password1, password2) ->
-    bCrypt.compareSync password1, password2
+    try return bCrypt.compareSync password1, password2
+    catch e then false
   hashPassword: (password) ->
     bCrypt.hashSync password, (bCrypt.genSaltSync 10), null
 

@@ -8,7 +8,6 @@ exports = module.exports = (User, reCaptcha) ->
       response.status 400
       response.json "recaptcha failed"
 
-    # This function executes if the captcha was entered correctly.
     captchaSuccess = ->
       email = request.body.username
       fullname = request.body.fullname

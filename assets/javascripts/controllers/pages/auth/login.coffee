@@ -5,7 +5,7 @@ exports = module.exports = ($scope, $location, $http, user) ->
   $scope.processForm = =>
     $http
       method: "POST"
-      url: "/api/auth/email/#{ $scope.username }"
+      url: "/api/auth/email/login"
       data:
         username: $scope.username
         password: $scope.password

@@ -7,10 +7,8 @@ validator             = require "validator"
 _                     = require "underscore"
 
 GoogleStrategy        = (require "passport-google-oauth").OAuth2Strategy
-GoogleTokenStrategy   = (require "passport-google-token").Strategy
 FacebookStrategy      = (require "passport-facebook").Strategy
-FacebookTokenStrategy = (require "passport-facebook-token").Strategy
-localStrategy         = (require "passport-local").Strategy
+LocalStrategy         = (require "passport-local").Strategy
 
 exports = module.exports = (IoC, settings, sessions, User, policies) ->
   app = this
@@ -61,10 +59,7 @@ exports = module.exports = (IoC, settings, sessions, User, policies) ->
       clientID: settings.google.clientID
       clientSecret: settings.google.clientSecret
     , providerAuthCallback
-    # passport.use new GoogleTokenStrategy # token-based
-    #   clientID: settings.google.clientID
-    #   clientSecret: settings.google.clientSecret
-    # , providerAuthCallback
+
   # Facebook Authentication
   if settings.facebook.enabled
     passport.use new FacebookStrategy # web-based
@@ -72,18 +67,15 @@ exports = module.exports = (IoC, settings, sessions, User, policies) ->
       clientID: settings.facebook.appID
       clientSecret: settings.facebook.appSecret
     , providerAuthCallback
-    # passport.use new FacebookTokenStrategy # token-based
-    #   clientID: settings.facebook.appID
-    #   clientSecret: settings.facebook.appSecret
-    # , providerAuthCallback
+
   # Email Authentication
-  if settings.basicAuth.enabled
+  if settings.emailAuth.enabled
     passport.use new LocalStrategy (username, password, done) ->
       User.findOne { email: username }, (error, user) ->
         if error then return done error
         if not user then return done null, false
         # User exists, check password
-        if not User.isPasswordValid user.password, password
+        if not User.isPasswordValid password, user.toJSON().password
           return done null, false
         # Login successful! return user
         done null, user

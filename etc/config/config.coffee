@@ -14,10 +14,9 @@ knexConfig   = require "./knexfile"
 
 exports = module.exports = ->
   defaults:
-    basicAuth:
-      enabled: false
-      name: "admin"
-      pass: "password"
+    emailAuth:
+      enabled: true
+      requireActivation: true
     facebook:
       enabled: false
       clientid: "398935173623108"

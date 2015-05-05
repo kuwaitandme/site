@@ -10,7 +10,7 @@ exports = module.exports = ($scope, $location, $http, user) ->
         fullname:   $scope.fullname
         password:   $scope.password
         repassword: $scope.repassword
-        username:   $scope.username
+        email:      $scope.email
 
     .success (data, status) =>
       console.log @name, "login successful! redirecting to account page"

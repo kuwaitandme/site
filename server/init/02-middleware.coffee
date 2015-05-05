@@ -25,14 +25,7 @@ exports = module.exports = (IoC, logger, settings, policies) ->
 
   # # static server (always keep this first)
   # # <http://goo.gl/j2BEl5>
-  app.use serveStatic(settings.publicDir, settings.staticServer)
-  # add global policy for non api prefixed endpoints
-  if settings.basicAuth.enabled
-    app.all policies.notApiRouteRegexp, (req, res, next) ->
-      creds = auth(req)
-      if !creds or creds.name != settings.basicAuth.name or creds.pass != settings.basicAuth.pass
-        res.header("WWW-Authenticate", "Basic realm='Development Environment'").status(401).end()
-      next()
+  app.use serveStatic settings.publicDir, settings.staticServer
 
   # adds X-Response-Time header
   app.use responseTime digits: 5
