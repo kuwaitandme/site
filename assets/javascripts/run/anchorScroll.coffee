@@ -1,4 +1,4 @@
-exports = module.exports = ($state, $rootScope, $window) ->
+exports = module.exports = ($state, $rootScope, $window, $log) ->
   $rootScope.$on "$viewContentLoaded", ->
     state = $state.$current
     if not state.scrollTo? $window.scrollTo 0, 0
@@ -20,4 +20,5 @@ exports.$inject = [
   "$state"
   "$rootScope"
   "$window"
+  "$log"
 ]

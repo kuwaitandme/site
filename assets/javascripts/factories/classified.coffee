@@ -3,7 +3,12 @@ exports = module.exports = ($http) ->
     name: "[model:classified]"
 
 
-    query: (page=1) -> $http.post "/api/query?page=#{page}"
+    # Serialize the object into a format recognized by HTTP "GET"
+    _serializeGET: (obj) ->
+      str = []
+      for p of obj then if obj.hasOwnProperty p
+        str.push "#{encodeURIComponent p}=#{encodeURIComponent obj[p]}"
+      str.join '&'
 
 
     save: (classified={}, callback=->) ->
@@ -29,8 +34,8 @@ exports = module.exports = ($http) ->
       .error (response) -> callback response
 
 
-    search: (parameters, callback) ->
-      $http.get "/api/classified"
+    query: (parameters, callback) ->
+      $http.get "/api/classified?#{@_serializeGET parameters}"
       .success (classifieds) -> callback null, classifieds
       .error callback
 
@@ -77,7 +82,7 @@ exports = module.exports = ($http) ->
         type: classified.type
 
       # Prepare the formdata object
-      formdata.append "classified", JSON.stringify data
+      formdata.append "classified", angular.toJson data
       for image in images then if image.status is "to-upload"
         formdata.append "images[]", image.file
       formdata

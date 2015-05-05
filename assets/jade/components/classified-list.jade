@@ -3,9 +3,8 @@ section(ng-controller="component:classified-list")
     .classified-single-bg(ng-click="toggleClassified()")
     .row(ng-include="'classified/single'", ng-controller="page:classified/single")
 
-  ul.classified-list.row
+  ul.classified-list.row(ng-scroll="onScroll")
     li.large-3.medium-4.small-6.columns(ng-repeat="classified in classifieds")
-
         a.container(ng-click="toggleClassified(classified)")
           .thumb(ng-if="classified.images.length > 0", ng-style="{'background':classified.images[0].color}")
             img(image-loader!="/uploads/thumb/{{ classified.images[0].file }}", image-success="classified.imageLoaded", image-fail="classified.imageLoaded", alt="{{ classified.title }}")

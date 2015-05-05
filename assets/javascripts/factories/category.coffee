@@ -66,7 +66,7 @@ exports = module.exports = ($http, $cache) ->
         .success (categories) =>
           console.log @name, "fetched categories from API"
           @categories = categories
-          $cache.set "models:category", JSON.stringify categories
+          $cache.set "models:category", angular.toJson categories
 
       if @categories? then return
 
@@ -78,7 +78,7 @@ exports = module.exports = ($http, $cache) ->
         # Categories was found in cache, prepare to translate it and return
         console.log @name, "retrieving categories from cache"
         try
-          @categories = JSON.parse cache
+          @categories = angular.fromJson cache
           _getCounters()
         catch exception
           # Something went wrong while parsing the categories. No problem, we"ll

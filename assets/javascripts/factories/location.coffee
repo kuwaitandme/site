@@ -20,7 +20,7 @@ exports = module.exports = ($http, $cache) ->
         .success (locations) =>
           console.log @name, "fetched locations from API"
           @locations = locations
-          $cache.set "models:location", JSON.stringify locations
+          $cache.set "models:location", angular.toJson locations
 
       if @locations? then return
 
@@ -32,7 +32,7 @@ exports = module.exports = ($http, $cache) ->
         # locations was found in cache, prepare to translate it and return
         console.log @name, "retrieving locations from cache"
         try
-          @locations = JSON.parse cache
+          @locations = angular.fromJson cache
           _getCounters()
         catch exception
           # Something went wrong while parsing the locations. No problem, we"ll

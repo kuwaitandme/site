@@ -7,3 +7,4 @@ module.exports = (app) ->
   app.service "$googleRecaptcha",   require "./googleRecaptcha"
   app.service "$imageResizer",      require "./imageResizer"
   app.service "$scroller",          require "./scroller"
+  app.service "$storage",           require "./storage"
