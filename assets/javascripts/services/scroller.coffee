@@ -1,4 +1,4 @@
-module.exports = ->
+exports = module.exports = ($window) ->
   name: "[scroller]"
   scrollTo: (eID) ->
     console.log @name, "scrolling to ##{eID}"
@@ -18,10 +18,10 @@ module.exports = ->
     )
 
     # Get the height of the window
-    windowHeight =  window.innerHeight
+    windowHeight =  $window.innerHeight
 
     # http://stackoverflow.com/questions/3464876/javascript-get-window-x-y-position-for-scroll
-    windowScrollTop = (window.pageYOffset or html.scrollTop) -
+    windowScrollTop = ($window.pageYOffset or html.scrollTop) -
       (html.clientTop or 0)
 
     # This gets the position (scrollTop) of the target element
@@ -55,3 +55,6 @@ module.exports = ->
     html.addEventListener "webkitTransitionEnd", onAnimationEnd
     html.addEventListener "transitionend", onAnimationEnd
     html.addEventListener "oTransitionEnd", onAnimationEnd
+
+
+exports.$inject = ["$window"]

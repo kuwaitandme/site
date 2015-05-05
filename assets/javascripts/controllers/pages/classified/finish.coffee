@@ -21,7 +21,6 @@ exports = module.exports = ($scope, $element, $stateParams, $googleMaps, classif
       #     @masonry.layout()
       # , 100
 
-  window.b = $scope
   $scope.showClassified = true
   $scope.showContactForm = false
   $scope.drawMap = ->

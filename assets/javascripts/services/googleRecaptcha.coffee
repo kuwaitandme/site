@@ -1,8 +1,11 @@
-module.exports = ->
+exports = module.exports = ($window) ->
   name: "[google-recaptcha]"
 
   onLoad: (callback=->) ->
     waitForElement = ->
-      if window.grecaptcha? then callback()
+      if $window.grecaptcha? then callback()
       else setTimeout (-> waitForElement()), 250
     waitForElement()
+
+
+exports.$inject = ["$window"]
