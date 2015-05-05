@@ -25,9 +25,9 @@ exports = module.exports = ($http, $cache) ->
 
     findById: (id) ->
       for cat in @categories
-        if cat._id is id then return cat
+        if cat.id is id then return cat
         if cat.children? then for childcat in cat.children
-          if childcat._id is id then return childcat
+          if childcat.id is id then return childcat
       {}
 
 

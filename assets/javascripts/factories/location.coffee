@@ -8,7 +8,7 @@ exports = module.exports = ($http, $cache) ->
 
     findById: (id) ->
       for location in @locations
-        if location._id is id then return cat
+        if location.id is id then return location
       {}
 
 
