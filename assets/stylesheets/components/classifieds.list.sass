@@ -22,7 +22,7 @@
   overflow-y: scroll
   padding: 60px 0
   position: fixed
-  top: 0
+  top: -100%
   width: 100%
   z-index: 3
   > .row
@@ -42,14 +42,12 @@
 
   &.hide-cl
     top: -100%
-    -webkit-animation-duration: .5s
-    -webkit-animation-name: slideToAbove
-
     .classified-single-bg
       display: none
 
   &.display-cl
     bottom: 0
+    top: 0
     display: block
     -webkit-animation-duration: 0.5s
     -webkit-animation-name: slideFromAbove
