@@ -73,11 +73,6 @@ exports = module.exports = (IoC) ->
   _route "/auth/social/twitter",           "auth/social/twitter"
   _route "/auth/social/twitter/callback",  "auth/social/callback/twitter"
 
-  _route "/guest/post",                "guest/post"
-  # _route "/guest/([a-zf0-9]*)/finish", "guest/finish"
-  # _route "/guest/([a-zf0-9]*)/edit",   "guest/edit"
-  # _route "/guest/([a-zf0-9]*)",        "guest/single"
-
   _route "/classified/post",                  "classified/post"
   _route "/classified",                       "classified/search"
   _route "/classified/([a-z\-]*)",            "classified/search"
