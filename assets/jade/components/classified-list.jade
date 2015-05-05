@@ -20,5 +20,4 @@ section(ng-controller="component:classified-list")
   .ajax-loading(ng-show="classifieds.length == 0 && !queryFinished") Loading classifieds!
   //- #{{ "comp.classifiedlist.loading" | translate }}
 
-  //- The message that gets displayed when there are no more classifieds
   .ajax-finish(ng-if="queryFinished") No classified(s)

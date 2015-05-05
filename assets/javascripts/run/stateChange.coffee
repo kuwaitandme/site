@@ -1,7 +1,9 @@
-exports = module.exports = ($rootScope, $log) ->
+exports = module.exports = ($rootScope, $log, $storage) ->
   body = document.body
   $rootScope.$on "$stateChangeStart",
     (event, toState, toParams, fromState, fromParams) ->
+      $storage.clear()
+
       $log.log "[router] switching from '#{fromState.name}' to '#{toState.name}'"
       if toState.templateUrl?
         bodyid = toState.templateUrl.replace "/", "-"
@@ -14,4 +16,5 @@ exports = module.exports = ($rootScope, $log) ->
 exports.$inject = [
   "$rootScope"
   "$log"
+  "$storage"
 ]

@@ -5,11 +5,10 @@ exports = module.exports = ($scope, $location, $element, $storage, $window,
 
   classifedList = (angular.element document.querySelectorAll ".classified-list")[0]
   masonry = new Masonry classifedList, transitionDuration: 0
-  currentPage = 0
+  currentPage = 1
   loadingClassifieds = false
 
   $scope.queryFinished = false
-  $scope.classifieds = []
   $scope.childCategory  = $storage.get "childCategory"
   $scope.parentCategory = $storage.get "parentCategory"
 
@@ -33,8 +32,10 @@ exports = module.exports = ($scope, $location, $element, $storage, $window,
 
 
   # This function loads more classifieds from the server.
-  $scope.loadClassifieds = ->
-    loadingClassifieds = true
+  $scope.classifieds = []
+  $scope.loadClassifieds = =>
+    console.log @name, "loading more classifieds"
+    console.debug @name, "page:", currentPage
 
     # Prepare the query fields
     parameters = page: currentPage++
@@ -45,8 +46,10 @@ exports = module.exports = ($scope, $location, $element, $storage, $window,
 
     # Run the query!
     Classified.query parameters, (error, classifieds) =>
-      if classifieds.length == 0
-        $scope.queryFinished = true
+      if error then console.error error
+      if classifieds.length == 0 then $scope.queryFinished = true
+      console.log @name, "finished loading classifieds"
+      console.debug @name, "loaded #{classifieds.length} classified(s)"
 
       for classified in classifieds
         classified.showStatus = true
@@ -60,7 +63,7 @@ exports = module.exports = ($scope, $location, $element, $storage, $window,
 
 
   $scope.onScroll = ($event) =>
-    if $scope.queryFinished or not loadingClassifieds then return
+    if $scope.queryFinished or loadingClassifieds then return
 
     # Setup some defaults
     html = document.documentElement
@@ -77,6 +80,7 @@ exports = module.exports = ($scope, $location, $element, $storage, $window,
 
     # If we have passed 80% down the window, then load more classifieds
     if scrollPosition / documentHeight * 100 > 80
+      loadingClassifieds = true
       $scope.loadClassifieds()
 
 

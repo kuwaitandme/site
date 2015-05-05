@@ -3,11 +3,9 @@ exports = module.exports = ($scope, $stateParams, $rootScope, $storage, category
   console.log @name, "initializing"
   console.debug @name, "routeParams", $stateParams
 
-
   $scope.parentCategory = category.findBySlug $stateParams.parent
   $scope.childCategory = category.findBySlug $stateParams.child
 
-  $storage.clear()
   $storage.set "parentCategory", $scope.parentCategory
   $storage.set "childCategory", $scope.childCategory
 

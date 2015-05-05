@@ -1,5 +1,5 @@
 exports = module.exports = ($scope, $element, $stateParams, $googleMaps, classified) ->
-  @name = "[page:classified-single]"
+  @name = "[page:classified-finish]"
   console.log @name, "initializing"
   console.debug @name, "routeParams", $stateParams
 
