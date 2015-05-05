@@ -9,3 +9,4 @@ app = angular.module "App", ["ui.router"]
 (require "./filters")       app
 (require "./run")           app
 (require "./services")      app
+(require "./values")        app
