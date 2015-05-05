@@ -1,3 +1,6 @@
+bCrypt    = require "bcrypt-nodejs"
+validator = require "validator"
+
 exports = module.exports = (knex, cache) -> new class
   constructor: ->
     bookshelf = (require "bookshelf") knex
@@ -23,6 +26,12 @@ exports = module.exports = (knex, cache) -> new class
     newUser = parameters
     @model.forge newUser
       .save().then (user) -> callback null, user
+
+  # Function to create/validate hashed password
+  isPasswordValid: (password1, password2) ->
+    bCrypt.compareSync password1, password2
+  hashPassword: (password) ->
+    bCrypt.hashSync password, (bCrypt.genSaltSync 10), null
 
   # Serialize and de-serialize functions for passport
   serialize: -> (user, callback) => callback null, user.id

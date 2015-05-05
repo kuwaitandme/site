@@ -17,7 +17,7 @@ exports = module.exports = (user) ->
         if error then return next error
         response.json user
 
-    (passport.authenticate "email-login", finish) request, response, next
+    (passport.authenticate "local", finish) request, response, next
 
 
 exports["@require"] = ["models/users"]
