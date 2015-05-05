@@ -1,6 +1,7 @@
 exports = module.exports = (location) ->
   (locationId) ->
-    cat = location.findById locationId
-    cat.name
+    location = location.findById locationId
+    location.name
+
 
 exports.$inject = ["model.location"]
