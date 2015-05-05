@@ -1,7 +1,10 @@
-module.exports = (request, response, next) ->
+exports = module.exports = ->
+  module.exports = (request, response, next) -> next()
+
+module.exportdis = (request, response, next) ->
   response.contentType "application/json"
 
-  if not request.body.credits then response.end ""{}""
+  if not request.body.credits then response.json {}
 
   id = request.user.id
   POSTdata = request.body

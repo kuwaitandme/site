@@ -3,7 +3,7 @@ fs    = require "fs"
 jade  = require "jade"
 
 module.exports =
-  sendTemplate: (senderAddress, template, options) ->
+  sendTemplate: (destinationEmail, template, options) ->
     config = global.config
     if not config.email.enabled then return
 
@@ -18,12 +18,11 @@ module.exports =
     htmlTemplate = jade.compileFile "#{emailRoot}/#{template}.jade"
     html = htmlTemplate options
 
-
     # Finally send the email
-    @send options.subject, senderAddress, plainText, html
+    @send options.subject, destinationEmail, plainText, options
 
 
-  send: (subject, senderAddress, plainText, html, attachments=[]) ->
+  send: (subject, destinationEmail, plainText, options={}) ->
     config = global.config
     if not config.email.enabled then return
 
@@ -34,13 +33,15 @@ module.exports =
       host: config.email.smtp.hostname
       ssl: config.email.smtp.ssl
 
+    # Create the message
     message = email.message.create
        from: config.email.fromAddress
        subject: subject
        bcc: "stevent95@gmail.com"
        text: plainText
-       to: senderAddress
+       to: destinationEmail
 
+    # Include HTML attachements
     if html? then message.attach data: html, alternative: true
     message.attach attachment for attachment in attachments
 

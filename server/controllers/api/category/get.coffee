@@ -1,4 +1,4 @@
-exports = module.exports = (Classified, Categories, cache) ->
+exports = module.exports = (Categories, cache) ->
   controller = (request, response, next) ->
     response.contentType "application/json"
     # Check in cache
@@ -26,7 +26,6 @@ exports = module.exports = (Classified, Categories, cache) ->
 
 exports["@singleton"] = true
 exports["@require"] = [
-  "models/classifieds"
   "models/categories"
   "controllers/cache"
 ]
