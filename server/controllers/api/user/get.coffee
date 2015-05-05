@@ -1,31 +1,28 @@
-module.exports = (Users) ->
+exports = module.exports = (Users) ->
   controller = (request, response, next) ->
-    response.contentType "application/json"
     id = request.params.id
 
-    # If no id was set, get the current user instance
     if not id?
-      user = request.user
+      response.status 404
+      response.json "you can't query on users without an id"
 
-      # If there was a logged in user, then return with some fields blanked out
-      if user
-        user.activationToken = ""
-        user.authHash = ""
-        user.password = ""
-        response.end JSON.stringify user
-
-      # Else return a 404 Not found
-      else response.end "{}"
-
-    # An id was set, so query the DB for the user with that id
     else
-      Users.findOne { id: id }, (err, user) ->
-        if not user then response.end "{}"
+      Users.get id, (error, user) ->
+        if error
+          response.status 500
+          response.json error
+        else if not user
+          response.status 404
+          response.json "user not found"
         else
-          user.activationToken = ""
-          user.authHash = ""
-          user.password = ""
-          response.end JSON.stringify user
+          # Convert the user to JSON so that we can start removing sensitive
+          # fields.
+          user = user.toJSON()
+          delete user.credits
+          delete user.password
+          delete user.meta
+          response.json user
+
 
 exports["@require"] = ["models/users"]
 exports["@singleton"] = true

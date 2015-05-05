@@ -22,6 +22,7 @@ _generateURLslug = (classified) ->
   trimmedSentence = trimmedString.substr 0, Math.min trimmedString.length,
     trimmedString.lastIndexOf "-"
 
+  console.log classified
   # Finally generate the slug
   slug = "#{trimmedSentence}-#{classified.id}"
 
@@ -64,11 +65,12 @@ exports = module.exports = (Classified, reCaptcha, uploader) ->
           data.images = files
           Classified.create data, (error, classified) ->
             # Generate the slug (which is based on the 'id')
-            classified.slug = _generateURLslug classified
+            classified.slug = _generateURLslug classified.toJSON()
 
             # Update the classified with the new slug and return
-            classified.save().then (classified) ->
-              response.json classified.toJSON()
+            Classified.patch classified.id,
+              slug: classified.slug, (error, classified) ->
+                response.json classified.toJSON()
 
           # new Post({name: 'New Article'}).save().then(function(model) {
 #   // ...

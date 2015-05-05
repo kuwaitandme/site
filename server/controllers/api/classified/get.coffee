@@ -14,15 +14,7 @@ exports = module.exports = (Classifieds) ->
     id = request.params.id
 
     if not id then _query request, response, next
-    _single request, response, next
-
-    # if request.query.random
-    #   return Classified.getRandom (error, classified) ->
-    #     if error then next error
-    #     response.redirect "/classified/#{classified._id}"
-    #     # response.json classified
-    # # Update the view counter asynchronously
-    # singleController.updateViewCount request, id
+    else _single request, response, next
 
 
 exports["@require"] = ["models/classifieds"]

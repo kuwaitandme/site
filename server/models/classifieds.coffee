@@ -25,5 +25,11 @@ exports = module.exports = (knex) -> new class
     @model.forge newClassified
       .save().then (classified) -> callback null, classified
 
+  patch: (id, parameters, callback) ->
+    console.log id, parameters
+    @model.forge id: id
+      .save parameters, patch: true
+      .then (classified) -> callback null, classified
+
 exports["@singleton"] = true
 exports["@require"] = ["igloo/knex"]

@@ -4,11 +4,15 @@ validator = require "validator"
 
 exports = module.exports = (Classifieds) ->
   controller = (request, response, next) ->
-    response.contentType "application/json"
     slug = request.params.slug
 
-    Classifieds.getBySlug slug, (error, classified) ->
-      response.end JSON.stringify classified, null, 2
+    if not slug? or slug is "undefined"
+      response.status 404
+      response.json {}
+    else
+      Classifieds.getBySlug slug, (error, classified) ->
+        response.json classified
+
 
 exports["@require"] = ["models/classifieds"]
 exports["@singleton"] = true
