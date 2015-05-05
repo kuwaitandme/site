@@ -2,16 +2,16 @@ validator = require "validator"
 
 exports = module.exports = (Classifieds) ->
   controller = (request, response, next) ->
+    id = request.params.id
+
     _query = (request, response, next) ->
-      parameters = {} #getQueryParameters request
+      parameters = request.query # {} getQueryParameters request
       Classifieds.query parameters, (error, classified={}) ->
         response.json classified, null, 2
 
     _single = (request, response, next) ->
       Classifieds.get id, (error, classified={}) ->
         response.json classified, null, 2
-
-    id = request.params.id
 
     if not id then _query request, response, next
     else _single request, response, next
