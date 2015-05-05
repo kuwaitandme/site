@@ -1,14 +1,13 @@
 # getQueryParameters = (require "../../api/query/helpers").getQueryParameters
 
-exports = module.exports = (renderer, category, classified) ->
+exports = module.exports = (renderer, Category, Classified) ->
   controller = (request, response, next) ->
     parameters = {} #getQueryParameters request
     page = 1
     reverse = false
 
     _renderPage = (title) ->
-      # classified.query parameters, page, reverse, (error, classifieds) ->
-      classified.query parameters, (error, classifieds) ->
+      Classified.query parameters, (error, classifieds) ->
         if error then return next error
         options =
           data: classifieds: classifieds
@@ -16,23 +15,23 @@ exports = module.exports = (renderer, category, classified) ->
           title: title or response.__ "title.classified.search"
         renderer request, response, options, false
 
-    category.getAll (error, result) ->
+    Category.getAll (error, categories) ->
       if error then next error
 
       parentCategory = request.params[0]
       childCategory = request.params[1]
 
       # Query on the parent category based on the first slug
-      if parentCategory then for cat in result
-        if cat.slug == parentCategory
-          parameters.category = cat._id
-          title = cat.name
+      if parentCategory then for parent in categories
+        if parent.slug == parentCategory
+          parameters.category = parent.id
+          title = parent.name
 
           # Query on the child category based on the second slug
-          if childCategory then for child in cat.children
+          if childCategory? then for child in categories
             if child.slug == childCategory
-              parameters.childCategory = child._id
-              title = "#{child.name} - #{cat.name}"
+              parameters.childCategory = child.id
+              title = "#{child.name} - #{parent.name}"
 
       # Render the page with the resulting query parameters
       _renderPage title

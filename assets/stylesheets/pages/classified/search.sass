@@ -1,3 +1,24 @@
 body#classified-search
-	&, main
-		// background: #f0f0f0
+  #page-hero:after
+    content: ''
+  &.property-real-estate #page-hero
+    background-image: url('/images/hero/cl-real-estate.jpeg')
+  &.general-items #page-hero
+    background-image: url('/images/hero/cl-general-items.jpeg')
+  &.pets-animals #page-hero
+    background-image: url('/images/hero/cl-pets.jpg')
+  &.vehicles #page-hero
+    background-image: url('/images/hero/cl-vehicles.jpg')
+  &.community-events #page-hero
+    background-image: url('/images/hero/cl-community.jpg')
+  &.music-movies-books #page-hero
+    background-image: url('/images/hero/cl-music.jpg')
+  &.hobbies-crafts-diy #page-hero
+    background-image: url('/images/hero/cl-art.jpg')
+  &.electronics-computers #page-hero
+    background-image: url('/images/hero/cl-electronics.jpg')
+  main
+    background: transparent
+
+    .classified-list-container
+      margin-top: 50%

@@ -36,12 +36,11 @@
   .tagline
     h1 Publish and Browse classifieds in Kuwait. Quick, Easy and absolutely Free!
   .row
-    .large-6.columns
-      h2
+      h2.medium-4.columns
         a(href="/classified/post") Submit your classified
-      h2
+      h2.medium-4.columns
         a(ng-click="showcategories=true; gotoElement('landing-categories')") Browse through classifieds
-      h2
+      h2.medium-4.columns
         a(href="/auth/signup") Signup for an account
     //- ul.large-6.columns.thumb.testimonials
       li asd
@@ -51,4 +50,4 @@
 #featured-classifieds.row
   //- h1 {{ "page.landing.classifieds" | translate }}
   h2 Featured classifieds
-  .classifiedList(ng-include="'components/classified-list'")
+  .classified-list-container(ng-include="'components/classified-list'")

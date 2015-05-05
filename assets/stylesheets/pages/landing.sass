@@ -5,19 +5,23 @@ body#landing
 
   #page-hero
     background-image: url('/images/hero/landing.jpg')
+    &:after
+      content: ''
 
   #splash
-    min-height: 400px
-
+    margin: 3rem 0
     .tagline
-      text-align: right
+      text-align: center
+      padding-bottom: 50px
       h1
-        @extend .font-bitter
-        background: #FFF
-        color: #000
-        font-size: 1.1rem
-        max-width: 80%
-        margin: 0
+        @extend .font-open
+        // background: #FFF
+        color: #FFF
+        font-weight: bold
+        font-size: 2rem
+        text-shadow: 1px 1px 2px #000
+        // max-width: 80%
+        margin: 2rem 0
         padding: 1rem
       @media only screen and (max-width: 40em)
         text-align: left
@@ -25,23 +29,27 @@ body#landing
         h1
           max-width: 100%
 
-    h1, h2 a
-      display: inline-block
+    // h1, h2 a
+    //   display: inline-block
     h2
       font-size: 0.9rem
-      margin: 0.5rem 0
       a
-        @extend .font-bitter
+        @extend .font-open
         +single-transition
-        background: #F60//rgba(0,0,0,0.3)
-        border-bottom: #FFF 3px solid
+        display: block
+        text-align: center
+        width: 100%
+        font-weight: bold
+        text-shadow: 1px 1px 2px #000
+        background: rgba(255, 255, 255, 0.1)
+        border: #FFF 3px solid
         color: #fff
         padding: 1rem
         text-decoration: none
         &:hover
-          color: #F60
-          background: #FFF
-          border-bottom-color: #f60
+          background: #F60
+          text-shadow: none
+          border-color: rgba(0,0,0,0.3)
 
   h4
     font-size: 1.05em
@@ -50,7 +58,9 @@ body#landing
     margin-bottom: 1rem
   #featured-classifieds
     padding-top: 20px
-    .classified-list
+    .classified-list-container
+      margin-top: 0
+    .classified-list,
       margin: 0
   #landing-categories
     padding-top: 60px
@@ -58,7 +68,7 @@ body#landing
       margin: 0
   #featured-classifieds, #landing-categories
     > h2
-      @extend .font-bitter
+      @extend .font-roboto
       background: #FFF
       color: #000
       display: inline-block

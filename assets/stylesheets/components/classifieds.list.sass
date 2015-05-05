@@ -1,6 +1,6 @@
-.classifiedList
+.classified-list-container
   background: #fff
-  margin-bottom: 30px
+  margin: 30px auto
   .ajax-spinner
     display: none
     text-align: center
@@ -41,6 +41,7 @@
       margin: 0 auto
 
   &.hide-cl
+    display: none
     top: -100%
     .classified-single-bg
       display: none
@@ -78,7 +79,7 @@ ul.classified-list
 
     .border
       +single-transition
-      background: #e7e7e7
+      background: #FFF
       margin: 10px 0
       width: 75%
       height: 1px
@@ -95,6 +96,8 @@ ul.classified-list
         .border
           background: #000
           width: 100%
+        .date
+          opacity: 1
 
     .heading
       font-size: 20px
@@ -126,6 +129,9 @@ ul.classified-list
         padding-bottom: 0
         width: 90%
         word-wrap: break-word
+      .date
+        +single-transition
+        opacity: 0
     .urgent-banner
       background: #FA2A00
       color: #FFF

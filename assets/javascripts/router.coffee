@@ -4,8 +4,10 @@ module.exports = (app) ->
 
   router = ($stateProvider, $locationProvider, $urlMatcher, $urlRouterProvider) ->
     $urlMatcher.strictMode false
+    index = 0
     _route = (page, route) ->
-      $stateProvider.state "#{page}",
+
+      $stateProvider.state "#{page}-#{index++}",
         controller: "page:#{page}"
         templateUrl: "#{page}"
         url: route
@@ -28,6 +30,8 @@ module.exports = (app) ->
     _route "classified/single",  "/{slug:[^/]+}"
     _route "classified/post",    "/classified/post"
     _route "classified/search",  "/classified"
+    _route "classified/search",  "/classified/{parent:[^/]+}"
+    _route "classified/search",  "/classified/{parent:[^/]+}/{child:[^/]+}"
 
     _route "404",                "*page"
     # Enable HTML5 pushstate for hash-less URLs

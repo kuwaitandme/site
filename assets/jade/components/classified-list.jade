@@ -13,8 +13,8 @@ section(ng-controller="component:classified-list")
             .title {{ classified.title | limitTo: 120 }}
             .border
             ul.meta.row.collapse
-              li.small-6.columns {{ classified.priceType | price }}
-              li.small-6.columns.text-right {{ classified.created | prettydate }}
+              li.price.small-6.columns {{ classified.priceType | price }}
+              li.date.small-6.columns.text-right {{ classified.created | prettydate }}
               li(style="list-style: none; display: inline", ng-if="classified.showStatus")
                 .status(class="{{ classified.statusClass }}") {{ classified.statusMessage }}
 
