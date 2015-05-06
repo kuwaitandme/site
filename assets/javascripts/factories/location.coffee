@@ -13,6 +13,9 @@ exports = module.exports = ($http, $cache) ->
 
 
     download: ->
+      if @locations? then return
+      console.log @name, "downloading locations"
+
       # A helper function to retrieve the locations from the API
       _fetchFromAPI = =>
         console.log @name, "fetching locations from API"
@@ -22,13 +25,9 @@ exports = module.exports = ($http, $cache) ->
           @locations = locations
           $cache.set "models:location", angular.toJson locations
 
-      if @locations? then return
-
-      console.log @name, "downloading locations"
       cache = $cache.get "models:location"
 
-
-      if cache?
+      if cache? and false
         # locations was found in cache, prepare to translate it and return
         console.log @name, "retrieving locations from cache"
         try

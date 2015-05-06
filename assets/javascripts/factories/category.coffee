@@ -48,6 +48,9 @@ exports = module.exports = ($http, $cache) ->
 
 
     download: ->
+      if @categories? then return
+      console.log @name, "downloading categories"
+
       _getCounters = (callback=->) =>
         console.log @name, "fetching category counters"
         $http.get "/api/category?count=true"
@@ -68,13 +71,9 @@ exports = module.exports = ($http, $cache) ->
           @categories = categories
           $cache.set "models:category", angular.toJson categories
 
-      if @categories? then return
-
-      console.log @name, "downloading categories"
       cache = $cache.get "models:category"
 
-
-      if cache?
+      if cache? and false
         # Categories was found in cache, prepare to translate it and return
         console.log @name, "retrieving categories from cache"
         try
