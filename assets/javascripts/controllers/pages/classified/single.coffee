@@ -1,4 +1,5 @@
-exports = module.exports = ($scope, $element, $stateParams, $googleMaps, classified) ->
+exports = module.exports = ($scope, $element, $stateParams, $googleMaps,
+  $location, Classified) ->
   @name = "[page:classified-single]"
   console.log @name, "initializing"
   console.debug @name, "routeParams", $stateParams
@@ -10,8 +11,8 @@ exports = module.exports = ($scope, $element, $stateParams, $googleMaps, classif
     $scope.classified = classified
 
   if not $scope.classified?
-    classified.getBySlug $stateParams.slug, (error, result) =>
-      $scope.classified = result
+    Classified.getBySlug $stateParams.slug, (error, classified) =>
+      $scope.classified = classified
 
 
       # setTimeout =>
@@ -56,5 +57,6 @@ exports.$inject = [
   "$element"
   "$stateParams"
   "$googleMaps"
+  "$location"
   "model.classified"
 ]
