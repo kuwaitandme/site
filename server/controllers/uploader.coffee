@@ -1,8 +1,9 @@
+ColorThief  = require "color-thief"
 async       = require "async"
 formidable  = require "formidable"
 fs          = require "fs"
 gm          = require "gm"
-ColorThief  = require "color-thief"
+mv          = require "mv"
 path        = require "path"
 
 # This module is responsible for only one thing; Performing file uploads. More
@@ -11,15 +12,14 @@ path        = require "path"
 # at the same time doing it all asynchronously.
 exports = module.exports = (settings) ->
   class uploader
-    constructor = ->
-      @maxFiles = 12
-      @thumbsDir = "#{settings.appDir}/uploads/thumb"
-      @uploadDir = "#{settings.appDir}/uploads/main"
+    maxFiles: 12
+    thumbsDir: "#{settings.publicDir}/uploads/thumb"
+    uploadDir: "#{settings.publicDir}/uploads/main"
 
     # Returns the extension of the given filename
-    getExtension: (filename) -> (/(?:\.([^.]+))?$/.exec filename)[1] or "jpeg"
+    _getExtension: (filename) -> (/(?:\.([^.]+))?$/.exec filename)[1] or "jpeg"
 
-    getDominantColor: (filepath) ->
+    _getDominantColor: (filepath) ->
       rgbToHex = (rgb) ->
         componentToHex = (c) ->
           hex = c.toString 16
@@ -32,25 +32,40 @@ exports = module.exports = (settings) ->
 
     # Creates a unique filename from the given one, by keeping the extension of
     # the previous filename, and replacing all the characters before the
-    # extension of it with a random string that is 14 characters long.
+    # extension of it with the date and a random string that is
+    # 5 characters long.
     #
-    # This gives a probability of a filename collision should be 14^63 as per
-    # the algorithm that is being used.
-    createUniqueFilename: (filename) ->
-      extension = @getExtension filename
+    # This gives a probability of a filename collision should be 10^63 as per
+    # the algorithm that is being used. [Assuming that 5^63 files get uploaded
+    # at the same millisecond]
+    _createUniqueFilename: (filename) ->
+      # Get the file's extension
+      extension = @_getExtension filename
 
-      # Creates a unique string, that is "length" characters long.
+      # Create the timestamp component
+      date = new Date()
+      components = [
+        date.getFullYear()
+        date.getMonth()
+        date.getDate()
+        date.getHours()
+        date.getMinutes()
+        date.getSeconds()
+        date.getMilliseconds()
+      ]
+      timestamp = components.join ""
+
+      # Creates a unique string, that is 'length' characters long.
       makeUniqueId = (length) ->
         text = ""
         possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
-
         i = 0
         while i < length
-          text += possible.charAt Math.floor (Math.random() * possible.length)
+          text += possible.charAt Math.floor Math.random() * possible.length
           i++
         text
 
-      "#{makeUniqueId 14}.#{@getExtension filename}"
+      "#{timestamp}-#{makeUniqueId 10}.#{extension}"
 
 
     # Starts the upload of files into the server. It makes sure that the files
@@ -59,7 +74,7 @@ exports = module.exports = (settings) ->
     #
     # It does the file uploads (asynchronously) and at the same time creates
     # the thumbnails for each image (asynchronously too).
-    upload: (files, callback) ->
+    upload: (files, metadatas=[], callback) ->
       asyncTasks = []
       ret = []
 
@@ -71,39 +86,42 @@ exports = module.exports = (settings) ->
       # recast it into an array.
       if not files.length? then files = [files]
 
-      console.log files
-
       # Start iterating through each file
-      for f in files
+      for file in files
         # First, check if the file is valid or not
-        isValid = @validate f
+        isValid = @validate file
 
         # Then check if we have exceed our files per classified limit. If
         # so then mark all files, starting from this file onwards as invalid
         if asyncTasks.length >= @maxFiles then isValid = false
 
         # Add a task to operate on this file
-        newFilename = file.createUniqueFilename f.path
-        uploadPath = "#{file.uploadDir}/#{newFilename}"
+        newFilename = @_createUniqueFilename file.path
+        uploadPath = "#{@uploadDir}/#{newFilename}"
         asyncTasks.push
           isValid: isValid
           newFilename: newFilename
           newPath: path.normalize uploadPath
-          oldPath: f.path
+          oldPath: file.path
 
         # Add the file into our list of "accepted" files and get it"s dominant
         # color.
-        if isValid then ret.push
-          file: newFilename
-          color: @getDominantColor f.path
+        if isValid
+          for meta in metadatas then if file.name is String meta.id
+            fileMeta = meta
+            break
+          ret.push
+            file: newFilename
+            main: fileMeta.main
+            color: @_getDominantColor file.path
 
       # Perform file operations to move the file from the temporary
       # storage into the public uploads folder.
       #
       # Note that this is done asynchronously. Which is quite neat since
-      # we don"t have to wait for the files to get uploaded and can
+      # we don't have to wait for the files to get uploaded and can
       # continue to continue performing operations on the DB.
-      file.operate asyncTasks
+      @operate asyncTasks
 
       # Call the callback function with the list of uploaded files
       callback null, ret
@@ -113,12 +131,12 @@ exports = module.exports = (settings) ->
     #
     # TODO: test this function
     delete: (files) ->
-      asyncJob = (filepath, finish) ->
+      asyncJob = (filepath, finish) =>
         # Prepare the functions to remove the files
-        removeImage = (callback) ->
-          fs.unlink "#{file.uploadDir}/#{filepath}", callback
-        removeThumbnail = (callback) ->
-          fs.unlink "#{file.thumbsDir}/#{filepath}", callback
+        removeImage = (callback) =>
+          fs.unlink "#{@uploadDir}/#{filepath}", callback
+        removeThumbnail = (callback) =>
+          fs.unlink "#{@thumbsDir}/#{filepath}", callback
 
         # create the async job that will remove the files
         retryJob = (finish) ->
@@ -160,20 +178,18 @@ exports = module.exports = (settings) ->
     # we are done we create another asynchronous task to start creating
     # thumbnails. For more explanation see below function.
     operate: (tasks) ->
-      console.log tasks
       # Start analyzing each file and either upload or delete it
       asyncJob = (task, finish) ->
-
         if task.isValid
           # Copy the file into the upload path if the file is valid
-          fs.rename task.oldPath, task.newPath, (error) -> finish error
+          mv task.oldPath, task.newPath, (error) -> finish error
 
         # Delete the file from our temporary storage
         else fs.unlink task.oldPath, (error) -> finish error
 
 
       # Now start creating the thumbnails asynchronously
-      asyncFinish = -> file.createThumbnails tasks
+      asyncFinish = => @createThumbnails tasks
 
       # Start the async tasks
       async.each tasks, asyncJob, asyncFinish
@@ -184,20 +200,20 @@ exports = module.exports = (settings) ->
     # callback functions. This is bad for us, so we work around by using the
     # async module.
     #
-    # What"s more is that we need to wait for all the files to be uploaded
-    # before we start making the thumbnails, since we don"t want to work on
+    # What's more is that we need to wait for all the files to be uploaded
+    # before we start making the thumbnails, since we don't want to work on
     # empty files. So that"s we needed to make another async call on the
     # previous function, to give us the signal that the file upload is over.
     createThumbnails: (tasks) ->
-      asyncJob = (task, finish) ->
+      asyncJob = (task, finish) =>
         if task.isValid
 
-          # First compress the image
+          # First compress the image, 'Lossless' is my favorite..
           gm task.newPath
-          .compress "BZip"
+          .compress "Lossless"
           .resize 1500, 1500
           .autoOrient()
-          .write task.newPath, (error) ->
+          .write task.newPath, (error) =>
             if error then return finish error
 
             # Then create the thumbnail
@@ -205,9 +221,10 @@ exports = module.exports = (settings) ->
             .resize 400, 400
             .crop 400, 400, 0, 0
             .autoOrient()
-            .write "#{path.normalize file.thumbsDir}/#{task.newFilename}", finish
+            .write "#{path.normalize @thumbsDir}/#{task.newFilename}", finish
 
       async.each tasks, asyncJob, ->
+
 
   new uploader
 

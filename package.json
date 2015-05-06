@@ -59,6 +59,7 @@
     "mongoose-json-select": "^0.2.1",
     "mongoose-paginate": "^3.1.1",
     "mongoose-text-search": "0.0.2",
+    "mv": "^2.0.3",
     "ncp": "^0.6.0",
     "nodejs-websocket": "^1.2.1",
     "passport": "^0.2.1",

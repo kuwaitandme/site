@@ -1,4 +1,4 @@
-validator = require "validator"
+validator         = require "validator"
 
 
 exports = module.exports = (knex) -> new class
@@ -6,7 +6,9 @@ exports = module.exports = (knex) -> new class
 
   constructor: ->
     bookshelf = (require "bookshelf") knex
-    @model      = bookshelf.Model.extend tableName: "classifieds"
+    @model      = bookshelf.Model.extend
+      tableName: "classifieds"
+      defaults: slug: "", status: 0
     @collection = bookshelf.Collection.extend model: @model
 
 
@@ -48,9 +50,8 @@ exports = module.exports = (knex) -> new class
       .save().then (classified) -> callback null, classified
 
   patch: (id, parameters, callback) ->
-    console.log id, parameters
     @model.forge id: id
-      .save parameters, patch: true
+      .save parameters#, patch: true
       .then (classified) -> callback null, classified
 
 
