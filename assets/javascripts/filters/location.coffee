@@ -1,6 +1,6 @@
-exports = module.exports = (location) ->
+exports = module.exports = (Location) ->
   (locationId) ->
-    location = location.findById locationId
+    location = Location.findById locationId
     location.name
 
 

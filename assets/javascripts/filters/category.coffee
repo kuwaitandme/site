@@ -1,6 +1,6 @@
-exports = module.exports = (category) ->
+exports = module.exports = (Category) ->
   (categoryId) ->
-    cat = category.findById categoryId
-    cat.name
+    category = Category.findById categoryId
+    category.name
 
 exports.$inject = ["model.category"]
