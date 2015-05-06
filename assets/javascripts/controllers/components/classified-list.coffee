@@ -3,16 +3,28 @@ exports = module.exports = ($scope, $location, $element, $storage, $window,
   @name = "[component:classified-list]"
   console.log @name, "initializing"
 
+  # Initialize masonry
   classifedList = (angular.element document.querySelectorAll ".classified-list")[0]
   masonry = new Masonry classifedList, transitionDuration: 0
+
+  # Initialize some variables
   currentPage = 1
   loadingClassifieds = false
   scrollPosition = 0
   body = document.getElementsByTagName("body")[0]
 
+  # Initialize DOM elements
   $scope.queryFinished = false
   $scope.childCategory  = $storage.get "childCategory"
   $scope.parentCategory = $storage.get "parentCategory"
+  $scope.finishMessage = (->
+    texts = [
+      "Woops! that's all we got!"
+      "Wowie! that seems to be all we have!"
+      "Mayday! we're all out of classifieds!"
+      "Damn, there are no more classifieds!"
+    ]
+    texts[Math.floor Math.random() * texts.length])()
 
 
   $scope.$watch (-> classifedList.childElementCount), =>
