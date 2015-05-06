@@ -1,6 +1,7 @@
 section(ng-controller="component:classified-list")
   #classified-single-fixed(ng-class="{ 'display-cl': currentClassified, 'hide-cl': !currentClassified }")
-    .classified-single-bg(ng-click="toggleClassified()")
+    .classified-single-close(ng-click="toggleClassified()")
+      img(src="/images/close.png")
     .row(ng-include="'classified/single'", ng-controller="page:classified/single")
 
   ul.classified-list.row(ng-scroll="onScroll")

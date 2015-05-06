@@ -1,5 +1,5 @@
 exports = module.exports = ($scope, $location, $element, $storage, $window,
-  Classified) ->
+  $rootScope, Classified) ->
   @name = "[component:classified-list]"
   console.log @name, "initializing"
 
@@ -7,6 +7,8 @@ exports = module.exports = ($scope, $location, $element, $storage, $window,
   masonry = new Masonry classifedList, transitionDuration: 0
   currentPage = 1
   loadingClassifieds = false
+  scrollPosition = 0
+  body = document.getElementsByTagName("body")[0]
 
   $scope.queryFinished = false
   $scope.childCategory  = $storage.get "childCategory"
@@ -23,12 +25,19 @@ exports = module.exports = ($scope, $location, $element, $storage, $window,
 
   # This function toggles the classified dropdown
   $scope.toggleClassified = (classified) ->
+    $rootScope.bodyStyles = $rootScope.bodyStyles or {}
+    console.log scrollPosition, body.scrollTop
+
     if not $scope.currentClassified?
       $scope.$broadcast "classified-changed", classified
-      # history.pushState {}, classified.title, '/sdf'
+      $rootScope.bodyStyles.overflowY = "hidden"
       $scope.currentClassified = classified
+      scrollPosition = body.scrollTop
+      body.scrollTop = 0
     else
       $scope.currentClassified = undefined
+      setTimeout (-> body.scrollTop = scrollPosition), 50
+      $rootScope.bodyStyles.overflowY = ""
 
 
   # This function loads more classifieds from the server.
@@ -90,5 +99,6 @@ exports.$inject = [
   "$element"
   "$storage"
   "$window"
+  "$rootScope"
   "model.classified"
 ]

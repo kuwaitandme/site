@@ -17,11 +17,12 @@
 #classified-single-fixed
   @extend body#classified-single
   +single-transition
-  left: 8px
+  left: 0
   overflow-y: scroll
-  padding: 60px 0
+  padding: 60px 3px
   position: fixed
   top: -100%
+  background: rgba(0, 0, 0, 0.8)
   width: 100%
   z-index: 4
   > .row
@@ -37,19 +38,20 @@
     // -moz-box-shadow: 0px 0px 30px -6px rgba(0,0,0,0.83);
     // box-shadow: 0px 0px 30px -6px rgba(0,0,0,0.83);
 
-    ul#extras-sidebar
-      position: absolute
-      margin-left: -100px
-      margin-top: 0
-      padding: 0
-      width: 100px
-      li
-        +clearfix
-        border-radius: 0 !important
-        margin: 0 !important
-        display: block !important
-        .icon
-          float: right !important
+    @media only screen and (min-width: 1120px)
+      ul#extras-sidebar
+        position: absolute
+        margin-left: -100px
+        margin-top: 0
+        padding: 0
+        width: 100px
+        li
+          +clearfix
+          border-radius: 0 !important
+          margin: 0 !important
+          display: block !important
+          .icon
+            float: right !important
 
     > .row
       margin: 0 auto
@@ -67,16 +69,16 @@
     -webkit-animation-duration: 0.5s
     -webkit-animation-name: slideFromAbove
 
-  .classified-single-bg
-    +single-transition
-    background: rgba(0, 0, 0, 0.8)
+  .classified-single-close
+    $size: 30px
+    background: #FFF
+    cursor: pointer
+    height: $size
+    padding: 0 5px
     position: fixed
+    right: 20px
     top: 0
-    padding-top: 60px
-    left: 0
-    width: 100%
-    bottom: 0
-    z-index: -1
+    width: $size
 
 ul.classified-list
   +clearfix
