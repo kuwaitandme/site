@@ -6,6 +6,15 @@ body#classified-post
   $color-valid: #30cd72
   $color-warn: #FFB604
 
+  main
+    margin-top: 10px
+
+  .error
+    @extend .font-text
+    font-size: 11px
+    float: left
+    padding: 5px 10px
+
   input
     @extend .font-text
     &[type='checkbox']
@@ -13,12 +22,6 @@ body#classified-post
       width: auto !important
     &[type='text']
       font-size: 1rem
-
-  .error
-    font-size: 11px
-    float: left
-    padding: 5px 10px
-
   input, select, textarea, button
     +single-transition
     background: transparent
@@ -35,11 +38,9 @@ body#classified-post
       display: none
       &:before
         content: attr(valid)
-
     &.ng-invalid.ng-invalid-required, &.ng-valid
       &:focus
         border-color: $color-valid
-
     &.ng-valid:focus ~ .error.show-on-focus
       display: inline-block
       background: $color-valid
@@ -79,24 +80,27 @@ body#classified-post
 
   .gallery
     @extend .font-bitter
-    margin-bottom: 2rem
     li
       position: relative
-      margin-bottom: 10px
       &.to-delete-from-server, &.to-delete
         display: none
       img, .close
         width: 90% !important
       .message
+        +single-transition(background)
         border: 2px solid $border-color
         background: $color-inactive
         color: #999
         cursor: pointer
-        height: 100px
+        height: 200px
         width: 90%
         padding: 0 20px
-        padding-top: 35px
+        padding-top: 90px
         text-align: center
+        &:hover
+          color: #FFF
+          border-color: rgba(0,0,0,0.1)
+          background: $color-valid
       .close
         +single-transition
         background: #E74C3C
@@ -104,17 +108,14 @@ body#classified-post
         content: '\f00d'
         cursor: pointer
         font-size: 0.8rem
-        height: 60px
-        left: 0
-        opacity: 0.5
         padding: 10px
-        position: absolute
         text-align: center
         top: 0
-      &:hover .close
-        height: 50%
         opacity: 1
 
+      // Always show in mobile
+      &:hover .close
+        opacity: 1
 
 
   .title, .description
@@ -143,6 +144,8 @@ body#classified-post
 
 
   .meta
+    li
+      text-align: left !important
     .meta-title
       line-height: 40px
       width: auto

@@ -36,19 +36,21 @@ exports = module.exports = ($http) ->
 
     query: (parameters, callback) ->
       $http.get "/api/classified?#{@_serializeGET parameters}"
-      .success (classifieds) -> callback null, classifieds
+      .success (classifieds) =>
+        @_parse classified for classified in classifieds
+        callback null, classifieds
       .error callback
 
 
     get: (id, callback) ->
       $http.get "/api/classified/#{id}"
-      .success (classified) -> callback null, classified
+      .success (classified) => callback null, @_parse classified
       .error callback
 
 
     getBySlug: (slug, callback) ->
       $http.get "/api/classified/slug/#{slug}"
-      .success (classified) -> callback null, classified
+      .success (classified) => callback null, @_parse classified
       .error callback
 
 
@@ -59,6 +61,18 @@ exports = module.exports = ($http) ->
       meta:          {}
       perks:         {}
       reports:       []
+
+
+    _parse: (classified) ->
+      # Sets the social links
+      tweet    = "Check out my classified at #{URL}"
+      classified.social =
+        facebook: "https://www.facebook.com/sharer/sharer.php?u=#{URL}"
+        gplus:    "https://plus.google.com/share?url=#{URL}"
+        twitter:  "https://twitter.com/home?status=#{encodeURI tweet}"
+        email:    "mailto:?subject=Checkout this classified: '#{classified.title}'
+          &body=link to the classified: #{URL}"
+      classified
 
 
     _getFormdata: (classified) ->

@@ -46,35 +46,30 @@ body#classified-single
     .description
       @extend .font-open
       font-size: 1rem
+      line-height: 30px
       min-height: 150px
       padding-bottom: 4rem
-      white-space: pre-wrap
       white-space: -moz-pre-wrap
-      white-space: -pre-wrap
       white-space: -o-pre-wrap
+      white-space: -pre-wrap
+      white-space: pre-wrap
       word-wrap: break-word
-
-
-    .user, .meta
-      border-bottom: 1px solid #EEE
 
 
     .meta
       margin-top: 0
       li
         font-size: 0.8rem
+        margin: 0 auto
+        padding: 0
         margin-bottom: 0.5rem
+        text-align: center
+        word-wrap: break-word
         .meta-title, .meta-value
-          // display: inline-block
+          display: inline-block
         .meta-title
-          text-align: right
-          float: left
-
           padding-right: 5px
           font-weight: bold
-          width: 70px
-        .meta-value
-          padding-left: 75px
 
 
     .user
@@ -134,6 +129,38 @@ body#classified-single
       text-decoration: none
       border-bottom: 1px solid blue
 
+    ul#extras-sidebar
+      // position: absolute
+      // margin-left: -100px
+      margin-top: 0 // on par with the descriptions
+      // width: 100px
+      // height: 400px
+      text-align: center
+      li
+        +radius(50px)
+        display: inline-block
+        margin: 10px
+        overflow: hidden
+        &.twitter .icon
+          background: #00ABEC
+        &.facebook .icon
+          background: #3D57A3
+        &.googleplus .icon
+          background: #DF2927
+        &.email .icon
+          background: #DDD
+          color: #222
+        &.link .icon
+          background: #F60
+        .icon
+          @extend .font-awesome
+          border-bottom: 0
+          color: #FFF
+          display: inline-block
+          font-size: 0.9rem
+          padding: 13px
+          text-align: center
+          width: 40px
 // @media print
 //   .c-gallery
 //     border-bottom: none !important
