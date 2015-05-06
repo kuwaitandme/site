@@ -207,11 +207,10 @@ exports = module.exports = (settings) ->
     createThumbnails: (tasks) ->
       asyncJob = (task, finish) =>
         if task.isValid
-
           # First compress the image, 'Lossless' is my favorite..
           gm task.newPath
-          .compress "Lossless"
           .resize 1500, 1500
+          .compress "Lossless"
           .autoOrient()
           .write task.newPath, (error) =>
             if error then return finish error
