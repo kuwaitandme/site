@@ -28,6 +28,7 @@ exports = module.exports = (knex) -> new class
 
       qb.limit @classifiedsPerPage
       qb.offset (page - 1) * @classifiedsPerPage
+      qb.orderBy "created", "ASC"
 
     @model.query buildQuery
       .fetchAll()

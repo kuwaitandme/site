@@ -19,20 +19,23 @@ exports = module.exports = ($scope, $location, $element, $storage, $window,
   $scope.parentCategory = $storage.get "parentCategory"
   $scope.finishMessage = (->
     texts = [
+      "Damn, there are no more classifieds!"
+      "Mayday! we're all out of classifieds!"
       "Woops! that's all we got!"
       "Wowie! that seems to be all we have!"
-      "Mayday! we're all out of classifieds!"
-      "Damn, there are no more classifieds!"
     ]
     texts[Math.floor Math.random() * texts.length])()
 
 
   $scope.$watch (-> classifedList.childElementCount), =>
-    for child in classifedList.children
-      if not child.dataset.added
-        child.dataset.added = true
-        masonry.appended child
-    masonry.layout()
+    if classifedList.children.length > 0
+      window.a = newElements = []
+      for child in classifedList.children
+        if not child.dataset.added
+          child.dataset.added = true
+          newElements.push child
+      masonry.appended newElements.reverse()
+      masonry.layout()
 
 
   # This function toggles the classified dropdown
