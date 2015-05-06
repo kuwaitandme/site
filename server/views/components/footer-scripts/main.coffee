@@ -18,10 +18,10 @@ window.scripts = [
     remoteSrc: "/javascripts/app.js?m=#{config.magic.application}"
     localSrc:  "/javascripts/app.js?m=#{config.magic.application}"
   }
-  # {
-  #   name: "library:google-maps"
-  #   remoteSrc: "//maps.googleapis.com/maps/api/js?key=AIzaSyBUcoOW5jw2GvlFQI49FIGl6I7czXcX5iQ&callback=initializeGmap"
-  # }
+  {
+    name: "library:google-maps"
+    remoteSrc: "//maps.googleapis.com/maps/api/js?key=AIzaSyBUcoOW5jw2GvlFQI49FIGl6I7czXcX5iQ&callback=initializeGmap"
+  }
   # {
   #   name: "library:font-opensans-css"
   #   remoteSrc: "//fonts.googleapis.com/css?family=Open+Sans:400,600"
