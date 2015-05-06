@@ -79,43 +79,55 @@ body#classified-post
         color: #FFF
 
   .gallery
-    @extend .font-bitter
+    @extend .font-roboto
+    margin-bottom: 0
     li
+      padding: 0
+      margin-bottom: 1rem !important
+      height: 100%
+      padding: 0 0.9375rem
       position: relative
+
       &.to-delete-from-server, &.to-delete
-        display: none
-      img, .close
-        width: 90% !important
-      .message
-        +single-transition(background)
-        border: 2px solid $border-color
-        background: $color-inactive
-        color: #999
-        cursor: pointer
-        height: 200px
-        width: 90%
-        padding: 0 20px
-        padding-top: 90px
-        text-align: center
-        &:hover
-          color: #FFF
-          border-color: rgba(0,0,0,0.1)
-          background: $color-valid
-      .close
+        .close
+          @extend .close:hover
+        .main
+          display: none
+      &.set-main-image
+        .main
+          @extend .main:hover
+
+      .close, .main
         +single-transition
-        background: #E74C3C
-        color: #FFF
+        color: #000
+        background: $border-color
         content: '\f00d'
         cursor: pointer
-        font-size: 0.8rem
-        padding: 10px
+        font-size: 0.7rem
+        padding: 7px 10px
+        display: inline-block
         text-align: center
         top: 0
         opacity: 1
+        &:hover
+          color: #FFF
+      .close
+        &:hover
+          background: #E74C3C
+          ~ img
+            border-color: #E74C3C
+      .main
+        &:hover
+          background: #30cd72
+          ~ img
+            border-color: #30cd72
+      img
+        +single-transition
+        border: 4px solid $border-color
 
-      // Always show in mobile
-      &:hover .close
-        opacity: 1
+        // img
+        //   opacity: 1
+        // .close
 
 
   .title, .description
@@ -184,21 +196,28 @@ body#classified-post
         z-index: 2
 
 
-  .submit
+  .submit, .add-images
     @extend font-title
     background: $color-valid
     color: #FFF
     font-size: 0.9rem
     padding: 0.5rem
-    width: 100%
     border-bottom: 4px solid rgba(0,0,0,0.1)
     z-index: 3
+  .submit
     @media only screen and (max-width: 64.063em)
+      margin-bottom: 0 !important
       bottom: -3px
       left: 0
       padding: 0.8rem 0.5rem
       position: fixed
 
+  .add-images
+    background: #3498db
+    width: 100%
+    // max-width: 200px
+    &:hover, &:focus
+      background: #2980b9
 
   @media only screen and (max-width: 64.063em)
     form

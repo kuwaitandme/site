@@ -2,14 +2,18 @@ section#classified
   form(name="form", novalidate, ng-class="{attempted:attempted}").row
     input(type="file", multiple, ng-model-file="fileChange").hide
     .columns
-      ul.gallery.row.collapse
-        li.small-6.medium-4.large-3.columns(data-id="{{ image.id }}",
+      ul.gallery.small-block-grid-2.medium-block-grid-3.large-block-grid-4
+        li(data-id="{{ image.id }}",
           class="{{ image.status }}",
+          ng-class="{'set-main-image': image.main }"
           ng-repeat="image in classified.images track by $index")
+          .close(ng-click="removeImage($event)") remove
+          .main(ng-click="setmainImage($event)") main image
           img.thumb(src!="{{ image.file }}")
-          .close(ng-click="removeFile($event)") remove this image
-        li.small-6.medium-4.large-3.columns.end(ng-click="addImages()")
-          .message Add an Image
+
+      .row
+        .columns.large-3.medium-4.small-6
+          button.add-images(ng-click="addImages()") Add Images
 
 
     .columns.title
@@ -147,5 +151,4 @@ section#classified
 
 
   .row
-    .columns
-      button.submit(ng-click="submit()") Submit classified
+    button.columns.submit(ng-click="submit()") Submit classified

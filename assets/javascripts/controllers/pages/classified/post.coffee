@@ -48,20 +48,51 @@ exports = module.exports = ($scope, $element, $googleMaps, $imageResizer,
       $imageResizer.createThumbnail file,
         thumbnailWidth: 300
         thumbnailHeight: 300
-        callback: (dataURL) => $scope.$apply -> $scope.classified.images.push
-          id: Math.random() * 100000
-          file: dataURL
-          status: "to-upload"
+        callback: (dataURL) => $scope.$apply ->
+          isThereMainImage = false
+          for image in $scope.classified.images
+            if image.main then isThereMainImage = true
+
+          $scope.classified.images.push
+            id: Math.random() * 100000
+            file: dataURL
+            status: "to-upload"
+            main: not isThereMainImage
 
 
   # Handler function to remove the file from the Uploads queue
-  $scope.removeFile = ($event) ->
+  $scope.removeImage = ($event) ->
     $li = angular.element $event.target.parentNode
-    status = $li.data().$scope.classified.images.status
 
-    if status is "on-server"
-      $li.data().$scope.classified.images.status = "to-delete-from-server"
-    else $li.data().$scope.classified.images.status = "to-delete"
+    # Decide which should be the new status for the image
+    switch $li.data().$scope.image.status
+      when "on-server"             then newStatus = "to-delete-from-server"
+      when "to-delete"             then newStatus = "to-upload"
+      when "to-delete-from-server" then newStatus = "on-server"
+      when "to-upload"             then newStatus = "to-delete"
+    if newStatus? then $li.data().$scope.image.status = newStatus
+
+    # Don't allow this image to be the main image if it is to be deleted
+    if $li.data().$scope.image.main
+      for image in $scope.classified.images
+        if image.status in ["on-server", "to-upload"]
+          image.main = true
+          break
+      $li.data().$scope.image.main = false
+
+
+  # Handler function to set the main image
+  $scope.setmainImage = ($event) ->
+    $li = angular.element $event.target.parentNode
+
+    # Don't do anything if the image was set to be deleted
+    if $li.data().$scope.image.status in ["to-delete-from-server", "to-delete"]
+      return
+
+    # First tag all images as not the main image
+    image.main = false for image in $scope.classified.images
+    # And then tag our specific image as the main image
+    $li.data().$scope.image.main = true
 
 
   $scope.submit = ->

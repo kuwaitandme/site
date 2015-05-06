@@ -91,15 +91,51 @@ exports = module.exports = ($http) ->
         priceType: classified.priceType
         priceValue: classified.priceValue
         contact: classified.contact
-        images: classified.images
         meta: classified.meta
         type: classified.type
 
+      hasMainImage = false
+
       # Prepare the formdata object
-      formdata.append "classified", angular.toJson data
+      fileIndex = 0
+      newImages = []
       for image in images then if image.status is "to-upload"
-        formdata.append "images[]", image.file
+        if image.main then hasMainImage = true
+
+        # Add all new images into a different variable, and add each image as
+        # a separate field in the fromdata object.
+        newImages.push id: fileIndex, main: image.main
+        formdata.append "images[]", (@_dataURItoBlob image.file), "#{fileIndex}"
+        fileIndex++
+
+      # If a main image has not been found, then set one.
+      if not hasMainImage and newImages.length > 0 then newImages[0].main = true
+
+      data.new_images = newImages
+      formdata.append "classified", angular.toJson data
       formdata
+
+
+    _dataURItoBlob: (dataURI) ->
+      matched = dataURI.match /data:(\w+\/\w+);base64,(.+)/
+
+      base64ToBlob = (base64, contentType="", sliceSize=512) ->
+        byteCharacters = atob base64
+        byteArrays = []
+        offset = 0
+        while offset < byteCharacters.length
+          slice = byteCharacters.slice offset, offset + sliceSize
+          byteNumbers = new Array slice.length
+          i = 0
+          while i < slice.length
+            byteNumbers[i] = slice.charCodeAt i
+            i++
+          byteArray = new Uint8Array byteNumbers
+          byteArrays.push byteArray
+          offset += sliceSize
+        new Blob byteArrays, type: contentType
+
+      base64ToBlob matched[2], matched[1]
 
 
   new Model
