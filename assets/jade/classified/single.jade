@@ -3,13 +3,17 @@ section(ng-switch="!!classified")#classified
     .columns(ng-if="showClassified")
       ul.gallery.row.collapse(ng-if="classified.images")
         li.small-6.medium-4.large-3.columns.end.image-loading(ng-repeat="image in classified.images track by $index")
-          a(target="_self", ng-href!="/uploads/main/{{ image.file }}", style="background: {{ image.color }}")
-            img.thumb(image-loader!="/uploads/thumb/{{ image.file }}", image-success="update", image-fail="update")
+          a(target="_self", ng-href!="/uploads/main/{{ image.file }}",
+            style="background: {{ image.color }}")
+            img.thumb(image-loader!="/uploads/thumb/{{ image.file }}",
+              image-success="update", image-fail="update")
 
     h2.columns.title {{ classified.title }}
     ul.columns.tags
       li.whatsapp(ng-if="classified.meta.whatsapp") Whatsapp
       li.viber(ng-if="classified.meta.viber") Viber
+      li.green(ng-if="classified.meta.deliveryIncluded && !classified.meta.freeDeliveryIncluded") Delivery included
+      li.green(ng-if="classified.meta.deliveryIncluded && classified.meta.freeDeliveryIncluded") Free Delivery included
       li.yellow(ng-if="classified.status == 0") Under Review
       li.green(ng-if="classified.status == 1") Active
       li.red(ng-if="classified.status == 2") Rejected
@@ -23,7 +27,8 @@ section(ng-switch="!!classified")#classified
       //- li.yellow Promoted
       //- li.red Urgent
 
-    pre.columns.description(itemprop="description", ng-if="showClassified") {{ classified.description }}
+    pre.columns.description(itemprop="description",
+      ng-if="showClassified") {{ classified.description }}
 
     .columns(ng-if="showClassified")
       ul.meta.small-block-grid-1.medium-block-grid-3.large-block-grid-4
@@ -82,7 +87,9 @@ section(ng-switch="!!classified")#classified
       li.email
         a.icon(target="_self", ng-href="{{ classified.social.email }}") &#xf003;
 
-    .google-maps.columns(ng-if="classified.meta.gmapX && showClassified", ng-init="drawMap(); mapHeight = window.innerHeight / 2", style="height: {{ window.innerHeight / 2 }}px")
+    .google-maps.columns(ng-if="classified.meta.gmapX && showClassified",
+      ng-init="drawMap(); mapHeight = window.innerHeight / 2",
+      style="height: {{ window.innerHeight / 2 }}px")
       #maps-container
 
 

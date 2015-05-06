@@ -9,7 +9,7 @@ section#classified
           ng-repeat="image in classified.images track by $index")
           .close(ng-click="removeImage($event)") remove
           .main(ng-click="setmainImage($event)") main image
-          img.thumb(src!="{{ image.file }}")
+          img.thumb(ng-src!="{{ image.file }}")
 
       .row
         .columns.large-3.medium-4.small-6
@@ -88,12 +88,12 @@ section#classified
         .columns.medium-9
           input(type="text", placeholder="+965 12345678",
             ng-model="classified.contact.phone")
-      li.row(ng-if="classified.location")
+      li.row(ng-if="classified.location && classified.location.id != '0'")
         .meta-title.columns.medium-2 Address
         .columns.medium-9
           input(type="text", placeholder="Address line 1",
             ng-model="classified.contact.address1")
-      li.row(ng-if="classified.location")
+      li.row(ng-if="classified.location && classified.location.id != '0'")
         .meta-title.columns.medium-2
         .columns.medium-9
           input(type="text", placeholder="Address line 2",
@@ -134,7 +134,7 @@ section#classified
               label I am available on Viber
 
 
-    .google-maps.columns(ng-if="classified.location", ng-init="drawMap()")
+    .google-maps.columns(ng-if="classified.location && classified.location.id != '0'", ng-init="drawMap()")
       .row.collapse
         .columns
           input(type="checkbox", name="toggled", id="toggleMaps",

@@ -1,15 +1,13 @@
 exports = module.exports = ($scope, $element, $stateParams, $googleMaps,
-  $location, Classified) ->
+  $location, $storage, Classified) ->
   @name = "[page:classified-single]"
   console.log @name, "initializing"
   console.debug @name, "routeParams", $stateParams
 
-  try $scope.classified = $scope.$parent.$parent.currentClassified
-  catch e
-
   $scope.$on "classified-changed", (event, classified) ->
     $scope.classified = classified
 
+  if $storage.get "classified" then $scope.classified = $storage.get "classified"
   if not $scope.classified?
     Classified.getBySlug $stateParams.slug, (error, classified) =>
       $scope.classified = classified
@@ -58,5 +56,6 @@ exports.$inject = [
   "$stateParams"
   "$googleMaps"
   "$location"
+  "$storage"
   "model.classified"
 ]

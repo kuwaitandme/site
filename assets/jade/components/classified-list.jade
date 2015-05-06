@@ -19,6 +19,5 @@ section(ng-controller="component:classified-list")
                 .status(class="{{ classified.statusClass }}") {{ classified.statusMessage }}
 
   .ajax-loading(ng-show="classifieds.length == 0 && !queryFinished") Loading classifieds!
-  //- #{{ "comp.classifiedlist.loading" | translate }}
 
-  .ajax-finish(ng-if="queryFinished") No classified(s)
+  .ajax-finish(ng-if="queryFinished") {{ finishMessage }}
