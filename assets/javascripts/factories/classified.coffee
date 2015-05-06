@@ -106,7 +106,7 @@ exports = module.exports = ($location, $http) ->
         # Add all new images into a different variable, and add each image as
         # a separate field in the fromdata object.
         newImages.push id: fileIndex, main: image.main
-        formdata.append "images[]", (@_dataURItoBlob image.file), "#{fileIndex}"
+        formdata.append "images[]", image.file, "#{fileIndex}"
         fileIndex++
 
       # If a main image has not been found, then set one.

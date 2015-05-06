@@ -9,7 +9,7 @@ section#classified
           ng-repeat="image in classified.images track by $index")
           .close(ng-click="removeImage($event)") remove
           .main(ng-click="setmainImage($event)") main image
-          img.thumb(ng-src!="{{ image.file }}")
+          img.thumb(ng-src!="{{ image.thumb || image.file }}")
 
       .row
         .columns.large-3.medium-4.small-6

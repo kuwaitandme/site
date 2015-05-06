@@ -45,19 +45,21 @@ exports = module.exports = ($scope, $element, $googleMaps, $imageResizer,
   $scope.fileChange = (files=[]) ->
     $scope.classified.images = [] if not $scope.classified.images?
     for file in files
-      $imageResizer.createThumbnail file,
+      console.log file
+      ((file)-> $imageResizer.createThumbnail file,
         thumbnailWidth: 300
         thumbnailHeight: 300
         callback: (dataURL) => $scope.$apply ->
           isThereMainImage = false
           for image in $scope.classified.images
             if image.main then isThereMainImage = true
-
+          console.log file
           $scope.classified.images.push
-            id: Math.random() * 100000
-            file: dataURL
+            file: file
+            thumb: dataURL
             status: "to-upload"
             main: not isThereMainImage
+      )(file)
 
 
   # Handler function to remove the file from the Uploads queue
