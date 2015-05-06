@@ -1,4 +1,4 @@
-exports = module.exports = ($http) ->
+exports = module.exports = ($location, $http) ->
   class Model
     name: "[model:classified]"
 
@@ -64,14 +64,15 @@ exports = module.exports = ($http) ->
 
 
     _parse: (classified) ->
+      URL = "https://#{$location.host()}/#{classified.slug}"
       # Sets the social links
-      tweet    = "Check out my classified at #{URL}"
+      tweet    = "Check out this classified, #{URL}"
       classified.social =
         facebook: "https://www.facebook.com/sharer/sharer.php?u=#{URL}"
         gplus:    "https://plus.google.com/share?url=#{URL}"
         twitter:  "https://twitter.com/home?status=#{encodeURI tweet}"
         email:    "mailto:?subject=Checkout this classified: '#{classified.title}'
-          &body=link to the classified: #{URL}"
+          &body=<your message>%0D%0A%0D%0Aurl: #{URL}"
       classified
 
 
@@ -141,4 +142,7 @@ exports = module.exports = ($http) ->
   new Model
 
 
-exports.$inject = ["$http"]
+exports.$inject = [
+  "$location"
+  "$http"
+]
