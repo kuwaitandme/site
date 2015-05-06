@@ -43,8 +43,10 @@ exports = module.exports = (IoC, logger, settings, policies) ->
   # winston request logger before everything else
   # but only if it was enabled in settings
   if settings.logger.requests
-    app.use winstonRequestLogger.create(logger)
-
+    app.use winstonRequestLogger.create logger,
+      '': ":method :statusCode :url[pathname]",
+      RT: ":responseTimems"
+      # URL:
   # parse request bodies
   # support _method (PUT in forms etc)
   app.use bodyParser.json(), bodyParser.urlencoded(extended: true), methodOverride("_method")
