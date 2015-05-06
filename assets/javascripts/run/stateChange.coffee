@@ -3,6 +3,7 @@ exports = module.exports = ($rootScope, $log, $storage) ->
   $rootScope.$on "$stateChangeStart",
     (event, toState, toParams, fromState, fromParams) ->
       $storage.clear()
+      $rootScope.bodyStyles = {}
 
       $log.log "[router] switching from '#{fromState.name}' to '#{toState.name}'"
       if toState.templateUrl?
