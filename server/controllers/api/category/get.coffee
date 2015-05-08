@@ -7,18 +7,7 @@ exports = module.exports = (Categories, cache) ->
         return response.end results
 
       # Categories was not cached, so query and then save in cache
-      Categories.getAll (error, categories) ->
-        results = []
-        for category in categories
-          if not category.parent_category?
-            category.children = []
-            results.push category
-          else
-            for parentCategory in results
-              if parentCategory.id is category.parent_category
-                parentCategory.children.push category
-                break
-
+      Categories.getAll (error, results) ->
         json = JSON.stringify results, null, 2
         cache.set "route:api/categories", json
         response.end json
