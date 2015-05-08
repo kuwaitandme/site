@@ -28,7 +28,7 @@ exports = module.exports = (renderer, Category, Classified) ->
           title = parent.name
 
           # Query on the child category based on the second slug
-          if childCategory? then for child in categories
+          if childCategory? then for child in parent.children
             if child.slug == childCategory
               parameters.childCategory = child.id
               title = "#{child.name} - #{parent.name}"
