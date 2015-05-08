@@ -1,7 +1,3 @@
 User-agent: *
 Disallow: /account/
-Disallow: /ar/account/
-Disallow: /ar/guest/
-Disallow: /en/account/
-Disallow: /en/guest/
-Disallow: /guest/
+Disallow: /classified/post
