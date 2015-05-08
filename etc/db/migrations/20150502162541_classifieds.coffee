@@ -4,12 +4,13 @@ exports.up = (knex, Promise) ->
     (table.string "title").notNull()
     (table.string "slug").notNull()
     (table.text "description").notNull()
-    (table.integer "parent_category").notNull().references("id").inTable "categories"
-    (table.integer "child_category").references("id").inTable "categories"
+    (table.integer "parent_category").notNull().references("id").inTable "parent_categories"
+    (table.integer "child_category").references("id").inTable "child_categories"
     (table.integer "location").notNull().references("id").inTable "locations"
     (table.integer "owner").references("id").inTable "users"
     (table.integer "priceType").notNull()
     (table.integer "priceValue")
+    (table.integer "weight").notNull().defaultTo 0
     (table.integer "status").notNull()
     (table.json "contact")
     (table.json "images")
