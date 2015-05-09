@@ -76,8 +76,8 @@ exports = module.exports = (IoC) ->
   _route "/classified/post",                  "classified/post"
   _route "/classified",                       "classified/search"
   _route "/classified/([a-z\-]*)",            "classified/search"
-  _route "/classified/([a-z\-]*)/([a-z\-]*)", "classified/search"
-  # _route "/classified/([a-zf0-9]*)/finish",   "classified/finish"
+  _route "/classified/([a-z\-]+)/([a-z\-]*)", "classified/search"
+  _route "/classified/finish/([0-9]+)",       "classified/finish"
   # _route "/classified/([a-zf0-9]*)/edit",     "classified/edit"
   # _route "/classified/([a-zf0-9]*)",          "classified/single"
 
@@ -87,6 +87,7 @@ exports = module.exports = (IoC) ->
   # _route "/account/profile", "account/profile"
 
   _route "/([^/]+)",                          "classified/single"
+
   # If language slug is present but page has not matched any url give 404 page
   _route  ".+", fourofour
 

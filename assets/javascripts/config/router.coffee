@@ -18,7 +18,6 @@ exports = module.exports = ($stateProvider, $locationProvider, $urlMatcher,
         user:       ["model.user",     (user)     -> user.download()]
         location:   ["model.location", (location) -> location.download()]
 
-  # $urlRouterProvider.otherwise "/page-not-found"
   _route "account/index",      "/account"
   _route "account/manage",     "/account/manage"
   _route "auth/login",         "/auth/login"
@@ -26,13 +25,16 @@ exports = module.exports = ($stateProvider, $locationProvider, $urlMatcher,
   _route "auth/signup",        "/auth/signup"
   _route "guest/post",         "/guest/post"
   _route "landing",            "/"
-  _route "classified/finish",  "/{slug:[^/]+}/finish"
-  _route "classified/single",  "/{slug:[^/]+}"
+
+  _route "classified/finish",  "/classified/finish/{id:[0-9]+}"
+  # _route "classified/edit",    "/classified/edit/{id:[0-9]+}"
   _route "classified/post",    "/classified/post"
+
   _route "classified/search",  "/classified"
   _route "classified/search",  "/classified/{parent:[^/]+}"
   _route "classified/search",  "/classified/{parent:[^/]+}/{child:[^/]+}"
 
+  _route "classified/single",  "/{slug:[^/]+}"
   _route "404",                "*page"
 
   # Enable HTML5 pushstate for hash-less URLs
