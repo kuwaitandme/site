@@ -12,6 +12,23 @@ exports = module.exports = (knex) -> new class
     @collection = bookshelf.Collection.extend model: @model
 
 
+  statuses:
+    INACTIVE: 0
+    ACTIVE: 1
+    REJECTED: 2
+    ARCHIVED: 3
+    BANNED: 4
+    FLAGGED: 5
+    VERIFIED: 6
+    EXPIRED: 7
+
+
+  languages:
+    ENGLISH: 1
+    ARABIC:  2
+    HINDI:   3
+
+
   query: (parameters, callback) ->
     buildQuery = (qb) =>
       pcat = parameters.parent_category

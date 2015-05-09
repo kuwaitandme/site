@@ -1,145 +1,156 @@
-exports = module.exports = ($location, $http) ->
-  class Model
-    name: "[model:classified]"
+exports = module.exports = ($location, $http) -> new class
+  name: "[model:classified]"
 
 
-    # Serialize the object into a format recognized by HTTP "GET"
-    _serializeGET: (obj) ->
-      str = []
-      for p of obj then if obj.hasOwnProperty p
-        str.push "#{encodeURIComponent p}=#{encodeURIComponent obj[p]}"
-      str.join '&'
+  # Serialize the object into a format recognized by HTTP "GET"
+  _serializeGET: (obj) ->
+    str = []
+    for p of obj then if obj.hasOwnProperty p
+      str.push "#{encodeURIComponent p}=#{encodeURIComponent obj[p]}"
+    str.join '&'
 
 
-    save: (classified={}, callback=->) ->
-      if not classified._id?
-        method = "POST"
-        url = "/api/classified"
-      else
-        method = "PUT"
-        url = "/api/classified/#{classified._id}"
-      console.log @name, "sending classified to server [#{method}]"
-      console.debug @name, classified
+  save: (classified={}, callback=->) ->
+    if not classified._id?
+      method = "POST"
+      url = "/api/classified"
+    else
+      method = "PUT"
+      url = "/api/classified/#{classified._id}"
+    console.log @name, "sending classified to server [#{method}]"
+    console.debug @name, classified
 
-      # Convert the json array into a formdata object
-      formdata = @_getFormdata classified
-      # Send the request with a 'multi-part/formdata' encoding.
-      $http
-        url: url
-        data: formdata
-        method: method
-        transformRequest: angular.identity
-        headers: "Content-Type": undefined
-      .success (response) -> callback null, response
-      .error (response) -> callback response
-
-
-    query: (parameters, callback) ->
-      $http.get "/api/classified?#{@_serializeGET parameters}"
-      .success (classifieds) =>
-        @_parse classified for classified in classifieds
-        callback null, classifieds
-      .error callback
+    # Convert the json array into a formdata object
+    formdata = @_getFormdata classified
+    # Send the request with a 'multi-part/formdata' encoding.
+    $http
+      url: url
+      data: formdata
+      method: method
+      transformRequest: angular.identity
+      headers: "Content-Type": undefined
+    .success (response) -> callback null, response
+    .error (response) -> callback response
 
 
-    get: (id, callback) ->
-      $http.get "/api/classified/#{id}"
-      .success (classified) => callback null, @_parse classified
-      .error callback
+  query: (parameters, callback) ->
+    $http.get "/api/classified?#{@_serializeGET parameters}"
+    .success (classifieds) =>
+      @_parse classified for classified in classifieds
+      callback null, classifieds
+    .error callback
 
 
-    getBySlug: (slug, callback) ->
-      $http.get "/api/classified/slug/#{slug}"
-      .success (classified) => callback null, @_parse classified
-      .error callback
+  get: (id, callback) ->
+    $http.get "/api/classified/#{id}"
+    .success (classified) => callback null, @_parse classified
+    .error callback
 
 
-    getDefault: ->
-      contact:       {}
-      filesToDelete: []
-      images:        []
-      meta:          {}
-      perks:         {}
-      reports:       []
+  getBySlug: (slug, callback) ->
+    $http.get "/api/classified/slug/#{slug}"
+    .success (classified) => callback null, @_parse classified
+    .error callback
 
 
-    _parse: (classified) ->
-      URL = "https://#{$location.host()}/#{classified.slug}"
-      # Sets the social links
-      tweet    = "Check out this classified, #{URL}"
-      classified.social =
-        facebook: "https://www.facebook.com/sharer/sharer.php?u=#{URL}"
-        gplus:    "https://plus.google.com/share?url=#{URL}"
-        twitter:  "https://twitter.com/home?status=#{encodeURI tweet}"
-        email:    "mailto:?subject=Checkout this classified: '#{classified.title}'
-          &body=<your message>%0D%0A%0D%0Aurl: #{URL}"
-      classified
+  statuses:
+    INACTIVE: 0
+    ACTIVE: 1
+    REJECTED: 2
+    ARCHIVED: 3
+    BANNED: 4
+    FLAGGED: 5
+    VERIFIED: 6
+    EXPIRED: 7
+
+  languages:
+    ENGLISH: 1
+    ARABIC:  2
+    HINDI:   3
+
+  getDefault: ->
+    contact:       {}
+    filesToDelete: []
+    images:        []
+    meta:          {}
+    perks:         {}
+    reports:       []
 
 
-    _getFormdata: (classified) ->
-      formdata = new FormData
-
-      # Extract the images
-      images = classified.images or []
-      delete classified.images
-
-      data =
-        title: classified.title
-        description: classified.description
-        parent_category: classified.parentCategory.id
-        child_category: classified.childCategory.id
-        location: classified.location.id
-        priceType: classified.priceType
-        priceValue: classified.priceValue
-        contact: classified.contact
-        meta: classified.meta
-        type: classified.type
-
-      hasMainImage = false
-
-      # Prepare the formdata object
-      fileIndex = 0
-      newImages = []
-      for image in images then if image.status is "to-upload"
-        if image.main then hasMainImage = true
-
-        # Add all new images into a different variable, and add each image as
-        # a separate field in the fromdata object.
-        newImages.push id: fileIndex, main: image.main
-        formdata.append "images[]", image.file, "#{fileIndex}"
-        fileIndex++
-
-      # If a main image has not been found, then set one.
-      if not hasMainImage and newImages.length > 0 then newImages[0].main = true
-
-      data.new_images = newImages
-      formdata.append "classified", angular.toJson data
-      formdata
+  _parse: (classified) ->
+    URL = "https://#{$location.host()}/#{classified.slug}"
+    # Sets the social links
+    tweet    = "Check out this classified, #{URL}"
+    classified.social =
+      facebook: "https://www.facebook.com/sharer/sharer.php?u=#{URL}"
+      gplus:    "https://plus.google.com/share?url=#{URL}"
+      twitter:  "https://twitter.com/home?status=#{encodeURI tweet}"
+      email:    "mailto:?subject=Checkout this classified: '#{classified.title}'
+        &body=<your message>%0D%0A%0D%0Aurl: #{URL}"
+    classified
 
 
-    _dataURItoBlob: (dataURI) ->
-      matched = dataURI.match /data:(\w+\/\w+);base64,(.+)/
+  _getFormdata: (classified) ->
+    formdata = new FormData
 
-      base64ToBlob = (base64, contentType="", sliceSize=512) ->
-        byteCharacters = atob base64
-        byteArrays = []
-        offset = 0
-        while offset < byteCharacters.length
-          slice = byteCharacters.slice offset, offset + sliceSize
-          byteNumbers = new Array slice.length
-          i = 0
-          while i < slice.length
-            byteNumbers[i] = slice.charCodeAt i
-            i++
-          byteArray = new Uint8Array byteNumbers
-          byteArrays.push byteArray
-          offset += sliceSize
-        new Blob byteArrays, type: contentType
+    # Extract the images
+    images = classified.images or []
+    delete classified.images
 
-      base64ToBlob matched[2], matched[1]
+    data =
+      title: classified.title
+      description: classified.description
+      parent_category: classified.parentCategory.id
+      child_category: classified.childCategory.id
+      location: classified.location.id
+      priceType: classified.priceType
+      priceValue: classified.priceValue
+      contact: classified.contact
+      meta: classified.meta
+      type: classified.type
+
+    hasMainImage = false
+
+    # Prepare the formdata object
+    fileIndex = 0
+    newImages = []
+    for image in images then if image.status is "to-upload"
+      if image.main then hasMainImage = true
+
+      # Add all new images into a different variable, and add each image as
+      # a separate field in the fromdata object.
+      newImages.push id: fileIndex, main: image.main
+      formdata.append "images[]", image.file, "#{fileIndex}"
+      fileIndex++
+
+    # If a main image has not been found, then set one.
+    if not hasMainImage and newImages.length > 0 then newImages[0].main = true
+
+    data.new_images = newImages
+    formdata.append "classified", angular.toJson data
+    formdata
 
 
-  new Model
+  _dataURItoBlob: (dataURI) ->
+    matched = dataURI.match /data:(\w+\/\w+);base64,(.+)/
+
+    base64ToBlob = (base64, contentType="", sliceSize=512) ->
+      byteCharacters = atob base64
+      byteArrays = []
+      offset = 0
+      while offset < byteCharacters.length
+        slice = byteCharacters.slice offset, offset + sliceSize
+        byteNumbers = new Array slice.length
+        i = 0
+        while i < slice.length
+          byteNumbers[i] = slice.charCodeAt i
+          i++
+        byteArray = new Uint8Array byteNumbers
+        byteArrays.push byteArray
+        offset += sliceSize
+      new Blob byteArrays, type: contentType
+
+    base64ToBlob matched[2], matched[1]
 
 
 exports.$inject = [
