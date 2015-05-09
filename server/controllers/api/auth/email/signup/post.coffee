@@ -9,7 +9,7 @@ exports = module.exports = (User, reCaptcha) ->
       response.json "recaptcha failed"
 
     captchaSuccess = ->
-      email = request.body.username
+      email = request.body.email
       fullname = request.body.fullname
       password = request.body.password
       repassword = request.body.repassword
