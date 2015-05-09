@@ -1,4 +1,4 @@
-$xports = module.exports = ($window)->
+exports = module.exports = ($window)->
   scope: ngScroll: "&"
 
   link: (scope, element, attributes) ->
