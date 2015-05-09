@@ -8,3 +8,5 @@ module.exports = (app) ->
   app.service "$imageResizer",      require "./imageResizer"
   app.service "$scroller",          require "./scroller"
   app.service "$storage",           require "./storage"
+  app.service "$base64",            require "./base64"
+  # app.service "$socket",            require "./socket"
