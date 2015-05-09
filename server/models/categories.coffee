@@ -30,7 +30,6 @@ exports = module.exports = (knex, cache) -> new class
           category.children = []
           for child in results.childCategory
             if category.id is child.parent_category
-              console.log category.name, child.name
               category.children.push child
           categories.push category
 

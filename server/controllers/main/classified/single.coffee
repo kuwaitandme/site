@@ -5,8 +5,6 @@ exports = module.exports = (renderer, Classified) ->
   controller = (request, response, next) ->
     slug = request.params[0]
 
-    console.log slug
-
     # Update the view counter asynchronously
     # controller.updateViewCount request, id
 
