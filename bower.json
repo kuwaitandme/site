@@ -14,6 +14,9 @@
         "item.js",
         "outlayer.js"
       ]
+    },
+    "socket.io-client" : {
+      "main" : "socket.io.js"
     }
   }
 }
