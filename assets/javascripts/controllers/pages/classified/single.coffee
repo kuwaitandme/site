@@ -7,7 +7,7 @@ exports = module.exports = ($scope, $element, $stateParams, $googleMaps,
   $scope.$on "classified-changed", (event, classified) ->
     $scope.classified = classified
 
-  if $storage.get "classified" then $scope.classified = $storage.get "classified"
+  # if $storage.get "classified" then $scope.classified = $storage.get "classified"
   if not $scope.classified?
     Classified.getBySlug $stateParams.slug, (error, classified) =>
       $scope.classified = classified

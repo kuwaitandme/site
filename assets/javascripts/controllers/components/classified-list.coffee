@@ -15,8 +15,8 @@ exports = module.exports = ($scope, $location, $element, $storage, $window,
 
   # Initialize DOM elements
   $scope.queryFinished = false
-  $scope.childCategory  = $storage.get "childCategory"
-  $scope.parentCategory = $storage.get "parentCategory"
+  $scope.childCategory  = $storage.local "childCategory"
+  $scope.parentCategory = $storage.local "parentCategory"
   $scope.finishMessage = (->
     texts = [
       "Damn, there are no more classifieds!"

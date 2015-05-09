@@ -6,6 +6,7 @@ exports = module.exports = (renderer, Category, Classified) ->
     page = 1
     reverse = false
 
+
     _renderPage = (title) ->
       Classified.query parameters, (error, classifieds) ->
         if error then return next error
@@ -15,9 +16,9 @@ exports = module.exports = (renderer, Category, Classified) ->
           title: title or response.__ "title.classified.search"
         renderer request, response, options, false
 
+
     Category.getAll (error, categories) ->
       if error then next error
-
       parentCategory = request.params[0]
       childCategory = request.params[1]
 
