@@ -1,7 +1,4 @@
 .classified-single
-  // max-width: 800px
-  // margin: 0 auto
-
   > .row .columns
     margin-bottom: 1rem
 
@@ -58,19 +55,32 @@
 
   .meta
     margin-top: 0
-    padding-bottom: 4rem
+    // padding-bottom: 4rem
     li
       font-size: 0.8rem
       margin: 0 auto
       padding: 0
       margin-bottom: 0.5rem
-      text-align: center
+      position: relative
+      text-align: left
       word-wrap: break-word
       .meta-title, .meta-value
         display: inline-block
       .meta-title
         padding-right: 5px
         font-weight: bold
+
+      @media only screen and (min-width: 40em)
+        .meta-title
+          position: absolute
+          width: 80px
+          left: 0
+          text-align: right
+        .meta-value
+          padding-left: 80px
+          width: 100%
+          text-align: left
+
 
 
   .user
@@ -123,6 +133,7 @@
       min-height: 300px
 
   .disclaimer
+    padding: 10px
     color: #000
     opacity: 0.4
     font-size: 0.7rem
