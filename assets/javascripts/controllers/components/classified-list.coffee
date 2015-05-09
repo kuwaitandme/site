@@ -43,14 +43,14 @@ exports = module.exports = ($scope, $location, $element, $storage, $window,
     $rootScope.bodyStyles = $rootScope.bodyStyles or {}
     console.log scrollPosition, body.scrollTop
 
-    if not $scope.currentClassified?
+    if not $scope.classified?
       $scope.$broadcast "classified-changed", classified
       $rootScope.bodyStyles.overflowY = "hidden"
-      $scope.currentClassified = classified
+      $scope.classified = classified
       scrollPosition = body.scrollTop
       body.scrollTop = 0
     else
-      $scope.currentClassified = undefined
+      $scope.classified = undefined
       setTimeout (-> body.scrollTop = scrollPosition), 50
       $rootScope.bodyStyles.overflowY = ""
 
