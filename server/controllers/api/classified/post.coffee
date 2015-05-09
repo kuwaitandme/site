@@ -1,27 +1,27 @@
 formidable        = require "formidable"
 keyword_extractor = require "keyword-extractor"
 
-
-_createURLslug = (classified) ->
-  maxLength = 70
-  # Get the keywords and make a sentence seperated by '-'s.
-  keywords = keyword_extractor.extract classified.title,
-    language: "english"
-    remove_duplicates: true
-    return_changed_case: true
-  keywords = keywords.join "-"
-  # Clean the string off unwanted characters
-  # TODO: check for Arabic characters
-  cleanedString = keywords.replace /[^\w- ]+/g, ""
-  # Trim the string to the maximum length
-  trimmedString = cleanedString.substr 0, maxLength
-  # Trim the slug if we are in the middle of a word
-  trimmedSentence = trimmedString.substr 0, Math.min trimmedString.length,
-    trimmedString.lastIndexOf "-"
-  # Finally generate the slug
-  slug = "#{trimmedSentence}-#{classified.id}"
-
 exports = module.exports = (Classified, reCaptcha, uploader) ->
+  _createURLslug = (classified) ->
+    maxLength = 70
+    # Get the keywords and make a sentence seperated by '-'s.
+    keywords = keyword_extractor.extract classified.title,
+      language: "english"
+      remove_duplicates: true
+      return_changed_case: true
+    keywords = keywords.join "-"
+    # Clean the string off unwanted characters
+    # TODO: check for Arabic characters
+    cleanedString = keywords.replace /[^\w- ]+/g, ""
+    # Trim the string to the maximum length
+    trimmedString = cleanedString.substr 0, maxLength
+    # Trim the slug if we are in the middle of a word
+    trimmedSentence = trimmedString.substr 0, Math.min trimmedString.length,
+      trimmedString.lastIndexOf "-"
+    # Finally generate the slug
+    slug = "#{trimmedSentence}-#{classified.id}"
+
+
   controller = (request, response, next) ->
     captchaFail = ->
       response.status 401
@@ -54,6 +54,7 @@ exports = module.exports = (Classified, reCaptcha, uploader) ->
 
         imageMeta = data.new_images
         delete data.new_images
+        delete data.filesToDelete
 
         # First create the classified
         Classified.create data, (error, classified) ->
