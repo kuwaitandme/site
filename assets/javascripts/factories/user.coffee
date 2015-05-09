@@ -1,4 +1,4 @@
-exports = module.exports = ($http, $rootScope, $log, $storage) -> new class
+exports = module.exports = ($http, $rootScope, console, $storage) -> new class
   name: "[model:user]"
 
   setCurrentUser: (user) -> $storage.session "user:current", user
@@ -11,7 +11,7 @@ exports = module.exports = ($http, $rootScope, $log, $storage) -> new class
   logout: ->
     $http.get "/api/auth/logout"
     .success (data, status) =>
-      $log.log @name, "user logged out"
+      console.log @name, "user logged out"
       $storage.session "user:current", null
       $rootScope.extraClass = $rootScope.extraClass or {}
       $rootScope.extraClass["logged-in"] = @isLoggedIn()
@@ -20,11 +20,11 @@ exports = module.exports = ($http, $rootScope, $log, $storage) -> new class
   download: ->
     # This helper function is used to get the user details from the API
     _fetchFromAPI = =>
-      $log.log @name, "downloading user"
+      console.log @name, "downloading user"
       $http.get "/api/user/current"
       .success (user) =>
-        $log.log @name, "fetched current user"
-        $log.debug @name, user
+        console.log @name, "fetched current user"
+        console.debug @name, user
         $storage.session "user:current", angular.toJson user
         $rootScope.extraClass = $rootScope.extraClass or {}
         $rootScope.extraClass["logged-in"] = @isLoggedIn()
@@ -33,7 +33,7 @@ exports = module.exports = ($http, $rootScope, $log, $storage) -> new class
     cache = $storage.session "user:current"
     if cache? and false
       # user was found in session cache, prepare to translate it and return
-      $log.log @name, "retrieving current user from cache"
+      console.log @name, "retrieving current user from cache"
       try angular.fromJson cache
       catch exception
         # Something went wrong while parsing the locations. No problem,
@@ -41,7 +41,7 @@ exports = module.exports = ($http, $rootScope, $log, $storage) -> new class
         _fetchFromAPI()
     else
       # locations were never saved. So retrieve it from the API.
-      $log.log @name, "retrieving current user from API"
+      console.log @name, "retrieving current user from API"
       _fetchFromAPI()
 
 

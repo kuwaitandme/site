@@ -1,6 +1,8 @@
 exports = module.exports = -> new class
   name: "[provider:environment]"
   config: {}
+
+
   # This function is used to get the value of the given setting.
   get: (key) -> config["#{key}"]
 
@@ -13,16 +15,16 @@ exports = module.exports = -> new class
     "$window"
     "$log"
     "$base64"
-    ($window, $log, $base64) ->
-      $log.log @name, "initializing"
-      $log.log @name, "decoding server-side data"
+    ($window, console, $base64) ->
+      console.log @name, "initializing"
+      console.log @name, "decoding server-side data"
       try
         # Decode the cryptedData
         @config = $base64.decode $window.cryptedData
         # Extend the properties of the publicData object
         @config[attr] = $window.publicData[attr] for attr in $window.publicData
-        $log.debug @name, @config
+        console.debug @name, @config
       catch e
-        $log.error @name, "error decoding server-side data"
-        $log.error e
+        console.error @name, "error decoding server-side data"
+        console.error e
   ]

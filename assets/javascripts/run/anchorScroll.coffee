@@ -1,4 +1,4 @@
-exports = module.exports = ($state, $rootScope, $window, $log) ->
+exports = module.exports = ($state, $rootScope, $window, console) ->
   $rootScope.$on "$viewContentLoaded", ->
     state = $state.$current
     if not state.scrollTo? $window.scrollTo 0, 0

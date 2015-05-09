@@ -1,11 +1,11 @@
-exports = module.exports = ($rootScope, $log, $storage) ->
+exports = module.exports = ($rootScope, console, $storage) ->
   body = document.body
   $rootScope.$on "$stateChangeStart",
     (event, toState, toParams, fromState, fromParams) ->
       # $storage.clear()
       $rootScope.bodyStyles = {}
 
-      $log.log "[router] switching from '#{fromState.name}' to '#{toState.name}'"
+      console.log "[router] switching from '#{fromState.name}' to '#{toState.name}'"
       if toState.templateUrl?
         bodyid = toState.templateUrl.replace "/", "-"
         body.id = bodyid
