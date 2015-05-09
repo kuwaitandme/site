@@ -9,4 +9,5 @@ section(ng-controller="component:classified-list")
       a(ng-include="'components/classified-list-item'")
 
   .ajax-loading(ng-show="classifieds.length == 0 && !queryFinished") Loading classifieds!
-  .ajax-finish(ng-if="queryFinished") {{ finishMessage }}
+  .ajax-finish(ng-if="queryFinished && classifieds.length > 0") {{ finishMessage }}
+  .ajax-finish(ng-if="queryFinished && classifieds.length == 0") {{ emptyMessage }}

@@ -5,23 +5,7 @@ exports = module.exports = ($scope, $googleMaps, console, Classified) ->
 
   console.log $scope.classified
   cl = $scope.classified or {}
-  cl.meta = cl.meta or {}
   cl.show = true
-  cl.showContactForm = false
-
-  # Set the status variables
-  switch cl.status
-    when Classified.statuses.ACTIVE then cl.isActive = true
-    when Classified.statuses.ARCHIVED then cl.isArchived = true
-    when Classified.statuses.REJECTED then cl.isRejected = true
-    when Classified.statuses.BANNED then cl.isBanned = true
-    when Classified.statuses.INACTIVE then cl.underReview = true
-    when Classified.statuses.EXPIRED then cl.hasExpired = true
-
-  # Set the delivery variables
-  if cl.meta.deliveryIncluded
-    if not cl.meta.freeDeliveryIncluded then cl.hasDelivery = true
-    else cl.hasFreeDelivery = true
 
   # This function is used to render the Google maps component if needed.
   $scope.drawMap = ->

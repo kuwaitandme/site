@@ -3,8 +3,9 @@ exports = module.exports = ($scope, $stateParams, $rootScope, console, category)
   console.log @name, "initializing"
   console.debug @name, "routeParams", $stateParams
 
-  $scope.parentCategory = category.findBySlug $stateParams.parent
-  $scope.childCategory = category.findBySlug $stateParams.child
+  $scope.query =
+    parent_category: category.findBySlug $stateParams.parent
+    child_category: category.findBySlug $stateParams.child
 
   $rootScope.bodyClasses = $rootScope.bodyClasses or {}
   for cls of $rootScope.bodyClasses then if (cls.indexOf "cl-") is 0

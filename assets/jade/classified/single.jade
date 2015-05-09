@@ -1,5 +1,5 @@
-section(ng-switch="!!classified")#classified
-  .row(ng-switch-when="true")
+div(ng-switch="!!classified")
+  div(ng-switch-when="true")
     section(ng-include="'components/classified-single'")
   .row(ng-switch-default)
     #ajax-spinner

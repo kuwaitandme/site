@@ -12,9 +12,8 @@ exports = module.exports = ($scope, $location, console, category) ->
 
   categories = category.getAll()
   for category in categories
-    # The sprite is the classname we will use to add the category"s image
+    # The sprite is the classname we will use to add the category's image
     category.sprite = (category.name.replace ",", " ").split(" ")[0].toLowerCase()
-
     # Add the click handler
     category.extraClass = ""
     category.toggleChildren = ->
