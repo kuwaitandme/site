@@ -7,7 +7,7 @@ section.row.classified-single(ng-controller="component:classified-single")
           img.thumb(image-loader!="/uploads/thumb/{{ image.file }}",
             image-success="update", image-fail="update")
 
-  h2.columns.title(contenteditable="true", placholder='title') {{ classified.title }}
+  h2.columns.title(contenteditable-dis="true", placholder="title") {{ classified.title }}
   ul.columns.tags
     li.whatsapp(ng-if="classified.meta.whatsapp") Whatsapp
     li.viber(ng-if="classified.meta.viber") Viber

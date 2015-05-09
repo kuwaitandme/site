@@ -9,6 +9,7 @@ exports = module.exports = ($scope, $googleMaps, console, Classified) ->
   cl.show = true
   cl.showContactForm = false
 
+  # Set the status variables
   switch cl.status
     when Classified.statuses.ACTIVE then cl.isActive = true
     when Classified.statuses.ARCHIVED then cl.isArchived = true
@@ -17,10 +18,12 @@ exports = module.exports = ($scope, $googleMaps, console, Classified) ->
     when Classified.statuses.INACTIVE then cl.underReview = true
     when Classified.statuses.EXPIRED then cl.hasExpired = true
 
+  # Set the delivery variables
   if cl.meta.deliveryIncluded
     if not cl.meta.freeDeliveryIncluded then cl.hasDelivery = true
     else cl.hasFreeDelivery = true
 
+  # This function is used to render the Google maps component if needed.
   $scope.drawMap = ->
     initMap = ->
       # The co-ordinates to which we will center the map

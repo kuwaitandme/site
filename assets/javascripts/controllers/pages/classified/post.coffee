@@ -99,7 +99,7 @@ exports = module.exports = ($scope, $googleMaps, $imageResizer,
   $scope.submit = ->
     if not $scope.form.$invalid
       classified.save $scope.classified, (error, classified) ->
-        $location.path "/#{classified.slug}/finish"
+        $location.path "/classified/finish/#{classified.id}"
     $scope.attempted = true
 
 
