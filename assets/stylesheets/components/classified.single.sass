@@ -1,0 +1,173 @@
+.classified-single
+  // max-width: 800px
+  // margin: 0 auto
+
+  > .row .columns
+    margin-bottom: 1rem
+
+  .gallery
+    li
+      margin-bottom: 0 !important
+      img
+        &.image-fail
+          display: none
+        width: 100%
+
+  .title
+    @extend .font-bitter
+    font-size: 1.6rem
+    word-wrap: break-word
+
+  .tags
+    +clearfix
+    margin-top: 0
+    margin-left: 0
+    li
+      color: #FFF
+      float: left
+      font-size: 0.7rem
+      margin-bottom: 5px
+      margin-right: 5px
+      padding: 5px 10px
+      text-transform: uppercase
+
+      &.whatsapp
+        background: #11AE09
+      &.viber
+        background: #774F98
+      &.green
+        background: #2ecc71
+      &.yellow
+        background: #FFB604
+      &.red
+        background: #D3402A
+
+  .description
+    @extend .font-open
+    min-height: 150px
+    padding-bottom: 4rem
+    white-space: -moz-pre-wrap
+    white-space: -o-pre-wrap
+    white-space: -pre-wrap
+    white-space: pre-wrap
+    word-wrap: break-word
+    font-size: 1rem
+    textarea
+      line-height: 30px
+
+
+  .meta
+    margin-top: 0
+    padding-bottom: 4rem
+    li
+      font-size: 0.8rem
+      margin: 0 auto
+      padding: 0
+      margin-bottom: 0.5rem
+      text-align: center
+      word-wrap: break-word
+      .meta-title, .meta-value
+        display: inline-block
+      .meta-title
+        padding-right: 5px
+        font-weight: bold
+
+
+  .user
+    font-size: 0.8rem
+    position: relative
+    min-height: 147px
+    padding-bottom: 1rem
+    .avatar
+      position: absolute
+      top: 0
+      left: 0.9375rem
+      padding: 1rem 0
+      width: 130px
+      height: 130px
+      background: #EEE
+    .info
+      padding-top: 10px
+      padding-left: 150px
+      b
+        padding-right: 5px
+        font-size: 0.8rem
+      li
+        margin-bottom: 10px
+      .name
+        font-size: 1rem
+        padding-bottom: 5px
+      .contact
+        background: #2ecc71
+        border-bottom: none
+        color: #FFF
+        display: inline-block
+        font-size: 0.7rem
+        margin-top: 5px
+        padding: 5px 10px
+        text-transform: uppercase
+      .email, .phone
+        display: inline-block
+      .email
+        padding-right: 5px
+      .phone
+        padding-left: 5px
+      a
+        text-decoration: none
+        color: blue
+
+
+  .google-maps
+    position: relative
+    #maps-container
+      min-height: 300px
+
+  .disclaimer
+    color: #000
+    opacity: 0.4
+    font-size: 0.7rem
+  a
+    color: blue
+    text-decoration: none
+    border-bottom: 1px solid blue
+
+  ul#extras-sidebar
+    // position: absolute
+    // margin-left: -100px
+    margin-top: 0 // on par with the descriptions
+    // width: 100px
+    // height: 400px
+    text-align: center
+    li
+      +radius(50px)
+      display: inline-block
+      margin: 10px
+      overflow: hidden
+      &.twitter .icon
+        background: #00ABEC
+      &.facebook .icon
+        background: #3D57A3
+      &.googleplus .icon
+        background: #DF2927
+      &.email .icon
+        background: #DDD
+        color: #222
+      &.link .icon
+        background: #F60
+      .icon
+        @extend .font-awesome
+        border-bottom: 0
+        color: #FFF
+        display: inline-block
+        font-size: 0.9rem
+        padding: 13px
+        text-align: center
+        width: 40px
+// @media print
+//   .c-gallery
+//     border-bottom: none !important
+//     background: #FFF !important
+//     img
+//       max-width: 45% !important
+//   .gmnoprint
+//     display:none
