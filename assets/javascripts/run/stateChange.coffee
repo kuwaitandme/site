@@ -2,7 +2,7 @@ exports = module.exports = ($rootScope, $log, $storage) ->
   body = document.body
   $rootScope.$on "$stateChangeStart",
     (event, toState, toParams, fromState, fromParams) ->
-      $storage.clear()
+      # $storage.clear()
       $rootScope.bodyStyles = {}
 
       $log.log "[router] switching from '#{fromState.name}' to '#{toState.name}'"
