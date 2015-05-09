@@ -17,11 +17,9 @@ exports = module.exports = ($window, console, $environment) -> new class
 
   constructor: ->
     console.log @name, "initializing"
-
     # Setup the temporary storage
     console.log @name, "setting up temporary storage"
     @tmp = @_createFallbackStorage()
-
     # Check if HTML5 localStorage is supported. If not then create fallback
     # storages for both session and local.
     console.log @name, "setting up local and session storage"

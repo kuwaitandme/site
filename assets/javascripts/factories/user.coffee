@@ -17,6 +17,7 @@ exports = module.exports = ($http, $rootScope, console, $storage) -> new class
       $rootScope.extraClass["logged-in"] = @isLoggedIn()
 
 
+  # Download the current user from either the sessionStorage or from the API
   download: ->
     # This helper function is used to get the user details from the API
     _fetchFromAPI = =>
@@ -31,7 +32,7 @@ exports = module.exports = ($http, $rootScope, console, $storage) -> new class
 
     # Attempt to get the user from the cache.
     cache = $storage.session "user:current"
-    if cache? and false
+    if cache?
       # user was found in session cache, prepare to translate it and return
       console.log @name, "retrieving current user from cache"
       try angular.fromJson cache
