@@ -1,8 +1,16 @@
 validator         = require "validator"
+_                 = require "underscore"
 
 
 exports = module.exports = (knex) -> new class
   classifiedsPerPage: 30
+  fields: [
+    "child_category", "contact", "created", "description"
+    "images", "language", "location", "meta", "owner"
+    "parent_category", "priceType", "priceValue", "slug"
+    "status", "title", "type", "weight"
+  ]
+
 
   constructor: ->
     bookshelf = (require "bookshelf") knex
@@ -31,17 +39,21 @@ exports = module.exports = (knex) -> new class
 
   query: (parameters, callback) ->
     buildQuery = (qb) =>
+      # Helper function to check if the number is a valid int
+      _validInt = (i) -> i? and validator.isInt i, { min: 0 }
+
+      # parent category
       pcat = parameters.parent_category
-      if pcat? and validator.isInt pcat, { min: 0 }
-        qb.where "parent_category", pcat
-
+      if _validInt pcat then qb.where "parent_category", pcat
+      # child category
       ccat = parameters.child_category
-      if ccat? and validator.isInt ccat, { min: 0 }
-        qb.where "child_category", ccat
-
+      if _validInt ccat then qb.where "child_category", ccat
+      # classified owner
+      owner = parameters.owner
+      if _validInt owner then qb.where "owner", owner
+      # classifieds page no.
       page = parameters.page
-      if not parameters.page? or not validator.isInt page, { min: 0 }
-        page = 1
+      if not _validInt page then page = 1
 
       qb.limit @classifiedsPerPage
       qb.offset (page - 1) * @classifiedsPerPage
@@ -63,14 +75,19 @@ exports = module.exports = (knex) -> new class
 
 
   create: (parameters, callback=->) ->
-    newClassified = parameters
+    newClassified = @_filter parameters
     @model.forge newClassified
       .save().then (classified) -> callback null, classified
+
 
   patch: (id, parameters, callback) ->
     @model.forge id: id
       .save parameters#, patch: true
       .then (classified) -> callback null, classified
+
+
+  _filter: (data) ->
+    classified = _.pick data, (value, key, object) => key in @fields
 
 
 exports["@require"] = ["igloo/knex"]
