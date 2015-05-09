@@ -21,7 +21,7 @@ exports = module.exports = -> new class
         @config = $base64.decode $window.cryptedData
         # Extend the properties of the publicData object
         @config[attr] = $window.publicData[attr] for attr in $window.publicData
-        $log.debug @config
+        $log.debug @name, @config
       catch e
         $log.error @name, "error decoding server-side data"
         $log.error e
