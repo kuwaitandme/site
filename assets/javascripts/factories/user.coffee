@@ -2,7 +2,7 @@ exports = module.exports = ($http, $rootScope, console, $storage) -> new class
   name: "[model:user]"
 
   setCurrentUser: (user) -> $storage.session "user:current", user
-  getCurrentUser: -> ($storage.session "user:current") or {}
+  getCurrentUser: -> (angular.fromJson $storage.session "user:current") or {}
   isLoggedIn: -> @getCurrentUser().id?
 
 
