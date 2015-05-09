@@ -1,4 +1,4 @@
-exports = module.exports = ($http, $cache) ->
+exports = module.exports = ($http, $storage) ->
   class Model
     name: "[model:category]"
 
@@ -68,11 +68,11 @@ exports = module.exports = ($http, $cache) ->
         $http.get "/api/category/"
         .success (categories) =>
           console.log @name, "fetched categories from API"
+          console.debug @name, categories
           @categories = categories
-          $cache.set "models:category", angular.toJson categories
+          $storage.local "models:category", angular.toJson categories
 
-      cache = $cache.get "models:category"
-
+      cache = $storage.local "models:category"
       if cache? and false
         # Categories was found in cache, prepare to translate it and return
         console.log @name, "retrieving categories from cache"
@@ -93,5 +93,5 @@ exports = module.exports = ($http, $cache) ->
 
 exports.$inject = [
   "$http"
-  "$cache"
+  "$storage"
 ]
