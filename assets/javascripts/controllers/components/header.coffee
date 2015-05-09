@@ -6,10 +6,10 @@ exports = module.exports = ($scope, $rootScope, console) ->
   $scope.hideNavigation = ->
 
   $scope.toggleHeader = ->
-    $rootScope.bodyStyles = $rootScope.bodyStyles or {}
-    currentState = $rootScope.bodyStyles["show-subheader"]
-    $rootScope.bodyStyles["show-subheader"] = not currentState
-  $scope.closeHeader = -> $rootScope["show-subheader"] = false
+    $rootScope.bodyClasses = $rootScope.bodyClasses or {}
+    currentState = $rootScope.bodyClasses["show-subheader"]
+    $rootScope.bodyClasses["show-subheader"] = not currentState
+  $scope.closeHeader = -> $rootScope.bodyClasses["show-subheader"] = false
 
 exports.$inject = [
   "$scope"

@@ -9,10 +9,10 @@ exports = module.exports = ($scope, $stateParams, $rootScope, $storage, category
   $storage.set "parentCategory", $scope.parentCategory
   $storage.set "childCategory", $scope.childCategory
 
-  $rootScope.extraClass = $rootScope.extraClass or {}
-  for cls of $rootScope.extraClass then if (cls.indexOf "cl-") is 0
-    $rootScope.extraClass[cls] = false
-  $rootScope.extraClass["cl-#{$stateParams.parent}"] = true
+  $rootScope.bodyClasses = $rootScope.bodyClasses or {}
+  for cls of $rootScope.bodyClasses then if (cls.indexOf "cl-") is 0
+    $rootScope.bodyClasses[cls] = false
+  $rootScope.bodyClasses["cl-#{$stateParams.parent}"] = true
 
 
 exports.$inject = [

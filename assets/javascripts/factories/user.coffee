@@ -13,8 +13,8 @@ exports = module.exports = ($http, $rootScope, console, $storage) -> new class
     .success (data, status) =>
       console.log @name, "user logged out"
       $storage.session "user:current", null
-      $rootScope.extraClass = $rootScope.extraClass or {}
-      $rootScope.extraClass["logged-in"] = @isLoggedIn()
+      $rootScope.bodyClasses = $rootScope.bodyClasses or {}
+      $rootScope.bodyClasses["logged-in"] = @isLoggedIn()
 
 
   # Download the current user from either the sessionStorage or from the API
@@ -27,8 +27,8 @@ exports = module.exports = ($http, $rootScope, console, $storage) -> new class
         console.log @name, "fetched current user"
         console.debug @name, user
         $storage.session "user:current", angular.toJson user
-        $rootScope.extraClass = $rootScope.extraClass or {}
-        $rootScope.extraClass["logged-in"] = @isLoggedIn()
+        $rootScope.bodyClasses = $rootScope.bodyClasses or {}
+        $rootScope.bodyClasses["logged-in"] = @isLoggedIn()
 
     # Attempt to get the user from the cache.
     cache = $storage.session "user:current"
