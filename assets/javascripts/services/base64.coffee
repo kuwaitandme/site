@@ -35,7 +35,7 @@
  * if (!window.btoa) window.btoa = base64.encode
  * if (!window.atob) window.atob = base64.decode
  *
- * The original spec"s for atob/btoa are a bit lacking
+ * The original specs for atob/btoa are a bit lacking
  * https://developer.mozilla.org/en/DOM/window.atob
  * https://developer.mozilla.org/en/DOM/window.btoa
  *
@@ -79,7 +79,6 @@ exports = module.exports = ($window) -> new class
   decode: (s) ->
     # convert to string
     s = "#{s}"
-    getbyte64 = @getbyte64
     imax = s.length
     if imax is 0 then return s
     if imax % 4 is not 0 then throw @makeDOMException()
@@ -92,17 +91,17 @@ exports = module.exports = ($window) -> new class
     x = []
     i = 0
     while i < imax
-      b10 = (getbyte64 s, i) << 18 | (getbyte64 s, i + 1) << 12 |
-        (getbyte64 s, i + 2) << 6 | (getbyte64 s, i + 3)
+      b10 = (@getbyte64 s, i) << 18 | (@getbyte64 s, i + 1) << 12 |
+        (@getbyte64 s, i + 2) << 6 | (@getbyte64 s, i + 3)
       x.push String.fromCharCode b10 >> 16, b10 >> 8 & 0xff, b10 & 0xff
       i += 4
     switch pads
       when 1
-        b10 = (getbyte64 s, i) << 18 | (getbyte64 s, i + 1) << 12 |
-          (getbyte64 s, i + 2) << 6
+        b10 = (@getbyte64 s, i) << 18 | (@getbyte64 s, i + 1) << 12 |
+          (@getbyte64 s, i + 2) << 6
         x.push String.fromCharCode b10 >> 16, b10 >> 8 & 0xff
       when 2
-        b10 = (getbyte64 s, i) << 18 | (getbyte64 s, i + 1) << 12
+        b10 = (@getbyte64 s, i) << 18 | (@getbyte64 s, i + 1) << 12
         x.push String.fromCharCode b10 >> 16
     x.join ""
 
@@ -115,9 +114,6 @@ exports = module.exports = ($window) -> new class
 
 @encode = (s) ->
   if arguments.length != 1 then throw new SyntaxError "Not enough arguments"
-  padchar = @PADCHAR
-  alpha = @ALPHA
-  getbyte = @getbyte
   x = []
   # convert to string
   s = "#{s}"
@@ -125,21 +121,21 @@ exports = module.exports = ($window) -> new class
   if s.length is 0 then return s
   i = 0
   while i < imax
-    b10 = (getbyte s, i) << 16 | (getbyte s, i + 1) << 8 | (getbyte s, i + 2)
-    x.push alpha.charAt b10 >> 18
-    x.push alpha.charAt b10 >> 12 & 0x3F
-    x.push alpha.charAt b10 >> 6 & 0x3f
-    x.push alpha.charAt b10 & 0x3f
+    b10 = (@getbyte s, i) << 16 | (@getbyte s, i + 1) << 8 | (@getbyte s, i + 2)
+    x.push @ALPHA.charAt b10 >> 18
+    x.push @ALPHA.charAt b10 >> 12 & 0x3F
+    x.push @ALPHA.charAt b10 >> 6 & 0x3f
+    x.push @ALPHA.charAt b10 & 0x3f
     i += 3
   switch s.length - imax
     when 1
-      b10 = (getbyte s, i) << 16
-      x.push (alpha.charAt b10 >> 18) + (alpha.charAt b10 >> 12 & 0x3F) +
-        padchar + padchar
+      b10 = (@getbyte s, i) << 16
+      x.push (@ALPHA.charAt b10 >> 18) + (@ALPHA.charAt b10 >> 12 & 0x3F) +
+        @PADCHAR + @PADCHAR
     when 2
-      b10 = (getbyte s, i) << 16 | (getbyte s, i + 1) << 8
-      x.push (alpha.charAt b10 >> 18) + (alpha.charAt b10 >> 12 & 0x3F) +
-        (alpha.charAt b10 >> 6 & 0x3f) + padchar
+      b10 = (@getbyte s, i) << 16 | (@getbyte s, i + 1) << 8
+      x.push (@ALPHA.charAt b10 >> 18) + (@ALPHA.charAt b10 >> 12 & 0x3F) +
+        (@ALPHA.charAt b10 >> 6 & 0x3f) + @PADCHAR
   x.join ""
 
 exports.$inject = ["$window"]
