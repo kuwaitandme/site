@@ -1,0 +1,11 @@
+.classified-list-item(ng-click="toggleClassified(classified)")
+  .thumb(ng-if="classified.images.length > 0", ng-style="{'background':classified.images[0].color}")
+    img(image-loader!="/uploads/thumb/{{ classified.images[0].file }}", image-success="classified.imageLoaded", image-fail="classified.imageLoaded", alt="{{ classified.title }}")
+  .info
+    .title {{ classified.title | limitTo: 120 }}
+    .border
+    ul.meta.row.collapse
+      li.price.small-6.columns {{ classified.priceValue | price:classified.priceType }}
+      li.date.small-6.columns.text-right {{ classified.created | prettydate }}
+      li(style="list-style: none; display: inline", ng-if="classified.showStatus")
+        .status(class="{{ classified.statusClass }}") {{ classified.statusMessage }}
