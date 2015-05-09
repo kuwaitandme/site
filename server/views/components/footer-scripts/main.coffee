@@ -1,8 +1,8 @@
 window.scripts = [
   {
     name: "app:style-css"
-    remoteSrc: "/stylesheets/style.css?m=#{config.magic.application}"
-    localSrc: "/stylesheets/style.css?m=#{config.magic.application}"
+    remoteSrc: "/stylesheets/style.css?m=#{publicData.magic.application}"
+    localSrc: "/stylesheets/style.css?m=#{publicData.magic.application}"
   }
   {
     name: "library:masonry"
@@ -10,13 +10,13 @@ window.scripts = [
   }
   {
     name: "app:template"
-    remoteSrc: "/javascripts/templates.js?m=#{config.magic.application}"
-    localSrc:  "/javascripts/templates.js?m=#{config.magic.application}"
+    remoteSrc: "/javascripts/templates.js?m=#{publicData.magic.application}"
+    localSrc:  "/javascripts/templates.js?m=#{publicData.magic.application}"
   }
   {
     name: "app:script"
-    remoteSrc: "/javascripts/app.js?m=#{config.magic.application}"
-    localSrc:  "/javascripts/app.js?m=#{config.magic.application}"
+    remoteSrc: "/javascripts/app.js?m=#{publicData.magic.application}"
+    localSrc:  "/javascripts/app.js?m=#{publicData.magic.application}"
   }
   {
     name: "library:google-maps"
@@ -53,7 +53,7 @@ incrementProgressBar = ->
 
 
 head = document.getElementsByTagName("head")[0]
-production = config.mode == "production"
+production = publicData.environment == "production"
 for script in scripts
   $fileref = undefined
   foundInCache = false
@@ -75,8 +75,8 @@ for script in scripts
   # If HTML5 localStorage is supported, attempt to load the scripts from
   # the application cache
   if localStorage? and production and script.localSrc
-    appChanged = (localStorage.getItem "magic:application") != config.magic.application
-    libraryChanged = (localStorage.getItem "magic:library") != config.magic.library
+    appChanged = (localStorage.getItem "magic:application") != publicData.magic.application
+    libraryChanged = (localStorage.getItem "magic:library") != publicData.magic.library
 
     # Note that the goal of these conditions is to ensure that app files are
     # compared with their version, but if the library versions differ then
@@ -87,7 +87,7 @@ for script in scripts
 
     # Check if local and remote version of the libraries differ
     localVersion = String localStorage.getItem localVersionString
-    remoteVersion = String window.config.magic[remoteVersionString]
+    remoteVersion = String window.publicData.magic[remoteVersionString]
 
     # Check for the script in our cache
     scriptCache = localStorage.getItem script.name

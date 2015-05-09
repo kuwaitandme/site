@@ -1,9 +1,8 @@
 footer
   section#scripts
     script.
-      window.data = "!{data}";
-      window.config = {magic:{}}//-!{JSON.stringify(config)};
-
+      window.publicData = !{JSON.stringify(publicData) || ""};
+      window.cryptedData = "!{cryptedData}"
     if mode != "production"
       script
         include ../components/footer-scripts/main.js

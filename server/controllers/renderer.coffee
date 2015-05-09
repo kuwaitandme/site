@@ -32,6 +32,14 @@ exports = module.exports = (settings, cache) ->
       # options.mode = settings.server.env
       options.data = options.data or {}
       # options.data.captchaKey = config.reCaptcha.site
+      options.publicData =
+        environment: 'asd'
+        magic:
+          library: 123
+          model: 123
+          application: 123
+      options.cryptedData =
+        ga: 'UA'
       # options.config =
         # mode: config.mode
         # magic: config.magic
@@ -43,7 +51,8 @@ exports = module.exports = (settings, cache) ->
           # sandbox: config._2checkout.sandbox
 
       options.robots = options.data
-      options.data = (new Buffer JSON.stringify options.data).toString "base64"
+      options.cryptedData = (new Buffer JSON.stringify options.cryptedData)
+        .toString "base64"
       # options.data.csrf = csrfToken
 
       # Setup options for the jade compiler
