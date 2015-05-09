@@ -1,4 +1,4 @@
-exports = module.exports = ($scope, $element, $stateParams, $googleMaps, classified) ->
+exports = module.exports = ($scope, $stateParams, $googleMaps, console, classified) ->
   @name = "[page:classified-finish]"
   console.log @name, "initializing"
   console.debug @name, "routeParams", $stateParams
@@ -52,8 +52,8 @@ exports = module.exports = ($scope, $element, $stateParams, $googleMaps, classif
 
 exports.$inject = [
   "$scope"
-  "$element"
   "$stateParams"
   "$googleMaps"
+  "$log"
   "model.classified"
 ]

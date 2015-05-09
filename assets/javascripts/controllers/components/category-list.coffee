@@ -1,4 +1,4 @@
-exports = module.exports = ($scope, $location, $element, category) ->
+exports = module.exports = ($scope, $location, console, category) ->
   @name = "[component:category-list]"
   console.log @name, "initializing"
 
@@ -27,6 +27,6 @@ exports = module.exports = ($scope, $location, $element, category) ->
 exports.$inject = [
   "$scope"
   "$location"
-  "$element"
+  "$log"
   "model.category"
 ]

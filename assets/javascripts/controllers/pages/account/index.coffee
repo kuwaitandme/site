@@ -1,4 +1,4 @@
-exports = module.exports = ($scope, $element) ->
+exports = module.exports = ($scope, console) ->
   @name = "[page:account-index]"
   console.log @name, "initializing"
 
@@ -8,5 +8,5 @@ exports = module.exports = ($scope, $element) ->
 
 exports.$inject = [
   "$scope"
-  "$element"
+  "$log"
 ]

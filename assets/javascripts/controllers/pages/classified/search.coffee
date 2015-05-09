@@ -1,4 +1,4 @@
-exports = module.exports = ($scope, $stateParams, $rootScope, $storage, category) ->
+exports = module.exports = ($scope, $stateParams, $rootScope, console, category) ->
   @name = "[page:classified-search]"
   console.log @name, "initializing"
   console.debug @name, "routeParams", $stateParams
@@ -16,6 +16,6 @@ exports.$inject = [
   "$scope"
   "$stateParams"
   "$rootScope"
-  "$storage"
+  "$log"
   "model.category"
 ]

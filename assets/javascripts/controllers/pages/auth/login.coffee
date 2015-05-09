@@ -1,4 +1,4 @@
-exports = module.exports = ($scope, $location, $http, user) ->
+exports = module.exports = ($scope, $location, $http, console, user) ->
   @name = "[page:auth-login]"
   console.log @name, "initializing"
 
@@ -7,8 +7,8 @@ exports = module.exports = ($scope, $location, $http, user) ->
       method: "POST"
       url: "/api/auth/email/login"
       data:
-        username: $scope.username
         password: $scope.password
+        username: $scope.username
 
     .success (data, status) =>
       console.log @name, "login successful! redirecting to account page"
@@ -32,5 +32,6 @@ exports.$inject = [
   "$scope"
   "$location"
   "$http"
+  "$log"
   "model.user"
 ]

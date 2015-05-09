@@ -1,9 +1,9 @@
-exports = module.exports = ($scope, $rootScope, $element) ->
+exports = module.exports = ($scope, $rootScope, console) ->
   @name = "[page:account-manage]"
   console.log @name, "initializing"
 
 
 exports.$inject = [
   "$scope"
-  "$element"
+  "$log"
 ]

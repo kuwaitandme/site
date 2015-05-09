@@ -1,4 +1,4 @@
-exports = module.exports = ($location, $http, user) ->
+exports = module.exports = ($location, $http, console, user) ->
   @name = "[page:auth-logout]"
   console.log @name, "initializing"
 
@@ -10,5 +10,6 @@ exports = module.exports = ($location, $http, user) ->
 exports.$inject = [
   "$location"
   "$http"
+  "$log"
   "model.user"
 ]

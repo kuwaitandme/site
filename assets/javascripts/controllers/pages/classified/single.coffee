@@ -1,4 +1,4 @@
-exports = module.exports = ($scope, $element, $stateParams, Classified) ->
+exports = module.exports = ($scope, $stateParams, console, Classified) ->
   @name = "[page:classified-single]"
   console.log @name, "initializing"
   console.debug @name, "routeParams", $stateParams
@@ -14,5 +14,6 @@ exports.$inject = [
   "$scope"
   "$element"
   "$stateParams"
+  "$log"
   "model.classified"
 ]

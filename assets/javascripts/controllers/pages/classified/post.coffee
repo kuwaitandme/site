@@ -1,7 +1,6 @@
 ## TODO: Add automatic resize of content
-
-exports = module.exports = ($scope, $element, $googleMaps, $imageResizer,
-  $location, classified, category, location) ->
+exports = module.exports = ($scope, $googleMaps, $imageResizer,
+  $location, console, classified, category, location) ->
   @name = "[page:classified-post]"
   console.log @name, "initializing"
 
@@ -157,10 +156,10 @@ exports = module.exports = ($scope, $element, $googleMaps, $imageResizer,
 
 exports.$inject = [
   "$scope"
-  "$element"
   "$googleMaps"
   "$imageResizer"
   "$location"
+  "$log"
   "model.classified"
   "model.category"
   "model.location"

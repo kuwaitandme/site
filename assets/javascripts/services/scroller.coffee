@@ -1,4 +1,4 @@
-exports = module.exports = ($window) ->
+exports = module.exports = ($window, console) ->
   name: "[scroller]"
   scrollTo: (eID) ->
     return # Disabled for now
@@ -59,4 +59,4 @@ exports = module.exports = ($window) ->
     html.addEventListener "oTransitionEnd", onAnimationEnd
 
 
-exports.$inject = ["$window"]
+exports.$inject = ["$window", "$log"]

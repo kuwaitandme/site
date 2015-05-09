@@ -1,4 +1,4 @@
-exports = module.exports = ($socketFactory) -> new class
+exports = module.exports = ($socketFactory, console) -> new class
   @name: "[socket]"
 
   constructor: ->
@@ -6,4 +6,7 @@ exports = module.exports = ($socketFactory) -> new class
     # iosocket = io.connect "/"
     socket = socketFactory ioSocket: myIoSocket
 
-exports.$inject = ["$socketFactory"]
+exports.$inject = [
+  "$socketFactory"
+  "$log"
+]

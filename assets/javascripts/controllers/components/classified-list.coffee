@@ -1,5 +1,4 @@
-exports = module.exports = ($scope, $location, $element, $storage, $window,
-  $rootScope, Classified) ->
+exports = module.exports = ($scope, $window, $rootScope, console, Classified) ->
   @name = "[component:classified-list]"
   console.log @name, "initializing"
 
@@ -15,8 +14,6 @@ exports = module.exports = ($scope, $location, $element, $storage, $window,
 
   # Initialize DOM elements
   $scope.queryFinished = false
-  # $scope.childCategory  = $storage.tmp "childCategory"
-  # $scope.parentCategory = $storage.tmp "parentCategory"
   $scope.finishMessage = (->
     texts = [
       "Damn, there are no more classifieds!"
@@ -112,10 +109,8 @@ exports = module.exports = ($scope, $location, $element, $storage, $window,
 
 exports.$inject = [
   "$scope"
-  "$location"
-  "$element"
-  "$storage"
   "$window"
   "$rootScope"
+  "$log"
   "model.classified"
 ]

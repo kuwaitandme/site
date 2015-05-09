@@ -1,4 +1,4 @@
-module.exports = ($http, $cache) ->
+module.exports = ($http, $cache, console) ->
   class Model
     name: "[model:language]"
 
@@ -61,4 +61,5 @@ module.exports = ($http, $cache) ->
 exports.$inject = [
   "$http"
   "cache"
+  "console"
 ]

@@ -1,4 +1,4 @@
-exports = module.exports = ($location, $http) -> new class
+exports = module.exports = ($location, $http, console) -> new class
   name: "[model:classified]"
 
 
@@ -156,4 +156,5 @@ exports = module.exports = ($location, $http) -> new class
 exports.$inject = [
   "$location"
   "$http"
+  "$log"
 ]

@@ -123,9 +123,9 @@ module.exports = ->
     canvas = document.createElement "canvas"
     canvas.width = 1
     canvas.height = ih
-    ctx = canvas.getContext("2d")
+    ctx = canvas.getContext "2d"
     ctx.drawImage img, 0, 0
-    data = ctx.getImageData(0, 0, 1, ih).data
+    data = (ctx.getImageData 0, 0, 1, ih).data
 
 
     # search image edge pixel position in case it is squashed vertically.
@@ -138,7 +138,7 @@ module.exports = ->
       if alpha is 0 then ey = py else sy = py
 
       py = (ey + sy) >> 1
-    ratio = (py / ih)
+    ratio = py / ih
 
     if (ratio is 0) then 1 else ratio
 
