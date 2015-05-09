@@ -9,7 +9,9 @@ exports = module.exports = ($scope, $rootScope, console) ->
     $rootScope.bodyClasses = $rootScope.bodyClasses or {}
     currentState = $rootScope.bodyClasses["show-subheader"]
     $rootScope.bodyClasses["show-subheader"] = not currentState
-  $scope.closeHeader = -> $rootScope.bodyClasses["show-subheader"] = false
+  $scope.closeHeader = ->
+    $rootScope.bodyClasses = $rootScope.bodyClasses or {}
+    $rootScope.bodyClasses["show-subheader"] = false
 
 exports.$inject = [
   "$scope"
