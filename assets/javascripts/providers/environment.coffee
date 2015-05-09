@@ -19,10 +19,12 @@ exports = module.exports = -> new class
       console.log @name, "initializing"
       console.log @name, "decoding server-side data"
       try
-        # Decode the cryptedData
-        @config = $base64.decode $window.cryptedData
-        # Extend the properties of the publicData object
-        angular.extend @config, $window.publicData
+        config = {}
+        # Decode the cryptedData and extend the properties of the publicData
+        # object
+        angular.extend config, $window.publicData,
+          angular.fromJson $base64.decode $window.cryptedData
+        @config = config
         console.debug @name, @config
       catch e
         console.error @name, "error decoding server-side data"
