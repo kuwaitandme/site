@@ -15,8 +15,8 @@ exports = module.exports = ($scope, $location, $element, $storage, $window,
 
   # Initialize DOM elements
   $scope.queryFinished = false
-  $scope.childCategory  = $storage.local "childCategory"
-  $scope.parentCategory = $storage.local "parentCategory"
+  # $scope.childCategory  = $storage.tmp "childCategory"
+  # $scope.parentCategory = $storage.tmp "parentCategory"
   $scope.finishMessage = (->
     texts = [
       "Damn, there are no more classifieds!"
@@ -29,7 +29,7 @@ exports = module.exports = ($scope, $location, $element, $storage, $window,
 
   $scope.$watch (-> classifedList.childElementCount), =>
     if classifedList.children.length > 0
-      window.a = newElements = []
+      newElements = []
       for child in classifedList.children
         if not child.dataset.added
           child.dataset.added = true
@@ -74,13 +74,15 @@ exports = module.exports = ($scope, $location, $element, $storage, $window,
       if classifieds.length == 0 then $scope.queryFinished = true
       console.log @name, "finished loading classifieds"
       console.debug @name, "loaded #{classifieds.length} classified(s)"
-
+      # For each classified attach the imageLoader
       for classified in classifieds
         classified.showStatus = true
         classified.isUrgent = false
         classified.imageLoaded = -> masonry.layout()
-        if classified.images and classified.images.length > 0
-          classified.hasImages = true
+        for image in (classified.images or [])
+          if image.main? and image.main
+            classified.mainImage = image
+            break
         $scope.classifieds.push classified
       loadingClassifieds = false
   $scope.loadClassifieds()

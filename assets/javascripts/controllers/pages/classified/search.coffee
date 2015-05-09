@@ -6,9 +6,6 @@ exports = module.exports = ($scope, $stateParams, $rootScope, $storage, category
   $scope.parentCategory = category.findBySlug $stateParams.parent
   $scope.childCategory = category.findBySlug $stateParams.child
 
-  $storage.set "parentCategory", $scope.parentCategory
-  $storage.set "childCategory", $scope.childCategory
-
   $rootScope.bodyClasses = $rootScope.bodyClasses or {}
   for cls of $rootScope.bodyClasses then if (cls.indexOf "cl-") is 0
     $rootScope.bodyClasses[cls] = false
