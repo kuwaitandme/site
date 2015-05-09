@@ -15,60 +15,25 @@
     text-align: center
 
 #classified-single-fixed
-  @extend body#classified-single
   +single-transition
+  background: rgba(0, 0, 0, 0.8)
   left: 0
   overflow-y: scroll
   padding: 60px 3px
   position: fixed
   top: -100%
-  background: rgba(0, 0, 0, 0.8)
   width: 100%
   z-index: 4
   > .row
     margin: 0 auto
     max-width: 62.5rem
-  .classified-single,
+  .classified-single
     background: #FFF
     .gallery
       padding: 1rem 0
-    z-index: 3
-
-    // -webkit-box-shadow: 0px 0px 30px -6px rgba(0,0,0,0.83);
-    // -moz-box-shadow: 0px 0px 30px -6px rgba(0,0,0,0.83);
-    // box-shadow: 0px 0px 30px -6px rgba(0,0,0,0.83);
-
-    @media only screen and (min-width: 1120px)
-      ul#extras-sidebar
-        position: absolute
-        margin-left: -100px
-        margin-top: 0
-        padding: 0
-        width: 100px
-        li
-          +clearfix
-          border-radius: 0 !important
-          margin: 0 !important
-          display: block !important
-          .icon
-            float: right !important
-
+      z-index: 3
     > .row
       margin: 0 auto
-
-  &.hide-cl
-    display: none
-    top: -100%
-    .classified-single-bg
-      display: none
-
-  &.display-cl
-    bottom: 0
-    top: 0
-    display: block
-    -webkit-animation-duration: 0.5s
-    -webkit-animation-name: slideFromAbove
-
   .classified-single-close
     $size: 30px
     background: #FFF
@@ -81,14 +46,38 @@
     border: 1px solid #DDD
     top: 0
     width: $size
+  &.hide-cl
+    display: none
+    top: -100%
+    .classified-single-bg
+      display: none
+  &.display-cl
+    bottom: 0
+    top: 0
+    display: block
+    -webkit-animation-duration: 0.5s
+    -webkit-animation-name: slideFromAbove
+    @media only screen and (min-width: 1120px)
+      ul#extras-sidebar
+        margin-left: -100px
+        margin-top: 0
+        padding: 0
+        position: absolute
+        width: 100px
+        li
+          +clearfix
+          border-radius: 0 !important
+          display: block !important
+          margin: 0 !important
+          .icon
+            float: right !important
+
 
 ul.classified-list
   +clearfix
   margin: 0 auto
   max-width: 100%
   min-height: 50%
-
-
   a
     text-decoration: none
     &:visited
@@ -97,86 +86,83 @@ ul.classified-list
     padding: 7px
 
 
+.classified-list-item
+  +single-transition
+  background: #FFF
+  overflow: hidden
+  position: relative
+
+  .border
+    +single-transition
+    background: #FFF
+    margin: 10px 0
+    width: 75%
+    height: 1px
+  &:hover
+    .title, li
+      color: #000
     .border
-      +single-transition
-      background: #FFF
-      margin: 10px 0
-      width: 75%
-      height: 1px
-
-    .classified-list-item
-      +single-transition
-      background: #FFF
-      overflow: hidden
-      position: relative
-
-      &:hover
-        .title, li
-          color: #000
-        .border
-          background: #000
-          width: 100%
-        .date
-          opacity: 1
-
-    .heading
-      font-size: 20px
-    .thumb
-      overflow: hidden
       background: #000
-      img
-        width: 100%
-        &.image-loading
-          height: 200px
-          opacity: 0
-        &.image-fail
-          display: none
-    .info
-      padding: 5px
-      > .meta
-        +clearfix
-        +single-transition
-        color: #999
-        font-size: 0.7rem
-        margin: 0
-        span
-          text-align: right
-      .title
-        @extend .font-title
-        font-size: 0.8rem
-        margin: 10px 0
-        overflow: hidden
-        padding-bottom: 0
-        width: 90%
-        word-wrap: break-word
-      .date
-        text-align: right
-        +single-transition
+      width: 100%
+    .date
+      opacity: 1
+
+  .thumb
+    background: #000
+    overflow: hidden
+    img
+      width: 100%
+      &.image-loading
+        height: 200px
         opacity: 0
+      &.image-fail
+        display: none
+  .info
+    padding: 5px
+    > .meta
+      +clearfix
+      +single-transition
+      color: #999
+      font-size: 0.7rem
+      margin: 0
+      span
+        text-align: right
+    .title
+      @extend .font-title
+      font-size: 0.8rem
+      margin: 10px 0
+      overflow: hidden
+      padding-bottom: 0
+      width: 90%
+      word-wrap: break-word
+    .date
+      +single-transition
+      opacity: 0
+      text-align: right
+
+  .urgent-banner
+    background: #FA2A00
+    color: #FFF
+    display: none
+    padding: 5px
+    text-align: center
+    text-transform: uppercase
+  &.perk-urgent .container
+    border: 1px solid #FA2A00
     .urgent-banner
-      background: #FA2A00
-      color: #FFF
-      display: none
-      padding: 5px
-      text-align: center
-      text-transform: uppercase
-    &.perk-urgent .container
-      border: 1px solid #FA2A00
-      .urgent-banner
-        display: block
+      display: block
 
   .status
     @extend .font-title
     background: green
     color: #FFF
-    padding: 5px
-    text-align: center
     display: none
     font-size: 0.9rem
+    padding: 5px
+    text-align: center
     &.error
       background: red
     &.warn
       background: orange
-  &.show-statuses
-    .status
-      display: block
+  &.show-statuses .status
+    display: block
