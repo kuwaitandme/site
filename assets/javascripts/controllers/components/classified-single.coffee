@@ -1,5 +1,5 @@
 exports = module.exports = ($scope, $googleMaps, console, Classified) ->
-  @name = "[page:classified-single]"
+  @name = "[component:classified-single]"
   console.log @name, "initializing"
   console.debug @name, $scope
 

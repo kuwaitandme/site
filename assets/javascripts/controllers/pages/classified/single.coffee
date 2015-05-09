@@ -12,7 +12,6 @@ exports = module.exports = ($scope, $stateParams, console, Classified) ->
 
 exports.$inject = [
   "$scope"
-  "$element"
   "$stateParams"
   "$log"
   "model.classified"
