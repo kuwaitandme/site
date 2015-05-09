@@ -10,6 +10,7 @@ exports.up = (knex, Promise) ->
     (table.integer "owner").references("id").inTable "users"
     (table.integer "priceType").notNull()
     (table.integer "priceValue")
+    (table.integer "language").notNull().defaultTo 0
     (table.integer "weight").notNull().defaultTo 0
     (table.integer "status").notNull()
     (table.json "contact")
