@@ -91,13 +91,6 @@ ul.classified-list
   background: #FFF
   overflow: hidden
   position: relative
-
-  .border
-    +single-transition
-    background: #FFF
-    margin: 10px 0
-    width: 75%
-    height: 1px
   &:hover
     .title, li
       color: #000
@@ -105,7 +98,14 @@ ul.classified-list
       background: #000
       width: 100%
     .date
-      opacity: 1
+      opacity: 1 !important
+
+  .border
+    +single-transition
+    background: #FFF
+    margin: 10px 0
+    width: 75%
+    height: 1px
 
   .thumb
     background: #000
