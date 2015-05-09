@@ -22,7 +22,7 @@ exports = module.exports = -> new class
         # Decode the cryptedData
         @config = $base64.decode $window.cryptedData
         # Extend the properties of the publicData object
-        @config[attr] = $window.publicData[attr] for attr in $window.publicData
+        angular.extend @config, $window.publicData
         console.debug @name, @config
       catch e
         console.error @name, "error decoding server-side data"
