@@ -1,9 +1,10 @@
 module.exports = (app) ->
   console.log "[services] initializing"
 
-  app.service "$facebook",          require "./facebook"
-  app.service "$googleMaps",        require "./googleMaps"
-  app.service "$googleRecaptcha",   require "./googleRecaptcha"
+  app.service "$facebook",          require "./external/facebook"
+  app.service "$googleMaps",        require "./external/google.maps"
+  app.service "$googleRecaptcha",   require "./external/google.recaptcha"
+
   app.service "$imageResizer",      require "./imageResizer"
   app.service "$scroller",          require "./scroller"
   app.service "$storage",           require "./storage"
