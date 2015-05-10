@@ -1,33 +1,31 @@
-exports = module.exports = (Classified, Categories, cache) ->
+async = require "async"
+
+exports = module.exports = (Classifieds, cache) ->
   controller = (request, response, next) ->
-    response.contentType "application/json"
+    # Async tasks to fetch both the parent and child category's counters
+    # from the DB
+    asyncTasks =
+      child_category:  (finish) -> Classifieds.getChildCategoryCount finish
+      parent_category: (finish) -> Classifieds.getParentCategoryCount finish
 
-      # # Check in cache
-      # cache.get "route:api/categories/counters", (error, results) =>
-      #   if results then return response.end results
+    # Async finish function. Take the counters, save them in the cache and
+    # return.
+    asyncFinish = (error, counters) ->
+      json = JSON.stringify counters, null, 2
+      cache.set "route:api/categories/counters", json
+      response.json counters
 
-      #   # Categories was not cached, so query and then save in cache
-      #   Categories.getAll (error, categories) ->
-      #     results = []
-      #     for category in categories
-      #       if not category.parent_category?
-      #         category.children = []
-      #         results.push category
-      #       else
-      #         for parentCategory in results
-      #           if parentCategory.id is category.parent_category
-      #             parentCategory.children.push category
-      #             break
-
-      #     json = JSON.stringify results, null, 2
-      #     cache.set "route:api/categories/counters", json
-      #     response.end json
-
-    response.json {}
+    # Now check in cache if the counters exist. If they don't then perform the
+    # async call to fetch them from the DB.
+    cache.get "route:api/categories/counters", (error, results) =>
+      if error or results
+        response.contentType "application/json"
+        response.end results
+      else async.parallel asyncTasks, asyncFinish
 
 
 exports["@singleton"] = true
 exports["@require"] = [
-  "models/categories"
+  "models/classifieds"
   "controllers/cache"
 ]

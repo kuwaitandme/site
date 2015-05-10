@@ -34,16 +34,16 @@ exports = module.exports = ($http, console, $storage) -> new class
   _setCounters: (counters) ->
     for category in (@categories or [])
       category.count = 0
-      for categoryCount in (counters.category or [])
-        if categoryCount._id is category._id
-          category.count = categoryCount.total
+      for categoryCount in (counters.parent_category or [])
+        if categoryCount.id is category.id
+          category.count = categoryCount.count
           break
 
       for childCategory in (category.children or [])
         childCategory.count = 0
-        for categoryCount in (counters.childCategory or [])
-          if categoryCount._id is childCategory._id
-            childCategory.count = categoryCount.total
+        for categoryCount in (counters.child_categories or [])
+          if categoryCount.id is childCategory.id
+            childCategory.count = categoryCount.count
             break
 
 
@@ -56,7 +56,7 @@ exports = module.exports = ($http, console, $storage) -> new class
     # send an API call to the server to fetch them.
     _getCounters = (callback=->) =>
       console.log @name, "fetching category counters"
-      $http.get "/api/category?count=true"
+      $http.get "/api/category/counters"
       .success (response) =>
         console.log @name, "fetched category counters"
         console.debug @name, response

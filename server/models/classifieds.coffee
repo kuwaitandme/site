@@ -64,6 +64,27 @@ exports = module.exports = (knex) -> new class
       .then (classifieds={}) -> callback null, classifieds
 
 
+  getParentCategoryCount: (callback) ->
+    buildQuery = (qb) ->
+      qb.select "parent_category as id"
+      qb.count "parent_category"
+      qb.groupBy "parent_category"
+
+    @model.query buildQuery
+      .fetchAll()
+      .then (counters={}) -> callback null, counters
+
+  getChildCategoryCount: (callback) ->
+    buildQuery = (qb) ->
+      qb.select "child_category as id"
+      qb.count "child_category"
+      qb.groupBy "child_category"
+
+    @model.query buildQuery
+      .fetchAll()
+      .then (counters={}) -> callback null, counters
+
+
   get: (id, callback) ->
     @model.forge id: id
       .fetch().then (classified={}) -> callback null, classified
