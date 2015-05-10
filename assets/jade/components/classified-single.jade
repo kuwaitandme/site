@@ -19,12 +19,6 @@ section.row.classified-single(ng-controller="component:classified-single")
     li.red(ng-if="classified.isBanned") Banned
     li.red(ng-if="classified.isArchived") Archived
 
-    //- li.green Free Delivery
-    //- li.yellow Expired
-    //- li.red Banned
-    //- li.green Delivery included
-    //- li.yellow Promoted
-    //- li.red Urgent
 
   pre.columns.description(itemprop="description",
     ng-if="classified.show") {{ classified.description }}
@@ -42,8 +36,8 @@ section.row.classified-single(ng-controller="component:classified-single")
         span.meta-value {{ classified.created | prettydate }}
       li(ng-if="classified.parent_category")
         span.meta-title Category:
-        span.meta-value {{ classified.parent_category | category }} -&nbsp;
-          span(ng-if="classified.child_category") {{ classified.child_category | category }}
+        span.meta-value {{ classified.parent_category | category : "parent" }}
+          span(ng-if="classified.child_category") &nbsp;- {{ classified.child_category | category : "child"}}
       li(ng-if="classified.location")
         span.meta-title Location:
         span.meta-value {{ classified.location | location }}

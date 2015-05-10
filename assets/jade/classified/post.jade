@@ -64,11 +64,11 @@ section#classified
             option(disabled, selected, value="") Choose a category
           .error
 
-      li.row(ng-if="classified.parentCategory.children.length > 0")
+      li.row(ng-if="parentCategory.children.length > 0")
         .meta-title.columns.medium-2
         .columns.medium-9
           select(ng-model="childCategory",
-            ng-options="child.name for child in classified.parentCategory.children",
+            ng-options="child.name for child in parentCategory.children",
             ng-required="true")
             option(disabled, selected, value="") Choose a sub-category
           .error

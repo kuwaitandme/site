@@ -22,13 +22,18 @@ exports = module.exports = ($http, console, $storage) -> new class
     {}
 
 
-  findById: (id) ->
-    for cat in @categories
-      if cat.id is id then return cat
-      if cat.children? then for childcat in cat.children
-        if childcat.id is id then return childcat
-    {}
+  # Function to find the parent category with the given id.
+  findByParentId: (id) ->
+    for cat in @categories then if cat.id is id then return cat
 
+
+
+  # Function to find the child category with the given id.
+  findByChildId: (id) ->
+    for cat in @categories
+      if cat.children? then for child in cat.children
+        if child.id is id then return child
+    {}
 
   # This function properly sets the category counter to each category
   _setCounters: (counters) ->
