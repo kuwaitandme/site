@@ -1,7 +1,7 @@
 exports = module.exports = (renderer) ->
   controller = (request, response, next) ->
     args =
-      page: "contact"
+      page: "info/contact"
       title: response.__ "title.contact"
 
     renderer request, response, args, true
