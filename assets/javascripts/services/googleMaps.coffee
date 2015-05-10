@@ -1,5 +1,18 @@
-exports = module.exports = ($window) ->
+exports = module.exports = ($window) -> new class
   name: "[service:google-maps]"
+
+  constructor: ->
+    console.log @name, "initializing"
+    # Prepare the URL for the maps API
+    APIkey = "AIzaSyBUcoOW5jw2GvlFQI49FIGl6I7czXcX5iQ"
+    url = "https://maps.googleapis.com/maps/api/js?key=#{APIkey}&callback=initializeGmap"
+    # Insert the script into the DOM
+    $fileref = document.createElement "script"
+    $fileref.type = "text/javascript"
+    $fileref.src = url
+    head = (document.getElementsByTagName "head")[0]
+    head.insertBefore $fileref, head.firstChild
+
 
   onLoad: (callback=->) ->
     waitForElement = ->
