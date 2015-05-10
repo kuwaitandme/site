@@ -1,5 +1,4 @@
 body#classified-post
-  @extend body#classified-single
   $color-inactive: rgba(0, 0, 0, 0.04)
   $border-color: #e0e0e0
   $color-error: #E04B2A
@@ -7,7 +6,9 @@ body#classified-post
   $color-warn: #FFB604
 
   main
+    @extend .classified-single
     margin-top: 10px
+
 
   .error
     @extend .font-text
@@ -77,6 +78,9 @@ body#classified-post
       background: $color-error
       &:before
         color: #FFF
+
+  form > .columns
+    margin-bottom: 1rem
 
   .gallery
     @extend .font-roboto
@@ -151,12 +155,13 @@ body#classified-post
 
 
   .meta
+
     padding-bottom: 0 !important
     li
       text-align: left !important
     .meta-title
       line-height: 40px
-      width: auto
+      width: auto !important
     .columns
       margin-bottom: 0 !important
     select, input

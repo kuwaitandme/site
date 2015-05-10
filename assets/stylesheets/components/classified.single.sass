@@ -54,7 +54,7 @@
 
 
   .meta
-    margin-top: 0
+    margin: 0
     // padding-bottom: 4rem
     li
       font-size: 0.8rem
@@ -143,16 +143,14 @@
     border-bottom: 1px solid blue
 
   ul#extras-sidebar
-    // position: absolute
-    // margin-left: -100px
-    margin-top: 0 // on par with the descriptions
-    // width: 100px
-    // height: 400px
+    +clearfix
+    margin: 0
+    margin-top: 10px
     text-align: center
     li
-      +radius(50px)
-      display: inline-block
-      margin: 10px
+      // +radius(50px)
+      float: left
+      // margin: 10px 0
       overflow: hidden
       &.twitter .icon
         background: #00ABEC
@@ -161,8 +159,7 @@
       &.googleplus .icon
         background: #DF2927
       &.email .icon
-        background: #DDD
-        color: #222
+        background: #774F98
       &.link .icon
         background: #F60
       .icon
