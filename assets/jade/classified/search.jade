@@ -1,8 +1,8 @@
-section(ng-if="parentCategory && childCategory")
+section(ng-if="!parentCategory.id").category-chooser
   h1 Choose a category
   section(ng-include="'components/category-list'")
-section(ng-if="!parentCategory || !childCategory")
+section(ng-if="parentCategory.id").category-results
   h1 {{ parentCategory.name }}
-  h2 {{ childCategory.name }}
+  h2(ng-if="childCategory.id") {{ childCategory.name }}
   .classified-list-container(ng-include="'components/classified-list'")
   #filterbox
