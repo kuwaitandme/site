@@ -1,4 +1,10 @@
 section.row.classified-single(ng-controller="component:classified-single")
+  ul.single-admin-panel
+    li.green Publish
+    li.yellow Edit
+    li.red Archive
+    li.red Ban
+
   .columns(ng-if="classified.show")
     ul.gallery.row.collapse(ng-if="classified.images")
       li.small-6.medium-4.large-3.columns.end.image-loading(ng-repeat="image in classified.images track by $index")
@@ -43,7 +49,10 @@ section.row.classified-single(ng-controller="component:classified-single")
         span.meta-value {{ classified.location | location }}
       li(ng-if="classified.contact.address1")
         span.meta-title Address:
-        span.meta-value {{ classified.contact.address1 }}, {{ classified.contact.address2 }}
+        span.meta-value
+          a(ng-href="//www.google.co.in/maps/dir//{{classified.meta.gmapX}},{{classified.meta.gmapY}}",
+            ng-if="classified.meta.gmapX") {{ classified.contact.address1 }}, {{ classified.contact.address2 }}
+          a(ng-if="!classified.meta.gmapX") {{ classified.contact.address1 }}, {{ classified.contact.address2 }}
       li(ng-if="classified.contact.email")
         span.meta-title Email:
         span.meta-value
@@ -69,7 +78,7 @@ section.row.classified-single(ng-controller="component:classified-single")
 
 
 
-  ul#extras-sidebar.columns
+  //- ul#extras-sidebar.columns
     li.facebook
       a.icon(target="_self", ng-href="{{ classified.social.facebook }}") &#xf09a;
     li.twitter
@@ -82,15 +91,18 @@ section.row.classified-single(ng-controller="component:classified-single")
       a.icon(target="_self", ng-href="{{ classified.social.email }}") &#xf003;
 
 
-  .google-maps.columns(ng-if="classified.meta.gmapX && classified.show",
+  a.google-maps.columns(ng-if="classified.meta.gmapX && classified.show",
     ng-init="drawMap(); mapHeight = window.innerHeight / 2",
-    style="height: {{ window.innerHeight / 2 }}px")
+    style="height: {{ window.innerHeight / 2 }}px",
+    ng-href="//www.google.co.in/maps/dir//{{classified.meta.gmapX}},{{classified.meta.gmapY}}")
     #maps-container
 
 
   .disclaimer.columns
-    b Disclaimer:&nbsp;
-    | By viewing this classified, you are agreeing to our&nbsp;
-    a(target="_self", href="/terms-privacy") privacy conditions and terms of use
-    | . It is your duty to ensure safety and authenticity while dealing with any
-    | buyer/sellers.
+    .row
+      .columns.medium-11.medium-centered
+        b Disclaimer:&nbsp;
+        | By viewing this classified, you are agreeing to our&nbsp;
+        a(target="_self", href="/terms-privacy") privacy conditions and terms of use
+        | . It is your duty to ensure safety and authenticity while dealing with any
+        | buyer/sellers.

@@ -20,10 +20,11 @@ exports = module.exports = ($scope, $googleMaps, console, Classified) ->
         style: $googleMaps.defaultStyle
         mapTypeId: google.maps.MapTypeId.ROADMAP
         scrollwheel: false
+        draggable: false
         zoom: 13
       # Initialize the marker
       marker = new google.maps.Marker
-        draggable: true
+        draggable: false
         map: map
         position: latLng
     # When googlemaps loads, then render the map

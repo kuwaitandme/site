@@ -27,10 +27,6 @@ window.scripts = [
     remoteSrc: "//fonts.googleapis.com/css?family=Roboto"
   }
   {
-    name: "library:font-bitter-css"
-    remoteSrc: "//fonts.googleapis.com/css?family=Bitter"
-  }
-  {
     name: "library:font-awesome-css"
     remoteSrc: "//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css"
   }

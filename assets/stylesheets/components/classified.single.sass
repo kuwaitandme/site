@@ -2,6 +2,35 @@
   > .row .columns
     margin-bottom: 1rem
 
+  ul.single-admin-panel
+    +clearfix
+    margin-top: 0
+    li
+      +single-transition
+      text-transform: uppercase
+      background: #774F98
+      border-bottom-color: rgba(255, 255, 255, 0.4)
+      border: 2px solid #774F98
+      color: #FFF
+      cursor: pointer
+      float: left
+      font-size: 0.7rem
+      margin-right: 5px
+      padding: 5px 10px
+      &:hover
+        background: #FFF !important
+        color: #000 !important
+        border-color: #000 !important
+      &.green
+        background: #2ecc71
+        border-color: #2ecc71
+      &.yellow
+        background: #FFB604
+        border-color: #FFB604
+      &.red
+        background: #D3402A
+        border-color: #D3402A
+
   .gallery
     li
       margin-bottom: 0 !important
@@ -54,7 +83,7 @@
 
 
   .meta
-    margin: 0
+    margin: 1rem
     // padding-bottom: 4rem
     li
       font-size: 0.8rem
@@ -128,6 +157,8 @@
 
 
   .google-maps
+    border-bottom: none
+    // cursor: pointer !imp
     position: relative
     #maps-container
       min-height: 300px
@@ -135,6 +166,7 @@
   .disclaimer
     padding: 10px
     color: #000
+    margin: 1rem
     opacity: 0.4
     font-size: 0.7rem
   a
