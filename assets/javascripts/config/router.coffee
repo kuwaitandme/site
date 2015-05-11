@@ -1,7 +1,5 @@
 exports = module.exports = ($stateProvider, $locationProvider, $urlMatcher,
   $urlRouterProvider) ->
-  @name = "[router]"
-  console.log @name, "initializing"
 
   # Enable strict mode to allow URLs with trailing slashes
   $urlMatcher.strictMode false
@@ -14,17 +12,17 @@ exports = module.exports = ($stateProvider, $locationProvider, $urlMatcher,
       templateUrl: "#{page}"
       url: route
       resolve:
-        categories: ["model.category", (category) -> category.download()]
-        user:       ["model.user",     (user)     -> user.download()]
-        location:   ["model.location", (location) -> location.download()]
+        categories: ["model.categories", (category) -> category.download()]
+        user:       ["model.users",      (user)     -> user.download()]
+        location:   ["model.locations",  (location) -> location.download()]
 
+  _route "landing",            "/"
   _route "account/index",      "/account"
   _route "account/manage",     "/account/manage"
   _route "auth/login",         "/auth/login"
   _route "auth/logout",        "/auth/logout"
   _route "auth/signup",        "/auth/signup"
   _route "guest/post",         "/guest/post"
-  _route "landing",            "/"
 
   _route "classified/finish",  "/classified/finish/{id:[0-9]+}"
   # _route "classified/edit",    "/classified/edit/{id:[0-9]+}"

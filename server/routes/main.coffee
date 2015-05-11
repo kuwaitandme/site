@@ -55,7 +55,7 @@ exports = module.exports = (IoC) ->
   # router.get /^\/(ar|en|dg).*\/?$/, setLanguage
 
   # Then start matching all the different routes for the app
-  _route "",               "landing"
+  _route "",                                  "landing"
   # _route "/rss",                              "rss"
 
   _route "/info/about",                       "info/about"

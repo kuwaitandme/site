@@ -27,7 +27,7 @@ exports = module.exports = ($scope, $rootScope, console, setTimeout) ->
 
   # When a new notification gets added, run the below function to display it
   # properly
-  onFlashNotificationsChange = (notifications)
+  onFlashNotificationsChange = (notifications) ->
     # For every notification check if the timeout function has been called on
     # it already.
     for notification in notifications

@@ -1,3 +1,4 @@
+# http://stackoverflow.com/questions/22080981/loading-ng-include-partials-from-local-pre-loaded-jst-template-cache
 exports = module.exports = ($provide) ->
   decorator = ($delegate, $sniffer) ->
     originalGet = $delegate.get
@@ -12,11 +13,12 @@ exports = module.exports = ($provide) ->
       value
     $delegate
   this
-  $provide.decorator "$templateCache", [
+
+  decorator.$inject = [
     "$delegate"
     "$sniffer"
-    decorator
   ]
+  $provide.decorator "$templateCache", decorator
 
 
 exports.$inject = ["$provide"]
