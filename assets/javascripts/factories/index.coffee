@@ -1,7 +1,8 @@
 module.exports = (app) ->
   console.log "[services] initializing"
 
-  app.factory "model.category",   require "./category"
-  app.factory "model.classified", require "./classified"
-  app.factory "model.location",   require "./location"
-  app.factory "model.user",       require "./user"
+  app.factory "model.categories",    require "./categories"
+  app.factory "model.classifieds",   require "./classifieds"
+  app.factory "model.locations",     require "./locations"
+  app.factory "model.notifications", require "./notifications"
+  app.factory "model.users",         require "./users"
