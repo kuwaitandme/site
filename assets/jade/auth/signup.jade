@@ -1,22 +1,44 @@
-h1.row Signup
-form.row(ng-submit="processForm()")
-  input.columns(type="text", ng-model="fullname", ng-required, placeholder="your full-name *")
-  input.columns(type="email", ng-model="email", ng-required, placeholder="your email *")
-  input.columns(type="password", ng-model="password", ng-required, placeholder="your password *")
-  input.columns(type="password", ng-model="repassword", ng-required, placeholder="re-enter password *")
-  input.columns(type="submit", lang-value="page.auth.login.submit")
-
-.row.collapse#social-login
-  .small-4.columns.facebook
-    a(target="_self", href="/auth/social/facebook") &#xf09a;
-  .small-4.columns.google-plus
-    a(target="_self", href="/auth/social/google") &#xf0d5;
-  .small-4.columns.twitter
-    a(target="_self", href="/auth/social/twitter") &#xf099;
+.row
+  .columns.large-6.medium-7.medium-centered.large-uncentered
+    h1.row.collapse Login
+    form.row.collapse(ng-submit="processForm()")
+      input.columns(type="email", ng-model="username", required,
+        placeholder="your email *")
+      input.columns(type="password", ng-model="password", required,
+        placeholder="your password *")
+      input.columns(type="submit", lang-value="page.auth.login.submit")
 
 
-.gcaptcha
+    .row.collapse#social-login
+      .small-4.columns.facebook
+        a(target="_self", href="/auth/social/facebook") &#xf09a;
+      .small-4.columns.google-plus
+        a(target="_self", href="/auth/social/google") &#xf0d5;
+      .small-4.columns.twitter
+        a(target="_self", href="/auth/social/twitter") &#xf099;
 
-.row.extra-links
-  .columns Already have an account? Login&nbsp;
-    a(href="/auth/login") here
+
+    .row.extra-links
+      .columns Forgot your password? Click&nbsp;
+        a(href="/auth/forgot") here
+        | , to reset it.
+
+
+  .columns.large-6.medium-7.medium-centered.large-uncentered
+    h1.row.collapse Signup
+    form.row.collapse(ng-submit="processForm()")
+      input.columns(type="text", ng-model="fullname", ng-required, placeholder="your full-name *")
+      input.columns(type="email", ng-model="email", ng-required, placeholder="your email *")
+      input.columns(type="password", ng-model="password", ng-required, placeholder="your password *")
+      input.columns(type="password", ng-model="repassword", ng-required, placeholder="re-enter password *")
+      input.columns(type="submit", lang-value="page.auth.login.submit")
+
+    .row.collapse#social-login
+      .small-4.columns.facebook
+        a(target="_self", href="/auth/social/facebook") &#xf09a;
+      .small-4.columns.google-plus
+        a(target="_self", href="/auth/social/google") &#xf0d5;
+      .small-4.columns.twitter
+        a(target="_self", href="/auth/social/twitter") &#xf099;
+
+    .gcaptcha

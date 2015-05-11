@@ -1,4 +1,5 @@
 body#classified-post
+  background: #fafafa
   $color-inactive: rgba(0, 0, 0, 0.02)
   $border-color: #f0f0f0
   $color-error: #E04B2A
@@ -6,8 +7,11 @@ body#classified-post
   $color-warn: #FFB604
 
   main
+    background: transparent
+  .classified-single
+    background: #FFF
     @extend .classified-single
-    margin-top: 10px
+    margin-top: 100px
 
 
   .error
@@ -155,7 +159,7 @@ body#classified-post
 
 
   .meta
-
+    margin: 0 !important
     padding-bottom: 0 !important
     li
       text-align: left !important

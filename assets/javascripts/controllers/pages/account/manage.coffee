@@ -7,6 +7,7 @@ exports = module.exports = ($scope, console, User) ->
   $scope.query = owner: User.getCurrentUser().id
   $scope.finishMessage = "End of classifieds"
   $scope.emptyMessage = "You have no classifieds"
+  # $scope.
 
 exports.$inject = [
   "$scope"

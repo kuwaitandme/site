@@ -1,12 +1,7 @@
 section.row.classified-single(ng-controller="component:classified-single")
-  ul.single-admin-panel
-    li.green Publish
-    li.yellow Edit
-    li.red Archive
-    li.red Ban
 
   .columns(ng-if="classified.show")
-    ul.gallery.row.collapse(ng-if="classified.images")
+    ul.gallery.row(ng-if="classified.images")
       li.small-6.medium-4.large-3.columns.end.image-loading(ng-repeat="image in classified.images track by $index")
         a(target="_self", ng-href!="/uploads/main/{{ image.file }}",
           style="background: {{ image.color }}")
@@ -77,18 +72,12 @@ section.row.classified-single(ng-controller="component:classified-single")
       .contact-form.columns(ng-if="showContactForm") I shall send your message!
 
 
-
-  //- ul#extras-sidebar.columns
-    li.facebook
-      a.icon(target="_self", ng-href="{{ classified.social.facebook }}") &#xf09a;
-    li.twitter
-      a.icon(target="_self", ng-href="{{ classified.social.twitter }}") &#xf099;
-    li.googleplus
-      a.icon(target="_self", ng-href="{{ classified.social.gplus }}") &#xf0d5;
-    li.link
-      a.icon(ng-href="/{{ classified.slug }}") &#xf0c6;
-    li.email
-      a.icon(target="_self", ng-href="{{ classified.social.email }}") &#xf003;
+  .disclaimer.columns
+    b Disclaimer:&nbsp;
+    | By viewing this classified, you are agreeing to our&nbsp;
+    a(target="_self", href="/terms-privacy") privacy conditions and terms of use
+    | . It is your duty to ensure safety and authenticity while dealing with any
+    | buyer/sellers.
 
 
   a.google-maps.columns(ng-if="classified.meta.gmapX && classified.show",
@@ -98,11 +87,22 @@ section.row.classified-single(ng-controller="component:classified-single")
     #maps-container
 
 
-  .disclaimer.columns
-    .row
-      .columns.medium-11.medium-centered
-        b Disclaimer:&nbsp;
-        | By viewing this classified, you are agreeing to our&nbsp;
-        a(target="_self", href="/terms-privacy") privacy conditions and terms of use
-        | . It is your duty to ensure safety and authenticity while dealing with any
-        | buyer/sellers.
+  .columns
+    ul#extras-sidebar
+      li.facebook
+        a.icon(target="_self", ng-href="{{ classified.social.facebook }}") &#xf09a;
+      li.twitter
+        a.icon(target="_self", ng-href="{{ classified.social.twitter }}") &#xf099;
+      li.linkedin
+        a.icon(target="_self", ng-href="{{ classified.social.gplus }}") &#xf0e1;
+      li.pinterest
+        a.icon(target="_self", ng-href="{{ classified.social.gplus }}") &#xf231;
+      li.googleplus
+        a.icon(target="_self", ng-href="{{ classified.social.gplus }}") &#xf0d5;
+      li.link
+        a.icon(ng-href="/{{ classified.slug }}") &#xf0c6;
+      //- li.email
+      //-   a.icon(target="_self", ng-href="{{ classified.social.email }}") &#xf003;
+      //- li.blank
+      //- li.fav
+      //-   a.icon(ng-href="/{{ classified.slug }}") &#xf005;

@@ -1,4 +1,8 @@
-section#classified
+.row
+  h1.columns Post a classified
+  p.columns You are about to post a classified. v
+
+section.classified-single
   form(name="form", novalidate, ng-class="{attempted:attempted}").row
     input(type="file", multiple, ng-model-file="fileChange").hide
     .columns
@@ -116,6 +120,10 @@ section#classified
               input(type="checkbox",
                 ng-model="classified.meta.hideSearchEngine")
               label Hide this classified from search engines
+            .columns
+              input(type="checkbox",
+                ng-model="classified.meta.shareSocial", ng-init="classified.meta.shareSocial=true")
+              label Allow sharing on social networks
             .columns
               input(type="checkbox",
                 ng-model="classified.meta.deliveryIncluded")
