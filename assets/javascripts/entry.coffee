@@ -6,7 +6,6 @@ app = angular.module "App", [
 
 (require "./config")        app
 (require "./controllers")   app
-(require "./decorators")    app
 (require "./directives")    app
 (require "./factories")     app
 (require "./filters")       app
