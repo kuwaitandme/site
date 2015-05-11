@@ -50,7 +50,7 @@ exports = module.exports = ($scope, $window, $rootScope, console, Classifieds) -
       body.scrollTop = 0
     else
       $scope.classified = undefined
-      setTimeout (-> body.scrollTop = scrollPosition), 10
+      body.scrollTop = scrollPosition
       $rootScope.bodyStyles.overflowY = ""
 
   # This function loads more classifieds from the server.

@@ -9,14 +9,14 @@
   .ajax-finish, .ajax-loading
     @extend .font-title
     color: #AAA
-    margin: 20px 0 0
     opacity: 0.8
     padding: 20px
+    padding-top: 0
     text-align: center
 
 #classified-single-fixed
   +single-transition
-  background: rgba(0, 0, 0, 0.9)
+  background: rgba(0, 0, 0, 0.97)
   left: 0
   overflow-y: scroll
   padding: 60px 3px
@@ -24,27 +24,8 @@
   top: -100%
   width: 100%
   z-index: 4
-  > .row
-    margin: 0 auto
-    max-width: 62.5rem
-  .classified-single
-    // background: #FFF
-    .gallery
-      z-index: 3
-    > .row
-      margin: 0 auto
-  .classified-single-close
-    $size: 30px
-    background: #FFF
-    cursor: pointer
-    height: $size
-    padding: 0 5px
-    position: fixed
-    right: 20px
-    z-index: 3
-    border: 1px solid #DDD
-    top: 0
-    width: $size
+  &:before
+    @extend #page-hero
   &.hide-cl
     display: none
     top: -100%
@@ -55,7 +36,7 @@
     top: 0
     display: block
     -webkit-animation-duration: 0.5s
-    -webkit-animation-name: slideFromAbove
+    -webkit-animation-name: fadeInFromNone
     @media only screen and (min-width: 1120px)
       ul#extras-sidebar
         margin-left: -100px
@@ -73,6 +54,27 @@
           margin: 0 !important
           .icon
             float: right !important
+  > .row
+    margin: 0 auto
+    max-width: 62.5rem
+  .classified-single
+    // background: #FFF
+    .gallery
+      z-index: 3
+    > .row
+      margin: 0 auto
+  .classified-single-close
+    $size: 30px
+    background: #FFF
+    cursor: pointer
+    height: $size
+    padding: 0 5px
+    position: fixed
+    top: 0
+    right: 20px
+    z-index: 3
+    border: 1px solid #DDD
+    width: $size
 
 
 ul.classified-list
