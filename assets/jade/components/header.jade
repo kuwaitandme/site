@@ -6,6 +6,17 @@
     #grabber(ng-click="toggleHeader()")
       img(src="/images/hamburger.png")
 
+  #notifications-popup-container(ng-if="flashNotifications.length > 0")
+    .notification(ng-repeat="n in flashNotifications", class="{{ n.type }}")
+      .text {{ n.text }}
+      .close(ng-click="removeNotifications(n, $index)")
+    //- .notification.success
+      .text Hello World are about to post a classified. vare about to post a classified.
+      .close
+    //- .notification.error
+    //-   .text Hello World are about to post a classified. vare about to post a classified.
+    //-   .close
+
   nav#sub-header.columns
     ul#notifications
       li You have no new notifications

@@ -1,0 +1,62 @@
+#notifications-popup-container
+  left: 0
+  padding: 30px 0
+  position: fixed
+  top: 0
+  width: 100%
+  z-index: 4
+
+  background: -moz-linear-gradient(top, #FFF 0%,  rgba(0,0,0,0.0) 100%)
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#FFF) 0 color-stop(100%, rgba(0,0,0,0.0)))
+  background: -webkit-linear-gradient(top, #FFF 0%, rgba(0,0,0,0.0) 100%)
+  background: -o-linear-gradient(top, #FFF 0%, rgba(0,0,0,0.0) 100%)
+  background: -ms-linear-gradient(top, #FFF 0%, rgba(0,0,0,0.0) 100%)
+  background: linear-gradient(to bottom, #FFF 0%, rgba(0,0,0,0.0) 100%)
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', endColorstr='#037db9e8',GradientType=0 )
+
+  -webkit-animation-duration: 0.5s
+  -webkit-animation-name: slideFromAbove
+
+  .notification
+    // +single-transition
+    $referenceSize: 40px
+    @extend .font-title
+    color: #FFF
+    font-size: 0.8rem
+    margin: 10px auto
+    max-width: 62.5rem
+    padding-right: $referenceSize
+    position: relative
+    width: 90%
+
+    -webkit-animation-duration: 0.5s
+    -webkit-animation-name: fadeInFromNone
+    .text
+      min-height: $referenceSize
+      padding: 10px 20px
+    .close, .close:after
+      right: 0
+      position: absolute
+      top: 0
+    .close
+      cursor: pointer
+      font-size: 1rem
+      height: $referenceSize
+      text-align: center
+      width: $referenceSize
+      &:after
+        @extend .font-awesome
+        background: rgba(0,0,0,0.1)
+        content: '\f00d'
+        height: 100%
+        line-height: $referenceSize
+        width: 100%
+    &.success, &
+      .text, .close
+        background: #30B632
+    &.error
+      .text, .close
+        background: #D4403B
+    &.warning
+      .text, .close
+        background: #FF9900
