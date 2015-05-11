@@ -1,4 +1,4 @@
-exports = module.exports = ($scope, $location, console, category) ->
+exports = module.exports = ($scope, $location, console, Categories) ->
   @name = "[component:category-list]"
   console.log @name, "initializing"
 
@@ -10,7 +10,7 @@ exports = module.exports = ($scope, $location, console, category) ->
     for child in $el[0].children then masonry.appended child
     masonry.layout()
 
-  categories = category.getAll()
+  categories = Categories.getAll()
   for category in categories
     # The sprite is the classname we will use to add the category's image
     category.sprite = (category.name.replace ",", " ").split(" ")[0].toLowerCase()
@@ -27,5 +27,6 @@ exports.$inject = [
   "$scope"
   "$location"
   "$log"
-  "model.category"
+
+  "model.categories"
 ]

@@ -1,16 +1,16 @@
 ## TODO: Add automatic resize of content
 exports = module.exports = ($scope, $googleMaps, $imageResizer,
-  $location, console, Classified, Category, Location) ->
+  $location, console, Classifieds, Categories, Locations) ->
   @name = "[page:classified-post]"
   console.log @name, "initializing"
 
-  $scope.categories = Category.getAll()
-  $scope.locations = Location.getAll()
+  $scope.categories = Categories.getAll()
+  $scope.locations = Locations.getAll()
 
   # If classified is not defined, then set it to it's default values. By scope
   # inheritance if there was a classified in the parent controller, it should
   # override this line.
-  $scope.classified ?= Classified.getDefault()
+  $scope.classified ?= Classifieds.getDefault()
 
   # Function to listen for changes with classified title
   titleChange = (newValue="") ->
@@ -106,7 +106,7 @@ exports = module.exports = ($scope, $googleMaps, $imageResizer,
         $scope.classified.child_category = $scope.childCategory.id
       if $scope.location?
         $scope.classified.location = $scope.location.id
-      Classified.save $scope.classified, (error, classified) ->
+      Classifieds.save $scope.classified, (error, classified) ->
         $location.path "/classified/finish/#{classified.id}"
     # set the attempted variable to true so that CSS can highlight invalid
     # fields
@@ -159,7 +159,8 @@ exports.$inject = [
   "$imageResizer"
   "$location"
   "$log"
-  "model.classified"
-  "model.category"
-  "model.location"
+
+  "model.classifieds"
+  "model.categories"
+  "model.locations"
 ]

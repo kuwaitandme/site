@@ -1,10 +1,10 @@
-exports = module.exports = ($scope, $stateParams, $rootScope, console, category) ->
+exports = module.exports = ($scope, $stateParams, $rootScope, console, Categories) ->
   @name = "[page:classified-search]"
   console.log @name, "initializing"
   console.debug @name, "routeParams", $stateParams
 
-  $scope.childCategory = category.findBySlug $stateParams.child
-  $scope.parentCategory = category.findBySlug $stateParams.parent
+  $scope.childCategory  = Categories.findBySlug $stateParams.child
+  $scope.parentCategory = Categories.findBySlug $stateParams.parent
 
   $scope.query =
     child_category:  $scope.childCategory.id
@@ -21,5 +21,6 @@ exports.$inject = [
   "$stateParams"
   "$rootScope"
   "$log"
-  "model.category"
+
+  "model.categories"
 ]

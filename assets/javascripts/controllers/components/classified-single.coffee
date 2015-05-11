@@ -1,10 +1,9 @@
-exports = module.exports = ($scope, $googleMaps, console, Classified) ->
+exports = module.exports = ($scope, $googleMaps, console, Classifieds) ->
   @name = "[component:classified-single]"
   console.log @name, "initializing"
   console.debug @name, $scope
 
-  console.log $scope.classified
-  cl = $scope.classified or {}
+  cl = $scope.classified or Classifieds.getDefault()
   cl.show = true
 
   # This function is used to render the Google maps component if needed.
@@ -38,5 +37,6 @@ exports.$inject = [
   "$scope"
   "$googleMaps"
   "$log"
+
   "model.classified"
 ]

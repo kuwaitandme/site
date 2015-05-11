@@ -1,4 +1,4 @@
-exports = module.exports = ($scope, $window, $rootScope, console, Classified) ->
+exports = module.exports = ($scope, $window, $rootScope, console, Classifieds) ->
   @name = "[component:classified-list]"
   console.log @name, "initializing"
 
@@ -65,7 +65,7 @@ exports = module.exports = ($scope, $window, $rootScope, console, Classified) ->
     # and can then get used here (due to angular scope inheritance).
     angular.extend parameters, ($scope.query or {})
     # Run the query!
-    Classified.query parameters, (error, classifieds) =>
+    Classifieds.query parameters, (error, classifieds) =>
       if error then console.error error
       if classifieds.length == 0 then $scope.queryFinished = true
       console.log @name, "finished loading classifieds"
@@ -101,5 +101,6 @@ exports.$inject = [
   "$window"
   "$rootScope"
   "$log"
-  "model.classified"
+
+  "model.classifieds"
 ]
