@@ -41,7 +41,6 @@ exports = module.exports = ($scope, $window, $rootScope, console, Classifieds) -
   # This function toggles the classified dropdown
   $scope.toggleClassified = (classified) ->
     $rootScope.bodyStyles = $rootScope.bodyStyles or {}
-    console.log scrollPosition, body.scrollTop
 
     if not $scope.classified?
       $scope.$broadcast "classified-changed", classified
@@ -74,7 +73,6 @@ exports = module.exports = ($scope, $window, $rootScope, console, Classifieds) -
       # (manually that is).
       for classified in classifieds
         classified.imageLoaded = -> masonry.layout()
-        console.log classified
         $scope.classifieds.push classified
       loadingClassifieds = false
   $scope.loadClassifieds()
