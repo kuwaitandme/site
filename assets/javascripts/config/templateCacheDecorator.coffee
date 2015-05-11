@@ -12,8 +12,11 @@ exports = module.exports = ($provide) ->
       value
     $delegate
   this
-
-  $provide.decorator "$templateCache", ["$delegate", "$sniffer", decorator]
+  $provide.decorator "$templateCache", [
+    "$delegate"
+    "$sniffer"
+    decorator
+  ]
 
 
 exports.$inject = ["$provide"]
