@@ -77,9 +77,21 @@
   form > .columns
     margin-bottom: 1rem
 
+  .admin-panel
+    +clearfix
+    .action
+      cursor: pointer
+      background: $color-error
+      border-bottom: 3px solid rgba(0,0,0,0.2)
+      color: #FFF
+      float: left
+      font-size: 0.7rem
+      padding: 0.5rem 1rem
+      text-transform: uppercase
+
   .gallery
     @extend .font-roboto
-    margin-bottom: 0
+    margin: 0
     li
       padding: 0
       height: 100%
@@ -155,7 +167,11 @@
     padding-bottom: 0 !important
     li
       text-align: left !important
+      padding-bottom: 0.5rem !important
+    // .meta-title, .meta-value
+    //   padding-left: 0
     .meta-title
+
       line-height: 40px
       width: auto !important
     .columns
@@ -181,8 +197,7 @@
     #maps-container
       min-height: 300px
       &.disabled:before
-        background: rgba(255, 255, 255, 0.5)
-        border: 2px solid $border-color
+        background: rgba(255, 255, 255, 0.8)
         content: ''
         height: 100%
         left: 0

@@ -1,5 +1,15 @@
 section.classified-form(ng-controller="component:classified-form as form")
   form(name="form", novalidate, ng-class="{attempted:attempted}").row
+
+    .columns.admin-panel
+      .action(ng-click="publish", ng-if="superEditable") Publish
+      .action(ng-click="reject", ng-if="superEditable") Reject
+      .action(ng-click="ban", ng-if="superEditable") Ban
+      .action(ng-click="promote", ng-if="superEditable") Promote
+      .action(ng-click="demote", ng-if="superEditable") Demote
+      .action(ng-click="classified.status = 3 && submit()",) Archive this classified
+
+
     input(type="file", multiple, ng-model-file="fileChange").hide
     .columns
       ul.gallery.small-block-grid-2.medium-block-grid-3.large-block-grid-4
@@ -31,7 +41,7 @@ section.classified-form(ng-controller="component:classified-form as form")
         valid="{{ remainingDescription }}")
 
     ul.classified.meta.columns.medium-6
-      li.row
+      li.row.collapse
         .meta-title.columns.medium-2 Price
         .columns.medium-9
           select(ng-model="classified.priceType", ng-required="true")
@@ -41,21 +51,21 @@ section.classified-form(ng-controller="component:classified-form as form")
             option(value="2") Specify Value
           .error
 
-      li.row(ng-if="classified.priceType == 2")
+      li.row.collapse(ng-if="classified.priceType == 2")
         .meta-title.columns.medium-2
         .columns.medium-9
           input(type="number", placeholder="give your price here",
             ng-model="classified.priceValue", ng-required="true", min=0)
           .error(invalid='price must only contain numbers')
 
-      li.row
+      li.row.collapse
         .meta-title.columns.medium-2 Email
         .columns.medium-9
           input(type="email", placeholder="contact@website.com",
             ng-model="classified.contact.email", ng-required="true")
           .error(invalid="email must be valid")
 
-      li.row
+      li.row.collapse
         .meta-title.columns.medium-2 Category
         .columns.medium-9
           select(ng-model="classified.parentCategory",
@@ -64,7 +74,7 @@ section.classified-form(ng-controller="component:classified-form as form")
             option(disabled, selected, value="") Choose a category
           .error
 
-      li.row(ng-if="classified.parentCategory.children.length > 0")
+      li.row.collapse(ng-if="classified.parentCategory.children.length > 0")
         .meta-title.columns.medium-2
         .columns.medium-9
           select(ng-model="classified.childCategory",
@@ -73,7 +83,7 @@ section.classified-form(ng-controller="component:classified-form as form")
             option(disabled, selected, value="") Choose a sub-category
           .error
 
-      li.row
+      li.row.collapse
         .meta-title.columns.medium-2 Location
         .columns.medium-9
           select(ng-model="location",
@@ -83,28 +93,28 @@ section.classified-form(ng-controller="component:classified-form as form")
           .error
 
     ul.classified.meta.columns.medium-6
-      li.row
+      li.row.collapse
         .meta-title.columns.medium-2 Phone
         .columns.medium-9
           input(type="text", placeholder="+965 12345678",
             ng-model="classified.contact.phone")
-      li.row(ng-if="location && location.id != '0'")
+      li.row.collapse(ng-if="location && location.id != '0'")
         .meta-title.columns.medium-2 Address
         .columns.medium-9
           input(type="text", placeholder="Address line 1",
             ng-model="classified.contact.address1")
-      li.row(ng-if="location && location.id != '0'")
+      li.row.collapse(ng-if="location && location.id != '0'")
         .meta-title.columns.medium-2
         .columns.medium-9
           input(type="text", placeholder="Address line 2",
             ng-model="classified.contact.address2")
-      li.row
+      li.row.collapse
         .meta-title.columns.medium-2 Link
         .columns.medium-9
           input(type="url", placeholder="https://example.com",
             ng-model="classified.contact.website")
           .error(invalid="link must be a valid url")
-      li.row.extras
+      li.row.collapse.extras
         .meta-title.columns.medium-2 Extras
         .columns.medium-9
           .row
