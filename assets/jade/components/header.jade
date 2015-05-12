@@ -4,26 +4,22 @@
       a(href="/", ng-click="closeHeader()")
         img(src="/images/header-logo.png")
     #grabber(ng-click="toggleHeader()")
+      #notification-counter(ng-if="unreadNotifications > 0") {{ unreadNotifications }}
       img(src="/images/hamburger.png")
 
   #notifications-popup-container(ng-if="flashNotifications.length > 0")
     .notification(ng-repeat="n in flashNotifications", class="{{ n.type }}")
       .text {{ n.text }}
-      .close(ng-click="removeNotifications(n, $index)")
-    //- .notification.success
-      .text Hello World are about to post a classified. vare about to post a classified.
-      .close
-    //- .notification.error
-    //-   .text Hello World are about to post a classified. vare about to post a classified.
-    //-   .close
+      .close(ng-click="closeFlashNotification($index)")
+
 
   nav#sub-header.columns
-    ul#notifications
-      li You have no new notifications
-    //- #nav-widgets
-      #nav-widget-user.row
-        .columns.medium-3.thumb
-          img
+    ul#notifications()
+      li(ng-if="notifications.length > 0",
+        ng-repeat="n in notifications",
+        ng-mouseover="n.hasRead = true"
+        class="{{ n.type }}", ng-class="{read: n.hasRead, hide: n.remove}") {{ n.text }}
+      li.error.none.read(ng-if="notifications.length == 0") You have no new notifications
 
 
     #nav-links.row
@@ -38,9 +34,7 @@
       .row
         .columns.medium-3.title.dark Account
         .link.columns.medium-3.hide-if-loggedin
-          a(href="/auth/login", ng-click="closeHeader()") Login
-        .link.columns.medium-3.end.hide-if-loggedin
-          a(href="/auth/signup", ng-click="closeHeader()") Signup
+          a(href="/auth", ng-click="closeHeader()") Login/Signup
         .link.columns.medium-3.end.hide-if-loggedin
           a(href="/auth/reset", ng-click="closeHeader()") Reset password
         .link.columns.medium-3.show-if-loggedin
@@ -52,13 +46,16 @@
       .row
         .columns.medium-3.title More
         .link.columns.medium-3
-          a(href='/contact', ng-click="closeHeader()") Contact Us
+          a(href="/info/contact", ng-click="closeHeader()") Contact Us
         .link.columns.medium-3
-          a(href="/donate", ng-click="closeHeader()") Donate
-        .link.columns.medium-3
-          a(href="/terms-privacy", target="_self", ng-click="closeHeader()") Usage &amp; Privacy
+          a(href="/info", ng-click="closeHeader()") About Us
+        .link.columns.medium-3.end
+          a(href="/info/donate", ng-click="closeHeader()") Donate
 
-    #nav-footer Copyright &copy; &middot; Kuwait &amp; Me &middot; 2015
+    #nav-footer
+      | Copyright &copy; &middot;
+      | Kuwait &amp; Me &middot; 2015 &middot;&nbsp;
+      a(href="/info/terms-privacy", target="_self", ng-click="closeHeader()") Usage &amp; Privacy
 
 
 //- #header-search
