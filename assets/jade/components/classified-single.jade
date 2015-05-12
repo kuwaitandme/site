@@ -86,7 +86,7 @@ section.row.classified-single(ng-controller="component:classified-single")
         | buyer/sellers.
 
 
-      a.google-maps.columns(ng-if="classified.meta.gmapX && classified.show",
+      a.google-maps.columns(ng-if="classified.meta.mapsEnabled && classified.show",
         ng-init="drawMap(); mapHeight = window.innerHeight / 2",
         style="height: {{ window.innerHeight / 2 }}px",
         ng-href="//www.google.co.in/maps/dir//{{classified.meta.gmapX}},{{classified.meta.gmapY}}")

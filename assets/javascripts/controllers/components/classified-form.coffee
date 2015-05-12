@@ -6,6 +6,7 @@ exports = module.exports = ($scope, $googleMaps, $imageResizer,
 
   $scope.categories = Categories.getAll()
   $scope.locations = Locations.getAll()
+  $scope.onSuccess ?= ->
 
   # If classified is not defined, then set it to it's default values. By scope
   # inheritance if there was a classified in the parent controller, it should
@@ -114,7 +115,7 @@ exports = module.exports = ($scope, $googleMaps, $imageResizer,
     if not $scope.form.$invalid
       console.log @name, "submitting form"
 
-      for image in $scope.classified.images then delete image.src
+      for image in ($scope.classified.images or []) then delete image.src
 
       if $scope.classified.parentCategory?
         $scope.classified.parent_category = $scope.classified.parentCategory.id
@@ -124,10 +125,9 @@ exports = module.exports = ($scope, $googleMaps, $imageResizer,
         $scope.classified.location = $scope.location.id
       Classifieds.save $scope.classified, (error, classified) ->
         if error
-          return $notifications.error "Something went wrong while posting your classified. Try again later"
+          return $notifications.error "Something went wrong while saving your classified. Try again later"
 
-        $notifications.success "Your classified has been submitted successfully!"
-        $location.path "/classified/finish/#{classified.id}"
+        $scope.onSuccess classified
     else
       $notifications.error "You have some invalid fields in your form. Have a look at them again"
     # set the attempted variable to true so that CSS can highlight invalid
