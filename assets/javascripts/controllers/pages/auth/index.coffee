@@ -1,4 +1,4 @@
-exports = module.exports = ($scope, $location, $http, console, Users) ->
+exports = module.exports = ($scope, $location, $http, console, $notifications, Users) ->
   @name = "[page:auth-login]"
   console.log @name, "initializing"
 
@@ -38,6 +38,7 @@ exports.$inject = [
   "$location"
   "$http"
   "$log"
+  "$notifications"
 
   "model.users"
 ]
