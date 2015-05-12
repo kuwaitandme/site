@@ -32,15 +32,14 @@ exports = module.exports = ($location, $http, console) -> new class
 
 
   save: (classified={}, callback=->) ->
-    if not classified._id?
+    if not classified.id?
       method = "POST"
       url = "/api/classified"
     else
       method = "PUT"
-      url = "/api/classified/#{classified._id}"
+      url = "/api/classified/#{classified.id}"
     console.log @name, "sending classified to server [#{method}]"
     console.debug @name, classified
-
     # Convert the json array into a formdata object
     formdata = @_getFormdata classified
     # Send the request with a 'multi-part/formdata' encoding.
@@ -133,15 +132,20 @@ exports = module.exports = ($location, $http, console) -> new class
     # Prepare the formdata object
     formdata = new FormData
 
-    # start individually adding each image as a seperate blob into the formdata
-    for image in images then if image.status is "to-upload"
-      if image.main then hasMainImage = true
-
-      # Add all new images into a different variable, and add each image as
-      # a separate field in the fromdata object.
-      newImages.push id: fileIndex, main: image.main
-      formdata.append "images[]", image.file, "#{fileIndex}"
-      fileIndex++
+    # start parsing each image
+    for image in images
+      if image.status is "to-upload"
+        if image.main then hasMainImage = true
+        # Add all new images into a different variable, and add each image as
+        # a separate field in the fromdata object.
+        formdata.append "images[]", image.file, image.file.name
+      else if image.status is "to-delete-from-server"
+        classified.filesToDelete ?= []
+        classified.filesToDelete.push image.filename
+      # Remove unwanted fields (that are not supposed be passed to the server this way)
+      delete image.src
+      delete image.file
+      delete image.status
 
     # If a main image has not been found, then set one.
     if not hasMainImage and newImages.length > 0 then newImages[0].main = true
@@ -149,6 +153,7 @@ exports = module.exports = ($location, $http, console) -> new class
     # Finally convert the classified into a JSON string and send it to the
     # server.
     classified.new_images = newImages
+    classified.images = images
     formdata.append "classified", angular.toJson classified
     formdata
 

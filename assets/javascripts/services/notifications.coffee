@@ -7,10 +7,15 @@ exports = module.exports = ($http, $root, console, $storage) -> new class
   # Returns a list of all the notifications
   getAll: ->
 
+
   create: (message, type="success") ->
-    # Broadcast the message first.
     $root.$broadcast "notification",
-      text: message, type: type
+      text: message, type: type, hasRead: false
+
+
+  error:   (message) -> @create message, "error"
+  success: (message) -> @create message, "success"
+  warn:    (message) -> @create message, "warn"
 
 
 exports.$inject = [

@@ -2,35 +2,36 @@ exports = module.exports = ($scope, $location, $http, console, $notifications, U
   @name = "[page:auth-login]"
   console.log @name, "initializing"
 
+  $scope.login = {}
+  $scope.signup = {}
+
   # Function to perform user login
   $scope.doLogin = =>
     $http
       method: "POST"
       url: "/api/auth/email/login"
-      data:
-        password: $scope.password
-        username: $scope.username
+      data: $scope.login
     .success (data, status) =>
       console.log @name, "login successful! redirecting to account page"
       Users.setCurrentUser data
+      $notifications.success "Welcome #{data.full_name}, You have been logged in!"
       $location.path "/account"
-    .error (data, status) => console.error @name, data, status
+    .error (data, status) =>
+      $notifications.error "Invalid login. Please check your credentials"
+      console.error @name, data, status
 
   # Function to perform user registration
   $scope.doSignup = =>
     $http
       method: "POST"
       url: "/api/auth/email/signup"
-      data:
-        email:      $scope.email
-        fullname:   $scope.fullname
-        password:   $scope.password
-        repassword: $scope.repassword
+      data: $scope.signup
     .success (data, status) =>
-      console.log @name, "login successful! redirecting to account page"
-      Users.setCurrentUser data
-      $location.path "/account"
-    .error (data, status) => console.error @name, data, status
+      $notifications.success "An activation email has been sent, #{data.full_name}! (Check your spam folder too)"
+      console.log @name, "signup successful! redirecting to account page"
+    .error (data, status) =>
+      console.error @name, data, status
+      $notifications.error "Signup failed. Please check your credentials or try again later"
 
 
 exports.$inject = [

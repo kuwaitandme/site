@@ -9,7 +9,6 @@ exports = module.exports = ($http, console, $storage) -> new class
   findById: (id) ->
     for location in @locations
       if location.id is id then return location
-    {}
 
 
   # Downloads the location, either from the cache or from API

@@ -1,2 +1,221 @@
 .classified-form
+  $color-inactive: rgba(0, 0, 0, 0.02)
+  $border-color: #f0f0f0
+  $color-error: #E04B2A
+  $color-valid: #30cd72
+  $color-warn: #FFB604
   @extend .classified-single
+  .error
+    @extend .font-text
+    font-size: 11px
+    float: left
+    padding: 5px 10px
+
+  input
+    @extend .font-text
+    &[type='checkbox']
+      margin-right: 5px !important
+      width: auto !important
+    &[type='text']
+      font-size: 1rem
+  input, select, textarea, button
+    +single-transition
+    background: transparent
+    border: 0
+    border-bottom: 2px solid $border-color
+    margin: 0
+    &:focus
+      background: $color-inactive
+      outline: none
+      ~ .error:before
+        color: #FFF !important
+
+    &.ng-valid ~ .error
+      display: none
+      &:before
+        content: attr(valid)
+    &.ng-invalid.ng-invalid-required, &.ng-valid
+      &:focus
+        border-color: $color-valid
+    &.ng-valid:focus ~ .error.show-on-focus
+      display: inline-block
+      background: $color-valid
+    &.ng-invalid
+      border-color: $border-color
+      ~ .error:before
+        color: #FFF
+        content: attr(invalid)
+      &.ng-invalid-minlength, &.ng-invalid-required:focus
+        border-color: $color-warn
+        ~ .error
+          background: $color-warn
+      &.ng-invalid-number, &.ng-invalid-url, &.ng-invalid-email, &.ng-invalid-maxlength
+        border-color: $color-error
+        ~ .error
+          background: $color-error
+      &.ng-invalid-minlength ~ .error:before
+        content: attr(min) !important
+      &.ng-invalid-maxlength ~ .error:before
+        content: attr(max) !important
+      &.ng-invalid-required
+        &:focus ~ .error
+            display: inline-block
+        ~ .error
+          background: $border-color
+          &:before
+            color: #000
+            content: "required"
+
+  // If the user has attempted to submit, highlight all required fields as 'red'
+  form.attempted .ng-invalid-required
+    border-color: $color-error
+    ~ .error
+      background: $color-error
+      &:before
+        color: #FFF
+
+  form > .columns
+    margin-bottom: 1rem
+
+  .gallery
+    @extend .font-roboto
+    margin-bottom: 0
+    li
+      padding: 0
+      height: 100%
+      margin: 10px 0
+      padding: 0.9375rem
+      position: relative
+
+      &.to-delete-from-server, &.to-delete
+        .close
+          @extend .close:hover
+        .main
+          display: none
+      &.set-main-image
+        .main
+          @extend .main:hover
+
+      .close, .main
+        +single-transition
+        color: #000
+        background: $border-color
+        content: '\f00d'
+        cursor: pointer
+        font-size: 0.7rem
+        padding: 7px 10px
+        display: inline-block
+        text-align: center
+        top: 0
+        opacity: 1
+        &:hover
+          color: #FFF
+      .close
+        &:hover
+          background: #E74C3C
+          ~ img
+            border-color: #E74C3C
+      .main
+        &:hover
+          background: #30cd72
+          ~ img
+            border-color: #30cd72
+      img
+        +single-transition
+        border: 4px solid $border-color
+
+
+  .title, .description
+    input, textarea
+      padding: 0.5rem
+      width: 100%
+
+
+  .title input
+    @extend .font-bitter
+    font-size: 0.9rem
+    margin-bottom: -2px
+
+
+  .description
+    padding-bottom: 1rem !important
+    white-space: initial !important
+    textarea
+      font-size: 0.9rem
+      height: 100%
+      left: 0
+      margin: 0
+      margin-bottom: -6px
+      min-height: 200px
+      top: 0
+
+
+  .meta
+    margin: 0 !important
+    padding-bottom: 0 !important
+    li
+      text-align: left !important
+    .meta-title
+      line-height: 40px
+      width: auto !important
+    .columns
+      margin-bottom: 0 !important
+    select, input
+      font-size: 0.8rem
+      padding:  0.5rem
+      width: 100%
+
+    @media only screen and (min-width: 40.063em)
+      .extras
+        .row
+          margin-top: 15px
+
+
+  .google-maps
+    position: relative
+    label
+      font-size: 0.8rem
+    > .row
+      margin-left: 0
+      margin-right: 0
+    #maps-container
+      min-height: 300px
+      &.disabled:before
+        background: rgba(255, 255, 255, 0.5)
+        border: 2px solid $border-color
+        content: ''
+        height: 100%
+        left: 0
+        padding: 2rem
+        position: absolute
+        top: 0
+        width: 100%
+        z-index: 2
+
+
+  .submit, .add-images
+    @extend font-title
+    background: $color-valid
+    border-bottom: 4px solid rgba(0,0,0,0.1)
+    color: #FFF
+    font-size: 0.9rem
+    padding: 0.5rem
+    z-index: 3
+  .submit
+    @media only screen and (max-width: 64.063em)
+      bottom: -3px
+      left: 0
+      margin-bottom: 0 !important
+      padding: 0.8rem 0.5rem
+      position: fixed
+
+  .add-images
+    background: #3498db
+    font-size: 0.8rem
+    width: 100%
+    &:hover, &:focus
+      background: #2980b9
+
+  @media only screen and (max-width: 64.063em)
+    form
+      margin-bottom: 32px

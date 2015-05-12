@@ -1,6 +1,6 @@
 .classified-list-item(ng-click="toggleClassified(classified)")
   .thumb(ng-if="classified.mainImage", ng-style="{'background':classified.mainImage.color}")
-    img(ng-image-loader!="/uploads/thumb/{{ classified.mainImage.file }}",
+    img(ng-image-loader!="/uploads/thumb/{{ classified.mainImage.filename }}",
       ng-image-success="classified.imageLoaded",
       ng-image-fail="classified.imageLoaded", alt="{{ classified.title }}")
   .info

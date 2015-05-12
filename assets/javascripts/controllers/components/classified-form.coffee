@@ -1,6 +1,6 @@
 ## TODO: Add automatic resize of content
 exports = module.exports = ($scope, $googleMaps, $imageResizer,
-  $location, console, Classifieds, Categories, Locations) ->
+  $location, $notifications, console, Classifieds, Categories, Locations) ->
   @name = "[component:classified-form]"
   console.log @name, "initializing"
 
@@ -67,9 +67,12 @@ exports = module.exports = ($scope, $googleMaps, $imageResizer,
             if image.main then isThereMainImage = true
           $scope.classified.images.push
             file: file
+            filename: file.name
+            width: file.width
+            height: file.height
+            src: dataURL
             main: not isThereMainImage
             status: "to-upload"
-            thumb: dataURL
       ) file
 
 
@@ -104,13 +107,15 @@ exports = module.exports = ($scope, $googleMaps, $imageResizer,
     # And then tag our specific image as the main image
     $li.data().$scope.image.main = true
 
-  window.a = $scope
 
   # This function handlers when the form gets submitted.
   $scope.submit = ->
     # Only perform the submit function if the form has validated properly
     if not $scope.form.$invalid
       console.log @name, "submitting form"
+
+      for image in $scope.classified.images then delete image.src
+
       if $scope.classified.parentCategory?
         $scope.classified.parent_category = $scope.classified.parentCategory.id
       if $scope.classified.childCategory?
@@ -118,7 +123,13 @@ exports = module.exports = ($scope, $googleMaps, $imageResizer,
       if $scope.location?
         $scope.classified.location = $scope.location.id
       Classifieds.save $scope.classified, (error, classified) ->
+        if error
+          return $notifications.error "Something went wrong while posting your classified. Try again later"
+
+        $notifications.success "Your classified has been submitted successfully!"
         $location.path "/classified/finish/#{classified.id}"
+    else
+      $notifications.error "You have some invalid fields in your form. Have a look at them again"
     # set the attempted variable to true so that CSS can highlight invalid
     # fields
     $scope.attempted = true
@@ -129,7 +140,10 @@ exports = module.exports = ($scope, $googleMaps, $imageResizer,
     loaded = false
     initMap = ->
       # These are the default co-ordinates. They center to Kuwait City.
-      myLatlng = new google.maps.LatLng 29.375770981110353, 47.98656463623047
+      myLatlng = new google.maps.LatLng(
+        $scope.classified.meta.gmapX or 29.375770981110353,
+        $scope.classified.meta.gmapY or 47.98656463623047
+      )
       # Initialize the map
       gmap = document.getElementById "maps-container"
       map = new google.maps.Map gmap,
@@ -169,6 +183,7 @@ exports.$inject = [
   "$googleMaps"
   "$imageResizer"
   "$location"
+  "$notifications"
   "$log"
 
   "model.classifieds"

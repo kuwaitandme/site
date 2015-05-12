@@ -19,6 +19,8 @@ exports = module.exports = (settings) ->
     # Returns the extension of the given filename
     _getExtension: (filename) -> (/(?:\.([^.]+))?$/.exec filename)[1] or "jpeg"
 
+
+    # Helper function to get the dominant colour for the given image
     _getDominantColor: (filepath) ->
       rgbToHex = (rgb) ->
         componentToHex = (c) ->
@@ -74,7 +76,7 @@ exports = module.exports = (settings) ->
     #
     # It does the file uploads (asynchronously) and at the same time creates
     # the thumbnails for each image (asynchronously too).
-    upload: (files, metadatas=[], callback) ->
+    upload: (files, callback) ->
       asyncTasks = []
       ret = []
 
@@ -104,16 +106,15 @@ exports = module.exports = (settings) ->
           newPath: path.normalize uploadPath
           oldPath: file.path
 
-        # Add the file into our list of "accepted" files and get it"s dominant
-        # color.
-        if isValid
-          for meta in metadatas then if file.name is String meta.id
-            fileMeta = meta
-            break
-          ret.push
-            file: newFilename
-            main: fileMeta.main
-            color: @_getDominantColor file.path
+        # If the file is valid, then call the dominant color fn;
+        dominantColor = if isValid then @_getDominantColor file.path
+
+        # Add the file into our list of processed files.
+        ret.push
+          color: dominantColor
+          isUploaded: isValid
+          newFilename: newFilename
+          oldFilename: file.name
 
       # Perform file operations to move the file from the temporary
       # storage into the public uploads folder.

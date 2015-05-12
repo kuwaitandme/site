@@ -31,7 +31,6 @@ exports = module.exports = ($scope, $root, console, setTimeout) ->
         notification.remove = true
 
 
-
   # This click handler is used to toggle (display/hide) the subheader.
   $scope.toggleHeader = ->
     headerIsOpened = $root.bodyClasses["show-subheader"]

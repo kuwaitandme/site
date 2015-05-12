@@ -4,13 +4,19 @@ _                 = require "underscore"
 
 exports = module.exports = (knex) -> new class
   classifiedsPerPage: 30
+
+  # These are all the fields that are valid columns in the table
   fields: [
     "child_category", "contact", "created", "description"
     "images", "language", "location", "meta", "owner"
     "parent_category", "priceType", "priceValue", "slug"
-    "status", "title", "type", "weight"
+    "status", "title", "type", "weight", "id"
   ]
 
+  # These are all the fields that must not be changed once the model has
+  # been saved once in the database
+  finalFields: ["id", "owner", "slug", "created"]
+  jsonFields: ["images", "meta", "contact"]
 
   constructor: ->
     bookshelf = (require "bookshelf") knex
@@ -96,7 +102,7 @@ exports = module.exports = (knex) -> new class
 
 
   create: (parameters, callback=->) ->
-    newClassified = @_filter parameters
+    newClassified = @filter parameters
     @model.forge newClassified
       .save().then (classified) -> callback null, classified
 
@@ -107,8 +113,7 @@ exports = module.exports = (knex) -> new class
       .then (classified) -> callback null, classified
 
 
-  _filter: (data) ->
-    classified = _.pick data, (value, key, object) => key in @fields
+  filter: (data) -> _.pick data, (value, key, object) => key in @fields
 
 
 exports["@require"] = ["igloo/knex"]

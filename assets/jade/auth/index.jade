@@ -2,11 +2,11 @@
   .columns.large-6.medium-7.medium-centered.large-uncentered
     h1.row.collapse Login
     form.row.collapse(ng-submit="doLogin()")
-      input.columns(type="email", ng-model="username", required,
+      input.columns(type="email", ng-model="login.username", required,
         placeholder="your email *")
-      input.columns(type="password", ng-model="password", required,
+      input.columns(type="password", ng-model="login.password", required,
         placeholder="your password *")
-      input.columns(type="submit", lang-value="page.auth.login.submit")
+      input.columns(type="submit")
 
 
     .row.collapse#social-login
@@ -27,11 +27,11 @@
   .columns.large-6.medium-7.medium-centered.large-uncentered
     h1.row.collapse Signup
     form.row.collapse(ng-submit="doSignup()")
-      input.columns(type="text", ng-model="fullname", ng-required, placeholder="your full-name *")
-      input.columns(type="email", ng-model="email", ng-required, placeholder="your email *")
-      input.columns(type="password", ng-model="password", ng-required, placeholder="your password *")
-      input.columns(type="password", ng-model="repassword", ng-required, placeholder="re-enter password *")
-      input.columns(type="submit", lang-value="page.auth.login.submit")
+      input.columns(type="text", ng-model="signup.fullname", ng-required, placeholder="your full-name *")
+      input.columns(type="email", ng-model="signup.email", ng-required, placeholder="your email *")
+      input.columns(type="password", ng-model="signup.password", ng-required, placeholder="your password *")
+      input.columns(type="password", ng-model="signup.repassword", ng-required, placeholder="re-enter password *")
+      input.columns(type="submit")
 
     .row.collapse#social-login
       .small-4.columns.facebook

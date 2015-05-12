@@ -32,7 +32,7 @@ exports = module.exports = ($http, console, $storage) -> new class
     for cat in @categories
       if cat.children? then for child in cat.children
         if child.id is id then return child
-    {}
+
 
   # This function properly sets the category counter to each category
   _setCounters: (counters) ->

@@ -1,7 +1,7 @@
 formidable        = require "formidable"
 keyword_extractor = require "keyword-extractor"
 
-exports = module.exports = (Classified, reCaptcha, uploader) ->
+exports = module.exports = (Classifieds, reCaptcha, uploader) ->
   _createURLslug = (classified) ->
     maxLength = 70
     # Get the keywords and make a sentence seperated by '-'s.
@@ -53,27 +53,38 @@ exports = module.exports = (Classified, reCaptcha, uploader) ->
           return response.json "bad JSON field(s)"
 
         # Extract the images. The will be set with the result from the uploader.
-        imageMeta = data.new_images
-        delete data.new_images
-        delete data.filesToDelete
+        images = data.images
+        data = Classifieds.filter data
+        delete data.images
 
         # Set the current user as the owner for this classified.
         data.owner = (request.user or {}).id
 
         # First create the classified
-        Classified.create data, (error, classified) ->
+        Classifieds.create data, (error, classified) ->
           if error
             response.status 400
             return response.json error
 
           # Start saving the files
-          uploader.upload filesRequest["images[]"], imageMeta, (error, files) ->
+          uploader.upload filesRequest["images[]"], (error, newImages) ->
             if error
               response.status 400
               return response.json error
 
+            # For every new image, if it was uploaded find it metadata and attach
+            # it to the list of final images
+            finalImages = []
+            for newImage in newImages
+              for image in images
+                if newImage.oldFilename is image.filename and newImage.isUploaded
+                  image.filename = newImage.newFilename
+                  finalImages.push image
+
+            # Get the slug for the classified using the newly generated id and
+            # set the images field with our final set of images.
             classified.set "slug", _createURLslug classified.toJSON()
-            classified.set "images", JSON.stringify files
+            classified.set "images", JSON.stringify finalImages
 
             # Update the classified with the images and return
             classified.save().then (classified) ->

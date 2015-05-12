@@ -9,7 +9,7 @@ section.classified-form(ng-controller="component:classified-form as form")
           ng-repeat="image in classified.images track by $index")
           .close(ng-click="removeImage($event)") remove
           .main(ng-click="setmainImage($event)") main image
-          img.thumb(ng-src!="{{ image.thumb || image.file }}")
+          img.thumb(ng-src!="{{ image.src }}")
 
       .row
         .columns.large-3.medium-4.small-6
@@ -53,7 +53,7 @@ section.classified-form(ng-controller="component:classified-form as form")
         .columns.medium-9
           input(type="email", placeholder="contact@website.com",
             ng-model="classified.contact.email", ng-required="true")
-          .error(invalid='email must be valid')
+          .error(invalid="email must be valid")
 
       li.row
         .meta-title.columns.medium-2 Category
@@ -138,13 +138,14 @@ section.classified-form(ng-controller="component:classified-form as form")
               label I am available on Viber
 
 
-    .google-maps.columns(ng-if="location && location.id != '0'",
+    .google-maps.columns(ng-if="location && location.id > 0",
       ng-init="drawMap()")
-      .row.collapse
+      .row
         .columns
           input(type="checkbox", name="toggled", id="toggleMaps",
             ng-model="classified.meta.mapsEnabled")
           label Enable maps
+      .row.collapse
         .columns
           #maps-container(ng-class="{disabled: !classified.meta.mapsEnabled}")
 
