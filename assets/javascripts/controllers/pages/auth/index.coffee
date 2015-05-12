@@ -1,6 +1,7 @@
 exports = module.exports = ($scope, $location, $http, console, $notifications, Users) ->
   @name = "[page:auth-login]"
   console.log @name, "initializing"
+  $scope.$emit "page-loaded"
 
   $scope.login = {}
   $scope.signup = {}

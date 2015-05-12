@@ -35,7 +35,7 @@ window.scripts = [
 window.initializeGmap = ->
 
 totalScriptsLoaded = 0
-(document.getElementsByTagName 'body')[0].className += 'page-loading'
+(document.getElementsByTagName 'body')[0].className += 'loading'
 incrementProgressBar = ->
   setProgressBar = (i, total) ->
     progressBarStyle = document.getElementById("page-loading-bar").style

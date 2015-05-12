@@ -6,6 +6,11 @@ exports = module.exports = ($scope, $stateParams, $rootScope, console, Categorie
   $scope.childCategory  = Categories.findBySlug $stateParams.child
   $scope.parentCategory = Categories.findBySlug $stateParams.parent
 
+  $scope.heroURL = "cl-#{$scope.parentCategory.slug}.jpg"
+  $scope.onHeroLoad = ->
+    console.log "loaded"
+    $scope.$emit "page-loaded"
+
   $scope.query =
     child_category:  $scope.childCategory.id
     parent_category: $scope.parentCategory.id

@@ -9,6 +9,8 @@ exports = module.exports = ($scope, $stateParams, console, Classifieds) ->
   if not $scope.classified?
     Classifieds.getBySlug $stateParams.slug, (error, classified) =>
       $scope.classified = classified
+      $scope.$emit "page-loaded"
+
 
 exports.$inject = [
   "$scope"

@@ -29,6 +29,10 @@
       //- li
       //-   a(href="/en") English
 
+#page-hero
+  img(ng-image-loader!="/images/hero/{{ heroURL }}",
+      ng-image-success="onHeroLoad")
+
 #splash
   .tagline
     h1 Publish and Browse classifieds in Kuwait. Quick, Easy and absolutely Free!

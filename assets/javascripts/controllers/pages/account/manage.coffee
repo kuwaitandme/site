@@ -1,6 +1,7 @@
 exports = module.exports = ($scope, console, Users) ->
   @name = "[page:account-manage]"
   console.log @name, "initializing"
+  $scope.$emit "page-loaded"
 
   # Prepare the query for the classified.list controller. This object
   # gets inherited by the classified.list controller.

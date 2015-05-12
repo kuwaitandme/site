@@ -8,12 +8,14 @@ exports = module.exports = ($scope, $stateParams, console, $location,
       image.status = "on-server"
       image.src = "/uploads/thumb/#{image.filename}"
     $scope.classified = classified
+    $scope.$emit "page-loaded"
 
   # When classified has been edited successfully, redirect to the account
   # page
   $scope.onSuccess = (classified) ->
     $notifications.success "Your classified has been edited successfully!"
     $location.path "/account/manage"
+
 
 
 exports.$inject = [
