@@ -19,13 +19,12 @@ exports = module.exports = ($stateProvider, $locationProvider, $urlMatcher,
   _route "landing",            "/"
   _route "account/index",      "/account"
   _route "account/manage",     "/account/manage"
-  _route "auth/login",         "/auth/login"
-  _route "auth/logout",        "/auth/logout"
+  _route "auth/index",         "/auth"
   _route "auth/signup",        "/auth/signup"
   _route "guest/post",         "/guest/post"
 
   _route "classified/finish",  "/classified/finish/{id:[0-9]+}"
-  # _route "classified/edit",    "/classified/edit/{id:[0-9]+}"
+  _route "classified/edit",    "/classified/edit/{id:[0-9]+}"
   _route "classified/post",    "/classified/post"
 
   _route "classified/search",  "/classified"

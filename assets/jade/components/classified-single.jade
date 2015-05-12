@@ -44,6 +44,10 @@ section.row.classified-single(ng-controller="component:classified-single")
           li(ng-if="classified.location")
             span.meta-title Location:
             span.meta-value {{ classified.location | location }}
+          li(ng-if="classified.contact.website")
+            span.meta-title Website:
+            span.meta-value
+              a(ng-href="{{ classified.contact.website }}") {{ classified.contact.website | link}}
           li(ng-if="classified.contact.address1")
             span.meta-title Address:
             span.meta-value

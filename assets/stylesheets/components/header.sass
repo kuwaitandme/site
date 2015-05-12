@@ -33,9 +33,25 @@ header
     #grabber
       float: right
       padding: 16px 25px
+      position: relative
+      #notification-counter
+        +radius(100px)
+        $size: 18px
+        position: absolute
+        top: 15px
+        right: 40px
+        width: $size
+        text-align: center
+        line-height: $size
+        height: $size
+        font-size: 10px
+        color: #FFF
+        // width: 100px
+        background: #E74C3C
 
-    &:hover ~ nav#sub-header ul#notifications
-      height: 35px !important
+
+    // &:hover ~ nav#sub-header ul#notifications
+    //   height: 35px !important
 
   nav#sub-header
     top: -400px
@@ -49,23 +65,41 @@ header
     &, ul#notifications, #nav-footer
       +single-transition(all, 500ms)
     ul#notifications
-      background: #D8432E
-      display: none
+      // display: none
       margin: 0
       overflow: hidden
+      // margin-top: 20px
       li
+        +single-transition
         color: #FFF
         font-size: 0.8rem
         padding: 0.5rem 1rem
+        margin-bottom: 10px
         position: relative
+        &:first-child
+          margin-top: 10px
+        &:last-child
+          margin-bottom: 0
         &:nth-child(even)
           background: rgba(0,0,0,0.1)
+        &.none
+          margin: 0
+        &.success, &
+          background: #30B632
+        &.warning
+          background: #FF9900
+        &.error
+          background: #D8432E
+        &.read
+          opacity: 0.5
+        &:hover
+          opacity: 1
 
     #nav-links
       @extend .font-title
       background: #fff
       font-size: 1rem
-      margin-top: 20px
+      margin-top: 10px
       overflow: hidden
 
       .title
@@ -106,7 +140,7 @@ header
       overflow: hidden
       text-align: center
       a
-        color: inherit
+        color: blue
         text-decoration: none
 
 #nav-widget-user

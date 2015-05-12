@@ -21,19 +21,19 @@
   overflow-y: scroll
   padding: 60px 3px
   position: fixed
-  top: -100%
+  // top: -100%
+  top: 0
   width: 100%
   z-index: 4
   &:before
     @extend #page-hero
   &.hide-cl
     display: none
-    top: -100%
+    // top: -100%
     .classified-single-bg
       display: none
   &.display-cl
     bottom: 0
-    top: 0
     display: block
     -webkit-animation-duration: 0.5s
     -webkit-animation-name: fadeInFromNone

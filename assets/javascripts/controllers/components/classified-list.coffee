@@ -11,7 +11,9 @@ exports = module.exports = ($scope, $window, $rootScope, console, Classifieds) -
   loadingClassifieds = false
   scrollPosition = 0
   body = (document.getElementsByTagName "body")[0]
-  $scope.queryFinished = false
+  $scope.queryFinished ?= false
+  $scope.redirectToEditPage ?= false
+
 
   # setup the finish and empty classifieds message
   $scope.finishMessage ?= (->
@@ -23,6 +25,7 @@ exports = module.exports = ($scope, $window, $rootScope, console, Classifieds) -
     ]
     texts[Math.floor Math.random() * texts.length])()
   $scope.emptyMessage ?= $scope.finishMessage
+
 
   # Listen to any changes to the classified list. If more classified have been
   # added, the added them to the DOM and reload masonry.
@@ -38,10 +41,10 @@ exports = module.exports = ($scope, $window, $rootScope, console, Classifieds) -
       masonry.appended newElements.reverse()
       masonry.layout()
 
+
   # This function toggles the classified dropdown
   $scope.toggleClassified = (classified) ->
     $rootScope.bodyStyles = $rootScope.bodyStyles or {}
-
     if not $scope.classified?
       $scope.$broadcast "classified-changed", classified
       $rootScope.bodyStyles.overflowY = "hidden"
@@ -50,8 +53,9 @@ exports = module.exports = ($scope, $window, $rootScope, console, Classifieds) -
       body.scrollTop = 0
     else
       $scope.classified = undefined
-      body.scrollTop = scrollPosition
+      setTimeout (-> body.scrollTop = scrollPosition), 10
       $rootScope.bodyStyles.overflowY = ""
+
 
   # This function loads more classifieds from the server.
   $scope.classifieds = []
@@ -72,10 +76,13 @@ exports = module.exports = ($scope, $window, $rootScope, console, Classifieds) -
       # For each classified attach the imageLoader and add it to the DOM
       # (manually that is).
       for classified in classifieds
+        if $scope.redirectToEditPage
+          classified.link = "/classified/edit/#{classified.id}"
         classified.imageLoaded = -> masonry.layout()
         $scope.classifieds.push classified
       loadingClassifieds = false
   $scope.loadClassifieds()
+
 
   # Setup the onScroll function.
   $scope.onScroll = ($event) =>

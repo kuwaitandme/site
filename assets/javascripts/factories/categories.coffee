@@ -27,7 +27,6 @@ exports = module.exports = ($http, console, $storage) -> new class
     for cat in @categories then if cat.id is id then return cat
 
 
-
   # Function to find the child category with the given id.
   findByChildId: (id) ->
     for cat in @categories
@@ -37,16 +36,16 @@ exports = module.exports = ($http, console, $storage) -> new class
 
   # This function properly sets the category counter to each category
   _setCounters: (counters) ->
-    for category in (@categories or [])
-      category.count = 0
+    for parentCategory in (@categories or [])
+      parentCategory.count = 0
       for categoryCount in (counters.parent_category or [])
-        if categoryCount.id is category.id
-          category.count = categoryCount.count
+        if categoryCount.id is parentCategory.id
+          parentCategory.count = categoryCount.count
           break
 
-      for childCategory in (category.children or [])
+      for childCategory in (parentCategory.children or [])
         childCategory.count = 0
-        for categoryCount in (counters.child_categories or [])
+        for categoryCount in (counters.child_category or [])
           if categoryCount.id is childCategory.id
             childCategory.count = categoryCount.count
             break

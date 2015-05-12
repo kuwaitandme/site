@@ -52,9 +52,13 @@ exports = module.exports = (Classified, reCaptcha, uploader) ->
           response.status 400
           return response.json "bad JSON field(s)"
 
+        # Extract the images. The will be set with the result from the uploader.
         imageMeta = data.new_images
         delete data.new_images
         delete data.filesToDelete
+
+        # Set the current user as the owner for this classified.
+        data.owner = (request.user or {}).id
 
         # First create the classified
         Classified.create data, (error, classified) ->
