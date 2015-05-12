@@ -56,22 +56,20 @@ exports = module.exports = (Classifieds, reCaptcha, uploader) ->
               response.status 400
               return response.json error
 
+            # Now start processing a diff of the classified
             classifiedDiff = {}
             observableDiff classified.toJSON(), data, (diff) ->
               key = diff.path[0]
-              if diff.kind not in ["E", "D", "N"] then return
-              # Avoid editing JSON fields. They are the only fields where
-              # path will have more elements
-              if diff.path.length > 1 then return
               # Don't edit any fields that are supposed to be 'final'
               if key in Classifieds.finalFields then return
               # For JSON fields, use JSON.stringify to save new results, or
               # else pg will throw an 'invalid json' error.
               if key in Classifieds.jsonFields
+                # Avoid editing the images field
                 if key is "images" then return
-                classifiedDiff[key] = JSON.stringify diff.rhs
+                classifiedDiff[key] = JSON.stringify data[key]
               # For all other fields, simply assign directly.
-              else classifiedDiff[key] = diff.rhs
+              else classifiedDiff[key] = data[key]
 
             # Here we remove the images that are in the server with the images
             # that have been flagged to be deleted.
@@ -81,9 +79,10 @@ exports = module.exports = (Classifieds, reCaptcha, uploader) ->
               # if images.length > 12
               # We have exceeded our limit for images, start deleting all
               # remaining images
-              #   return
+              #   TODO: delete them now
               if image.filename in filesToDelete
                 # do something with this file as it has been flagged to be deleted
+                #   TODO: delete them now
               else
                 found = false
                 for newImage in newImages
@@ -104,7 +103,7 @@ exports = module.exports = (Classifieds, reCaptcha, uploader) ->
 
             # Also a another step with the images is to assign the 'main image'
             # if it is not found already.
-            ## TODO
+            ## TODO find main image
 
             # Finally update the classified with the diff into the DB.
             Classifieds.patch data.id, classifiedDiff, (error, classified) ->
