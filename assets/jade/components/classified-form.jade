@@ -1,7 +1,7 @@
 section.classified-form(ng-controller="component:classified-form as form")
   form(name="form", novalidate, ng-class="{attempted:attempted}").row
 
-    .columns.admin-panel
+    .columns.admin-panel(ng-if="classified.id")
       .action(ng-click="publish", ng-if="superEditable") Publish
       .action(ng-click="reject", ng-if="superEditable") Reject
       .action(ng-click="ban", ng-if="superEditable") Ban

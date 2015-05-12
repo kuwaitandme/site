@@ -1,0 +1,17 @@
+.row
+  h1.columns(lang-html="page.contact.title")
+  p.columns(lang-html="page.contact.hint1")
+  p.columns(lang-html="page.contact.hint2")
+form.columns
+  .row.collapse
+    .small-2.medium-1.columns
+      span.prefix @
+    .small-10.medium-11.columns
+      input(type="email", name="email", required, lang-placeholder="page.contact.email")
+  .row.collapse
+    textarea(name="message", required, lang-placeholder="page.contact.message")
+
+  .row.collapse
+    .gcaptcha
+    input.submit(type="submit", lang-value="page.contact.submit")
+    ul.messages
