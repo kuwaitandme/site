@@ -1,14 +1,15 @@
 exports = module.exports = ($http, $root, console, $storage) -> new class
-  name: "[model:notifications]"
+  name: "[service:notifications]"
 
-  constructor: -> @notify "Hello"
+  constructor: ->
+    console.log @name, "initializing"
 
   # Returns a list of all the notifications
   getAll: ->
 
-  spawn: (message, type="success") ->
+  create: (message, type="success") ->
     # Broadcast the message first.
-    $root.$boradcast "notifications",
+    $root.$broadcast "notification",
       text: message, type: type
 
 
