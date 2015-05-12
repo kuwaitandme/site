@@ -76,7 +76,8 @@ exports = module.exports = ($scope, $root, console, setTimeout) ->
 
 
   # Listen for a notification event and add the new notification
-  $scope.$on "notification", (notification) ->
+  $scope.$on "notification", (event, notification) ->
+    console.log notification
     $scope.notifications.push notification
 
 exports.$inject = [
