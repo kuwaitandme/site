@@ -64,9 +64,8 @@ exports = module.exports = (IoC) ->
   _route "/info/terms-privacy",               "info/terms-privacy"
 
   # _route "/auth/forgot", "auth/forgot"
-  _route "/auth/login",                       "auth/login"
+  _route "/auth",                             "auth/index"
   _route "/auth/logout",                      "auth/logout"
-  _route "/auth/signup",                      "auth/signup"
   _route "/auth/social/facebook",             "auth/social/facebook"
   _route "/auth/social/facebook/callback",    "auth/social/callback/facebook"
   _route "/auth/social/google",               "auth/social/google"
@@ -79,7 +78,7 @@ exports = module.exports = (IoC) ->
   _route "/classified/([a-z\-]*)",            "classified/search"
   _route "/classified/([a-z\-]+)/([a-z\-]*)", "classified/search"
   _route "/classified/finish/([0-9]+)",       "classified/finish"
-  # _route "/classified/([a-zf0-9]*)/edit",     "classified/edit"
+  _route "/classified/edit/([0-9]*)",         "classified/edit"
   # _route "/classified/([a-zf0-9]*)",          "classified/single"
 
   _route "/account",                          "account/index"
