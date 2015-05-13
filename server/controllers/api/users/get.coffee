@@ -20,7 +20,7 @@ exports = module.exports = (Users) ->
           user = user.toJSON()
           delete user.credits
           delete user.password
-          delete user.meta
+          # delete user.meta
           response.json user
 
 

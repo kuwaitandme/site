@@ -43,15 +43,9 @@ exports = module.exports = ($scope, $root, console, setTimeout) ->
   onNotificationAdded = (notifications) ->
     # For every notification check if it has been flashed to the user or not.
     # if it has, then flash it and then add it to the sub header.
-    for notification in notifications
-      if not notification.hasFlashedToUser
-        notification.hasFlashedToUser = true
-        $scope.flashNotifications.push notification
-        # Set a timeout function to remove the notification
-        ((notifications) -> setTimeout ->
-          index = $scope.flashNotifications.indexOf notification
-          if index? then $scope.flashNotifications.splice index, 1
-        , flashNotificationLifetime) notification
+    # for notification in notifications
+    #   if not notification.hasFlashedToUser
+    #     notification.hasFlashedToUser = true
   $scope.$watch "notifications", onNotificationAdded, true
 
 
@@ -76,8 +70,16 @@ exports = module.exports = ($scope, $root, console, setTimeout) ->
 
   # Listen for a notification event and add the new notification
   $scope.$on "notification", (event, notification) ->
-    console.log notification
-    $scope.notifications.push notification
+    $scope.flashNotifications.push notification
+    # Set a timeout function to remove the notification
+    ((notifications) -> setTimeout ->
+      index = $scope.flashNotifications.indexOf notification
+      if index? then $scope.flashNotifications.splice index, 1
+    , flashNotificationLifetime) notification
+
+    if not notification.flash
+      $scope.notifications.push notification
+
 
 exports.$inject = [
   "$scope"

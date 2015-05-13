@@ -1,5 +1,10 @@
-exports = module.exports = (Categories, cache) ->
+exports = module.exports = (Categories, cache, email) ->
   controller = (request, response, next) ->
+    # email.send "testing", "stevent95@gmail.com", 'testing'
+    # console.log
+    # email.sendTemplate "stevent95@gmail.com", "temporaryCreatedUser",
+    #   subject: "An account has been made for you"
+    #   user: request.user
     response.contentType "application/json"
     # Check in cache
     cache.get "route:api/categories", (error, results) =>
@@ -16,4 +21,5 @@ exports["@singleton"] = true
 exports["@require"] = [
   "models/categories"
   "controllers/cache"
+  "controllers/email"
 ]

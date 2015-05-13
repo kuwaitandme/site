@@ -10,7 +10,7 @@ GoogleStrategy        = (require "passport-google-oauth").OAuth2Strategy
 FacebookStrategy      = (require "passport-facebook").Strategy
 LocalStrategy         = (require "passport-local").Strategy
 
-exports = module.exports = (IoC, settings, sessions, User, policies) ->
+exports = module.exports = (IoC, settings, sessions, email, User, policies) ->
   app = this
 
   # This function gets called for each of the OAuth logins. A uniform function
@@ -27,16 +27,24 @@ exports = module.exports = (IoC, settings, sessions, User, policies) ->
       if error then return done error
       if user then return done null, user.toJSON()
       # If the user did not exist, then create a new user
+      password = User.randomPassword()
       User.create
         email: profile.emails[0].value
         full_name: "#{profile.name.givenName} #{profile.name.familyName}"
         login_provider_name: profile.provider
         login_provider_uid: profile.id
+        status: User.statuses.ACTIVE
+        password: User.hashPassword password
       , (error, user) ->
         if error then done error
         else if not user? then done new Error "We can't register you, please try again later"
-        else done null, user
-        # email.sendTemplate "welcome-email", user: user
+        else
+          console.log user.toJSON()
+          email.sendTemplate profile.emails[0].value, "user-welcome-oauth",
+            user: user.toJSON()
+            password: password
+            subject: "Welcome to Kuwait & Me!"
+          done null, user
 
 
   app.use cookieParser settings.cookieParser
@@ -89,6 +97,7 @@ exports["@require"] = [
   "$container"
   "igloo/settings"
   "igloo/sessions"
+  "controllers/email"
   "models/users"
   "policies"
 ]

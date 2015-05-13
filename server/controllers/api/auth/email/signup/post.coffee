@@ -2,7 +2,7 @@ passport = require "passport"
 validator = require "validator"
 
 # Controller for the Registering a user via email
-exports = module.exports = (User, reCaptcha) ->
+exports = module.exports = (User, Email, reCaptcha) ->
   (request, response, next) ->
     captchaFail = ->
       response.status 400
@@ -46,6 +46,8 @@ exports = module.exports = (User, reCaptcha) ->
           email: email
           password: User.hashPassword password
           login_provider_name: "email"
+          status: User.statuses.INACTIVE
+          meta: activationToken: User.randomPassword()
 
         # If there is no user with that email, create the user
         User.create newUser, (error, user) ->
@@ -58,9 +60,9 @@ exports = module.exports = (User, reCaptcha) ->
 
           # Send activation email
           # Email = global.modules.email
-          # Email.sendTemplate user.email, "activate",
-          #   subject: "#{fullname}! Activate your account"
-          #   user: user
+          Email.sendTemplate user.email, "user-activate",
+            subject: "#{fullname}! Activate your account"
+            user: user.toJSON()
 
           # pass the registered user to the callback
           response.json user
@@ -71,6 +73,7 @@ exports = module.exports = (User, reCaptcha) ->
 
 exports["@require"] = [
   "models/users"
+  "controllers/email"
   "controllers/recaptcha"
 ]
 exports["@singleton"] = true

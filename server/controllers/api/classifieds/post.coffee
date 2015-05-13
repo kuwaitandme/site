@@ -2,7 +2,7 @@ Promise           = require "bluebird"
 formidable        = require "formidable"
 keyword_extractor = require "keyword-extractor"
 
-exports = module.exports = (reCaptcha, uploader, Classifieds, Users) ->
+exports = module.exports = (reCaptcha, uploader, email, Classifieds, Users) ->
   _createURLslug = (classified) ->
     maxLength = 70
     minLength =
@@ -35,7 +35,7 @@ exports = module.exports = (reCaptcha, uploader, Classifieds, Users) ->
 
 
   # Start parsing the multi-part encoded data
-  parseForm = (form, request) -> new Promise (resolve) ->
+  parseForm = (form, request) -> new Promise (resolve, reject) ->
     # Start parsing the form
     form.parse request, (error, fields, filesRequest) ->
       if error then throw error
@@ -48,32 +48,42 @@ exports = module.exports = (reCaptcha, uploader, Classifieds, Users) ->
         data.owner = currentUser.id
         resolve [data, filesRequest["images[]"]]
       else
+        s4 = -> Math.floor((1 + Math.random()) * 0x10000).toString(16).substring 1
+        newPassword = "#{s4()}-#{s4()}-#{s4()}"
+
         # Else create a temporary user and make it the owner for this
         # classified.
-        Users.createTemporary data.contact.email, (error, user) ->
+        Users.createTemporary data.contact.email, newPassword, (error, user) ->
+          if error? then return reject error
+
+          # Send an email informing about the new temporary account.
+          email.sendTemplate data.contact.email, "temporaryCreatedUser",
+            subject: "An account has been made for you"
+            user: email: data.contact.email, password: newPassword
+
           data.owner = user.id
           resolve [data, filesRequest["images[]"]]
 
 
   # Create a new classified
   createClassified = (newClassified, uploadedFiles) ->
-    new Promise (resolve) ->
+    new Promise (resolve, reject) ->
       imagesMeta = newClassified.images
       delete newClassified.images
 
       newClassifiedFiltered = Classifieds.filter newClassified
       Classifieds.create newClassifiedFiltered, (error, classified) ->
-        if error then throw error
+        if error then return reject error
         resolve [classified, uploadedFiles, imagesMeta]
 
 
   # Here we validate and save the files that get returned from the formidable
   # object.
   uploadFiles = (newClassified, filesToUpload, imagesMeta) ->
-    new Promise (resolve) ->
+    new Promise (resolve, reject) ->
       uploader.upload filesToUpload, (error, newImages=[]) ->
-        if error then throw error
-        resolve [newClassified, newImages]
+        if error then reject error
+        else resolve [newClassified, newImages]
 
 
   # Finally update the classified with the diff into the DB.
@@ -96,6 +106,13 @@ exports = module.exports = (reCaptcha, uploader, Classifieds, Users) ->
       newClassified.save().then (classified) -> resolve classified.toJSON()
 
 
+  # Send an email about the new classified
+  emailUser = (classified) ->
+    email.sendTemplate "stevent95@gmail.com", "classifiedSubmitted",
+      subject: "Your classified has been submitted", classified: classified
+    classified
+
+
   controller = (request, response, next) ->
     Promise.resolve request
     .then reCaptcha.verify
@@ -104,17 +121,20 @@ exports = module.exports = (reCaptcha, uploader, Classifieds, Users) ->
     .spread createClassified
     .spread uploadFiles
     .spread updateClassified
+    .then emailUser
     # Once done, return the fields that have been changed back to the user
     .then (classified) -> response.json classified
     # If there were any errors, return it with a default 400 HTTP code.
     .catch (error) ->
       response.status error.status || 400
-      response.json error
+      response.json error.message
 
 
 exports["@require"] = [
   "controllers/recaptcha"
   "controllers/uploader"
+  "controllers/email"
+
   "models/classifieds"
   "models/users"
 ]

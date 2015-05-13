@@ -10,7 +10,7 @@ exports = module.exports = ($http, $root, console, $storage) -> new class
 
   create: (message, type="success") ->
     $root.$broadcast "notification",
-      text: message, type: type, hasRead: false
+      text: message, type: type, hasRead: false, flash: true
 
 
   error:   (message) -> @create message, "error"
