@@ -15,13 +15,8 @@ exports = module.exports = ($root, console, $storage) ->
         body.id = bodyid
 
   $root.$on "page-loaded", ->
-    console.log 'dsf'
     setTimeout -> $root.$apply -> $root.bodyClasses.loading = false
-    console.log $root
 
-  # $rootScope.$on "$viewContentLoaded",
-  #   (event, toState, toParams, fromState, fromParams) ->
-  #     setTimeout (-> document.body.scrollTop=0), 250
 
 exports.$inject = [
   "$rootScope"

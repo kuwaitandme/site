@@ -1,15 +1,13 @@
 doctype html
-html(lang= lang, dir= dir, ng-app='App')
+html(lang= lang, dir= dir, ng-app="App", ng-controller="master")
   head
     include ./include/head.jade
+    meta(name="robots", content="noindex", ng-if="meta.robotsNoIndex")
+
   body(itemscope, itemtype="http://schema.org/WebSite", id="{{ bodyid }}", ng-class="bodyClasses", ng-style="bodyStyles", ng-cloak)
     #fb-root
 
     meta(itemprop="url" content="https://kuwaitandme.com/")
-
-    //- #page-loader(style='position: fixed; width: 100%; height:100%; top:0; left: 0; background:#fff; z-index:99')
-    //-   .text(style="font-family: 'Bitter'; color: #000; text-align: center; padding-top: 15%") Loading
-    //- #page-progressbar
     header(ng-include="'components/header'")
 
     #page-loader

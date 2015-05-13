@@ -1,10 +1,12 @@
 module.exports = (app) ->
   console.log "[controllers] initializing"
 
+  app.controller "master",                       require "./master"
+
   app.controller "component:category-list",      require "./components/category-list"
   app.controller "component:classified-list",    require "./components/classified-list"
   app.controller "component:classified-single",  require "./components/classified-single"
-  app.controller "component:classified-form",  require "./components/classified-form"
+  app.controller "component:classified-form",    require "./components/classified-form"
   app.controller "component:header",             require "./components/header"
 
   app.controller "page:404",                     require "./pages/404"
