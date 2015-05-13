@@ -29,7 +29,7 @@ exports = module.exports = ($scope, $location, $http, console, $notifications, U
       data: $scope.signup
     .success (data, status) =>
       $notifications.success "An activation email has been sent, #{data.full_name}! (Check your spam folder too)"
-      console.log @name, "signup successful! redirecting to account page"
+      console.log @name, "signup successful! waiting for activation page"
     .error (data, status) =>
       console.error @name, data, status
       $notifications.error "Signup failed. Please check your credentials or try again later"
