@@ -21,6 +21,7 @@ exports = module.exports = (reCaptcha, uploader, Classifieds) ->
     # Finally generate the slug
     slug = "#{trimmedSentence}-#{classified.id}"
 
+
   # Initialize a formidable object
   initializeFormReader = (request) ->
     form = new formidable.IncomingForm
@@ -34,7 +35,7 @@ exports = module.exports = (reCaptcha, uploader, Classifieds) ->
 
 
   # Start parsing the multi-part encoded data
-  parseForm = (form, request) -> new Promise  (resolve) ->
+  parseForm = (form, request) -> new Promise (resolve) ->
     # Start parsing the form
     form.parse request, (error, fields, filesRequest) ->
       if error then throw error
@@ -56,16 +57,19 @@ exports = module.exports = (reCaptcha, uploader, Classifieds) ->
 
   # Create a new classified
   createClassified = (newClassified, uploadedFiles) ->
-    newClassifiedFiltered = Classifieds.filter newClassified
     new Promise (resolve) ->
+      imagesMeta = newClassified.images
+      delete newClassified.images
+
+      newClassifiedFiltered = Classifieds.filter newClassified
       Classifieds.create newClassifiedFiltered, (error, classified) ->
         if error then throw error
-        resolve [classified, uploadedFiles]
+        resolve [classified, uploadedFiles, imagesMeta]
 
 
   # Here we validate and save the files that get returned from the formidable
   # object.
-  uploadFiles = (newClassified, filesToUpload) ->
+  uploadFiles = (newClassified, filesToUpload, imagesMeta) ->
     new Promise (resolve) ->
       uploader.upload filesToUpload, (error, newImages=[]) ->
         if error then throw error
@@ -73,42 +77,23 @@ exports = module.exports = (reCaptcha, uploader, Classifieds) ->
 
 
   # Finally update the classified with the diff into the DB.
-  updateClassified = (newClassified, newImages) -> new Promise (resolve) ->
-    # If an image was uploaded find it's metadata and add it to the list of
-    # final images
-    finalImages = []
-    for newImage in newImages
-      for image in images
-        if newImage.oldFilename is image.filename and newImage.isUploaded
-          image.filename = newImage.newFilename
-          finalImages.push image
+  updateClassified = (newClassified, newImages, imagesMeta) ->
+    new Promise (resolve) ->
+      # If an image was uploaded find it's metadata and add it to the list of
+      # final images
+      finalImages = []
+      for newImage in newImages
+        for imageMeta in imagesMeta
+          if newImage.oldFilename is imageMeta.filename and newImage.isUploaded
+            imageMeta.filename = newImage.newFilename
+            finalImages.push imageMeta
 
-    # Get the slug for the classified using the newly generated id and
-    # set the images field with our final set of images.
-    newClassified.set "slug", _createURLslug newClassified.toJSON()
-    newClassified.set "images", JSON.stringify finalImages
-
-    # Update the classified with the images and return the result to the user.
-    newClassified.save().then (classified) -> resolve classified.toJSON()
-
-
-  # Start parsing the multi-part encoded data
-  parseForm = (form) ->
-    form.parse request, (error, fields, filesRequest) ->
-      if error
-        response.status 400
-        return response.json error
-
-      # The classified data gets passed as a JSON string, so here we parse it
-      try data = JSON.parse fields.classified
-      catch e
-        response.status 400
-        return response.json "bad JSON field(s)"
-
-      # Extract the images. The will be set with the result from the uploader.
-      images = data.images
-      data = Classifieds.filter data
-      delete data.images
+      # Get the slug for the classified using the newly generated id and
+      # set the images field with our final set of images.
+      newClassified.set "slug", _createURLslug newClassified.toJSON()
+      newClassified.set "images", JSON.stringify finalImages
+      # Update the classified with the images and return the result to the user.
+      newClassified.save().then (classified) -> resolve classified.toJSON()
 
 
   controller = (request, response, next) ->
