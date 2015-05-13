@@ -2,7 +2,7 @@ Promise           = require "bluebird"
 formidable        = require "formidable"
 keyword_extractor = require "keyword-extractor"
 
-exports = module.exports = (reCaptcha, uploader, Classifieds) ->
+exports = module.exports = (reCaptcha, uploader, Classifieds, Users) ->
   _createURLslug = (classified) ->
     maxLength = 70
     minLength =
@@ -116,5 +116,6 @@ exports["@require"] = [
   "controllers/recaptcha"
   "controllers/uploader"
   "models/classifieds"
+  "models/users"
 ]
 exports["@singleton"] = true

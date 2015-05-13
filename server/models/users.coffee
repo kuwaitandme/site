@@ -34,10 +34,11 @@ exports = module.exports = (knex, cache) -> new class
 
   # Creates a user with the given email, with a temporary password
   createTemporary: (email, callback=->) ->
+    newPassword = @_randomPassword
     newUser =
-      full_name: "Anonymous"
       email: email
-      password: @_randomPassword()
+      full_name: "Anonymous"
+      password: @hashPassword newPassword
     @create newUser, callback
 
 
