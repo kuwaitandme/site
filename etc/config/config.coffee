@@ -40,6 +40,12 @@ exports = module.exports = ->
     appDir: appDir
     assetsDir: assetsDir
     publicDir: publicDir
+
+    reCaptcha:
+      enabled: false
+      secret: ""
+      siteKey: ""
+
     views:
       dir: viewsDir
       engine: "jade"
