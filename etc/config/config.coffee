@@ -6,34 +6,35 @@ appDir    = path.join parentDir, "server"
 pkg          = require path.join parentDir, "package"
 assetsDir    = path.join parentDir, "public"
 publicDir    = path.join parentDir, "public"
-templatesDir = path.join assetsDir, "emails"
 viewsDir     = path.join appDir, "views"
+templatesDir = path.join viewsDir, "emails"
 maxAge       = 24 * 60 * 60 * 1000
 
 knexConfig   = require "./knexfile"
 
 exports = module.exports = ->
   defaults:
+    sitename: "SITE-NAME-GOES-HERE"
     emailAuth:
       enabled: true
       requireActivation: true
     facebook:
       enabled: false
-      clientid: "398935173623108"
-      secret: "8a7cb62a5f7bf1d5a444870a82c0cf07"
-      scope: [ "email" ]
+      clientid: "XXXXXXXXXX"
+      secret: "XXXXXXXXXX"
+      scope: ["email"]
     twitter:
       enabled: false
-      consumerKey: "dpQcjGDL7Ih8JmETnlZP28bYu"
-      consumerSecret: "s1amDz0gIt917RhnkddsDWyTXVZAhjbm7n89rXT7CXE4tKZ10g"
+      consumerKey: "XXXXXXXXXX"
+      consumerSecret: "XXXXXXXXXX"
     google:
       enabled: true
       scope: [
-        "https://www.googleapis.com/auth/userinfo.profile"
         "https://www.googleapis.com/auth/userinfo.email"
+        "https://www.googleapis.com/auth/userinfo.profile"
       ]
-      clientID: "384211238362-0iahk91emk4spn58bp53ngk5rn7vb2s0.apps.googleusercontent.com"
-      clientSecret: "wz18RM2bMEeJ9spcjNraIkE2"
+      clientID: "XXXXXXXXXX"
+      clientSecret: "XXXXXXXXXX"
     pkg: pkg
     cache: false
     showStack: true
@@ -55,19 +56,21 @@ exports = module.exports = ->
       limitAttempts: false
 
     email:
+      noreplyAddress: "noreply@server.tld"
+      enabled: true
       templates:
         dir: templatesDir
-        options: {}
-      transport:
-        service: "gmail"
-        auth:
-          user: "hi@eskimo.io"
-          pass: "abc123"
-      headers: from: "hi@eskimo.io"
+        options:
+          webmasterAddress: "webmaster@server.tld"
+      smtp:
+        username: "noreply@server.tld"
+        password: "mh76N*&="
+        hostname: "mailserver.tld"
+        ssl: true
 
     session:
-      secret: "kme-change-me"
-      key: "kme"
+      secret: "change-me"
+      key: "s"
       cookie: maxAge: maxAge
       resave: true
       saveUninitialized: true
@@ -110,8 +113,7 @@ exports = module.exports = ->
       file: false
       hipchat: false
       slack: false
-    knex:
-      client: "postgres"
+    knex: client: "postgres"
     jade: amd:
       path: "/js/tmpl/"
       options: {}
@@ -132,15 +134,13 @@ exports = module.exports = ->
   development:
     knex: knexConfig["development"]
     cache: true
-    url: "http://development.kuwaitandme.com"
+    url: "http://localhost:3000"
     server:
       env: "development"
       port: 3000
-    mongo:
-      dbname: "kuwaitandme"
-      db: "kuwaitandme"
     redis: prefix: "kme-development:"
 
+  # Production specific options
   production:
     knex: knexConfig["production"]
     cache: true
@@ -160,9 +160,9 @@ exports = module.exports = ->
     output: colorize: false
     logger:
       console: true
-      requests: true
-      mongo: false
       file: false
+      mongo: false
+      requests: true
 
 
 exports["@singleton"] = true
