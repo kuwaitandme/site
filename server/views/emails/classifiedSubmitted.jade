@@ -1,0 +1,32 @@
+doctype html
+html
+  body
+    div(style="max-width: 800px; margin: 0; padding: 30px 0;")
+      table(width="80%", border="0", cellpadding="0", cellspacing="0")
+        tr
+          td(width="5%")
+          td(align="left", width="95%", style="font: 13px/18px Arial, Helvetica, sans-serif;")
+            h2(style="font: normal 20px/23px Arial, Helvetica, sans-serif; margin: 0; padding: 0 0 18px; color: black;")
+              | Your classified has been submitted!
+            | Your classified is now published and is online. It will be
+            | reviewed by a moderator, just to make sure everything is fine.
+            | This classified will automatically expire in 90 days unless you decide take it down yourself.
+            br
+            br
+            | Link to your classified:
+            br
+            | <a href="!{ url }/!{ classified.slug }", style="color: #3366cc;"> !{url}/!{classified.slug}</a>
+            //- Have sharing links in here
+            br
+            br
+            | To manage this classified, <a href="!{ url }/auth", style="color: #3366cc;">login</a> and then
+            | edit the classified by navigating to the classified's edit page or by using this
+            | <a href="!{ url }/classified/edit/!{ classified.id }", style="color: #3366cc;">link</a>.
+            br
+            br
+            | If you have any suggestions, questions or complaints send us an email at <a href="mailto:webmaster@kuwaitandme.com", style="color: #3366cc;">webmaster@kuwaitandme.com</a>
+            br
+            br
+            | Best,
+            br
+            | The !{ sitename } Team
