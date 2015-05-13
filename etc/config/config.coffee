@@ -148,8 +148,6 @@ exports = module.exports = ->
     password:
       minStrength: 1
       limitAttempts: true
-    views: dir: path.join assetsDir, "dist"
-    publicDir:  path.join assetsDir, "dist"
     showStack: false
     updateNotifier: enabled: false
     server:

@@ -29,7 +29,7 @@ module.exports =
     client: "postgres"
     connection:
       database: "kuwaitandme"
-      user:     "kuwaitandme"
+      user:     "kuwaitandme_dev"
       password: "kuwaitandme"
     pool:
       min: 2
