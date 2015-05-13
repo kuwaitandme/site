@@ -1,14 +1,14 @@
+Promise           = require "bluebird"
 formidable        = require "formidable"
 keyword_extractor = require "keyword-extractor"
 
-exports = module.exports = (Classifieds, reCaptcha, uploader) ->
+exports = module.exports = (reCaptcha, uploader, Classifieds) ->
   _createURLslug = (classified) ->
     maxLength = 70
+    minLength =
     # Get the keywords and make a sentence seperated by '-'s.
     keywords = keyword_extractor.extract classified.title,
-      language: "english"
-      remove_duplicates: true
-      return_changed_case: true
+      language: "english", remove_duplicates: true, return_changed_case: true
     keywords = keywords.join "-"
     # Clean the string off unwanted characters
     # TODO: check for Arabic characters
@@ -21,82 +21,115 @@ exports = module.exports = (Classifieds, reCaptcha, uploader) ->
     # Finally generate the slug
     slug = "#{trimmedSentence}-#{classified.id}"
 
+  # Initialize a formidable object
+  initializeFormReader = (request) ->
+    form = new formidable.IncomingForm
+    form.keepExtensions = true
+    form.multiples = true
+    form.maxFieldsSize = 10 * 1024 * 1024 # 10MB
+    # Setup error handler. This function gets called whenever there is an
+    # error while processing the form.
+    form.on "error", (error) -> throw error
+    [form, request]
+
+
+  # Start parsing the multi-part encoded data
+  parseForm = (form, request) -> new Promise  (resolve) ->
+    # Start parsing the form
+    form.parse request, (error, fields, filesRequest) ->
+      if error then throw error
+      # The classified data gets passed as a JSON string, so here we parse it
+      data = JSON.parse fields.classified
+
+      currentUser = request.user or {}
+      if currentUser.id
+        # Set the current user as the owner for this classified.
+        data.owner = currentUser.id
+        resolve [data, filesRequest["images[]"]]
+      else
+        # Else create a temporary user and make it the owner for this
+        # classified.
+        Users.createTemporary data.contact.email, (error, user) ->
+          data.owner = user.id
+          resolve [data, filesRequest["images[]"]]
+
+
+  # Create a new classified
+  createClassified = (newClassified, uploadedFiles) ->
+    newClassifiedFiltered = Classifieds.filter newClassified
+    new Promise (resolve) ->
+      Classifieds.create newClassifiedFiltered, (error, classified) ->
+        if error then throw error
+        resolve [classified, uploadedFiles]
+
+
+  # Here we validate and save the files that get returned from the formidable
+  # object.
+  uploadFiles = (newClassified, filesToUpload) ->
+    new Promise (resolve) ->
+      uploader.upload filesToUpload, (error, newImages=[]) ->
+        if error then throw error
+        resolve [newClassified, newImages]
+
+
+  # Finally update the classified with the diff into the DB.
+  updateClassified = (newClassified, newImages) -> new Promise (resolve) ->
+    # If an image was uploaded find it's metadata and add it to the list of
+    # final images
+    finalImages = []
+    for newImage in newImages
+      for image in images
+        if newImage.oldFilename is image.filename and newImage.isUploaded
+          image.filename = newImage.newFilename
+          finalImages.push image
+
+    # Get the slug for the classified using the newly generated id and
+    # set the images field with our final set of images.
+    newClassified.set "slug", _createURLslug newClassified.toJSON()
+    newClassified.set "images", JSON.stringify finalImages
+
+    # Update the classified with the images and return the result to the user.
+    newClassified.save().then (classified) -> resolve classified.toJSON()
+
+
+  # Start parsing the multi-part encoded data
+  parseForm = (form) ->
+    form.parse request, (error, fields, filesRequest) ->
+      if error
+        response.status 400
+        return response.json error
+
+      # The classified data gets passed as a JSON string, so here we parse it
+      try data = JSON.parse fields.classified
+      catch e
+        response.status 400
+        return response.json "bad JSON field(s)"
+
+      # Extract the images. The will be set with the result from the uploader.
+      images = data.images
+      data = Classifieds.filter data
+      delete data.images
+
 
   controller = (request, response, next) ->
-    captchaFail = ->
-      response.status 401
-      response.end "captcha failed"
-
-    captchaSuccess = ->
-      # Initialize formidable
-      form = new formidable.IncomingForm
-      form.keepExtensions = true
-      form.multiples = true
-      form.maxFieldsSize = 10 * 1024 * 1024 # 2MB
-
-      # Setup error handler. This function gets called whenever there is an
-      # error while processing the form.
-      form.on "error", (error) ->
-        response.status 400
-        response.json error
-
-      # Start parsing the form
-      form.parse request, (error, fields, filesRequest) ->
-        if error
-          response.status 400
-          return response.json error
-
-        # The classified data gets passed as a JSON string, so here we parse it
-        try data = JSON.parse fields.classified
-        catch e
-          response.status 400
-          return response.json "bad JSON field(s)"
-
-        # Extract the images. The will be set with the result from the uploader.
-        images = data.images
-        data = Classifieds.filter data
-        delete data.images
-
-        # Set the current user as the owner for this classified.
-        data.owner = (request.user or {}).id
-
-        # First create the classified
-        Classifieds.create data, (error, classified) ->
-          if error
-            response.status 400
-            return response.json error
-
-          # Start saving the files
-          uploader.upload filesRequest["images[]"], (error, newImages) ->
-            if error
-              response.status 400
-              return response.json error
-
-            # For every new image, if it was uploaded find it metadata and attach
-            # it to the list of final images
-            finalImages = []
-            for newImage in newImages
-              for image in images
-                if newImage.oldFilename is image.filename and newImage.isUploaded
-                  image.filename = newImage.newFilename
-                  finalImages.push image
-
-            # Get the slug for the classified using the newly generated id and
-            # set the images field with our final set of images.
-            classified.set "slug", _createURLslug classified.toJSON()
-            classified.set "images", JSON.stringify finalImages
-
-            # Update the classified with the images and return
-            classified.save().then (classified) ->
-              response.json classified.toJSON()
-
-    # reCaptcha.verify request, captchaSuccess, captchaFail
-    captchaSuccess()
+    Promise.resolve request
+    .then reCaptcha.verify
+    .then initializeFormReader
+    .spread parseForm
+    .spread createClassified
+    .spread uploadFiles
+    .spread updateClassified
+    # Once done, return the fields that have been changed back to the user
+    .then (classified) -> response.json classified
+    # If there were any errors, return it with a default 400 HTTP code.
+    .catch (error) ->
+      response.status error.status || 400
+      response.json error
 
 
 exports["@require"] = [
-  "models/classifieds"
   "controllers/recaptcha"
   "controllers/uploader"
+  "models/classifieds"
 ]
 exports["@singleton"] = true
