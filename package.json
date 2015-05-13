@@ -16,6 +16,7 @@
     "async": "^0.9.0",
     "basic-auth": "^1.0.0",
     "bcrypt-nodejs": "0.0.3",
+    "bluebird": "^2.9.25",
     "body-parser": "~1.10.2",
     "bookshelf": "^0.8.0",
     "bootable": "^0.2.3",
