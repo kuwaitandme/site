@@ -29,7 +29,7 @@ exports = module.exports = ($http, $root, console, $storage) -> new class
     # This helper function is used to get the user details from the API
     _fetchFromAPI = =>
       console.log @name, "downloading user"
-      $http.get "/api/user/current"
+      $http.get "/api/users/current"
       .success (user) =>
         console.log @name, "fetched current user"
         console.debug @name, user

@@ -19,7 +19,7 @@ exports = module.exports = ($http, console, $storage) -> new class
     # A helper function to retrieve the locations from the API
     _fetchFromAPI = =>
       console.log @name, "fetching locations from API"
-      $http.get "/api/location"
+      $http.get "/api/locations"
       .success (locations) =>
         console.log @name, "fetched locations from API"
         @locations = locations

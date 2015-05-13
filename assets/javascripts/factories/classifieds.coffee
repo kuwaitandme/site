@@ -34,10 +34,10 @@ exports = module.exports = ($location, $http, console) -> new class
   save: (classified={}, callback=->) ->
     if not classified.id?
       method = "POST"
-      url = "/api/classified"
+      url = "/api/classifieds"
     else
       method = "PUT"
-      url = "/api/classified/#{classified.id}"
+      url = "/api/classifieds/#{classified.id}"
     console.log @name, "sending classified to server [#{method}]"
     console.debug @name, classified
     # Convert the json array into a formdata object
@@ -54,20 +54,20 @@ exports = module.exports = ($location, $http, console) -> new class
 
 
   query: (parameters, callback) ->
-    $http.get "/api/classified?#{@_serializeGET parameters}"
+    $http.get "/api/classifieds?#{@_serializeGET parameters}"
     .success (classifieds) =>
       callback null, (@_parse classified for classified in classifieds)
     .error callback
 
 
   get: (id, callback) ->
-    $http.get "/api/classified/#{id}"
+    $http.get "/api/classifieds/#{id}"
     .success (classified) => callback null, @_parse classified
     .error callback
 
 
   getBySlug: (slug, callback) ->
-    $http.get "/api/classified/slug/#{slug}"
+    $http.get "/api/classifieds/slug/#{slug}"
     .success (classified) => callback null, @_parse classified
     .error callback
 
