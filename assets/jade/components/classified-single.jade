@@ -95,15 +95,15 @@ section.row.classified-single(ng-controller="component:classified-single")
 
 
       ul#extras-sidebar.columns
-        li.facebook
+        li.facebook(ng-if="classified.meta.shareSocial")
           a.icon(target="_self", ng-href="{{ classified.social.facebook }}") &#xf09a;
-        li.twitter
+        li.twitter(ng-if="classified.meta.shareSocial")
           a.icon(target="_self", ng-href="{{ classified.social.twitter }}") &#xf099;
-        li.linkedin
+        li.linkedin(ng-if="classified.meta.shareSocial")
           a.icon(target="_self", ng-href="{{ classified.social.gplus }}") &#xf0e1;
-        li.pinterest
+        li.pinterest(ng-if="classified.meta.shareSocial")
           a.icon(target="_self", ng-href="{{ classified.social.gplus }}") &#xf231;
-        li.googleplus
+        li.googleplus(ng-if="classified.meta.shareSocial")
           a.icon(target="_self", ng-href="{{ classified.social.gplus }}") &#xf0d5;
         li.link
           a.icon(ng-href="/{{ classified.slug }}") &#xf0c6;
