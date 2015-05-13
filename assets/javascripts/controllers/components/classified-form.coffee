@@ -17,6 +17,8 @@ exports = module.exports = ($scope, $googleMaps, $imageResizer,
   $scope.classified.childCategory = Categories.findByChildId $scope.classified.child_category or null
   $scope.location = Locations.findById $scope.classified.location
 
+  $scope.superEditable = true
+
   # Function to listen for changes with classified title
   onTitleChange = (newValue="") ->
     minTitle = 20
@@ -43,6 +45,12 @@ exports = module.exports = ($scope, $googleMaps, $imageResizer,
   $scope.addImages = ->
     $el = angular.element document.querySelectorAll "[type='file']"
     $el[0].click()
+
+
+  $scope.changeStatus = (newStatus) =>
+    console.debug @name, "changing status to : '#{newStatus}'"
+    $scope.classified.status = Classifieds.statuses[newStatus]
+    $scope.submit()
 
 
   # This function is called when files have been selected by the user. Here we
@@ -110,7 +118,7 @@ exports = module.exports = ($scope, $googleMaps, $imageResizer,
 
 
   # This function handlers when the form gets submitted.
-  $scope.submit = ->
+  $scope.submit = =>
     # Only perform the submit function if the form has validated properly
     if not $scope.form.$invalid
       console.log @name, "submitting form"

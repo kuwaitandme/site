@@ -5,10 +5,12 @@
   $color-valid: #30cd72
   $color-warn: #FFB604
   @extend .classified-single
+
   .error
     @extend .font-text
     font-size: 11px
     float: left
+    border-bottom: 3px solid rgba(0,0,0,.1)
     padding: 5px 10px
 
   input
@@ -81,13 +83,17 @@
     +clearfix
     .action
       cursor: pointer
-      background: $color-error
       border-bottom: 3px solid rgba(0,0,0,0.2)
       color: #FFF
       float: left
       font-size: 0.7rem
       padding: 0.5rem 1rem
+      margin-right: 5px
       text-transform: uppercase
+      &, &.green
+        background: $color-valid
+      &.red
+        background: $color-error
 
   .gallery
     @extend .font-roboto
@@ -160,6 +166,8 @@
       margin-bottom: -6px
       min-height: 200px
       top: 0
+    .error
+      margin-top: -1px
 
 
   .meta
@@ -211,12 +219,14 @@
   .submit, .add-images
     @extend font-title
     background: $color-valid
-    border-bottom: 4px solid rgba(0,0,0,0.1)
+    border-bottom: 4px solid rgba(0,0,0,0.2)
     color: #FFF
     font-size: 0.9rem
     padding: 0.5rem
     z-index: 3
   .submit
+    &:focus
+      background: #27AE60
     @media only screen and (max-width: 64.063em)
       bottom: -3px
       left: 0

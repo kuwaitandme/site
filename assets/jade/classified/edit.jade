@@ -5,6 +5,10 @@
 
 .row
   h1.columns Edit your classified
+  h3.columns You are about to edit this classified. Once you have finished making your changes, click on the submit button below.
+  h3.columns(ng-if="classified.meta.isGuest") All changes will have to be reviewed by a moderator which can take upto 24hrs.
+  h3.columns(ng-if="!classified.meta.isGuest") All changes will be effective immediately.
+
   //- p.columns All changes to this classified will be effective immediately.
 
 section(ng-if="!!classified", ng-include="'components/classified-form'")

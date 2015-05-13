@@ -1,5 +1,5 @@
 ## TODO: Add automatic resize of content
-exports = module.exports = ($scope, console, $location, $notifications) ->
+exports = module.exports = ($scope, console, $location, $notifications, Users) ->
   @name = "[page:classified-post]"
   console.log @name, "initializing"
 
@@ -9,6 +9,8 @@ exports = module.exports = ($scope, console, $location, $notifications) ->
     $notifications.success "Your classified has been submitted successfully!"
     $location.path "/classified/finish/#{classified.id}"
 
+  $scope.isUserLoggedIn = Users.isLoggedIn()
+
   $scope.heroURL = "landing.jpg"
   $scope.onHeroLoad = -> $scope.$emit "page-loaded"
 
@@ -17,4 +19,6 @@ exports.$inject = [
   "$log"
   "$location"
   "$notifications"
+
+  "model.users"
 ]

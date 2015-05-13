@@ -2,12 +2,12 @@ section.classified-form(ng-controller="component:classified-form as form")
   form(name="form", novalidate, ng-class="{attempted:attempted}").row
 
     .columns.admin-panel(ng-if="classified.id")
-      .action(ng-click="publish", ng-if="superEditable") Publish
-      .action(ng-click="reject", ng-if="superEditable") Reject
-      .action(ng-click="ban", ng-if="superEditable") Ban
-      .action(ng-click="promote", ng-if="superEditable") Promote
-      .action(ng-click="demote", ng-if="superEditable") Demote
-      .action(ng-click="classified.status = 3 && submit()",) Archive this classified
+      .action.green(ng-click="changeStatus('ACTIVE')", ng-if="superEditable") Publish
+      .action.red(ng-click="changeStatus('REJECTED')", ng-if="superEditable") Reject
+      .action.red(ng-click="changeStatus('BANNED')", ng-if="superEditable") Ban
+      //- .action.red(ng-click="classified.status = 3 && submit()", ng-if="superEditable") Promote
+      //- .action.red(ng-click="classified.status = 3 && submit()", ng-if="superEditable") Demote
+      .action.red(ng-click="changeStatus('ARCHIVED')") Archive this classified
 
 
     input(type="file", multiple, ng-model-file="fileChange").hide
