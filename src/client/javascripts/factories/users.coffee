@@ -38,7 +38,7 @@ exports = module.exports = ($http, $root, console, $storage) -> new class
 
     # Attempt to get the user from the cache.
     cache = $storage.session "user:current"
-    if cache? and false
+    if cache?
       # user was found in session cache, prepare to translate it and return
       console.log @name, "retrieving current user from cache"
       try

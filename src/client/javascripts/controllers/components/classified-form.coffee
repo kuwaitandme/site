@@ -17,6 +17,7 @@ exports = module.exports = ($scope, $googleMaps, $imageResizer,
   $scope.classified.childCategory = Categories.findByChildId $scope.classified.child_category or null
   $scope.location = Locations.findById $scope.classified.location
 
+  currentUser = Users.setCurrentUser()
   $scope.superEditable = true
 
   # Function to listen for changes with classified title
