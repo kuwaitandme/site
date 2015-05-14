@@ -10,7 +10,7 @@ GoogleStrategy        = (require "passport-google-oauth").OAuth2Strategy
 FacebookStrategy      = (require "passport-facebook").Strategy
 LocalStrategy         = (require "passport-local").Strategy
 
-exports = module.exports = (IoC, settings, sessions, email, User, policies) ->
+exports = module.exports = (IoC, settings, sessions, Email, Users, policies) ->
   app = this
 
   # This function gets called for each of the OAuth logins. A uniform function
@@ -20,33 +20,40 @@ exports = module.exports = (IoC, settings, sessions, email, User, policies) ->
     not validator.isEmail profile.emails[0].value
       return done new Error "Your account did not have an email address associated with it"
     # Query for the user based on the provider.
-    User.findOne
-      login_provider_name: profile.provider
-      login_provider_uid: profile.id
+    Users.findOne
+      email: profile.emails[0].value
+      # login_provider_name: profile.provider
+      # login_provider_uid: profile.id
     , (error, user) ->
       if error then return done error
-      if user then return done null, user.toJSON()
+      # User exists, check if the provider's details have been set and return
+      # the user back to passport
+      if user
+        json = user.toJSON()
+        if not json.login_providers? and json[profile.provider]?
+          json.login_providers[profile.provider] = uid: profile.id
+          Users.patch json.id, json # Check for errors here
+        return done null, user
       # If the user did not exist, then create a new user
-      password = User.randomPassword()
-      User.create
+      password = Users.randomPassword()
+      newUser =
         email: profile.emails[0].value
         full_name: "#{profile.name.givenName} #{profile.name.familyName}"
-        login_provider_name: profile.provider
-        login_provider_uid: profile.id
-        status: User.statuses.ACTIVE
-        password: User.hashPassword password
-      , (error, user) ->
+        status: Users.statuses.ACTIVE
+        password: Users.hashPassword password
+        login_providers: {}
+      newUser.login_providers[profile.provider] = uid: profile.id
+      Users.create newUser, (error, user) ->
         if error then done error
         else if not user? then done new Error "We can't register you, please try again later"
         else
-          console.log user.toJSON()
-          email.sendTemplate profile.emails[0].value, "user-welcome-oauth",
+          Email.sendTemplate profile.emails[0].value, "user-welcome-oauth",
             user: user.toJSON()
             password: password
             subject: "Welcome to Kuwait & Me!"
           done null, user
 
-
+  # Add cookie parsing support
   app.use cookieParser settings.cookieParser
 
   # add request.session cookie support
@@ -79,18 +86,21 @@ exports = module.exports = (IoC, settings, sessions, email, User, policies) ->
   # Email Authentication
   if settings.emailAuth.enabled
     passport.use new LocalStrategy (username, password, done) ->
-      User.findOne { email: username }, (error, user) ->
+      Users.findOne { email: username }, (error, user) ->
         if error then return done error
         if not user? then return done "bad username/email", false
         # User exists, check password
-        if not User.isPasswordValid password, user.toJSON().password
+        if not Users.isPasswordValid password, user.toJSON().password
           return done "password mismatch", false
+          # Check if account is active or not
+          if not Users.isActive user
+            return done "not allowed to login", false
         # Login successful! return user
         done null, user
 
   # Add passport serialization/de-serialization
-  passport.deserializeUser User.deserialize()
-  passport.serializeUser   User.serialize()
+  passport.deserializeUser Users.deserialize()
+  passport.serializeUser   Users.serialize()
 
 
 exports["@require"] = [

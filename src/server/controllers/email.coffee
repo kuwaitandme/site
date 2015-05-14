@@ -8,6 +8,7 @@ exports = module.exports = (settings) -> new class
     if not settings.email.enabled then return
 
     emailRoot = settings.email.templates.dir
+    options.webmasterAddress = settings.email.webmasterAddress
     options.sitename =  settings.sitename
     options.url =  settings.url
 
