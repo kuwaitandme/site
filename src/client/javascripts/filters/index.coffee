@@ -6,4 +6,5 @@ module.exports = (app) ->
   app.filter "location",    require "./location"
   app.filter "prettydate",  require "./prettydate"
   app.filter "price",       require "./price"
+  app.filter "status",      require "./status"
   app.filter "translate",   require "./translate"

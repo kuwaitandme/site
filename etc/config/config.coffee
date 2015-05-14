@@ -24,7 +24,7 @@ exports = module.exports = ->
       secret: "XXXXXXXXXX"
       scope: ["email"]
     twitter:
-      enabled: false
+      enabled: true
       consumerKey: "XXXXXXXXXX"
       consumerSecret: "XXXXXXXXXX"
     google:

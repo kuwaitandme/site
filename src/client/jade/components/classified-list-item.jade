@@ -1,4 +1,4 @@
-.classified-list-item(ng-click="toggleClassified(classified)")
+.classified-list-item(ng-click="toggleClassified(classified)", ng-class="{'show-status': showStatus}", class="{{ classified.status | status:'classified' | lowercase }}")
   .thumb(ng-if="classified.mainImage", ng-style="{'background':classified.mainImage.color}")
     img(ng-image-loader!="/uploads/thumb/{{ classified.mainImage.filename }}",
       ng-image-success="classified.imageLoaded",
@@ -7,7 +7,8 @@
     .title {{ classified.title | limitTo: 120 }}
     .border
     ul.meta.row.collapse
-      li.price.small-6.columns {{ classified.priceValue | price:classified.priceType }}
+      li.price.small-6.columns(ng-if="!showStatus") {{ classified.priceValue | price:classified.priceType }}
+      li.status.small-6.columns(ng-if="showStatus") {{ classified.status | status:"classified" }}
       li.date.small-6.columns.text-right {{ classified.created | prettydate }}
       li(style="list-style: none; display: inline", ng-if="classified.showStatus")
         .status(class="{{ classified.statusClass }}") {{ classified.statusMessage }}

@@ -138,6 +138,25 @@ ul.classified-list
       padding-bottom: 0
       width: 90%
       word-wrap: break-word
+  &.show-status
+    .date
+      display: none
+    .border
+      width: 100%
+    &.active
+      .status, .border
+        background: #2ecc71
+    &.inactive
+      .status, .border
+        background: #FFB604
+    &.archived, &.banned, &.rejected
+      .status, .border
+        background: #D3402A
+    .status
+      color: #FFF
+      margin-top: -10px
+      padding: 5px 10px
+
     .date
       +single-transition
       opacity: 0
@@ -155,17 +174,17 @@ ul.classified-list
     .urgent-banner
       display: block
 
-  .status
-    @extend .font-title
-    background: green
-    color: #FFF
-    display: none
-    font-size: 0.9rem
-    padding: 5px
-    text-align: center
-    &.error
-      background: red
-    &.warn
-      background: orange
-  &.show-statuses .status
-    display: block
+  // .status
+  //   @extend .font-title
+  //   background: green
+  //   color: #FFF
+  //   display: none
+  //   font-size: 0.9rem
+  //   padding: 5px
+  //   text-align: center
+  //   &.error
+  //     background: red
+  //   &.warn
+  //     background: orange
+  // &.show-statuses .status
+  //   display: block

@@ -2,7 +2,10 @@ exports = module.exports = ($scope, $stateParams, $googleMaps, console, Classifi
   @name = "[page:classified-finish]"
   console.log @name, "initializing"
   console.debug @name, "routeParams", $stateParams
-  $scope.$emit "page-loaded"
+
+  Classifieds.get $stateParams.id, (error, classified) =>
+    $scope.classified = classified
+    $scope.$emit "page-loaded"
 
 
 exports.$inject = [

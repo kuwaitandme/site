@@ -6,9 +6,10 @@ connectLiveReload     = require "connect-livereload"
 validator             = require "validator"
 _                     = require "underscore"
 
-GoogleStrategy        = (require "passport-google-oauth").OAuth2Strategy
 FacebookStrategy      = (require "passport-facebook").Strategy
+GoogleStrategy        = (require "passport-google-oauth").OAuth2Strategy
 LocalStrategy         = (require "passport-local").Strategy
+TwitterStrategy       = (require "passport-twitter").Strategy
 
 exports = module.exports = (IoC, settings, sessions, Email, Users, policies) ->
   app = this
@@ -16,6 +17,7 @@ exports = module.exports = (IoC, settings, sessions, Email, Users, policies) ->
   # This function gets called for each of the OAuth logins. A uniform function
   # that takes care of everything from DB.... FINISH
   providerAuthCallback = (accessToken, refreshToken, profile, done) ->
+    console.log profile
     if profile.emails.length == 0 or (not _.isObject profile.emails[0]) or
     not validator.isEmail profile.emails[0].value
       return done new Error "Your account did not have an email address associated with it"
@@ -77,6 +79,14 @@ exports = module.exports = (IoC, settings, sessions, Email, Users, policies) ->
       callbackURL:  "#{settings.url}/auth/social/facebook/callback"
       clientID: settings.facebook.appID
       clientSecret: settings.facebook.appSecret
+    , providerAuthCallback
+
+  # Twitter Authentication
+  if settings.twitter.enabled
+    passport.use new TwitterStrategy # web-based
+      callbackURL:  "#{settings.url}/auth/social/twitter/callback"
+      consumerKey: settings.twitter.consumerKey
+      consumerSecret: settings.twitter.consumerSecret
     , providerAuthCallback
 
   # Email Authentication

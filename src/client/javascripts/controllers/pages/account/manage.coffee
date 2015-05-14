@@ -9,6 +9,7 @@ exports = module.exports = ($scope, console, Users) ->
   $scope.finishMessage = "End of classifieds"
   $scope.emptyMessage = "You have no classifieds"
   $scope.redirectToEditPage = true
+  $scope.showStatus = true
 
 exports.$inject = [
   "$scope"

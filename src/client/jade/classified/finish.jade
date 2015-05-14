@@ -2,53 +2,28 @@
   img(ng-image-loader!="/images/hero/{{ heroURL }}",
       ng-image-success="onHeroLoad")
 
-
 .row
   h1.columns Awesome! Your classified has been uploaded
+section.row
   p.columns
-    | Your classified has been uploaded and
-    | <% if(obj.isGuest) { %>
-    | has been sent for review by our moderators.
-    | <% } else { %>
-    | is now online.
-    | <% } %>
-    | &nbsp;It will be online for 60 days after which it will automatically expire and be hidden from search results.
+    | Your classified has been uploaded and is now online. It will be reviewed by
+    | our moderators just to make sure that everything falls in place.
+  p.columns It will be online for 90 days after which it will automatically expire.
 
-  h2.columns Promote your classified by simply sharing!
-  p.columns We love doing amazing things for you! Share the love and we'll return the favour by <b>promoting your classified on top of all search results</b>.
   .columns
-    .row
-      .columns.medium-4.medium-centered
-        .button.submit#promoteLink Promote with a share
-
-  h2.columns Need more attention?
-  .columns.medium-4.end
-
-| <% if(obj.isGuest) { %>
-p.columns Since you posted as a guest, you will have to use this link <a href="#" id="authLink"></a> to delete/edit your classified.
-| <% } %>
-p.columns You can help bring some attention to your classified by sharing it on your social networks.
-    .row
-      .columns
-        ul#social-links.small-block-grid-1.medium-block-grid-3
-          li
-            a(href="#").facebook.social.row
-              .icon.small-3.columns &#xf09a;
-              .text.small-9.columns Share on Facebook
-          li
-            a(href="#").twitter.social.row
-              .icon.small-3.columns &#xf099;
-              .text.small-9.columns Tweet on Twitter
-          li
-            a(href="#").gplus.social.row
-              .icon.small-3.columns &#xf0d5;
-              .text.small-9.columns Share on Google+
-          li
-            .button.submit.small-12
-              a#finishLink(href="", data-view) View your classified
-
-    .row#shared-message
-
-      h3.columns Your classified is promoted!
-      p.columns Thanks so much for spreading the love! We have promoted your classified as a token of our apprecition :)
-    .row#unshared-message
+    ul.social-links.row
+      li.medium-4.columns
+        a(href="{{ classified.social.facebook }}").facebook.row
+          .icon.small-3.columns &#xf09a;
+          .text.small-9.columns Share on Facebook
+      li.medium-4.columns
+        a(href="{{ classified.social.twitter }}").twitter.row
+          .icon.small-3.columns &#xf099;
+          .text.small-9.columns Tweet on Twitter
+      li.medium-4.columns
+        a(href="{{ classified.social.gplus }}").gplus.row
+          .icon.small-3.columns &#xf0d5;
+          .text.small-9.columns Share on Google+
+.row.collapse
+  .columns
+    a.button.submit(ng-href="/{{ classified.slug }}") View your classified
