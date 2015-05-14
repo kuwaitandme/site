@@ -94,12 +94,13 @@ coverage/
 boot/local.js
 .vagrant/
 
-/public/uploads
-/public/javascripts/*.js
-/public/stylesheets/*.css
-/server/**/*.js
+/var/public/uploads
+/var/public/javascripts/*.js
+/var/public/stylesheets/*.css
+/src/server/**/*.js
 /docs
 /tmp
+/.env
 
 # Hide server configuration file
 /etc/config/local.coffee
