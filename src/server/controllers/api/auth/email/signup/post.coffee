@@ -56,36 +56,38 @@ exports = module.exports = (User, Email, reCaptcha) ->
               # User exists but does not have email login, so modify the current
               # user. Then save into the DB.
               user.email = email
-              user.password = User.hashPassword password
+              user.meta ?= {}
+              # if user.meta.hasTemporaryName
+              #   user.full_name = fullname
+              #   delete user.meta.hasTemporaryName
+              if user.meta.hasTemporaryPassword
+                user.password = User.hashPassword password
+                delete user.meta.hasTemporaryPassword
               user.login_providers.email = email
               user.status = User.statuses.INACTIVE
-              user.meta ?= {}
               user.meta.activationToken = User.randomPassword()
               User.patch user.id, user, (error, patchedUser) ->
                 if error
                   response.status 500
                   return response.json error
                 # Send activation email
+                # TODO: add a message about the password being changed or not
                 Email.sendTemplate patchedUser.email, "user-activate",
                   subject: "#{fullname}! Activate your account"
                   user: patchedUser.toJSON()
                 # pass the registered user to the callback
                 response.json patchedUser
+
         else
           # If there is no user with that email, create the user
           User.create newUser, (error, user) ->
             if error
               response.status 500
               return response.json error
-
-            # logger = global.modules.logger
-            # logger request, "user registered (EMAIL) with id:#{user._id}"
-
             # Send activation email
             Email.sendTemplate user.email, "user-activate",
               subject: "#{fullname}! Activate your account"
               user: user.toJSON()
-
             # pass the registered user to the callback
             response.json user
 

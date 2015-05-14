@@ -16,10 +16,10 @@ exports = module.exports = (knex, cache) -> new class
     ADMIN:     2
 
   statuses:
-    INACTIVE: 0
-    ACTIVE:   1
-    BANNED:   2
-    SUSPEND:  3
+    INACTIVE:   0
+    ACTIVE:     1
+    BANNED:     2
+    SUSPENDED:  3
 
 
   constructor: ->
@@ -65,9 +65,18 @@ exports = module.exports = (knex, cache) -> new class
     @create newUser, callback
 
 
-  # Predicate functions for the user
-  isModerator: (user) -> user.role is @roles.MODERATOR
+  # Predicate functions for the different enum fields.
   isAdmin: (user) -> user.role is @roles.ADMIN
+  isModerator: (user) -> user.role is @roles.MODERATOR
+
+  isActive: (user) -> user.status is @statuses.ACTIVE
+  isBanned: (user) -> user.status is @statuses.BANNED
+  isInactive: (user) -> user.status is @statuses.INACTIVE
+  isSuspended: (user) -> user.status is @statuses.SUSPENDED
+
+  # usesGoogle: (user) -> false
+  # usesFacebook: (user) -> false
+  # usesTwitter: (user) -> false
 
 
   # Function to create/validate hashed password

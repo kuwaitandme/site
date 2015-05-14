@@ -18,8 +18,8 @@ exports = module.exports = (Users) ->
           # Convert the user to JSON so that we can start removing sensitive
           # fields.
           user = user.toJSON()
-          delete user.credits
-          delete user.password
+          # delete user.credits
+          # delete user.password
           # delete user.meta
           response.json user
 

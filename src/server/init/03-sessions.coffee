@@ -20,11 +20,7 @@ exports = module.exports = (IoC, settings, sessions, Email, Users, policies) ->
     not validator.isEmail profile.emails[0].value
       return done new Error "Your account did not have an email address associated with it"
     # Query for the user based on the provider.
-    Users.findOne
-      email: profile.emails[0].value
-      # login_provider_name: profile.provider
-      # login_provider_uid: profile.id
-    , (error, user) ->
+    Users.findOne { email: profile.emails[0].value }, (error, user) ->
       if error then return done error
       # User exists, check if the provider's details have been set and return
       # the user back to passport
@@ -32,8 +28,7 @@ exports = module.exports = (IoC, settings, sessions, Email, Users, policies) ->
         json = user.toJSON()
         if not json.login_providers? and json[profile.provider]?
           json.login_providers[profile.provider] = uid: profile.id
-          Users.patch json.id, json # Check for errors here
-        return done null, user
+          return Users.patch json.id, json, done
       # If the user did not exist, then create a new user
       password = Users.randomPassword()
       newUser =
@@ -42,6 +37,7 @@ exports = module.exports = (IoC, settings, sessions, Email, Users, policies) ->
         status: Users.statuses.ACTIVE
         password: Users.hashPassword password
         login_providers: {}
+        meta: hasTemporaryPassword: true
       newUser.login_providers[profile.provider] = uid: profile.id
       Users.create newUser, (error, user) ->
         if error then done error
@@ -90,11 +86,13 @@ exports = module.exports = (IoC, settings, sessions, Email, Users, policies) ->
         if error then return done error
         if not user? then return done "bad username/email", false
         # User exists, check password
-        if not Users.isPasswordValid password, user.toJSON().password
+        json = user.toJSON()
+        if not Users.isPasswordValid password, json.password
           return done "password mismatch", false
-          # Check if account is active or not
-          if not Users.isActive user
-            return done "not allowed to login", false
+        # Check if account is active or not
+        console.log json
+        if not Users.isActive json
+          return done "not allowed to login", false
         # Login successful! return user
         done null, user
 
