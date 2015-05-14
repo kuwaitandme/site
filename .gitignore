@@ -98,6 +98,7 @@ boot/local.js
 /public/stylesheets/*.css
 /server/**/*.js
 /docs
+/tmp
 
 # Hide server configuration file
 /etc/config/local.coffee
