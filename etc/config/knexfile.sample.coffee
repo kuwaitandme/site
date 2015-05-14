@@ -2,9 +2,9 @@ module.exports =
   development:
     client: "postgres"
     connection:
-      database: "kuwaitandme"
-      user:     "kuwaitandme_dev"
-      password: "kuwaitandme"
+      database: "databse_development"
+      user:     "user"
+      password: "password"
     pool:
       min: 2
       max: 10
@@ -15,9 +15,9 @@ module.exports =
   staging:
     client: "postgres"
     connection:
-      database: "kuwaitandme"
-      user:     "kuwaitandme"
-      password: "kuwaitandme"
+      database: "databse_testing"
+      user:     "user"
+      password: "password"
     pool:
       min: 2
       max: 10
@@ -28,9 +28,9 @@ module.exports =
   production:
     client: "postgres"
     connection:
-      database: "kuwaitandme"
-      user:     "kuwaitandme_dev"
-      password: "kuwaitandme"
+      database: "databse_production"
+      user:     "user"
+      password: "password"
     pool:
       min: 2
       max: 10
