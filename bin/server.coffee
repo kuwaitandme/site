@@ -1,8 +1,10 @@
+#!/usr/bin/coffee
 IoC      = require "electrolyte"
-app      = require "./server/app"
+app      = require "../server/app"
 
 logger   = IoC.create "igloo/logger"
 settings = IoC.create "igloo/settings"
+
 
 app.boot (error) ->
   if error
