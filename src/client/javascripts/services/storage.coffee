@@ -23,7 +23,7 @@ exports = module.exports = ($window, console, $environment) -> new class
     # Check if HTML5 localStorage is supported. If not then create fallback
     # storages for both session and local.
     console.log @name, "setting up local and session storage"
-    if @_supportsHTML5storage()
+    if @_supportsHTML5storage() and false
       @local = (key, value) => @_operate localStorage, key, value
       @session = (key, value) => @_operate sessionStorage, key, value
     else
@@ -48,8 +48,11 @@ exports = module.exports = ($window, console, $environment) -> new class
   # (somewhat) of the storages.
   _createFallbackStorage: ->
     fn = (key, value) ->
-      if key == null and value == null then @privateData = {}
-      if typeof value is "undefined" then @privateData[key]
+      @privateData ?= {}
+      if key == null and value == null
+        @privateData = {}
+      else if typeof value is "undefined"
+        @privateData[key]
       else
         if value? then @privateData[key] = value
         else delete @privateData[key] # value was set to null
