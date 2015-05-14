@@ -1,3 +1,4 @@
 {
-  "directory": ".bower/"
+  "directory": "../.bower/",
+  "cwd": "etc/"
 }

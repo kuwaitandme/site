@@ -8,3 +8,29 @@ chmod +x $tmp/nodeenv.py
 
 # Create the virtual env using our configuration file
 $tmp/nodeenv.py --requirements=$pwd/etc/nodeenv.conf $pwd/.env
+
+# Create the symbolic link
+ln -s $pwd/.env/bin/activate $pwd/bin/activate
+
+echo
+echo The virtual environment has been setup! Use this command to setup the
+echo environment
+echo -e '\t $ source bin/activate'
+echo
+echo While the global npm dependecies are taken careof, you need to make
+echo sure that other global [non-npm] dependecies are also installed.
+echo Find out how to install the following packages in your system:
+echo -e '\t nginx - 1.8.0'
+echo -e '\t postgres - 9.4.1'
+echo -e '\t redis - 3.0.1'
+echo
+echo Once installed continue to install the project specific packages by
+echo running:
+echo -e '\t $ npm install'
+echo -e '\t $ bower install'
+echo
+echo Then build the files and start the server
+echo -e '\t $ gulp deploy'
+echo -e '\t $ npm start'
+echo
+echo AUTHOR: Steven Enamakel

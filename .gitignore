@@ -94,6 +94,7 @@ coverage/
 boot/local.js
 .vagrant/
 
+/bin/activate
 /var/public/uploads
 /var/public/javascripts/*.js
 /var/public/stylesheets/*.css
