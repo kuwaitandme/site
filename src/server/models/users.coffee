@@ -10,6 +10,11 @@ exports = module.exports = (knex, cache) -> new class
     GOOGLEPLUS:  4
     PHONEGAP:    5
 
+  roles:
+    NORMAL:    0
+    MODERATOR: 1
+    ADMIN:     2
+
   statuses:
     INACTIVE: 0
     ACTIVE:   1
@@ -18,7 +23,7 @@ exports = module.exports = (knex, cache) -> new class
 
 
   constructor: ->
-    bookshelf = (require "bookshelf") knex
+    bookshelf   = (require "bookshelf") knex
     @model      = bookshelf.Model.extend tableName: "users"
     @collection = bookshelf.Collection.extend model: @model
 
@@ -58,6 +63,11 @@ exports = module.exports = (knex, cache) -> new class
       login_provider_name: "email"
       password: @hashPassword newPassword
     @create newUser, callback
+
+
+  # Predicate functions for the user
+  isModerator: (user) -> user.role is @roles.MODERATOR
+  isAdmin: (user) -> user.role is @roles.ADMIN
 
 
   # Function to create/validate hashed password
