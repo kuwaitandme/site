@@ -126,7 +126,7 @@ exports = module.exports = (reCaptcha, uploader, email, Classifieds, Users) ->
     .then (classified) -> response.json classified
     # If there were any errors, return it with a default 400 HTTP code.
     .catch (error) ->
-      console.error error.stack
+      # console.error error.stack
       response.status error.status || 400
       response.json error.message
 

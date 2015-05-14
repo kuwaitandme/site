@@ -54,7 +54,7 @@ section.row.classified-single(ng-controller="component:classified-single")
               a(ng-href="//www.google.co.in/maps/dir//{{classified.meta.gmapX}},{{classified.meta.gmapY}}",
                 ng-if="classified.meta.gmapX") {{ classified.contact.address1 }}, {{ classified.contact.address2 }}
               a(ng-if="!classified.meta.gmapX") {{ classified.contact.address1 }}, {{ classified.contact.address2 }}
-          li(ng-if="classified.contact.email")
+          li(ng-if="classified.contact.email && !classified.meta.hideEmail")
             span.meta-title Email:
             span.meta-value
               a(ng-href="mailto:{{ classified.contact.email }}?subject=Reply to your classified: {{ classified.title }}") {{ classified.contact.email }}
