@@ -13,6 +13,7 @@ exports = module.exports = ($root, console, $storage) ->
       if toState.templateUrl?
         bodyid = toState.templateUrl.replace "/", "-"
         body.id = bodyid
+      setTimeout (-> document.body.scrollTop = 0), 1
 
   $root.$on "page-loaded", ->
     setTimeout -> $root.$apply -> $root.bodyClasses.loading = false
