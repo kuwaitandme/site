@@ -57,7 +57,9 @@ exports = module.exports = ->
 
     email:
       noreplyAddress: "noreply@server.tld"
+      webmasterAddress: "webmaster@server.tld"
       enabled: true
+
       templates:
         dir: templatesDir
         options:
@@ -83,23 +85,20 @@ exports = module.exports = ->
       updateCheckInterval: 1000 * 60 * 60
       updateCheckTimeout: 1000 * 20
     staticServer: maxAge: maxAge
+
     server:
       host: "localhost"
       cluster: false
       ssl:
         enabled: false
         options: {}
+
     cookieParser: "kme-change-me"
+
     csrf:
       enabled: false
       options: cookie: maxAge: maxAge
-    mongo:
-      host: "localhost"
-      db: "testing"
-      dbname: "testing"
-      port: 27017
-      opts: {}
-      safe: false
+
     redis:
       host: "localhost"
       port: 6379
