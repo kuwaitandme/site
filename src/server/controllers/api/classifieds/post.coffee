@@ -83,11 +83,11 @@ exports = module.exports = (reCaptcha, uploader, email, Classifieds, Users) ->
     new Promise (resolve, reject) ->
       uploader.upload filesToUpload, (error, newImages=[]) ->
         if error then reject error
-        else resolve [newClassified, newImages]
+        else resolve [newClassified, newImages, imagesMeta]
 
 
   # Finally update the classified with the diff into the DB.
-  updateClassified = (newClassified, newImages, imagesMeta) ->
+  updateClassified = (newClassified, newImages=[], imagesMeta) ->
     new Promise (resolve) ->
       # If an image was uploaded find it's metadata and add it to the list of
       # final images
@@ -126,6 +126,7 @@ exports = module.exports = (reCaptcha, uploader, email, Classifieds, Users) ->
     .then (classified) -> response.json classified
     # If there were any errors, return it with a default 400 HTTP code.
     .catch (error) ->
+      console.error error.stack
       response.status error.status || 400
       response.json error.message
 

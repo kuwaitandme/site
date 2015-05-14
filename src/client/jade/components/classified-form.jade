@@ -128,6 +128,10 @@ section.classified-form(ng-controller="component:classified-form as form")
               label Hide this classified from search engines
             .columns
               input(type="checkbox",
+                ng-model="classified.meta.hideEmail")
+              label Hide my email
+            .columns
+              input(type="checkbox",
                 ng-model="classified.meta.shareSocial", ng-init="classified.meta.shareSocial=true")
               label Allow sharing on social networks
             .columns
