@@ -60,7 +60,7 @@ exports = module.exports = (knex, cache) -> new class
     newUser =
       email: email
       full_name: "Anonymous"
-      login_provider_name: "email"
+      login_providers: email: email
       password: @hashPassword newPassword
     @create newUser, callback
 
