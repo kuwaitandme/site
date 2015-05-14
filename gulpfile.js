@@ -1,6 +1,6 @@
 require("coffee-script/register");
 
-var gulp = require("./gulp")([
+var gulp = require("./etc/gulp")([
 	"coffee",
 	"docs",
 	"jade",
