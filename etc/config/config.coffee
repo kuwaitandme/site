@@ -105,15 +105,14 @@ exports = module.exports = ->
       port: 6379
       maxAge: maxAge
     output:
-      handleExceptions: false
+      handleExceptions: true
       colorize: true
       prettyPrint: false
-      filename: "var/logs/info.log"
     logger:
       console: true
       requests: true
       mongo: false
-      file: true
+      file: false
       hipchat: false
       slack: false
     knex: client: "postgres"
@@ -158,7 +157,9 @@ exports = module.exports = ->
       port: 3080
       cluster: true
     redis: prefix: "kme:"
-    output: colorize: false
+    output:
+      handleExceptions: false
+      colorize: false
     logger:
       console: true
       file: false
