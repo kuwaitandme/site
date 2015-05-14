@@ -1,6 +1,6 @@
 #!/usr/bin/coffee
 IoC      = require "electrolyte"
-app      = require "../server/app"
+app      = require "../src/server/app"
 
 logger   = IoC.create "igloo/logger"
 settings = IoC.create "igloo/settings"

@@ -5,7 +5,7 @@ igloo    = require "igloo"
 path     = require "path"
 
 # dependency injection
-IoC.loader                IoC.node path.join __dirname, "../etc/config"
+IoC.loader                IoC.node path.join __dirname, "../../etc/config"
 IoC.loader "igloo",       igloo
 IoC.loader "controllers", IoC.node path.join __dirname, "controllers"
 IoC.loader "models",      IoC.node path.join __dirname, "models"

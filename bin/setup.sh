@@ -29,7 +29,11 @@ echo running:
 echo -e '\t $ npm install'
 echo -e '\t $ bower install'
 echo
-echo Then build the files and start the server
+echo NOTE: node-gyp will throw an error at you if you use python 3.7. An easy
+echo fix will be to make sure you have python 2.7 installed and run
+echo -e '\t $ npm config set python python2.7'
+echo
+echo Then build the client files and start the server
 echo -e '\t $ gulp deploy'
 echo -e '\t $ npm start'
 echo

@@ -1,11 +1,11 @@
 # config
 path      = require "path"
 parentDir = path.join __dirname, "../.."
-appDir    = path.join parentDir, "server"
+appDir    = path.join parentDir, "src/server"
 
 pkg          = require path.join parentDir, "package"
-assetsDir    = path.join parentDir, "public"
-publicDir    = path.join parentDir, "public"
+assetsDir    = path.join parentDir, "var/public"
+publicDir    = path.join parentDir, "var/public"
 viewsDir     = path.join appDir, "views"
 templatesDir = path.join viewsDir, "emails"
 maxAge       = 24 * 60 * 60 * 1000
@@ -108,11 +108,12 @@ exports = module.exports = ->
       handleExceptions: false
       colorize: true
       prettyPrint: false
+      filename: "var/logs/info.log"
     logger:
       console: true
       requests: true
-      mongo: true
-      file: false
+      mongo: false
+      file: true
       hipchat: false
       slack: false
     knex: client: "postgres"
