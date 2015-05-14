@@ -101,6 +101,7 @@ boot/local.js
 
 # Hide server configuration file
 /etc/config/local.coffee
+/etc/config/knexfile.coffee
 
 # hide log files
 /var/logs/*.log
