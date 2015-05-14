@@ -95,6 +95,8 @@ exports = module.exports = ->
       options: cookie: maxAge: maxAge
     mongo:
       host: "localhost"
+      db: "testing"
+      dbname: "testing"
       port: 27017
       opts: {}
       safe: false

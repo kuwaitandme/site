@@ -10,7 +10,7 @@ exports.up = (knex, Promise) ->
     (table.json "meta")
     (table.integer "credits").notNull().defaultTo 0
     (table.integer "status").notNull().defaultTo 0
-    (table.boolean "moderator").notNull().defaultTo false
+    (table.integer "role").notNull().defaultTo 0
     (table.timestamp "created").notNull().defaultTo knex.raw "now()"
 
 exports.down = (knex, Promise) -> knex.schema.dropTable "users"
