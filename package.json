@@ -7,10 +7,8 @@
     "schema-up": "knex --knexfile ./etc/config/knexfile.coffee migrate:latest --cwd ./etc/db",
     "schema-down": "knex --knexfile ./etc/config/knexfile.coffee migrate:rollback --cwd ./etc/db",
     "seed": "knex seed:run --cwd ./etc/db --knexfile ./etc/config/knexfile.coffee",
-    "populate-db": "mongo kuwaitandme ./server/db/populate.js",
     "start": "coffee ./server.coffee",
-    "test": "mocha --compilers coffee:coffee-script/register -b",
-    "asd": "npm install -g coffee-script knex nodemon gm"
+    "test": "mocha --compilers coffee:coffee-script/register -b"
   },
   "dependencies": {
     "async": "^0.9.0",
