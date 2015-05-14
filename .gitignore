@@ -87,6 +87,7 @@ assets/dist/
 bower_components/
 assets/public/css/*.css
 assets/public/bower/
+.bower/
 .bower-cache/
 .bower-registry/
 coverage/
