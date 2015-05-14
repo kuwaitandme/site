@@ -1,8 +1,19 @@
 exports = module.exports = ($http, $root, console, $storage) -> new class
   name: "[model:user]"
 
-  setCurrentUser: (user) -> $storage.session "user:current", user
-  getCurrentUser: -> (angular.fromJson $storage.session "user:current") or {}
+  roles:
+    NORMAL:    0
+    MODERATOR: 1
+    ADMIN:     2
+
+  statuses:
+    INACTIVE:   0
+    ACTIVE:     1
+    BANNED:     2
+    SUSPENDED:  3
+
+  setCurrentUser: (user) -> $storage.session "models:user:current", user
+  getCurrentUser: -> (angular.fromJson $storage.session "models:user:current") or {}
   isLoggedIn: -> @getCurrentUser().id?
 
   constructor: ->
@@ -20,7 +31,7 @@ exports = module.exports = ($http, $root, console, $storage) -> new class
     $http.get "/api/auth/logout"
     .success (data, status) =>
       console.log @name, "user logged out"
-      $storage.session "user:current", null
+      $storage.session "models:user:current", null
       $root.$broadcast "user:changed"
 
 
@@ -33,11 +44,11 @@ exports = module.exports = ($http, $root, console, $storage) -> new class
       .success (user) =>
         console.log @name, "fetched current user"
         console.debug @name, user
-        $storage.session "user:current", angular.toJson user
+        $storage.session "models:user:current", angular.toJson user
         $root.$broadcast "user:changed"
 
     # Attempt to get the user from the cache.
-    cache = $storage.session "user:current"
+    cache = $storage.session "models:user:current"
     if cache?
       # user was found in session cache, prepare to translate it and return
       console.log @name, "retrieving current user from cache"

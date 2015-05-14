@@ -1,6 +1,6 @@
 ## TODO: Add automatic resize of content
 exports = module.exports = ($scope, $googleMaps, $imageResizer,
-  $location, $notifications, console, Classifieds, Categories, Locations) ->
+  $location, $notifications, console, Classifieds, Categories, Locations, Users) ->
   @name = "[component:classified-form]"
   console.log @name, "initializing"
 
@@ -17,8 +17,10 @@ exports = module.exports = ($scope, $googleMaps, $imageResizer,
   $scope.classified.childCategory = Categories.findByChildId $scope.classified.child_category or null
   $scope.location = Locations.findById $scope.classified.location
 
-  currentUser = Users.setCurrentUser()
-  $scope.superEditable = true
+  # Set the super editable property iff the user is a moderator or an admin
+  currentUser = Users.getCurrentUser() or {}
+  roles = Users.roles
+  $scope.superEditable = currentUser.role in [roles.MODERATOR, roles.ADMIN]
 
   # Function to listen for changes with classified title
   onTitleChange = (newValue="") ->
@@ -198,4 +200,5 @@ exports.$inject = [
   "model.classifieds"
   "model.categories"
   "model.locations"
+  "model.users"
 ]
