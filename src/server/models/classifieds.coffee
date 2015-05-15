@@ -56,7 +56,7 @@ exports = module.exports = (knex) -> new class
       if _validInt ccat then qb.where "child_category", ccat
       # classified owner
       owner = parameters.owner
-      # if _validInt owner then qb.where "owner", owner
+      if _validInt owner then qb.where "owner", owner
       # classifieds page no.
       page = parameters.page
       if not _validInt page then page = 1

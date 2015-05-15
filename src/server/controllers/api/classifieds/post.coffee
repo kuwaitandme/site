@@ -98,6 +98,7 @@ exports = module.exports = (reCaptcha, uploader, email, Classifieds, Users) ->
         for imageMeta in imagesMeta
           if newImage.oldFilename is imageMeta.filename and newImage.isUploaded
             imageMeta.filename = newImage.newFilename
+            imageMeta.color = newImage.color
             finalImages.push imageMeta
 
       # Get the slug for the classified using the newly generated id and

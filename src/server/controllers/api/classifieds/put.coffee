@@ -87,6 +87,7 @@ exports = module.exports = (Classifieds, reCaptcha, uploader) ->
               if newImage.isUploaded
                 # This image is new and was uploaded successfully.
                 image.filename = newImage.newFilename
+                imageMeta.color = newImage.color
                 finalImages.push image
               break
 
