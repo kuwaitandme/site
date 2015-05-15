@@ -5,21 +5,23 @@ keyword_extractor = require "keyword-extractor"
 exports = module.exports = (reCaptcha, uploader, email, Classifieds, Users) ->
   _createURLslug = (classified) ->
     maxLength = 70
-    minLength =
-    # Get the keywords and make a sentence seperated by '-'s.
-    keywords = keyword_extractor.extract classified.title,
-      language: "english", remove_duplicates: true, return_changed_case: true
-    keywords = keywords.join "-"
-    # Clean the string off unwanted characters
-    # TODO: check for Arabic characters
-    cleanedString = keywords.replace /[^\w- ]+/g, ""
-    # Trim the string to the maximum length
-    trimmedString = cleanedString.substr 0, maxLength
-    # Trim the slug if we are in the middle of a word
-    trimmedSentence = trimmedString.substr 0, Math.min trimmedString.length,
-      trimmedString.lastIndexOf "-"
-    # Finally generate the slug
-    slug = "#{trimmedSentence}-#{classified.id}"
+    # Get the keywords and make a sentence seperated by '-'s. We use this regex
+    # so that we don't exclude arabic characters. Ideally we want all to get
+    # rid of all non-alphabetic characters, but arabic words might get erased
+    # too.
+    #
+    # TODO: redesign this regex..
+    regex = /[^\s,\-!@#$%^&*(){}\]:"'.\/`~+_;<>?]+/g
+    keywords = (classified.title.match regex).join "-"
+    if keywords.length > maxLength
+      # Trim the string to the maximum length
+      trimmedString = keywords.substr 0, maxLength
+      # Trim the slug if we are in the middle of a word
+      trimmedSentence = trimmedString.substr 0, Math.min trimmedString.length,
+        trimmedString.lastIndexOf "-"
+      keywords = trimmedSentence
+    # Finally generate the slug and return it
+    slug = "#{keywords.toLowerCase()}-#{classified.id}"
 
 
   # Initialize a formidable object
