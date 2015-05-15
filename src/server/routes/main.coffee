@@ -86,6 +86,7 @@ exports = module.exports = (IoC) ->
   # _route "/account/credits", "account/credits"
   # _route "/account/profile", "account/profile"
 
+  _route "/r/([^/]+)",                        "redirector/index"
   _route "/([^/]+)",                          "classified/single"
 
   # If language slug is present but page has not matched any url give 404 page
