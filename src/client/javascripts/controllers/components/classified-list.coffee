@@ -38,7 +38,7 @@ exports = module.exports = ($scope, $window, $rootScope, console, Classifieds) -
         if not child.dataset.added
           child.dataset.added = true
           newElements.push child
-      masonry.appended newElements.reverse()
+      masonry.appended newElements
       masonry.layout()
 
 
