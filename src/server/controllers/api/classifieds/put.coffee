@@ -87,7 +87,7 @@ exports = module.exports = (Classifieds, reCaptcha, uploader) ->
               if newImage.isUploaded
                 # This image is new and was uploaded successfully.
                 image.filename = newImage.newFilename
-                imageMeta.color = newImage.color
+                image.color = newImage.color
                 finalImages.push image
               break
 
@@ -96,6 +96,7 @@ exports = module.exports = (Classifieds, reCaptcha, uploader) ->
       # The final set of images, will be the images after deletion and
       # the new set of images.
       classifiedDiff.images = JSON.stringify finalImages
+      # console.log classifiedDiff
       resolve [classifiedDiff, oldClassified]
 
 
@@ -119,6 +120,7 @@ exports = module.exports = (Classifieds, reCaptcha, uploader) ->
     .then (classified) -> response.json classified
     # If there were any errors, return it with a default 400 HTTP code.
     .catch (error) ->
+      # console.log error.stack
       response.status error.status || 400
       response.json error
 
