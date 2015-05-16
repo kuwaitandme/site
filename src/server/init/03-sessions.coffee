@@ -100,9 +100,9 @@ exports = module.exports = (IoC, settings, sessions, Email, Users, policies) ->
         if not Users.isPasswordValid password, json.password
           return done "password mismatch", false
         # Check if account is active or not
-        console.log json
         if not Users.isActive json
-          return done "not allowed to login", false
+          if json.meta and not json.meta.hasTemporaryPassword
+            return done "not allowed to login", false
         # Login successful! return user
         done null, user
 
