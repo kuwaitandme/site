@@ -3,6 +3,7 @@ exports = module.exports = ($scope, $googleMaps, $imageResizer,
   $location, $notifications, console, Classifieds, Categories, Locations, Users) ->
   @name = "[component:classified-form]"
   console.log @name, "initializing"
+  console.debug @name, $scope
 
   $scope.categories = Categories.getAll()
   $scope.locations = Locations.getAll()

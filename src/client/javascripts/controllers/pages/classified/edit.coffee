@@ -2,6 +2,7 @@ exports = module.exports = ($scope, $stateParams, console, $location,
   $notifications, $environment, Classifieds) ->
   @name = "[page:classified-edit]"
   console.log @name, "initializing", $environment
+  console.debug @name, $scope
 
   staticUrl = $environment.staticUrl
 
