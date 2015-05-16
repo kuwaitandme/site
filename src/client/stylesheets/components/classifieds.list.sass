@@ -15,7 +15,7 @@
 
 #classified-single-fixed
   +single-transition
-  background: rgba(255, 255,255, 0.8)
+  background: #f6f6f6
   left: 0
   overflow-y: scroll
   padding: 60px 3px
@@ -63,17 +63,22 @@
     > .row
       margin: 0 auto
   .classified-single-close
-    $size: 30px
+    $size: 50px
     background: #FFF
     cursor: pointer
     height: $size
-    padding: 0 5px
+    padding: 15px
     position: fixed
-    top: 0
+    top: -1px
     right: 20px
     z-index: 5
-    border: 1px solid #DDD
+    border: 1px solid #EEE
     width: $size
+    img
+      +single-transition
+      opacity: 0.5
+    &:hover img
+        opacity: 1
 
 
 ul.classified-list
