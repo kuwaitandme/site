@@ -1,4 +1,4 @@
-exports = module.exports = ($root, console, $storage) ->
+exports = module.exports = ($root, console) ->
   body = document.body
   @name = "[run:pageLoad]"
   console.log @name, "initialized"

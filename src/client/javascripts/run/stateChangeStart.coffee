@@ -3,7 +3,6 @@ exports = module.exports = ($root, console, $storage) ->
   @name = "[run:stateChangeStart]"
   console.log @name, "initialized"
 
-
   $root.bodyClasses ?= {}
 
   $root.$on "$stateChangeStart",
