@@ -1,11 +1,5 @@
 exports = module.exports = -> new class
   name: "[provider:environment]"
-  config: {}
-
-
-  # This function is used to get the value of the given setting.
-  get: (key) -> config["#{key}"]
-
 
   # This function is called by Angular when this provider is first invoked. Here
   # we base64 decode the cryptedData variable and we also merge in the values
@@ -26,7 +20,9 @@ exports = module.exports = -> new class
           angular.fromJson $base64.decode $window.cryptedData
         @config = config
         console.debug @name, @config
+        return config
       catch e
         console.error @name, "error decoding server-side data"
         console.error e
+        return {}
   ]
