@@ -8,12 +8,14 @@ exports = module.exports = (renderer, Classified) ->
     # Update the view counter asynchronously
     # controller.updateViewCount request, id
 
-    Classified.query { slug: slug }, (error, classified) ->
+    Classified.getBySlug slug , (error, classified) ->
       # response.end JSON.stringify classified
-
       # Display 404 page if classified is not found
-      if not classified then return next()
+      if not classified? then return next()
 
+      classified = classified.toJSON()
+      console.log classified.id?
+      if not classified.id? then return next()
       options =
         data: classified: classified
         description: classified.title

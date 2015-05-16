@@ -67,7 +67,7 @@ exports = module.exports = (knex) -> new class
 
     @model.query buildQuery
       .fetchAll()
-      .then (classifieds={}) -> callback null, classifieds
+      .then (classifieds) -> callback null, classifieds
 
 
   getParentCategoryCount: (callback) ->
@@ -88,17 +88,17 @@ exports = module.exports = (knex) -> new class
 
     @model.query buildQuery
       .fetchAll()
-      .then (counters={}) -> callback null, counters
+      .then (counters) -> callback null, counters
 
 
   get: (id, callback) ->
     @model.forge id: id
-      .fetch().then (classified={}) -> callback null, classified
+      .fetch().then (classified) -> callback null, classified
 
 
   getBySlug: (slug, callback) ->
     @model.forge slug: slug
-      .fetch().then (classified={}) -> callback null, classified
+      .fetch().then (classified) -> callback null, classified
 
 
   create: (parameters, callback=->) ->

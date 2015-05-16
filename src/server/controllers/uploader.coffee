@@ -76,9 +76,10 @@ exports = module.exports = (settings) ->
     #
     # It does the file uploads (asynchronously) and at the same time creates
     # the thumbnails for each image (asynchronously too).
-    upload: (files, callback) ->
+    upload: (files, options={}, callback=->) ->
       asyncTasks = []
       ret = []
+      prefix = "#{options.prefix or ''}-"
 
       # Avoid reading empty file uploads
       if not files? then return callback()
@@ -98,7 +99,7 @@ exports = module.exports = (settings) ->
         if asyncTasks.length >= @maxFiles then isValid = false
 
         # Add a task to operate on this file
-        newFilename = @_createUniqueFilename file.path
+        newFilename = "#{prefix}#{@_createUniqueFilename file.path}"
         uploadPath = "#{@uploadDir}/#{newFilename}"
         asyncTasks.push
           isValid: isValid

@@ -83,7 +83,8 @@ exports = module.exports = (reCaptcha, uploader, email, Classifieds, Users) ->
   # object.
   uploadFiles = (newClassified, filesToUpload, imagesMeta) ->
     new Promise (resolve, reject) ->
-      uploader.upload filesToUpload, (error, newImages=[]) ->
+      options = prefix: newClassified.id
+      uploader.upload filesToUpload, options, (error, newImages=[]) ->
         if error then reject error
         else resolve [newClassified, newImages, imagesMeta]
 

@@ -3,7 +3,7 @@ exports = module.exports = (IoC, cache) ->
 
   job = ->
     logger.info "clearing category counters"
-    cache.del "category-count"
+    cache.del "route:api/categories/counters"
 
 
 exports["@require"] = [

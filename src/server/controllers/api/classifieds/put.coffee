@@ -40,7 +40,8 @@ exports = module.exports = (Classifieds, reCaptcha, uploader) ->
   # object.
   uploadFiles = (newClassified, oldClassified, filesToUpload) ->
     new Promise (resolve) ->
-      uploader.upload filesToUpload, (error, newImages=[]) ->
+      options = prefix: newClassified.id
+      uploader.upload filesToUpload, options, (error, newImages=[]) ->
         if error then throw error
         resolve [newClassified, oldClassified, newImages]
 
