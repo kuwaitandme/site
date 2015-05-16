@@ -14,33 +14,38 @@ knexConfig   = require "./knexfile"
 
 exports = module.exports = ->
   defaults:
-    sitename: "SITE-NAME-GOES-HERE"
+    sitename: "SITENAME-GOES-HERE"
     emailAuth:
       enabled: true
       requireActivation: true
+
     facebook:
       enabled: false
       clientid: "XXXXXXXXXX"
       secret: "XXXXXXXXXX"
       scope: ["email"]
+
     twitter:
       enabled: true
       consumerKey: "XXXXXXXXXX"
       consumerSecret: "XXXXXXXXXX"
+
     google:
       enabled: true
+      clientID: "XXXXXXXXXX"
+      clientSecret: "XXXXXXXXXX"
+      analyticsCode: "UA-XXXXXXXXXX-X"
       scope: [
         "https://www.googleapis.com/auth/userinfo.email"
         "https://www.googleapis.com/auth/userinfo.profile"
       ]
-      clientID: "XXXXXXXXXX"
-      clientSecret: "XXXXXXXXXX"
-    pkg: pkg
-    cache: false
-    showStack: true
+
     appDir: appDir
     assetsDir: assetsDir
+    cache: false
+    pkg: pkg
     publicDir: publicDir
+    showStack: true
 
     reCaptcha:
       enabled: false
@@ -52,30 +57,28 @@ exports = module.exports = ->
       engine: "jade"
 
     password:
-      minStrength: 0
       limitAttempts: false
+      minStrength: 0
 
     email:
+      enabled: true
       noreplyAddress: "noreply@server.tld"
       webmasterAddress: "webmaster@server.tld"
-      enabled: true
-
       templates:
         dir: templatesDir
-        options:
-          webmasterAddress: "webmaster@server.tld"
+        options: {}
       smtp:
-        username: "noreply@server.tld"
-        password: "mh76N*&="
         hostname: "mailserver.tld"
+        password: "mh76N*&="
         ssl: true
+        username: "noreply@server.tld"
 
     session:
-      secret: "change-me"
-      key: "s"
       cookie: maxAge: maxAge
+      key: "s"
       resave: true
       saveUninitialized: true
+      secret: "change-me"
 
     trustProxy: true
 
@@ -101,18 +104,18 @@ exports = module.exports = ->
 
     redis:
       host: "localhost"
-      port: 6379
       maxAge: maxAge
+      port: 6379
     output:
-      handleExceptions: true
       colorize: true
+      handleExceptions: true
       prettyPrint: false
     logger:
       console: true
-      requests: true
-      mongo: false
       file: false
       hipchat: false
+      mongo: false
+      requests: true
       slack: false
     knex: client: "postgres"
     jade: amd:
@@ -122,6 +125,7 @@ exports = module.exports = ->
   # Testing-specific options
   test:
     knex: knexConfig["staging"]
+    staticUrl: "http://localhost:5000"
     url: "http://localhost:5000"
     server:
       env: "test"
@@ -133,8 +137,9 @@ exports = module.exports = ->
 
   # Development-specific options
   development:
-    knex: knexConfig["development"]
     cache: true
+    knex: knexConfig["development"]
+    staticUrl: "http://localhost:3000"
     url: "http://localhost:3000"
     server:
       env: "development"
@@ -143,8 +148,9 @@ exports = module.exports = ->
 
   # Production specific options
   production:
-    knex: knexConfig["production"]
     cache: true
+    knex: knexConfig["production"]
+    staticUrl: "http://localhost:5000"
     url: "http://localhost:3080"
     password:
       minStrength: 1
