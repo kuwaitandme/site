@@ -17,7 +17,6 @@ exports = module.exports = (IoC, settings, sessions, Email, Users, policies) ->
   # This function gets called for each of the OAuth logins. A uniform function
   # that takes care of everything from DB.... FINISH
   providerAuthCallback = (accessToken, refreshToken, profile, done) ->
-    console.log profile
     if profile.emails.length == 0 or (not _.isObject profile.emails[0]) or
     not validator.isEmail profile.emails[0].value
       return done new Error "Your account did not have an email address associated with it"
