@@ -46,7 +46,7 @@ totalScriptsLoaded = 0
 incrementProgressBar = ->
   body.classid += 'loading'
   setProgressBar = (i, total) ->
-    progressBarStyle = document.getElementById "page-loading-bar").style
+    progressBarStyle = (document.getElementById "page-loading-bar").style
     progressBarStyle.width = "#{i * 1.0 / total * 100}%"
   totalScriptsLoaded++
   setProgressBar totalScriptsLoaded, 8
