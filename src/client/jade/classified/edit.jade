@@ -1,5 +1,5 @@
 #page-hero
-  img(ng-image-loader!="/images/hero/{{ heroURL }}",
+  img(ng-image-loader!="<%= staticUrl %>/images/hero/{{ heroURL }}",
       ng-image-success="onHeroLoad")
 
 

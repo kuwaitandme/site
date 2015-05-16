@@ -1,12 +1,14 @@
 exports = module.exports = ($scope, $stateParams, console, $location,
-  $notifications, Classifieds) ->
+  $notifications, $environment, Classifieds) ->
   @name = "[page:classified-edit]"
-  console.log @name, "initializing",
+  console.log @name, "initializing", $environment
+
+  staticUrl = $environment.staticUrl
 
   Classifieds.get $stateParams.id, (error, classified) =>
     for image in classified.images or []
       image.status = "on-server"
-      image.src = "/uploads/thumb/#{image.filename}"
+      image.src = "#{ staticUrl }/uploads/thumb/#{image.filename}"
     $scope.classified = classified
     $scope.$emit "page-loaded"
 
@@ -24,6 +26,7 @@ exports.$inject = [
   "$log"
   "$location"
   "$notifications"
+  "$environment"
 
   "model.classifieds"
 ]
