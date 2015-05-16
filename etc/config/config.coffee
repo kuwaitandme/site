@@ -132,8 +132,9 @@ exports = module.exports = ->
       port: 5000
     redis: prefix: "kme-testing:"
     logger:
-      console: false
+      console: true
       requests: false
+    output: level: "debug"
 
   # Development-specific options
   development:
@@ -145,6 +146,7 @@ exports = module.exports = ->
       env: "development"
       port: 3000
     redis: prefix: "kme-development:"
+    output: level: "debug"
 
   # Production specific options
   production:
