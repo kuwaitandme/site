@@ -37,7 +37,7 @@ exports = module.exports = (settings, cache) ->
         environment: settings.server.env
         magic:
           library: 123
-          model: 123
+          models: 123
           application: 123
       options.cryptedData =
         facebook: clientid: settings.facebook.clientid

@@ -1,5 +1,9 @@
 exports = module.exports = ($root, console, $storage) ->
   body = document.body
+  @name = "[run:stateChangeStart]"
+  console.log @name, "initialized"
+
+
   $root.bodyClasses ?= {}
 
   $root.$on "$stateChangeStart",

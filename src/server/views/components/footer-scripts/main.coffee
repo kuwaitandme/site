@@ -12,17 +12,17 @@ window.scripts = [
       "//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.14/angular-ui-router.min.js"
       "//cdnjs.cloudflare.com/ajax/libs/masonry/3.3.0/masonry.pkgd.min.js"
     ]
-    local: "/javascripts/libraries.js"
+    local: "#{u}/javascripts/libraries.js"
   }
   {
     id: "app:template"
     remote: ["#{u}/javascripts/templates.js?m=#{publicData.magic.application}"]
-    local:  "/javascripts/templates.js?m=#{publicData.magic.application}"
+    local:  "#{u}/javascripts/templates.js?m=#{publicData.magic.application}"
   }
   {
     id: "app:script"
     remote: ["#{u}/javascripts/app.js?m=#{publicData.magic.application}"]
-    local:  "/javascripts/app.js?m=#{publicData.magic.application}"
+    local:  "#{u}/javascripts/app.js?m=#{publicData.magic.application}"
   }
   {
     id: "library:font-opensans-css"
@@ -44,14 +44,14 @@ body = (document.getElementsByTagName "body")[0]
 
 totalScriptsLoaded = 0
 incrementProgressBar = ->
-  body.classid += 'loading'
+  body.classid += "loading"
   setProgressBar = (i, total) ->
     progressBarStyle = (document.getElementById "page-loading-bar").style
     progressBarStyle.width = "#{i * 1.0 / total * 100}%"
   totalScriptsLoaded++
   setProgressBar totalScriptsLoaded, 8
 
-development = publicData.environment == "development"
+isDevelopment = false and publicData.environment == "development"
 
 
 _addScript = (urlsOrCode, isCSS, isCode) ->
@@ -70,8 +70,7 @@ _addScript = (urlsOrCode, isCSS, isCode) ->
 
   # Populate the element with our cached code
   if isCode then $fileref.innerHTML = urlsOrCode
-  # Load the script from the URL
-  else
+  else # Load the script from the URL
     if isCSS then $fileref.href = urlsOrCode
     else $fileref.src = urlsOrCode
   $fileref.async = false
@@ -91,10 +90,10 @@ for script in scripts
   urlsOrCode = script.remote
   # If HTML5 localStorage is supported, attempt to load the scripts from
   # the application cache
-  if localStorage? and script.local and not development
+  if Storage? and script.local? #and not isDevelopment
   # if localStorage? and production and script.local
-    appChanged = (localStorage.getItem "magic:application") != publicData.magic.application
-    libraryChanged = (localStorage.getItem "magic:library") != publicData.magic.library
+    appChanged = (localStorage.getItem "magic:application") != String publicData.magic.application
+    libraryChanged = (localStorage.getItem "magic:library") != String publicData.magic.library
 
     # Note that the goal of these conditions is to ensure that app files are
     # compared with their version, but if the library versions differ then
@@ -121,8 +120,9 @@ for script in scripts
     # that will upload the script normally.
     if scriptCache
       console.log "fetching from cache:", script.id
-      urlsOrCode = scriptCache
+      # console.log
+      urlsOrCode = [scriptCache]
       isCode = true
 
-  if development and script.local? then urlsOrCode = [script.local]
+  if isDevelopment and script.local? then urlsOrCode = [script.local]
   _addScript urlOrCode, isCSS, isCode for urlOrCode in urlsOrCode

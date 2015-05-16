@@ -1,4 +1,5 @@
 module.exports = (app) ->
-  console.log "[app] preparing run stages"
+  console.log "[run] preparing run stages"
   app.run require "./anchorScroll"
-  app.run require "./stateChange"
+  app.run require "./stateChangeStart"
+  app.run require "./cacheScripts"

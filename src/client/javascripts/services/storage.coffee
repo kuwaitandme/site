@@ -23,11 +23,12 @@ exports = module.exports = ($window, console, $environment) -> new class
     # Check if HTML5 localStorage is supported. If not then create fallback
     # storages for both session and local.
     console.log @name, "setting up local and session storage"
-    if @_supportsHTML5storage() and false
+    if @_supportsHTML5storage() #and false
       @local = (key, value) => @_operate localStorage, key, value
       @session = (key, value) => @_operate sessionStorage, key, value
     else
       console.warn @name, "using fallback storages for local and session"
+      @fallback = true
       @local = @_createFallbackStorage()
       @session = @_createFallbackStorage()
 
