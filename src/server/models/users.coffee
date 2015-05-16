@@ -62,6 +62,8 @@ exports = module.exports = (knex, cache) -> new class
       full_name: "Anonymous"
       login_providers: email: email
       password: @hashPassword newPassword
+      meta: hasTemporaryPassword: true
+      status: @statuses.ACTIVE
     @create newUser, callback
 
 
