@@ -14,7 +14,6 @@ exports = module.exports = (renderer, Classified) ->
       if not classified? then return next()
 
       classified = classified.toJSON()
-      console.log classified.id?
       if not classified.id? then return next()
       options =
         data: classified: classified
@@ -22,10 +21,6 @@ exports = module.exports = (renderer, Classified) ->
         page: "classified/single"
         title: classified.title
       renderer request, response, options, false
-
-    # Get the classified
-    # Classified.get id, (error, classified) ->
-    #   if error then return next error
 
 
 
