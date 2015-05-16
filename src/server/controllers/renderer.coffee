@@ -31,15 +31,20 @@ exports = module.exports = (settings, cache) ->
 
       # options.mode = settings.server.env
       options.data = options.data or {}
-      # options.data.captchaKey = config.reCaptcha.site
+      options.staticUrl = settings.staticUrl
       options.publicData =
-        environment: 'asd'
+        staticUrl: settings.staticUrl
+        environment: settings.server.env
         magic:
           library: 123
           model: 123
           application: 123
       options.cryptedData =
-        ga: 'UA'
+        facebook: clientid: settings.facebook.clientid
+        google:
+          clientID: settings.google.clientID
+          reCaptchaKey: "abcd"
+          analyticsCode: settings.google.analyticsCode
       # options.config =
         # mode: config.mode
         # magic: config.magic
