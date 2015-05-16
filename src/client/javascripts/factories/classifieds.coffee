@@ -73,7 +73,7 @@ exports = module.exports = ($location, $http, console) -> new class
 
 
   # This function simple returns a blank classified with the default fields
-  getDefault: -> @_parse new -> @defaults
+  getDefault: -> @_parse new => @defaults
 
 
   # This function is run with every classified that is fetched from the API.
