@@ -51,7 +51,7 @@ incrementProgressBar = ->
   totalScriptsLoaded++
   setProgressBar totalScriptsLoaded, 8
 
-isDevelopment = false and publicData.environment == "development"
+isDevelopment = publicData.environment == "development"
 
 
 _addScript = (urlsOrCode, isCSS, isCode) ->
@@ -90,7 +90,7 @@ for script in scripts
   urlsOrCode = script.remote
   # If HTML5 localStorage is supported, attempt to load the scripts from
   # the application cache
-  if Storage? and script.local? #and not isDevelopment
+  if Storage? and script.local? and not isDevelopment
   # if localStorage? and production and script.local
     appChanged = (localStorage.getItem "magic:application") != String publicData.magic.application
     libraryChanged = (localStorage.getItem "magic:library") != String publicData.magic.library
