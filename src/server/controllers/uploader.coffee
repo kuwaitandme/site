@@ -1,5 +1,5 @@
-ColorThief  = require "color-thief"
 async       = require "async"
+colorThief  = require "color-thief"
 formidable  = require "formidable"
 fs          = require "fs"
 gm          = require "gm"
@@ -28,8 +28,8 @@ exports = module.exports = (settings) ->
           if hex.length == 1 then "0#{hex}" else hex
         "##{componentToHex rgb[0]}#{componentToHex rgb[1]}#{componentToHex rgb[2]}"
 
-      colorThief = new ColorThief()
-      rgbToHex colorThief.getColor filepath
+      thief = new colorThief()
+      rgbToHex thief.getColor filepath
 
 
     # Creates a unique filename from the given one, by keeping the extension of
