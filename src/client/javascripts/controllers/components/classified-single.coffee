@@ -6,6 +6,18 @@ exports = module.exports = ($scope, $googleMaps, console, Classifieds) ->
   cl = $scope.classified or Classifieds.getDefault()
   cl.show = true
 
+  # Initialize masonry
+  $scope.$watch $scope.classified, => setTimeout =>
+    imageContainer = (angular.element document.querySelectorAll "ul.gallery")[0]
+    @masonry = new Masonry imageContainer,
+      transitionDuration: 0
+      gutter: 0
+    , 10
+
+  # When images are loaded, relayout masonry
+  $scope.update = -> if @masonry? then @masonry.layout()
+
+
   # This function is used to render the Google maps component if needed.
   $scope.drawMap = ->
     initMap = ->

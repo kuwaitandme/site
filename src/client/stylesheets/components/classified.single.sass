@@ -5,9 +5,16 @@
     li
       padding: 0
       margin-bottom: 0 !important
+      a
+        display: block
+        min-height: 100px
+        border-bottom: none
       img
+        +single-transition
         &.image-fail
           display: none
+        &.image-loading
+          opacity: 0
         width: 100%
 
   .content
