@@ -11,6 +11,7 @@
     "test": "mocha --compilers coffee:coffee-script/register -b"
   },
   "dependencies": {
+    "MD5": "^1.2.1",
     "async": "^0.9.0",
     "basic-auth": "^1.0.0",
     "bcrypt-nodejs": "0.0.3",
@@ -52,6 +53,7 @@
     "knex": "^0.8.2",
     "less": "^1.7.5",
     "less-middleware": "^1.0.3",
+    "md5-file": "^2.0.0",
     "method-override": "^2.0.1",
     "mkdirp": "^0.5.0",
     "moment": "^2.8.3",
