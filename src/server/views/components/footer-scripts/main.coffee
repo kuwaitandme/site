@@ -12,7 +12,7 @@ window.scripts = [
       "//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.14/angular-ui-router.min.js"
       "//cdnjs.cloudflare.com/ajax/libs/masonry/3.3.0/masonry.pkgd.min.js"
     ]
-    local: "#{u}/javascripts/libraries.js"
+    local: "#{u}/javascripts/libraries.js?m=#{publicData.magic.library}"
   }
   {
     id: "app:template"

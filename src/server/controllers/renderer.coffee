@@ -35,10 +35,7 @@ exports = module.exports = (settings, cache) ->
       options.publicData =
         staticUrl: settings.staticUrl
         environment: settings.server.env
-        magic:
-          library: 123
-          models: 123
-          application: 123
+        magic: settings.magic or {}
       options.cryptedData =
         facebook: clientid: settings.facebook.clientid
         google:
