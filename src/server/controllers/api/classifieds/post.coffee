@@ -21,7 +21,7 @@ exports = module.exports = (reCaptcha, uploader, email, Classifieds, Users) ->
         trimmedString.lastIndexOf "-"
       keywords = trimmedSentence
     # Finally generate the slug and return it
-    slug = "#{keywords.toLowerCase()}-#{classified.id}"
+    slug = encodeURIComponent "#{keywords.toLowerCase()}-#{classified.id}"
 
 
   # Initialize a formidable object
