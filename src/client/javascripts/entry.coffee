@@ -13,3 +13,8 @@ app = angular.module "App", [
 (require "./run")           app
 (require "./services")      app
 (require "./values")        app
+
+(angular.element window).ready ->
+  console.log "[app] bootstraping angular"
+  html = (document.getElementsByTagName "html")[0]
+  angular.bootstrap html, ["App"]
