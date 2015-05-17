@@ -1,4 +1,4 @@
-exports = module.exports = ($window) -> new class
+exports = module.exports = ($window, $environment) -> new class
   name: "[service:google-maps]"
 
   constructor: ->
@@ -102,4 +102,4 @@ exports = module.exports = ($window) -> new class
   ]
 
 
-exports.$inject = ["$window"]
+exports.$inject = ["$window", "$environment"]

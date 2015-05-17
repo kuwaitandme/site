@@ -4,6 +4,7 @@ module.exports = (app) ->
   app.service "$facebook",          require "./facebook.sdk"
   app.service "$googleMaps",        require "./google.maps"
   app.service "$googleRecaptcha",   require "./google.recaptcha"
+  app.service "$google.analytics",  require "./google.analytics"
 
   app.service "$base64",            require "./base64"
   app.service "$imageResizer",      require "./imageResizer"

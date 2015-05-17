@@ -1,5 +1,5 @@
 exports = module.exports = ($window) ->
-  name: "[facebook]"
+  name: "[service:facebook]"
   hasLoaded: false
 
   onLoad: (callback=->) ->

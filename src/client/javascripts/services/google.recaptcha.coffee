@@ -1,5 +1,5 @@
 exports = module.exports = ($window) ->
-  name: "[google-recaptcha]"
+  name: "[service:google-recaptcha]"
 
   onLoad: (callback=->) ->
     waitForElement = ->

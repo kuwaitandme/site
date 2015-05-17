@@ -13,7 +13,7 @@ $environment) -> new class
   Also, if the browser does not support localStorage use fallback methods.
   ###
   constructor: ->
-    console.log @name, "initializing", $environment
+    console.log @name, "initializing"
 
     # Check if localStorage is supported
     @fallback = false or $storage.fallback

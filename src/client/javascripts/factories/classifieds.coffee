@@ -1,4 +1,4 @@
-exports = module.exports = ($location, $http, console, $environment) -> new class
+exports = module.exports = ($environment, $location, $http, console) -> new class
   name: "[model:classified]"
 
   defaults:
