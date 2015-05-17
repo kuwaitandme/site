@@ -45,6 +45,9 @@ exports = module.exports = ($scope, $window, $rootScope, console, Classifieds) -
   # This function toggles the classified dropdown
   $scope.toggleClassified = (classified) ->
     $rootScope.bodyStyles = $rootScope.bodyStyles or {}
+    if $scope.redirectToEditPage
+      return location = "/classified/edit/#{classified.id}"
+
     if not $scope.classified?
       $scope.$broadcast "classified-changed", classified
       $rootScope.bodyStyles.overflowY = "hidden"
