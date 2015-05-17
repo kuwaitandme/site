@@ -8,7 +8,6 @@ exports = module.exports = ($environment, $location, $window) -> new class
     if not id?
       console.warn @name, "disabling google analytics"
       return @fallback = true
-
     console.debug @name, "analytics code", id
 
     # Prepare the URL

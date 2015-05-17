@@ -7,6 +7,7 @@ pkg          = require path.join parentDir, "package"
 assetsDir    = path.join parentDir, "var/public"
 publicDir    = path.join parentDir, "var/public"
 viewsDir     = path.join appDir, "views"
+modelsDir    = path.join parentDir, "etc/db"
 templatesDir = path.join viewsDir, "emails"
 maxAge       = 24 * 60 * 60 * 1000
 
@@ -45,6 +46,7 @@ exports = module.exports = ->
     cache: false
     pkg: pkg
     publicDir: publicDir
+    modelsDir: modelsDir
     showStack: true
 
     reCaptcha:

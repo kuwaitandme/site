@@ -3,7 +3,7 @@ footer
     script.
       window.publicData = !{JSON.stringify(publicData) || ""};
       window.cryptedData = "!{cryptedData}"
-    if publicData.environment != "production"
+    if environment != "production"
       script
         include ../components/footer-scripts/main.js
     else
