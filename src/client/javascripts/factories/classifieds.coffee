@@ -1,4 +1,4 @@
-exports = module.exports = ($location, $http, console) -> new class
+exports = module.exports = ($location, $http, console, $environment) -> new class
   name: "[model:classified]"
 
   defaults:
@@ -84,6 +84,7 @@ exports = module.exports = ($location, $http, console) -> new class
     # First off give any defaults if needed.
     angular.extend cl, @defaults, classified
     # Sets the social links
+    SOURCE = "https://#{$location.host()}"
     URL = "https://#{$location.host()}/#{cl.slug}"
     tweet    = "Check out this classified, #{URL}"
     cl.social =
@@ -92,11 +93,15 @@ exports = module.exports = ($location, $http, console) -> new class
       twitter:  "https://twitter.com/home?status=#{encodeURI tweet}"
       email:    "mailto:?subject=Checkout this cl: '#{cl.title}'
         &body=<your message>%0D%0A%0D%0Aurl: #{URL}"
+      linkedin: "https://www.linkedin.com/shareArticle?mini=true&url=#{URL}&title=#{cl.title}&summary=#{cl.description}&source=#{SOURCE}"
 
     # Find and set the main image
     for image in (cl.images or [])
       cl.mainImage = image
+      imageURL = "#{$environment.staticUrl}/uploads/main/#{image.filename}"
+      cl.social.pintrest = "https://pinterest.com/pin/create/button/?url=#{URL}&media=#{imageURL}&description=#{cl.title}"
       if image.main? and image.main then break
+
 
     # Setup special variables for ENUM-type objects
     switch cl.status
@@ -182,6 +187,7 @@ exports = module.exports = ($location, $http, console) -> new class
 
 
 exports.$inject = [
+  "$environment"
   "$location"
   "$http"
   "$log"
