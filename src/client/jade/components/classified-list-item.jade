@@ -1,14 +1,19 @@
-.classified-list-item(ng-click="toggleClassified(classified)", ng-class="{'show-status': showStatus}", class="{{ classified.status | status:'classified' | lowercase }}")
-  .thumb(ng-if="classified.mainImage", ng-style="{'background':classified.mainImage.color}")
-    img(ng-image-loader!="<%= staticUrl %>/uploads/thumb/{{ classified.mainImage.filename }}",
-      ng-image-success="classified.imageLoaded",
-      ng-image-fail="classified.imageLoaded", alt="{{ classified.title }}")
+.classified-list-item(ng-class="{'show-status': showStatus}", class="{{ classified.status | status:'classified' | lowercase }}")
+  a(ng-click="toggleClassified(classified)")
+    .thumb(ng-if="classified.mainImage", ng-style="{'background':classified.mainImage.color}")
+      img(ng-image-loader!="<%= staticUrl %>/uploads/thumb/{{ classified.mainImage.filename }}",
+        ng-image-success="classified.imageLoaded",
+        ng-image-fail="classified.imageLoaded", alt="{{ classified.title }}")
   .info
-    .title {{ classified.title | limitTo: 120 }}
+    .title(ng-click="toggleClassified(classified)")
+      a {{ classified.title | limitTo: 120 }}
     .border
     ul.meta.row.collapse
       li.price.small-6.columns(ng-if="!showStatus") {{ classified.priceValue | price:classified.priceType }}
       li.status.small-6.columns(ng-if="showStatus") {{ classified.status | status:"classified" }}
-      li.date.small-6.columns.text-right {{ classified.created | prettydate }}
+      li.date.small-6.columns.text-right
+        a(ng-href="/{{ classified.slug }}")
+          span.link &#xf0c6;
+        | {{ classified.created | prettydate }}
       li(style="list-style: none; display: inline", ng-if="classified.showStatus")
         .status(class="{{ classified.statusClass }}") {{ classified.statusMessage }}

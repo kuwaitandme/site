@@ -6,7 +6,7 @@ section(ng-controller="component:classified-list")
 
   ul.classified-list.row(ng-scroll="onScroll")
     li.large-3.medium-4.small-6.columns(ng-repeat="classified in classifieds")
-      a(ng-include="'components/classified-list-item'", ng-href="{{ classified.link }}")
+      div(ng-include="'components/classified-list-item'", ng-href="{{ classified.link }}")
 
   .ajax-loading(ng-show="classifieds.length == 0 && !queryFinished") Loading classifieds!
   .ajax-finish(ng-if="queryFinished && classifieds.length > 0") {{ finishMessage }}
