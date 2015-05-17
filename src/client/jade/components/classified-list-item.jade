@@ -1,4 +1,6 @@
-.classified-list-item(ng-class="{'show-status': showStatus}", class="{{ classified.status | status:'classified' | lowercase }}")
+.classified-list-item(ng-class="{'show-status': showStatus}",
+  class="{{ classified.status | status:'classified' | lowercase }}",
+  itemscope, itemtype="http://schema.org/Product")
   a(ng-click="toggleClassified(classified)")
     .thumb(ng-if="classified.mainImage", ng-style="{'background':classified.mainImage.color}")
       img(ng-image-loader!="<%= staticUrl %>/uploads/thumb/{{ classified.mainImage.filename }}",
@@ -6,10 +8,11 @@
         ng-image-fail="classified.imageLoaded", alt="{{ classified.title }}")
   .info
     .title(ng-click="toggleClassified(classified)")
-      a {{ classified.title | limitTo: 120 }}
+      a(itemprop="name") {{ classified.title | limitTo: 120 }}
     .border
     ul.meta.row.collapse
-      li.price.small-6.columns(ng-if="!showStatus") {{ classified.priceValue | price:classified.priceType }}
+      li.price.small-6.columns(ng-if="!showStatus", itemprop="price",
+        content="{{ (classified.priceValue || 0 ) }}") {{ classified.priceValue | price:classified.priceType }}
       li.status.small-6.columns(ng-if="showStatus") {{ classified.status | status:"classified" }}
       li.date.small-6.columns.text-right
         a(ng-href="/{{ classified.slug }}")

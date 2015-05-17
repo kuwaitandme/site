@@ -5,7 +5,7 @@ description = "Publish and Browse classifieds in Kuwait. Quick, easy and absolut
 
 # Controller for the landing page. Displays the front-page with the top
 # classifieds and categories to choose from.
-exports = module.exports = (renderer) ->
+exports = module.exports = (renderer, Classifieds) ->
 
   promoteClassified = (request) ->
     id = request.cookies["pay-w-tweet"]
@@ -28,13 +28,19 @@ exports = module.exports = (renderer) ->
     if request.cookies["pay-w-tweet"]
       async.parallel [=> promoteClassified request]
 
-    args =
-      description: description
-      page: "landing"
-      title: response.__ "title.landing"
+    Classifieds.query {}, (error, classifieds) ->
+      if error then return next error
+      args =
+        description: description
+        data: classifieds: classifieds.toJSON()
+        page: "landing"
+        title: response.__ "title.landing"
 
-    renderer request, response, args, true
+      renderer request, response, args, true
 
 
-exports["@require"] = ["controllers/renderer.coffee"]
+exports["@require"] = [
+  "controllers/renderer"
+  "models/classifieds"
+]
 exports["@singleton"] = true

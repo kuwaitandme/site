@@ -1,6 +1,12 @@
 extends ../../layout.jade
 
 block robots
-  //- div(itemscope, itemtype="http://schema.org/Product")
-  h1.c-title= robots.classified.title
-  pre.c-description= robots.classified.description
+  section(itemscope, itemtype="http://schema.org/Product")
+
+    for image in robots.classified.images
+      img(src="#{ staticUrl }/uploads/main/#{image.filename}", itemprop="image")
+
+    h1(itemprop="name")= robots.classified.title
+    section(itemprop="description")= robots.classified.description
+    span.meta-value(itemprop="price", content="robots.classified.priceValue || 0")= robots.classified.priceValue || 0
+    span.meta-value(itemprop="priceCurrency", content="KWD") KWD

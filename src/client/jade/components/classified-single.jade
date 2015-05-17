@@ -1,16 +1,16 @@
-section.row.classified-single(ng-controller="component:classified-single")
+section.row.classified-single(ng-controller="component:classified-single", itemscope, itemtype="http://schema.org/Product")
   .columns(ng-if="classified.show")
     ul.gallery.row(ng-if="classified.images")
       li.small-6.medium-4.large-3.columns.end.image-loading(ng-repeat="image in classified.images track by $index")
         a(target="_self", ng-href!="<%= staticUrl %>/uploads/main/{{ image.filename }}",
           style="background: {{ image.color }}")
           img.thumb(ng-image-loader!="<%= staticUrl %>/uploads/thumb/{{ image.filename }}",
-            ng-image-success="update", ng-image-fail="update")
+            ng-image-success="update", ng-image-fail="update", itemprop="image")
 
 
   .columns.content
     .row
-      h2.columns.title(contenteditable-dis="true", placholder="title") {{ classified.title }}
+      h2.columns.title(contenteditable-dis="true", placholder="title", itemprop="name") {{ classified.title }}
       ul.columns.tags
         li.whatsapp(ng-if="classified.meta.whatsapp") Whatsapp
         li.viber(ng-if="classified.meta.viber") Viber
@@ -32,9 +32,11 @@ section.row.classified-single(ng-controller="component:classified-single")
             span.meta-title Views:
             span.meta-value {{ classified.views || 0 }}
           li
+
             span.meta-title Price:
-            span.meta-value {{ classified.priceValue | price:classified.priceType }}
-          li(ng-if="classified.created")
+            span.meta-value(itemprop="price",
+              content="{{ (classified.priceValue || 0 ) }}") {{ classified.priceValue | price:classified.priceType }}
+          li(ng-if="classified.created", itemprop="datePublished" content="{{ classified.created }}")
             span.meta-title Published:
             span.meta-value {{ classified.created | prettydate }}
           li(ng-if="classified.parent_category")
@@ -106,7 +108,7 @@ section.row.classified-single(ng-controller="component:classified-single")
         li.googleplus(ng-if="classified.meta.shareSocial")
           a.icon(target="_self", ng-href="{{ classified.social.gplus }}") &#xf0d5;
         li.link
-          a.icon(ng-href="/{{ classified.slug }}") &#xf0c6;
+          a.icon(itemprop="url", ng-href="/{{ classified.slug }}") &#xf0c6;
         li.email
           a.icon(target="_self", ng-href="{{ classified.social.email }}") &#xf003;
         //- li.blank

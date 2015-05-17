@@ -1,6 +1,6 @@
 # getQueryParameters = (require "../../api/query/helpers").getQueryParameters
 
-exports = module.exports = (renderer, Category, Classified) ->
+exports = module.exports = (renderer, Categories, Classifieds) ->
   controller = (request, response, next) ->
     parameters = {} #getQueryParameters request
     page = 1
@@ -8,16 +8,16 @@ exports = module.exports = (renderer, Category, Classified) ->
 
 
     _renderPage = (title) ->
-      Classified.query parameters, (error, classifieds) ->
+      Classifieds.query parameters, (error, classifieds) ->
         if error then return next error
         options =
-          data: classifieds: classifieds
+          data: classifieds: classifieds.toJSON()
           page: "classified/search"
           title: title or response.__ "title.classified.search"
         renderer request, response, options, false
 
 
-    Category.getAll (error, categories) ->
+    Categories.getAll (error, categories) ->
       if error then next error
       parentCategory = request.params[0]
       childCategory = request.params[1]
