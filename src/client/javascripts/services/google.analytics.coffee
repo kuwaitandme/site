@@ -1,11 +1,45 @@
-exports = module.exports = ($window) ->
-  name: "[google-analytics]"
+exports = module.exports = ($environment, $location, $window) -> new class
+  name: "[service:google-analytics]"
+
+  constructor: ->
+    console.log @name, "initializing"
+    id = $environment.google.analyticsCode
+
+    if not id?
+      console.warn @name, "disabling google analytics"
+      return @fallback = true
+
+    console.debug @name, "analytics code", id
+
+    # Prepare the URL
+    url = "https://www.google-analytics.com/analytics.js"
+    # Insert the script into the DOM
+    $fileref = document.createElement "script"
+    $fileref.type = "text/javascript"
+    $fileref.src = url
+    head = (document.getElementsByTagName "head")[0]
+    head.insertBefore $fileref, head.firstChild
+
+    @onLoad -> $window.ga "create", id, "auto"
+
 
   onLoad: (callback=->) ->
-    waitForElement = ->
-      if $window.grecaptcha? then callback()
+    if @fallback then return
+    waitForElement = =>
+      if $window.ga? then callback()
       else setTimeout (-> waitForElement()), 250
     waitForElement()
 
 
-exports.$inject = ["$window"]
+  sendPageView: ->
+    if @fallback then return
+    pageURL = "#{$location.pathname}#{$location.search}#{$location.hash}"
+    console.log @name, "sending pageview"
+    @onLoad -> $window.ga "send", "pageview", page: pageURL
+
+
+exports.$inject = [
+  "$environment"
+  "$location"
+  "$window"
+]

@@ -3,3 +3,4 @@ module.exports = (app) ->
   app.run require "./anchorScroll"
   app.run require "./stateChangeStart"
   app.run require "./cacheScripts"
+  app.run require "./pageLoad"
