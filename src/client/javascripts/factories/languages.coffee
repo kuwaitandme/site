@@ -1,4 +1,4 @@
-module.exports = ($http, $log) -> new class
+exports = module.exports = ($http, $log) -> new class
   name: "[model:language]"
 
   dictonary:
