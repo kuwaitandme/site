@@ -1,0 +1,49 @@
+doctype html
+html
+  head
+    title #{status} - #{message}
+    style(type='text/css').
+      @import url(//fonts.googleapis.com/css?family=Bitter);
+      @import url(//fonts.googleapis.com/css?family=Open+Sans:400,600);
+      body {
+        background-color: #FFF;
+        margin: 0;
+        padding: 0;
+        font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+      }
+      img { max-width: 100%; }
+      div {
+        margin: 10px auto;
+        padding: 50px 10px;
+        text-align: center;
+        background-color: #fff;
+        font-family: 'Open Sans', sans-serif;
+      }
+      p { font-size: 13px; }
+      .title {
+        font-family: 'Bitter', serif;
+      }
+      pre {
+        text-align: left;
+        display: inline-block
+      }
+      #stack-trace {
+        background: #000;
+        color: #FFF;
+        padding: 20px;
+        margin: 0
+      }
+      #stack-trace .title { padding: 10px }
+  body
+    div
+      img(src='/images/kme-logo-beta.png')
+      h1.title #{data.status} - #{data.message}
+      //- Get messages more custom
+      if status >= 500
+        p This is scary. A server error. Don't worry our monkeys are trying to fix it ASAP.
+      else
+        p Something went wrong from your side. You see this page because the site rejected your request.
+    if data.error && data.error.stack
+      #stack-trace
+        h2.title Stack trace
+        pre #{data.error.stack}

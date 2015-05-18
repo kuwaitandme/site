@@ -1,6 +1,6 @@
 express   = require "express"
 
-exports = module.exports = (IoC) ->
+exports = module.exports = (IoC, settings) ->
   app = this
   router = express.Router()
 
@@ -16,31 +16,6 @@ exports = module.exports = (IoC) ->
     response.setLocale request.cookies["l"]
     response.redirect "/#{request.getLocale()}#{request.url}"
 
-  # Handler to display the 404 page
-  fourofour = (request, response, next) ->
-    error = new Error "Not Found"
-    error.status = 404
-    response.render "error",
-      error: error
-      message: error.message
-      status: error.status or 500
-
-
-  error = (error, request, response, next) ->
-    # Set the default error code to 500
-    response.status error.status or 500
-
-    # In production, no stack-traces leaked to user
-    # if global.config.mode == "production" then error = {}
-    # else error = error
-
-    # else log error into a file and show error page
-    # if error.status != 404 then logError err, request
-    response.render "error",
-      status: error.status or 500
-      message: error.message
-      error: error
-
 
   # This helper function shortens the long line of writings routes and calling
   # the dependency injector.
@@ -50,11 +25,6 @@ exports = module.exports = (IoC) ->
     router.get (new RegExp "^#{url}/?$"), controller
 
 
-  # # First off, based on the language slug in the URL set the variables
-  # # in the request.
-  # router.get /^\/(ar|en|dg).*\/?$/, setLanguage
-
-  # Then start matching all the different routes for the app
   _route "",                                  "landing"
   # _route "/rss",                              "rss"
 
@@ -89,12 +59,12 @@ exports = module.exports = (IoC) ->
   _route "/(en|ar|dg)(?:/?(.*))",             "redirector/language"
   _route "/([^/]+)",                          "classified/single"
   _route "/(.+)",                             "redirector/oldUrls"
-
+  _route ".*",                                "errors/404"
   app.use router
 
-  # Error page hander
-  app.use error
 
-
-exports["@require"] = ["$container"]
+exports["@require"] = [
+  "$container"
+  "igloo/settings"
+]
 exports["@singleton"] = true

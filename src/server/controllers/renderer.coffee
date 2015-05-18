@@ -30,7 +30,7 @@ exports = module.exports = (settings, cache) ->
       options.title = "#{options.title} - #{settings.sitename}"
 
       # options.mode = settings.server.env
-      options.data = options.data or {}
+      options.data ?= {}
       options.staticUrl = settings.staticUrl
       options.publicData =
         staticUrl: settings.staticUrl
