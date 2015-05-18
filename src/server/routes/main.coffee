@@ -79,7 +79,6 @@ exports = module.exports = (IoC) ->
   _route "/classified/([a-z\-]+)/([a-z\-]*)", "classified/search"
   _route "/classified/finish/([0-9]+)",       "classified/finish"
   _route "/classified/edit/([0-9]*)",         "classified/edit"
-  _route "/classified/([a-zf0-9]*)",          "redirector/oldClassifieds"
 
   _route "/account",                          "account/index"
   _route "/account/manage",                   "account/manage"
@@ -89,12 +88,7 @@ exports = module.exports = (IoC) ->
   _route "/c/([^/]+)",                        "redirector/classifieds"
   _route "/(en|ar|dg)(?:/?(.*))",             "redirector/language"
   _route "/([^/]+)",                          "classified/single"
-
-  # If language slug is present but page has not matched any url give 404 page
-  _route  ".+", fourofour
-
-  # # If language slug is missing and redirect to a preferred language
-  # router.get /^(?:[^aed]|a[^r]|e[^n]|d[^g])(.*)/, langRedirect
+  _route "/(.+)",                             "redirector/oldUrls"
 
   app.use router
 
