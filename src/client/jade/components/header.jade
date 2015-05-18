@@ -8,7 +8,8 @@
       img(src!="<%= staticUrl %>/images/hamburger.png")
 
   #notifications-popup-container(ng-if="flashNotifications.length > 0")
-    .notification(ng-repeat="n in flashNotifications", class="{{ n.type }}")
+    .notification(ng-repeat="n in flashNotifications", class="{{ n.type }}",
+      ng-click="closeFlashNotification($index)")
       .text {{ n.text }}
 
   nav#sub-header.columns
