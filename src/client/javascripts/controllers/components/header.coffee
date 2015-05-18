@@ -4,7 +4,7 @@ exports = module.exports = ($scope, $root, console, setTimeout) ->
 
   # Use this to adjust how long the flash notifications stay on the header,
   # before they disappear
-  flashNotificationLifetime = 3000
+  flashNotificationLifetime = 5000
   # Allow upto 'X' unread notifications to be put in the sub-header
   maxUnreadNotifications = 3
 

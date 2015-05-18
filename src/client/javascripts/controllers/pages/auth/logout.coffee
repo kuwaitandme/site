@@ -1,17 +1,13 @@
-exports = module.exports = ($location, $http, console, $notifications, Users) ->
+exports = module.exports = ($location, $log, Users) ->
   @name = "[page:auth-logout]"
-  console.log @name, "initializing"
-
-  $notifications.success "You have been logged out successfully"
+  $log.log @name, "initializing"
   Users.logout()
-  $location.path "/auth"
+  $location.path "/auth?_success=logout"
 
 
 exports.$inject = [
   "$location"
-  "$http"
   "$log"
-  "$notifications"
 
   "model.users"
 ]
