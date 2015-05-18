@@ -2,10 +2,9 @@
 
 exports = module.exports = (renderer, Categories, Classifieds) ->
   controller = (request, response, next) ->
-    parameters = {} #getQueryParameters request
+    parameters = {}
     page = 1
     reverse = false
-
 
     _renderPage = (title) ->
       Classifieds.query parameters, (error, classifieds) ->
@@ -22,17 +21,20 @@ exports = module.exports = (renderer, Categories, Classifieds) ->
       parentCategory = request.params[0]
       childCategory = request.params[1]
 
-      # Query on the parent category based on the first slug
-      if parentCategory then for parent in categories
-        if parent.slug == parentCategory
-          parameters.category = parent.id
-          title = parent.name
+      if parentCategory
+        # Query on the parent category based on the first slug
+        for parent in categories
+          if parent.slug == parentCategory
+            parameters.parent_category = parent.id
+            title = parent.name
 
-          # Query on the child category based on the second slug
-          if childCategory? then for child in parent.children
-            if child.slug == childCategory
-              parameters.childCategory = child.id
-              title = "#{child.name} - #{parent.name}"
+            # Query on the child category based on the second slug
+            if childCategory? then for child in parent.children
+              if child.slug == childCategory
+                parameters.child_category = child.id
+                title = "#{child.name} - #{parent.name}"
+            if not parameters.child_category then return next()
+        if not parameters.parent_category then return next()
 
       # Render the page with the resulting query parameters
       _renderPage title
