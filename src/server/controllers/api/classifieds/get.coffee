@@ -6,7 +6,7 @@ exports = module.exports = (Classifieds) ->
 
     _query = (request, response, next) ->
       parameters = request.query
-      parameters.status = Classifieds.statuses.ACTIVE
+      # parameters.status = Classifieds.statuses.ACTIVE
       Classifieds.query parameters, (error, classified={}) ->
         response.json classified, null, 2
 

@@ -1,4 +1,5 @@
-exports = module.exports = ($scope, $stateParams, $rootScope, console, Categories) ->
+exports = module.exports = ($scope, $stateParams, $rootScope, console,
+Categories, Classifieds) ->
   @name = "[page:classified-search]"
   console.log @name, "initializing"
   console.debug @name, "routeParams", $stateParams
@@ -12,6 +13,7 @@ exports = module.exports = ($scope, $stateParams, $rootScope, console, Categorie
     $scope.$emit "page-loaded"
 
   $scope.query =
+    status:          Classifieds.statuses.ACTIVE
     child_category:  $scope.childCategory.id
     parent_category: $scope.parentCategory.id
 
@@ -28,4 +30,5 @@ exports.$inject = [
   "$log"
 
   "model.categories"
+  "model.classifieds"
 ]
