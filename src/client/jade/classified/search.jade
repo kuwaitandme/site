@@ -8,5 +8,6 @@ section(ng-if="!parentCategory.id").category-chooser
 section(ng-if="parentCategory.id").category-results
   h1 {{ parentCategory.name }}
   h2(ng-if="childCategory.id") {{ childCategory.name }}
-  .classified-list-container(ng-include="'components/classified-list'")
-  #filterbox
+  section(ng-if="displayClassifiedList")
+    .classified-list-container(ng-include="'components/classified-list'")
+    #filterbox

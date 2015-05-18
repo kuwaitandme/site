@@ -4,7 +4,9 @@ exports = module.exports = ($scope, $scroller, console) ->
   $scope.gotoElement = (eID) -> setTimeout (-> $scroller.scrollTo eID), 100
 
   $scope.heroURL = "landing.jpg"
-  $scope.onHeroLoad = -> $scope.$emit "page-loaded"
+  $scope.onHeroLoad = ->
+    $scope.displayClassifiedList = true
+    $scope.$emit "page-loaded"
 
 exports.$inject = [
   "$scope"

@@ -50,7 +50,7 @@
 #landing-categories(ng-if="showcategories").row
   h2 Categories
   section(ng-include="'components/category-list'")
-#featured-classifieds.row
+#featured-classifieds.row(ng-if="displayClassifiedList")
   //- h1 {{ "page.landing.classifieds" | translate }}
   h2 Featured classifieds
   .classified-list-container(ng-include="'components/classified-list'")
