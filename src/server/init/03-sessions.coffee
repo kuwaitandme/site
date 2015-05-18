@@ -13,6 +13,7 @@ TwitterStrategy       = (require "passport-twitter").Strategy
 
 exports = module.exports = (IoC, settings, sessions, Email, Users, policies) ->
   app = this
+  logger = IoC.create "igloo/logger"
 
   # This function gets called for each of the OAuth logins. A uniform function
   # that takes care of everything from DB.... FINISH
@@ -30,7 +31,9 @@ exports = module.exports = (IoC, settings, sessions, Email, Users, policies) ->
         if not json.login_providers? and json[profile.provider]?
           ## Welcome email here!
           json.login_providers[profile.provider] = uid: profile.id
+          logger.debug "adding social network [#{profile.provider}] to existing user", json
           return Users.patch json.id, json, done
+        logger.debug "using social network [#{profile.provider}] from existing user", json
         return done null, user
       # If the user did not exist, then create a new user
       password = Users.randomPassword()
@@ -42,10 +45,12 @@ exports = module.exports = (IoC, settings, sessions, Email, Users, policies) ->
         password: Users.hashPassword password
         status: Users.statuses.ACTIVE
       newUser.login_providers[profile.provider] = uid: profile.id
+      logger.debug "user does not exist, creating new user", newUser
       Users.create newUser, (error, user) ->
         if error then done error
-        else if not user? then done new Error "We can't register you, please try again later"
+        else if not user? then done new Error "registration error"
         else
+          logger.debug "new user created with id", user.id
           Email.sendTemplate profile.emails[0].value, "user-welcome-oauth",
             user: user.toJSON()
             password: password
@@ -95,9 +100,11 @@ exports = module.exports = (IoC, settings, sessions, Email, Users, policies) ->
     passport.use new LocalStrategy (username, password, done) ->
       Users.findOne { email: username }, (error, user) ->
         if error then return done error
+        logger.debug "fetched user", user
         if not user? then return done "bad username/email", false
         # User exists, check password
         json = user.toJSON()
+        logger.debug "user json", json
         if not Users.isPasswordValid password, json.password
           return done "password mismatch", false
         # Check if account is active or not
