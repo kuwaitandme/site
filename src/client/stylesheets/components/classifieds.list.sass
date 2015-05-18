@@ -14,49 +14,74 @@
     text-align: center
 
 #classified-single-fixed
-  +single-transition
-  background: #f6f6f6
+  +single-transition(all, 1s)
+  background: rgba(0, 0, 0, 0.9)
   left: 0
   overflow-y: scroll
   padding: 60px 3px
   position: fixed
-  // top: -100%
   top: 0
   width: 100%
   z-index: 4
+
+  -webkit-transition-timing-function: ease-in
+  transition-timing-function: ease-in
   &:before
     @extend #page-hero
-  &.hide-cl
-    display: none
-    // top: -100%
-    .classified-single-bg
+
+  .classified-single
+    +single-transition
+    opacity: 0
+    .gallery
+      background: #f9f9f9
+
+
+  &.enterAnimation
+    top: 0
+    &.animateClassified
+      .classified-single
+        opacity: 1
+    &.animateBackground
+      bottom: 0
+      display: block
+      opacity: 1
+      -webkit-animation-duration: 0.2s
+      -webkit-animation-name: fadeInFromNone
+    &.animationDone
+      display: block
+  &.leaveAnimation
+    top: 0
+    opacity: 0
+    -webkit-animation-duration: 0.2s
+    -webkit-animation-name: fadeOutToNone
+    .classified-single
+      opacity: 0
+    // &.animateBackground
+    &.animationDone
       display: none
-  &.display-cl
-    bottom: 0
-    display: block
-    -webkit-animation-duration: 0.5s
-    -webkit-animation-name: fadeInFromNone
-    @media only screen and (min-width: 1120px)
-      ul#extras-sidebar
-        margin-left: -100px
-        margin-top: 0
-        padding: 0
-        top: 0
-        left: 0
-        position: absolute
-        width: 100px
-        li
-          +clearfix
-          float: none !important
-          border-radius: 0 !important
-          display: block !important
-          margin: 0 !important
-          .icon
-            float: right !important
+    &.animateBackground
+  @media only screen and (min-width: 1120px)
+    ul#extras-sidebar
+      margin-left: -100px
+      margin-top: 0
+      padding: 0
+      top: 0
+      left: 0
+      position: absolute
+      width: 100px
+      li
+        +clearfix
+        float: none !important
+        border-radius: 0 !important
+        display: block !important
+        margin: 0 !important
+        .icon
+          float: right !important
   > .row
     margin: 0 auto
     max-width: 62.5rem
   .classified-single
+    border-bottom: 1px solid #999
     // background: #FFF
     .gallery
       z-index: 3

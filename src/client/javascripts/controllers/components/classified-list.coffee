@@ -13,7 +13,8 @@ exports = module.exports = ($scope, $window, $rootScope, console, Classifieds) -
   body = (document.getElementsByTagName "body")[0]
   $scope.queryFinished ?= false
   $scope.redirectToEditPage ?= false
-
+  $scope.classifiedStyles ?= {}
+  $scope.showClassifiedContainer = false
 
   # setup the finish and empty classifieds message
   $scope.finishMessage ?= (->
@@ -48,15 +49,35 @@ exports = module.exports = ($scope, $window, $rootScope, console, Classifieds) -
     if $scope.redirectToEditPage
       return location = "/classified/edit/#{classified.id}"
 
-    if not $scope.classified?
+    if not $scope.showClassifiedContainer
       $scope.$broadcast "classified-changed", classified
+        # { 'display-cl': classified, 'hide-cl': !classified }
       $rootScope.bodyStyles.overflowY = "hidden"
-      $scope.classified = classified
       scrollPosition = body.scrollTop
       body.scrollTop = 0
+
+      $scope.classified = classified
+      $scope.showClassifiedContainer = true
+
+      $scope.classifiedStyles = {}
+      $scope.classifiedStyles.enterAnimation = true
+      $scope.classifiedStyles.animateBackground = true
+      setTimeout  ->
+        $scope.$apply -> $scope.classifiedStyles.animateClassified = true
+      , 200
     else
-      $scope.classified = undefined
-      setTimeout (-> body.scrollTop = scrollPosition), 10
+      $scope.classifiedStyles = {}
+      $scope.classifiedStyles.leaveAnimation = true
+      $scope.classifiedStyles.animateClassified = true
+      setTimeout  ->
+        $scope.$apply -> $scope.classifiedStyles.animateBackground = true
+        setTimeout  ->
+          $scope.$apply ->
+            $scope.classifiedStyles.animationDone = true
+            $scope.showClassifiedContainer = false
+        , 500
+      , 200
+      setTimeout (-> body.scrollTop = scrollPosition), 50
       $rootScope.bodyStyles.overflowY = ""
 
 
