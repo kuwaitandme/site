@@ -1,6 +1,5 @@
 #notifications-popup-container
   left: 0
-  padding: 30px 0
   position: fixed
   top: 0
   width: 100%
@@ -10,20 +9,13 @@
   -webkit-animation-name: slideFromAbove
 
   .notification
-    // +single-transition
     $referenceSize: 35px
     @extend .font-title
     color: #FFF
     font-size: 0.8rem
-    margin-bottom: 10px
-    position: relative
-    color: #FFF
-    font-size: 0.8rem
-    margin: 10px auto
-    max-width: 62.5rem
+    margin: 0
     padding-right: $referenceSize
     position: relative
-    width: 90%
 
     -webkit-animation-duration: 0.5s
     -webkit-animation-name: fadeInFromNone
@@ -31,8 +23,8 @@
       min-height: $referenceSize
       padding: 0.5rem 1rem
     .close, .close:after
-      right: 0
       position: absolute
+      right: 0
       top: 0
     .close
       cursor: pointer
@@ -49,7 +41,7 @@
         width: 100%
     &.success, &
       .text, .close
-        background: #30B632
+        background: #2ECC71
     &.error
       .text, .close
         background: #D4403B

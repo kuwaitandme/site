@@ -1,17 +1,16 @@
-exports = module.exports = ($scope, $location, $http, console, $notifications, Users) ->
+exports = module.exports = ($http, $location, console, $notifications, $scope, Users) ->
   @name = "[page:auth-login]"
   console.log @name, "initializing"
   $scope.$emit "page-loaded"
 
   $scope.login = {}
   $scope.signup = {}
-
   # Function to perform user login
   $scope.doLogin = =>
     $http
+      data: $scope.login
       method: "POST"
       url: "/api/auth/email/login"
-      data: $scope.login
     .success (data, status) =>
       console.log @name, "login successful! redirecting to account page"
       Users.setCurrentUser data
@@ -24,9 +23,9 @@ exports = module.exports = ($scope, $location, $http, console, $notifications, U
   # Function to perform user registration
   $scope.doSignup = =>
     $http
+      data: $scope.signup
       method: "POST"
       url: "/api/auth/email/signup"
-      data: $scope.signup
     .success (data, status) =>
       $notifications.success "An activation email has been sent, #{data.full_name}! (Check your spam folder too)"
       console.log @name, "signup successful! waiting for activation page"
@@ -36,11 +35,11 @@ exports = module.exports = ($scope, $location, $http, console, $notifications, U
 
 
 exports.$inject = [
-  "$scope"
-  "$location"
   "$http"
+  "$location"
   "$log"
   "$notifications"
+  "$scope"
 
   "model.users"
 ]

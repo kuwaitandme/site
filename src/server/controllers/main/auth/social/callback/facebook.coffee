@@ -2,8 +2,8 @@ passport = require "passport"
 
 exports = module.exports = (renderer) ->
   passport.authenticate "facebook",
-    successRedirect: "/account"
-    failureRedirect: "/auth/login?error=facebook_failed"
+    successRedirect: "/account?_success=facebook_success"
+    failureRedirect: "/auth/login?_error=facebook_failed"
 
 
 exports["@singleton"] = true
