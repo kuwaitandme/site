@@ -2,7 +2,11 @@ Promise           = require "bluebird"
 formidable        = require "formidable"
 keyword_extractor = require "keyword-extractor"
 
-exports = module.exports = (reCaptcha, uploader, email, Classifieds, Users) ->
+exports = module.exports = (IoC, email, reCaptcha, uploader, Classifieds,
+Users) ->
+  logger = IoC.create "igloo/logger"
+  name = "[api:classifieds]"
+
   _createURLslug = (classified) ->
     maxLength = 70
     # Get the keywords and make a sentence seperated by '-'s. We use this regex
@@ -64,7 +68,8 @@ exports = module.exports = (reCaptcha, uploader, email, Classifieds, Users) ->
             user: email: data.contact.email, password: newPassword
 
           data.owner = user.id
-          resolve [data, filesRequest["images[]"]]
+          request.logIn user, (error) ->
+            resolve [data, filesRequest["images[]"]]
 
 
   # Create a new classified
@@ -112,7 +117,7 @@ exports = module.exports = (reCaptcha, uploader, email, Classifieds, Users) ->
 
   # Send an email about the new classified
   emailUser = (classified) ->
-    email.sendTemplate "stevent95@gmail.com", "classifiedSubmitted",
+    email.sendTemplate classified.contact.email, "classifiedSubmitted",
       subject: "Your classified has been submitted", classified: classified
     classified
 
@@ -126,19 +131,22 @@ exports = module.exports = (reCaptcha, uploader, email, Classifieds, Users) ->
     .spread uploadFiles
     .spread updateClassified
     .then emailUser
-    # Once done, return the fields that have been changed back to the user
-    .then (classified) -> response.json classified
-    # If there were any errors, return it with a default 400 HTTP code.
+    .then (classified) ->
+      # Once done, return the fields that have been changed back to the user
+      logger.debug name, classified.toJSON()
+      response.json classified
     .catch (error) ->
-      # console.error error.stack
-      response.status error.status || 400
+      # If there were any errors, return it with a default 400 HTTP code.
+      logger.error error.stack
+      response.status error.status or 400
       response.json error.message
 
 
 exports["@require"] = [
+  "$container"
+  "controllers/email"
   "controllers/recaptcha"
   "controllers/uploader"
-  "controllers/email"
 
   "models/classifieds"
   "models/users"

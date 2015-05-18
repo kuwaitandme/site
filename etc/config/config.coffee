@@ -47,6 +47,7 @@ exports = module.exports = ->
       enabled: true
       host: "api.sandbox.paypal.com"
       port: ""
+      currency: "USD"
 
     appDir: appDir
     assetsDir: assetsDir

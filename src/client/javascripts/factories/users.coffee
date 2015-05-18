@@ -22,7 +22,19 @@ exports = module.exports = ($http, $root, console, $storage) -> new class
 
 
   onUserChange: (user) ->
+    $storage.session "models:user:current", user
+    $root.$broadcast "user:changed"
     $root.bodyClasses["logged-in"] = @isLoggedIn()
+
+
+  # Re-downloads the user from the server.
+  refresh: ->
+    console.log @name, "refreshing current user"
+    $http.get "/api/users/current"
+    .success (user) =>
+      console.log @name, "refreshed current user"
+      console.debug @name, user
+      @onUserChange user
 
 
   # A simple function to perform a user-logout. Deletes the current session
@@ -31,8 +43,7 @@ exports = module.exports = ($http, $root, console, $storage) -> new class
     $http.get "/api/auth/logout"
     .success (data, status) =>
       console.log @name, "user logged out"
-      $storage.session "models:user:current", null
-      $root.$broadcast "user:changed"
+      @onUserChange null
 
 
   # Download the current user from either the sessionStorage or from the API
@@ -44,8 +55,7 @@ exports = module.exports = ($http, $root, console, $storage) -> new class
       .success (user) =>
         console.log @name, "fetched current user"
         console.debug @name, user
-        $storage.session "models:user:current", angular.toJson user
-        $root.$broadcast "user:changed"
+        @onUserChange angular.toJson user
 
     # Attempt to get the user from the cache.
     cache = $storage.session "models:user:current"
@@ -53,8 +63,7 @@ exports = module.exports = ($http, $root, console, $storage) -> new class
       # user was found in session cache, prepare to translate it and return
       console.log @name, "retrieving current user from cache"
       try
-        angular.fromJson cache
-        $root.$broadcast "user:changed"
+        @onUserChange angular.fromJson cache
       catch exception
         # Something went wrong while parsing the locations. No problem,
         # we'll retrieve it from the API.

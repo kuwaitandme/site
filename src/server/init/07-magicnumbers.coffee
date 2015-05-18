@@ -5,8 +5,11 @@ md5File = require "md5-file"
 
 exports = module.exports = (IoC, settings, cache) ->
   logger = IoC.create "igloo/logger"
+  logger.debug "[init] starting magicnumbers listeners"
+
   publicDir = settings.publicDir
   modelsDir = settings.modelsDir
+  name = "[magicnumbers]"
 
   buildPaths = [
     "#{publicDir}/javascripts/app.js"
@@ -44,7 +47,7 @@ exports = module.exports = (IoC, settings, cache) ->
 
   _resetMagic = (paths, key) ->
     _calculateMagic paths, (error, magic) ->
-      logger.debug "setting #{key} magic to: #{magic}"
+      logger.debug name, "setting #{key} magic to: #{magic}"
       settings.magic[key] = magic
       cache.clear
 

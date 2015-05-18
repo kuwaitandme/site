@@ -1,14 +1,14 @@
-exports = module.exports = ($environment, $location, $window) -> new class
+exports = module.exports = ($environment, $location, $log, $window) -> new class
   name: "[service:google-analytics]"
 
   constructor: ->
-    console.log @name, "initializing"
+    $log.log @name, "initializing"
     id = $environment.google.analyticsCode
 
     if not id?
-      console.warn @name, "disabling google analytics"
+      $log.warn @name, "disabling google analytics"
       return @fallback = true
-    console.debug @name, "analytics code", id
+    $log.debug @name, "analytics code", id
 
     # Prepare the URL
     url = "https://www.google-analytics.com/analytics.js"
@@ -33,12 +33,19 @@ exports = module.exports = ($environment, $location, $window) -> new class
   sendPageView: ->
     if @fallback then return
     pageURL = "#{$location.pathname}#{$location.search}#{$location.hash}"
-    console.log @name, "sending pageview"
+    $log.log @name, "sending pageview"
     @onLoad -> $window.ga "send", "pageview", page: pageURL
+
+
+  sendEvent: (category, action, label, value) ->
+    if @fallback then return
+    $log.log @name, "sending event"
+    @onLoad -> $window.ga "send", "event", category, action, label, value
 
 
 exports.$inject = [
   "$environment"
   "$location"
+  "$log"
   "$window"
 ]

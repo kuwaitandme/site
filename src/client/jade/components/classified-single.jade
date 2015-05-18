@@ -2,7 +2,7 @@ section.row.classified-single(ng-controller="component:classified-single", items
   .columns(ng-if="classified.show")
     ul.gallery.row(ng-if="classified.images")
       li.small-6.medium-4.large-3.columns.end.image-loading(ng-repeat="image in classified.images track by $index")
-        a(target="_self", ng-href!="<%= staticUrl %>/uploads/main/{{ image.filename }}",
+        div(target="_self", ng-href!="<%= staticUrl %>/uploads/main/{{ image.filename }}",
           style="background: {{ image.color }}")
           img.thumb(ng-image-loader!="<%= staticUrl %>/uploads/thumb/{{ image.filename }}",
             ng-image-success="update", ng-image-fail="update", itemprop="image")
