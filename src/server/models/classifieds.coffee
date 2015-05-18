@@ -73,9 +73,10 @@ exports = module.exports = (knex) -> new class
 
 
   getParentCategoryCount: (callback) ->
-    buildQuery = (qb) ->
+    buildQuery = (qb) =>
       qb.select "parent_category as id"
       qb.count "parent_category"
+      qb.where "status", @statuses.ACTIVE
       qb.groupBy "parent_category"
 
     @model.query buildQuery
