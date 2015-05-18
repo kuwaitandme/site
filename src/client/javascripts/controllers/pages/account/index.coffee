@@ -8,8 +8,8 @@ Users) ->
   if query._success?
     currentUser = Users.getCurrentUser() or {}
     currentUserName = currentUser.full_name or ""
-    string.replace "_NAME_", currentUserName
-    $notifications.success _translate Languages.translate query._success
+    string = Languages.translate query._success
+    $notifications.success string.replace "_NAME_", currentUserName
 
 
 exports.$inject = [
