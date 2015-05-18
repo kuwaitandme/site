@@ -133,7 +133,7 @@ Users) ->
     .then emailUser
     .then (classified) ->
       # Once done, return the fields that have been changed back to the user
-      logger.debug name, classified.toJSON()
+      logger.debug name, classified
       response.json classified
     .catch (error) ->
       # If there were any errors, return it with a default 400 HTTP code.
