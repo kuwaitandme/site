@@ -42,11 +42,12 @@ map =
   "classified/5553af99918733ea68a5a088" : "/c/66"
   "classified/555430f3918733ea68a5a08a" : "/c/67"
 
-  "about"         : "/"
-  "auth/login"    : "/auth"
-  "auth/signup"   : "/auth"
-  "contact"       : "/"
-  "terms-privacy" : "/info/terms-privacy"
+  "about"             : "/"
+  "auth/login"        : "/auth"
+  "auth/signup"       : "/auth"
+  "classified/search" : "/classified"
+  "contact"           : "/"
+  "terms-privacy"     : "/info/terms-privacy"
 
 exports = module.exports = ->
   controller = (request, response, next) ->
