@@ -1,6 +1,5 @@
 exports = module.exports = (renderer, settings) ->
   controller = (error, request, response, next) ->
-    response.status error.status or 500
 
     # In production, no stack-traces leaked to user
     if settings.server.env is "production" then error.stack = null
@@ -14,8 +13,8 @@ exports = module.exports = (renderer, settings) ->
         error: error
         message: error.message
         status: error.status or 500
+    response.status error.status or 500
     renderer request, response, args, true
-
 
 
 exports["@require"] = [

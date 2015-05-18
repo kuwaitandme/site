@@ -3,7 +3,6 @@ path     = require "path"
 
 exports = module.exports = (IoC, settings) ->
   app = this
-
   app.phase bootable.di.routes path.join __dirname, "api"
   app.phase bootable.di.routes path.join __dirname, "main"
 
