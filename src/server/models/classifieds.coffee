@@ -48,16 +48,18 @@ exports = module.exports = (knex) -> new class
       # Helper function to check if the number is a valid int
       _validInt = (i) -> i? and validator.isInt i, { min: 0 }
 
-      # parent category
       pcat = parameters.parent_category
       if _validInt pcat then qb.where "parent_category", pcat
-      # child category
+
       ccat = parameters.child_category
       if _validInt ccat then qb.where "child_category", ccat
-      # classified owner
+
       owner = parameters.owner
       if _validInt owner then qb.where "owner", owner
-      # classifieds page no.
+
+      status = parameters.status
+      if _validInt status then qb.where "status", status
+
       page = parameters.page
       if not _validInt page then page = 1
 
