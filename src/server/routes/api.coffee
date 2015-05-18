@@ -29,6 +29,9 @@ exports = module.exports = (IoC) ->
   router.post   "/classifieds/:id?",         _api "classifieds/post"
   router.put    "/classifieds/:id?",         _api "classifieds/put"
 
+  router.get    "/payments",                 _api "payments/post"
+  router.get    "/payments/callback",        _api "payments/callback/get"
+
   router.get    "/users/current",            _api "users/current/get"
   router.delete "/users/:id?",               _api "users/delete"
   router.get    "/users/:id?",               _api "users/get"

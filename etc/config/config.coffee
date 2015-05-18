@@ -41,6 +41,13 @@ exports = module.exports = ->
         "https://www.googleapis.com/auth/userinfo.profile"
       ]
 
+    paypal:
+      client_id: "XXXXXXXXXX",
+      client_secret: "XXXXXXXXXX"
+      enabled: true
+      host: "api.sandbox.paypal.com"
+      port: ""
+
     appDir: appDir
     assetsDir: assetsDir
     cache: false
@@ -149,6 +156,7 @@ exports = module.exports = ->
       port: 3000
     redis: prefix: "kme-development:"
     output: level: "debug"
+    paypal: host: "api.sandbox.paypal.com"
 
   # Production specific options
   production:
