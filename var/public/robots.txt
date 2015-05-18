@@ -4,3 +4,4 @@ Disallow: /classified/post
 Disallow: /images/
 Disallow: /javascripts/
 Disallow: /stylesheets/
+Sitemap: https://static.kuwaitandme.com/sitemap.xml
