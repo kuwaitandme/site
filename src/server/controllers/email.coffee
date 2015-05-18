@@ -37,7 +37,6 @@ exports = module.exports = (IoC, settings) ->
         host: settings.email.smtp.hostname
         ssl: settings.email.smtp.ssl
 
-      destinationEmail = "stevent95@gmail.com"
       # Create the message
       message = email.message.create
         from: "#{settings.sitename} <#{settings.email.noreplyAddress}>"
