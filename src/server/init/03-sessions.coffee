@@ -28,17 +28,19 @@ exports = module.exports = (IoC, settings, sessions, Email, Users, policies) ->
       if user
         json = user.toJSON()
         if not json.login_providers? and json[profile.provider]?
+          ## Welcome email here!
           json.login_providers[profile.provider] = uid: profile.id
           return Users.patch json.id, json, done
+        return done null, user
       # If the user did not exist, then create a new user
       password = Users.randomPassword()
       newUser =
         email: profile.emails[0].value
         full_name: "#{profile.name.givenName} #{profile.name.familyName}"
-        status: Users.statuses.ACTIVE
-        password: Users.hashPassword password
         login_providers: {}
         meta: hasTemporaryPassword: true
+        password: Users.hashPassword password
+        status: Users.statuses.ACTIVE
       newUser.login_providers[profile.provider] = uid: profile.id
       Users.create newUser, (error, user) ->
         if error then done error

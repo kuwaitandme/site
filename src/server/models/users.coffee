@@ -57,14 +57,14 @@ exports = module.exports = (knex, cache) -> new class
       if error then return callback error
       if user then return callback new Error "email conflict. can't create temporary account."
 
-    newUser =
-      email: email
-      full_name: "Anonymous"
-      login_providers: email: email
-      password: @hashPassword newPassword
-      meta: hasTemporaryPassword: true
-      status: @statuses.ACTIVE
-    @create newUser, callback
+      newUser =
+        email: email
+        full_name: "Anonymous"
+        login_providers: email: email
+        password: @hashPassword newPassword
+        meta: hasTemporaryPassword: true
+        status: @statuses.ACTIVE
+      @create newUser, callback
 
 
   # Predicate functions for the different enum fields.

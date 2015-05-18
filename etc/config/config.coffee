@@ -21,9 +21,9 @@ exports = module.exports = ->
       requireActivation: true
 
     facebook:
-      enabled: false
-      clientid: "XXXXXXXXXX"
-      secret: "XXXXXXXXXX"
+      enabled: true
+      appID: "XXXXXXXXXX"
+      appSecret: "XXXXXXXXXX"
       scope: ["email"]
 
     twitter:
