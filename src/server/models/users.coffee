@@ -53,7 +53,7 @@ exports = module.exports = (knex, cache) -> new class
 
   # Creates a user with the given email, with a temporary password
   createTemporary: (email, newPassword, callback=->) ->
-    @findOne { email: email }, (error, user) ->
+    @findOne { email: email }, (error, user) =>
       if error then return callback error
       if user then return callback new Error "email conflict. can't create temporary account."
 
