@@ -1,13 +1,23 @@
-exports = module.exports = ($scope, console) ->
+exports = module.exports = ($location, $log, $scope, $notifications, Languages,
+Users) ->
   @name = "[page:account-index]"
-  console.log @name, "initializing"
+  $log.log @name, "initializing"
   $scope.$emit "page-loaded"
 
-  # $el = angular.element document.querySelectorAll "main > .row"
-  # @masonry = new Masonry $el[0], itemSelector: ".columns"
+  query = $location.search()
+  if query._success?
+    currentUser = Users.getCurrentUser() or {}
+    currentUserName = currentUser.full_name or ""
+    string.replace "_NAME_", currentUserName
+    $notifications.success _translate Languages.translate query._success
 
 
 exports.$inject = [
-  "$scope"
+  "$location"
   "$log"
+  "$scope"
+  "$notifications"
+
+  "model.languages"
+  "model.users"
 ]

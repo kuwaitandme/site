@@ -10,8 +10,6 @@
   #notifications-popup-container(ng-if="flashNotifications.length > 0")
     .notification(ng-repeat="n in flashNotifications", class="{{ n.type }}")
       .text {{ n.text }}
-      .close(ng-click="closeFlashNotification($index)")
-
 
   nav#sub-header.columns
     ul#notifications()

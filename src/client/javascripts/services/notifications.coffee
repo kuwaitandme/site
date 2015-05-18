@@ -1,8 +1,6 @@
-exports = module.exports = ($http, $root, console, $storage) -> new class
+exports = module.exports = ($http, $log, $root, $storage) -> new class
   name: "[service:notifications]"
-
-  constructor: ->
-    console.log @name, "initializing"
+  constructor: -> $log.log @name, "initializing"
 
   # Returns a list of all the notifications
   getAll: ->
@@ -17,10 +15,10 @@ exports = module.exports = ($http, $root, console, $storage) -> new class
   success: (message) -> @create message, "success"
   warn:    (message) -> @create message, "warn"
 
-
+  parseURL: ->
 exports.$inject = [
   "$http"
-  "$rootScope"
   "$log"
+  "$rootScope"
   "$storage"
 ]

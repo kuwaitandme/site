@@ -14,7 +14,6 @@
     color: #FFF
     font-size: 0.8rem
     margin: 0
-    padding-right: $referenceSize
     position: relative
 
     -webkit-animation-duration: 0.5s
@@ -22,29 +21,12 @@
     .text
       min-height: $referenceSize
       padding: 0.5rem 1rem
-    .close, .close:after
-      position: absolute
-      right: 0
-      top: 0
-    .close
-      cursor: pointer
-      font-size: 1rem
-      height: $referenceSize
-      text-align: center
-      width: $referenceSize
-      &:after
-        @extend .font-awesome
-        background: rgba(0,0,0,0.1)
-        content: '\f00d'
-        height: 100%
-        line-height: $referenceSize
-        width: 100%
     &.success, &
-      .text, .close
+      .text
         background: #2ECC71
     &.error
-      .text, .close
+      .text
         background: #D4403B
     &.warning
-      .text, .close
+      .text
         background: #FF9900
