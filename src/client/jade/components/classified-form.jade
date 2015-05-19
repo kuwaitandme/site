@@ -1,5 +1,6 @@
-section.classified-form(ng-controller="component:classified-form as form")
-  form(name="form", novalidate, ng-class="{attempted:attempted}").row
+section.classified-form(ng-controller="component:classified-form as form",
+  ng-class="formClasses")
+  form(name="form", novalidate).row
 
     .columns.admin-panel(ng-if="classified.id")
       .action.green(ng-click="changeStatus('ACTIVE')", ng-if="superEditable") Publish
@@ -10,7 +11,8 @@ section.classified-form(ng-controller="component:classified-form as form")
       .action.red(ng-click="changeStatus('ARCHIVED')") Archive this classified
 
 
-    input(type="file", multiple, ng-model-file="fileChange").hide
+    input(type="file", multiple, ng-model-file="fileChange",
+      ng-disabled="formLoading").hide
     .columns
       ul.gallery.small-block-grid-2.medium-block-grid-3.large-block-grid-4
         li(data-id="{{ image.id }}",
@@ -29,14 +31,14 @@ section.classified-form(ng-controller="component:classified-form as form")
     .columns.title
       input(type="text", placeholder="Your title goes here",
         ng-model="classified.title", ng-change="validate()", ng-minlength="20",
-        ng-maxlength="140", ng-required="true")
+        ng-maxlength="140", ng-required="true", ng-disabled="formLoading")
       .error.show-on-focus(max="max. 140 characters", min="min. 20 characters",
         valid="{{ remainingTitle }}")
 
     .columns.description(itemprop="description")
       textarea(placeholder="Your description goes here",
         ng-model="classified.description", ng-minlength="50",
-        ng-maxlength="2000", ng-required="true")
+        ng-maxlength="2000", ng-required="true", ng-disabled="formLoading")
       .error.show-on-focus(max="max. 2000 characters", min="min. 50 characters",
         valid="{{ remainingDescription }}")
 
@@ -44,7 +46,8 @@ section.classified-form(ng-controller="component:classified-form as form")
       li.row.collapse
         .meta-title.columns.medium-2 Price
         .columns.medium-9
-          select(ng-model="classified.priceType", ng-required="true")
+          select(ng-model="classified.priceType", ng-required="true",
+            ng-disabled="formLoading")
             option(disabled, selected, value="") Choose a price
             option(value="0") Free
             option(value="1") Contact Owner
@@ -55,14 +58,16 @@ section.classified-form(ng-controller="component:classified-form as form")
         .meta-title.columns.medium-2
         .columns.medium-9
           input(type="number", placeholder="give your price here",
-            ng-model="classified.priceValue", ng-required="true", min=0)
+            ng-model="classified.priceValue", ng-required="true", min=0,
+            ng-disabled="formLoading")
           .error(invalid='price must only contain numbers')
 
       li.row.collapse
         .meta-title.columns.medium-2 Email
         .columns.medium-9
           input(type="email", placeholder="contact@website.com",
-            ng-model="classified.contact.email", ng-required="true")
+            ng-model="classified.contact.email", ng-required="true",
+            ng-disabled="formLoading")
           .error(invalid="email must be valid")
 
       li.row.collapse
@@ -70,7 +75,7 @@ section.classified-form(ng-controller="component:classified-form as form")
         .columns.medium-9
           select(ng-model="classified.parentCategory",
             ng-options="category.name for category in categories",
-            ng-required="true")
+            ng-required="true", ng-disabled="formLoading")
             option(disabled, selected, value="") Choose a category
           .error
 
@@ -79,7 +84,7 @@ section.classified-form(ng-controller="component:classified-form as form")
         .columns.medium-9
           select(ng-model="classified.childCategory",
             ng-options="child.name for child in classified.parentCategory.children",
-            ng-required="true")
+            ng-required="true", ng-disabled="formLoading")
             option(disabled, selected, value="") Choose a sub-category
           .error
 
@@ -88,7 +93,7 @@ section.classified-form(ng-controller="component:classified-form as form")
         .columns.medium-9
           select(ng-model="location",
             ng-options="location.name for location in locations",
-            ng-required="true")
+            ng-required="true", ng-disabled="formLoading")
             option(disabled, selected, value="") Choose a location
           .error
 
@@ -97,23 +102,23 @@ section.classified-form(ng-controller="component:classified-form as form")
         .meta-title.columns.medium-2 Phone
         .columns.medium-9
           input(type="text", placeholder="+965 12345678",
-            ng-model="classified.contact.phone")
+            ng-model="classified.contact.phone", ng-disabled="formLoading")
       li.row.collapse(ng-if="location && location.id != '0'")
         .meta-title.columns.medium-2 Address
         .columns.medium-9
           input(type="text", placeholder="Address line 1",
-            ng-model="classified.contact.address1")
+            ng-model="classified.contact.address1", ng-disabled="formLoading")
       li.row.collapse(ng-if="location && location.id != '0'")
         .meta-title.columns.medium-2
         .columns.medium-9
           input(type="text", placeholder="Address line 2",
-            ng-model="classified.contact.address2")
+            ng-model="classified.contact.address2", ng-disabled="formLoading")
       li.row.collapse
         .meta-title.columns.medium-2 Link
         .columns.medium-9
           input(type="url", placeholder="https://example.com",
             ng-model="classified.contact.website")
-          .error(invalid="link must be a valid url")
+          .error(invalid="link must be a valid url", ng-disabled="formLoading")
       li.row.collapse.extras
         .meta-title.columns.medium-2 Extras
         .columns.medium-9
@@ -124,7 +129,8 @@ section.classified-form(ng-controller="component:classified-form as form")
               label Keep my email hidden
             .columns
               input(type="checkbox",
-                ng-model="classified.meta.hideSearchEngine")
+                ng-model="classified.meta.hideSearchEngine",
+                ng-disabled="formLoading")
               label Hide this classified from search engines
             .columns
               input(type="checkbox",
@@ -132,23 +138,27 @@ section.classified-form(ng-controller="component:classified-form as form")
               label Hide my email
             .columns
               input(type="checkbox",
-                ng-model="classified.meta.shareSocial", ng-init="classified.meta.shareSocial=true")
+                ng-model="classified.meta.shareSocial",
+                ng-init="classified.meta.shareSocial=true",
+                ng-disabled="formLoading")
               label Allow sharing on social networks
             .columns
               input(type="checkbox",
-                ng-model="classified.meta.deliveryIncluded")
+                ng-model="classified.meta.deliveryIncluded",
+                ng-disabled="formLoading")
               label I provide delivery
             .columns(ng-if="classified.meta.deliveryIncluded")
               input(type="checkbox",
-                ng-model="classified.meta.freeDeliveryIncluded")
+                ng-model="classified.meta.freeDeliveryIncluded",
+                ng-disabled="formLoading")
               label Delivery will be free of charge
             .columns(ng-if="classified.contact.phone")
-              input(type="checkbox",
-                ng-model="classified.meta.whatsapp")
+              input(type="checkbox", ng-model="classified.meta.whatsapp",
+                ng-disabled="formLoading")
               label I am available on Whatsapp
             .columns(ng-if="classified.contact.phone")
-              input(type="checkbox",
-                ng-model="classified.meta.viber")
+              input(type="checkbox", ng-model="classified.meta.viber",
+                ng-disabled="formLoading")
               label I am available on Viber
 
 
@@ -157,7 +167,7 @@ section.classified-form(ng-controller="component:classified-form as form")
       .row
         .columns
           input(type="checkbox", name="toggled", id="toggleMaps",
-            ng-model="classified.meta.mapsEnabled")
+            ng-model="classified.meta.mapsEnabled", ng-disabled="formLoading")
           label Enable maps
       .row.collapse
         .columns
@@ -171,4 +181,4 @@ section.classified-form(ng-controller="component:classified-form as form")
 
 
   .row
-    button.columns.submit(ng-click="submit()") Submit classified
+    button.columns.submit(ng-click="submit()") {{ formLoading ? "Submitting..." : "Submit classified" }}

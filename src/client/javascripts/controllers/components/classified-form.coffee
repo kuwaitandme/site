@@ -8,6 +8,8 @@ exports = module.exports = ($scope, $googleMaps, $imageResizer,
   $scope.categories = Categories.getAll()
   $scope.locations = Locations.getAll()
   $scope.onSuccess ?= ->
+  $scope.formClasses ?= {}
+  $scope.formClasses.loading = $scope.formLoading
 
   # If classified is not defined, then set it to it's default values. By scope
   # inheritance if there was a classified in the parent controller, it should
@@ -123,6 +125,9 @@ exports = module.exports = ($scope, $googleMaps, $imageResizer,
 
   # This function handlers when the form gets submitted.
   $scope.submit = =>
+    # If the form is already sent to the server then avoid resubmitting.
+    if $scope.formLoading then return
+    $scope.formLoading = $scope.formClasses.loading = true
     # Only perform the submit function if the form has validated properly
     if not $scope.form.$invalid
       console.log @name, "submitting form"
@@ -135,16 +140,22 @@ exports = module.exports = ($scope, $googleMaps, $imageResizer,
         $scope.classified.child_category = $scope.classified.childCategory.id
       if $scope.location?
         $scope.classified.location = $scope.location.id
-      Classifieds.save $scope.classified, (error, classified) ->
+      Classifieds.save $scope.classified, (error, classified) =>
+        $scope.formLoading = $scope.formClasses.loading = false
         if error
+          console.error @name, error
+          if error is "email conflict"
+            return $notifications.error "That email address has an account with this site. You must login with that email otherwise this classified is considered as spam.", 10000
+          else
           return $notifications.error "Something went wrong while saving your classified. Try again later"
 
         $scope.onSuccess classified
     else
+      $scope.formLoading = $scope.formClasses.loading = false
       $notifications.error "You have some invalid fields in your form. Have a look at them again"
     # set the attempted variable to true so that CSS can highlight invalid
     # fields
-    $scope.attempted = true
+    $scope.formClasses.attempted = true
 
 
   # Function to draw the Map.

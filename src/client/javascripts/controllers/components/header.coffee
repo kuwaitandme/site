@@ -71,14 +71,14 @@ exports = module.exports = ($scope, $root, console, setTimeout) ->
   # Listen for a notification event and add the new notification
   $scope.$on "notification", (event, notification) ->
     $scope.flashNotifications.push notification
+    lifetime = notification.timeout or flashNotificationLifetime
     # Set a timeout function to remove the notification
     ((notifications) -> setTimeout ->
       index = $scope.flashNotifications.indexOf notification
       if index? then $scope.flashNotifications.splice index, 1
-    , flashNotificationLifetime) notification
-
-    if not notification.flash
-      $scope.notifications.push notification
+    , lifetime) notification
+    # If it was a regular notification then add it to the header
+    if not notification.flash then $scope.notifications.push notification
 
 
 exports.$inject = [

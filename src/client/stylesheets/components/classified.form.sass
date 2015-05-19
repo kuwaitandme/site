@@ -69,12 +69,12 @@
             content: "required"
 
   // If the user has attempted to submit, highlight all required fields as 'red'
-  form.attempted .ng-invalid-required
-    border-color: $color-error
+  &.attempted .ng-invalid-required
+    border-color: $color-error !important
     ~ .error
-      background: $color-error
+      background: $color-error !important
       &:before
-        color: #FFF
+        color: #FFF !important
 
   form > .columns
     margin-bottom: 1rem
@@ -227,12 +227,12 @@
   .submit
     &:focus
       background: #27AE60
-    @media only screen and (max-width: 64.063em)
-      bottom: 0
-      left: 0
-      margin-bottom: 0 !important
-      padding: 0.8rem 0.5rem
-      position: fixed
+    // @media only screen and (max-width: 64.063em)
+    //   bottom: 0
+    //   left: 0
+    //   margin-bottom: 0 !important
+    //   padding: 0.8rem 0.5rem
+    //   position: fixed
 
   .add-images
     background: #3498db
@@ -241,6 +241,22 @@
     &:hover, &:focus
       background: #2980b9
 
+
+  &.loading
+    position: relative
+    .submit
+     &, &:focus, &:hover
+      background: #DDD
+      color: #222
+    &:after
+      +single-transition
+      background: rgba(255, 255, 255, 0.8)
+      content: ''
+      height: 100%
+      left: 0
+      position: absolute
+      top: 0
+      width: 100%
   @media only screen and (max-width: 64.063em)
     form
       margin-bottom: 32px

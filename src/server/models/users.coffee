@@ -58,7 +58,7 @@ exports = module.exports = (IoC, knex, cache) ->
     createTemporary: (email, newPassword, callback=->) ->
       @findOne { email: email }, (error, user) =>
         if error then return callback error
-        if user then return callback new Error "email conflict. can't create temporary account."
+        if user then return callback new Error "email conflict"
 
         newUser =
           email: email

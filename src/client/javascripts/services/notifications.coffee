@@ -6,14 +6,14 @@ exports = module.exports = ($http, $log, $root, $storage) -> new class
   getAll: ->
 
 
-  create: (message, type="success") ->
+  create: (message, type="success", timeout=5000) ->
     $root.$broadcast "notification",
-      text: message, type: type, hasRead: false, flash: true
+      text: message, type: type, hasRead: false, flash: true, timeout: timeout
 
 
-  error:   (message) -> @create message, "error"
-  success: (message) -> @create message, "success"
-  warn:    (message) -> @create message, "warn"
+  error:   (message, timeout) -> @create message, "error", timeout
+  success: (message, timeout) -> @create message, "success", timeout
+  warn:    (message, timeout) -> @create message, "warn", timeout
 
   parseURL: ->
 exports.$inject = [
