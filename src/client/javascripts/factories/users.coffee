@@ -12,7 +12,7 @@ exports = module.exports = ($http, $root, console, $storage) -> new class
     BANNED:     2
     SUSPENDED:  3
 
-  setCurrentUser: (user) -> $storage.session "models:user:current", user
+  setCurrentUser: (user) -> $storage.session "models:user:current", angular.toJson user
   getCurrentUser: -> (angular.fromJson $storage.session "models:user:current") or {}
   isLoggedIn: -> @getCurrentUser().id?
 
@@ -22,8 +22,7 @@ exports = module.exports = ($http, $root, console, $storage) -> new class
 
 
   onUserChange: (user) ->
-    $storage.session "models:user:current", user
-    $root.$broadcast "user:changed"
+    @setCurrentUser user
     $root.bodyClasses["logged-in"] = @isLoggedIn()
 
 
