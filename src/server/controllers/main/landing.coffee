@@ -25,10 +25,11 @@ exports = module.exports = (renderer, Classifieds) ->
 
 
   controller = (request, response, next) ->
-    if request.cookies["pay-w-tweet"]
-      async.parallel [=> promoteClassified request]
+    # if request.cookies["pay-w-tweet"]
+    #   async.parallel [=> promoteClassified request]
 
-    Classifieds.query {}, (error, classifieds) ->
+    query =  status: Classifieds.statuses.ACTIVE
+    Classifieds.query query, (error, classifieds) ->
       if error then return next error
       args =
         description: description
