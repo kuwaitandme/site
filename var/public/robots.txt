@@ -121,3 +121,4 @@ Disallow: /wp-content/
 Disallow: /en/privacy
 Disallow: /en/terms
 Disallow: /ar/privacy
+Disallow: /ar/classified/552d1ba8014074ae0e863f79

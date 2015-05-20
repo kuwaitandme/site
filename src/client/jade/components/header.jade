@@ -1,10 +1,8 @@
 .collapse.row(ng-controller="component:header")
   #main-header.columns
     a#header-logo(href="/", ng-click="closeHeader()")
-        //- img(src!="<%= staticUrl %>/images/header-logo.png")
     #grabber(ng-click="toggleHeader()")
       #notification-counter(ng-if="unreadNotifications > 0") {{ unreadNotifications }}
-      //- img(src!="<%= staticUrl %>/images/hamburger.png")
 
   #notifications-popup-container(ng-if="flashNotifications.length > 0")
     .notification(ng-repeat="n in flashNotifications", class="{{ n.type }}",
