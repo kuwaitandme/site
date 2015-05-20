@@ -104,3 +104,5 @@ Disallow: /en/2013/07/14/news/spread-of-dna-databases-sparks-ethical-concerns/
 Disallow: /en/forums/forum/general-disscussion/
 Disallow: /en/uploads/main/
 Disallow: /en/classified/single
+Disallow: /ar/classified/single
+Disallow: /classified/single
