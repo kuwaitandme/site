@@ -9,7 +9,7 @@ Disallow: /stylesheets/
 Disallow: /api/
 Sitemap: https://static.kuwaitandme.com/sitemap.xml
 
-# Remove old links to old classifieds
+# Remove old links to classifieds
 Disallow: /classified/5526466e8bf8539558d9458f
 Disallow: /classified/552648d96115ef4f7734b9b7
 Disallow: /classified/552649756115ef4f7734b9b8
@@ -92,3 +92,13 @@ Disallow: /classified/5553af06918733ea68a5a087
 Disallow: /classified/5553af99918733ea68a5a088
 Disallow: /classified/55542e96918733ea68a5a089
 Disallow: /classified/555430f3918733ea68a5a08a
+Disallow: /classified/55122acfdf7f30c6133aafe5
+
+# Remove other old links (captured from Google webmaster's 404 list)
+Disallow: /en/2013/07/14/news/hello-world/
+Disallow: /en/2013/07/14/news/typhoon-forces-evacuation-of-500000-in-china/
+Disallow: /en/2013/07/14/apple-controversy-lays-bare-complex-tax-web/
+Disallow: /en/2013/07/14/news/spread-of-dna-databases-sparks-ethical-concerns/
+Disallow: /en/forums/forum/general-disscussion/
+Disallow: /en/uploads/main/
+Disallow: /en/classified/single
