@@ -4,6 +4,8 @@ html(lang= lang, dir= dir, ng-controller="master")
     include ./include/head.jade
     if data.noIndex
       meta(name="robots", content="noindex")
+    else
+      meta(name="robots" content="index, follow")
 
   body(itemscope, itemtype="http://schema.org/WebSite", id="{{ bodyid }}", ng-class="bodyClasses", ng-style="bodyStyles", ng-cloak)
     #fb-root
