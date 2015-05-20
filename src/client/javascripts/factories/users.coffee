@@ -54,7 +54,7 @@ exports = module.exports = ($http, $root, console, $storage) -> new class
       .success (user) =>
         console.log @name, "fetched current user"
         console.debug @name, user
-        @onUserChange angular.toJson user
+        @onUserChange user
 
     # Attempt to get the user from the cache.
     cache = $storage.session "models:user:current"
