@@ -34,7 +34,9 @@ exports = module.exports = (renderer, Categories, Classifieds) ->
                 if child.slug == childCategory
                   parameters.child_category = child.id
                   title = "#{child.name} - #{parent.name}"
+                  break
               if not parameters.child_category then return next()
+            break
         if not parameters.parent_category then return next()
 
       # Render the page with the resulting query parameters
