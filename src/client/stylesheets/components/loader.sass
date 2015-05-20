@@ -32,15 +32,14 @@
     left: 100%
     width: 100%
 
-body
-  &[ng-cloak], &.loading
-    background: #FFF !important
-    overflow-y: hidden
-    #page-loader
-      display: block
-      #page-loading-bar
-        -webkit-animation-name: loader-dynamic-load
-        -webkit-animation-iteration-count: infinite
-        -webkit-animation-duration: 1s
-    main, #page-hero, footer
-      opacity: 0
+body.loading
+  background: #FFF !important
+  overflow-y: hidden
+  #page-loader
+    display: block
+    #page-loading-bar
+      -webkit-animation-name: loader-dynamic-load
+      -webkit-animation-iteration-count: infinite
+      -webkit-animation-duration: 1.5s
+  main, #page-hero, footer
+    opacity: 0

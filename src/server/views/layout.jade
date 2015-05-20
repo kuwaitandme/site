@@ -7,7 +7,7 @@ html(lang= lang, dir= dir, ng-controller="master")
     else
       meta(name="robots" content="index, follow")
 
-  body(itemscope, itemtype="http://schema.org/WebSite", id="{{ bodyid }}", ng-class="bodyClasses", ng-style="bodyStyles", ng-cloak)
+  body.initializing(itemscope, itemtype="http://schema.org/WebSite", id="{{ bodyid }}", ng-class="bodyClasses", ng-style="bodyStyles")
     #fb-root
 
     meta(itemprop="url" content="https://kuwaitandme.com/")
@@ -15,8 +15,6 @@ html(lang= lang, dir= dir, ng-controller="master")
 
     #page-loader
       #page-loading-bar
-
-    //- section#page-hero
 
     //- Here goes the main content of the site
     main(ui-view)

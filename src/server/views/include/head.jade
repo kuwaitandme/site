@@ -26,25 +26,29 @@ meta(name="author", content="Kuwait & Me")
 //- meta(name="apple-itunes-app", content="app-id=544007664")
 //- meta(name="google-play-app", content="app-id=com.google.android.youtube")
 
-//- script(src="https://www.google.com/recaptcha/api.js?render=explicit&hl=#{lang}", async)
 
 style.
-  body[ng-cloak] {
+  body, html {
+    height: 100%
+  }
+  body.initializing {
+    overflow-y: hidden;
     background: #FFF; }
-    body[ng-cloak] #page-loading {
+    body.initializing #page-loader {
       display: block; }
-    body[ng-cloak] main, body[ng-cloak] header, body[ng-cloak] #page-hero, body[ng-cloak] footer {
-      display: none; }
 
-  #page-loading {
-    display: none;
+  .robots {
+    display: none
+  }
+  #page-loader {
     position: absolute;
     background: #eee;
     top: 50%;
     left: 50%;
     margin-left: -100px;
+    z-index: 1;
     width: 200px; }
-    #page-loading #page-loading-bar {
+    #page-loader #page-loading-bar {
       transition: all 300ms ease-out;
       width: 0%;
       background: #f60;

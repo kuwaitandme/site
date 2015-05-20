@@ -3,7 +3,7 @@ window.scripts = [
   {
     id: "app:style-css"
     remote: ["#{u}/stylesheets/style.css?m=#{publicData.magic.application}"]
-    local: "#{u}/stylesheets/style.css?m=#{publicData.magic.application}"
+    local: "/stylesheets/style.css?m=#{publicData.magic.application}"
   }
   {
     id: "library"
@@ -12,17 +12,17 @@ window.scripts = [
       "//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.14/angular-ui-router.min.js"
       "//cdnjs.cloudflare.com/ajax/libs/masonry/3.3.0/masonry.pkgd.min.js"
     ]
-    local: "#{u}/javascripts/libraries.js?m=#{publicData.magic.library}"
+    local: "/javascripts/libraries.js?m=#{publicData.magic.library}"
   }
   {
     id: "app:template"
     remote: ["#{u}/javascripts/templates.js?m=#{publicData.magic.application}"]
-    local:  "#{u}/javascripts/templates.js?m=#{publicData.magic.application}"
+    local:  "/javascripts/templates.js?m=#{publicData.magic.application}"
   }
   {
     id: "app:script"
     remote: ["#{u}/javascripts/app.js?m=#{publicData.magic.application}"]
-    local:  "#{u}/javascripts/app.js?m=#{publicData.magic.application}"
+    local:  "/javascripts/app.js?m=#{publicData.magic.application}"
   }
   {
     id: "library:font-opensans-css"
@@ -44,14 +44,13 @@ body = (document.getElementsByTagName "body")[0]
 
 totalScriptsLoaded = 0
 incrementProgressBar = ->
-  body.classid += "loading"
   setProgressBar = (i, total) ->
     progressBarStyle = (document.getElementById "page-loading-bar").style
     progressBarStyle.width = "#{i * 1.0 / total * 100}%"
   totalScriptsLoaded++
-  setProgressBar totalScriptsLoaded, 8
+  setProgressBar totalScriptsLoaded, 9
 
-isDevelopment = publicData.environment == "development"
+isDevelopment = publicData.environment == "development" and false
 
 
 _addScript = (urlsOrCode, isCSS, isCode) ->
@@ -63,21 +62,27 @@ _addScript = (urlsOrCode, isCSS, isCode) ->
     if isCode then $fileref = document.createElement "style"
     else $fileref = document.createElement "link"
     $fileref.rel = "stylesheet"
+    $fileref.media = "none"
     $fileref.type = "text/css"
   else
     $fileref = document.createElement "script"
     $fileref.type = "text/javascript"
 
   # Populate the element with our cached code
-  if isCode then $fileref.innerHTML = urlsOrCode
+  if isCode
+    $fileref.media = "all"
+    $fileref.innerHTML = urlsOrCode
   else # Load the script from the URL
     if isCSS then $fileref.href = urlsOrCode
     else $fileref.src = urlsOrCode
   $fileref.async = false
 
   $fileref.onreadystatechange = ->
+    if this.media is "none" then this.media = "all"
     if @readyState is "complete" then incrementProgressBar();
-  $fileref.onload = incrementProgressBar
+  $fileref.onload = ->
+    if this.media is "none" then this.media = "all"
+    incrementProgressBar()
 
   # Finally with whatever element we have created, insert it into the body
   if isCSS then head.appendChild $fileref
