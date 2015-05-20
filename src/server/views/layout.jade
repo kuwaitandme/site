@@ -2,7 +2,8 @@ doctype html
 html(lang= lang, dir= dir, ng-controller="master")
   head
     include ./include/head.jade
-    meta(name="robots", content="noindex", ng-if="meta.robotsNoIndex")
+    if data.noIndex
+      meta(name="robots", content="noindex")
 
   body(itemscope, itemtype="http://schema.org/WebSite", id="{{ bodyid }}", ng-class="bodyClasses", ng-style="bodyStyles", ng-cloak)
     #fb-root

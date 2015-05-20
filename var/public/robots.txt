@@ -1,5 +1,7 @@
 User-agent: *
 Disallow: /account/
+Disallow: /auth
+Disallow: /auth/
 Disallow: /classified/post
 Disallow: /classified/edit
 Disallow: /classified/finish

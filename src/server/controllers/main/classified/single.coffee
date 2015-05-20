@@ -15,8 +15,12 @@ exports = module.exports = (renderer, Classified) ->
 
       classified = classified.toJSON()
       if not classified.id? then return next()
+      if classified.meta? then noIndex = classified.meta.robotsNoIndex
+
       options =
-        data: classified: classified
+        data:
+          noIndex: noIndex or false
+          classified: classified
         description: classified.title
         page: "classified/single"
         title: classified.title
