@@ -1,6 +1,7 @@
-sass      = require 'gulp-sass'
-rename    = require 'gulp-rename'
-uglifycss = require 'gulp-uglifycss'
+sass      = require "gulp-sass"
+rename    = require "gulp-rename"
+uglifycss = require "gulp-uglifycss"
+
 
 module.exports = (gulp, config) ->
   task = ->
@@ -11,9 +12,9 @@ module.exports = (gulp, config) ->
 
     gulpPipe
 
-  gulp.task 'sass', -> task()
+  gulp.task "sass", -> task()
 
-  gulp.task 'sass:minified', ->
+  gulp.task "sass:minified", ->
     task()
       .pipe uglifycss()
       .pipe rename config.targetFilenameMin

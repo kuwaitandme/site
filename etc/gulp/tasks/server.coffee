@@ -1,9 +1,10 @@
-coffee     = require 'gulp-coffee'
-concat     = require 'gulp-concat'
-debug      = require 'gulp-debug'
-gulpIgnore = require 'gulp-ignore'
-rename     = require 'gulp-rename'
-uglify     = require 'gulp-uglifyjs'
+coffee     = require "gulp-coffee"
+concat     = require "gulp-concat"
+debug      = require "gulp-debug"
+gulpIgnore = require "gulp-ignore"
+rename     = require "gulp-rename"
+uglify     = require "gulp-uglifyjs"
+
 
 module.exports = (gulp, config) ->
   task = ->

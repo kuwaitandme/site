@@ -21,6 +21,7 @@ module.exports =
     jsPattern:           "src/client/javascripts/**/*.coffee"
     cssPattern:          "src/client/stylesheets/**/*.{sass,scss}"
     jadePattern:         "src/client/jade/**/*.jade"
+    serverPattern:       "src/server/views/components/footer-scripts/*.coffee"
 
   docs:
     hostname:            "http://localhost:8000"
