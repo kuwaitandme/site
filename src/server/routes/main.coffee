@@ -56,7 +56,8 @@ exports = module.exports = (IoC, settings) ->
   # _route "/account/profile", "account/profile"
 
   _route "/c/([^/]+)",                        "redirector/classifieds"
-  _route "/(en|ar|dg)(?:/?(.*))",             "redirector/language"
+  _route "/(en|ar|dg)",                       "redirector/language"
+  _route "/(en|ar|dg)/(.*)",                  "redirector/language"
   _route "/([^/]+)",                          "classified/single"
   _route "/(.+)",                             "redirector/oldUrls"
   _route ".*",                                "errors/404"

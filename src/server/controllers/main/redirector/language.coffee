@@ -15,7 +15,6 @@ exports = module.exports = (Classifieds) ->
     query._lang = request.params[0]
     try newqueryString = querystring.stringify query
     catch e then newqueryString = ""
-    console.log newqueryString
 
     # Redirect to the new URL
     response.redirect "/#{pathname}?#{newqueryString}"
