@@ -1,15 +1,22 @@
 User-agent: *
+
+# Don't allow sensitive links. If you're reading this, GET A F**KING HOBBY YOU
+# HACKER NERD !!
 Disallow: /account/
+Disallow: /api
+Disallow: /api/
 Disallow: /auth
 Disallow: /auth/
-Disallow: /classified/post
 Disallow: /classified/edit
 Disallow: /classified/finish
+Disallow: /classified/post
 Disallow: /images/
 Disallow: /javascripts/
 Disallow: /stylesheets/
-Disallow: /api/
+
+# Link to the sitemap!
 Sitemap: https://static.kuwaitandme.com/sitemap.xml
+
 
 # Remove old links to classifieds
 Disallow: /classified/5526466e8bf8539558d9458f
@@ -97,12 +104,12 @@ Disallow: /classified/555430f3918733ea68a5a08a
 Disallow: /classified/55122acfdf7f30c6133aafe5
 
 # Remove other old links (captured from Google webmaster's 404 list)
-Disallow: /en/2013/07/14/news/hello-world/
-Disallow: /en/2013/07/14/news/typhoon-forces-evacuation-of-500000-in-china/
-Disallow: /en/2013/07/14/apple-controversy-lays-bare-complex-tax-web/
-Disallow: /en/2013/07/14/news/spread-of-dna-databases-sparks-ethical-concerns/
-Disallow: /en/forums/forum/general-disscussion/
-Disallow: /en/uploads/main/
-Disallow: /en/classified/single
 Disallow: /ar/classified/single
 Disallow: /classified/single
+Disallow: /en/2013/07/14/apple-controversy-lays-bare-complex-tax-web/
+Disallow: /en/2013/07/14/news/hello-world/
+Disallow: /en/2013/07/14/news/spread-of-dna-databases-sparks-ethical-concerns/
+Disallow: /en/2013/07/14/news/typhoon-forces-evacuation-of-500000-in-china/
+Disallow: /en/classified/single
+Disallow: /en/forums/forum/general-disscussion/
+Disallow: /en/uploads/main/
