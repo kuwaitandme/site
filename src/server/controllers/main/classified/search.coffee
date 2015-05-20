@@ -29,11 +29,12 @@ exports = module.exports = (renderer, Categories, Classifieds) ->
             title = parent.name
 
             # Query on the child category based on the second slug
-            if childCategory? then for child in parent.children
-              if child.slug == childCategory
-                parameters.child_category = child.id
-                title = "#{child.name} - #{parent.name}"
-            if not parameters.child_category then return next()
+            if childCategory?
+              for child in parent.children
+                if child.slug == childCategory
+                  parameters.child_category = child.id
+                  title = "#{child.name} - #{parent.name}"
+              if not parameters.child_category then return next()
         if not parameters.parent_category then return next()
 
       # Render the page with the resulting query parameters
