@@ -5,7 +5,8 @@
     .thumb(ng-if="classified.mainImage", ng-style="{'background':classified.mainImage.color}")
       img(ng-image-loader!="<%= staticUrl %>/uploads/thumb/{{ classified.mainImage.filename }}",
         ng-image-success="classified.imageLoaded",
-        ng-image-fail="classified.imageLoaded", alt="{{ classified.title }}")
+        ng-image-fail="classified.imageLoaded", alt="{{ classified.title }}",
+        ng-column-ratio="{{ classified.mainImage.ratio }}")
   .info
     .title(ng-click="toggleClassified(classified)")
       a(itemprop="name", ng-href="{{ classified.link }}") {{ classified.title | limitTo: 120 }}

@@ -5,7 +5,7 @@ exports = module.exports = ($scope, console, Users) ->
 
   # Prepare the query for the classified.list controller. This object
   # gets inherited by the classified.list controller.
-  $scope.query = owner: Users.getCurrentUser().id
+  $scope.query = owner: Users.getCurrentUser().id or -1
   $scope.finishMessage = "End of classifieds"
   $scope.emptyMessage = "You have no classifieds"
   $scope.redirectToEditPage = true
