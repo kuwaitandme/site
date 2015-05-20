@@ -103,7 +103,7 @@ Disallow: /classified/55542e96918733ea68a5a089
 Disallow: /classified/555430f3918733ea68a5a08a
 Disallow: /classified/55122acfdf7f30c6133aafe5
 
-# Remove other old links (captured from Google webmaster's 404 list)
+# Remove old links captured from Google webmaster's 404 list
 Disallow: /ar/classified/single
 Disallow: /classified/single
 Disallow: /en/2013/07/14/apple-controversy-lays-bare-complex-tax-web/
@@ -113,3 +113,11 @@ Disallow: /en/2013/07/14/news/typhoon-forces-evacuation-of-500000-in-china/
 Disallow: /en/classified/single
 Disallow: /en/forums/forum/general-disscussion/
 Disallow: /en/uploads/main/
+
+# Remove old links captured from GoogleBot's 404s in the access log
+Disallow: /en/uploads/
+Disallow: /forums/
+Disallow: /wp-content/
+Disallow: /en/privacy
+Disallow: /en/terms
+Disallow: /ar/privacy
