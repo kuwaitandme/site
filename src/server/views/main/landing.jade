@@ -5,6 +5,6 @@ block robots
     if classified
       span(itemscope itemtype="http://schema.org/Invoice")
         h1(itemprop="name")= classified.title
-        a(href="/classified/#{classified.slug}", itemprop="url") link
+        a(href="/#{classified.slug}", itemprop="url") link
   a(href="/classified") search classifieds
   //- a(href="/ar/classified") تجد الإعلانات المبوبة
