@@ -39,12 +39,6 @@ exports = module.exports = (IoC, settings) ->
         bcc: settings.email.webmasterAddress
         text: plainText
         to: destinationEmail
-      console.log
-        from: "#{settings.sitename} <#{settings.email.noreplyAddress}>"
-        subject: subject
-        bcc: settings.email.webmasterAddress
-        text: plainText
-        to: destinationEmail
       # Include HTML attachements
       if options.html? then message.attach data: options.html, alternative: true
       message.attach attachment for attachment in (options.attachments or [])
