@@ -1,16 +1,12 @@
 Promise   = require "bluebird"
 validator = require "validator"
 
-
-# The controller to activate the user. This function expects the user"s id to
-# be passed as well as the activation token passed a GET variable.
-#
-# Redirect to 'activationSuccessRedirect' iff the activation was successful
+# (untested)
 exports = module.exports = (IoC, Users) ->
   logger = IoC.create "igloo/logger"
 
-  activationSuccessRedirect = "/auth?_success=activate_success"
-  activationFailRedirect = "/auth?_error=activate_fail"
+  modifySuccessRedirect = "/auth?_success=account_changes_saved"
+  modifyFailRedirect = "/auth?_error=account_changes_failed"
 
   # First check if the request contains all the necessary parameters
   validateRequest = (request) ->
@@ -26,18 +22,30 @@ exports = module.exports = (IoC, Users) ->
   validateWithDB = (token, user) ->
     userJSON = user.toJSON()
     if not userJSON then throw new Error "user not found"
-    if not userJSON.meta? or not userJSON.meta.activationToken?
-      throw new Error "user doesn't have activation token"
-    if userJSON.meta.activationToken is not token
+    if not userJSON.meta? throw new Error "user didn't request for change"
+    if not userJSON.meta.signupVerifyToken?
+      throw new Error "user doesn't have verification token"
+    if not userJSON.meta.newPassword?
+      throw new Error "user doesn't have replacement password"
+    if not userJSON.meta.newName?
+      throw new Error "user doesn't have replacement name"
+    if userJSON.meta.signupVerifyToken is not token
       throw new Error "token mismatch"
     userJSON
 
 
   # All validation went well. Ok, so now we update the user with a new 'active'
   # status and the activation token removed.
-  activateUser = (userJSON) ->
-    delete userJSON.meta.activationToken
-    patch = status: Users.statuses.ACTIVE, meta: userJSON.meta
+  updateUser = (userJSON) ->
+    patch = {}
+    patch.full_name = userJSON.meta.newName
+    patch.password = userJSON.meta.newPassword
+    # Remove the meta fields to create the new meta object that will get patched
+    # along with the fullname and password.
+    delete userJSON.meta.signupVerifyToken
+    delete userJSON.meta.newName
+    delete userJSON.meta.newPassword
+    patch.meta = userJSON.meta
     Users.patchPromise userJSON.id, patch
 
 
@@ -50,13 +58,13 @@ exports = module.exports = (IoC, Users) ->
     .spread (id, token) -> [token, Users.getPromise id]
     # Validate the request with the user from the DB
     .spread validateWithDB
-    # Activate the user!
-    .then activateUser
+    # Update the user!
+    .then updateUser
     # Redirect to the login page
-    .then -> response.redirect activationSuccessRedirect
+    .then -> response.redirect modifySuccessRedirect
     .catch (error) ->
       logger.error error.message
-      response.redirect activationFailRedirect
+      response.redirect modifyFailRedirect
 
 
 exports["@require"] = [

@@ -4,6 +4,7 @@ jade  = require "jade"
 
 exports = module.exports = (IoC, settings) ->
   logger = IoC.create "igloo/logger"
+
   new class
     name: "[email]"
     sendTemplate: (destinationEmail, template, options={}) ->
