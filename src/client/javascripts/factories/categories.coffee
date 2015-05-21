@@ -81,7 +81,7 @@ exports = module.exports = ($http, console, $storage) -> new class
 
     # Check in cache
     cache = $storage.local "models:category"
-    if cache? and false
+    if cache?
       # Categories was found in cache, prepare to translate it and return
       console.log @name, "fetching categories from cache"
       try

@@ -2,11 +2,12 @@ exports = module.exports = ($http, $log) -> new class
   name: "[model:language]"
 
   dictonary:
-    google_success: "Welcome _NAME_, you are now logged in!"
-    facebook_success: "Welcome _NAME_, you are now logged in!"
-    logout: "You have been logged out successfully"
-    google_fail: "Your google account didn't allow us to get your email :( Try some other login method"
     facebook_fail: "Your facebook account didn't allow us to get your email :( Try some other login method"
+    facebook_success: "Welcome _NAME_, you are now logged in!"
+    google_fail: "Your google account didn't allow us to get your email :( Try some other login method"
+    google_success: "Welcome _NAME_, you are now logged in!"
+    logout: "You have been logged out successfully"
+    need_login: "You need to be logged in to view that page"
 
   translate: (key) -> @dictonary[key] or ""
 
