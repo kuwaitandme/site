@@ -2,11 +2,11 @@ extends ../../layout.jade
 
 block robots
   section(itemscope, itemtype="http://schema.org/Product")
-
     for image in robots.classified.images
       img(src="#{ staticUrl }/uploads/main/#{image.filename}", itemprop="image")
-
     h1(itemprop="name")= robots.classified.title
     section(itemprop="description")= robots.classified.description
-    span.meta-value(itemprop="price", content="robots.classified.priceValue || 0")= robots.classified.priceValue || 0
-    span.meta-value(itemprop="priceCurrency", content="KWD") KWD
+    span(itemprop="offers", itemscope, itemtype="http://schema.org/Offer")
+      span.meta-value(itemprop="price", content="#{ robots.classified.priceValue || 0 }")= robots.classified.priceValue || 0
+      span.meta-value(itemprop="priceCurrency", content="KWD") KWD
+    span(itemprop="url") #{url}/#{robots.classified.slug}

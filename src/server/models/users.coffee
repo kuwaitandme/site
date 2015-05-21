@@ -1,8 +1,14 @@
+Promise   = require "bluebird"
 bCrypt    = require "bcrypt-nodejs"
 validator = require "validator"
 
 exports = module.exports = (IoC, knex, cache) ->
   logger = IoC.create "igloo/logger"
+
+  bookshelf   = (require "bookshelf") knex
+  model      = bookshelf.Model.extend tableName: "users"
+  collection = bookshelf.Collection.extend model: model
+
   new class
     name: "[model:users]"
     loginStrategies:
@@ -42,16 +48,29 @@ exports = module.exports = (IoC, knex, cache) ->
       @model.forge parameters
         .fetch().then (user) -> callback null, user
 
+    findOnePromise: (parameters={}) -> new Promise (resolve, reject) ->
+      model.forge parameters
+      .fetch().then (user) -> resolve user
 
-    # Fetchs a user, but unlike findOne this takes in only an id.
+
+    # Fetches a user, but unlike findOne this takes in only an id.
     get: (id, callback=->) ->
       @findOne { id: id }, (error, user) -> callback error, user
+
+    getPromise: (id) -> new Promise (resolve, reject) ->
+      model.forge id: id
+      .fetch().then (user) -> resolve user
 
 
     # Creates a new user
     create: (parameters, callback=->) ->
       @model.forge parameters
-        .save().then (user) -> callback null, user
+      .save().then (user) -> callback null, user
+
+
+    createPromise: (parameters) -> new Promise (resolve, reject) ->
+      model.forge parameters
+      .save().then (user) -> resolve user
 
 
     # Creates a user with the given email, with a temporary password
@@ -67,13 +86,12 @@ exports = module.exports = (IoC, knex, cache) ->
           password: @hashPassword newPassword
           meta: hasTemporaryPassword: true
           status: @statuses.ACTIVE
-        logger.debug @name, "creating temporary user with properties", newUser
         @create newUser, callback
 
 
     # Predicate functions for the different enum fields.
-    isAdmin: (user) -> user.role is @roles.ADMIN
-    isModerator: (user) -> user.role is @roles.MODERATOR
+    isAdmin: (user) -> @roles.ADMIN is user.get 'role'
+    isModerator: (user) -> @roles.MODERATOR is user.get 'role'
 
     isActive: (user) -> user.status is @statuses.ACTIVE
     isBanned: (user) -> user.status is @statuses.BANNED
@@ -99,11 +117,15 @@ exports = module.exports = (IoC, knex, cache) ->
 
 
     patch: (id, parameters, callback) ->
-      logger.debug @name, "patching user with parameters", parameters
       @model.forge id: id
         .save parameters#, patch: true
         .then (classified) -> callback null, classified
 
+
+    patchPromise: (id, parameters) -> new Promise (resolve, reject) ->
+      model.forge id: id
+        .save parameters
+        .then (classified) -> resolve classified
 
     # Helper function to create a random password
     randomPassword: ->

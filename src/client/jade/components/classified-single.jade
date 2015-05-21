@@ -34,8 +34,10 @@ section.row.classified-single(ng-controller="component:classified-single", items
           li
 
             span.meta-title Price:
-            span.meta-value(itemprop="price",
-              content="{{ (classified.priceValue || 0 ) }}") {{ classified.priceValue | price:classified.priceType }}
+            span(itemprop="offers", itemscope, itemtype="http://schema.org/Offer")
+              span(itemprop="priceCurrency", content="KWD")
+              span.meta-value(itemprop="price",
+                content="{{ (classified.priceValue || 0 ) }}") {{ classified.priceValue | price:classified.priceType }}
           li(ng-if="classified.created", itemprop="datePublished" content="{{ classified.created }}")
             span.meta-title Published:
             span.meta-value {{ classified.created | prettydate }}
