@@ -1,35 +1,59 @@
+Promise   = require "bluebird"
 validator = require "validator"
+
 
 # The controller to activate the user. This function expects the user"s id to
 # be passed as well as the activation token passed a GET variable.
 #
-# It returns HTTP 200 iff the activation was successful.
-exports = module.exports = (Users) ->
-  (request, response, next) ->
-    id = request.params.id
+# Redirect to 'activationSuccessRedirect' iff the activation was successful
+exports = module.exports = (IoC, Users) ->
+  logger = IoC.create "igloo/logger"
 
+
+  activationSuccessRedirect = "/auth?_success=activate_success"
+  activationFailRedirect = "/auth?_error=activate_fail"
+
+  validateRequest = (request) ->
     # First check if the user id is valid
-    if not validator.isInt id
-      response.status 400
-      return response.json "invalid user id"
-
-    # Get the parameters
-    token = request.query.token or ""
     id = request.params.id
-
-    # Try and activate the user
-    Users.get id, (error, user) ->
-      user = user.toJSON()
-      if error or not user or not user.meta? or
-      user.meta.activationToken is not token
-        response.redirect "/auth/?notify_fail=activate_fail"
-      else
-        patch =
-          status: Users.statuses.ACTIVE
-          meta: {}
-        Users.patch id, patch, (error, user) ->
-          response.redirect "/auth/?notify_success=activate_success"
+    if not validator.isInt id then throw new Error "invalid user id"
+    # Check if the token is valid too
+    token = request.query.token
+    if not token? and token.length > 1 then throw new Error "invalid token"
+    [id, token]
 
 
-exports["@require"] = ["models/users"]
+  validateWithDB = (token, user) ->
+    userJSON = user.toJSON()
+    if not userJSON then throw new Error "user not found"
+    if not userJSON.meta? or not userJSON.meta.activationToken?
+      throw new Error "user doesn't have activation token"
+    if userJSON.meta.activationToken is not token
+      throw new Error "token mismatch"
+    userJSON
+
+
+  activateUser = (userJSON) ->
+    delete userJSON.meta.activationToken
+    patch = status: Users.statuses.ACTIVE, meta: userJSON.meta
+    Users.patchPromise userJSON.id, patch
+
+
+  controller = (request, response, next) ->
+    Promise.resolve request
+    .then validateRequest
+    .spread (id, token) -> [token, Users.getPromise id]
+    .spread validateWithDB
+    .then activateUser
+    .then -> response.redirect activationSuccessRedirect
+    .catch (error) ->
+      logger.error error.message
+      response.redirect activationFailRedirect
+
+
+exports["@require"] = [
+  "$container"
+
+  "models/users"
+]
 exports["@singleton"] = true

@@ -69,6 +69,11 @@ exports = module.exports = (settings) ->
 
       "#{timestamp}-#{makeUniqueId 10}.#{extension}"
 
+    uploadPromise: (files, options) -> new Promise (resolve, reject) =>
+      @upload files, options, (error, newImages=[]) ->
+        if error then reject error
+        else resolve newImages
+
 
     # Starts the upload of files into the server. It makes sure that the files
     # are valid files (using validation logic in the function below this one)

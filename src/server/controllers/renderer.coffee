@@ -31,6 +31,7 @@ exports = module.exports = (settings, cache) ->
 
       # options.mode = settings.server.env
       options.data ?= {}
+      options.url = settings.url
       options.staticUrl = settings.staticUrl
       options.publicData =
         staticUrl: settings.staticUrl
@@ -40,7 +41,7 @@ exports = module.exports = (settings, cache) ->
         facebook: clientid: settings.facebook.clientid
         google:
           clientID: settings.google.clientID
-          reCaptchaKey: "abcd"
+          reCaptchaKey: settings.google.reCaptcha
           analyticsCode: settings.google.analyticsCode
       # options.config =
         # mode: config.mode

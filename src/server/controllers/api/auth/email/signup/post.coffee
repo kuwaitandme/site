@@ -2,102 +2,92 @@ passport = require "passport"
 validator = require "validator"
 
 # Controller for the Registering a user via email
-exports = module.exports = (User, Email, reCaptcha) ->
+exports = module.exports = (IoC, Email, reCaptcha, Users) ->
+  logger = IoC.create "igloo/logger"
+
+  validateRequest = (request) ->
+    email = request.body.email
+    fullname = request.body.fullname
+    password = request.body.password
+    repassword = request.body.repassword
+    # Check for any missing fields
+    if not fullname or not repassword or not password or not email
+      throw new Error "missing fields"
+    # Check for password mis-match
+    if password is not repassword
+      throw new Error "password mismatch"
+    # Check for invalid characters
+    if not (validator.isEmail email) or
+    not (validator.matches fullname, /[a-zA-Z\s]*/)
+      throw new Error "bad email/name"
+    request
+
+
+  createNewUserObject = (request) ->
+    email: request.body.email
+    full_name: request.body.fullname
+    login_providers: email: request.body.email
+    meta: activationToken: Users.randomPassword()
+    password: Users.hashPassword request.body.password
+    status: Users.statuses.INACTIVE
+
+
+  validateWithDBUser = (newUser, dbUser) ->
+    # User already exists in database.
+    if dbUser
+      dbUserJSON = dbUser.toJSON()
+      if dbUserJSON.login_providers?
+        # User exists and already has been registered with email login.
+        if dbUserJSON.login_providers.email
+          throw new Error "user already registered with email"
+        else dbUserJSON.login_providers.email = newUser.email
+        # User exists but does not have email login, so modify the current
+        # user. Then save into the DB.
+        dbUserJSON.meta ?= {}
+        dbUserJSON.meta.newName = newUser.fullname
+        dbUserJSON.meta.newPassword = newUser.password
+        dbUserJSON.meta.signupVerifyToken = newUser.meta.activationToken
+        emailOptions =
+          template: "user-modified"
+          subject: "Your account has been modified. Verify this!"
+          user: dbUser
+        [emailOptions, Users.patchPromise dbUserJSON.id, dbUserJSON]
+    # If there is no user with that email, create the user
+    else
+      emailOptions =
+        email: newUser.email
+        template: "user-signup-activate"
+        subject: "#{newUser.full_name}! Activate your account"
+        user: newUser
+      [emailOptions, Users.createPromise newUser]
+
+
+  sendEmail = (emailOptions, newUser) ->
+    emailOptions.user = newUser.toJSON()
+    Email.sendTemplate emailOptions.email, emailOptions.template, emailOptions
+    newUser
+
+
   (request, response, next) ->
-    captchaFail = ->
-      response.status 400
-      response.json "recaptcha failed"
+    reCaptcha.verify request
+    .then validateRequest
+    .then createNewUserObject
+    .then (newUser) -> [newUser, Users.findOnePromise email: newUser.email]
+    .spread validateWithDBUser
+    .spread sendEmail
+    # Once done, return the fields that have been changed back to the user
+    .then (result) -> response.json result.toJSON()
+    .catch (error) ->
+      logger.error    error.stack
+      response.status error.status or 400
+      response.json   error.message
 
-    captchaSuccess = ->
-      email = request.body.email
-      fullname = request.body.fullname
-      password = request.body.password
-      repassword = request.body.repassword
-
-      # Check for any missing fields
-      if not fullname or not repassword or not password or not email
-        response.status 400
-        return response.json "missing fields"
-
-      # Check for password mis-match
-      if password is not repassword
-        response.status 400
-        return response.json "password mismatch"
-
-      # Check for invalid characters
-      if not (validator.isEmail email) or
-      not (validator.matches fullname, /[a-zA-Z\s]*/)
-        response.status 400
-        return response.json "bad email/name"
-
-      # Find a user in the database with provided email
-      User.findOne email: email , (error, user) ->
-        if error
-          response.status 500
-          return response.json error
-
-        newUser =
-          full_name: fullname
-          email: email
-          password: User.hashPassword password
-          login_providers: email: email
-          status: User.statuses.INACTIVE
-          meta: activationToken: User.randomPassword()
-
-        # User already exists and email login exists
-        if user
-          user = user.toJSON()
-          if user.login_providers?
-            # User exists and already has been registered with email login.
-            if user.login_providers.email
-              response.status 409
-              return response.json "user already exists"
-            else
-              # User exists but does not have email login, so modify the current
-              # user. Then save into the DB.
-              user.email = email
-              user.meta ?= {}
-              # if user.meta.hasTemporaryName
-              #   user.full_name = fullname
-              #   delete user.meta.hasTemporaryName
-              if user.meta.hasTemporaryPassword
-                user.password = User.hashPassword password
-                delete user.meta.hasTemporaryPassword
-              user.login_providers.email = email
-              user.status = User.statuses.INACTIVE
-              user.meta.activationToken = User.randomPassword()
-              User.patch user.id, user, (error, patchedUser) ->
-                if error
-                  response.status 500
-                  return response.json error
-                # Send activation email
-                # TODO: add a message about the password being changed or not
-                Email.sendTemplate patchedUser.email, "user-activate",
-                  subject: "#{fullname}! Activate your account"
-                  user: patchedUser.toJSON()
-                # pass the registered user to the callback
-                response.json patchedUser
-
-        else
-          # If there is no user with that email, create the user
-          User.create newUser, (error, user) ->
-            if error
-              response.status 500
-              return response.json error
-            # Send activation email
-            Email.sendTemplate user.email, "user-activate",
-              subject: "#{fullname}! Activate your account"
-              user: user.toJSON()
-            # pass the registered user to the callback
-            response.json user
-
-    # Check the captcha, which then lls the function to create the user
-    captchaSuccess()
-    # reCaptcha.verify request, captchaSuccess, captchaFail
 
 exports["@require"] = [
-  "models/users"
+  "$container"
   "controllers/email"
   "controllers/recaptcha"
+
+  "models/users"
 ]
 exports["@singleton"] = true
