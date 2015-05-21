@@ -144,12 +144,15 @@ exports = module.exports = ($scope, $googleMaps, $imageResizer,
         $scope.formLoading = $scope.formClasses.loading = false
         if error
           console.error @name, error
-          if error is "email conflict"
-            return $notifications.error "That email address has an account with this site. You must login with that email otherwise this classified is considered as spam.", 10000
-          else
-          return $notifications.error "Something went wrong while saving your classified. Try again later"
-
-        $scope.onSuccess classified
+          switch error
+            when "email conflict"
+              $notifications.error "That email address has an account with this site. You must login with that email otherwise this classified is considered as spam.", 10000
+            when "not privileged"
+              $notifications.error "You can't make changes to this classified", 10000
+            else
+              $notifications.error "Something went wrong while saving your classified. Try again later"
+        else
+          $scope.onSuccess classified
     else
       $scope.formLoading = $scope.formClasses.loading = false
       $notifications.error "You have some invalid fields in your form. Have a look at them again"

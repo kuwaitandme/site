@@ -26,7 +26,7 @@ exports = module.exports = ($http, console, $storage) -> new class
         $storage.local "models:location", angular.toJson locations
 
     cache = $storage.local "models:location"
-    if cache? and false
+    if cache?
       # locations was found in cache, prepare to translate it and return
       console.log @name, "retrieving locations from cache"
       try

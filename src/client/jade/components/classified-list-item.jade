@@ -12,8 +12,12 @@
       a(itemprop="name", ng-href="{{ classified.link }}") {{ classified.title | limitTo: 120 }}
     .border
     ul.meta.row.collapse
-      li.price.small-6.columns(ng-if="!showStatus", itemprop="price",
-        content="{{ (classified.priceValue || 0 ) }}") {{ classified.priceValue | price:classified.priceType }}
+      li.price.small-6.columns(ng-if="!showStatus", itemprop="offers",
+        itemscope,
+        itemtype="http://schema.org/Offer")
+        span(itemprop="priceCurrency", content="KWD")
+        span(itemprop="price", content="{{ (classified.priceValue || 0 ) }}") )
+          {{ classified.priceValue | price:classified.priceType }}
       li.status.small-6.columns(ng-if="showStatus") {{ classified.status | status:"classified" }}
       li.date.small-6.columns.text-right
         a(ng-href="/{{ classified.slug }}")
