@@ -1,0 +1,3 @@
+| Your account has been modified
+| Use the link below to verify your changes
+#{host}/api/auth/email/signup/modifyConfirm/#{user._id}?token=#{user.signupVerifyToken}
