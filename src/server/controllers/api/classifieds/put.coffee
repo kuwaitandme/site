@@ -2,12 +2,36 @@ Promise        = require "bluebird"
 _              = require "underscore"
 formidable     = require "formidable"
 observableDiff = (require "deep-diff").observableDiff
+xss            = require "xss"
 
 
-exports = module.exports = (Classifieds, reCaptcha, uploader) ->
+exports = module.exports = (IoC, reCaptcha, uploader, Classifieds, Users) ->
+  logger = IoC.create "igloo/logger"
 
-  # Initialize a formidable object
-  initializeFormReader = (request) ->
+  # Check if the request has the required data
+  checkRequest = (request) ->
+    if not request.isAuthenticated() then throw new Error "need login"
+    else if not request.params.id? then throw new Error "need valid id"
+    else request.params.id
+
+
+  # Check if user has privileges to modify the classified
+  checkUserPrivelages = (results) ->
+    # Grab the request and the classified (sent by the prev promise)
+    request = results.request
+    oldClassified = results.classified
+    # Fetch the user
+    owner = oldClassified.get "owner"
+    user = request.user or {}
+    # Validate!
+    if owner != user.id and not
+    ((Users.isAdmin user) or (Users.isModerator user))
+      throw new Error "not privileged"
+    [request, oldClassified]
+
+
+  # Start parsing the multi-part encoded data
+  parseForm = (request, oldClassified) -> new Promise (resolve) ->
     form = new formidable.IncomingForm
     form.keepExtensions = true
     form.multiples = true
@@ -15,46 +39,23 @@ exports = module.exports = (Classifieds, reCaptcha, uploader) ->
     # Setup error handler. This function gets called whenever there is an
     # error while processing the form.
     form.on "error", (error) -> throw error
-    [form, request]
-
-
-  # Start parsing the multi-part encoded data
-  parseForm = (form, request) -> new Promise  (resolve) ->
     # Start parsing the form
     form.parse request, (error, fields, filesRequest) ->
       if error then throw error
       # The classified data gets passed as a JSON string, so here we parse it
-      data = JSON.parse fields.classified
-      resolve [data, filesRequest["images[]"]]
-
-
-  # Get the classified from the DB
-  getClassified = (parsedData, filesToUpload) -> new Promise (resolve) ->
-    Classifieds.get parsedData.id, (error, classified) ->
-      if error then throw error
-      if not classified then throw new Error "classified not found"
-      resolve [parsedData, classified.toJSON(), filesToUpload]
-
-
-  # Here we validate and save the files that get returned from the formidable
-  # object.
-  uploadFiles = (newClassified, oldClassified, filesToUpload) ->
-    new Promise (resolve) ->
-      options = prefix: newClassified.id
-      uploader.upload filesToUpload, options, (error, newImages=[]) ->
-        if error then throw error
-        resolve [newClassified, oldClassified, newImages]
+      newClassified = JSON.parse fields.classified
+      resolve [newClassified, oldClassified, filesRequest["images[]"]]
 
 
   # This function creates a diff between the old and new classified.
   createDiff = (newClassified, oldClassified, newImages) ->
     new Promise (resolve) ->
-      # console.log newClassified, oldClassified
       # Now start processing a diff of the classified
       classifiedDiff = {}
       filteredClassified = Classifieds.filter newClassified
       # console.log filteredClassified
-      observableDiff oldClassified, filteredClassified, (diff) ->
+      observableDiff oldClassified.toJSON(), filteredClassified, (diff) ->
+        if not diff.path? then return
         key = diff.path[0]
         # Don't edit any fields that are supposed to be 'final'
         if key in Classifieds.finalFields then return
@@ -66,7 +67,6 @@ exports = module.exports = (Classifieds, reCaptcha, uploader) ->
           classifiedDiff[key] = JSON.stringify newClassified[key]
         # For all other fields, simply assign directly.
         else classifiedDiff[key] = newClassified[key]
-
       # Here we remove the images that are in the server with the images
       # that have been flagged to be deleted.
       finalImages = []
@@ -91,44 +91,50 @@ exports = module.exports = (Classifieds, reCaptcha, uploader) ->
                 image.color = newImage.color
                 finalImages.push image
               break
-
           # This file has been unchanged, so simply add it without any changes.
           if not found then finalImages.push image
       # The final set of images, will be the images after deletion and
       # the new set of images.
       classifiedDiff.images = JSON.stringify finalImages
-      # console.log classifiedDiff
-      resolve [classifiedDiff, oldClassified]
-
-
-  # Finally update the classified with the diff into the DB.
-  updateClassified = (classifiedDiff, oldClassifiedassified) ->
-    new Promise (resolve) ->
-      Classifieds.patch oldClassifiedassified.id, classifiedDiff,
-        (error, classified) -> resolve classified.toJSON()
+      logger.debug classifiedDiff
+      resolve [oldClassified.id, classifiedDiff]
 
 
   controller = (request, response, next) ->
-    Promise.resolve request
-    .then reCaptcha.verify
-    .then initializeFormReader
+    reCaptcha.verify request
+    # Check if the parameters in the request are proper or not.
+    .then checkRequest
+    # Validation has been done, the request is proper, Fetch the classified
+    .then Classifieds.getPromise
+    # Restructure the output to contain the request
+    .then (classified) -> Promise.props classified: classified, request: request
+    # Check if the user has the privelages to modify this classified.
+    .then checkUserPrivelages
+    # Start parsing the multi-part data
     .spread parseForm
-    .spread getClassified
-    .spread uploadFiles
+    # Upload the files into the server
+    .spread (newClassified, oldClassified, newImages) ->
+      options = prefix: newClassified.id
+      [newClassified, oldClassified, uploader.uploadPromise newImages, options]
+    # Create a diff between the two classifieds
     .spread createDiff
-    .spread updateClassified
+    # Now update the classified with the diff!
+    .spread Classifieds.patchPromise
     # Once done, return the fields that have been changed back to the user
-    .then (classified) -> response.json classified
+    .then (result) -> response.json result.toJSON()
     # If there were any errors, return it with a default 400 HTTP code.
     .catch (error) ->
-      # console.log error.stack
-      response.status error.status || 400
-      response.json error
+      logger.error    error.stack
+      response.status error.status or 400
+      response.json   error.message
 
 
 exports["@require"] = [
-  "models/classifieds"
+  "$container"
   "controllers/recaptcha"
   "controllers/uploader"
+
+  "models/classifieds"
+  "models/users"
 ]
 exports["@singleton"] = true
