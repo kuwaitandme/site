@@ -8,28 +8,24 @@ Users) ->
   name = "[api:classifieds]"
 
   _createURLslug = (classified) ->
-    maxLength = 70
+    maxLength = 120
+    # Trim the string to the maximum length
+    title = classified.title
+    if title.length > maxLength then title = title.substr 0, maxLength
     # Get the keywords and make a sentence seperated by '-'s. We use this regex
     # so that we don't exclude arabic characters. Ideally we want all to get
     # rid of all non-alphabetic characters, but arabic words might get erased
-    # too.
-    #
-    # TODO: redesign this regex..
-    regex = /[^\s,\-!@#$%^&*(){}\]:"'.\/`~+_;<>?]+/g
-    keywords = (classified.title.match regex).join "-"
-    if keywords.length > maxLength
-      # Trim the string to the maximum length
-      trimmedString = keywords.substr 0, maxLength
-      # Trim the slug if we are in the middle of a word
-      trimmedSentence = trimmedString.substr 0, Math.min trimmedString.length,
-        trimmedString.lastIndexOf "-"
-      keywords = trimmedSentence
+    # too. If the title had arabic characters, then we simple leave the url
+    # alone and instead a 'classified' prefix to the slug.
+    regex = /[a-zA-Z0-9]+/g
+    components = (title.match regex) or ["classified"]
+    keywords = encodeURIComponent components.join "-"
     # Finally generate the slug and return it
-    slug = encodeURIComponent "#{keywords.toLowerCase()}-#{classified.id}"
+    slug = "#{keywords.toLowerCase()}-#{classified.id}"
 
 
-  # Initialize a formidable object
-  initializeFormReader = (request) ->
+  # Start parsing the multi-part encoded data
+  parseForm = (request) -> new Promise (resolve, reject) ->
     form = new formidable.IncomingForm
     form.keepExtensions = true
     form.multiples = true
@@ -37,14 +33,9 @@ Users) ->
     # Setup error handler. This function gets called whenever there is an
     # error while processing the form.
     form.on "error", (error) -> throw error
-    [form, request]
-
-
-  # Start parsing the multi-part encoded data
-  parseForm = (form, request) -> new Promise (resolve, reject) ->
     # Start parsing the form
     form.parse request, (error, fields, filesRequest) ->
-      if error then throw error
+      if error then reject error
       # The classified data gets passed as a JSON string, so here we parse it
       data = JSON.parse fields.classified
 
@@ -123,10 +114,8 @@ Users) ->
 
 
   controller = (request, response, next) ->
-    Promise.resolve request
-    .then reCaptcha.verify
-    .then initializeFormReader
-    .spread parseForm
+    reCaptcha.verify request
+    .then parseForm
     .spread createClassified
     .spread uploadFiles
     .spread updateClassified
