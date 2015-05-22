@@ -15,7 +15,7 @@
         ng-repeat="n in notifications",
         ng-mouseover="n.hasRead = true"
         class="{{ n.type }}", ng-class="{read: n.hasRead, hide: n.remove}") {{ n.text }}
-      li.error.none.read(ng-if="notifications.length == 0") You have no new notifications
+      li.error.none(ng-if="notifications.length == 0") You have no new notifications
 
 
     #nav-links.row
