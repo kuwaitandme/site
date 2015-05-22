@@ -1,10 +1,11 @@
-exports = module.exports = ($scope, $window, $rootScope, console, Classifieds) ->
+exports = module.exports = ($log, $root, $scope, $timeout, $window,
+Classifieds) ->
   @name = "[component:classified-list]"
-  console.log @name, "initializing"
+  $log.log @name, "initializing"
 
   # Initialize masonry
   classifedList = (angular.element document.querySelectorAll ".classified-list")[0]
-  masonry = new Masonry classifedList, transitionDuration: 0
+  masonry = new Masonry classifedList
 
   # Initialize some variables
   currentPage = 1
@@ -14,6 +15,7 @@ exports = module.exports = ($scope, $window, $rootScope, console, Classifieds) -
   $scope.queryFinished ?= false
   $scope.redirectToEditPage ?= false
   $scope.classifiedStyles ?= {}
+  $root.bodyStyles ?= {}
   $scope.showClassifiedContainer = false
 
   # setup the finish and empty classifieds message
@@ -40,19 +42,19 @@ exports = module.exports = ($scope, $window, $rootScope, console, Classifieds) -
           child.dataset.added = true
           newElements.push child
       masonry.appended newElements
-      masonry.layout()
+      # Reload masonry and give a timeout of 10ms for the browser to properly
+      # render the elements and set the heights.
+      $timeout (-> masonry.layout()), 10
 
 
   # This function toggles the classified dropdown
   $scope.toggleClassified = (classified) ->
-    $rootScope.bodyStyles = $rootScope.bodyStyles or {}
     if $scope.redirectToEditPage
       return location = "/classified/edit/#{classified.id}"
 
     if not $scope.showClassifiedContainer
       $scope.$broadcast "classified-changed", classified
-        # { 'display-cl': classified, 'hide-cl': !classified }
-      $rootScope.bodyStyles.overflowY = "hidden"
+      $root.bodyStyles.overflowY = "hidden"
       scrollPosition = body.scrollTop
       body.scrollTop = 0
 
@@ -62,30 +64,30 @@ exports = module.exports = ($scope, $window, $rootScope, console, Classifieds) -
       $scope.classifiedStyles = {}
       $scope.classifiedStyles.enterAnimation = true
       $scope.classifiedStyles.animateBackground = true
-      setTimeout  ->
+      $timeout  ->
         $scope.$apply -> $scope.classifiedStyles.animateClassified = true
       , 200
     else
       $scope.classifiedStyles = {}
       $scope.classifiedStyles.leaveAnimation = true
       $scope.classifiedStyles.animateClassified = true
-      setTimeout  ->
+      $timeout  ->
         $scope.$apply -> $scope.classifiedStyles.animateBackground = true
-        setTimeout  ->
+        $timeout  ->
           $scope.$apply ->
             $scope.classifiedStyles.animationDone = true
             $scope.showClassifiedContainer = false
         , 500
       , 200
-      setTimeout (-> body.scrollTop = scrollPosition), 50
-      $rootScope.bodyStyles.overflowY = ""
+      $timeout (-> body.scrollTop = scrollPosition), 50
+      $root.bodyStyles.overflowY = ""
 
 
   # This function loads more classifieds from the server.
   $scope.classifieds = []
   $scope.loadClassifieds = =>
-    console.log @name, "loading more classifieds"
-    console.debug @name, "page:", currentPage
+    $log.log @name, "loading more classifieds"
+    $log.debug @name, "page:", currentPage
     parameters = page: currentPage++
     # Extend the $scope.query object to our query parameters. This way we can
     # have parent controllers define the $scope.query according to their needs
@@ -93,10 +95,10 @@ exports = module.exports = ($scope, $window, $rootScope, console, Classifieds) -
     angular.extend parameters, ($scope.query or {})
     # Run the query!
     Classifieds.query parameters, (error, classifieds) =>
-      if error then console.error error
+      if error then $log.error error
       if classifieds.length == 0 then $scope.queryFinished = true
-      console.log @name, "finished loading classifieds"
-      console.debug @name, "loaded #{classifieds.length} classified(s)"
+      $log.log @name, "finished loading classifieds"
+      $log.debug @name, "loaded #{classifieds.length} classified(s)"
       # For each classified attach the imageLoader and add it to the DOM
       # (manually that is).
       for classified in classifieds
@@ -126,10 +128,11 @@ exports = module.exports = ($scope, $window, $rootScope, console, Classifieds) -
 
 
 exports.$inject = [
-  "$scope"
-  "$window"
-  "$rootScope"
   "$log"
+  "$rootScope"
+  "$scope"
+  "$timeout"
+  "$window"
 
   "model.classifieds"
 ]
