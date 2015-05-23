@@ -1,11 +1,11 @@
-#page-hero(ng-like-viewport,
-  ng-style!="{'background-image':'url(<%= staticUrl %>/images/hero/{{ heroURL }})'}")
+#page-hero
   img(ng-image-loader!="<%= staticUrl %>/images/hero/{{ heroURL }}",
     ng-image-success="onHeroLoad")
 
 section(ng-if="!parentCategory.id").category-chooser
   h1 Choose a category
   section(ng-include="'components/category-list'")
+
 section(ng-if="parentCategory.id").category-results
   h1 {{ parentCategory.name }}
   h2(ng-if="childCategory.id") {{ childCategory.name }}

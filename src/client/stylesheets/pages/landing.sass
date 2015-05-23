@@ -6,10 +6,8 @@ body#landing
   main
     background: transparent
 
-  #page-hero
-    background-image: url("/images/hero/landing.jpg")
-    &:after
-      content: ""
+  #page-hero:after
+    content: ""
 
   #splash
     margin: 3rem 0
@@ -34,10 +32,10 @@ body#landing
       font-weight: 400
       font-size: 0.9rem
       a
-        +single-transition
+        +single-transition(background)
         @extend .font-open
-        background: rgba(255, 255, 255, 0.1)
-        border: #FFF 3px solid
+        background: rgba(255, 255, 255, 0.2)
+        border-bottom: #FFF 3px solid
         color: #fff
         display: block
         font-weight: bold

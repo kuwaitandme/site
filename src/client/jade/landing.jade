@@ -29,7 +29,7 @@
       //- li
       //-   a(href="/en") English
 
-#page-hero(ng-like-viewport)
+#page-hero
   img(ng-image-loader!="<%= staticUrl %>/images/hero/{{ heroURL }}",
     ng-image-success="onHeroLoad")
 
@@ -40,16 +40,13 @@
       h2.medium-4.columns
         a(href="/classified/post") Submit your classified
       h2.medium-4.columns
-        a(ng-click="showcategories=true; gotoElement('landing-categories')") Browse through classifieds
+        a(href="/classified") Browse through classifieds
       h2.medium-4.columns.show-if-loggedin
         a(href="/account") Manage your account
       h2.medium-4.columns.hide-if-loggedin
         a(href="/auth") Login/Signup
     //- ul.large-6.columns.thumb.testimonials
       li asd
-#landing-categories(ng-if="showcategories").row
-  h2 Categories
-  section(ng-include="'components/category-list'")
 #featured-classifieds.row(ng-if="displayClassifiedList")
   //- h1 {{ "page.landing.classifieds" | translate }}
   h2 Featured classifieds

@@ -1,43 +1,32 @@
 body#classified-search
-  // &.cl-property-real-estate #page-hero
-  //   background-image: url("/images/hero/cl-real-estate.jpg")
-  // &.cl-general-items #page-hero, &.cl-miscellaneous #page-hero
-  //   background-image: url("/images/hero/cl-general.jpg")
-  // &.cl-pets-animals #page-hero
-  //   background-image: url("/images/hero/cl-pets.jpg")
-  // &.cl-vehicles #page-hero
-  //   background-image: url("/images/hero/cl-vehicles.jpg")
-  // &.cl-community-events #page-hero
-  //   background-image: url("/images/hero/cl-community.jpg")
-  // &.cl-music-movies-books #page-hero
-  //   background-image: url("/images/hero/cl-music.jpg")
-  // &.cl-hobbies-crafts-diy #page-hero
-  //   background-image: url("/images/hero/cl-art.jpg")
-  // &.cl-electronics-computers #page-hero
-  //   background-image: url("/images/hero/cl-electronics.jpg")
-  // &.cl-services #page-hero
-  //   background-image: url("/images/hero/cl-services.jpg")
-  // &.cl-careers-jobs #page-hero
-  //   background-image: url("/images/hero/cl-jobs.jpg")
-  // &.cl-matrimonial #page-hero
-  //   background-image: url("/images/hero/cl-matrimonial.jpg")
-
-  &.cl-careers-jobs, &.cl-community-events, &.cl-electronics-computers,
-  &.cl-general-items, &.cl-hobbies-crafts-diy, &.cl-matrimonial,
-  &.cl-miscellaneous, &.cl-music-movies-books, &.cl-pets-animals,
-  &.cl-property-real-estate, &.cl-services, &.cl-vehicles
-    background: #000
-    #page-hero:after
-      content: ''
+  &:before
+    background-image: url(/images/cat-spritesheet.jpg)
+    content: ''
+  // &.cl-careers-jobs, &.cl-community-events, &.cl-electronics-computers,
+  // &.cl-general-items, &.cl-hobbies-crafts-diy, &.cl-matrimonial,
+  // &.cl-miscellaneous, &.cl-music-movies-books, &.cl-pets-animals,
+  // &.cl-property-real-estate, &.cl-services, &.cl-vehicles
+  background: #000
+  #page-hero:after
+    content: ''
 
 
   main
     background: transparent
 
-    .classified-list-container
-      margin-top: 100px
+    > .category-chooser
+      margin: 100px 0
+      h1
+        @extend .font-open
+        color: #fff
+        display: block
+        font-weight: bold
+        text-decoration: none
+        text-shadow: 1px 1px 2px #000
 
     > .category-results
+      .classified-list-container
+        margin-top: 100px
       > h1, > h2
         @extend .font-open
         color: #FFF
