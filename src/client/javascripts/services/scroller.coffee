@@ -1,5 +1,6 @@
 exports = module.exports = ($window, console) ->
   name: "[scroller]"
+  scrollDown: (px) ->
   scrollTo: (eID) ->
     return # Disabled for now
 

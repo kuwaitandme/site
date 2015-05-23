@@ -12,8 +12,8 @@ exports = module.exports = ($window)->
     _setSize = ->
       viewportHeight = document.documentElement.clientHeight
       viewportWidth = document.documentElement.clientWidth
-      element.style.height = "#{ viewportHeight }px"
-      element.style.width = "#{ viewportWidth }px"
+      # element.style.height = "#{ viewportHeight }px"
+      # element.style.width = "#{ viewportWidth }px"
 
     # Add a listener for the window resize event.
     (angular.element $window).bind "resize", _setSize
