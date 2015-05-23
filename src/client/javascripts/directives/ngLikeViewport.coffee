@@ -5,10 +5,19 @@
 
   Viewport functions referenced from: http://ryanve.com/lab/dimensions/
 ###
-module.exports = ->
+exports = module.exports = ($window)->
   link: (scope, element, attributes) ->
     element = attributes.$$element[0]
-    viewportHeight = document.documentElement.clientHeight
-    viewportWidth = document.documentElement.clientWidth
-    element.style.height = "#{ viewportHeight }px"
-    element.style.width = "#{ viewportWidth }px"
+    # on resize
+    _setSize = ->
+      viewportHeight = document.documentElement.clientHeight
+      viewportWidth = document.documentElement.clientWidth
+      element.style.height = "#{ viewportHeight }px"
+      element.style.width = "#{ viewportWidth }px"
+
+    # Add a listener for the window resize event.
+    (angular.element $window).bind "resize", _setSize
+    # Call the function for the first time ()
+    _setSize()
+
+exports.$inject = ["$window"]
