@@ -20,7 +20,7 @@
         itemtype="http://schema.org/Offer")
         span(itemprop="priceCurrency", content="KWD")
         span(itemprop="price", content="{{ (classified.priceValue || 0 ) }}")
-          {{ classified.priceValue | price:classified.priceType }}
+          | {{ classified.priceValue | price:classified.priceType }}
       li.status.small-6.columns(ng-if="showStatus") {{ classified.status | status:"classified" }}
       li.date.small-6.columns.text-right
         a(ng-href="/{{ classified.slug }}")
