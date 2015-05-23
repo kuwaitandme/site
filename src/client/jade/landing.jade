@@ -29,9 +29,9 @@
       //- li
       //-   a(href="/en") English
 
-#page-hero
+#page-hero(ng-like-viewport)
   img(ng-image-loader!="<%= staticUrl %>/images/hero/{{ heroURL }}",
-      ng-image-success="onHeroLoad")
+    ng-image-success="onHeroLoad")
 
 #splash
   .tagline

@@ -1,6 +1,7 @@
-#page-hero(ng-style!="{'background-image':'url(<%= staticUrl %>/images/hero/{{ heroURL }})'}")
+#page-hero(ng-like-viewport,
+  ng-style!="{'background-image':'url(<%= staticUrl %>/images/hero/{{ heroURL }})'}")
   img(ng-image-loader!="<%= staticUrl %>/images/hero/{{ heroURL }}",
-      ng-image-success="onHeroLoad")
+    ng-image-success="onHeroLoad")
 
 section(ng-if="!parentCategory.id").category-chooser
   h1 Choose a category
