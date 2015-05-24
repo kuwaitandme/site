@@ -19,31 +19,35 @@ exports = module.exports = (settings, cache) ->
       if cacheError then throw err
 
       # Setup options for the page
-      options.environment = settings.server.env
       # options._ =  global.__
 
+      # Set the language
       # options.lang = request.getLocale()
       options.lang = "en"
       if options.lang == "ar" then options.dir = "rtl"
 
-      options.title = options.title or "Publish or Browse free classifieds"
-      options.title = "#{options.title} - #{settings.sitename}"
+      # Set the title!
+      if options.title?
+        options.title = "#{options.title} - #{settings.sitename}"
+      else options.title = "#{settings.sitename}"
 
       # options.mode = settings.server.env
-      options.data ?= {}
+      options.environment = settings.server.env
       options.settings = settings
-      options.url = settings.url
       options.staticUrl = settings.staticUrl
+      options.url = settings.url
+
+      options.data ?= {}
       options.publicData =
-        staticUrl: settings.staticUrl
         environment: settings.server.env
         magic: settings.magic or {}
+        staticUrl: settings.staticUrl
       options.cryptedData =
         facebook: clientid: settings.facebook.clientid
         google:
+          analyticsCode: settings.google.analyticsCode
           clientID: settings.google.clientID
           reCaptchaKey: settings.google.reCaptcha
-          analyticsCode: settings.google.analyticsCode
       # options.config =
         # mode: config.mode
         # magic: config.magic

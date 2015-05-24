@@ -64,6 +64,10 @@ if description
 //- SEO keywords tag
 meta(name="keywords", content="Kuwait and me, free classifieds, online classifieds, Kuwait classifieds, free classifieds in Kuwait, Kuwait matrimonial")
 
+//- Social Tags
+if settings.facebook.enabled && settings.facebook.supportMeta
+  meta(property="fb:app_id", content="#{settings.facebook.appID}")
+
 //- Other Meta tags
 meta(charset="utf-8")
 meta(http-equiv="content-type", content="text/html; charset=UTF-8")
