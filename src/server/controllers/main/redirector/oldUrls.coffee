@@ -23,7 +23,9 @@ map =
   "classified/552d18ae014074ae0e863f77" : "/c/36"
   "classified/552e086b014074ae0e863f7b" : "/c/16"
   "classified/552ead919fe7f463513b15c3" : "/c/48"
+  "classified/552ecd9a9fe7f463513b15c4" : "/c/38"
   "classified/552f9aa906fa85f52ebe3c56" : "/c/39"
+  "classified/553701cf05c8e69675647ec7" : "/c/41"
   "classified/55374a7b05c8e69675647eca" : "/c/43"
   "classified/553a96f72b7850c17093adf9" : "/c/45"
   "classified/553a9a352b7850c17093adfb" : "/c/46"
@@ -41,6 +43,7 @@ map =
   "classified/5553ae59918733ea68a5a086" : "/c/64"
   "classified/5553af99918733ea68a5a088" : "/c/66"
   "classified/555430f3918733ea68a5a08a" : "/c/67"
+
 
   "about"             : "/"
   "auth/login"        : "/auth"
