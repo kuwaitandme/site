@@ -1,12 +1,51 @@
 extends ../../layout.jade
 
 block robots
+  //- Twitter cards
+  if settings.twitter.supportMeta
+    //- Gallery card
+    //- https://dev.twitter.com/cards/types/gallery
+    //- Display this card when there are multiple images
+    if data.classified.images && data.classified.images.length > 1
+      meta(name="twitter:card", content="gallery")
+      meta(name="twitter:site", content="#{settings.twitter.user}")
+      meta(name="twitter:creator", content="#{settings.twitter.user}")
+      meta(name="twitter:title", content="#{data.classified.title}")
+      meta(name="twitter:description", content="#{data.classified.description}")
+      meta(name="twitter:url", content="#{url}/#{data.classified.slug}")
+      for image in data.classified.images
+        meta(name="twitter:image#{data.classified.images.indexOf(image)}",
+          content="#{ staticUrl }/uploads/main/#{image.filename}")
+
+    //- Photo Card
+    //- https://dev.twitter.com/cards/types/photo
+    //- Display this card when there is only one image
+    if data.classified.images && data.classified.images.length == 1
+      meta(name="twitter:card", content="photo")
+      meta(name="twitter:site", content="#{settings.twitter.user}")
+      meta(name="twitter:title", content="#{data.classified.title}")
+      meta(name="twitter:url", content="#{url}/#{data.classified.slug}")
+      for image in data.classified.images
+        meta(name="twitter:image",
+          content="#{ staticUrl }/uploads/main/#{image.filename}")
+
+    //- Summary Card
+    //- https://dev.twitter.com/cards/types/summary
+    //- Display this card only when there are no images
+    if (data.classified.images && data.classified.images.length == 0) || !data.classified.images
+      meta(name="twitter:card", content="summary")
+      meta(name="twitter:site", content="#{settings.twitter.user}")
+      meta(name="twitter:title", content="#{data.classified.title}")
+      meta(name="twitter:url", content="#{url}/#{data.classified.slug}")
+      meta(name="twitter:description", content="#{data.classified.description}")
+
+
   section(itemscope, itemtype="http://schema.org/Product")
-    for image in robots.classified.images
+    for image in data.classified.images
       img(src="#{ staticUrl }/uploads/thumb/#{image.filename}", itemprop="image")
-    h1(itemprop="name")= robots.classified.title
-    section(itemprop="description")= robots.classified.description
+    h1(itemprop="name")= data.classified.title
+    section(itemprop="description")= data.classified.description
     span(itemprop="offers", itemscope, itemtype="http://schema.org/Offer")
-      span.meta-value(itemprop="price", content="#{ robots.classified.priceValue || 0 }")= robots.classified.priceValue || 0
+      span.meta-value(itemprop="price", content="#{ data.classified.priceValue || 0 }")= data.classified.priceValue || 0
       span.meta-value(itemprop="priceCurrency", content="KWD") KWD
-    span(itemprop="url") #{url}/#{robots.classified.slug}
+    span(itemprop="url") #{url}/#{data.classified.slug}

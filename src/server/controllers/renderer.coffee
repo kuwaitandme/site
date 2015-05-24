@@ -31,6 +31,7 @@ exports = module.exports = (settings, cache) ->
 
       # options.mode = settings.server.env
       options.data ?= {}
+      options.settings = settings
       options.url = settings.url
       options.staticUrl = settings.staticUrl
       options.publicData =

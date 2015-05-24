@@ -22,12 +22,15 @@ exports = module.exports = ->
 
     facebook:
       enabled: true
+      supportMeta: true
       appID: "XXXXXXXXXX"
       appSecret: "XXXXXXXXXX"
       scope: ["email"]
 
     twitter:
       enabled: false
+      supportMeta: true
+      user: "@twitteraccount"
       consumerKey: "XXXXXXXXXX"
       consumerSecret: "XXXXXXXXXX"
 
