@@ -27,7 +27,7 @@ exports = module.exports = ->
       scope: ["email"]
 
     twitter:
-      enabled: true
+      enabled: false
       consumerKey: "XXXXXXXXXX"
       consumerSecret: "XXXXXXXXXX"
 
@@ -39,6 +39,15 @@ exports = module.exports = ->
       scope: [
         "https://www.googleapis.com/auth/userinfo.email"
         "https://www.googleapis.com/auth/userinfo.profile"
+      ]
+
+    windowsLive:
+      enabled: true
+      clientID: "XXXXXXXXXX"
+      clientSecret: "XXXXXXXXXX"
+      scope: [
+        "wl.basic"
+        "wl.emails"
       ]
 
     paypal:

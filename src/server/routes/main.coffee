@@ -41,7 +41,8 @@ exports = module.exports = (IoC, settings) ->
   _route "/auth/social/google",                     "auth/social/google"
   _route "/auth/social/google/callback",            "auth/social/callback/google"
   _route "/auth/social/twitter",                    "auth/social/twitter"
-  _route "/auth/social/twitter/callback",           "auth/social/callback/twitter"
+  _route "/auth/social/windows-live",               "auth/social/windows-live"
+  _route "/auth/social/windows-live/callback",      "auth/social/callback/windows-live"
 
   _route "/classified/post",                        "classified/post"
   _route "/classified",                             "classified/search"

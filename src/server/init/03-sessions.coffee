@@ -10,6 +10,7 @@ FacebookStrategy      = (require "passport-facebook").Strategy
 GoogleStrategy        = (require "passport-google-oauth").OAuth2Strategy
 LocalStrategy         = (require "passport-local").Strategy
 TwitterStrategy       = (require "passport-twitter").Strategy
+WindowsStrategy       = (require "passport-windowslive").Strategy
 
 exports = module.exports = (IoC, settings, sessions, Email, Users, policies) ->
   app = this
@@ -18,6 +19,7 @@ exports = module.exports = (IoC, settings, sessions, Email, Users, policies) ->
   # This function gets called for each of the OAuth logins. A uniform function
   # that takes care of everything from DB.... FINISH
   providerAuthCallback = (accessToken, refreshToken, profile, done) ->
+    logger.debug "got profile from OAuth:", profile
     if profile.emails.length == 0 or (not _.isObject profile.emails[0]) or
     not validator.isEmail profile.emails[0].value
       return done new Error "Your account did not have an email address associated with it"
@@ -73,7 +75,8 @@ exports = module.exports = (IoC, settings, sessions, Email, Users, policies) ->
 
   # Google Authentication
   if settings.google.enabled
-    passport.use new GoogleStrategy # web-based
+    logger.debug "enabling google auth strategy"
+    passport.use new GoogleStrategy
       callbackURL: "#{settings.url}/auth/social/google/callback"
       clientID: settings.google.clientID
       clientSecret: settings.google.clientSecret
@@ -81,7 +84,8 @@ exports = module.exports = (IoC, settings, sessions, Email, Users, policies) ->
 
   # Facebook Authentication
   if settings.facebook.enabled
-    passport.use new FacebookStrategy # web-based
+    logger.debug "enabling facebook auth strategy"
+    passport.use new FacebookStrategy
       callbackURL:  "#{settings.url}/auth/social/facebook/callback"
       clientID: settings.facebook.appID
       clientSecret: settings.facebook.appSecret
@@ -89,10 +93,21 @@ exports = module.exports = (IoC, settings, sessions, Email, Users, policies) ->
 
   # Twitter Authentication
   if settings.twitter.enabled
-    passport.use new TwitterStrategy # web-based
+    logger.debug "enabling twitter auth strategy"
+    passport.use new TwitterStrategy
       callbackURL:  "#{settings.url}/auth/social/twitter/callback"
       consumerKey: settings.twitter.consumerKey
       consumerSecret: settings.twitter.consumerSecret
+    , providerAuthCallback
+
+  # Windows live Authentication
+  if settings.windowsLive.enabled
+    logger.debug "enabling windows auth strategy"
+    console.log "#{settings.url}/auth/social/windows-live/callback"
+    passport.use new WindowsStrategy
+      clientID: settings.windowsLive.clientID
+      clientSecret: settings.windowsLive.clientSecret
+      callbackURL: "#{settings.url}/auth/social/windows-live/callback"
     , providerAuthCallback
 
   # Email Authentication

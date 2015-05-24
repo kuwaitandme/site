@@ -69,6 +69,7 @@
     "passport-google-oauth": "^0.1.5",
     "passport-local": "^1.0.0",
     "passport-twitter": "^1.0.3",
+    "passport-windowslive": "^1.0.1",
     "paypal-rest-sdk": "^1.5.2",
     "pg": "^4.3.0",
     "pluralize": "^1.0.0",
