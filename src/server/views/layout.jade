@@ -1,6 +1,7 @@
 doctype html
 html(lang= lang, dir= dir, ng-controller="master")
   head
+    block meta
     include ./include/head.jade
     if data.noIndex
       meta(name="robots", content="noindex")
