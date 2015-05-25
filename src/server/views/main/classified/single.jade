@@ -35,19 +35,23 @@ block meta
       meta(name="twitter:title", content="#{data.classified.title}")
       meta(name="twitter:url", content="#{url}/#{data.classified.slug}")
 
-  //- Facebook opengraph tags
+  //- opengraph tags
+  meta(property="og:description", content="#{data.classified.description}")
+  meta(property="og:product:retailer_item_id", content="#{data.classified.id}")
+  meta(property="og:site_name", content="#{settings.sitename}")
   meta(property="og:title", content="#{data.classified.title}")
   meta(property="og:type", content="product.item")
-  meta(property="og:description", content="#{data.classified.description}")
-  meta(property="og:site_name", content="#{settings.sitename}")
   meta(property="og:url", content="#{url}/#{data.classified.slug}")
+  meta(property="product:sale_price:amount", content="#{data.classified.priceValue || 0}")
+  meta(property="product:sale_price:currency", content="KWD")
   if data.classified.images && data.classified.images[0]
     link(rel="image_src",
       href="#{staticUrl}/uploads/main/#{data.classified.images[0].filename}")
-    meta(name="og:image:width", content="#{data.classified.images[0].width}")
-    meta(name="og:image:height", content="#{data.classified.images[0].height}")
-    meta(name="og:image",
-      content="#{staticUrl}/uploads/main/#{data.classified.images[0].filename}")
+    for image in data.classified.images
+      meta(name="og:image",
+        content="#{staticUrl}/uploads/thumb/#{data.classified.images.filename}")
+
+
 block robots
   //- Schema for Search engines
   section(itemscope, itemtype="http://schema.org/Product")
@@ -57,6 +61,6 @@ block robots
     h1(itemprop="name")= data.classified.title
     section(itemprop="description")= data.classified.description
     span(itemprop="offers", itemscope, itemtype="http://schema.org/Offer")
-      span(itemprop="price", content="#{ data.classified.priceValue || 0 }")
+      span(itemprop="price", content="#{data.classified.priceValue || 0}")
       span(itemprop="priceCurrency", content="KWD")
     span(itemprop="url") #{url}/#{data.classified.slug}
