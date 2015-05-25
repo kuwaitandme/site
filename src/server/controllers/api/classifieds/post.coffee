@@ -2,15 +2,14 @@ Promise           = require "bluebird"
 formidable        = require "formidable"
 keyword_extractor = require "keyword-extractor"
 
-exports = module.exports = (IoC, email, reCaptcha, uploader, Classifieds,
+exports = module.exports = (IoC, Email, reCaptcha, uploader, Classifieds,
 Users) ->
   logger = IoC.create "igloo/logger"
   name = "[api:classifieds]"
 
-  _createURLslug = (classified) ->
+  _createURLslug = (id, title) ->
     maxLength = 120
     # Trim the string to the maximum length
-    title = classified.title
     if title.length > maxLength then title = title.substr 0, maxLength
     # Get the keywords and make a sentence seperated by '-'s. We use this regex
     # so that we don't exclude arabic characters. Ideally we want all to get
@@ -21,7 +20,7 @@ Users) ->
     components = (title.match regex) or ["classified"]
     keywords = encodeURIComponent components.join "-"
     # Finally generate the slug and return it
-    slug = "#{keywords.toLowerCase()}-#{classified.id}"
+    slug = "#{keywords.toLowerCase()}-#{id}"
 
 
   # Start parsing the multi-part encoded data
@@ -63,69 +62,60 @@ Users) ->
             resolve [data, filesRequest["images[]"]]
 
 
-  # Create a new classified
-  createClassified = (newClassified, uploadedFiles) ->
-    new Promise (resolve, reject) ->
-      imagesMeta = newClassified.images
-      delete newClassified.images
-
-      newClassifiedFiltered = Classifieds.filter newClassified
-      Classifieds.create newClassifiedFiltered, (error, classified) ->
-        if error then return reject error
-        resolve [classified, uploadedFiles, imagesMeta]
-
-
-  # Here we validate and save the files that get returned from the formidable
-  # object.
-  uploadFiles = (newClassified, filesToUpload, imagesMeta) ->
-    new Promise (resolve, reject) ->
-      options = prefix: newClassified.id
-      uploader.upload filesToUpload, options, (error, newImages=[]) ->
-        if error then reject error
-        else resolve [newClassified, newImages, imagesMeta]
-
-
   # Finally update the classified with the diff into the DB.
-  updateClassified = (newClassified, newImages=[], imagesMeta) ->
-    new Promise (resolve) ->
-      # If an image was uploaded find it's metadata and add it to the list of
-      # final images
-      finalImages = []
-      for newImage in newImages
-        for imageMeta in imagesMeta
-          if newImage.oldFilename is imageMeta.filename and newImage.isUploaded
-            imageMeta.filename = newImage.newFilename
-            imageMeta.color = newImage.color
-            finalImages.push imageMeta
+  updateData = (newClassified, imagesMeta, newImages=[]) ->
+    # If an image was uploaded find it's metadata and add it to the list of
+    # final images
+    finalImages = []
+    for newImage in newImages
+      for imageMeta in imagesMeta
+        if newImage.oldFilename is imageMeta.filename and newImage.isUploaded
+          imageMeta.filename = newImage.newFilename
+          imageMeta.color = newImage.color
+          finalImages.push imageMeta
 
-      # Get the slug for the classified using the newly generated id and
-      # set the images field with our final set of images.
-      newClassified.set "slug", _createURLslug newClassified.toJSON()
-      newClassified.set "images", JSON.stringify finalImages
-      # Update the classified with the images and return the result to the user.
-      newClassified.save().then (classified) -> resolve classified.toJSON()
+    # Get the slug for the classified using the newly generated id and
+    # set the images field with our final set of images.
+    newClassified.set "slug", _createURLslug newClassified.id, newClassified.get "title"
+    newClassified.set "images", JSON.stringify finalImages
+    [newClassified.id, newClassified.toJSON()]
 
 
   # Send an email about the new classified
   emailUser = (classified) ->
-    email.sendTemplate classified.contact.email, "classifiedSubmitted",
-      subject: "Your classified has been submitted", classified: classified
+    contactDetails = classified.get "contact"
+    Email.sendTemplate contactDetails.email, "classifiedSubmitted",
+      subject: "Your classified has been submitted", classified: classified.toJSON()
     classified
 
 
   controller = (request, response, next) ->
     reCaptcha.verify request
+    # Then parse the form
     .then parseForm
-    .spread createClassified
-    .spread uploadFiles
-    .spread updateClassified
+    # Create the classified and extract the image metadata
+    .spread (data, files) ->
+      imagesMeta = data.images
+      delete data.images
+      [files, imagesMeta, Classifieds.createPromise data]
+    # Here we validate and save the files that get returned from the formidable
+    # object.
+    .spread (newImages, imagesMeta, newClassified) ->
+      options = prefix: newClassified.id
+      [newClassified, imagesMeta, uploader.uploadPromise newImages, options]
+    # With the files now uploaded, update the data of the current classified
+    # object.
+    .spread updateData
+    # Update the classified with the images and return the result to the user.
+    .spread Classifieds.patchPromise
+    # Now send the email to the user about the new classified
     .then emailUser
+    # Once done, return the fields that have been changed back to the user
     .then (classified) ->
-      # Once done, return the fields that have been changed back to the user
       logger.debug name, classified
       response.json classified
+    # If there were any errors, return it with a default 400 HTTP code.
     .catch (error) ->
-      # If there were any errors, return it with a default 400 HTTP code.
       logger.error error.stack
       response.status error.status or 400
       response.json error.message

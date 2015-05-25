@@ -122,6 +122,12 @@ exports = module.exports = (knex) ->
       @model.forge newClassified
         .save().then (classified) -> callback null, classified
 
+    createPromise: (parameters) ->
+      newClassified = @filter parameters
+      new Promise (resolve, reject) ->
+        model.forge newClassified
+          .save().then (classified) -> resolve classified
+
 
     patchPromise: (id, parameters) -> new Promise (resolve, reject) ->
       model.forge id: id
