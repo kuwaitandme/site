@@ -37,11 +37,11 @@ block meta
 
   //- opengraph tags
   meta(property="og:description", content="#{data.classified.description}")
-  meta(property="og:product:retailer_item_id", content="#{data.classified.id}")
   meta(property="og:site_name", content="#{settings.sitename}")
   meta(property="og:title", content="#{data.classified.title}")
   meta(property="og:type", content="product.item")
   meta(property="og:url", content="#{url}/#{data.classified.slug}")
+  meta(property="product:retailer_item_id", content="#{data.classified.id}")
   meta(property="product:sale_price:amount", content="#{data.classified.priceValue || 0}")
   meta(property="product:sale_price:currency", content="KWD")
   if data.classified.images && data.classified.images[0]
