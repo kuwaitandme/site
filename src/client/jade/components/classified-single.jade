@@ -104,6 +104,8 @@ section.row.classified-single(ng-controller="component:classified-single", items
           a.icon(target="_blank", ng-href="{{ classified.social.facebook }}") &#xf09a;
         li.twitter(ng-if="classified.meta.shareSocial")
           a.icon(target="_blank", ng-href="{{ classified.social.twitter }}") &#xf099;
+        li.reddit(ng-if="classified.meta.shareSocial")
+          a.icon(target="_blank", ng-href="{{ classified.social.reddit }}") &#xf1a1;
         li.linkedin(ng-if="classified.meta.shareSocial")
           a.icon(target="_blank", ng-href="{{ classified.social.linkedin }}") &#xf0e1;
         li.pinterest(ng-if="classified.meta.shareSocial")

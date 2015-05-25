@@ -93,6 +93,7 @@ exports = module.exports = ($environment, $location, $http, console) -> new clas
       twitter:  "https://twitter.com/home?url=#{URL}&status=#{encodeURI tweet}"
       email:    "mailto:?subject=Checkout this cl: '#{cl.title}'
         &body=<your message>%0D%0A%0D%0Aurl: #{URL}"
+      reddit:   "http://www.reddit.com/submit?url=#{URL}&title=#{encodeURI cl.title}"
       linkedin: "https://www.linkedin.com/shareArticle?mini=true&url=#{URL}&title=#{cl.title}&summary=#{cl.description}&source=#{SOURCE}"
     # Find and set the main image
     for image in (cl.images or [])
