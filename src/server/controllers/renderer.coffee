@@ -31,7 +31,6 @@ exports = module.exports = (settings, cache) ->
         options.title = "#{options.title} - #{settings.sitename}"
       else options.title = "#{settings.sitename}"
 
-      # options.mode = settings.server.env
       options.environment = settings.server.env
       options.settings = settings
       options.staticUrl = settings.staticUrl
