@@ -16,6 +16,12 @@ exports = module.exports = ($scope, $googleMaps, $imageResizer,
   # override this line.
   $scope.classified ?= Classifieds.getDefault()
 
+  currentUserEmail = Users.getCurrentUser().email
+  if not $scope.classified.contact.email?
+    $scope.disableEmailField = true
+    $scope.classified.contact.email = currentUserEmail
+
+
   $scope.classified.parentCategory = Categories.findByParentId $scope.classified.parent_category or null
   $scope.classified.childCategory = Categories.findByChildId $scope.classified.child_category or null
   $scope.location = Locations.findById $scope.classified.location

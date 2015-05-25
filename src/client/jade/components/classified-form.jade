@@ -67,7 +67,7 @@ section.classified-form(ng-controller="component:classified-form as form",
         .columns.medium-9
           input(type="email", placeholder="contact@website.com",
             ng-model="classified.contact.email", ng-required="true",
-            ng-disabled="formLoading")
+            ng-disabled="formLoading || disableEmailField")
           .error(invalid="email must be valid")
 
       li.row.collapse
