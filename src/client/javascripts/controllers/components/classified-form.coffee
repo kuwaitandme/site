@@ -16,10 +16,12 @@ exports = module.exports = ($scope, $googleMaps, $imageResizer,
   # override this line.
   $scope.classified ?= Classifieds.getDefault()
 
+  # Automatically populate and/or disable the email field
   currentUserEmail = Users.getCurrentUser().email
   if not $scope.classified.contact.email? and currentUserEmail?
     $scope.disableEmailField = true
     $scope.classified.contact.email = currentUserEmail
+  if $scope.classified.contact.email? then $scope.disableEmailField = true
 
 
   $scope.classified.parentCategory = Categories.findByParentId $scope.classified.parent_category or null
