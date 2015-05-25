@@ -42,14 +42,19 @@ block meta
   meta(property="og:type", content="product.item")
   meta(property="og:url", content="#{url}/#{data.classified.slug}")
   meta(property="product:retailer_item_id", content="#{data.classified.id}")
-  meta(property="product:sale_price:amount", content="#{data.classified.priceValue || 0}")
-  meta(property="product:sale_price:currency", content="KWD")
+  meta(property="product:price:amount", content="#{data.classified.priceValue || 0}")
+  meta(property="product:price:currency", content="KWD")
+  if data.classified.status == 1
+    meta(property="product:availability", content="available for order")
+  else
+    meta(property="product:availability", content="out of stock")
+
   if data.classified.images && data.classified.images[0]
     link(rel="image_src",
       href="#{staticUrl}/uploads/thumb/#{data.classified.images[0].filename}")
     for image in data.classified.images
       meta(name="og:image",
-        content="#{staticUrl}/uploads/thumb/#{data.classified.images.filename}")
+        content="#{staticUrl}/uploads/thumb/#{data.classified.image.filename}")
 
 
 block robots
