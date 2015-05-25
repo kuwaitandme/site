@@ -1,3 +1,4 @@
+Promise     = require "bluebird"
 async       = require "async"
 colorThief  = require "color-thief"
 formidable  = require "formidable"
