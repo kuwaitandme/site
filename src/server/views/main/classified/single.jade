@@ -46,7 +46,7 @@ block meta
   meta(property="product:sale_price:currency", content="KWD")
   if data.classified.images && data.classified.images[0]
     link(rel="image_src",
-      href="#{staticUrl}/uploads/main/#{data.classified.images[0].filename}")
+      href="#{staticUrl}/uploads/thumb/#{data.classified.images[0].filename}")
     for image in data.classified.images
       meta(name="og:image",
         content="#{staticUrl}/uploads/thumb/#{data.classified.images.filename}")
