@@ -17,7 +17,6 @@ exports = module.exports = ($scope, $googleMaps, $imageResizer,
   $scope.classified ?= Classifieds.getDefault()
 
   currentUserEmail = Users.getCurrentUser().email
-  console.log $scope.classified.contact.email, not $scope.classified.contact.email
   if not $scope.classified.contact.email? and currentUserEmail?
     $scope.disableEmailField = true
     $scope.classified.contact.email = currentUserEmail
