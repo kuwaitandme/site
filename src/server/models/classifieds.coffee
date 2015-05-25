@@ -9,6 +9,7 @@ exports = module.exports = (knex) ->
     tableName: "classifieds", defaults: slug: "", status: 0
   collection = bookshelf.Collection.extend model: @model
 
+  classifiedsPerPage = 30
   new class
     classifiedsPerPage: 30
 
@@ -48,6 +49,35 @@ exports = module.exports = (knex) ->
       ENGLISH: 1
       ARABIC:  2
       HINDI:   3
+
+    queryPromise: (parameters) ->
+      new Promise (resolve, reject) =>
+        buildQuery = (qb) =>
+          # Helper function to check if the number is a valid int
+          _validInt = (i) -> i? and validator.isInt i, { min: 0 }
+
+          pcat = parameters.parent_category
+          if _validInt pcat then qb.where "parent_category", pcat
+
+          ccat = parameters.child_category
+          if _validInt ccat then qb.where "child_category", ccat
+
+          owner = parameters.owner
+          if _validInt owner then qb.where "owner", owner
+
+          status = parameters.status
+          if _validInt status then qb.where "status", status
+
+          page = parameters.page
+          if not _validInt page then page = 1
+
+          qb.limit classifiedsPerPage
+          qb.offset (page - 1) * classifiedsPerPage
+          qb.orderBy "created", "DESC"
+
+        model.query buildQuery
+          .fetchAll()
+          .then (classifieds) -> resolve classifieds
 
 
     query: (parameters, callback) ->
