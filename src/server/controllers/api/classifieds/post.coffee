@@ -53,7 +53,7 @@ Users) ->
           if error? then return reject error
 
           # Send an email informing about the new temporary account.
-          email.sendTemplate data.contact.email, "temporaryCreatedUser",
+          Email.sendTemplate data.contact.email, "temporaryCreatedUser",
             subject: "An account has been made for you"
             user: email: data.contact.email, password: newPassword
 
