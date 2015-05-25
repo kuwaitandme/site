@@ -6,6 +6,7 @@ exports = module.exports = ($scope, $stateParams, console, $location,
 
   staticUrl = $environment.staticUrl
 
+  $scope.heroURL = "landing.jpg"
   Classifieds.get $stateParams.id, (error, classified) =>
     for image in classified.images or []
       image.status = "on-server"

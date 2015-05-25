@@ -52,7 +52,7 @@ section.row.classified-single(ng-controller="component:classified-single", items
           li(ng-if="classified.contact.website")
             span.meta-title Website:
             span.meta-value
-              a(ng-href="{{ classified.contact.website }}") {{ classified.contact.website | link}}
+              a(ng-href="{{ classified.contact.website }}", target="_blank") {{ classified.contact.website | link}}
           li(ng-if="classified.contact.address1")
             span.meta-title Address:
             span.meta-value
@@ -101,19 +101,19 @@ section.row.classified-single(ng-controller="component:classified-single", items
 
       ul#extras-sidebar.columns
         li.facebook(ng-if="classified.meta.shareSocial")
-          a.icon(target="_self", ng-href="{{ classified.social.facebook }}") &#xf09a;
+          a.icon(target="_blank", ng-href="{{ classified.social.facebook }}") &#xf09a;
         li.twitter(ng-if="classified.meta.shareSocial")
-          a.icon(target="_self", ng-href="{{ classified.social.twitter }}") &#xf099;
+          a.icon(target="_blank", ng-href="{{ classified.social.twitter }}") &#xf099;
         li.linkedin(ng-if="classified.meta.shareSocial")
-          a.icon(target="_self", ng-href="{{ classified.social.linkedin }}") &#xf0e1;
+          a.icon(target="_blank", ng-href="{{ classified.social.linkedin }}") &#xf0e1;
         li.pinterest(ng-if="classified.meta.shareSocial")
-          a.icon(target="_self", ng-href="{{ classified.social.pintrest }}") &#xf231;
+          a.icon(target="_blank", ng-href="{{ classified.social.pintrest }}") &#xf231;
         li.googleplus(ng-if="classified.meta.shareSocial")
-          a.icon(target="_self", ng-href="{{ classified.social.gplus }}") &#xf0d5;
+          a.icon(target="_blank", ng-href="{{ classified.social.gplus }}") &#xf0d5;
         li.link
           a.icon(itemprop="url", ng-href="/{{ classified.slug }}") &#xf0c6;
         li.email
-          a.icon(target="_self", ng-href="{{ classified.social.email }}") &#xf003;
+          a.icon(target="_blank", ng-href="{{ classified.social.email }}") &#xf003;
         //- li.blank
         //- li.fav
         //-   a.icon(ng-href="/{{ classified.slug }}") &#xf005;

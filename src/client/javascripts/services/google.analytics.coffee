@@ -37,7 +37,7 @@ exports = module.exports = ($environment, $location, $log, $window) -> new class
     @onLoad -> $window.ga "send", "pageview", page: pageURL
 
 
-  sendEvent: (category, action, label, value) ->
+  trackEvent: (category, action, label, value) ->
     if @fallback then return
     $log.log @name, "sending event"
     @onLoad -> $window.ga "send", "event", category, action, label, value

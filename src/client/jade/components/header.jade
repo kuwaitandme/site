@@ -1,8 +1,10 @@
 .collapse.row(ng-controller="component:header")
   #main-header.columns
-    a#header-logo(href="/", ng-click="closeHeader()")
-    #grabber(ng-click="toggleHeader()")
-      #notification-counter(ng-if="unreadNotifications > 0") {{ unreadNotifications }}
+    #header-logo-container(ng-click="closeHeader()")
+      a#header-logo(href="/")
+    #grabber-container(ng-click="toggleHeader()")
+      #grabber
+        #notification-counter(ng-if="unreadNotifications > 0") {{ unreadNotifications }}
 
   #notifications-popup-container(ng-if="flashNotifications.length > 0")
     .notification(ng-repeat="n in flashNotifications", class="{{ n.type }}",

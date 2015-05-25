@@ -90,36 +90,32 @@ exports = module.exports = ($environment, $location, $http, console) -> new clas
     cl.social =
       facebook: "https://www.facebook.com/sharer/sharer.php?u=#{URL}"
       gplus:    "https://plus.google.com/share?url=#{URL}"
-      twitter:  "https://twitter.com/home?status=#{encodeURI tweet}"
+      twitter:  "https://twitter.com/home?url=#{URL}&status=#{encodeURI tweet}"
       email:    "mailto:?subject=Checkout this cl: '#{cl.title}'
         &body=<your message>%0D%0A%0D%0Aurl: #{URL}"
       linkedin: "https://www.linkedin.com/shareArticle?mini=true&url=#{URL}&title=#{cl.title}&summary=#{cl.description}&source=#{SOURCE}"
-
     # Find and set the main image
     for image in (cl.images or [])
       cl.mainImage = image
       imageURL = "#{$environment.staticUrl}/uploads/main/#{image.filename}"
       cl.social.pintrest = "https://pinterest.com/pin/create/button/?url=#{URL}&media=#{imageURL}&description=#{cl.title}"
       if image.main? and image.main then break
-
-
     # Setup special variables for ENUM-type objects
     switch cl.status
       when @statuses.ACTIVE   then cl.isActive    = true
       when @statuses.ARCHIVED then cl.isArchived  = true
-      when @statuses.REJECTED then cl.isRejected  = true
       when @statuses.BANNED   then cl.isBanned    = true
-      when @statuses.INACTIVE then cl.underReview = true
       when @statuses.EXPIRED  then cl.hasExpired  = true
+      when @statuses.INACTIVE then cl.underReview = true
+      when @statuses.REJECTED then cl.isRejected  = true
     switch cl.language
-      when @languages.ENGLISH then cl.isEnglish = true
       when @languages.ARABIC  then cl.isArabic  = true
-
+      when @languages.ENGLISH then cl.isEnglish = true
     # Set the delivery variables
     if cl.meta.deliveryIncluded
       if not cl.meta.freeDeliveryIncluded then cl.hasDelivery = true
       else cl.hasFreeDelivery = true
-
+    # Return the modified classified
     cl
 
 
@@ -129,14 +125,11 @@ exports = module.exports = ($environment, $location, $http, console) -> new clas
     fileIndex = 0
     hasMainImage = false
     newImages = []
-
     # Extract the images
     images = classified.images or []
     delete classified.images
-
     # Prepare the formdata object
     formdata = new FormData
-
     # start parsing each image
     for image in images
       if image.status is "to-upload"
@@ -151,10 +144,8 @@ exports = module.exports = ($environment, $location, $http, console) -> new clas
       delete image.src
       delete image.file
       delete image.status
-
     # If a main image has not been found, then set one.
     if not hasMainImage and newImages.length > 0 then newImages[0].main = true
-
     # Finally convert the classified into a JSON string and send it to the
     # server.
     classified.new_images = newImages
