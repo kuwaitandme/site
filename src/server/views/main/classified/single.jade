@@ -54,7 +54,7 @@ block meta
       href="#{staticUrl}/uploads/thumb/#{data.classified.images[0].filename}")
     for image in data.classified.images
       meta(name="og:image",
-        content="#{staticUrl}/uploads/thumb/#{data.classified.image.filename}")
+        content="#{staticUrl}/uploads/thumb/#{image.filename}")
 
 
 block robots
