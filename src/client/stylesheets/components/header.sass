@@ -32,6 +32,18 @@ header
       float: right
       padding: 24px 25px
       cursor: pointer
+    #nav-social-container
+      float: right
+      @extend .font-awesome
+      a
+        +single-transition
+        font-size: 0.9rem
+        text-decoration: none
+        padding: 24px 8px
+        opacity: 0.3
+        display: inline-block
+        &:hover
+          opacity: 1
     #header-logo-container
       padding: 15px 20px
       float: left

@@ -5,6 +5,13 @@
     #grabber-container(ng-click="toggleHeader()")
       #grabber
         #notification-counter(ng-if="unreadNotifications > 0") {{ unreadNotifications }}
+    #nav-social-container.hide-for-small
+      a(target="_blank", href="https://www.facebook.com/KuwaitandMe") &#xf09a;
+      a(target="_blank", href="https://twitter.com/kuwaitandme") &#xf099;
+      a(target="_blank", href="https://plus.google.com/+Kuwaitandmeclassifieds") &#xf0d5;
+      a(target="_blank", href="https://www.pinterest.com/kuwaitandme") &#xf231;
+      a(target="_blank", href="https://www.reddit.com/r/kuwaitclassifieds") &#xf1a1;
+      a(target="_blank", href="https://instagram.com/kuwaitandme") &#xf16d;
 
   #notifications-popup-container(ng-if="flashNotifications.length > 0")
     .notification(ng-repeat="n in flashNotifications", class="{{ n.type }}",
