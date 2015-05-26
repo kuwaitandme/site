@@ -22,12 +22,12 @@ exports = module.exports = (IoC) ->
   router.post   "/auth/email/signup",        _api "auth/email/signup/post"
   router.put    "/auth/email",               _api "auth/email/put"
 
-  router.delete "/classifieds/:id?",         _api "classifieds/delete"
+  router.delete "/classifieds/:id",         _api "classifieds/id/delete"
+  router.get    "/classifieds",              _api "classifieds/get"
+  router.get    "/classifieds/:id",          _api "classifieds/id/get"
   router.get    "/classifieds/slug/:slug?",  _api "classifieds/slug/get"
-  router.get    "/classifieds/:id?",         _api "classifieds/get"
-  router.patch  "/classifieds/:id?",         _api "classifieds/patch"
-  router.post   "/classifieds/:id?",         _api "classifieds/post"
-  router.put    "/classifieds/:id?",         _api "classifieds/put"
+  router.post   "/classifieds/:id",          _api "classifieds/id/post"
+  router.put    "/classifieds/:id",          _api "classifieds/id/put"
 
   router.get    "/payments",                 _api "payments/post"
   router.get    "/payments/callback",        _api "payments/callback/get"

@@ -5,7 +5,12 @@ exports = module.exports = (IoC, Classifieds) ->
   logger = IoC.create "igloo/logger"
 
   controller = (request, response, next) ->
-    Classifieds.queryPromise request.query
+    Promise.resolve request
+    # Decide weither to query or to fetch a specific classified
+    .then (request) ->
+      id = request.params.id
+      if request.params.id? then Classifieds.getPromise request.params.id
+      else Classifieds.queryPromise request.query
     # Return the result!
     .then (result) -> response.json result
     # If there were any errors, return it with a default 500 HTTP code.
