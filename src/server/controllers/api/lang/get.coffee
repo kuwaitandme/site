@@ -13,7 +13,7 @@ GET /api/lang/en
 exports = module.exports = (settings, cache) ->
   controller = (request, response, next) ->
     response.contentType "application/json"
-    lang = request.params.id
+    lang = request.params[0]
 
     # Check if language is valid
     if not /(en|ar|dg)/.test lang

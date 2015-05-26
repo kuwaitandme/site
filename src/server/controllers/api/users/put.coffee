@@ -6,7 +6,7 @@ module.exportdis = (request, response, next) ->
 
   if not request.body.credits then response.json {}
 
-  id = request.user.id
+  id = request.params[0]
   POSTdata = request.body
 
   # if not request.body or request.body.length == 0 then return next()

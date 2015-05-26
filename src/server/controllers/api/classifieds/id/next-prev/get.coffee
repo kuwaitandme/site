@@ -6,13 +6,23 @@ exports = module.exports = (IoC, Classifieds) ->
 
   controller = (request, response, next) ->
     Promise.resolve request
-    # Decide weither to query or to fetch a specific classified
+    # Validate the parameters and create the query.
     .then (request) ->
-      id = request.params.id
-      if request.params.id? then Classifieds.getPromise request.params.id
-      else Classifieds.queryPromise request.query
+      id = request.params[0]
+      if request.params[1] == "next" then searchForward = true
+      else searchForward = false
+      parameters = status: Classifieds.statuses.ACTIVE
+      [id, parameters, searchForward]
+    .spread Classifieds.findNeighbouring
     # Return the result!
-    .then (result) -> response.json result
+    .then (result) ->
+      if result? and result.length is 1
+        classified = result.toJSON()[0]
+        response.json classified
+      else
+        error = new Error "classified not found"
+        error.status = 404
+        throw error
     # If there were any errors, return it with a default 500 HTTP code.
     .catch (error) ->
       logger.error    error.stack

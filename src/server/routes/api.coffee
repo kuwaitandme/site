@@ -5,38 +5,51 @@ exports = module.exports = (IoC) ->
   app = this
   router = express.Router()
 
-  _api = (controller) -> IoC.create "controllers/api/#{controller}"
+  DELETE = 0
+  GET = 1
+  PATCH = 2
+  POST = 3
+  PUT = 4
 
-  router.get    "/",                         _api ""
-  router.get    "/categories",               _api "categories/get"
-  router.get    "/categories/counters",      _api "categories/counters/get"
-  router.get    "/locations",                _api "locations/get"
-  router.get    "/lang/:id",                 _api "lang/get"
+  _r = (url, controller, method=GET) ->
+    _api = (controller) -> IoC.create "controllers/api/#{controller}"
+    switch method
+      when POST
+        router.post   (new RegExp "^#{url}/?$"), _api "#{controller}/post"
+      when PUT
+        router.put    (new RegExp "^#{url}/?$"), _api "#{controller}/put"
+      when DELETE
+        router.delete (new RegExp "^#{url}/?$"), _api "#{controller}/delete"
+      when GET
+        router.get    (new RegExp "^#{url}/?$"), _api "#{controller}/get"
 
-  router.post   "/messages/classified",      _api "messages/classified/post"
-  router.post   "/messages/contact",         _api "messages/contact/post"
-
-  router.get    "/auth/logout",              _api "auth/logout/get"
-  router.get    "/auth/email/activate/:id?", _api "auth/email/activate/get"
-  router.post   "/auth/email/login",         _api "auth/email/login/post"
-  router.post   "/auth/email/signup",        _api "auth/email/signup/post"
-  router.put    "/auth/email",               _api "auth/email/put"
-
-  router.delete "/classifieds/:id",         _api "classifieds/id/delete"
-  router.get    "/classifieds",              _api "classifieds/get"
-  router.get    "/classifieds/:id",          _api "classifieds/id/get"
-  router.get    "/classifieds/slug/:slug?",  _api "classifieds/slug/get"
-  router.post   "/classifieds/:id",          _api "classifieds/id/post"
-  router.put    "/classifieds/:id",          _api "classifieds/id/put"
-
-  router.get    "/payments",                 _api "payments/post"
-  router.get    "/payments/callback",        _api "payments/callback/get"
-
-  router.get    "/users/current",            _api "users/current/get"
-  router.delete "/users/:id?",               _api "users/delete"
-  router.get    "/users/:id?",               _api "users/get"
-  router.put    "/users/:id?",               _api "users/put"
-  router.patch  "/users/:id?",               _api "users/patch"
+  _r "",                                     ".",                         GET
+  _r "/auth/email",                          "auth/email",                PUT
+  _r "/auth/email/activate/([0-9]+)",        "auth/email/activate",       GET
+  _r "/auth/email/login",                    "auth/email/login",          POST
+  _r "/auth/email/signup",                   "auth/email/signup",         POST
+  _r "/auth/logout",                         "auth/logout",               GET
+  _r "/categories",                          "categories",                GET
+  _r "/categories/counters",                 "categories/counters",       GET
+  _r "/classifieds",                         "classifieds",               GET
+  _r "/classifieds/([0-9]+)",                "classifieds/id",            DELETE
+  _r "/classifieds/([0-9]+)",                "classifieds/id",            GET
+  _r "/classifieds/([0-9]+)",                "classifieds/id",            POST
+  _r "/classifieds/([0-9]+)",                "classifieds/id",            PUT
+  _r "/classifieds/([0-9]+)/(next|prev)",    "classifieds/id/next-prev",  GET
+  _r "/classifieds/([0-9]+)/prev",           "classifieds/id/prev",       GET
+  _r "/classifieds/slug/:slug?",             "classifieds/slug",          GET
+  _r "/lang/([a-z]+)",                       "lang",                      GET
+  _r "/locations",                           "locations",                 GET
+  _r "/messages/classified",                 "messages/classified",       POST
+  _r "/messages/contact",                    "messages/contact",          POST
+  _r "/users/([0-9]+)?",                     "users",                     DELETE
+  _r "/users/([0-9]+)?",                     "users",                     GET
+  _r "/users/([0-9]+)?",                     "users",                     PATCH
+  _r "/users/([0-9]+)?",                     "users",                     PUT
+  _r "/users/current",                       "users/current",             GET
+  # _r "/payments",                     "payments", GET
+  # _r "/payments/callback",            "payments/callback", GET
 
   app.use "/api", router
 
