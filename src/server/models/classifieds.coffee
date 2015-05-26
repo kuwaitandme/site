@@ -131,6 +131,27 @@ exports = module.exports = (knex) ->
         .then (counters) -> callback null, counters
 
 
+    findNeighbouring: (id, parameters={}, searchForward=true) ->
+      new Promise (resolve, reject) ->
+        buildQuery = (qb) =>
+          # Helper function to check if the number is a valid int
+          _validInt = (i) -> i? and validator.isInt i, { min: 0 }
+
+          owner = parameters.owner
+          if _validInt owner then qb.where "owner", owner
+
+          status = parameters.status
+          if _validInt status then qb.where "status", status
+
+          if searchForward then qb.where "id", ">", id
+          else qb.where "id", "<", id
+          qb.limit 1
+
+        model.query buildQuery
+          .fetchAll()
+          .then (classifieds) -> resolve classifieds
+
+
     getPromise: (id) ->
       new Promise (resolve, reject) =>
         model.forge id: id
