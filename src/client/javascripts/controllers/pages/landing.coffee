@@ -4,9 +4,9 @@ exports = module.exports = ($scope, $scroller, $log, Classifieds) ->
   $scope.gotoElement = (eID) -> setTimeout (-> $scroller.scrollTo eID), 100
 
   $scope.heroURL = "landing.jpg"
+  $scope.displayClassifiedList = true
+  $scope.$emit "page-loaded"
   $scope.onHeroLoad = ->
-    $scope.displayClassifiedList = true
-    $scope.$emit "page-loaded"
 
   $scope.query = status: Classifieds.statuses.ACTIVE
 

@@ -1,5 +1,5 @@
 .classified-list-container
-  background: #fff
+  background: #f9f9f9
   margin: 30px auto
   .ajax-spinner
     display: none
@@ -120,16 +120,21 @@ ul.classified-list
 
 
 .classified-list-item
+  +radius(1px)
   +single-transition
   background: #FFF
+  // color: #FFF
+  border: 1px solid #DDD
   overflow: hidden
   position: relative
   &:hover
-    .title, li
-      color: #000
-    .border
-      background: #000
-      width: 100%
+    border-color: #000
+    // .title
+      // text-decoration: underline
+    //   // color: #000
+    // .border
+    //   // background: #000
+    //   width: 100%
     .date
       opacity: 1 !important
   .link
@@ -154,19 +159,20 @@ ul.classified-list
       &.image-fail
         display: none
   .info
-    padding: 5px
+    padding: 15px
+    // background: rgba(0, 0, 0, 0.4)
     > .meta
       +clearfix
       +single-transition
-      color: #999
       font-size: 0.7rem
       margin: 0
+      margin-top: 25px
       span
         text-align: right
     .title
       @extend .font-title
+      +single-transition
       font-size: 0.8rem
-      margin: 10px 0
       overflow: hidden
       padding-bottom: 0
       width: 90%

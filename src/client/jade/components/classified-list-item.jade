@@ -13,7 +13,7 @@
   .info
     .title(ng-click="toggleClassified(classified)")
       a(itemprop="name", ng-href="{{ classified.link }}") {{ classified.title | limitTo: 120 }}
-    .border
+    //- .border
     ul.meta.row.collapse
       li.price.small-6.columns(ng-if="!showStatus", itemprop="offers",
         itemscope,
@@ -23,8 +23,8 @@
           | {{ classified.priceValue | price:classified.priceType }}
       li.status.small-6.columns(ng-if="showStatus") {{ classified.status | status:"classified" }}
       li.date.small-6.columns.text-right
-        a(ng-href="/{{ classified.slug }}")
-          span.link &#xf0c6;
+        //- a(ng-href="/{{ classified.slug }}")
+        //-   span.link &#xf0c6;
         | {{ classified.created | prettydate }}
       li(style="list-style: none; display: inline", ng-if="classified.showStatus")
         .status(class="{{ classified.statusClass }}") {{ classified.statusMessage }}

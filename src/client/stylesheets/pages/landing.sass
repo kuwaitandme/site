@@ -1,16 +1,18 @@
 body#landing
-  background: #000
+  background: #FFF
   &:before
     background-image: url(/images/cat-spritesheet.jpg)
     content: ''
   main
+    // padding: 0
     background: transparent
 
-  #page-hero:after
-    content: ""
+  // #page-hero:after
+  //   content: ""
 
   #splash
-    margin: 3rem 0
+    background: url(/images/hero/landing.jpg)
+    padding: 4rem 0
     .tagline
       text-align: center
       padding-bottom: 50px
@@ -44,7 +46,7 @@ body#landing
         text-decoration: none
         text-shadow: 1px 1px 2px #000
         width: 100%
-        &:hover
+        &:hover, &
           background: #F60
           border-color: rgba(0,0,0,0.3)
           text-shadow: none

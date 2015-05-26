@@ -1,7 +1,6 @@
 $headerHeight: 60px
 
 main
-  padding-top: $headerHeight !important
   &:before
     +single-transition
     background: rgba(0, 0, 0, 0.8)
@@ -29,50 +28,49 @@ header
       background-image: url(/images/common-spritesheet.png)
       background-repeat: no-repeat
     #grabber-container
+      cursor: pointer
       float: right
       padding: 24px 25px
-      cursor: pointer
     #nav-social-container
-      float: right
       @extend .font-awesome
+      float: right
       a
         +single-transition
-        font-size: 0.9rem
-        text-decoration: none
-        padding: 24px 8px
-        opacity: 0.3
         display: inline-block
+        font-size: 0.9rem
+        opacity: 0.3
+        padding: 24px 8px
+        text-decoration: none
         &:hover
           opacity: 1
     #header-logo-container
-      padding: 15px 20px
-      float: left
       cursor: pointer
+      float: left
+      padding: 15px 20px
 
     #header-logo
       background-position: -85px 0
+      display: block
       height: 25px
       width: 109px
-      display: block
     #grabber
       background-position: -64px 0
       height: 12px
       position: relative
       width: 21px
       #notification-counter
-        +radius(100px)
         $size: 18px
-        position: absolute
-        top: 15px
-        right: 40px
-        width: $size
-        text-align: center
-        line-height: $size
-        height: $size
-        font-size: 10px
-        color: #FFF
-        // width: 100px
+        +radius(100px)
         background: #E74C3C
+        color: #FFF
+        font-size: 10px
+        height: $size
+        line-height: $size
+        position: absolute
+        right: 40px
+        text-align: center
+        top: 15px
+        width: $size
 
 
     // &:hover ~ nav#sub-header ul#notifications
@@ -91,9 +89,9 @@ header
       +single-transition(all, 500ms)
     ul#notifications
       // display: none
+      // margin-top: 20px
       margin: 0
       overflow: hidden
-      // margin-top: 20px
       li
         +single-transition
         color: #FFF
@@ -128,14 +126,15 @@ header
       overflow: hidden
 
       .title
-        font-weight: bold
         background: #F60
         color: #FFF
         display: inline-block
         font-size: 1rem
+        font-weight: bold
         padding: 1rem
         text-align: right
         text-transform: uppercase
+
         @media only screen and (min-width: 40em)
           &.dark
             background: #DB5800

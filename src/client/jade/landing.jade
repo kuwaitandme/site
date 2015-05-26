@@ -29,22 +29,25 @@
       //- li
       //-   a(href="/en") English
 
-#page-hero
-  img(ng-image-loader!="<%= staticUrl %>/images/hero/{{ heroURL }}",
-    ng-image-success="onHeroLoad")
+//- #page-hero
+//-   img(ng-image-loader!="<%= staticUrl %>/images/hero/{{ heroURL }}",
+//-     ng-image-success="onHeroLoad")
 
-#splash
-  .tagline
-    h1 Publish and Browse classifieds in Kuwait. Quick, Easy and absolutely Free!
+#splash(ng-like-viewport=0.75)
   .row
-      h2.medium-4.columns
-        a(href="/classified/post") Submit your classified
-      h2.medium-4.columns
-        a(href="/classified") Browse through classifieds
-      h2.medium-4.columns.show-if-loggedin
-        a(href="/account") Manage your account
-      h2.medium-4.columns.hide-if-loggedin
-        a(href="/auth") Login/Signup
+    .medium-6.columns
+      .tagline
+        h1 Publish and Browse classifieds in Kuwait. Quick, Easy and absolutely Free!
+    .medium-6.columns
+        h2
+          a(href="/classified/post") Submit your classified
+        h2
+          a(href="/classified") Browse through classifieds
+        //- h2.show-if-loggedin
+        //-   a(href="/account") Manage your account
+        //- h2
+        //-   .hide-if-loggedin
+        //-   a(href="/auth") Login/Signup
     //- ul.large-6.columns.thumb.testimonials
       li asd
 #featured-classifieds.row(ng-if="displayClassifiedList")
