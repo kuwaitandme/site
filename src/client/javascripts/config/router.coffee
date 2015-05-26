@@ -28,10 +28,10 @@ exports = module.exports = ($stateProvider, $locationProvider, $urlMatcher,
   _route "classified/post",    "/classified/post"
 
   _route "classified/search",  "/classified"
+  _route "classified/single",  "/classified/{slug:[^/]+-[0-9]+}"
   _route "classified/search",  "/classified/{parent:[^/]+}"
   _route "classified/search",  "/classified/{parent:[^/]+}/{child:[^/]+}"
 
-  _route "classified/single",  "/{slug:[^/]+}"
   _route "404",                "*page"
 
   # Enable HTML5 pushstate for hash-less URLs

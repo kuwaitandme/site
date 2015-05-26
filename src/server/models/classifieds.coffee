@@ -136,13 +136,10 @@ exports = module.exports = (knex) ->
         buildQuery = (qb) =>
           # Helper function to check if the number is a valid int
           _validInt = (i) -> i? and validator.isInt i, { min: 0 }
-
           owner = parameters.owner
           if _validInt owner then qb.where "owner", owner
-
           status = parameters.status
           if _validInt status then qb.where "status", status
-
           if searchForward then qb.where "id", ">", id
           else qb.where "id", "<", id
           qb.limit 1
