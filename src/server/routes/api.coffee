@@ -38,7 +38,7 @@ exports = module.exports = (IoC) ->
   _r "/classifieds/([0-9]+)",                "classifieds/id",            PUT
   _r "/classifieds/([0-9]+)/(next|prev)",    "classifieds/id/next-prev",  GET
   _r "/classifieds/([0-9]+)/prev",           "classifieds/id/prev",       GET
-  _r "/classifieds/slug/:slug?",             "classifieds/slug",          GET
+  _r "/classifieds/slug/([^/]+)",            "classifieds/slug",          GET
   _r "/lang/([a-z]+)",                       "lang",                      GET
   _r "/locations",                           "locations",                 GET
   _r "/messages/classified",                 "messages/classified",       POST

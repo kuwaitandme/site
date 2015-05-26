@@ -4,7 +4,7 @@ validator = require "validator"
 
 exports = module.exports = (Classifieds) ->
   controller = (request, response, next) ->
-    slug = request.params.slug
+    slug = request.params[0]
 
     if not slug? or slug is "undefined"
       response.status 404
