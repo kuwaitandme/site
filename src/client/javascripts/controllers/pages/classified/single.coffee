@@ -3,6 +3,7 @@ exports = module.exports = ($scope, $root, $stateParams, console, Classifieds) -
   console.log @name, "initializing"
   console.debug @name, "routeParams", $stateParams
 
+  $root.bodyStyles['stick-header'] = true
 
   $scope.$on "classified-changed", (event, classified) ->
     $scope.classified = classified

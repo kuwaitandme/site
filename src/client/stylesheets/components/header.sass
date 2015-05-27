@@ -24,8 +24,6 @@ header
     background: #FFF
     height: $headerHeight
     z-index: 1
-    border: 1px solid #DDD
-    border-top: 0
 
     &.nav-up
       margin-top: -$headerHeight
@@ -205,6 +203,10 @@ body.show-subheader
     opacity: 1
     content: ''
     height: 100%
+
+body.stick-header, body.show-subheader
+  #main-header
+    margin-top: 0
 
 @media print
   header
