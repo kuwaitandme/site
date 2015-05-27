@@ -1,5 +1,5 @@
 .collapse.row(ng-controller="component:header")
-  #main-header.columns
+  #main-header.columns(ng-scrollup-class="nav-up")
     #header-logo-container(ng-click="closeHeader()")
       a#header-logo(href="/")
     #grabber-container(ng-click="toggleHeader()")

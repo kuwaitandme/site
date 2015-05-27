@@ -19,11 +19,16 @@ header
   z-index: 4
 
   #main-header
+    +single-transition
     +clearfix
     background: #FFF
     height: $headerHeight
     z-index: 1
+    border: 1px solid #DDD
+    border-top: 0
 
+    &.nav-up
+      margin-top: -$headerHeight
     #header-logo, #grabber
       background-image: url(/images/common-spritesheet.png)
       background-repeat: no-repeat
@@ -46,13 +51,15 @@ header
     #header-logo-container
       cursor: pointer
       float: left
-      padding: 15px 20px
+      padding: 18px 20px
 
     #header-logo
-      background-position: -85px 0
+      background-image: url(/images/header-logo.png)
+      background-size: 25px;
+      // background-position: -85px 0
       display: block
       height: 25px
-      width: 109px
+      width: 25px
     #grabber
       background-position: -64px 0
       height: 12px
@@ -189,6 +196,8 @@ body.show-subheader
   header, nav#sub-header
     bottom: 0
     overflow-y: auto
+  #main-header
+    margin-top: 0
   nav#sub-header
     top: 60px
 
