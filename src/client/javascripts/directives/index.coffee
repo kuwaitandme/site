@@ -5,3 +5,4 @@ module.exports = (app) ->
   app.directive "ngModelFile",     require "./ngModelFile"
   app.directive "ngRatio",         require "./ngRatio"
   app.directive "ngScroll",        require "./ngScroll"
+  app.directive "ngScrollupClass", require "./ngScrollupClass"
