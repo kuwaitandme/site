@@ -113,7 +113,7 @@ section.row.classified-single(ng-controller="component:classified-single", items
         li.googleplus(ng-if="classified.meta.shareSocial")
           a.icon(target="_blank", ng-href="{{ classified.social.gplus }}") &#xf0d5;
         li.link
-          a.icon(itemprop="url", ng-href="/classified/{{ classified.slug }}") &#xf0c6;
+          a.icon(itemprop="url", ng-href="/{{ classified.slug }}") &#xf0c6;
         li.email
           a.icon(target="_blank", ng-href="{{ classified.social.email }}") &#xf003;
         //- li.blank

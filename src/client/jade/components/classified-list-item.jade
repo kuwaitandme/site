@@ -12,7 +12,7 @@
 
   .info
     .title(ng-click="toggleClassified(classified)")
-      a(itemprop="name", ng-href="/classified/{{ classified.link }}") {{ classified.title | limitTo: 120 }}
+      a(itemprop="name", ng-href="/{{ classified.link }}") {{ classified.title | limitTo: 120 }}
     //- .border
     ul.meta.row.collapse
       li.price.small-6.columns(ng-if="!showStatus", itemprop="offers",

@@ -50,7 +50,6 @@ exports = module.exports = (IoC, settings) ->
   _route "/classified/([0-9a-z\-]+)/([0-9a-z\-]*)", "classified/search"
   _route "/classified/finish/([0-9]+)",             "classified/finish"
   _route "/classified/edit/([0-9]*)",               "classified/edit"
-  _route "/classified/([^/]+)",                     "classified/single"
 
   _route "/account",                                "account/index"
   _route "/account/manage",                         "account/manage"
@@ -61,6 +60,7 @@ exports = module.exports = (IoC, settings) ->
   _route "/(en|ar|dg)",                             "redirector/language"
   _route "/(en|ar|dg)/(.*)",                        "redirector/language"
   _route "/(.+)",                                   "redirector/oldUrls"
+  _route "/([^/]+-[0-9]+)",                         "classified/single"
   _route ".*",                                      "errors/404"
   app.use router
 
