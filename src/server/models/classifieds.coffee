@@ -125,6 +125,7 @@ exports = module.exports = (knex) ->
         qb.select "child_category as id"
         qb.count "child_category"
         qb.groupBy "child_category"
+        qb.where "status", @statuses.ACTIVE
 
       @model.query buildQuery
         .fetchAll()
