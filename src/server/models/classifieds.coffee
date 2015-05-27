@@ -121,7 +121,7 @@ exports = module.exports = (knex) ->
         .then (counters={}) -> callback null, counters
 
     getChildCategoryCount: (callback) ->
-      buildQuery = (qb) ->
+      buildQuery = (qb) =>
         qb.select "child_category as id"
         qb.count "child_category"
         qb.groupBy "child_category"
