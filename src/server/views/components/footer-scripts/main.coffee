@@ -1,4 +1,5 @@
-u = publicData.staticUrl;
+u = publicData.staticUrl
+
 window.scripts = [
   {
     id: "app:style-css"
@@ -50,7 +51,7 @@ incrementProgressBar = ->
   totalScriptsLoaded++
   setProgressBar totalScriptsLoaded, 9
 
-isDevelopment = publicData.environment == "development" and false
+isDevelopment = publicData.environment == "development"
 
 
 _addScript = (urlsOrCode, isCSS, isCode) ->

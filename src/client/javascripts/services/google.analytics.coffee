@@ -10,16 +10,16 @@ exports = module.exports = ($environment, $location, $log, $window) -> new class
       return @fallback = true
     $log.debug @name, "analytics code", id
 
-    # Prepare the URL
-    url = "https://www.google-analytics.com/analytics.js"
-    # Insert the script into the DOM
-    $fileref = document.createElement "script"
-    $fileref.type = "text/javascript"
-    $fileref.src = url
-    head = (document.getElementsByTagName "head")[0]
-    head.insertBefore $fileref, head.firstChild
+    # # Prepare the URL
+    # url = "https://www.google-analytics.com/analytics.js"
+    # # Insert the script into the DOM
+    # $fileref = document.createElement "script"
+    # $fileref.type = "text/javascript"
+    # $fileref.src = url
+    # head = (document.getElementsByTagName "head")[0]
+    # head.insertBefore $fileref, head.firstChild
 
-    @onLoad -> $window.ga "create", id, "auto"
+    # @onLoad -> $window.ga "create", id, "auto"
 
 
   onLoad: (callback=->) ->
