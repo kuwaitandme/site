@@ -2,13 +2,9 @@
   img(ng-image-loader!="<%= staticUrl %>/images/hero/{{ heroURL }}",
     ng-image-success="onHeroLoad")
 
-.row(ng-if="isUserLoggedIn")
+.row
   h1.columns Post a classified
-  h3.columns This classified will be published immediately and can be archived by accessing your account page.
-
-.row(ng-if="!isUserLoggedIn")
-  h1.columns Post an anonymous classified
-  h3.columns We are letting you post a classified anonymously. So we will have to review your classified before it gets published.
-  h3.columns If you simply <a href="/auth">signup</a> with us, You can skip this delay and also be able to do useful things, like managing multiple classifieds and viewing  statistics.
+  h3.columns Your classified usually goes online within the hour! It is quick and easy, so let's get you started!
+  h3.columns By submitting this classified you agree that you have read our <a href="/info/terms-privacy">terms of use and privacy.</a>
 
 section(ng-include="'components/classified-form'")

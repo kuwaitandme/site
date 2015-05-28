@@ -1,20 +1,32 @@
 ## TODO: Add automatic resize of content
-exports = module.exports = ($scope, $googleMaps, $imageResizer,
-  $location, $notifications, console, Classifieds, Categories, Locations, Users) ->
+exports = module.exports = ($googleMaps, $imageResizer, $location, $log,
+$notifications, $scope, Classifieds, Categories, Locations, Users) ->
   @name = "[component:classified-form]"
-  console.log @name, "initializing"
-  console.debug @name, $scope
+  $log.log @name, "initializing"
 
+  # Initialize the models
   $scope.categories = Categories.getAll()
   $scope.locations = Locations.getAll()
-  $scope.onSuccess ?= ->
-  $scope.formClasses ?= {}
-  $scope.formClasses.loading = $scope.formLoading
-
   # If classified is not defined, then set it to it's default values. By scope
   # inheritance if there was a classified in the parent controller, it should
   # override this line.
   $scope.classified ?= Classifieds.getDefault()
+
+  # Setup some defaults for functions that might be overridden by the parent
+  $scope.onSuccess ?= ->
+  $scope.formClasses ?= {}
+
+  # Attach the css class for when the form is loading
+  $scope.formClasses.loading = $scope.formLoading
+
+  updateAvailableCredits = ->
+    userCredits = 100
+    $scope.urgentPrice = $scope.urgentPrice * 1
+    $scope.promotePrice = $scope.promotePrice * 1
+    $scope.availableCredits = userCredits - $scope.urgentPrice - $scope.promotePrice
+  $scope.$watch "urgentPrice", updateAvailableCredits
+  $scope.$watch "promotePrice", updateAvailableCredits
+  updateAvailableCredits()
 
   # Automatically populate and/or disable the email field
   currentUserEmail = Users.getCurrentUser().email
@@ -43,7 +55,6 @@ exports = module.exports = ($scope, $googleMaps, $imageResizer,
     else $scope.remainingTitle = ""
   $scope.$watch "classified.title", onTitleChange
 
-
   # Function to listen for changes with classified description
   onDescriptionChange = (newValue="") ->
     minDescription = 50
@@ -54,18 +65,16 @@ exports = module.exports = ($scope, $googleMaps, $imageResizer,
     else $scope.remainingDescription = ""
   $scope.$watch "classified.description", onDescriptionChange
 
-
   # Function to popup the file selector dialog
   $scope.addImages = ->
     $el = angular.element document.querySelectorAll "[type='file']"
     $el[0].click()
 
-
+  # If the status has been changed, immediately submit the classified
   $scope.changeStatus = (newStatus) =>
-    console.debug @name, "changing status to : '#{newStatus}'"
+    $log.debug @name, "changing status to : '#{newStatus}'"
     $scope.classified.status = Classifieds.statuses[newStatus]
     $scope.submit()
-
 
   # This function is called when files have been selected by the user. Here we
   # pass the files into our imageResizer for resizing into nice square
@@ -98,7 +107,6 @@ exports = module.exports = ($scope, $googleMaps, $imageResizer,
             status: "to-upload"
       ) file
 
-
   # Handler function to remove the file from the Uploads queue
   $scope.removeImage = ($event) ->
     $li = angular.element $event.target.parentNode
@@ -116,7 +124,6 @@ exports = module.exports = ($scope, $googleMaps, $imageResizer,
           image.main = true
           break
       $li.data().$scope.image.main = false
-
 
   # Handler function to set the main image. Updates the main image to be the
   # image that the user just clicked.
@@ -138,10 +145,10 @@ exports = module.exports = ($scope, $googleMaps, $imageResizer,
     $scope.formLoading = $scope.formClasses.loading = true
     # Only perform the submit function if the form has validated properly
     if not $scope.form.$invalid
-      console.log @name, "submitting form"
-
-      for image in ($scope.classified.images or []) then delete image.src
-
+      $log.log @name, "submitting form"
+      # Delete the image.src (which contains the base63 data) to avoid
+      # repetition of the image upload.
+      delete image.src for image in ($scope.classified.images or [])
       if $scope.classified.parentCategory?
         $scope.classified.parent_category = $scope.classified.parentCategory.id
       if $scope.classified.childCategory?
@@ -151,7 +158,7 @@ exports = module.exports = ($scope, $googleMaps, $imageResizer,
       Classifieds.save $scope.classified, (error, classified) =>
         $scope.formLoading = $scope.formClasses.loading = false
         if error
-          console.error @name, error
+          $log.error @name, error
           switch error
             when "email conflict"
               $notifications.error "That email address has an account with this site. You must login with that email otherwise this classified is considered as spam.", 10000
@@ -159,8 +166,7 @@ exports = module.exports = ($scope, $googleMaps, $imageResizer,
               $notifications.error "You can't make changes to this classified", 10000
             else
               $notifications.error "Something went wrong while saving your classified. Try again later"
-        else
-          $scope.onSuccess classified
+        else $scope.onSuccess classified
     else
       $scope.formLoading = $scope.formClasses.loading = false
       $notifications.error "You have some invalid fields in your form. Have a look at them again"
@@ -213,12 +219,12 @@ exports = module.exports = ($scope, $googleMaps, $imageResizer,
 
 
 exports.$inject = [
-  "$scope"
   "$googleMaps"
   "$imageResizer"
   "$location"
-  "$notifications"
   "$log"
+  "$notifications"
+  "$scope"
 
   "model.classifieds"
   "model.categories"
