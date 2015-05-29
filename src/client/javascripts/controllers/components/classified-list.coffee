@@ -49,6 +49,7 @@ Classifieds) ->
 
   # This function toggles the classified dropdown
   $scope.toggleClassified = (classified) ->
+    # _animateIn = ()
     if $scope.redirectToEditPage
       return $location.path "/classified/edit/#{classified.id}"
 
@@ -61,9 +62,9 @@ Classifieds) ->
       $scope.classified = classified
       $scope.showClassifiedContainer = true
 
-      $scope.classifiedStyles = {}
-      $scope.classifiedStyles.enterAnimation = true
-      $scope.classifiedStyles.animateBackground = true
+      $scope.classifiedStyles =
+        animateBackground: true
+        enterAnimation: true
       $timeout  ->
         $scope.$apply -> $scope.classifiedStyles.animateClassified = true
       , 200

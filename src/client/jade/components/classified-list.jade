@@ -3,6 +3,11 @@ section(ng-controller="component:classified-list")
     .classified-single-close-bg(ng-click="toggleClassified()")
     .classified-single-close-button(ng-click="toggleClassified()")
       img(src!="<%= staticUrl %>/images/close.png")
+    //- .nav-buttons
+      .prev
+        .text prev
+      .next
+        .text next
     .row(ng-include="'components/classified-single'")
 
   ul.classified-list.row(ng-scroll="onScroll")

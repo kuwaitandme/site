@@ -18,7 +18,9 @@
   background: #EBEBEC
   left: 0
   overflow-y: scroll
-  padding: 60px 30px
+  padding: 50px
+  @media only screen and (max-width: 40em)
+    padding: 30px 10px
   position: fixed
   top: 0
   width: 100%
@@ -29,8 +31,42 @@
   &:before
     @extend #page-hero
 
+  .nav-buttons
+    position: relative
+    line-height: 50%
+    color: #7d7d7d
+    @media only screen and (max-width: 40em)
+      display: none
+    .text
+      text-align: center
+      text-transform: uppercase
+      font-size: 0.8rem
+      width: 100%
+      top: 50%
+      position: absolute
+    .prev
+      left: 0
+      .text
+        transform: rotate(-90deg);
+    .next
+      right:0
+      .text
+        transform: rotate(90deg);
+    .prev, .next
+      +single-transition
+      top: 0
+      width: 50px
+      height: 100%
+      position: fixed
+      cursor: pointer
+      &:hover
+        color: #000
+        background: rgba(0,0,0,0.05)
+
   .classified-single
+    // width: 40%
     +single-transition
+    margin: 0 auto
     opacity: 0
     .gallery
       background: #f9f9f9
@@ -96,15 +132,15 @@
   .classified-single-close-button
     $size: 50px
     background: #FFF
+    border: 1px solid #EEE
     cursor: pointer
     height: $size
     padding: 15px
     position: fixed
-    top: -1px
     right: 20px
-    z-index: 5
-    border: 1px solid #EEE
+    top: -1px
     width: $size
+    z-index: 8
     img
       +single-transition
       opacity: 0.5
