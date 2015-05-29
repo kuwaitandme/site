@@ -73,6 +73,7 @@ exports = module.exports = (knex) ->
 
           qb.limit classifiedsPerPage
           qb.offset (page - 1) * classifiedsPerPage
+          qb.orderBy "weight", "DESC"
           qb.orderBy "created", "DESC"
 
         model.query buildQuery
@@ -188,6 +189,14 @@ exports = module.exports = (knex) ->
       @model.forge id: id
         .save parameters#, patch: true
         .then (classified) -> callback null, classified
+
+
+    calculateDaysActive: (perkName, credits) ->
+      switch perkName
+        when "urgent" then credits/10
+        when "promote" then credits/20
+        else 0
+
 
 
     filter: (data) -> _.pick data, (value, key, object) => key in @fields

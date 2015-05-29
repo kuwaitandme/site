@@ -32,9 +32,9 @@ exports = module.exports = (IoC) ->
   _r "/categories",                          "categories",                GET
   _r "/categories/counters",                 "categories/counters",       GET
   _r "/classifieds",                         "classifieds",               GET
+  _r "/classifieds",                         "classifieds",               POST
   _r "/classifieds/([0-9]+)",                "classifieds/id",            DELETE
   _r "/classifieds/([0-9]+)",                "classifieds/id",            GET
-  _r "/classifieds/([0-9]+)",                "classifieds/id",            POST
   _r "/classifieds/([0-9]+)",                "classifieds/id",            PUT
   _r "/classifieds/([0-9]+)/(next|prev)",    "classifieds/id/next-prev",  GET
   _r "/classifieds/([0-9]+)/prev",           "classifieds/id/prev",       GET
