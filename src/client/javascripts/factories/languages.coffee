@@ -6,6 +6,7 @@ exports = module.exports = ($http, $log) -> new class
     oauth_success: "Welcome _NAME_, you are now logged in!"
     logout: "You have been logged out successfully"
     need_login: "You need to be logged in to view that page"
+    need_login_for_post: "You need to be logged to post classifieds!"
   translate: (key) -> @dictonary[key] or ""
 
 

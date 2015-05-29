@@ -2,6 +2,7 @@
 exports = module.exports = ($googleMaps, $imageResizer, $location, $log,
 $notifications, $scope, Classifieds, Categories, Locations, Users) ->
   @name = "[component:classified-form]"
+  currentUser = Users.getCurrentUser()
   $log.log @name, "initializing"
 
   # Initialize the models
@@ -20,7 +21,7 @@ $notifications, $scope, Classifieds, Categories, Locations, Users) ->
   $scope.formClasses.loading = $scope.formLoading
 
   updateAvailableCredits = ->
-    userCredits = 100
+    userCredits = currentUser.credits or 0
     $scope.urgentPrice = $scope.urgentPrice * 1
     $scope.promotePrice = $scope.promotePrice * 1
     $scope.availableCredits = userCredits - $scope.urgentPrice - $scope.promotePrice
@@ -29,19 +30,18 @@ $notifications, $scope, Classifieds, Categories, Locations, Users) ->
   updateAvailableCredits()
 
   # Automatically populate and/or disable the email field
-  currentUserEmail = Users.getCurrentUser().email
+  currentUserEmail = currentUser.email
   if not $scope.classified.contact.email? and currentUserEmail?
     $scope.disableEmailField = true
     $scope.classified.contact.email = currentUserEmail
   if $scope.classified.contact.email? then $scope.disableEmailField = true
-
 
   $scope.classified.parentCategory = Categories.findByParentId $scope.classified.parent_category or null
   $scope.classified.childCategory = Categories.findByChildId $scope.classified.child_category or null
   $scope.location = Locations.findById $scope.classified.location
 
   # Set the super editable property iff the user is a moderator or an admin
-  currentUser = Users.getCurrentUser() or {}
+  currentUser = currentUser or {}
   roles = Users.roles
   $scope.superEditable = currentUser.role in [roles.MODERATOR, roles.ADMIN]
 
@@ -145,8 +145,11 @@ $notifications, $scope, Classifieds, Categories, Locations, Users) ->
     $scope.formLoading = $scope.formClasses.loading = true
     # Only perform the submit function if the form has validated properly
     if not $scope.form.$invalid
+      $scope.classified.spendUrgentPerk = $scope.urgentPrice
+      $scope.classified.spendPromotePerk = $scope.promotePrice
+
       $log.log @name, "submitting form"
-      # Delete the image.src (which contains the base63 data) to avoid
+      # Delete the image.src (which contains the base64 data) to avoid
       # repetition of the image upload.
       delete image.src for image in ($scope.classified.images or [])
       if $scope.classified.parentCategory?
@@ -160,6 +163,10 @@ $notifications, $scope, Classifieds, Categories, Locations, Users) ->
         if error
           $log.error @name, error
           switch error
+            when "not enough credits"
+              $notifications.error "You don't have enough credits", 10000
+            when "need login"
+              $notifications.error "You must be logged in an account to post a classified", 10000
             when "email conflict"
               $notifications.error "That email address has an account with this site. You must login with that email otherwise this classified is considered as spam.", 10000
             when "not privileged"

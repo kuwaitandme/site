@@ -1,4 +1,4 @@
-exports = module.exports = ($log, $root, $scope, $timeout, $window,
+exports = module.exports = ($location, $log, $root, $scope, $timeout, $window,
 Classifieds) ->
   @name = "[component:classified-list]"
   $log.log @name, "initializing"
@@ -50,7 +50,7 @@ Classifieds) ->
   # This function toggles the classified dropdown
   $scope.toggleClassified = (classified) ->
     if $scope.redirectToEditPage
-      return location = "/classified/edit/#{classified.id}"
+      return $location.path "/classified/edit/#{classified.id}"
 
     if not $scope.showClassifiedContainer
       $scope.$broadcast "classified-changed", classified
@@ -103,7 +103,7 @@ Classifieds) ->
       # (manually that is).
       for classified in classifieds
         if $scope.redirectToEditPage
-          classified.link = "/classified/edit/#{classified.id}"
+          classified.link = "classified/edit/#{classified.id}"
         classified.imageLoaded = -> masonry.layout()
         $scope.classifieds.push classified
       loadingClassifieds = false
@@ -128,6 +128,7 @@ Classifieds) ->
 
 
 exports.$inject = [
+  "$location"
   "$log"
   "$rootScope"
   "$scope"
