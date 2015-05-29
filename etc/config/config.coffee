@@ -23,35 +23,78 @@ exports = module.exports = ->
     facebook:
       enabled: true
       supportMeta: true
-      appID: "XXXXXXXXXX"
-      appSecret: "XXXXXXXXXX"
+      oauth:
+        clientID: "XXXXXXXXXX"
+        clientSecret: "XXXXXXXXXX"
       scope: ["email"]
 
     twitter:
       enabled: false
       supportMeta: true
       user: "@twitteraccount"
-      consumerKey: "XXXXXXXXXX"
-      consumerSecret: "XXXXXXXXXX"
+      oauth:
+        consumerKey: "XXXXXXXXXX"
+        consumerSecret: "XXXXXXXXXX"
 
     google:
       enabled: true
-      clientID: "XXXXXXXXXX"
-      clientSecret: "XXXXXXXXXX"
       analyticsCode: "UA-XXXXXXXXXX-X"
+      oauth:
+        clientID: "XXXXXXXXXX"
+        clientSecret: "XXXXXXXXXX"
       scope: [
         "https://www.googleapis.com/auth/userinfo.email"
         "https://www.googleapis.com/auth/userinfo.profile"
       ]
 
-    windowsLive:
+    windowslive:
       enabled: true
-      clientID: "XXXXXXXXXX"
-      clientSecret: "XXXXXXXXXX"
+      oauth:
+        clientID: "XXXXXXXXXX"
+        clientSecret: "XXXXXXXXXX"
       scope: [
         "wl.basic"
         "wl.emails"
       ]
+
+    openid:
+      enabled: true
+      oauth:
+        relam: "https://development.kuwaitandme.com"
+
+
+    wordpress:
+      enabled: true
+      clientID: "XXXXXXXXXX"
+      clientSecret: "XXXXXXXXXX"
+
+    linkedin:
+      enabled: true
+      scope: [
+        "r_basicprofile"
+        "r_emailaddress"
+      ]
+      oauth:
+        consumerKey: "XXXXXXXXXX"
+        consumerSecret: "XXXXXXXXXX"
+        profileFields: [
+          "email-address"
+          "first-name"
+          "id"
+          "last-name"
+        ]
+
+    amazon:
+      enabled: true
+      scope: ["profile"]
+      oauth:
+        clientID: "XXXXXXXXXX"
+        clientSecret: "XXXXXXXXXX"
+
+    reddit:
+      enabled: true
+      clientID: "XXXXXXXXXX"
+      clientSecret: "XXXXXXXXXX"
 
     paypal:
       client_id: "XXXXXXXXXX",

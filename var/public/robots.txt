@@ -9,8 +9,7 @@ Disallow: /classified/edit
 Disallow: /classified/finish
 Disallow: /classified/post
 Disallow: /images
-Disallow: /javascripts
-Disallow: /stylesheets
+Disallow: /uploads
 
 # Link to the sitemap!
 Sitemap: https://static.kuwaitandme.com/sitemap.xml

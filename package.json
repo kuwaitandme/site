@@ -64,12 +64,17 @@
     "ncp": "^0.6.0",
     "nodejs-websocket": "^1.2.1",
     "passport": "^0.2.1",
+    "passport-amazon": "^0.1.0",
     "passport-facebook": "^1.0.3",
     "passport-google": "^0.3.0",
     "passport-google-oauth": "^0.1.5",
+    "passport-linkedin": "^0.1.3",
     "passport-local": "^1.0.0",
+    "passport-openid": "^0.3.1",
+    "passport-reddit": "^0.2.4",
     "passport-twitter": "^1.0.3",
     "passport-windowslive": "^1.0.1",
+    "passport-wordpress": "0.0.3",
     "paypal-rest-sdk": "^1.5.2",
     "pg": "^4.3.0",
     "pluralize": "^1.0.0",
@@ -112,13 +117,5 @@
     "gulp-uglifyjs": "^0.6.1",
     "gulp-util": "^3.0.4",
     "main-bower-files": "^2.6.2"
-  },
-  "browser": {
-    "app-config": "./assets/javascripts/config.coffee",
-    "app-controllers": "./assets/javascripts/controllers/index.coffee",
-    "app-helpers": "./assets/javascripts/helpers/index.coffee",
-    "app-libs": "./assets/javascripts/libs/index.coffee",
-    "app-models": "./assets/javascripts/models/index.coffee",
-    "app-views": "./assets/javascripts/views/index.coffee"
   }
 }

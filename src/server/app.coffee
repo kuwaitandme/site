@@ -4,18 +4,19 @@ express  = require "express"
 igloo    = require "igloo"
 path     = require "path"
 
+_path = (newpath) -> path.join __dirname, newpath
+
 # dependency injection
-IoC.loader                IoC.node path.join __dirname, "../../etc/config"
+IoC.loader                IoC.node _path "../../etc/config"
+IoC.loader "controllers", IoC.node _path "controllers"
+IoC.loader "cron",        IoC.node _path "cron"
 IoC.loader "igloo",       igloo
-IoC.loader "controllers", IoC.node path.join __dirname, "controllers"
-IoC.loader "models",      IoC.node path.join __dirname, "models"
-IoC.loader "cron",        IoC.node path.join __dirname, "cron"
+IoC.loader "models",      IoC.node _path "models"
 
 app = bootable express()
 
-app.phase bootable.di.initializers path.join __dirname, "init"
-app.phase bootable.di.routes       path.join __dirname, "routes"
-app.phase bootable.di.initializers path.join __dirname, "cron"
+app.phase bootable.di.initializers _path "init"
+app.phase bootable.di.routes       _path "routes"
 app.phase IoC.create "igloo/server"
 
 module.exports = app
