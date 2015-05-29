@@ -8,7 +8,7 @@ exports = module.exports = (IoC, Classifieds) ->
     Promise.resolve request
     # Validate the integer field
     .then (request) ->
-      id = request.params.id
+      id = request.params[0]
       if not id? then throw new Error "id is missing"
       if not validator.isInt id then throw new Error "bad id"
       id

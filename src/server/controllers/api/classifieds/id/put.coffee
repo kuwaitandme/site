@@ -10,9 +10,10 @@ exports = module.exports = (IoC, reCaptcha, uploader, Classifieds, Users) ->
 
   # Check if the request has the required data
   checkRequest = (request) ->
+    id = request.params[0]
     if not request.isAuthenticated() then throw new Error "need login"
-    else if not request.params.id? then throw new Error "need valid id"
-    else request.params.id
+    else if not id? then throw new Error "need valid id"
+    else id
 
 
   # Check if user has privileges to modify the classified

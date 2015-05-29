@@ -8,7 +8,7 @@ exports = module.exports = (IoC, Classifieds) ->
     Promise.resolve request
     # Decide weither to query or to fetch a specific classified
     .then (request) ->
-      id = request.params.id
+      id = request.params[0]
       if request.params.id? then Classifieds.getPromise request.params.id
       else Classifieds.queryPromise request.query
     # Return the result!
