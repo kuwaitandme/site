@@ -6,11 +6,17 @@ connectLiveReload     = require "connect-livereload"
 validator             = require "validator"
 _                     = require "underscore"
 
+AmazonStrategy        = (require "passport-amazon").Strategy
 FacebookStrategy      = (require "passport-facebook").Strategy
 GoogleStrategy        = (require "passport-google-oauth").OAuth2Strategy
+LinkedinStrategy      = (require "passport-linkedin").Strategy
 LocalStrategy         = (require "passport-local").Strategy
+RedditStrategy        = (require "passport-reddit").Strategy
 TwitterStrategy       = (require "passport-twitter").Strategy
 WindowsStrategy       = (require "passport-windowslive").Strategy
+WordpressStrategy     = (require "passport-wordpress").Strategy
+OpenIDStrategy        = (require "passport-openid").Strategy
+
 
 exports = module.exports = (IoC, settings, sessions, Email, Users, policies) ->
   app = this
@@ -19,10 +25,11 @@ exports = module.exports = (IoC, settings, sessions, Email, Users, policies) ->
   # This function gets called for each of the OAuth logins. A uniform function
   # that takes care of everything from DB.... FINISH
   providerAuthCallback = (accessToken, refreshToken, profile, done) ->
-    logger.debug "got profile from OAuth:", profile
+    logger.debug "got profile from OAuth:", profile.provider
+    console.log profile
     if profile.emails.length == 0 or (not _.isObject profile.emails[0]) or
     not validator.isEmail profile.emails[0].value
-      return done new Error "Your account did not have an email address associated with it"
+      return done new Error "no oauth email found"
     # Query for the user based on the provider.
     Users.findOne { email: profile.emails[0].value }, (error, user) ->
       if error then return done error
@@ -30,12 +37,15 @@ exports = module.exports = (IoC, settings, sessions, Email, Users, policies) ->
       # the user back to passport
       if user
         json = user.toJSON()
-        if not json.login_providers? and json[profile.provider]?
-          ## Welcome email here!
-          json.login_providers[profile.provider] = uid: profile.id
-          logger.debug "adding social network [#{profile.provider}] to existing user", json
-          return Users.patch json.id, json, done
-        logger.debug "using social network [#{profile.provider}] from existing user", json
+        # Start checking the login providers
+        if json.login_providers?
+          # If the login provider has not yet been set, then set it.
+          if not json.login_providers[profile.provider]?
+            ## Welcome email here!
+            json.login_providers[profile.provider] = uid: profile.id
+            logger.debug "adding social network [#{profile.provider}] to existing user", profile.emails[0].value
+            return Users.patch json.id, json, done
+          else logger.debug "using social network [#{profile.provider}] from existing user", profile.emails[0].value
         return done null, user
       # If the user did not exist, then create a new user
       password = Users.randomPassword()
@@ -47,6 +57,7 @@ exports = module.exports = (IoC, settings, sessions, Email, Users, policies) ->
         password: Users.hashPassword password
         status: Users.statuses.ACTIVE
       newUser.login_providers[profile.provider] = uid: profile.id
+      # Not create the user in the database
       logger.debug "user does not exist, creating new user", newUser
       Users.create newUser, (error, user) ->
         if error then done error
@@ -73,42 +84,20 @@ exports = module.exports = (IoC, settings, sessions, Email, Users, policies) ->
   # add session, and use Redis for storage
   app.use session settings.session
 
-  # Google Authentication
-  if settings.google.enabled
-    logger.debug "enabling google auth strategy"
-    passport.use new GoogleStrategy
-      callbackURL: "#{settings.url}/auth/social/google/callback"
-      clientID: settings.google.clientID
-      clientSecret: settings.google.clientSecret
-    , providerAuthCallback
-
-  # Facebook Authentication
-  if settings.facebook.enabled
-    logger.debug "enabling facebook auth strategy"
-    passport.use new FacebookStrategy
-      callbackURL:  "#{settings.url}/auth/social/facebook/callback"
-      clientID: settings.facebook.appID
-      clientSecret: settings.facebook.appSecret
-    , providerAuthCallback
-
-  # Twitter Authentication
-  if settings.twitter.enabled
-    logger.debug "enabling twitter auth strategy"
-    passport.use new TwitterStrategy
-      callbackURL:  "#{settings.url}/auth/social/twitter/callback"
-      consumerKey: settings.twitter.consumerKey
-      consumerSecret: settings.twitter.consumerSecret
-    , providerAuthCallback
-
-  # Windows live Authentication
-  if settings.windowsLive.enabled
-    logger.debug "enabling windows auth strategy"
-    console.log "#{settings.url}/auth/social/windows-live/callback"
-    passport.use new WindowsStrategy
-      clientID: settings.windowsLive.clientID
-      clientSecret: settings.windowsLive.clientSecret
-      callbackURL: "#{settings.url}/auth/social/windows-live/callback"
-    , providerAuthCallback
+  # Oauth authentication
+  _passport = (provider='', Strategy) ->
+    if not settings[provider]? or not settings[provider].enabled then return
+    logger.debug "Activating '#{provider}' authentication"
+    options = {}
+    options.callbackURL = "#{settings.url}/auth/oauth/#{provider}/callback"
+    options = _.extend options, settings[provider].oauth
+    passport.use new Strategy options, providerAuthCallback
+  _passport "amazon",      AmazonStrategy
+  _passport "facebook",    FacebookStrategy
+  _passport "google",      GoogleStrategy
+  _passport "linkedin",    LinkedinStrategy
+  _passport "twitter",     TwitterStrategy
+  _passport "windowslive", WindowsStrategy
 
   # Email Authentication
   if settings.emailAuth.enabled

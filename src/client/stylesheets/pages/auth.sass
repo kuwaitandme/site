@@ -1,4 +1,12 @@
 body#auth-forgot, body#auth-index, body#auth-reset
+
+  #page-hero
+    background-image: url("/images/hero/landing.jpg")
+    &:after
+      content: ""
+  main
+    background: transparent
+
   form
     input
       border: none
@@ -8,28 +16,44 @@ body#auth-forgot, body#auth-index, body#auth-reset
         outline: none
       &[type='submit']
         background: #40d47e
-        text-transform: uppercase
+        border-bottom: 4px solid rgba(0,0,0,0.15)
         color: #FFF
+        text-transform: uppercase
   h1
-    @extend .font-title
-    text-transform: uppercase
-    font-size: 1rem
+    @extend .font-open
+    color: #FFF
+    font-size: 2rem
+    font-weight: bold
     padding: 1rem 0
-  main .row
-    // max-width: 320px
-    // margin: 20px auto
-  #social-login, form
-    border: 1px solid #DDD
-    border-bottom: 0
-  #social-login
     text-align: center
-    a
-      @extend .font-awesome
-      color: #fff
+    text-shadow: 1px 1px 2px #000
+  form
+    margin-bottom: 2rem
+    // border: 1px solid #DDD
+    border-bottom: 0
+  .auth-methods
+    .method
+      @extend .font-open
+      background: #f60
+      border-bottom: 3px solid rgba(0,0,0,0.15)
+      color: #FFF
       display: block
-      cursor: pointer
-      padding: 0.8rem
+      font-size: 0.9rem
+      margin-bottom: 2rem
+      padding: 1rem 0.5rem
+      text-align: center
       text-decoration: none
+
+      -webkit-box-shadow: 0px 0px 12px 0px rgba(0,0,0,0.5);
+      -moz-box-shadow: 0px 0px 12px 0px rgba(0,0,0,0.5);
+      box-shadow: 0px 0px 12px 0px rgba(0,0,0,0.5);
+    .windows
+      background: #945990
+    .linkedin
+      background: #44788A
+    .github
+      background: #000
+      color: #FFF
     .facebook
       background: #567CC5
     .google-plus
@@ -38,15 +62,18 @@ body#auth-forgot, body#auth-index, body#auth-reset
       background: #514099
     .twitter
       background: #00C2F3
-
-    border: none
-    .input-row
-      margin-bottom: 1rem
-    small.error
-      display: none
-      margin-bottom: 0
-    .show-error small.error
-      display: block
+    .openid
+      background: #F68122
+    .email
+      background: #FFF
+      color: #000
+    .reddit
+      color: #000
+      background: #CEE3F8
+    .amazon
+      background: #232F3E
+    .wordpress
+      background: #1E8CBE
 
   .extra-links
     text-align: center

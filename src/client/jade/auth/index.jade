@@ -1,70 +1,52 @@
+#page-hero
+  img(ng-image-loader!="<%= staticUrl %>/images/hero/landing.jpg",
+    ng-image-success="onHeroLoad")
+
 .row
-  .columns.large-6.medium-7.medium-centered.large-uncentered
-    h1.row.collapse Login
-    form.row.collapse(ng-submit="doLogin()")
-      input.columns(type="email", ng-model="login.username", required,
-        placeholder="your email *")
-      input.columns(type="password", ng-model="login.password", required,
-        placeholder="your password *")
-      input.columns(type="submit")
+  .columns.medium-7.medium-centered
+    h1 Login or Signup using
+
+    ul.auth-methods.row
+      li.medium-6.large-4.columns
+        a.facebook.method(target="_self", href="/auth/oauth/facebook") Facebook
+      li.medium-6.large-4.columns
+        a.google-plus.method(target="_self", href="/auth/oauth/google") Google Plus
+      li.medium-6.large-4.columns
+        a.windows.method(target="_self", href="/auth/oauth/windowslive") Windows Live
+      //- li.medium-6.large-4.columns
+        a.wordpress.method(target="_self", href="/auth/oauth/wordpress") Wordpress
+      li.medium-6.large-4.columns
+        a.linkedin.method(target="_self", href="/auth/oauth/linkedin") LinkedIn
+      //- li.medium-6.large-4.columns
+        a.reddit.method(target="_self", href="/auth/oauth/reddit") Reddit
+      li.medium-6.large-4.columns
+        a.amazon.method(target="_self", href="/auth/oauth/amazon") Amazon
+      //- li.medium-6.large-4.columns
+        a.openid.method(target="_self", href="/auth/oauth/openid") OpenId
+      li.medium-6.large-4.columns
+        a.email.method(ng-click="showEmailForm=true") Email
+
+  .email-forms(ng-if="showEmailForm")
+    .columns.large-6.medium-7.medium-centered.large-uncentered
+      form.row.collapse(ng-submit="doLogin()")
+        input.columns(type="email", ng-model="login.username", required,
+          placeholder="your email *")
+        input.columns(type="password", ng-model="login.password", required,
+          placeholder="your password *")
+        input.columns(type="submit", value="Login")
 
 
-    .row.collapse#social-login
-      .small-6.columns.facebook
-        a(target="_self", href="/auth/social/facebook") &#xf09a;
-      .small-6.columns.google-plus
-        a(target="_self", href="/auth/social/google") &#xf0d5;
-      //- .small-4.columns.twitter
-        a(target="_self", href="/auth/social/twitter") &#xf099;
+      //- .row.extra-links
+        .columns Forgot your password? Click&nbsp;
+          a(href="/auth/forgot") here
+          | , to reset it.
 
+    .columns.large-6.medium-7.medium-centered.large-uncentered
+      form.row.collapse(ng-submit="doSignup()")
+        input.columns(type="text", ng-model="signup.fullname", ng-required, placeholder="your full-name *")
+        input.columns(type="email", ng-model="signup.email", ng-required, placeholder="your email *")
+        input.columns(type="password", ng-model="signup.password", ng-required, placeholder="your password *")
+        input.columns(type="password", ng-model="signup.repassword", ng-required, placeholder="re-enter password *")
+        input.columns(type="submit", value="Signup")
 
-    //- .row.extra-links
-      .columns Forgot your password? Click&nbsp;
-        a(href="/auth/forgot") here
-        | , to reset it.
-
-
-  .columns.large-6.medium-7.medium-centered.large-uncentered
-    h1.row.collapse Signup
-    form.row.collapse(ng-submit="doSignup()")
-      input.columns(type="text", ng-model="signup.fullname", ng-required, placeholder="your full-name *")
-      input.columns(type="email", ng-model="signup.email", ng-required, placeholder="your email *")
-      input.columns(type="password", ng-model="signup.password", ng-required, placeholder="your password *")
-      input.columns(type="password", ng-model="signup.repassword", ng-required, placeholder="re-enter password *")
-      input.columns(type="submit")
-
-    .row.collapse#social-login
-      .small-6.columns.facebook
-        a(target="_self", href="/auth/social/facebook") &#xf09a;
-      .small-6.columns.google-plus
-        a(target="_self", href="/auth/social/google") &#xf0d5;
-      //- .small-4.columns.twitter
-        a(target="_self", href="/auth/social/twitter") &#xf099;
-
-    .gcaptcha
-
-
-//- h1.row Login
-//- form.row(ng-submit="processForm()")
-//-   input.columns(type="email", ng-model="username", required,
-//-     placeholder="your email *")
-//-   input.columns(type="password", ng-model="password", required,
-//-     placeholder="your password *")
-//-   input.columns(type="submit", lang-value="page.auth.login.submit")
-
-
-//- .row.collapse#social-login
-//-   .small-4.columns.facebook
-//-     a(target="_self", href="/auth/social/facebook") &#xf09a;
-//-   .small-4.columns.google-plus
-//-     a(target="_self", href="/auth/social/google") &#xf0d5;
-//-   .small-4.columns.twitter
-//-     a(target="_self", href="/auth/social/twitter") &#xf099;
-
-
-//- .row.extra-links
-//-   .columns Is this your first time here?&nbsp;
-//-     a(href="/auth/signup") Sign up!
-//-   .columns Forgot your password? Click&nbsp;
-//-     a(href="/auth/forgot") here
-//-     | , to reset it.
+      .gcaptcha
