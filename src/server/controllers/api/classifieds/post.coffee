@@ -1,6 +1,7 @@
 Promise           = require "bluebird"
 formidable        = require "formidable"
 keyword_extractor = require "keyword-extractor"
+date              = require "datejs"
 
 exports = module.exports = (IoC, Email, reCaptcha, uploader, Classifieds,
 Users) ->
@@ -37,29 +38,43 @@ Users) ->
       if error then reject error
       # The classified data gets passed as a JSON string, so here we parse it
       data = JSON.parse fields.classified
+      creditsToSpend = data.spendUrgentPerk + data.spendPromotePerk
+      # Check if the classified has either the promotion or the spend perk
+      # enabled
+      if data.spendUrgentPerk or data.spendPromotePerk
+        date = new Date()
+        today = date.getDate()
+        availableCredits = request.user.get "credits"
+        # Check if the user has enough credits
+        if creditsToSpend > availableCredits
+          reject new Error "not enough credits :("
+        # The user has enough credits so extract the credits and save the
+        # new value
+        else
+          request.user.set "credits", (request.user.get "credits") - creditsToSpend
+          request.user.save()
+        # Get the number of days each perk should be enabled for..
+        urgentDays   = Classifieds.calculateDaysActive "urgent", data.spendUrgentPerk
+        promotedDays = Classifieds.calculateDaysActive "promote", data.spendPromotePerk
+        # Accordingly set the expiry date for the perks
+        if urgentDays > 0
+          logger.debug "urgent for", urgentDays
+          expiryDate = date.setDate today + urgentDays
+          data.meta.urgentPerk = expire: expiryDate
+        if promotedDays > 0
+          logger.debug "promote for", promotedDays
+          data.weight = 10
+          expiryDate = date.setDate today + promotedDays
+          data.meta.promotePerk = expire: expiryDate
 
+      # Get the currently loggedin user (if any)
       currentUser = request.user or {}
       if currentUser.id
         # Set the current user as the owner for this classified.
         data.owner = currentUser.id
+        data.contact.email = currentUser.email
         resolve [data, filesRequest["images[]"]]
-      else
-        s4 = -> Math.floor((1 + Math.random()) * 0x10000).toString(16).substring 1
-        newPassword = "#{s4()}-#{s4()}-#{s4()}"
-
-        # Else create a temporary user and make it the owner for this
-        # classified.
-        Users.createTemporary data.contact.email, newPassword, (error, user) ->
-          if error? then return reject error
-
-          # Send an email informing about the new temporary account.
-          Email.sendTemplate data.contact.email, "temporaryCreatedUser",
-            subject: "An account has been made for you"
-            user: email: data.contact.email, password: newPassword
-
-          data.owner = user.id
-          request.logIn user, (error) ->
-            resolve [data, filesRequest["images[]"]]
+      else reject new Error "need login"
 
 
   # Finally update the classified with the diff into the DB.
