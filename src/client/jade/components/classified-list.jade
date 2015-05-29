@@ -1,6 +1,7 @@
 section(ng-controller="component:classified-list")
   #classified-single-fixed(ng-if="showClassifiedContainer", ng-class="classifiedStyles")
-    .classified-single-close(ng-click="toggleClassified()")
+    .classified-single-close-bg(ng-click="toggleClassified()")
+    .classified-single-close-button(ng-click="toggleClassified()")
       img(src!="<%= staticUrl %>/images/close.png")
     .row(ng-include="'components/classified-single'")
 
