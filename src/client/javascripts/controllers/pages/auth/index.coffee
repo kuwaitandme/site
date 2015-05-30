@@ -21,8 +21,9 @@ Languages, Users) ->
     .success (data, status) =>
       $log.log @name, "login successful! redirecting to account page"
       Users.setCurrentUser data
-      $notifications.success "Welcome #{data.full_name}, You have been logged in!"
       $location.path "/account"
+      $location.search "_success", "login_success"
+
     .error (data, status) =>
       $notifications.error "Invalid login. Please check your credentials"
       $log.error @name, data, status

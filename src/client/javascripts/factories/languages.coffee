@@ -2,6 +2,9 @@ exports = module.exports = ($http, $log) -> new class
   name: "[model:language]"
 
   dictonary:
+    activate_fail: "Your account failed to activate!"
+    activate_success: "Your account has been activated!"
+    login_success: "Welcome _NAME_, you are now logged in!"
     oauth_fail: "Your account didn't allow us to get your email :( Try some other login method"
     oauth_success: "Welcome _NAME_, you are now logged in!"
     logout: "You have been logged out successfully"
