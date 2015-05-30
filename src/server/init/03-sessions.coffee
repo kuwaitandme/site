@@ -26,7 +26,6 @@ exports = module.exports = (IoC, settings, sessions, Email, Users, policies) ->
   # that takes care of everything from DB.... FINISH
   providerAuthCallback = (accessToken, refreshToken, profile, done) ->
     logger.debug "got profile from OAuth:", profile.provider
-    console.log profile
     if profile.emails.length == 0 or (not _.isObject profile.emails[0]) or
     not validator.isEmail profile.emails[0].value
       return done new Error "no oauth email found"

@@ -62,7 +62,6 @@ exports = module.exports = ->
       oauth:
         relam: "https://development.kuwaitandme.com"
 
-
     wordpress:
       enabled: true
       clientID: "XXXXXXXXXX"
@@ -78,9 +77,9 @@ exports = module.exports = ->
         consumerKey: "XXXXXXXXXX"
         consumerSecret: "XXXXXXXXXX"
         profileFields: [
+          "id"
           "email-address"
           "first-name"
-          "id"
           "last-name"
         ]
 
