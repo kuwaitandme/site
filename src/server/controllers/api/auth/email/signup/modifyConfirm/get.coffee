@@ -10,7 +10,7 @@ exports = module.exports = (IoC, Users) ->
 
   # First check if the request contains all the necessary parameters
   validateRequest = (request) ->
-    id = request.params.id
+    id = request.params[0]
     token = request.query.token
     if not validator.isInt id then throw new Error "invalid user id"
     if not token? and token.length > 1 then throw new Error "invalid token"

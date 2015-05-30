@@ -1,6 +1,7 @@
-exports = module.exports = (Locations, Categories, Classifieds, Users) ->
+exports = module.exports = (settings, Locations, Categories, Classifieds, Users) ->
   controller = (request, response, next) ->
     data =
+      version: "2.0.0"
       authors: [
         "Steven Enamakel" : {
           role: "founder"
@@ -8,12 +9,13 @@ exports = module.exports = (Locations, Categories, Classifieds, Users) ->
         }
       ]
       description: "This is the API for communicating with all frontend apps"
-      # magic: config.magic
+      magic: settings.magic
       status: "online"
     response.json data
 
 
 exports["@require"] = [
+  "igloo/settings"
   "models/locations"
   "models/categories"
   "models/classifieds"
