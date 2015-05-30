@@ -72,7 +72,7 @@ Users) ->
       if currentUser.id
         # Set the current user as the owner for this classified.
         data.owner = currentUser.id
-        data.contact.email = currentUser.email
+        data.contact.email = currentUser.get "email"
         resolve [data, filesRequest["images[]"]]
       else reject new Error "need login"
 
