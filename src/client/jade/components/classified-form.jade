@@ -60,7 +60,7 @@ section.classified-form(ng-controller="component:classified-form as form",
           input(type="number", placeholder="give your price here",
             ng-model="classified.priceValue", ng-required="true", min=0,
             ng-disabled="formLoading")
-          .error(invalid='price must only contain numbers')
+          .error(invalid="price must only contain numbers")
 
       li.row.collapse
         .meta-title.columns.medium-4 Email

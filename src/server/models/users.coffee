@@ -64,11 +64,13 @@ exports = module.exports = (IoC, knex, cache) ->
 
     # Creates a new user
     create: (parameters, callback=->) ->
+      parameters.credits = 100
       @model.forge parameters
       .save().then (user) -> callback null, user
 
 
     createPromise: (parameters) -> new Promise (resolve, reject) ->
+      parameters.credits = 100
       model.forge parameters
       .save().then (user) -> resolve user
 

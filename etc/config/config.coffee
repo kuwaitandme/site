@@ -6,9 +6,9 @@ appDir    = path.join parentDir, "src/server"
 pkg          = require path.join parentDir, "package"
 assetsDir    = path.join parentDir, "var/public"
 publicDir    = path.join parentDir, "var/public"
-viewsDir     = path.join appDir, "views"
+viewsDir     = path.join appDir,    "views"
 modelsDir    = path.join parentDir, "etc/db"
-templatesDir = path.join viewsDir, "emails"
+templatesDir = path.join viewsDir,  "emails"
 maxAge       = 24 * 60 * 60 * 1000
 
 knexConfig   = require "./knexfile"

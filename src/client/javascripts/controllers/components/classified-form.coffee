@@ -5,6 +5,10 @@ $notifications, $scope, Classifieds, Categories, Locations, Users) ->
   currentUser = Users.getCurrentUser()
   $log.log @name, "initializing"
 
+  if not currentUser.id?
+    $location.search "_error", "need_login_for_post"
+    $location.path "/auth"
+
   # Initialize the models
   $scope.categories = Categories.getAll()
   $scope.locations = Locations.getAll()
