@@ -2,7 +2,6 @@ Promise           = require "bluebird"
 formidable        = require "formidable"
 keyword_extractor = require "keyword-extractor"
 
-
 exports = module.exports = (IoC, Email, reCaptcha, uploader, Classifieds,
 Users) ->
   logger = IoC.create "igloo/logger"
@@ -40,7 +39,30 @@ Users) ->
       if error then reject error
       resolve [request, fields, filesRequest]
 
-
+  # Analyze the data from fromidable.
+  analyzeData = (request, fields, files) ->
+    # The classified data gets passed as a JSON string, so here we parse it
+    # first.
+    data = JSON.parse fields.classified
+    user = request.user or {}
+    # Check first if the user is logged in
+    if not user.id then throw new Error "need login"
+    # Find out how many credits we will have to spend.
+    creditsToSpend = data.spendUrgentPerk + data.spendPromotePerk
+    if creditsToSpend > 0
+      # Evaluate the perks with the given user and the credits
+      data = Classifieds.evaluatePerks data, user.toJSON(),
+        urgent: data.spendUrgentPerk
+        promote: data.spendPromotePerk
+      # Update the user with the new amount of credits
+      (user.set "credits", (user.get "credits") - creditsToSpend).save()
+    # Set the current user as the owner for this classified.
+    data.owner = user.id
+    # Also override the email field. (In case the user manages to send a
+    # malformed request)
+    data.contact ?= {}
+    data.contact.email ?= user.get "email"
+    [data, files["images[]"]]
 
   # Finally update the classified with the diff into the DB.
   updateData = (newClassified, imagesMeta, newImages=[]) ->
