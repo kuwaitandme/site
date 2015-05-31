@@ -15,7 +15,6 @@ exports = module.exports = (IoC, reCaptcha, uploader, Classifieds, Users) ->
     else if not id? then throw new Error "need valid id"
     else id
 
-
   # Check if user has privileges to modify the classified
   checkUserPrivelages = (results) ->
     # Grab the request and the classified (sent by the prev promise)
@@ -30,9 +29,8 @@ exports = module.exports = (IoC, reCaptcha, uploader, Classifieds, Users) ->
       throw new Error "not privileged"
     [request, oldClassified]
 
-
   # Start parsing the multi-part encoded data
-  parseForm = (request, oldClassified) -> new Promise (resolve) ->
+  parseForm = (request, oldClassified) -> new Promise (resolve, reject) ->
     form = new formidable.IncomingForm
     form.keepExtensions = true
     form.multiples = true
@@ -42,11 +40,33 @@ exports = module.exports = (IoC, reCaptcha, uploader, Classifieds, Users) ->
     form.on "error", (error) -> throw error
     # Start parsing the form
     form.parse request, (error, fields, filesRequest) ->
-      if error then throw error
-      # The classified data gets passed as a JSON string, so here we parse it
-      newClassified = JSON.parse fields.classified
-      resolve [newClassified, oldClassified, filesRequest["images[]"]]
+      if error then reject error
+      resolve [oldClassified, request, fields, filesRequest]
 
+  # Analyze the data from fromidable.
+  analyzeData = (oldClassified, request, fields, files) ->
+    # The classified data gets passed as a JSON string, so here we parse it
+    # first.
+    newClassified = JSON.parse fields.classified
+    user = request.user or {}
+    # Check first if the user is logged in
+    if not user.id then throw new Error "need login"
+    # Find out how many credits we will have to spend.
+    creditsToSpend = newClassified.spendUrgentPerk + newClassified.spendPromotePerk
+    if creditsToSpend > 0
+      # Evaluate the perks with the given user and the credits
+      newClassified = Classifieds.evaluatePerks newClassified, user.toJSON(),
+        urgent: newClassified.spendUrgentPerk
+        promote: newClassified.spendPromotePerk
+      # Update the user with the new amount of credits
+      (user.set "credits", (user.get "credits") - creditsToSpend).save()
+    # Set the current user as the owner for this classified.
+    newClassified.owner = user.id
+    # Also override the email field. (In case the user manages to send a
+    # malformed request)
+    newClassified.contact ?= {}
+    newClassified.contact.email ?= user.get "email"
+    [newClassified, oldClassified, files["images[]"]]
 
   # This function creates a diff between the old and new classified.
   createDiff = (newClassified, oldClassified, newImages) ->
@@ -73,12 +93,13 @@ exports = module.exports = (IoC, reCaptcha, uploader, Classifieds, Users) ->
       finalImages = []
       filesToDelete = newClassified.filesToDelete or []
       images = newClassified.images or []
+      activeImages = 0
       for image in images
-        # if images.length > 12
-        # We have exceeded our limit for images, start deleting all
-        # remaining images
-        #   TODO: delete them now
-        if image.filename in filesToDelete
+        if activeImages >= 12
+          # We have exceeded our limit for images, start deleting all
+          # remaining images
+          #   TODO: delete them now
+        else if image.filename in filesToDelete
           # do something with this file as it has been flagged to be deleted
           #   TODO: delete them now
         else
@@ -94,14 +115,16 @@ exports = module.exports = (IoC, reCaptcha, uploader, Classifieds, Users) ->
               break
           # This file has been unchanged, so simply add it without any changes.
           if not found then finalImages.push image
+          # Increment this counter so that we stay within the limit of images
+          # per classified.
+          activeImages++
       # The final set of images, will be the images after deletion and
       # the new set of images.
       classifiedDiff.images = JSON.stringify finalImages
       logger.debug classifiedDiff
       resolve [oldClassified.id, classifiedDiff]
 
-
-  controller = (request, response, next) ->
+  (request, response, next) ->
     reCaptcha.verify request
     # Check if the parameters in the request are proper or not.
     .then checkRequest
@@ -113,6 +136,8 @@ exports = module.exports = (IoC, reCaptcha, uploader, Classifieds, Users) ->
     .then checkUserPrivelages
     # Start parsing the multi-part data
     .spread parseForm
+    # Then analyze the data, taking care of the perks.
+    .spread analyzeData
     # Upload the files into the server
     .spread (newClassified, oldClassified, newImages) ->
       options = prefix: newClassified.id

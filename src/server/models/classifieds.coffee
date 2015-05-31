@@ -1,5 +1,6 @@
 Promise           = require "bluebird"
 _                 = require "underscore"
+moment            = require "moment"
 validator         = require "validator"
 
 
@@ -49,6 +50,38 @@ exports = module.exports = (knex) ->
       ENGLISH: 1
       ARABIC:  2
       HINDI:   3
+
+
+    evaluatePerks: (cl, user, perks) ->
+      if not (perks.urgent? or perks.promote?) then return cl
+      # Get the credits to be spent for each perk
+      creditsToSpendForUrgent = Number perks.urgent or 0
+      creditsToSpendForPromote = Number perks.promote or 0
+      # Find out the total credits that will get spent
+      creditsToSpend = creditsToSpendForPromote + creditsToSpendForUrgent
+      # Check if the user has enough credits
+      if creditsToSpend > user.credits then throw new Error "not enough credits"
+      # Now update the perks taking care of any previous values.
+      if creditsToSpendForUrgent > 0
+        offset = moment cl.meta.urgentPerk
+        # Calculate how many days the classified should be urgent
+        urgentDays = creditsToSpendForUrgent / 20
+        # Calculate and update the new expiry date
+        newDate = offset.add urgentDays, "days"
+        cl.meta.urgentPerk = newDate.valueOf()
+      if creditsToSpendForPromote > 0
+        cl.weight = 10
+        offset = moment cl.meta.promotePerk
+        # Calculate how many days the classified should be promoted
+        promoteDays = creditsToSpendForPromote / 10
+        # Calculate the and update the new expiry date
+        newDate = offset.add promoteDays, "days"
+        cl.meta.promotePerk = newDate.valueOf()
+      # Perks have been updated and their expiry dates have been set. So now
+      # return the modified the classified object.
+      cl
+
+
 
     queryPromise: (parameters) ->
       new Promise (resolve, reject) =>

@@ -1,28 +1,30 @@
 Promise           = require "bluebird"
 formidable        = require "formidable"
 keyword_extractor = require "keyword-extractor"
-date              = require "datejs"
+
 
 exports = module.exports = (IoC, Email, reCaptcha, uploader, Classifieds,
 Users) ->
   logger = IoC.create "igloo/logger"
   name = "[api:classifieds]"
 
+  # Helper function to properly create a URL slug.
   _createURLslug = (id, title) ->
     maxLength = 120
     # Trim the string to the maximum length
     if title.length > maxLength then title = title.substr 0, maxLength
-    # Get the keywords and make a sentence seperated by '-'s. We use this regex
-    # so that we don't exclude arabic characters. Ideally we want all to get
-    # rid of all non-alphabetic characters, but arabic words might get erased
-    # too. If the title had arabic characters, then we simple leave the url
+    # Get the keywords and make a sentence separated by '-'s. We use this regex
+    # so that we don't exclude Arabic characters. Ideally we want all to get
+    # rid of all non-alphabetic characters, but Arabic words might get erased
+    # too. If the title had Arabic characters, then we simply leave the url
     # alone and instead a 'classified' prefix to the slug.
     regex = /[a-zA-Z0-9]+/g
+    # If nothing matched then give a default prefix of 'classified'
     components = (title.match regex) or ["classified"]
+    # Combine all the words with the dash.
     keywords = encodeURIComponent components.join "-"
     # Finally generate the slug and return it
     slug = "#{keywords.toLowerCase()}-#{id}"
-
 
   # Start parsing the multi-part encoded data
   parseForm = (request) -> new Promise (resolve, reject) ->
@@ -36,45 +38,8 @@ Users) ->
     # Start parsing the form
     form.parse request, (error, fields, filesRequest) ->
       if error then reject error
-      # The classified data gets passed as a JSON string, so here we parse it
-      data = JSON.parse fields.classified
-      creditsToSpend = data.spendUrgentPerk + data.spendPromotePerk
-      # Check if the classified has either the promotion or the spend perk
-      # enabled
-      if data.spendUrgentPerk or data.spendPromotePerk
-        date = new Date()
-        today = date.getDate()
-        availableCredits = request.user.get "credits"
-        # Check if the user has enough credits
-        if creditsToSpend > availableCredits
-          reject new Error "not enough credits :("
-        # The user has enough credits so extract the credits and save the
-        # new value
-        else
-          request.user.set "credits", (request.user.get "credits") - creditsToSpend
-          request.user.save()
-        # Get the number of days each perk should be enabled for..
-        urgentDays   = Classifieds.calculateDaysActive "urgent", data.spendUrgentPerk
-        promotedDays = Classifieds.calculateDaysActive "promote", data.spendPromotePerk
-        # Accordingly set the expiry date for the perks
-        if urgentDays > 0
-          logger.debug "urgent for", urgentDays
-          expiryDate = date.setDate today + urgentDays
-          data.meta.urgentPerk = expire: expiryDate
-        if promotedDays > 0
-          logger.debug "promote for", promotedDays
-          data.weight = 10
-          expiryDate = date.setDate today + promotedDays
-          data.meta.promotePerk = expire: expiryDate
+      resolve [request, fields, filesRequest]
 
-      # Get the currently loggedin user (if any)
-      currentUser = request.user or {}
-      if currentUser.id
-        # Set the current user as the owner for this classified.
-        data.owner = currentUser.id
-        data.contact.email = currentUser.get "email"
-        resolve [data, filesRequest["images[]"]]
-      else reject new Error "need login"
 
 
   # Finally update the classified with the diff into the DB.
@@ -88,27 +53,29 @@ Users) ->
           imageMeta.filename = newImage.newFilename
           imageMeta.color = newImage.color
           finalImages.push imageMeta
-
     # Get the slug for the classified using the newly generated id and
     # set the images field with our final set of images.
     newClassified.set "slug", _createURLslug newClassified.id, newClassified.get "title"
     newClassified.set "images", JSON.stringify finalImages
+    # Prepare the return array that gets passed to the Classified.patch method
     [newClassified.id, newClassified.toJSON()]
-
 
   # Send an email about the new classified
   emailUser = (classified) ->
     contactDetails = classified.get "contact"
     Email.sendTemplate contactDetails.email, "classifiedSubmitted",
-      subject: "Your classified has been submitted", classified: classified.toJSON()
+      classified: classified.toJSON()
+      subject: "Your classified has been submitted"
     classified
 
-
-  controller = (request, response, next) ->
+  # The API call starts executing from here
+  (request, response, next) ->
     reCaptcha.verify request
     # Then parse the form
     .then parseForm
-    # Create the classified and extract the image metadata
+    # Then analyze the data, taking care of the perks.
+    .spread analyzeData
+    # Create the classified and extract the image meta-data
     .spread (data, files) ->
       imagesMeta = data.images
       delete data.images
