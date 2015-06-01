@@ -16,8 +16,8 @@ window.scripts = [
   {
     id: "library"
     remote: [
-      "//cdnjs.cloudflare.com/ajax/libs/angular-hotkeys/1.4.5/hotkeys.min.js"
       "//ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular.min.js"
+      "//cdnjs.cloudflare.com/ajax/libs/angular-hotkeys/1.4.5/hotkeys.min.js"
       # "//ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular-cookies.min.js"
       # "//ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular-sanitize.min.js"
       "//ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular-touch.min.js"
