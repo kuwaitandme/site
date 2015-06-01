@@ -13,10 +13,8 @@ exports = module.exports = ($scope, $root, console, setTimeout) ->
   $scope.notifications = []
   $root.bodyClasses ?= {}
 
-
   # A click handler to display the sub header
   $scope.openHeader = -> $root.bodyClasses["show-subheader"] = true
-
 
   # A click handler to hide the sub header. It also removes all unwanted unread
   # notifications.
@@ -30,13 +28,11 @@ exports = module.exports = ($scope, $root, console, setTimeout) ->
       if ++count > maxUnreadNotifications
         notification.remove = true
 
-
   # This click handler is used to toggle (display/hide) the subheader.
   $scope.toggleHeader = ->
     headerIsOpened = $root.bodyClasses["show-subheader"]
     if headerIsOpened then $scope.closeHeader()
     else $scope.openHeader()
-
 
   # When a new notification gets added, run the below function to display it
   # properly
@@ -48,7 +44,6 @@ exports = module.exports = ($scope, $root, console, setTimeout) ->
     #     notification.hasFlashedToUser = true
   $scope.$watch "notifications", onNotificationAdded, true
 
-
   # Add a listener for when notifications get marked as 'read' to update the
   # counter
   onNotificationRead = (notifications) ->
@@ -57,16 +52,13 @@ exports = module.exports = ($scope, $root, console, setTimeout) ->
       if not notification.hasRead then $scope.unreadNotifications++
   $scope.$watch "notifications", onNotificationRead, true
 
-
   # This function gets called when the close button in the flash notifications
   # has been pressed.
   $scope.closeFlashNotification = (index) ->
     closedNotification = ($scope.flashNotifications.splice index, 1)[0]
-
     for notification in $scope.notifications
       if notification.$$hashkey is closedNotification.$$hashkey
         notification.hasRead = true
-
 
   # Listen for a notification event and add the new notification
   $scope.$on "notification", (event, notification) ->

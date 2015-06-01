@@ -1,5 +1,4 @@
 module.exports = ->
-  controller: ($scope, $attrs) ->
   link: (scope, element, attributes) ->
     options = angular.fromJson attributes.fnMasonry
     itemSelector = attributes.ngMasonry or ""

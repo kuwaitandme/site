@@ -8,7 +8,11 @@ html(lang= lang, dir= dir, ng-strict-di)
     else
       meta(name="robots" content="index, follow")
 
-  body.initializing(itemscope, itemtype="http://schema.org/WebSite", id="{{ bodyid }}", ng-class="bodyClasses", ng-style="bodyStyles")
+  body.initializing(itemscope,
+    itemtype="http://schema.org/WebSite",
+    id="{{ bodyid }}",
+    ng-class="bodyClasses",
+    ng-style="bodyStyles")
     #fb-root
 
     meta(itemprop="url" content="#{settings.url}")

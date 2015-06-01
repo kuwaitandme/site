@@ -1,6 +1,6 @@
-exports = module.exports = ($scope, $rootScope, console) ->
+exports = module.exports = ($scope, $rootScope, $log) ->
   @name = "[component:loader]"
-  console.log @name, "initializing"
+  $log.log @name, "initializing"
 
   # Listen for a notification event and add the new notification
   $scope.$on "notification", (notification) ->
