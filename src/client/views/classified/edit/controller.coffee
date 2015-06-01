@@ -28,5 +28,5 @@ exports.$inject = [
   "$notifications"
   "$environment"
 
-  "model.classifieds"
+  "models.classifieds"
 ]

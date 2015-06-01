@@ -11,9 +11,9 @@ exports = module.exports = ($http, $log, $root, $storage) -> new class
       flash: true, hasRead: false, text: message, timeout: timeout, type: type
 
 
-  error:   (message, timeout) -> @_create message, "error", timeout
+  error: (message, timeout) -> @_create message, "error", timeout
   success: (message, timeout) -> @_create message, "success", timeout
-  warn:    (message, timeout) -> @_create message, "warn", timeout
+  warn: (message, timeout) -> @_create message, "warn", timeout
 
   parseURL: ->
 

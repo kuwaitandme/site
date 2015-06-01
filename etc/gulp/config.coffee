@@ -7,7 +7,7 @@ module.exports =
 
   sass:
     dest: "var/public/stylesheets"
-    src: "src/client/**/*.sass"
+    src: "src/client/style.sass"
     targetFilename: "style.css"
     targetFilenameMin: "style.css"
 
@@ -18,9 +18,9 @@ module.exports =
     targetFilenameMin: "templates.js"
 
   watch:
-    jsPattern: "src/client/javascripts/**/*.coffee"
-    cssPattern: "src/client/stylesheets/**/*.{sass,scss}"
-    jadePattern: "src/client/jade/**/*.jade"
+    jsPattern: "src/client/**/*.coffee"
+    cssPattern: "src/client/**/*.{sass,scss}"
+    jadePattern: "src/client/**/*.jade"
     serverPattern: "src/server/views/components/footer-scripts/*.coffee"
 
   docs:

@@ -19,7 +19,6 @@ exports = module.exports = -> new class
         angular.extend config, $window.publicData,
           angular.fromJson $base64.decode $window.cryptedData
         @config = config
-        console.debug @name, @config
         return config
       catch e
         console.error @name, "error decoding server-side data"

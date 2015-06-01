@@ -21,5 +21,5 @@ exports.$inject = [
   "$stateParams"
   "$log"
 
-  "model.classifieds"
+  "models.classifieds"
 ]

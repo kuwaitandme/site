@@ -109,6 +109,7 @@
     "gulp-coffee": "~2.3.1",
     "gulp-coffeelint": "~0.4.0",
     "gulp-consolidate": "~0.1.2",
+    "gulp-css-globbing": "^0.1.8",
     "gulp-csso": "~1.0.0",
     "gulp-filter": "~2.0.2",
     "gulp-flatten": "~0.0.4",

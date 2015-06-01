@@ -24,7 +24,7 @@ exports = module.exports = ($environment, $location, $log, $window) -> new class
 
   onLoad: (callback=->) ->
     if @fallback then return
-    waitForElement = =>
+    waitForElement = ->
       if $window.ga? then callback()
       else setTimeout (-> waitForElement()), 250
     waitForElement()

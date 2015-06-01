@@ -8,31 +8,28 @@ exports = module.exports = ($stateProvider, $locationProvider, $urlMatcher,
   index = 0
   _route = (page, route) ->
     $stateProvider.state "#{page}-#{index++}",
-      controller: "page:#{page}"
-      templateUrl: "#{page}"
+      controller: "#{page}"
+      templateUrl: "views/#{page}/template"
       url: route
       resolve:
-        categories: ["model.categories", (category) -> category.download()]
-        user:       ["model.users",      (user)     -> user.download()]
-        location:   ["model.locations",  (location) -> location.download()]
+        categories: ["models.categories", (category) -> category.download()]
+        user: ["models.users", (user) -> user.download()]
+        location: ["models.locations", (location) -> location.download()]
 
-  _route "landing",            "/"
-  _route "account/index",      "/account"
+  _route "index",              ""
+  _route "account",            "/account"
   _route "account/manage",     "/account/manage"
-  _route "auth/index",         "/auth"
+  _route "auth",               "/auth"
   _route "auth/logout",        "/auth/logout"
   _route "guest/post",         "/guest/post"
-
   _route "classified/finish",  "/classified/finish/{id:[0-9]+}"
   _route "classified/edit",    "/classified/edit/{id:[0-9]+}"
   _route "classified/post",    "/classified/post"
-
   _route "classified/search",  "/classified"
   _route "classified/search",  "/classified/{parent:[^/]+}"
   _route "classified/search",  "/classified/{parent:[^/]+}/{child:[^/]+}"
-
   _route "classified/single",  "/{slug:[^/]+-[0-9]+}"
-  _route "404",                "*page"
+  _route "error/404",          "*page"
 
   # Enable HTML5 pushstate for hash-less URLs
   $locationProvider.html5Mode

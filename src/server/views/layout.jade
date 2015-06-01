@@ -1,5 +1,5 @@
 doctype html
-html(lang= lang, dir= dir, ng-controller="master", ng-strict-di)
+html(lang= lang, dir= dir, ng-strict-di)
   head
     block meta
     include ./include/head.jade
@@ -11,8 +11,8 @@ html(lang= lang, dir= dir, ng-controller="master", ng-strict-di)
   body.initializing(itemscope, itemtype="http://schema.org/WebSite", id="{{ bodyid }}", ng-class="bodyClasses", ng-style="bodyStyles")
     #fb-root
 
-    meta(itemprop="url" content="https://kuwaitandme.com/")
-    header(ng-include="'components/header'")
+    meta(itemprop="url" content="#{settings.url}")
+    header
 
     #page-loader
       #page-loading-bar

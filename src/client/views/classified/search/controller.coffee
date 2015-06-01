@@ -29,6 +29,6 @@ exports.$inject = [
   "$rootScope"
   "$log"
 
-  "model.categories"
-  "model.classifieds"
+  "models.categories"
+  "models.classifieds"
 ]

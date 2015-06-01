@@ -237,8 +237,8 @@ exports.$inject = [
   "$notifications"
   "$scope"
 
-  "model.classifieds"
-  "model.categories"
-  "model.locations"
-  "model.users"
+  "models.classifieds"
+  "models.categories"
+  "models.locations"
+  "models.users"
 ]

@@ -49,6 +49,6 @@ exports.$inject = [
   "$notifications"
   "$scope"
 
-  "model.languages"
-  "model.users"
+  "models.languages"
+  "models.users"
 ]

@@ -16,5 +16,5 @@ exports.$inject = [
   "$scope"
   "$log"
 
-  "model.users"
+  "models.users"
 ]

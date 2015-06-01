@@ -15,5 +15,5 @@ exports.$inject = [
   "$googleMaps"
   "$log"
 
-  "model.classifieds"
+  "models.classifieds"
 ]

@@ -21,5 +21,5 @@ exports.$inject = [
   "$location"
   "$notifications"
 
-  "model.users"
+  "models.users"
 ]

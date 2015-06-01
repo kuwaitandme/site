@@ -4,4 +4,4 @@ exports = module.exports = (Locations) ->
     location.name
 
 
-exports.$inject = ["model.locations"]
+exports.$inject = ["models.locations"]

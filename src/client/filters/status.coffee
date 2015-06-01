@@ -15,4 +15,4 @@ exports = module.exports = (Classifieds) ->
     #   when "child" then category = Category.findByChildId categoryId
     # category.name
 
-exports.$inject = ["model.classifieds"]
+exports.$inject = ["models.classifieds"]

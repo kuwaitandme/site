@@ -1,25 +1,22 @@
-require "./modules"
-
 console.log "[app] initializing"
 app = angular.module "App", [
-  "Masonry"
   "ngCookies"
   "ngSanitize"
   "ngTouch"
-  "restangular"
   "ui.router"
   # "btford.socket-io"
 ]
 
+(require "./components")    app
 (require "./config")        app
-(require "./controllers")   app
 (require "./directives")    app
-(require "./factories")     app
 (require "./filters")       app
+(require "./libraries")     app
 (require "./providers")     app
 (require "./run")           app
 (require "./services")      app
 (require "./values")        app
+(require "./views")         app
 
 
 # Helper function to boot the angular App.

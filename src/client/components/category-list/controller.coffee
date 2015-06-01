@@ -28,5 +28,5 @@ exports.$inject = [
   "$location"
   "$log"
 
-  "model.categories"
+  "models.categories"
 ]

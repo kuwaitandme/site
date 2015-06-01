@@ -10,5 +10,5 @@ exports.$inject = [
   "$location"
   "$log"
 
-  "model.users"
+  "models.users"
 ]

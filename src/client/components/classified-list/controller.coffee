@@ -136,5 +136,5 @@ exports.$inject = [
   "$timeout"
   "$window"
 
-  "model.classifieds"
+  "models.classifieds"
 ]

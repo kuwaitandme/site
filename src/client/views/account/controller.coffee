@@ -1,6 +1,6 @@
 exports = module.exports = ($location, $log, $scope, $notifications, Languages,
 Users) ->
-  @name = "[page:account-index]"
+  @name = "[page:account]"
   $log.log @name, "initializing"
   $scope.$emit "page-loaded"
 
@@ -18,6 +18,6 @@ exports.$inject = [
   "$scope"
   "$notifications"
 
-  "model.languages"
-  "model.users"
+  "models.languages"
+  "models.users"
 ]
