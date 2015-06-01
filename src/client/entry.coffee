@@ -1,7 +1,7 @@
 console.log "[app] initializing"
 app = angular.module "App", [
-  "ngCookies"
-  "ngSanitize"
+  # "ngCookies"
+  # "ngSanitize"
   "ngTouch"
   "ui.router"
   "cfp.hotkeys"
