@@ -5,7 +5,7 @@ u = publicData.staticUrl
   loop and find out programatically, but I prefer to hard-code it as the
   dependencies don't change that often.
 ###
-maxScriptCount = 9
+maxScriptCount = 13
 
 window.scripts = [
   {
@@ -16,21 +16,25 @@ window.scripts = [
   {
     id: "library"
     remote: [
-      "//ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"
+      "//ajax.googleapis.com/ajax/libs/angularjs/1.3.4/angular.min.js"
+      "//ajax.googleapis.com/ajax/libs/angularjs/1.3.4/angular-cookies.min.js"
+      "//ajax.googleapis.com/ajax/libs/angularjs/1.3.4/angular-sanitize.min.js"
+      "//ajax.googleapis.com/ajax/libs/angularjs/1.3.4/angular-touch.min.js"
       "//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.14/angular-ui-router.min.js"
       "//cdnjs.cloudflare.com/ajax/libs/masonry/3.3.0/masonry.pkgd.min.js"
+      "//cdnjs.cloudflare.com/ajax/libs/restangular/1.5.1/restangular.min.js"
     ]
     local: "/javascripts/libraries.js?m=#{publicData.magic.library}"
   }
   {
     id: "app:template"
     remote: ["#{u}/javascripts/templates.js?m=#{publicData.magic.application}"]
-    local:  "/javascripts/templates.js?m=#{publicData.magic.application}"
+    local: "/javascripts/templates.js?m=#{publicData.magic.application}"
   }
   {
     id: "app:script"
     remote: ["#{u}/javascripts/app.js?m=#{publicData.magic.application}"]
-    local:  "/javascripts/app.js?m=#{publicData.magic.application}"
+    local: "/javascripts/app.js?m=#{publicData.magic.application}"
   }
   {
     id: "library:font-opensans-css"

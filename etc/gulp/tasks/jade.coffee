@@ -10,7 +10,9 @@ module.exports = (gulp, config) ->
     .pipe jade pretty: not minify
     .pipe template
       namespace: "JST"
-      name: (file) -> (file.relative.split ".html")[0]
+      name: (file) ->
+        console.log file
+        (file.relative.split ".html")[0]
     .pipe concat config.targetFilename
     .pipe gulp.dest config.dest
 

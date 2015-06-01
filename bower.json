@@ -7,7 +7,6 @@
     "angular-sanitize": "~1.3.4",
     "restangular": "~1.4.0",
     "angular-ui-router": "~0.2.13",
-    "foundation": "~5.5.1",
     "angular": "~1.3.4"
   },
   "devDependencies": {
