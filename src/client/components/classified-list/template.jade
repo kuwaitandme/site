@@ -1,4 +1,4 @@
-section(ng-controller="component:classified-list")
+section
   #classified-single-fixed(ng-if="showClassifiedContainer", ng-class="classifiedStyles")
     .classified-single-close-bg(ng-click="toggleClassified()")
     .classified-single-close-button(ng-click="toggleClassified()")
@@ -10,10 +10,10 @@ section(ng-controller="component:classified-list")
         .text next
     .row(ng-include="'components/classified-single'")
 
-  cp-classified-single
   ul.classified-list.row(ng-scroll="onScroll", ng-masonry="li")
     li.large-3.medium-4.small-6.columns(ng-repeat="classified in classifieds")
-      div(ng-include="'components/classified-list-item'", ng-href="{{ classified.link }}")
+      classified-list-item
+      //- div(ng-include="'components/classified-list-item'", ng-href="{{ classified.link }}")
 
   .ajax-loading(ng-show="classifieds.length == 0 && !queryFinished") Loading classifieds!
   .ajax-finish(ng-if="queryFinished && classifieds.length > 0") {{ finishMessage }}

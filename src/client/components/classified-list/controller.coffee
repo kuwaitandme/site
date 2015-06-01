@@ -47,43 +47,6 @@ Classifieds) ->
       $timeout (-> masonry.layout()), 10
 
 
-  # This function toggles the classified dropdown
-  $scope.toggleClassified = (classified) ->
-    # _animateIn = ()
-    if $scope.redirectToEditPage
-      return $location.path "/classified/edit/#{classified.id}"
-
-    if not $scope.showClassifiedContainer
-      $scope.$broadcast "classified-changed", classified
-      $root.bodyStyles.overflowY = "hidden"
-      scrollPosition = body.scrollTop
-      body.scrollTop = 0
-
-      $scope.classified = classified
-      $scope.showClassifiedContainer = true
-
-      $scope.classifiedStyles =
-        animateBackground: true
-        enterAnimation: true
-      $timeout  ->
-        $scope.$apply -> $scope.classifiedStyles.animateClassified = true
-      , 200
-    else
-      $scope.classifiedStyles = {}
-      $scope.classifiedStyles.leaveAnimation = true
-      $scope.classifiedStyles.animateClassified = true
-      $timeout  ->
-        $scope.$apply -> $scope.classifiedStyles.animateBackground = true
-        $timeout  ->
-          $scope.$apply ->
-            $scope.classifiedStyles.animationDone = true
-            $scope.showClassifiedContainer = false
-        , 500
-      , 200
-      $timeout (-> body.scrollTop = scrollPosition), 50
-      $root.bodyStyles.overflowY = ""
-
-
   # This function loads more classifieds from the server.
   $scope.classifieds = []
   $scope.loadClassifieds = =>

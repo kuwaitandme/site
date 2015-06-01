@@ -1,7 +1,7 @@
 module.exports = ->
   scope:
-    ngImageSuccess: "&"
-    ngImageFail: "&"
+    fnImageSuccess: "&"
+    fnImageFail: "&"
 
 
   link: (scope, element, attributes) ->
@@ -13,12 +13,12 @@ module.exports = ->
     success = ->
       element.removeClass "image-loading"
       element.addClass "image-success"
-      fn = (scope.ngImageSuccess and scope.ngImageSuccess()) or ->
+      fn = (scope.fnImageSuccess and scope.fnImageSuccess()) or ->
       fn()
     failure = ->
       element.removeClass "image-loading"
       element.addClass "image-fail"
-      fn = (scope.ngImageFail and scope.ngImageFail()) or ->
+      fn = (scope.fnImageFail and scope.fnImageFail()) or ->
       fn()
 
     prop = if isType img.naturalWidth, "u" then "width" else "naturalWidth"

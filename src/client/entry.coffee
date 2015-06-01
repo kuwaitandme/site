@@ -7,6 +7,7 @@ app = angular.module "App", [
   # "btford.socket-io"
 ]
 
+
 (require "./components")    app
 (require "./config")        app
 (require "./directives")    app

@@ -6,18 +6,17 @@
     .thumb(ng-if="classified.mainImage",
       ng-ratio="{{ classified.mainImage.height / classified.mainImage.width }}",
       ng-style="{background:classified.mainImage.color}")
-      img(ng-image-loader!="<%= staticUrl %>/uploads/thumb/{{ classified.mainImage.filename }}",
-        ng-image-success="classified.imageLoaded",
-        ng-image-fail="classified.imageLoaded", alt="{{ classified.title }}")
+      img(fn-image-loader!="<%= staticUrl %>/uploads/thumb/{{ classified.mainImage.filename }}",
+        fn-image-success="classified.imageLoaded",
+        fn-image-fail="classified.imageLoaded", alt="{{ classified.title }}")
 
   .info
     .title(ng-click="toggleClassified(classified)")
       a(itemprop="name", ng-href="/{{ classified.link }}") {{ classified.title | limitTo: 120 }}
-    //- .border
+
     ul.meta.row.collapse
       li.price.small-6.columns(ng-if="!showStatus", itemprop="offers",
-        itemscope,
-        itemtype="http://schema.org/Offer")
+        itemscope, itemtype="http://schema.org/Offer")
         span(itemprop="priceCurrency", content="KWD")
         span(itemprop="price", content="{{ (classified.priceValue || 0 ) }}")
           | {{ classified.priceValue | price:classified.priceType }}
