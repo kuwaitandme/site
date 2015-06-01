@@ -1,4 +1,3 @@
 {
-  "directory": "../.bower/",
-  "cwd": "etc/"
+  "directory": "bower_components"
 }

@@ -107,3 +107,5 @@ boot/local.js
 /var/logs/*.log
 /var/logs/*.gz
 /var/backups/*.tgz
+.tmp/
+dist/
