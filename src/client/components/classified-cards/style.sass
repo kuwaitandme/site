@@ -1,10 +1,10 @@
 *[classified-cards]
   +single-transition(all, 1s)
   background: #EBEBEC
-  left: 0
   bottom: 0
-  overflow-y: scroll
+  left: 0
   overflow-x: hidden
+  overflow-y: scroll
   padding: 50px
   position: fixed
   top: 0
@@ -13,9 +13,6 @@
 
   @media only screen and (max-width: 40em)
     padding: 30px 10px
-
-  &:before
-    @extend #page-hero
 
 
   // CSS for the next and prev buttons
@@ -72,14 +69,15 @@
     position: relative
     > div
       +single-transition(0.25)
+      margin-bottom: 60px
       position: absolute
       top: 0
       width: 100%
       z-index: 1
     .next, .prev
-      z-index: 0
       display: none
       opacity: 0
+      z-index: 0
     .prev
       left: -600px
       right: 0
@@ -92,16 +90,16 @@
 
   .show-next
     .next
-      right: 0
       display: block
       opacity: 1
+      right: 0
     .current
-      opacity: 0
       left: -600px
+      opacity: 0
   .show-prev
     .prev
-      left: 0
       display: block
+      left: 0
       opacity: 1
     .current
       opacity: 0
@@ -109,11 +107,11 @@
 
   > .close-bg
     background: transparent
+    height: 100%
+    left: 0
     position: absolute
     top: 0
-    left: 0
     width: 100%
-    height: 100%
   > .close-button
     $size: 50px
     background: #FFF
@@ -136,18 +134,18 @@
 
   @media only screen and (min-width: 1120px)
     ul#extras-sidebar
+      left: 0
       margin-left: -100px
       margin-top: 0
       padding: 0
-      top: 0
-      left: 0
       position: absolute
+      top: 0
       width: 100px
       li
         +clearfix
-        float: none !important
         border-radius: 0 !important
         display: block !important
+        float: none !important
         margin: 0 !important
         .icon
           float: right !important
