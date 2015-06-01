@@ -1,4 +1,4 @@
-"use strict"
+"use strict";
 
 require("coffee-script/register");
 

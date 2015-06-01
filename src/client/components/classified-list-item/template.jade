@@ -1,30 +1,35 @@
-.classified-list-item(ng-class="{'show-status': showStatus, 'urgent':classified.meta.urgentPerk}",
+section(ng-class="{'show-status': showStatus, 'urgent':classified.meta.urgentPerk}",
   class="{{ classified.status | status:'classified' | lowercase }}",
-  itemscope, itemtype="http://schema.org/Product")
+  itemscope,
+  itemtype="http://schema.org/Product")
 
-  a(ng-click="toggleClassified(classified)", ng-href="{{ classified.link }}")
-    .thumb(ng-if="classified.mainImage",
-      ng-ratio="{{ classified.mainImage.height / classified.mainImage.width }}",
-      ng-style="{background:classified.mainImage.color}")
-      img(fn-image-loader!="<%= staticUrl %>/uploads/thumb/{{ classified.mainImage.filename }}",
-        fn-image-success="classified.imageLoaded",
-        fn-image-fail="classified.imageLoaded", alt="{{ classified.title }}")
+  .thumb(ng-if="classified.mainImage",
+    ng-ratio="{{ classified.mainImage.height / classified.mainImage.width }}",
+    ng-style="{background: classified.mainImage.color}")
+    img(fn-image-loader!="<%= staticUrl %>/uploads/thumb/{{ classified.mainImage.filename }}",
+      fn-image-success="classified.imageLoaded()",
+      alt="{{ classified.title }}")
 
   .info
     .title(ng-click="toggleClassified(classified)")
-      a(itemprop="name", ng-href="/{{ classified.link }}") {{ classified.title | limitTo: 120 }}
+      a(itemprop="name",
+        ng-href="/{{ classified.link }}") {{ classified.title | limitTo: 120 }}
 
     ul.meta.row.collapse
-      li.price.small-6.columns(ng-if="!showStatus", itemprop="offers",
-        itemscope, itemtype="http://schema.org/Offer")
-        span(itemprop="priceCurrency", content="KWD")
-        span(itemprop="price", content="{{ (classified.priceValue || 0 ) }}")
-          | {{ classified.priceValue | price:classified.priceType }}
+      li.price.small-6.columns(ng-if="!showStatus",
+        itemprop="offers",
+        itemscope,
+        itemtype="http://schema.org/Offer")
+        span(itemprop="priceCurrency",
+          content="KWD")
+        span(content="{{ (classified.priceValue || 0 ) }}",
+          itemprop="price") {{ classified.priceValue | price:classified.priceType }}
       li.status.small-6.columns(ng-if="showStatus") {{ classified.status | status:"classified" }}
       li.date.small-6.columns.text-right
         a(ng-href="/{{ classified.slug }}")
           span.link &#xf0c6;
-        | {{ classified.created | prettydate }}
-      li(style="list-style: none; display: inline", ng-if="classified.showStatus")
+        span {{ classified.created | prettydate }}
+      li(style="list-style: none; display: inline",
+        ng-if="classified.showStatus")
         .status(class="{{ classified.statusClass }}") {{ classified.statusMessage }}
   .urgent-banner(ng-if="classified.meta.urgentPerk") Urgent

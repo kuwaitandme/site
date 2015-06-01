@@ -4,7 +4,7 @@
 #
 # This is actually only used in the site's header and other use cases haven't
 # been found yet.
-exports = module.exports = ($timeout, $window)->
+exports = module.exports = ($timeout, $window) ->
   link: (scope, element, attributes) ->
     element = attributes.$$element[0]
     targetClass = attributes.ngScrollupClass

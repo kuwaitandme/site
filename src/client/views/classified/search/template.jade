@@ -1,14 +1,13 @@
 #page-hero
-  img(ng-image-loader!="<%= staticUrl %>/images/hero/{{ heroURL }}",
-    ng-image-success="onHeroLoad")
+  img(fn-image-loader!="<%= staticUrl %>/images/hero/{{ heroURL }}",
+    fn-image-success="onHeroLoad()")
 
-section(ng-if="!parentCategory.id").category-chooser.row
+section.category-chooser.row(ng-if="!parentCategory.id")
   h1.columns Choose a category
-  section.columns(ng-include="'components/category-list'")
+  category-list
 
-section(ng-if="parentCategory.id").category-results.row
+section(ng-if="parentCategory.id")
   h1 {{ parentCategory.name }}
   h2(ng-if="childCategory.id") {{ childCategory.name }}
   section(ng-if="displayClassifiedList")
-    .classified-list-container(ng-include="'components/classified-list'")
-    #filterbox
+    classified-list

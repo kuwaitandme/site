@@ -1,7 +1,7 @@
-exports = module.exports = ($scope, $root, $stateParams, console, Classifieds) ->
+exports = module.exports = ($scope, $root, $stateParams, $log, Classifieds) ->
   @name = "[page:classified-single]"
-  console.log @name, "initializing"
-  console.debug @name, "routeParams", $stateParams
+  $log.log @name, "initializing"
+  $log.debug @name, "routeParams", $stateParams
 
   $root.bodyStyles['stick-header'] = true
 
@@ -12,7 +12,7 @@ exports = module.exports = ($scope, $root, $stateParams, console, Classifieds) -
     Classifieds.getBySlug $stateParams.slug, (error, classified) =>
       $scope.classified = classified
       $scope.$emit "page-loaded"
-      $root.meta.robotsNoIndex = classified.meta.hideSearchEngine
+      # $root.meta.robotsNoIndex = classified.meta.hideSearchEngine
 
 
 exports.$inject = [

@@ -1,20 +1,12 @@
-section
-  #classified-single-fixed(ng-if="showClassifiedContainer", ng-class="classifiedStyles")
-    .classified-single-close-bg(ng-click="toggleClassified()")
-    .classified-single-close-button(ng-click="toggleClassified()")
-      img(src!="<%= staticUrl %>/images/close.png")
-    //- .nav-buttons
-      .prev
-        .text prev
-      .next
-        .text next
-    .row(ng-include="'components/classified-single'")
+section(ng-init="index=0")
+  div(classified-cards, ng-if="showCards")
 
-  ul.classified-list.row(ng-scroll="onScroll", ng-masonry="li")
+
+  ul.classified-list.row(fn-scroll="onScroll")
     li.large-3.medium-4.small-6.columns(ng-repeat="classified in classifieds")
-      classified-list-item
-      //- div(ng-include="'components/classified-list-item'", ng-href="{{ classified.link }}")
+      div(classified-list-item, ng-click="showCard($index)")
 
-  .ajax-loading(ng-show="classifieds.length == 0 && !queryFinished") Loading classifieds!
+  .ajax-loading(ng-if="classifieds.length == 0 && !queryFinished") Loading classifieds!
+  //- .ajax-loading(ng-if="classifieds.length > 0 && !queryFinished") Loading classifieds!
   .ajax-finish(ng-if="queryFinished && classifieds.length > 0") {{ finishMessage }}
   .ajax-finish(ng-if="queryFinished && classifieds.length == 0") {{ emptyMessage }}

@@ -4,6 +4,7 @@ app = angular.module "App", [
   "ngSanitize"
   "ngTouch"
   "ui.router"
+  "cfp.hotkeys"
   # "btford.socket-io"
 ]
 

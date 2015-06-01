@@ -1,12 +1,15 @@
-section.row.classified-single(ng-controller="component:classified-single", itemscope, itemtype="http://schema.org/Product")
-  .columns(ng-if="classified.show")
-    ul.gallery.row(ng-if="classified.images")
-      li.small-6.medium-4.large-3.columns.end.image-loading(ng-repeat="image in classified.images track by $index")
-        div(target="_self", ng-href!="<%= staticUrl %>/uploads/main/{{ image.filename }}",
+.row(itemscope, itemtype="http://schema.org/Product")
+  .columns(ng-if-dis="classified.show")
+    ul.gallery(ng-if="classified.images",
+      masonry='{"gutter": 0, "itemSelector": \'li\' }')
+      li.small-6.medium-4.large-3.image-loading(ng-repeat="image in classified.images track by $index")
+        a(target="_blank",
+          ng-href!="<%= staticUrl %>/uploads/main/{{ image.filename }}",
           ng-style="{background: image.color }",
           ng-ratio="{{ image.height / image.width }}")
-          img.thumb(ng-image-loader!="<%= staticUrl %>/uploads/thumb/{{ image.filename }}",
-            ng-image-success="update", ng-image-fail="update", itemprop="image")
+          img.thumb(itemprop="image",
+            fn-image-loader!="<%= staticUrl %>/uploads/thumb/{{ image.filename }}",
+            fn-image-success="masonry.layout")
 
 
   .columns.content
@@ -26,9 +29,9 @@ section.row.classified-single(ng-controller="component:classified-single", items
 
 
       pre.columns.description(itemprop="description",
-        ng-if="classified.show") {{ classified.description }}
+        ng-if-dis="classified.show") {{ classified.description }}
 
-      .columns(ng-if="classified.show")
+      .columns(ng-if-dis="classified.show")
         ul.meta.small-block-grid-1.medium-block-grid-3.large-block-grid-4
           //- li
             span.meta-title Views:

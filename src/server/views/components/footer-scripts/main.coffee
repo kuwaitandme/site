@@ -5,7 +5,7 @@ u = publicData.staticUrl
   loop and find out programatically, but I prefer to hard-code it as the
   dependencies don't change that often.
 ###
-maxScriptCount = 12
+maxScriptCount = 11
 
 window.scripts = [
   {
@@ -16,10 +16,11 @@ window.scripts = [
   {
     id: "library"
     remote: [
-      "//ajax.googleapis.com/ajax/libs/angularjs/1.3.4/angular.js"
-      "//ajax.googleapis.com/ajax/libs/angularjs/1.3.4/angular-cookies.min.js"
-      "//ajax.googleapis.com/ajax/libs/angularjs/1.3.4/angular-sanitize.min.js"
-      "//ajax.googleapis.com/ajax/libs/angularjs/1.3.4/angular-touch.min.js"
+      "//cdnjs.cloudflare.com/ajax/libs/angular-hotkeys/1.4.5/hotkeys.min.js"
+      "//ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular.min.js"
+      # "//ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular-cookies.min.js"
+      # "//ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular-sanitize.min.js"
+      "//ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular-touch.min.js"
       "//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.14/angular-ui-router.min.js"
       "//cdnjs.cloudflare.com/ajax/libs/masonry/3.3.0/masonry.pkgd.min.js"
     ]

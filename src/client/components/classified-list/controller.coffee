@@ -1,24 +1,44 @@
-exports = module.exports = ($location, $log, $root, $scope, $timeout, $window,
-Classifieds) ->
+exports = module.exports = ($element, $location, $log, $root, $scope, $timeout,
+$window, Classifieds) ->
   @name = "[component:classified-list]"
   $log.log @name, "initializing"
-
-  # Initialize masonry
-  classifedList = (angular.element document.querySelectorAll ".classified-list")[0]
-  masonry = new Masonry classifedList
-
   # Initialize some variables
   currentPage = 1
+  body = (document.getElementsByTagName "body")[0]
   loadingClassifieds = false
   scrollPosition = 0
-  body = (document.getElementsByTagName "body")[0]
   $scope.queryFinished ?= false
   $scope.redirectToEditPage ?= false
   $scope.classifiedStyles ?= {}
   $root.bodyStyles ?= {}
   $scope.showClassifiedContainer = false
 
-  # setup the finish and empty classifieds message
+  # Initialize masonry
+  classifedList = $element[0].querySelector ".classified-list"
+  masonry = new Masonry classifedList
+
+  # This function is responsible for displaying the cards container
+  $scope.showCard = ($index) ->
+    # Get the index of clicked element and assign it to the scope.
+    $scope.index = $index
+    # Display the cards container
+    $scope.showCards = true
+    # Remember the scroll position and reset to 0 (for the classified cards)
+    $root.bodyStyles.overflowY = "hidden"
+    scrollPosition = body.scrollTop
+    body.scrollTop = 0
+
+  # This function listens for the close event sent by the cards container and
+  # hides it.
+  $root.$on "classified-cards:close", ->
+    # Hide the cards container
+    $scope.showCards = false
+    # When closing the cards container, we reset the scroll position back to
+    # the value we saved it before.
+    $timeout (-> body.scrollTop = scrollPosition), 50
+    $root.bodyStyles.overflowY = ""
+
+  # Setup the 'finish' and 'empty' classifieds message
   $scope.finishMessage ?= (->
     texts = [
       "Damn, there are no more classifieds!"
@@ -29,10 +49,9 @@ Classifieds) ->
     texts[Math.floor Math.random() * texts.length])()
   $scope.emptyMessage ?= $scope.finishMessage
 
-
   # Listen to any changes to the classified list. If more classified have been
   # added, the added them to the DOM and reload masonry.
-  $scope.$watch (-> classifedList.childElementCount), =>
+  $scope.$watch (-> classifedList.childElementCount), ->
     if classifedList.children.length > 0
       newElements = []
       for child in classifedList.children
@@ -45,7 +64,6 @@ Classifieds) ->
       # Reload masonry and give a timeout of 10ms for the browser to properly
       # render the elements and set the heights.
       $timeout (-> masonry.layout()), 10
-
 
   # This function loads more classifieds from the server.
   $scope.classifieds = []
@@ -73,9 +91,8 @@ Classifieds) ->
       loadingClassifieds = false
   $scope.loadClassifieds()
 
-
   # Setup the onScroll function.
-  $scope.onScroll = ($event) =>
+  $scope.onScroll = ($event) ->
     if $scope.queryFinished or loadingClassifieds then return
     # Setup some defaults
     body = document.body
@@ -92,6 +109,7 @@ Classifieds) ->
 
 
 exports.$inject = [
+  "$element"
   "$location"
   "$log"
   "$rootScope"

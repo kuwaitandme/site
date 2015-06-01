@@ -1,20 +1,23 @@
-exports = module.exports = ($scope, $googleMaps, console, Classifieds) ->
+exports = module.exports = ($element, $log, $scope, $timeout, Classifieds,
+$maps) ->
   @name = "[component:classified-single]"
-  console.log @name, "initializing"
-  console.debug @name, $scope
+  $log.log @name, "initializing"
 
   cl = $scope.classified or Classifieds.getDefault()
   cl.show = true
+  masonry = undefined
 
   # Initialize masonry
-  $scope.$watch $scope.classified, => setTimeout =>
-    imageContainer = (angular.element document.querySelectorAll "ul.gallery")[0]
-    @masonry = new Masonry imageContainer, gutter: 0
-    , 10
+  $scope.$watch $scope.classified, -> $timeout ->
+    imageContainer = $element[0].querySelector "ul.gallery"
+    masonry = new Masonry imageContainer, gutter: 0
+  , 10
 
-  # When images are loaded, relayout masonry
-  $scope.update = => if @masonry? then @masonry.layout()
+  # Reload masonry on the refresh event
+  $scope.$on "refresh", -> if masonry? then masonry.layout()
 
+  # When images are loaded, re-layout masonry
+  $scope.update = -> masonry.layout()
 
   # This function is used to render the Google maps component if needed.
   $scope.drawMap = ->
@@ -26,7 +29,7 @@ exports = module.exports = ($scope, $googleMaps, console, Classifieds) ->
       map = new google.maps.Map gmap,
         center: latLng
         mapTypeControl: false
-        style: $googleMaps.defaultStyle
+        style: $maps.defaultStyle
         mapTypeId: google.maps.MapTypeId.ROADMAP
         scrollwheel: false
         panControl: false
@@ -40,13 +43,16 @@ exports = module.exports = ($scope, $googleMaps, console, Classifieds) ->
         map: map
         position: latLng
     # When googlemaps loads, then render the map
-    $googleMaps.onLoad -> initMap()
+    $maps.onLoad -> initMap()
 
 
 exports.$inject = [
-  "$scope"
-  "$googleMaps"
+  "$element"
   "$log"
+  "$scope"
+  "$timeout"
 
   "models.classifieds"
+
+  "Google.maps"
 ]

@@ -1,0 +1,156 @@
+*[classified-cards]
+  +single-transition(all, 1s)
+  background: #EBEBEC
+  left: 0
+  bottom: 0
+  overflow-y: scroll
+  overflow-x: hidden
+  padding: 50px
+  position: fixed
+  top: 0
+  width: 100%
+  z-index: 4
+
+  @media only screen and (max-width: 40em)
+    padding: 30px 10px
+
+  &:before
+    @extend #page-hero
+
+
+  // CSS for the next and prev buttons
+  .nav-buttons
+    position: relative
+    line-height: 50%
+    color: #7d7d7d
+    @media only screen and (max-width: 40em)
+      display: none
+    .text
+      text-align: center
+      text-transform: uppercase
+      font-size: 0.8rem
+      width: 100%
+      top: 50%
+      position: absolute
+    .prev
+      left: 0
+      .text
+        transform: rotate(-90deg);
+    .next
+      right:0
+      .text
+        transform: rotate(90deg);
+    .prev, .next
+      +single-transition
+      top: 0
+      width: 50px
+      height: 100%
+      position: fixed
+      cursor: pointer
+      z-index: 2
+      &:hover
+        color: #000
+        background: rgba(0,0,0,0.05)
+
+
+  // Modify the cl-single to have some nice effects with out grey bg
+  [classified-single]
+    +single-transition
+    background: #FFF
+    box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0.04), 0px 1px 4px 1px rgba(0, 0, 0, 0.08), inset 0px 0px 0px 1px rgba(255, 255, 255, 0.5)
+    margin: 0 auto
+    max-width: $row-width
+    // opacity: 0
+    .gallery
+      background: #f9f9f9
+      z-index: 3
+    .row
+      margin: 0 auto
+
+  // The CSS classes
+  .cards
+    position: relative
+    > div
+      +single-transition(0.25)
+      position: absolute
+      top: 0
+      width: 100%
+      z-index: 1
+    .next, .prev
+      z-index: 0
+      display: none
+      opacity: 0
+    .prev
+      left: -600px
+      right: 0
+    .next
+      left: 0
+      right: -600px
+    .current
+      left: 0
+      right: 0
+
+  .show-next
+    .next
+      right: 0
+      display: block
+      opacity: 1
+    .current
+      opacity: 0
+      left: -600px
+  .show-prev
+    .prev
+      left: 0
+      display: block
+      opacity: 1
+    .current
+      opacity: 0
+      right: -600px
+
+  > .close-bg
+    background: transparent
+    position: absolute
+    top: 0
+    left: 0
+    width: 100%
+    height: 100%
+  > .close-button
+    $size: 50px
+    background: #FFF
+    border: 1px solid #EEE
+    cursor: pointer
+    height: $size
+    padding: 15px
+    position: fixed
+    right: 20px
+    top: -1px
+    width: $size
+    z-index: 8
+    img
+      +single-transition
+      opacity: 0.5
+    &:hover img
+        opacity: 1
+
+
+
+  @media only screen and (min-width: 1120px)
+    ul#extras-sidebar
+      margin-left: -100px
+      margin-top: 0
+      padding: 0
+      top: 0
+      left: 0
+      position: absolute
+      width: 100px
+      li
+        +clearfix
+        float: none !important
+        border-radius: 0 !important
+        display: block !important
+        margin: 0 !important
+        .icon
+          float: right !important
+  > .row
+    margin: 0 auto
+    max-width: $row-width
