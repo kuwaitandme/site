@@ -10,7 +10,8 @@ section(ng-controller="component:classified-list")
         .text next
     .row(ng-include="'components/classified-single'")
 
-  ul.classified-list.row(ng-scroll="onScroll")
+  cp-classified-single
+  ul.classified-list.row(ng-scroll="onScroll", ng-masonry="li")
     li.large-3.medium-4.small-6.columns(ng-repeat="classified in classifieds")
       div(ng-include="'components/classified-list-item'", ng-href="{{ classified.link }}")
 

@@ -1,5 +1,8 @@
+require "./modules"
+
 console.log "[app] initializing"
 app = angular.module "App", [
+  "Masonry"
   # "btford.socket-io"
   "ui.router"
 ]
@@ -25,8 +28,9 @@ boot = ->
 
 
 # Now only boot the angular app, if the JST template has been loaded. Because
-# we can't determine which async script loads first and to avoid the script from
-# breaking due to race conditions..
+# we can't determine which async script loads first and this avoids the script
+# from breaking due to race conditions..
+#
 # http://stackoverflow.com/questions/8996852/load-and-execute-order-of-scripts
 # We wait for all the dependencies to be loaded first, before executing the
 # angular app itself.
