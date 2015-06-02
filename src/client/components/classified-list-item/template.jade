@@ -4,7 +4,7 @@ section(ng-class="{'show-status': showStatus, 'urgent':classified.meta.urgentPer
   itemtype="http://schema.org/Product")
 
   .thumb(ng-if="classified.mainImage",
-    ng-ratio="{{ classified.mainImage.height / classified.mainImage.width }}",
+    gn-ratio="{{ classified.mainImage.height / classified.mainImage.width }}",
     ng-style="{background: classified.mainImage.color}")
     img(fn-image-loader!="<%= staticUrl %>/uploads/thumb/{{ classified.mainImage.filename }}",
       fn-image-success="classified.imageLoaded()",

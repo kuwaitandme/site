@@ -6,7 +6,7 @@
         a(target="_blank",
           ng-href!="<%= staticUrl %>/uploads/main/{{ image.filename }}",
           ng-style="{background: image.color }",
-          ng-ratio="{{ image.height / image.width }}")
+          fn-ratio="{{ image.height / image.width }}")
           img.thumb(itemprop="image",
             fn-image-loader!="<%= staticUrl %>/uploads/thumb/{{ image.filename }}",
             fn-image-success="masonry.layout")
