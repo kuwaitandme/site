@@ -1,7 +1,7 @@
 .collapse.row
   //- #main-header.columns(ng-scrollup-class="nav-up")
   #main-header.columns
-    #header-logo-container(ng-click="closeHeader()")
+    #header-logo-container
       a#header-logo(href="/")
     #grabber-container(ng-click="toggleHeader()")
       #grabber
@@ -32,23 +32,23 @@
       .row
         .columns.medium-3.title Main
         .link.columns.medium-3
-          a(href="/" , ng-click="closeHeader()") Home
+          a(href="/") Home
         .link.columns.medium-3
-          a(href="/classified/post", ng-click="closeHeader()") Post a classified
+          a(href="/classified/post") Post a classified
         .link.columns.medium-3
-          a(href="/classified", ng-click="closeHeader()") Browse classifieds
+          a(href="/classified") Browse classifieds
       .row
         .columns.medium-3.title.dark Account
         .link.columns.medium-3.hide-if-loggedin
-          a(href="/auth", ng-click="closeHeader()") Login/Signup
+          a(href="/auth") Login/Signup
         //- .link.columns.medium-3.end.hide-if-loggedin
           a(href="/auth/reset", ng-click="closeHeader()") Reset password
         .link.columns.medium-3.show-if-loggedin
-          a(href="/account", ng-click="closeHeader()") Manage account
+          a(href="/account") Manage account
         //- .link.columns.medium-3.end.show-if-loggedin
         //-   a(href="/settings", ng-click="closeHeader()") Settings
         .link.columns.medium-3.end.show-if-loggedin
-          a(href="/auth/logout", ng-click="closeHeader()") Logout
+          a(href="/auth/logout") Logout
       //- .row
         .columns.medium-3.title More
         .link.columns.medium-3
@@ -61,7 +61,7 @@
     #nav-footer
       | Copyright &copy; &middot;
       | Kuwait &amp; Me &middot; 2015 &middot;&nbsp;
-      a(href="/info/terms-privacy", target="_self", ng-click="closeHeader()") Usage &amp; Privacy
+      a(href="/info/terms-privacy", target="_self") Usage &amp; Privacy
 
 
 //- #header-search

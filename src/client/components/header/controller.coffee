@@ -16,6 +16,7 @@ exports = module.exports = ($scope, $root, console, setTimeout) ->
   # A click handler to display the sub header
   $scope.openHeader = -> $root.bodyClasses["show-subheader"] = true
 
+
   # A click handler to hide the sub header. It also removes all unwanted unread
   # notifications.
   $scope.closeHeader = ->
@@ -27,6 +28,8 @@ exports = module.exports = ($scope, $root, console, setTimeout) ->
       # Remove all notifications that have exceeded our limit
       if ++count > maxUnreadNotifications
         notification.remove = true
+
+  $root.$on "$stateChangeStart", $scope.closeHeader
 
   # This click handler is used to toggle (display/hide) the subheader.
   $scope.toggleHeader = ->
