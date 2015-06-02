@@ -4,9 +4,7 @@ exports = module.exports = ($scope, $timeout, hotkeys) ->
 
   # Because the parent scope is responsible for displaying/hiding the cards
   # container, we emit an event for when the container has to be closed.
-  $scope.close = ->
-    console.log 'closing'
-    $scope.$emit "classified-cards:close"
+  $scope.close = -> $scope.$emit "classified-cards:close"
 
   # This function animates and brings the next classified in the Queue.
   $scope.next = ->
@@ -14,14 +12,13 @@ exports = module.exports = ($scope, $timeout, hotkeys) ->
     # classifieds
     if isAnimating or $scope.index is $scope.classifieds.length - 1 then return
     # Define the pre/post animation functions
-    preAnimation = -> $scope.animationClasses = "show-next": true
+    preAnimation = ->
+      _onAnimationStart()
+      $scope.animationClasses = "show-next": true
     postAnimation = ->
-      $scope.animationClasses = {}
       $scope.index += 1
-      $scope.$broadcast "refresh"
-      isAnimating = false
+      _onAnimationFinish()
     # Animate!
-    isAnimating = true
     preAnimation()
     $timeout postAnimation, 250
 
@@ -30,16 +27,26 @@ exports = module.exports = ($scope, $timeout, hotkeys) ->
     # Prevent if we are already animating or we are at the first classified.
     if isAnimating or $scope.index is 0 then return
     # Define the pre/post animation functions
-    preAnimation = -> $scope.animationClasses = "show-prev": true
+    preAnimation = ->
+      $scope.animationClasses = "show-prev": true
+      _onAnimationStart()
     postAnimation = ->
-      $scope.animationClasses = {}
       $scope.index -= 1
-      $scope.$broadcast "refresh"
-      isAnimating = false
+      _onAnimationFinish()
     # Animate!
-    isAnimating = true
     preAnimation()
     $timeout postAnimation, 250
+
+  # This function is executed every time a prev/next animation starts
+  _onAnimationStart = ->
+    document.body.scrollTop = 0
+    isAnimating = true
+
+  # This function is executed every time a prev/next animation finishes
+  _onAnimationFinish = ->
+    $scope.animationClasses = {}
+    $scope.$broadcast "refresh"
+    isAnimating = false
 
   # Whenever the 'index' changes, we set two variables; 'indexOffset' and
   # 'indexLimit'. These two variables control how angular's limitTo (and
