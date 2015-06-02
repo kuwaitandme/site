@@ -2,13 +2,15 @@ exports = module.exports = ($http, $location, $log, $notifications, $scope,
 Languages, Users) ->
   @name = "[page:auth-login]"
   $log.log @name, "initializing"
-  $scope.$emit "page-loaded"
 
   query = $location.search()
   if query._success?
     $notifications.success Languages.translate query._success
   if query._error?
     $notifications.error Languages.translate query._error
+
+  $scope.onHeroLoad = -> $scope.$emit "page-loaded"
+
 
   $scope.login = {}
   $scope.signup = {}
