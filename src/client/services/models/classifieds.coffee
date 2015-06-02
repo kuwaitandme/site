@@ -3,7 +3,6 @@ exports = module.exports = ($environment, $location, $http, console) -> new clas
 
   defaults:
     contact:       {}
-    # filesToDelete: []
     images:        []
     meta:          {}
 
@@ -83,17 +82,18 @@ exports = module.exports = ($environment, $location, $http, console) -> new clas
     cl = {}
     # First off give any defaults if needed.
     angular.extend cl, @defaults, classified
+    if cl.priceType? then cl.priceType = String cl.priceType
     # Sets the social links
     SOURCE = "https://#{$location.host()}"
     URL = "https://#{$location.host()}/#{cl.slug}"
     tweet    = "Check out this classified, #{URL}"
     cl.social =
       facebook: "https://www.facebook.com/sharer/sharer.php?u=#{URL}"
-      gplus:    "https://plus.google.com/share?url=#{URL}"
-      twitter:  "https://twitter.com/home?url=#{URL}&status=#{encodeURI tweet}"
-      email:    "mailto:?subject=Checkout this cl: '#{cl.title}'
+      gplus: "https://plus.google.com/share?url=#{URL}"
+      twitter: "https://twitter.com/home?url=#{URL}&status=#{encodeURI tweet}"
+      email: "mailto:?subject=Checkout this cl: '#{cl.title}'
         &body=<your message>%0D%0A%0D%0Aurl: #{URL}"
-      reddit:   "http://www.reddit.com/submit?url=#{URL}&title=#{encodeURI cl.title}"
+      reddit: "http://www.reddit.com/submit?url=#{URL}&title=#{encodeURI cl.title}"
       linkedin: "https://www.linkedin.com/shareArticle?mini=true&url=#{URL}&title=#{cl.title}&summary=#{cl.description}&source=#{SOURCE}"
     # Find and set the main image
     for image in (cl.images or [])

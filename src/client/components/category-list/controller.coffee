@@ -1,13 +1,13 @@
-exports = module.exports = ($scope, $location, console, Categories) ->
+exports = module.exports = ($element, $scope, $location, console, Categories) ->
   @name = "[component:category-list]"
   console.log @name, "initializing"
 
   $scope.categories = []
-  $el = angular.element document.querySelectorAll ".categories-list"
-  masonry = new Masonry $el[0]
+  catContainer = $element[0].querySelector "ul"
+  masonry = new Masonry catContainer
 
-  $scope.$watch (-> $el[0].childElementCount), =>
-    for child in $el[0].children then masonry.appended child
+  $scope.$watch (-> catContainer.childElementCount), ->
+    for child in catContainer.children then masonry.appended child
     masonry.layout()
 
   categories = Categories.getAll()
@@ -24,6 +24,7 @@ exports = module.exports = ($scope, $location, console, Categories) ->
 
 
 exports.$inject = [
+  "$element"
   "$scope"
   "$location"
   "$log"

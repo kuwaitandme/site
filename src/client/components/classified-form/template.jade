@@ -28,16 +28,24 @@ section(ng-class="formClasses")
 
 
     .columns.title
-      input(type="text", placeholder="Your title goes here",
-        ng-model="classified.title", ng-change="validate()", ng-minlength="20",
-        ng-maxlength="140", ng-required="true", ng-disabled="formLoading")
+      input(type="text",
+        placeholder="Your title goes here",
+        ng-model="classified.title",
+        ng-change="validate()",
+        ng-minlength="20",
+        ng-maxlength="140",
+        ng-required="true",
+        ng-disabled="formLoading")
       .error.show-on-focus(max="max. 140 characters", min="min. 20 characters",
         valid="{{ remainingTitle }}")
 
     .columns.description(itemprop="description")
       textarea(placeholder="Your description goes here",
-        ng-model="classified.description", ng-minlength="50",
-        ng-maxlength="2000", ng-required="true", ng-disabled="formLoading")
+        ng-model="classified.description",
+        ng-minlength="50",
+        ng-maxlength="2000",
+        ng-required="true",
+        ng-disabled="formLoading")
       .error.show-on-focus(max="max. 2000 characters", min="min. 50 characters",
         valid="{{ remainingDescription }}")
 
@@ -45,9 +53,10 @@ section(ng-class="formClasses")
       li.row.collapse
         .meta-title.columns.medium-4 Price
         .columns.medium-8
-          select(ng-model="classified.priceType", ng-required="true",
+          select(ng-model="classified.priceType",
+            ng-required="true",
             ng-disabled="formLoading")
-            option(disabled, selected, value="") Choose a price
+            option(disabled, value="") Choose a price
             option(value="0") Free
             option(value="1") Contact Owner
             option(value="2") Specify Value
@@ -56,9 +65,12 @@ section(ng-class="formClasses")
       li.row.collapse(ng-if="classified.priceType == 2")
         .meta-title.columns.medium-4
         .columns.medium-8
-          input(type="number", placeholder="give your price here",
-            ng-model="classified.priceValue", ng-required="true", min=0,
-            ng-disabled="formLoading")
+          input(type="number",
+            placeholder="give your price here (KWD)",
+            ng-model="classified.priceValue",
+            ng-required="true",
+            ng-disabled="formLoading",
+            min=0)
           .error(invalid="price must only contain numbers")
 
       li.row.collapse
@@ -74,7 +86,8 @@ section(ng-class="formClasses")
         .columns.medium-8
           select(ng-model="classified.parentCategory",
             ng-options="category.name for category in categories",
-            ng-required="true", ng-disabled="formLoading")
+            ng-required="true",
+            ng-disabled="formLoading")
             option(disabled, selected, value="") Choose a category
           .error
 
@@ -83,7 +96,8 @@ section(ng-class="formClasses")
         .columns.medium-8
           select(ng-model="classified.childCategory",
             ng-options="child.name for child in classified.parentCategory.children",
-            ng-required="true", ng-disabled="formLoading")
+            ng-required="true",
+            ng-disabled="formLoading")
             option(disabled, selected, value="") Choose a sub-category
           .error
 
@@ -92,7 +106,8 @@ section(ng-class="formClasses")
         .columns.medium-8
           select(ng-model="location",
             ng-options="location.name for location in locations",
-            ng-required="true", ng-disabled="formLoading")
+            ng-required="true",
+            ng-disabled="formLoading")
             option(disabled, selected, value="") Choose a location
           .error
 
@@ -100,24 +115,32 @@ section(ng-class="formClasses")
       li.row.collapse
         .meta-title.columns.medium-4 Phone
         .columns.medium-8
-          input(type="text", placeholder="+965 12345678",
-            ng-model="classified.contact.phone", ng-disabled="formLoading")
+          input(type="text",
+            placeholder="+965 12345678",
+            ng-model="classified.contact.phone",
+            ng-disabled="formLoading")
       li.row.collapse(ng-if="location && location.id != '0'")
         .meta-title.columns.medium-4 Address
         .columns.medium-8
-          input(type="text", placeholder="Address line 1",
-            ng-model="classified.contact.address1", ng-disabled="formLoading")
+          input(type="text",
+            placeholder="Address line 1",
+            ng-model="classified.contact.address1",
+            ng-disabled="formLoading")
       li.row.collapse(ng-if="location && location.id != '0'")
         .meta-title.columns.medium-4
         .columns.medium-8
-          input(type="text", placeholder="Address line 2",
-            ng-model="classified.contact.address2", ng-disabled="formLoading")
+          input(type="text",
+            placeholder="Address line 2",
+            ng-model="classified.contact.address2",
+            ng-disabled="formLoading")
       li.row.collapse
         .meta-title.columns.medium-4 Link
         .columns.medium-8
-          input(type="url", placeholder="https://example.com",
+          input(type="url",
+            placeholder="https://example.com",
             ng-model="classified.contact.website")
-          .error(invalid="link must be a valid url", ng-disabled="formLoading")
+          .error(invalid="link must be a valid url",
+            ng-disabled="formLoading")
       li.row.collapse.extras
         .meta-title.columns.medium-4 Extras
         .columns.medium-8
@@ -152,11 +175,13 @@ section(ng-class="formClasses")
                 ng-disabled="formLoading")
               label Delivery will be free of charge
             .columns(ng-if="classified.contact.phone")
-              input(type="checkbox", ng-model="classified.meta.whatsapp",
+              input(type="checkbox",
+                ng-model="classified.meta.whatsapp",
                 ng-disabled="formLoading")
               label I am available on Whatsapp
             .columns(ng-if="classified.contact.phone")
-              input(type="checkbox", ng-model="classified.meta.viber",
+              input(type="checkbox",
+                ng-model="classified.meta.viber",
                 ng-disabled="formLoading")
               label I am available on Viber
 
@@ -205,8 +230,10 @@ section(ng-class="formClasses")
       ng-init="drawMap()")
       .row
         .columns
-          input(type="checkbox", name="toggled", id="toggleMaps",
-            ng-model="classified.meta.mapsEnabled", ng-disabled="formLoading")
+          input#toggleMaps(type="checkbox",
+            name="toggled",
+            ng-model="classified.meta.mapsEnabled",
+            ng-disabled="formLoading")
           label Enable maps (drag the marker)
       .row.collapse
         .columns

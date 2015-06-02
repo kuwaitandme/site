@@ -85,10 +85,10 @@ $notifications, $scope, Classifieds, Categories, Locations, Users) ->
       # the internal callback function to refer to the last element in the
       # files array (because of the loop). Hence we have to generate a function
       # passing the specific reference of the file.
-      ((file)-> $imageResizer.createThumbnail file,
+      ((file) -> $imageResizer.createThumbnail file,
         thumbnailHeight: 300
         thumbnailWidth: 300
-        callback: (dataURL) => $scope.$apply ->
+        callback: (dataURL) -> $scope.$apply ->
           # Check if this image is a valid candidate for the main image. If it
           # is then make it the main image, otherwise don't. The logic written
           # below follows this.
@@ -98,11 +98,11 @@ $notifications, $scope, Classifieds, Categories, Locations, Users) ->
           $scope.classified.images.push
             file: file
             filename: file.name
-            width: file.width
             height: file.height
-            src: dataURL
             main: not isThereMainImage
+            src: dataURL
             status: "to-upload"
+            width: file.width
       ) file
 
   # Handler function to remove the file from the Uploads queue

@@ -4,10 +4,9 @@
 
 section.category-chooser.row(ng-if="!parentCategory.id")
   h1.columns Choose a category
-  category-list
+  section.columns(category-list)
 
-section(ng-if="parentCategory.id")
-  h1 {{ parentCategory.name }}
-  h2(ng-if="childCategory.id") {{ childCategory.name }}
-  section(ng-if="displayClassifiedList")
-    classified-list
+section.row(ng-if="parentCategory.id")
+  h1.columns {{ parentCategory.name }}
+  h2.columns(ng-if="childCategory.id") {{ childCategory.name }}
+  section.columns(ng-if="displayClassifiedList", classified-list)

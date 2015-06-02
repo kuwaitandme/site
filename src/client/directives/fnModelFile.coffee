@@ -7,4 +7,4 @@ module.exports = ->
       files = changeEvent.target.files
       results = []
 
-      (scope.fnModelFile or ->)() files
+      if scope.fnModelFile? then scope.fnModelFile() files

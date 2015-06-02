@@ -17,8 +17,11 @@ $window, Classifieds) ->
   classifedList = $element[0].querySelector ".classified-list"
   masonry = new Masonry classifedList
 
-  # This function is responsible for displaying the cards container
-  $scope.showCard = ($index) ->
+  # This function is responsible for either displaying the cards container or
+  # redirecting to the edit page
+  $scope.onClassifiedClick = ($index, classified) ->
+    if $scope.redirectToEditPage
+      return $location.path "/classified/edit/#{classified.id}"
     # Get the index of clicked element and assign it to the scope.
     $scope.index = $index
     # Display the cards container

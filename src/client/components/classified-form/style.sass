@@ -72,7 +72,7 @@
             content: "required"
 
   // If the user has attempted to submit, highlight all required fields as 'red'
-  &.attempted .ng-invalid-required
+  .attempted .ng-invalid-required
     border-color: $color-error !important
     ~ .error
       background: $color-error !important
@@ -147,6 +147,7 @@
 
   .title, .description
     input, textarea
+      @extend .font-open
       color: #000 !important
       padding: 0.5rem
       width: 100%

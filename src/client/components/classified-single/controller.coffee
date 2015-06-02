@@ -11,7 +11,7 @@ $maps) ->
   $scope.$watch $scope.classified, -> $timeout ->
     imageContainer = $element[0].querySelector "ul.gallery"
     masonry = new Masonry imageContainer, gutter: 0
-  , 10
+  , 100
 
   # Reload masonry on the refresh event
   $scope.$on "refresh", -> if masonry? then masonry.layout()

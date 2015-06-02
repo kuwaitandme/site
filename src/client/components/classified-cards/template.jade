@@ -23,7 +23,7 @@
 .cards(ng-class="animationClasses",
   ng-swipe-left="next()"
   ng-swipe-right="previous()")
-  div(classified-single,
+  section(classified-single,
     ng-repeat="classified in classifieds | limitTo : indexLimit : indexOffset"
     ng-class="calculateClass($index)"
     data-index="{{ $index }}")

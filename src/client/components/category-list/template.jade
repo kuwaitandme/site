@@ -1,8 +1,10 @@
-ul.row.categories-list(ng-controller='component:category-list')
-  li.columns.large-3.medium-4.small-6(ng-repeat="category in categories", ng-class="category.extraClass")
+ul.row
+  li.columns.large-3.medium-4.small-6(ng-repeat="category in categories",
+    ng-class="category.extraClass")
     .container
       .sprite-container
-        .image.cat-sprite(class="{{ category.sprite }}", ng-click="category.toggleChildren()")
+        .image.cat-sprite(class="{{ category.sprite }}",
+          ng-click="category.toggleChildren()")
         .total-count {{ category.count }} classifieds
       h2.title {{ category.name }}
       .children

@@ -21,7 +21,7 @@ exports = module.exports = (renderer, Classified) ->
         data:
           noIndex: noIndex or false
           classified: classified
-        description: classified.title
+        description: classified.description
         page: "classified/single"
         title: classified.title
       renderer request, response, options, false

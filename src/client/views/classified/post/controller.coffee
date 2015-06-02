@@ -7,7 +7,7 @@ Users) ->
 
   # When classified has been submitted successfully, redirect to the finish
   # page
-  $scope.$on "classified-form:submitted", (classified) ->
+  $scope.$on "classified-form:submitted", ($event, classified) ->
     $notifications.success "Your classified has been submitted successfully!"
     $location.path "/classified/finish/#{classified.id}"
 

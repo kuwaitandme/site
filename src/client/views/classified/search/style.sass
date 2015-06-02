@@ -24,11 +24,7 @@ body#classified-search
         text-decoration: none
         text-shadow: 1px 1px 2px #000
 
-    > .category-results
-      .classified-list-container
-        margin-top: 100px
-      .classified-list
-        margin: 0
+    > section
       > h1, > h2
         @extend .font-open
         color: #FFF
@@ -37,8 +33,10 @@ body#classified-search
         padding: 0 1rem
         text-shadow: 1px 1px 2px #000
       > h1
-        margin-top: 300px
+        margin-top: 100px
         font-size: 3rem
       > h2
-        margin-bottom: 100px
+        margin-bottom: 50px
         font-size: 1.3rem
+      section[classified-list]
+        background: #FFF

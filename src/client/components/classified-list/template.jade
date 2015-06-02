@@ -4,7 +4,8 @@ section(ng-init="index=0")
 
   ul.classified-list.row(fn-scroll="onScroll")
     li.large-3.medium-4.small-6.columns(ng-repeat="classified in classifieds")
-      div(classified-list-item, ng-click="showCard($index)")
+      div(classified-list-item,
+        ng-click="onClassifiedClick($index, classified)")
 
   .ajax-loading(ng-if="classifieds.length == 0 && !queryFinished") Loading classifieds!
   //- .ajax-loading(ng-if="classifieds.length > 0 && !queryFinished") Loading classifieds!
