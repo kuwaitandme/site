@@ -2,10 +2,6 @@ body#classified-search
   &:before
     background-image: url(/images/cat-spritesheet.jpg)
     content: ''
-  // &.cl-careers-jobs, &.cl-community-events, &.cl-electronics-computers,
-  // &.cl-general-items, &.cl-hobbies-crafts-diy, &.cl-matrimonial,
-  // &.cl-miscellaneous, &.cl-music-movies-books, &.cl-pets-animals,
-  // &.cl-property-real-estate, &.cl-services, &.cl-vehicles
   background: #000
   #page-hero:after
     content: ''
@@ -13,16 +9,6 @@ body#classified-search
 
   main
     background: transparent
-
-    > .category-chooser
-      margin: 100px auto
-      h1
-        @extend .font-open
-        color: #fff
-        display: block
-        font-weight: bold
-        text-decoration: none
-        text-shadow: 1px 1px 2px #000
 
     > section
       > h1, > h2
@@ -36,7 +22,9 @@ body#classified-search
         margin-top: 100px
         font-size: 3rem
       > h2
-        margin-bottom: 50px
         font-size: 1.3rem
+      > section
+        margin-top: 50px
+        margin-bottom: 100px
       section[classified-list]
         background: #FFF
