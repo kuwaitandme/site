@@ -5,19 +5,18 @@ $maps) ->
 
   cl = $scope.classified or Classifieds.getDefault()
   cl.show = true
-  masonry = undefined
 
   # Initialize masonry
   $scope.$watch $scope.classified, -> $timeout ->
     imageContainer = $element[0].querySelector "ul.gallery"
-    masonry = new Masonry imageContainer, gutter: 0, transitionDuration: 0
+    cl.masonry = new Masonry imageContainer, gutter: 0, transitionDuration: 0
   , 10
 
   # Reload masonry on the refresh event
-  $scope.$on "refresh", -> if masonry? then masonry.layout()
+  $scope.$on "refresh", -> if cl.masonry? then $timeout (-> cl.masonry.layout())
 
   # When images are loaded, re-layout masonry
-  $scope.update = -> masonry.layout()
+  $scope.update = -> if cl.masonry? then cl.masonry.layout()
 
   # This function is used to render the Google maps component if needed.
   $scope.drawMap = ->

@@ -40,6 +40,7 @@ exports = module.exports = ($element, $scope, $timeout, hotkeys) ->
   # This function is executed every time a prev/next animation starts
   _onAnimationStart = ->
     $element[0].scrollTop = 0
+    $scope.$broadcast "refresh"
     isAnimating = true
 
   # This function is executed every time a prev/next animation finishes
