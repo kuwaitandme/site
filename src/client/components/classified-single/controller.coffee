@@ -24,7 +24,7 @@ $maps) ->
       # The co-ordinates to which we will center the map
       latLng = new google.maps.LatLng cl.meta.gmapX, cl.meta.gmapY
       # Initialize the map
-      gmap = document.getElementById "maps-container"
+      gmap = $element[0].querySelector "#maps-container"
       map = new google.maps.Map gmap,
         center: latLng
         mapTypeControl: false
