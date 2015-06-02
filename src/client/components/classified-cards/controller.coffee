@@ -1,4 +1,4 @@
-exports = module.exports = ($scope, $timeout, hotkeys) ->
+exports = module.exports = ($element, $scope, $timeout, hotkeys) ->
   # This variable is used as a lock to prevent any animation collisions.
   isAnimating = false
 
@@ -39,7 +39,7 @@ exports = module.exports = ($scope, $timeout, hotkeys) ->
 
   # This function is executed every time a prev/next animation starts
   _onAnimationStart = ->
-    document.body.scrollTop = 0
+    $element[0].scrollTop = 0
     isAnimating = true
 
   # This function is executed every time a prev/next animation finishes
@@ -80,6 +80,7 @@ exports = module.exports = ($scope, $timeout, hotkeys) ->
   .add(combo: "esc", callback: -> $scope.close())
 
 exports.$inject = [
+  "$element"
   "$scope"
   "$timeout"
   "hotkeys"

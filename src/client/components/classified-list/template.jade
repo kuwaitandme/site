@@ -7,7 +7,6 @@ section(ng-init="index=0")
       div(classified-list-item,
         ng-click="onClassifiedClick($index, classified)")
 
-  .ajax-loading(ng-if="classifieds.length == 0 && !queryFinished") Loading classifieds!
-  //- .ajax-loading(ng-if="classifieds.length > 0 && !queryFinished") Loading classifieds!
+  .ajax-loading(ng-if="loadingClassifieds") Loading classifieds!
   .ajax-finish(ng-if="queryFinished && classifieds.length > 0") {{ finishMessage }}
   .ajax-finish(ng-if="queryFinished && classifieds.length == 0") {{ emptyMessage }}

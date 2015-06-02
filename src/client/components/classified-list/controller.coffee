@@ -5,7 +5,7 @@ $window, Classifieds) ->
   # Initialize some variables
   currentPage = 1
   body = (document.getElementsByTagName "body")[0]
-  loadingClassifieds = false
+  $scope.loadingClassifieds = false
   scrollPosition = 0
   $scope.queryFinished ?= false
   $scope.redirectToEditPage ?= false
@@ -15,7 +15,7 @@ $window, Classifieds) ->
 
   # Initialize masonry
   classifedList = $element[0].querySelector ".classified-list"
-  masonry = new Masonry classifedList
+  masonry = new Masonry classifedList, transitionDuration: 0
 
   # This function is responsible for either displaying the cards container or
   # redirecting to the edit page
@@ -87,16 +87,17 @@ $window, Classifieds) ->
       # For each classified attach the imageLoader and add it to the DOM
       # (manually that is).
       for classified in classifieds
-        if $scope.redirectToEditPage
-          classified.link = "classified/edit/#{classified.id}"
         classified.imageLoaded = -> masonry.layout()
         $scope.classifieds.push classified
-      loadingClassifieds = false
+      $scope.loadingClassifieds = false
   $scope.loadClassifieds()
+  # Reload the classified after a second to fix the bug when there aren't
+  # enough classifieds to trigger the scroll
+  setTimeout (-> $scope.loadClassifieds()), 1000
 
   # Setup the onScroll function.
   $scope.onScroll = ($event) ->
-    if $scope.queryFinished or loadingClassifieds then return
+    if $scope.queryFinished or $scope.loadingClassifieds then return
     # Setup some defaults
     body = document.body
     html = document.documentElement
@@ -107,7 +108,7 @@ $window, Classifieds) ->
     scrollPosition = body.scrollTop + $window.innerHeight
     # If we have passed 80% down the window, then load more classifieds
     if scrollPosition / documentHeight * 100 > 80
-      loadingClassifieds = true
+      $scope.loadingClassifieds = true
       $scope.loadClassifieds()
 
 
