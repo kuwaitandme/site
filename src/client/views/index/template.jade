@@ -60,7 +60,5 @@
   h2 Choose from a category
   section(ng-include="'components/category-list'")
 #featured-classifieds.row(ng-if="displayClassifiedList")
-  //- h1 {{ "page.landing.classifieds" | translate }}
   h2 Latest Classifieds
-  //- .classified-list-container(ng-include="'components/classified-list'")
-  classified-list
+  section(classified-list)

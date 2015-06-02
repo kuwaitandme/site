@@ -12,6 +12,7 @@ module.exports = (app) ->
     "auth/logout": require "./auth/logout/controller"
 
     "classified/edit": require "./classified/edit/controller"
+    "classified/post": require "./classified/post/controller"
     "classified/finish": require "./classified/finish/controller"
     "classified/search": require "./classified/search/controller"
     "classified/single": require "./classified/single/controller"
