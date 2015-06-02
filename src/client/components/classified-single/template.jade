@@ -1,4 +1,4 @@
-.row(itemscope, itemtype="http://schema.org/Product")
+.row.collapse(itemscope, itemtype="http://schema.org/Product")
   .columns(ng-if-dis="classified.show")
     ul.gallery(ng-if="classified.images",
       masonry='{"gutter": 0, "itemSelector": \'li\' }')
