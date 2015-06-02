@@ -1,5 +1,5 @@
 module.exports = ->
-  scope: ngModelFile: "&"
+  scope: fnModelFile: "&"
 
   link: (scope, element, attributes) ->
     element.bind "change", (changeEvent) ->
@@ -7,4 +7,4 @@ module.exports = ->
       files = changeEvent.target.files
       results = []
 
-      (scope.ngModelFile or ->)() files
+      (scope.fnModelFile or ->)() files

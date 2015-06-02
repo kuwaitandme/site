@@ -5,20 +5,12 @@ $notifications, $scope, Classifieds, Categories, Locations, Users) ->
   currentUser = Users.getCurrentUser()
   $log.log @name, "initializing"
 
-  if not currentUser.id?
-    $location.search "_error", "need_login_for_post"
-    $location.path "/auth"
-
   # Initialize the models
   $scope.categories = Categories.getAll()
   $scope.locations = Locations.getAll()
-  # If classified is not defined, then set it to it's default values. By scope
-  # inheritance if there was a classified in the parent controller, it should
-  # override this line.
+  # If classified is not defined, then set it to it's default values
   $scope.classified ?= Classifieds.getDefault()
-
   # Setup some defaults for functions that might be overridden by the parent
-  $scope.onSuccess ?= ->
   $scope.formClasses ?= {}
 
   # Attach the css class for when the form is loading
@@ -26,12 +18,14 @@ $notifications, $scope, Classifieds, Categories, Locations, Users) ->
 
   updateAvailableCredits = ->
     userCredits = currentUser.credits or 0
-    $scope.urgentPrice = $scope.urgentPrice * 1
-    $scope.promotePrice = $scope.promotePrice * 1
-    $scope.availableCredits = userCredits - $scope.urgentPrice - $scope.promotePrice
+    urgentPrice = (Number $scope.urgentPrice or 0) * 1
+    promotePrice = (Number $scope.promotePrice or 0) * 1
+    $scope.urgentPrice = String urgentPrice
+    $scope.promotePrice = String promotePrice
+    $scope.availableCredits = userCredits - (urgentPrice + promotePrice)
+  updateAvailableCredits()
   $scope.$watch "urgentPrice", updateAvailableCredits
   $scope.$watch "promotePrice", updateAvailableCredits
-  updateAvailableCredits()
 
   # Automatically populate and/or disable the email field
   currentUserEmail = currentUser.email
@@ -149,10 +143,9 @@ $notifications, $scope, Classifieds, Categories, Locations, Users) ->
     $scope.formLoading = $scope.formClasses.loading = true
     # Only perform the submit function if the form has validated properly
     if not $scope.form.$invalid
+      $log.log @name, "submitting form"
       $scope.classified.spendUrgentPerk = $scope.urgentPrice
       $scope.classified.spendPromotePerk = $scope.promotePrice
-
-      $log.log @name, "submitting form"
       # Delete the image.src (which contains the base64 data) to avoid
       # repetition of the image upload.
       delete image.src for image in ($scope.classified.images or [])
@@ -177,7 +170,7 @@ $notifications, $scope, Classifieds, Categories, Locations, Users) ->
               $notifications.error "You can't make changes to this classified", 10000
             else
               $notifications.error "Something went wrong while saving your classified. Try again later"
-        else $scope.onSuccess classified
+        else $scope.$emit "classified-form:submitted", classified
     else
       $scope.formLoading = $scope.formClasses.loading = false
       $notifications.error "You have some invalid fields in your form. Have a look at them again"

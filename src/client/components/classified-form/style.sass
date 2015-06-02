@@ -1,16 +1,17 @@
-.classified-form
-  $color-inactive: rgba(0, 0, 0, 0.02)
+[classified-form]
   $border-color: #f0f0f0
   $color-error: #E04B2A
+  $color-inactive: rgba(0, 0, 0, 0.02)
   $color-valid: #30cd72
   $color-warn: #FFB604
-  @extend .classified-single
+  @extend section[classified-single]
+  background: #FFF
 
   .error
     @extend .font-text
-    font-size: 11px
+    border-bottom: 3px solid rgba(0, 0, 0, .1)
     float: left
-    border-bottom: 3px solid rgba(0,0,0,.1)
+    font-size: 11px
     padding: 5px 10px
 
   input
@@ -84,13 +85,13 @@
   .admin-panel
     +clearfix
     .action
-      cursor: pointer
       border-bottom: 3px solid rgba(0,0,0,0.2)
       color: #FFF
+      cursor: pointer
       float: left
       font-size: 0.7rem
-      padding: 0.5rem 1rem
       margin-right: 5px
+      padding: 0.5rem 1rem
       text-transform: uppercase
       &, &.green
         background: $color-valid
@@ -101,7 +102,6 @@
     @extend .font-roboto
     margin: 0
     li
-      padding: 0
       height: 100%
       margin: 10px 0
       padding: 0.9375rem

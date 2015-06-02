@@ -1,5 +1,4 @@
-section.classified-form(ng-controller="component:classified-form as form",
-  ng-class="formClasses")
+section(ng-class="formClasses")
   form(name="form", novalidate).row
 
     .columns.admin-panel(ng-if="classified.id")
@@ -11,7 +10,7 @@ section.classified-form(ng-controller="component:classified-form as form",
       .action.red(ng-click="changeStatus('ARCHIVED')") Archive this classified
 
 
-    input(type="file", multiple, ng-model-file="fileChange",
+    input(type="file", multiple, fn-model-file="fileChange",
       ng-disabled="formLoading").hide
     .columns
       ul.gallery.small-block-grid-2.medium-block-grid-3.large-block-grid-4
@@ -164,33 +163,44 @@ section.classified-form(ng-controller="component:classified-form as form",
     .perks.columns
       .credits-info.medium-6.columns
         .text You have
-        .count {{ availableCredits }}
-          span(class="subtract") - {{ (urgentPrice * 1) + (promotePrice * 1) }}
+        .count {{ availableCredits || 0}}
+          span(class="subtract") - {{ (urgentPrice * 1) + (promotePrice * 1) || 0 }}
         .text credits
       ul.meta.medium-6.columns
         li.row.collapse
           .meta-title.columns.medium-4 Promote my classified to the frontpage
           .columns.medium-8
             select(ng-model="promotePrice",
-              ng-disabled="formLoading", ng-init="promotePrice=0")
-              option(value="0") Don't promote this classified
-              option(value="10", ng-disabled="availableCredits + promotePrice < 10") 1 day (10 credits)
-              option(value="20", ng-disabled="availableCredits + promotePrice < 20") 2 days (20 credits)
-              option(value="30", ng-disabled="availableCredits + promotePrice < 30") 3 days (30 credits)
-              option(value="40", ng-disabled="availableCredits + promotePrice < 40") 4 days (40 credits)
-              option(value="50", ng-disabled="availableCredits + promotePrice < 50") 5 days (50 credits)
-              option(value="60", ng-disabled="availableCredits + promotePrice < 60") 6 days (60 credits)
+              ng-disabled="formLoading")
+              option(value="0", selected) Don't promote this classified
+              option(ng-disabled="availableCredits + promotePrice < 10",
+                value="10") 1 day (10 credits)
+              option(ng-disabled="availableCredits + promotePrice < 20",
+                value="20") 2 days (20 credits)
+              option(ng-disabled="availableCredits + promotePrice < 30",
+                value="30") 3 days (30 credits)
+              option(ng-disabled="availableCredits + promotePrice < 40",
+                value="40") 4 days (40 credits)
+              option(ng-disabled="availableCredits + promotePrice < 50",
+                value="50") 5 days (50 credits)
+              option(ng-disabled="availableCredits + promotePrice < 60",
+                value="60") 6 days (60 credits)
         li.row.collapse
           .meta-title.columns.medium-4 Make my classified urgent
           .columns.medium-8
             select(ng-model="urgentPrice",
-              ng-disabled="formLoading", ng-init="urgentPrice=0")
-              option(value="0") Don't make this classified urgent
-              option(value="20", ng-disabled="availableCredits + urgentPrice < 20") 1 day (20 credits)
-              option(value="40", ng-disabled="availableCredits + urgentPrice < 40") 2 days (40 credits)
-              option(value="60", ng-disabled="availableCredits + urgentPrice < 60") 3 days (60 credits)
-              option(value="80", ng-disabled="availableCredits + urgentPrice < 80") 4 days (80 credits)
-              option(value="100", ng-disabled="availableCredits + urgentPrice < 100") 5 days (100 credits)
+              ng-disabled="formLoading")
+              option(value="0", selected) Don't make this classified urgent
+              option(ng-disabled="availableCredits + urgentPrice < 20",
+                value="20") 1 day (20 credits)
+              option(ng-disabled="availableCredits + urgentPrice < 40",
+                value="40") 2 days (40 credits)
+              option(ng-disabled="availableCredits + urgentPrice < 60",
+                value="60") 3 days (60 credits)
+              option(ng-disabled="availableCredits + urgentPrice < 80",
+                value="80") 4 days (80 credits)
+              option(ng-disabled="availableCredits + urgentPrice < 100",
+                value="100") 5 days (100 credits)
     .google-maps.columns(ng-if="location && location.id > 0",
       ng-init="drawMap()")
       .row
