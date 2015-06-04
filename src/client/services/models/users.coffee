@@ -7,13 +7,17 @@ exports = module.exports = ($http, $root, console, $storage) -> new class
     ADMIN:     2
 
   statuses:
-    INACTIVE:   0
-    ACTIVE:     1
-    BANNED:     2
-    SUSPENDED:  3
+    INACTIVE: 0
+    ACTIVE: 1
+    BANNED: 2
+    SUSPENDED: 3
 
-  setCurrentUser: (user) -> $storage.session "models:user:current", angular.toJson user
-  getCurrentUser: -> (angular.fromJson $storage.session "models:user:current") or {}
+  setCurrentUser: (user) ->
+    @currentUser = user
+    $storage.session "models:user:current", angular.toJson user
+  getCurrentUser: ->
+    if @currentUser? and @currentUser.id then @currentUser
+    else (angular.fromJson $storage.session "models:user:current") or {}
   isLoggedIn: -> @getCurrentUser().id?
 
   constructor: ->
@@ -42,7 +46,7 @@ exports = module.exports = ($http, $root, console, $storage) -> new class
     $http.get "/api/auth/logout"
     .success (data, status) =>
       console.log @name, "user logged out"
-      @onUserChange null
+      @onUserChange undefined
 
 
   # Download the current user from either the sessionStorage or from the API
