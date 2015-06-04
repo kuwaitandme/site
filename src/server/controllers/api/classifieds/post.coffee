@@ -3,7 +3,7 @@ formidable        = require "formidable"
 keyword_extractor = require "keyword-extractor"
 
 exports = module.exports = (IoC, Email, reCaptcha, uploader, Classifieds,
-Users) ->
+Events, Users) ->
   logger = IoC.create "igloo/logger"
   name = "[api:classifieds]"
 
@@ -48,12 +48,21 @@ Users) ->
     # Check first if the user is logged in
     if not user.id then throw new Error "need login"
     # Find out how many credits we will have to spend.
-    creditsToSpend = data.spendUrgentPerk + data.spendPromotePerk
+    promotePrice = data.spendPromotePerk
+    urgentPrice = data.spendUrgentPerk
+    creditsToSpend = urgentPrice + promotePrice
     if creditsToSpend > 0
       # Evaluate the perks with the given user and the credits
       data = Classifieds.evaluatePerks data, user.toJSON(),
         urgent: data.spendUrgentPerk
         promote: data.spendPromotePerk
+      # Send an event about how many credits the user spent
+      eventData =
+        type: "cl"
+        spent:
+          promote: promotePrice
+          urgent: urgentPrice
+      Events.log request, "CREDITS_SPENT", eventData
       # Update the user with the new amount of credits
       (user.set "credits", (user.get "credits") - creditsToSpend).save()
     # Set the current user as the owner for this classified.
@@ -110,6 +119,10 @@ Users) ->
     # With the files now uploaded, update the data of the current classified
     # object.
     .spread updateData
+    # Log the event into the database!
+    .spread (id, json) ->
+      Events.log request, "CLASSIFIED_CREATE", classified: id
+      [id, json]
     # Update the classified with the images and return the result to the user.
     .spread Classifieds.patchPromise
     # Now send the email to the user about the new classified
@@ -132,6 +145,7 @@ exports["@require"] = [
   "controllers/uploader"
 
   "models/classifieds"
+  "models/events"
   "models/users"
 ]
 exports["@singleton"] = true

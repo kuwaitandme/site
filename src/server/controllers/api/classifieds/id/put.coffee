@@ -5,7 +5,8 @@ observableDiff = (require "deep-diff").observableDiff
 xss            = require "xss"
 
 
-exports = module.exports = (IoC, reCaptcha, uploader, Classifieds, Users) ->
+exports = module.exports = (IoC, reCaptcha, uploader, Classifieds, Events
+Users) ->
   logger = IoC.create "igloo/logger"
 
   # Check if the request has the required data
@@ -17,6 +18,7 @@ exports = module.exports = (IoC, reCaptcha, uploader, Classifieds, Users) ->
 
   # Check if user has privileges to modify the classified
   checkUserPrivelages = (results) ->
+    console.log results
     # Grab the request and the classified (sent by the prev promise)
     request = results.request
     oldClassified = results.classified
@@ -52,12 +54,22 @@ exports = module.exports = (IoC, reCaptcha, uploader, Classifieds, Users) ->
     # Check first if the user is logged in
     if not user.id then throw new Error "need login"
     # Find out how many credits we will have to spend.
-    creditsToSpend = newClassified.spendUrgentPerk + newClassified.spendPromotePerk
+    promotePrice = newClassified.spendPromotePerk
+    urgentPrice = newClassified.spendUrgentPerk
+    creditsToSpend = urgentPrice + promotePrice
     if creditsToSpend > 0
       # Evaluate the perks with the given user and the credits
       newClassified = Classifieds.evaluatePerks newClassified, user.toJSON(),
-        urgent: newClassified.spendUrgentPerk
-        promote: newClassified.spendPromotePerk
+        promote: promotePrice
+        urgent: urgentPrice
+      # Send an event about how many credits the user spent
+      eventData =
+        id: oldClassified.id
+        type: "cl"
+        spent:
+          promote: promotePrice
+          urgent: urgentPrice
+      Events.log request, "CREDITS_SPENT", eventData
       # Update the user with the new amount of credits
       (user.set "credits", (user.get "credits") - creditsToSpend).save()
     # Set the current user as the owner for this classified.
@@ -144,6 +156,10 @@ exports = module.exports = (IoC, reCaptcha, uploader, Classifieds, Users) ->
       [newClassified, oldClassified, uploader.uploadPromise newImages, options]
     # Create a diff between the two classifieds
     .spread createDiff
+    # Log the event into the database!
+    .spread (id, json) ->
+      Events.log request, "CLASSIFIED_EDIT", classified: id
+      [id, json]
     # Now update the classified with the diff!
     .spread Classifieds.patchPromise
     # Once done, return the fields that have been changed back to the user
@@ -161,6 +177,7 @@ exports["@require"] = [
   "controllers/uploader"
 
   "models/classifieds"
+  "models/events"
   "models/users"
 ]
 exports["@singleton"] = true

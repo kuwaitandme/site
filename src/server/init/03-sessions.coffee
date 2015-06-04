@@ -45,6 +45,7 @@ exports = module.exports = (IoC, settings, sessions, Email, Users, policies) ->
             logger.debug "adding social network [#{profile.provider}] to existing user", profile.emails[0].value
             return Users.patch json.id, json, done
           else logger.debug "using social network [#{profile.provider}] from existing user", profile.emails[0].value
+          events.log request, "LOGIN", {provider: "email"}, user
         return done null, user
       # If the user did not exist, then create a new user
       password = Users.randomPassword()
