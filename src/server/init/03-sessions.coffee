@@ -18,7 +18,8 @@ WordpressStrategy     = (require "passport-wordpress").Strategy
 OpenIDStrategy        = (require "passport-openid").Strategy
 
 
-exports = module.exports = (IoC, settings, sessions, Email, Users, policies) ->
+exports = module.exports = (IoC, settings, sessions, Email, Events, Users,
+policies) ->
   app = this
   logger = IoC.create "igloo/logger"
 
@@ -45,7 +46,7 @@ exports = module.exports = (IoC, settings, sessions, Email, Users, policies) ->
             logger.debug "adding social network [#{profile.provider}] to existing user", profile.emails[0].value
             return Users.patch json.id, json, done
           else logger.debug "using social network [#{profile.provider}] from existing user", profile.emails[0].value
-          events.log request, "LOGIN", {provider: "email"}, user
+          Events.log request, "LOGIN", {provider: profile.provider}, user
         return done null, user
       # If the user did not exist, then create a new user
       password = Users.randomPassword()
@@ -68,6 +69,7 @@ exports = module.exports = (IoC, settings, sessions, Email, Users, policies) ->
             user: user.toJSON()
             password: password
             subject: "Welcome to Kuwait & Me!"
+          Events.log request, "LOGIN", {provider: profile.provider}, user
           done null, user
 
   # Add cookie parsing support
@@ -128,6 +130,7 @@ exports["@require"] = [
   "igloo/settings"
   "igloo/sessions"
   "controllers/email"
+  "models/events"
   "models/users"
   "policies"
 ]
