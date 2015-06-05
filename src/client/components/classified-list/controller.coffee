@@ -37,8 +37,13 @@ $window, Classifieds) ->
     # Hide the cards container
     $scope.showCards = false
     # When closing the cards container, we reset the scroll position back to
-    # the value we saved it before.
-    $timeout (-> body.scrollTop = scrollPosition), 50
+    # the value we saved it before. We also re-layout masonry because of the
+    # 'display:none' that gets applied to the list (for performance on mobile)
+    # screws up the layout..
+    $timeout (->
+      body.scrollTop = scrollPosition
+      masonry.layout()
+    ), 50
     $root.bodyStyles.overflowY = ""
 
   # Setup the 'finish' and 'empty' classifieds message
