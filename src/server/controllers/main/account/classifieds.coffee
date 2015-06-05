@@ -4,8 +4,8 @@ exports = module.exports = (renderer) ->
       return response.redirect "/auth?_error=need_login"
 
     options =
-      page: "account/manage"
-      title: response.__ "title.account.manage"
+      page: "account/classifieds"
+      title: response.__ "title.account.classifieds"
     renderer request, response, options, true
 
 

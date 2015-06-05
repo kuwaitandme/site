@@ -47,7 +47,7 @@ exports = module.exports = (IoC, settings) ->
   _route "/classified/edit/([0-9]*)",               "classified/edit"
 
   _route "/account",                                "account/index"
-  _route "/account/manage",                         "account/manage"
+  _route "/account/classifieds",                    "account/classifieds"
   # _route "/account/credits", "account/credits"
   # _route "/account/profile", "account/profile"
 
