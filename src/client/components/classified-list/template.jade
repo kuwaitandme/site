@@ -2,7 +2,7 @@ section(ng-init="index=0")
   div(classified-cards, ng-if="showCards")
 
 
-  ul.classified-list.row(fn-scroll="onScroll")
+  ul.classified-list.row(fn-scroll="onScroll", ng-if="!showCards")
     li.large-3.medium-4.small-6.columns(ng-repeat="classified in classifieds")
       div(classified-list-item,
         ng-click="onClassifiedClick($index, classified)")
