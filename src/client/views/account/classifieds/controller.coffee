@@ -1,4 +1,4 @@
-exports = module.exports = ($scope, $location, $log, Users) ->
+exports = module.exports = ($location, $log, $scope, Users) ->
   @name = "[page:account-manage]"
   $log.log @name, "initializing"
   $scope.$emit "page-loaded"
@@ -13,10 +13,11 @@ exports = module.exports = ($scope, $location, $log, Users) ->
   $scope.$on "classified-list:click", ($event, data) ->
     $location.path "/account/classifieds/#{data.classified.id}"
 
+
 exports.$inject = [
-  "$scope"
   "$location"
   "$log"
+  "$scope"
 
   "models.users"
 ]

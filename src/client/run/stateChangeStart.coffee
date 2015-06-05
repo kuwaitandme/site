@@ -13,7 +13,7 @@ exports = module.exports = ($root, $log, $storage) ->
 
       $log.log "[router] switching #{fromState.name} -> #{toState.name}"
       if toState.templateUrl?
-        body.id = toState.controller.replace "/", "-"
+        body.id = toState.controller.replace /\//g, "-"
       setTimeout (-> document.body.scrollTop = 0), 1
 
 

@@ -1,7 +1,7 @@
-exports = module.exports = ($scope, $stateParams, console, $location,
-  $notifications, $environment, Classifieds) ->
+exports = module.exports = ($environment, $location, $log, $notifications,
+$scope, $stateParams, Classifieds) ->
   @name = "[page:account-cl-single]"
-  console.log @name, "initializing"
+  $log.log @name, "initializing"
 
   staticUrl = $environment.staticUrl
 
@@ -16,16 +16,16 @@ exports = module.exports = ($scope, $stateParams, console, $location,
   # When classified has been edited successfully, redirect to the account page
   $scope.$on "classified-form:submitted", ($event, classified) ->
     $notifications.success "Your classified has been edited successfully!"
-    $location.path "/account/manage"
+    $location.path "/account/classifieds"
 
 
 exports.$inject = [
+  "$environment"
+  "$location"
+  "$log"
+  "$notifications"
   "$scope"
   "$stateParams"
-  "$log"
-  "$location"
-  "$notifications"
-  "$environment"
 
   "models.classifieds"
 ]

@@ -16,21 +16,22 @@ exports = module.exports = ($stateProvider, $locationProvider, $urlMatcher,
         user: ["models.users", (user) -> user.download()]
         location: ["models.locations", (location) -> location.download()]
 
-  _route "index",                ""
-  _route "account",              "/account"
-  _route "account/classifieds",  "/account/classifieds"
-  _route "account/moderate",     "/account/moderate"
-  _route "auth",                 "/auth"
-  _route "auth/logout",          "/auth/logout"
-  _route "guest/post",           "/guest/post"
-  _route "classified/finish",    "/classified/finish/{id:[0-9]+}"
-  _route "classified/edit",      "/classified/edit/{id:[0-9]+}"
-  _route "classified/post",      "/classified/post"
-  _route "classified/search",    "/classified"
-  _route "classified/search",    "/classified/{parent:[^/]+}"
-  _route "classified/search",    "/classified/{parent:[^/]+}/{child:[^/]+}"
-  _route "classified/single",    "/{slug:[^/]+}-{id:[0-9]+}"
-  _route "error/404",            "*page"
+  _route "index",                       ""
+  _route "account",                     "/account"
+  _route "account/classifieds",         "/account/classifieds"
+  _route "account/classifieds/single",  "/account/classifieds/{id:[0-9]+}"
+  _route "account/moderate",            "/account/moderate"
+  _route "auth",                        "/auth"
+  _route "auth/logout",                 "/auth/logout"
+  _route "guest/post",                  "/guest/post"
+  _route "classified/finish",           "/classified/finish/{id:[0-9]+}"
+  _route "classified/edit",             "/classified/edit/{id:[0-9]+}"
+  _route "classified/post",             "/classified/post"
+  _route "classified/search",           "/classified"
+  _route "classified/search",           "/classified/{parent:[^/]+}"
+  _route "classified/search",           "/classified/{parent:[^/]+}/{child:[^/]+}"
+  _route "classified/single",           "/{slug:[^/]+}-{id:[0-9]+}"
+  _route "error/404",                   "*page"
 
   # Enable HTML5 pushstate for hash-less URLs
   $locationProvider.html5Mode
