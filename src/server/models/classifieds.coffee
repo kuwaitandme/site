@@ -48,8 +48,8 @@ exports = module.exports = (knex) ->
 
     languages:
       ENGLISH: 1
-      ARABIC:  2
-      HINDI:   3
+      ARABIC: 2
+      HINDI: 3
 
 
     evaluatePerks: (cl, user, perks) ->
@@ -84,8 +84,8 @@ exports = module.exports = (knex) ->
 
 
     queryPromise: (parameters) ->
-      new Promise (resolve, reject) =>
-        buildQuery = (qb) =>
+      new Promise (resolve, reject) ->
+        buildQuery = (qb) ->
           # Helper function to check if the number is a valid int
           _validInt = (i) -> i? and validator.isInt i, { min: 0 }
 
