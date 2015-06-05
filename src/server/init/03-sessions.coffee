@@ -18,8 +18,8 @@ WordpressStrategy     = (require "passport-wordpress").Strategy
 OpenIDStrategy        = (require "passport-openid").Strategy
 
 
-exports = module.exports = (IoC, settings, sessions, Email, Events, Users,
-policies) ->
+exports = module.exports = (IoC, settings, sessions, Email, policies, Events,
+Users) ->
   app = this
   logger = IoC.create "igloo/logger"
 
@@ -31,7 +31,7 @@ policies) ->
     not validator.isEmail profile.emails[0].value
       return done new Error "no oauth email found"
     # Query for the user based on the provider.
-    Users.findOne { email: profile.emails[0].value }, (error, user) ->
+    Users.findOne {email: profile.emails[0].value}, (error, user) ->
       if error then return done error
       # User exists, check if the provider's details have been set and return
       # the user back to passport
@@ -103,7 +103,7 @@ policies) ->
   # Email Authentication
   if settings.emailAuth.enabled
     passport.use new LocalStrategy (username, password, done) ->
-      Users.findOne { email: username }, (error, user) ->
+      Users.findOne {email: username}, (error, user) ->
         if error then return done error
         logger.debug "fetched user", user
         if not user? then return done "bad username/email", false
@@ -129,7 +129,8 @@ exports["@require"] = [
   "igloo/settings"
   "igloo/sessions"
   "controllers/email"
+  "policies"
+
   "models/events"
   "models/users"
-  "policies"
 ]

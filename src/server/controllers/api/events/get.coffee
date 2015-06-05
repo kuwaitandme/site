@@ -6,10 +6,8 @@ exports = module.exports = (Events) ->
       eventsJson = events.toJSON()
       output = ""
       for event in eventsJson
-        for key of event
-          if typeof event[key] is "object"
-            event[key] = JSON.stringify event[key]
-          output += "#{event[key]} "
+        output += "#{event.id} #{event.ip}\t#{event.timestamp}"
+        output += "\t#{event.user or -1} #{JSON.stringify event.data or {}}"
         output += "\n"
       response.end output
 
