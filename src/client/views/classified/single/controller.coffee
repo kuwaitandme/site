@@ -8,8 +8,9 @@ exports = module.exports = ($scope, $root, $stateParams, $log, Classifieds) ->
   $scope.$on "classified-changed", (event, classified) ->
     $scope.classified = classified
 
+
   if not $scope.classified?
-    Classifieds.getBySlug $stateParams.slug, (error, classified) =>
+    Classifieds.get $stateParams.id, (error, classified) ->
       $scope.classified = classified
       $scope.$emit "page-loaded"
       # $root.meta.robotsNoIndex = classified.meta.hideSearchEngine

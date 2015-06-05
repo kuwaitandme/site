@@ -6,7 +6,10 @@ module.exports = (app) ->
 
     "account": require "./account/controller"
     # "account/credits": require "./account/credits/controller"
-    "account/manage": require "./account/manage/controller"
+    "account/classifieds": require "./account/classifieds/controller"
+    "account/classifieds/single": require "./account/classifieds/single/controller"
+    "account/moderate": require "./account/moderate/controller"
+    # "account/moderate/single": require "./account/moderate/single/controller"
 
     "auth": require "./auth/controller"
     "auth/logout": require "./auth/logout/controller"

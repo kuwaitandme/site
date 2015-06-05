@@ -7,7 +7,7 @@
   .medium-6.columns
     h1 Manage your classifieds
     p Here you can manage all the classifieds you have posted. You can do different things like promoting, editing, deleting etc.
-    a(href="/account/manage") Manage
+    a(href="/account/classifieds") Manage
 
   .medium-6.columns.disabled
     h1 View Statistics
@@ -18,3 +18,8 @@
     h1 Manage your credits
     p Add credits to your account
     a(href="") Coming soon
+
+  .medium-6.columns(ng-if="isModerator")
+    h1 Moderate classifieds
+    p As a moderator, review classifieds that have been edited/created
+    a(href="/account/moderate") Moderate

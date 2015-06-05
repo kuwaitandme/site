@@ -1,22 +1,31 @@
-exports = module.exports = ($location, $log, $scope, $notifications, Languages,
-Users) ->
+exports = module.exports = ($element, $location, $log, $notifications, $scope,
+$timeout, Languages, Users) ->
   @name = "[page:account]"
   $log.log @name, "initializing"
   $scope.$emit "page-loaded"
+  currentUser = Users.getCurrentUser() or {}
+
 
   query = $location.search()
   if query._success?
-    currentUser = Users.getCurrentUser() or {}
     currentUserName = currentUser.full_name or ""
     string = Languages.translate query._success
     $notifications.success string.replace "_NAME_", currentUserName
 
+  if currentUser.role in [Users.roles.MODERATOR, Users.roles.ADMIN]
+    $scope.isModerator = true
+
+  container = $element[0].querySelector ".row"
+  $timeout (-> masonry = new Masonry container, transitionDuration: 0), 10
+
 
 exports.$inject = [
+  "$element"
   "$location"
   "$log"
-  "$scope"
   "$notifications"
+  "$scope"
+  "$timeout"
 
   "models.languages"
   "models.users"
