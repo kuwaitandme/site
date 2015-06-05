@@ -1,0 +1,17 @@
+body.card-leaving
+  &:after
+    background: #FFF
+    content: ""
+    height: 100%
+    left: 0
+    position: fixed
+    top: 0
+    width: 100%
+    z-index: 3
+
+  div[classified-list]
+    opacity: 0
+
+*[classified-interactive-list]
+  div[classified-list]
+    margin: 0 auto

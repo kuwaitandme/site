@@ -11,9 +11,8 @@ section(ng-class="{'show-status': showStatus, 'urgent':classified.meta.urgentPer
       alt="{{ classified.title }}")
 
   .info
-    .title(ng-click="toggleClassified(classified)")
-      a(itemprop="name",
-        ng-href="/{{ classified.link }}") {{ classified.title | limitTo: 120 }}
+    .title
+      span(itemprop="name") {{ classified.title | limitTo: 120 }}
 
     ul.meta.row.collapse
       li.price.small-6.columns(ng-if="!showStatus",

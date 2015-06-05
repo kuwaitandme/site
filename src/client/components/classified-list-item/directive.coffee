@@ -1,3 +1,3 @@
 exports = module.exports = ->
-  controller: require "./controller"
+  require: ["^classifiedList"]
   templateUrl: "components/classified-list-item/template"
