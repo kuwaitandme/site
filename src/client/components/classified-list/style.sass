@@ -1,4 +1,19 @@
+body.card-leaving
+  &:after
+    background: #FFF
+    content: ""
+    height: 100%
+    left: 0
+    position: fixed
+    top: 0
+    width: 100%
+    z-index: 3
+
+  *[classified-list]
+    opacity: 0
+
 [classified-list]
+  +single-transition(all, 0.5s)
   background: #f9f9f9
   margin: 0 auto
   margin-bottom: 30px

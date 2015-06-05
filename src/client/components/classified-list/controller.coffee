@@ -29,22 +29,26 @@ $window, Classifieds) ->
     # Remember the scroll position and reset to 0 (for the classified cards)
     $root.bodyStyles.overflowY = "hidden"
     scrollPosition = body.scrollTop
-    body.scrollTop = 0
+    $timeout (-> body.scrollTop = 0), 500
 
   # This function listens for the close event sent by the cards container and
   # hides it.
   $root.$on "classified-cards:close", ->
+    $root.bodyClasses["card-leaving"] = true
+    $scope.hideList = false
     # Hide the cards container
-    $scope.showCards = false
+    $timeout (-> $scope.showCards = false ), 250
     # When closing the cards container, we reset the scroll position back to
     # the value we saved it before. We also re-layout masonry because of the
     # 'display:none' that gets applied to the list (for performance on mobile)
     # screws up the layout..
-    $timeout (->
-      body.scrollTop = scrollPosition
-      masonry.layout()
-    ), 50
+    $timeout (-> masonry.layout() ), 100
+    $timeout (-> body.scrollTop = scrollPosition ), 200
+    $timeout (-> $root.bodyClasses["card-leaving"] = false ), 250
     $root.bodyStyles.overflowY = ""
+
+  $scope.$watch $scope.showCards, ->
+    if $scope.showCards then $scope.hideList = true
 
   # Setup the 'finish' and 'empty' classifieds message
   $scope.finishMessage ?= (->
@@ -110,9 +114,9 @@ $window, Classifieds) ->
       body.clientHeight, body.offsetHeight, body.scrollHeight
       html.clientHeight, html.offsetHeight, html.scrollHeight
     )
-    scrollPosition = body.scrollTop + $window.innerHeight
+    scroll = body.scrollTop + $window.innerHeight
     # If we have passed 80% down the window, then load more classifieds
-    if scrollPosition / documentHeight * 100 > 80
+    if scroll / documentHeight * 100 > 80
       $scope.loadingClassifieds = true
       $scope.loadClassifieds()
 

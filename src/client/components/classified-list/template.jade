@@ -3,7 +3,7 @@ section(ng-init="index=0")
 
 
   ul.classified-list.row(fn-scroll="onScroll",
-    ng-style="{ 'display': (showCards ? 'none' : 'block') }")
+    ng-style="{ 'display': (hideList ? 'none' : 'block') }")
     li.large-3.medium-4.small-6.columns(ng-repeat="classified in classifieds")
       div(classified-list-item,
         ng-click="onClassifiedClick($index, classified)")
