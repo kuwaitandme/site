@@ -4,7 +4,7 @@ exports = module.exports = ($window)->
     onResize = ->
       height = Math.floor element.offsetWidth * attributes.fnRatio
       element.style.height = "#{ height }px"
-    (angular.element $window).bind "scroll", onResize
+    (angular.element $window).bind "resize", onResize
     scope.$on "refresh", onResize
     onResize()
 
