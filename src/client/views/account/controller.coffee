@@ -11,6 +11,7 @@ $timeout, Languages, Users) ->
     currentUserName = currentUser.full_name or ""
     string = Languages.translate query._success
     $notifications.success string.replace "_NAME_", currentUserName
+    $location.search "_success", null
 
   if currentUser.role in [Users.roles.MODERATOR, Users.roles.ADMIN]
     $scope.isModerator = true

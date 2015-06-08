@@ -6,8 +6,10 @@ Languages, Users) ->
   query = $location.search()
   if query._success?
     $notifications.success Languages.translate query._success
+    $location.search "_success", null
   if query._error?
     $notifications.error Languages.translate query._error
+    $location.search "_error", null
 
   $scope.onHeroLoad = -> $scope.$emit "page-loaded"
 

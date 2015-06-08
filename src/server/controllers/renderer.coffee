@@ -4,9 +4,9 @@ jade = require "jade"
 # some default values.
 exports = module.exports = (settings, cache) ->
   fn = (request, response, options={}) ->
-    # First generate the page"s bodyid. This is what we will use for adding
+    # First generate the page's bodyid. This is what we will use for adding
     # the right CSS as well as the key used for caching the page.
-    options.bodyid = options.page.replace "/", "-"
+    options.bodyid = options.page.replace /\//g, "-"
 
     # cacheId = "page:#{request.getLocale()}:#{options.bodyid}"
     cacheId = "page:en:#{options.bodyid}"
