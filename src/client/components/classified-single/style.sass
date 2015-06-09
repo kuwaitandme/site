@@ -1,7 +1,7 @@
 section[classified-single]
   .gallery
-    margin-top: 0
-    margin-bottom: 1rem
+    background: #f6f6f6
+    margin: 0
     li
       padding: 0
       margin-bottom: 0 !important
@@ -18,14 +18,16 @@ section[classified-single]
         width: 100%
 
   .content
-    position: relative
     background: #FFF
+    position: relative
     > .columns
       margin-bottom: 1rem
 
   .title
-    @extend .font-bitter
-    font-size: 1.6rem
+    @extend .font-roboto-slab
+    font-weight: 300
+    margin: 1rem 0
+    font-size: 1.5rem
     word-wrap: break-word
 
   .tags
@@ -67,30 +69,33 @@ section[classified-single]
 
 
   .meta
-    margin: 1rem 0
-    li
-      font-size: 0.8rem
-      margin: 0 auto
-      padding: 0
-      margin-bottom: 0.5rem
-      position: relative
-      text-align: left
-      word-wrap: break-word
-      a
+    margin-bottom: .5rem
+    // padding: 0
+    ul
+      margin:  0
+      li
+        font-size: 0.8rem
+        margin: 0 auto
+        padding: 0
+        margin-bottom: 0.5rem
+        position: relative
+        text-align: left
         word-wrap: break-word
-        word-break: break-word
-      .meta-title, .meta-value
-        display: inline-block
-      .meta-title, .perk-title
-        padding-right: 5px
-        font-weight: bold
+        a
+          word-wrap: break-word
+          word-break: break-word
+        .meta-title, .meta-value
+          display: inline-block
+        .meta-title, .perk-title
+          padding-right: 5px
+          font-weight: bold
 
-      @media only screen and (min-width: 40em)
-        .meta-title
-          text-align: right
-        .meta-value
-          padding-right: 30px
-          text-align: left
+        @media only screen and (min-width: 40em)
+          .meta-title
+            text-align: right
+          .meta-value
+            padding-right: 30px
+            text-align: left
 
 
 
@@ -139,6 +144,7 @@ section[classified-single]
 
 
   .google-maps
+    background: #EEE
     border-bottom: none
     padding: 0
     position: relative

@@ -33,13 +33,14 @@
 //-   img(ng-image-loader!="<%= staticUrl %>/images/hero/{{ heroURL }}",
 //-     ng-image-success="onHeroLoad")
 
-#splash
-  .row
-    .columns
-      img(src!="<%= staticUrl %>/images/kme-logo-tagline-2.png")
-  .cta
-    a(href="/classified/post") Post your classified
-    a(href="/classified") Find a classified
+.row
+  #splash.columns
+    #collage(src!="<%= staticUrl %>/images/collage.png")
+    img(src!="<%= staticUrl %>/images/kme-logo-white.png")
+    h1.tagline Sell your things to people who need it
+    .cta
+      a(href="/classified/create") Post your classified
+      a(href="/classified") Find a classified
 
     //-   .tagline
     //-     h1 Publish and Browse classifieds in Kuwait. Quick, Easy and absolutely Free!

@@ -49,6 +49,7 @@ map =
   "auth/login"        : "/auth"
   "auth/signup"       : "/auth"
   "classified/search" : "/classified"
+  "classified/post"   : "/classified/create"
   "contact"           : "/"
   "terms-privacy"     : "/info/terms-privacy"
 

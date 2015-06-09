@@ -12,16 +12,20 @@ main
     width: 100%
     z-index: 1
 header
-  position: fixed
+  // position: fixed
   top: 0
   left: 0
   width: 100%
   z-index: 4
 
+
+  > .row
+    max-width: none
   #main-header
     +single-transition
     +clearfix
     background: #FFF
+    // border-bottom: 1px solid #f6f6f6
     height: $headerHeight
     z-index: 1
 
@@ -60,7 +64,7 @@ header
       width: 25px
     #grabber
       background-position: -64px 0
-      height: 12px
+      height: 17px
       position: relative
       width: 21px
       #notification-counter

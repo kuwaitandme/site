@@ -45,6 +45,10 @@ window.scripts = [
     remote: ["//fonts.googleapis.com/css?family=Roboto"]
   }
   {
+    id: "library:font-roboto-slab-css"
+    remote: ["//fonts.googleapis.com/css?family=Roboto+Slab"]
+  }
+  {
     id: "library:font-awesome-css"
     remote: ["//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css"]
   }

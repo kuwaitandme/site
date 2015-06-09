@@ -8,3 +8,4 @@ module.exports = (app) ->
   app.directive "classifiedListItem", require "./classified-list-item/directive"
   app.directive "classifiedSingle", require "./classified-single/directive"
   app.directive "header", require "./header/directive"
+  app.directive "auth", require "./auth/directive"

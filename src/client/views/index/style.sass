@@ -1,48 +1,67 @@
 body#index
   background: #FFF
+
+  // Preload some images
   &:before
-    background-image: url(/images/cat-spritesheet.jpg), url(/images/hero/landing.jpg)
+    background-image: url(/images/cat-spritesheet.jpg)
     content: ''
+
   main
-    // padding: 0
     background: transparent
 
-  .cta
-    max-width: 388px
-    margin: 10px auto
-    a
-      +single-transition
-      display: inline-block
-      font-size: 0.8rem
-      text-decoration: none
-      border-bottom: 1px solid #DDD
-      padding: 3px
-      margin: 0 5px
-      &:hover
-        border-bottom: 2px solid #F60
-  // #page-hero:after
-  //   content: ""
+
 
   #splash
     text-align: center
-    // background: url(/images/hero/landing.jpg)
-    padding: 4rem 0
-    .tagline
-      text-align: center
-      padding-bottom: 50px
-      h1
-        @extend .font-open
+    padding: 150px 0 50px 0
+    position: relative
+
+    // Call-to-action
+    .cta
+      margin: 35px auto
+      a
+        +single-transition
+        background: rgba(255, 255, 255, 0.01)
+        border: 2px solid #EEE
         color: #FFF
-        font-size: 2rem
-        font-weight: bold
-        margin: 2rem 0
-        padding: 1rem
-        text-shadow: 1px 1px 2px #000
-      @media only screen and (max-width: 40em)
-        text-align: left
-        padding: 0.9375rem
-        h1
-          max-width: 100%
+        display: inline-block
+        font-size: 0.9rem
+        margin: 10px 15px
+        padding: 10px 20px
+        text-decoration: none
+        &:hover
+          background: #FFF
+          color: #000
+    h1.tagline
+      color: #FFF
+      font-family: 'Roboto Slab', serif
+      font-size: 1.7rem
+      margin: 0 auto
+      max-width: 400px
+      padding: 40px 10px 0 10px
+      text-align: center
+      text-shadow: 1px 1px 2px #000
+    #collage
+      background-size: 85%
+      background: #d2a688
+      background-image: url("/images/collage.png")
+      height: 100%
+      left: 0
+      opacity: 1
+      position: absolute
+      top: 0
+      width: 100%
+      z-index: -1
+      &:after
+        content: ''
+        position: absolute
+        top: 0
+        left: 0
+        width: 100%
+        height: 100%
+
+        // background: -moz-linear-gradient(to bottom,rgba(0,0,0,0) 50%,rgba(0,0,0,0.7) 50%,rgba(0,0,0,1) 100%)
+        background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.6) 50%,rgba(0,0,0,0.97) 90%)
 
     h2
       font-weight: 400

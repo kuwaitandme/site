@@ -1,0 +1,84 @@
+section[auth]
+  background: rgba(255, 255, 255, 0.95)
+  display: none
+  position: fixed
+  top: 0
+  left: 0
+  bottom: 0
+  width: 100%
+  min-height: 100%
+  z-index: 4
+  text-align: center
+
+
+  .row
+    max-width: 600px
+    padding: 100px 80px
+
+  .title
+    text-align: center
+    padding: 30px
+    @extend .font-roboto-slab
+    color: #000
+    font-size: 30px
+    line-height: 1.4
+    margin-bottom: 30px
+
+  ul
+    display: inline-block
+    vertical-align: middle
+    outline: none
+    overflow: hidden
+    // max-width: 580px
+    li
+      +single-transition
+      cursor: pointer
+      margin: 0 auto
+      position: relative
+      width: 200px
+  a
+    +radius(100px)
+    @extend .font-open
+    // background: #f60
+    border-bottom: 3px solid rgba(0,0,0,0.15)
+    max-width: 200px
+    margin: 0 auto
+    color: #FFF
+    display: block
+    // text-transform: uppercase
+    font-size: 12px
+    margin-bottom: 0.9375rem
+    padding: 0.5rem
+    text-align: center
+    text-decoration: none
+    overflow: none
+    // -webkit-box-shadow: 0px 0px 12px 0px rgba(0,0,0,0.5);
+    // -moz-box-shadow: 0px 0px 12px 0px rgba(0,0,0,0.5);
+    // box-shadow: 0px 0px 12px 0px rgba(0,0,0,0.5);
+  .windows
+    background: #945990
+  .linkedin
+    background: #44788A
+  .github
+    background: #000
+    color: #FFF
+  .facebook
+    background: #567CC5
+  .google-plus
+    background: #DF4A32
+  .yahoo
+    background: #514099
+  .twitter
+    background: #00C2F3
+  .openid
+    background: #F68122
+  .email
+    background: #F60
+    // color: #000
+  .reddit
+    color: #000
+    background: #CEE3F8
+  .amazon
+    background: #232F3E
+  .wordpress
+    background: #1E8CBE

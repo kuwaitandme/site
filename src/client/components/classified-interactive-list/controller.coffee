@@ -28,12 +28,12 @@ $window, Classifieds) ->
     # the value we saved it before. We also re-layout masonry because of the
     # 'display:none' that gets applied to the list (for performance on mobile)
     # screws up the layout..
-    $scope.$broadcast "refresh"
+    $timeout (-> $scope.$broadcast "refresh" ), 200
     $timeout (-> body.scrollTop = scrollPosition ), 200
     $timeout (-> $root.bodyClasses["card-leaving"] = false ), 250
     $root.bodyStyles.overflowY = ""
 
-  $scope.$watch $scope.showCards, ->
+  $scope.$watch "showCards", ->
     if $scope.showCards then $scope.hideList = true
 
 

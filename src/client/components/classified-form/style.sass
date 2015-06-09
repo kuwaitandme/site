@@ -8,8 +8,8 @@
   background: #FFF
 
   .error
+    +single-transition
     @extend .font-text
-    border-bottom: 3px solid rgba(0, 0, 0, .1)
     float: left
     font-size: 11px
     padding: 5px 10px
@@ -154,9 +154,9 @@
 
 
   .title input
-    @extend .font-bitter
-    font-size: 0.9rem
-    margin-bottom: -2px
+    font-family: 'Roboto Slab', serif !important
+    font-size: 1.2rem
+    // margin-bottom: -2px
 
 
   .description
@@ -171,7 +171,7 @@
       min-height: 200px
       top: 0
     .error
-      margin-top: -1px
+      // margin-top: -1px
 
 
   .meta
@@ -237,7 +237,7 @@
   .submit, .add-images
     @extend font-title
     background: $color-valid
-    border-bottom: 4px solid rgba(0,0,0,0.2)
+    // border-bottom: 4px solid rgba(0,0,0,0.2)
     color: #FFF
     font-size: 0.9rem
     padding: 0.5rem

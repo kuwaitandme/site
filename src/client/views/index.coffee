@@ -16,8 +16,9 @@ module.exports = (app) ->
 
     "classified/edit": require "./classified/edit/controller"
     "classified/finish": require "./classified/finish/controller"
-    "classified/post": require "./classified/post/controller"
+    "classified/create": require "./classified/create/controller"
     "classified/search": require "./classified/search/controller"
+    "classified/category": require "./classified/category/controller"
     "classified/single": require "./classified/single/controller"
 
     "info/contact": require "./info/contact/controller"

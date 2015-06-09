@@ -1,0 +1,12 @@
+//- #page-hero
+  img(fn-image-loader!="<%= staticUrl %>/images/hero/{{ heroURL }}",
+    fn-image-success="onHeroLoad()")
+
+section.category-chooser.row(ng-if="!parentCategory.id")
+  h1.columns Choose a category
+  section.columns(category-list)
+
+section.row(ng-if="parentCategory.id")
+  h1.columns {{ parentCategory.name }}
+  h2.columns(ng-if="childCategory.id") {{ childCategory.name }}
+  section.columns(ng-if="displayClassifiedList", classified-list)

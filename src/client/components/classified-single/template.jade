@@ -15,7 +15,7 @@
   .columns.content
     .row
       h2.columns.title(contenteditable-dis="true", placholder="title", itemprop="name") {{ classified.title }}
-      ul.columns.tags
+      //- ul.columns.tags
         li.whatsapp(ng-if="classified.meta.whatsapp") Whatsapp
         li.viber(ng-if="classified.meta.viber") Viber
         li.green(ng-if="classified.hasDelivery") Delivery included
@@ -31,13 +31,12 @@
       pre.columns.description(itemprop="description",
         ng-if-dis="classified.show") {{ classified.description }}
 
-      .columns(ng-if-dis="classified.show")
-        ul.meta.small-block-grid-1.medium-block-grid-3.large-block-grid-4
+      .columns.meta(ng-if-dis="classified.show")
+        ul.small-block-grid-1.medium-block-grid-3
           //- li
             span.meta-title Views:
             span.meta-value {{ classified.views || 0 }}
           li
-
             span.meta-title Price:
             span(itemprop="offers", itemscope, itemtype="http://schema.org/Offer")
               span(itemprop="priceCurrency", content="KWD")
