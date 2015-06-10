@@ -18,50 +18,51 @@
     ng-click="closeFlashNotification($index)")
     .text {{ n.text }}
 
-.row.collapse
-  nav#sub-header.columns
-    ul#notifications()
-      li(ng-if="notifications.length > 0",
-        ng-repeat="n in notifications",
-        ng-mouseover="n.hasRead = true"
-        class="{{ n.type }}", ng-class="{read: n.hasRead, hide: n.remove}") {{ n.text }}
-      li.error.none(ng-if="notifications.length == 0") You have no new notifications
+nav#sub-header
+  .row.collapse
+    .columns.small-centered
+      ul#notifications()
+        li(ng-if="notifications.length > 0",
+          ng-repeat="n in notifications",
+          ng-mouseover="n.hasRead = true"
+          class="{{ n.type }}", ng-class="{read: n.hasRead, hide: n.remove}") {{ n.text }}
+        li.error.none(ng-if="notifications.length == 0") You have no new notifications
 
 
-    #nav-links.row
-      .row
-        .columns.medium-3.title Main
-        .link.columns.medium-3
-          a(href="/") Home
-        .link.columns.medium-3
-          a(href="/classified/post") Post a classified
-        .link.columns.medium-3
-          a(href="/classified") Browse classifieds
-      .row
-        .columns.medium-3.title.dark Account
-        .link.columns.medium-3.hide-if-loggedin
-          a(href="/auth") Login/Signup
-        //- .link.columns.medium-3.end.hide-if-loggedin
-          a(href="/auth/reset", ng-click="closeHeader()") Reset password
-        .link.columns.medium-3.show-if-loggedin
-          a(href="/account") Manage account
-        //- .link.columns.medium-3.end.show-if-loggedin
-        //-   a(href="/settings", ng-click="closeHeader()") Settings
-        .link.columns.medium-3.end.show-if-loggedin
-          a(href="/auth/logout") Logout
-      //- .row
-        .columns.medium-3.title More
-        .link.columns.medium-3
-          a(href="/info/contact", ng-click="closeHeader()") Contact Us
-        .link.columns.medium-3
-          a(href="/info", ng-click="closeHeader()") About Us
-        .link.columns.medium-3.end
-          a(href="/info/donate", ng-click="closeHeader()") Donate
+      #nav-links.row
+        .row
+          .columns.medium-3.title Main
+          .link.columns.medium-3
+            a(href="/") Home
+          .link.columns.medium-3
+            a(href="/classified/post") Post a classified
+          .link.columns.medium-3
+            a(href="/classified") Browse classifieds
+        .row
+          .columns.medium-3.title.dark Account
+          .link.columns.medium-3.hide-if-loggedin
+            a(href="/auth") Login/Signup
+          //- .link.columns.medium-3.end.hide-if-loggedin
+            a(href="/auth/reset", ng-click="closeHeader()") Reset password
+          .link.columns.medium-3.show-if-loggedin
+            a(href="/account") Manage account
+          //- .link.columns.medium-3.end.show-if-loggedin
+          //-   a(href="/settings", ng-click="closeHeader()") Settings
+          .link.columns.medium-3.end.show-if-loggedin
+            a(href="/auth/logout") Logout
+        //- .row
+          .columns.medium-3.title More
+          .link.columns.medium-3
+            a(href="/info/contact", ng-click="closeHeader()") Contact Us
+          .link.columns.medium-3
+            a(href="/info", ng-click="closeHeader()") About Us
+          .link.columns.medium-3.end
+            a(href="/info/donate", ng-click="closeHeader()") Donate
 
-    #nav-footer
-      | Copyright &copy; &middot;
-      | Kuwait &amp; Me &middot; 2015 &middot;&nbsp;
-      a(href="/info/terms-privacy", target="_self") Usage &amp; Privacy
+      #nav-footer
+        | Copyright &copy; &middot;
+        | Kuwait &amp; Me &middot; 2015 &middot;&nbsp;
+        a(href="/info/terms-privacy", target="_self") Usage &amp; Privacy
 
 
   //- #header-search

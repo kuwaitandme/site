@@ -43,26 +43,6 @@ $notifications, $scope, Classifieds, Categories, Locations, Users) ->
   roles = Users.roles
   $scope.superEditable = currentUser.role in [roles.MODERATOR, roles.ADMIN]
 
-  # Function to listen for changes with classified title
-  onTitleChange = (newValue="") ->
-    minTitle = 20
-    maxTitle = 140
-    if minTitle <= newValue.length <= maxTitle
-      remaining = maxTitle - newValue.length
-      $scope.remainingTitle = "#{remaining} characters left"
-    else $scope.remainingTitle = ""
-  $scope.$watch "classified.title", onTitleChange
-
-  # Function to listen for changes with classified description
-  onDescriptionChange = (newValue="") ->
-    minDescription = 50
-    maxDescription = 2000
-    if minDescription <= newValue.length <= maxDescription
-      remaining = maxDescription - newValue.length
-      $scope.remainingDescription = "#{remaining} characters left"
-    else $scope.remainingDescription = ""
-  $scope.$watch "classified.description", onDescriptionChange
-
   # Function to popup the file selector dialog
   $scope.addImages = ->
     $el = angular.element document.querySelectorAll "[type='file']"

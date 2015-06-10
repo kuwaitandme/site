@@ -9,47 +9,63 @@ section(ng-class="formClasses")
       //- .action.red(ng-click="classified.status = 3 && submit()", ng-if="superEditable") Demote
       .action.red(ng-click="changeStatus('ARCHIVED')") Archive this classified
 
-
-    input(type="file", multiple, fn-model-file="fileChange",
-      ng-disabled="formLoading").hide
     .columns
-      ul.gallery.small-block-grid-2.medium-block-grid-3.large-block-grid-4
-        li(data-id="{{ image.id }}",
-          class="{{ image.status }}",
-          ng-class="{'set-main-image': image.main }"
-          ng-repeat="image in classified.images track by $index")
-          .close(ng-click="removeImage($event)") remove
-          .main(ng-click="setmainImage($event)") main image
-          img.thumb(ng-src!="{{ image.src }}")
+      form-ui
+        input-text(
+          model="classified.title"
+          ng-class="{disabled: formLoading}"
+          options="{min:20, max:140, required:true}"
+          placeholder="'Title'"
+          type="'input'")
 
+    .columns
+      form-input(
+        model="classified.description"
+        ng-class="{disabled: formLoading}"
+        options="{min:50, max:2000, required:true}"
+        placeholder="'Description'"
+        type="'textarea'")
+
+    //- .columns.seperator
+
+    .columns(nsg-if="classified.title && classified.description")
+      .row
+        .columns.medium-6
+          form-input(
+            model="classified.priceType"
+            ng-class="{disabled: formLoading}"
+            options="{required:true}"
+            placeholder="'Price'"
+            type="'select'")
+
+
+    //- .columns
       .row
         .columns.large-3.medium-4.small-6
           button.add-images(ng-click="addImages()") Add Images
 
+    //- .columns.gallery
+      input(type="file",
+        multiple,
+        fn-model-file="fileChange",
+        ng-disabled="formLoading").hide
 
-    .columns.title
-      input(type="text",
-        placeholder="Your title goes here",
-        ng-model="classified.title",
-        ng-change="validate()",
-        ng-minlength="20",
-        ng-maxlength="140",
-        ng-required="true",
-        ng-disabled="formLoading")
-      .error.show-on-focus(max="max. 140 characters", min="min. 20 characters",
-        valid="{{ remainingTitle }}")
 
-    .columns.description(itemprop="description")
-      textarea(placeholder="Your description goes here",
-        ng-model="classified.description",
-        ng-minlength="50",
-        ng-maxlength="2000",
-        ng-required="true",
-        ng-disabled="formLoading")
-      .error.show-on-focus(max="max. 2000 characters", min="min. 50 characters",
-        valid="{{ remainingDescription }}")
 
-    ul.classified.meta.columns.medium-6
+
+      ul.small-block-grid-2.medium-block-grid-3.large-block-grid-4
+        li(data-id="{{ image.id }}",
+          class="{{ image.status }}",
+          ng-class="{'set-main-image': image.main }"
+          ng-repeat="image in classified.images track by $index")
+
+          .close(ng-click="removeImage($event)") remove
+          .main(ng-click="setmainImage($event)") main image
+          img.thumb(ng-src!="{{ image.src }}")
+
+
+
+    //- ul.classified.meta.columns.medium-6
       li.row.collapse
         .meta-title.columns.medium-4 Price
         .columns.medium-8
@@ -111,7 +127,7 @@ section(ng-class="formClasses")
             option(disabled, selected, value="") Choose a location
           .error
 
-    ul.classified.meta.columns.medium-6
+    //- ul.classified.meta.columns.medium-6
       li.row.collapse
         .meta-title.columns.medium-4 Phone
         .columns.medium-8
@@ -242,9 +258,10 @@ section(ng-class="formClasses")
 
     .disclaimer.columns
         b Disclaimer:&nbsp;
-        | By submitting this classified, you agree to our&nbsp;
-        a(target="_self", href="/privacy-terms") privacy and terms of use.
+        | By clicking on submit, you agree to our&nbsp;
+        a(target="_self", href="/info/privacy-terms") privacy and terms of use.
 
 
   .row
-    button.columns.submit(ng-click="submit()") {{ formLoading ? "Submitting..." : "Submit classified" }}
+    .columns.large-3.medium-4.small-6
+      button.submit(ng-click="submit()") {{ formLoading ? "Submitting..." : "Submit classified" }}

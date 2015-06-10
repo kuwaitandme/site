@@ -4,83 +4,16 @@
   $color-inactive: rgba(0, 0, 0, 0.02)
   $color-valid: #30cd72
   $color-warn: #FFB604
-  @extend section[classified-single]
+  // @extend section[classified-single]
   background: #FFF
 
-  .error
-    +single-transition
-    @extend .font-text
-    float: left
-    font-size: 11px
-    padding: 5px 10px
-
   input
-    @extend .font-text
     &[type='checkbox']
       margin-right: 5px !important
       width: auto !important
-    &[type='text']
-      font-size: 1rem
-  input, select, textarea, button
-    +single-transition
-    background: transparent
-    border: 0
-    border-bottom: 2px solid $border-color
-    margin: 0
-    &[disabled]
-      background: #f0f0f0 !important
-    &:focus
-      background: $color-inactive
-      outline: none
-      ~ .error:before
-        color: #FFF !important
-
-    &.ng-valid ~ .error
-      display: none
-      &:before
-        content: attr(valid)
-    &.ng-invalid.ng-invalid-required, &.ng-valid
-      &:focus
-        border-color: $color-valid
-    &.ng-valid:focus ~ .error.show-on-focus
-      display: inline-block
-      background: $color-valid
-    &.ng-invalid
-      border-color: $border-color
-      ~ .error:before
-        color: #FFF
-        content: attr(invalid)
-      &.ng-invalid-minlength, &.ng-invalid-required:focus
-        border-color: $color-warn
-        ~ .error
-          background: $color-warn
-      &.ng-invalid-number, &.ng-invalid-url, &.ng-invalid-email, &.ng-invalid-maxlength
-        border-color: $color-error
-        ~ .error
-          background: $color-error
-      &.ng-invalid-minlength ~ .error:before
-        content: attr(min) !important
-      &.ng-invalid-maxlength ~ .error:before
-        content: attr(max) !important
-      &.ng-invalid-required
-        &:focus ~ .error
-            display: inline-block
-        ~ .error
-          background: $border-color
-          &:before
-            color: #000
-            content: "required"
-
-  // If the user has attempted to submit, highlight all required fields as 'red'
-  .attempted .ng-invalid-required
-    border-color: $color-error !important
-    ~ .error
-      background: $color-error !important
-      &:before
-        color: #FFF !important
 
   form > .columns
-    margin-bottom: 1rem
+    margin: 1rem 0
 
   .admin-panel
     +clearfix
@@ -99,12 +32,10 @@
         background: $color-error
 
   .gallery
-    @extend .font-roboto
-    margin: 0
+    padding: 0 10px
     li
       height: 100%
-      margin: 10px 0
-      padding: 0.9375rem
+      // padding: 0.9375rem
       position: relative
 
       &.to-delete-from-server, &.to-delete
@@ -117,6 +48,7 @@
           @extend .main:hover
 
       .close, .main
+        text-transform: uppercase
         +single-transition
         color: #000
         background: $border-color
@@ -143,36 +75,6 @@
       img
         +single-transition
         border: 4px solid $border-color
-
-
-  .title, .description
-    input, textarea
-      @extend .font-open
-      color: #000 !important
-      padding: 0.5rem
-      width: 100%
-
-
-  .title input
-    font-family: 'Roboto Slab', serif !important
-    font-size: 1.2rem
-    // margin-bottom: -2px
-
-
-  .description
-    padding-bottom: 1rem !important
-    white-space: initial !important
-    textarea
-      font-size: 0.9rem
-      height: 100%
-      left: 0
-      margin: 0
-      margin-bottom: -6px
-      min-height: 200px
-      top: 0
-    .error
-      // margin-top: -1px
-
 
   .meta
     padding-bottom: 0 !important
@@ -235,23 +137,18 @@
 
 
   .submit, .add-images
-    @extend font-title
-    background: $color-valid
-    // border-bottom: 4px solid rgba(0,0,0,0.2)
+    +radius(3px)
+    @extend .font-cantarell
     color: #FFF
     font-size: 0.9rem
-    padding: 0.5rem
+    height: 46px
+    padding: 10px 30px
+    text-transform: uppercase
     z-index: 3
   .submit
+    background: $color-success
     &:focus
       background: #27AE60
-    // @media only screen and (max-width: 64.063em)
-    //   bottom: 0
-    //   left: 0
-    //   margin-bottom: 0 !important
-    //   padding: 0.8rem 0.5rem
-    //   position: fixed
-
   .add-images
     background: #3498db
     font-size: 0.8rem
@@ -259,6 +156,19 @@
     &:hover, &:focus
       background: #2980b9
 
+
+  .disclaimer
+    text-align: center
+    padding:  1rem
+    color: #000
+    opacity: 0.7
+    font-size: 0.7rem
+    a
+      color: blue
+      text-decoration: none
+      border-bottom: 1px solid blue
+
+    // @extend section[classified-single] .disclaimer
 
   &.loading
     position: relative

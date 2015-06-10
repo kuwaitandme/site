@@ -1,0 +1,7 @@
+.forms-input(ng-class="formClasses", ng-init="formClasses={};")
+  textarea(
+    ng-blur="formClasses.focused=false"
+    ng-focus="formClasses.focused=true"
+    ng-model="textareaValue"
+  )
+  .placeholder(ng-class="{'shrink': formClasses.focused || textareaValue}") {{ placeholder }}

@@ -37,20 +37,14 @@ window.scripts = [
     local: "/javascripts/app.js?m=#{publicData.magic.application}"
   }
   {
-    id: "library:font-opensans-css"
-    remote: ["//fonts.googleapis.com/css?family=Open+Sans:400,600"]
-  }
-  {
-    id: "library:font-roboto-css"
-    remote: ["//fonts.googleapis.com/css?family=Roboto"]
-  }
-  {
-    id: "library:font-roboto-slab-css"
-    remote: ["//fonts.googleapis.com/css?family=Roboto+Slab"]
-  }
-  {
-    id: "library:font-awesome-css"
-    remote: ["//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css"]
+    id: "library:font-css"
+    remote: [
+      "//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css"
+      "//fonts.googleapis.com/css?family=Cantarell"
+      "//fonts.googleapis.com/css?family=Open+Sans:400,600"
+      "//fonts.googleapis.com/css?family=Roboto"
+      "//fonts.googleapis.com/css?family=Roboto+Slab"
+    ]
   }
 ]
 

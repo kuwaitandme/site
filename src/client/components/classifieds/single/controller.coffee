@@ -5,7 +5,6 @@ $maps) ->
 
   cl = $scope.classified or Classifieds.getDefault()
   cl.show = true
-
   # Initialize masonry
   $scope.$watch $scope.classified, -> $timeout ->
     imageContainer = $element[0].querySelector "ul.gallery"
@@ -21,11 +20,13 @@ $maps) ->
   # This function is used to render the Google maps component if needed.
   $scope.drawMap = ->
     initMap = ->
+      # Get the maps container and erase any previously initialized map.
+      gmap = $element[0].querySelector "#maps-container"
+      gmap.innerHTML = ""
       ############# FIX for cards
       # The co-ordinates to which we will center the map
       latLng = new google.maps.LatLng cl.meta.gmapX, cl.meta.gmapY
       # Initialize the map
-      gmap = $element[0].querySelector "#maps-container"
       map = new google.maps.Map gmap,
         center: latLng
         mapTypeControl: false

@@ -1,9 +1,8 @@
 ## TODO: Add automatic resize of content
 exports = module.exports = ($scope, console, $location, $notifications,
 Users) ->
-  @name = "[page:classified-post]"
+  @name = "[page:classified-create]"
   console.log @name, "initializing"
-  console.debug @name, $scope
 
   # When classified has been submitted successfully, redirect to the finish
   # page

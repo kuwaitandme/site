@@ -96,7 +96,7 @@
 
       a.google-maps.columns(ng-if="classified.meta.mapsEnabled && classified.show",
         ng-init="drawMap(); mapHeight = window.innerHeight / 2",
-        style="height: {{ window.innerHeight / 2 }}px",
+        ng-style-dis="{height: window.innerHeight + 'px'}",
         ng-href="//www.google.co.in/maps/dir//{{classified.meta.gmapX}},{{classified.meta.gmapY}}")
         #maps-container
 

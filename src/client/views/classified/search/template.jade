@@ -1,8 +1,4 @@
-section.category-chooser.row(ng-if="!parentCategory.id")
-  h1.columns Choose a category
-  section.columns(category-list)
-
-section.row(ng-if="parentCategory.id")
+section.row
   #search-info.row(style!="background-image: url(<%= staticUrl %>/images/hero/{{ heroURL }})")
     img(fn-image-loader!="<%= staticUrl %>/images/hero/{{ heroURL }}",
       fn-image-success="onHeroLoad()")

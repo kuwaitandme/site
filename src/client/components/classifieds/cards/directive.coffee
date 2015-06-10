@@ -1,3 +1,3 @@
 exports = module.exports = ->
   controller: require "./controller"
-  templateUrl: "components/classified-interactive-list/template"
+  templateUrl: "components/classifieds/cards/template"

@@ -25,7 +25,7 @@ section(ng-class="{'show-status': showStatus, 'urgent':classified.meta.urgentPer
           itemprop="price") {{ classified.priceValue | price:classified.priceType }}
       li.status.small-6.columns(ng-if="showStatus") {{ classified.status | status:"classified" }}
       li.date.small-6.columns.text-right
-        a(ng-href="/{{ classified.slug }}")
+        //- a(ng-href="/{{ classified.slug }}")
           span.link &#xf0c6;
         span {{ classified.created | prettydate }}
       li(style="list-style: none; display: inline",

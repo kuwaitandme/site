@@ -1,0 +1,71 @@
+form-input .forms-input
+  +single-transition(border)
+  @extend .font-cantarell
+  white-space: normal
+  border: 1px solid #e6e6e6
+  line-height: 50px
+  position: relative
+  color: #7f7f7f
+
+  .placeholder
+    -webkit-font-smoothing: antialiased
+    font-size: 14px
+    max-width: 100%
+    pointer-events: none
+    position: absolute
+    text-transform: uppercase
+    line-height: 65px
+    left: 20px
+    top: 0
+    transform-origin: 0 0
+    transition: 0.3s
+    z-index: 1
+    // We'll use transforms to animate the placeholder
+    -moz-transform-origin: 0 0
+    -ms-transform-origin: 0 0
+    -o-transform-origin: 0 0
+    -o-transition: 0.3s
+    -webkit-transform-origin: 0 0
+    -webkit-transition: 0.3s
+
+    // Use this class to shrink the text
+    &.shrink
+      font-weight: bold
+      line-height: 20px
+      margin-top: 10px
+
+      -webkit-transform: scale(0.85)
+      -ms-transform: scale(0.85)
+      -o-transform: scale(0.85)
+      transform: scale(0.85)
+
+
+  input, textarea
+    @extend .font-cantarell
+    background: none
+    border: none
+    font-size: 14px
+    color: #000
+    line-height: 14px
+    outline: none !important
+    padding: 35px 20px 12px 20px
+    width: 100%
+  input
+    height: 58px
+  textarea
+    padding-top: 0
+    margin-top: 35px
+    min-height: 200px
+
+  &.success.focused
+    color: $color-success
+    background: $color-success-faint
+    border-color: $color-success
+  &.warning
+    color: $color-warn
+    background: $color-warn-faint
+    border-color: $color-warn
+  &.error
+    color: $color-error
+    background: $color-error-faint
+    border-color: $color-error

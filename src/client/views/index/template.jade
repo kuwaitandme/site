@@ -1,64 +1,13 @@
-//- ul#landing-social
-//-   li.social
-//-     .fb-like(data-href='https://www.facebook.com/KuwaitandME', data-layout='button_count', data-action='like', data-show-faces='true', data-share='false')
-  //- li.social
-  //-   a.twitter-share-button(href='https://twitter.com/share', data-related="twitterdev", data-count="horizontal",   data-text="An amazing site to publish classifieds in Kuwait. Check it out! #KuwaitandME")
-//- #landing-section
-  section#search-form
-    #landing-logo
-      img(src='/images/kme-logo-tagline.png')
-    form(action!="en/classified", itemprop="potentialAction", itemscope, itemtype="http://schema.orgAction")
-      meta(itemprop="target" content!="https://kuwaitandme.com/en/classified?keywords={keywords}")
-      input(type="text", ng-model="keywords" itemprop="query-input", name="keywords", placeholder="{{ 'page.landing.search' | translate }}").search-bar
-      button(type="submit").search-button &#xf002;
-    //- ul#landing-extra
-      li.hide-if-loggedin
-        a(href!="en/guest/post", data-view, lang-html="header.cpost")
-      li.show-if-loggedin
-        a(href!="en/classified/post", data-view, lang-html="header.cpost")
-      li.hide-if-loggedin
-        a(href!="en/auth/login", data-view, lang-html="header.login")
-      li.hide-if-loggedin
-        a(href!="en/auth/signup", data-view, lang-html="header.signup")
-      li.show-if-loggedin
-        a(href!="en/account", data-view, lang-html="header.view")
-      li.show-if-loggedin
-        a(href!="en/auth/signup", data-view, lang-html="header.logout")
-      //- li
-      //-   a(href="/ar") العربية
-      //- li
-      //-   a(href="/en") English
-
-//- #page-hero
-//-   img(ng-image-loader!="<%= staticUrl %>/images/hero/{{ heroURL }}",
-//-     ng-image-success="onHeroLoad")
-
 .row
   #splash.columns
     #collage(src!="<%= staticUrl %>/images/collage.png")
     img(src!="<%= staticUrl %>/images/kme-logo-white.png")
-    h1.tagline Sell your things to people who need it
+    h1.tagline Your free local classifieds in Kuwait
     .cta
       a(href="/classified/create") Post your classified
       a(href="/classified") Find a classified
+      a(href="/info/app") Download App
 
-    //-   .tagline
-    //-     h1 Publish and Browse classifieds in Kuwait. Quick, Easy and absolutely Free!
-    //- .medium-6.columns
-    //-     h2
-    //-       a(href="/classified/post") Submit your classified
-    //-     h2
-    //-       a(href="/classified") Browse through classifieds
-    //-     //- h2.show-if-loggedin
-    //-     //-   a(href="/account") Manage your account
-    //-     //- h2
-    //-     //-   .hide-if-loggedin
-    //-     //-   a(href="/auth") Login/Signup
-    //- //- ul.large-6.columns.thumb.testimonials
-      li asd
-//- #landing-categories.row
-  h2 Choose from a category
-  section(ng-include="'components/category-list'")
 #featured-classifieds.row(ng-if="displayClassifiedList")
   h2 Latest Classifieds
   section(classified-interactive-list)

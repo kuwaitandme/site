@@ -6,7 +6,7 @@ exports = module.exports = ($log, $root, ga) ->
   $root.bodyClasses ?= {}
   $root.$on "page-loaded", ->
     # Remove the loading class, so that loading bar gets hidden away.
-    setTimeout -> $root.$apply -> $root.bodyClasses.loading = false
+    setTimeout -> $root.bodyClasses.loading = false
     # Send a pageview in google analytics
     ga.sendPageView()
 

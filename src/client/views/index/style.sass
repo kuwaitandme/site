@@ -20,12 +20,14 @@ body#index
     .cta
       margin: 35px auto
       a
+        @extend .font-cantarell
+        text-transform: uppercase
         +single-transition
         background: rgba(255, 255, 255, 0.01)
         border: 2px solid #EEE
         color: #FFF
         display: inline-block
-        font-size: 0.9rem
+        font-size: 12px
         margin: 10px 15px
         padding: 10px 20px
         text-decoration: none
@@ -34,7 +36,6 @@ body#index
           color: #000
     h1.tagline
       color: #FFF
-      font-family: 'Roboto Slab', serif
       font-size: 1.7rem
       margin: 0 auto
       max-width: 400px

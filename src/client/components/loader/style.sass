@@ -1,20 +1,18 @@
 #page-loader
+  background: #EEE
   display: none
-  position: absolute
-  background: #eee
-  top: 50%
-  left: 50%
-  margin-left: -100px
-  width: 200px
   height: 2px
+  left: 0
+  margin-left: 0
   overflow: hidden
+  position: fixed
+  top: 60px
+  width: 100%
 
-  // -webkit-animation-duration: 0.5s
-  // -webkit-animation-name: fadeInFromNone
   #page-loading-bar
     +single-transition
     background: #f60
-    height: 2px
+    height: 5px
     left: 0
     position: absolute
     top: 0
@@ -23,11 +21,11 @@
 
 @-webkit-keyframes loader-dynamic-load
   0%
+    left: 0
     width: 0%
-    left: 0
   50%
-    width: 100%
     left: 0
+    width: 100%
   100%
     left: 100%
     width: 100%
@@ -38,8 +36,8 @@ body.loading
   #page-loader
     display: block
     #page-loading-bar
-      -webkit-animation-name: loader-dynamic-load
+      -webkit-animation-duration: 5s
       -webkit-animation-iteration-count: infinite
-      -webkit-animation-duration: 3s
+      -webkit-animation-name: loader-dynamic-load
   main, #page-hero, footer
     opacity: 0

@@ -1,3 +1,3 @@
 exports = module.exports = ->
   require: ["^classifiedList"]
-  templateUrl: "components/classified-list-item/template"
+  templateUrl: "components/classifieds/list/item/template"
