@@ -1,2 +1,15 @@
-.field(ng-focus="focused=true")
-.placeholder(ng-class="{shrink: focused }") {{ placeholder }}
+.field(ng-init="opened=false"
+  ng-class="{opened: opened}",
+  ng-click="opened=!opened") {{ priceText }}
+
+.placeholder(ng-class="{shrink: priceText}") {{ placeholder }}
+
+ul(ng-class="{opened: opened}")
+  li.value(ng-click="opened=false; priceType=0") Free
+  li.value(ng-click="opened=false; priceType=1") Contact Owner
+  li
+    input(type="number"
+      placeholder="Your price in KWD"
+      ng-blur="opened=false"
+      ng-focus="priceType=2"
+      ng-model="priceValue")

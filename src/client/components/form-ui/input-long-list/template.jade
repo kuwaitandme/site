@@ -1,0 +1,10 @@
+input.field(ng-init="opened=false"
+  ng-focus="focused=true"
+  ng-blurs="focused=false"
+  ng-model="userInput")
+
+.placeholder(ng-class="{shrink: focused || userInput}") {{ placeholder }}
+
+ul(ng-class="{opened: focused}")
+  li(ng-repeat="item in list | filter:{ name: userInput }"
+    ng-click="setItem(item)") {{ item.name }}

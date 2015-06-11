@@ -20,27 +20,59 @@ section(ng-class="formClasses")
         ng-class="{disabled: formLoading}")
 
     .columns
-      div(input-textarea
-        form-ui
+      div(input-textarea, form-ui
         maxlength="2000"
         minlength="50"
-        ng-maxlength
-        ng-minlength
         ng-model="classified.description"
-        ng-required="true"
         placeholder="Description"
+        required="true"
         ng-class="{disabled: formLoading}")
 
 
     .columns(ng-sif="classified.title && classified.description")
       .row
         .columns.medium-6
-          div(input-price
-            form-ui
+          div(input-price, form-ui
+            ng-model="classified"
             placeholder="Price"
             required="true"
             ng-class="{disabled: formLoading}")
+        .columns.medium-6
+          div(input-long-list, form-ui
+            list="locations"
+            ng-model="classified.location"
+            placeholder="Location"
+            required="true"
+            ng-class="{disabled: formLoading}")
+        .columns.medium-6
+          div(input-category, form-ui
+            list="categories"
+            ng-model="classified"
+            placeholder="Category"
+            required="true"
+            ng-class="{disabled: formLoading}")
 
+
+        //- .columns.medium-6
+          div(input-long-list, form-ui
+            ng-model="classified.location"
+            placeholder="Category"
+            required="true"
+            ng-class="{disabled: formLoading}")
+        //- .columns.medium-6
+          div(input-price
+            form-ui
+            ng-model="price"
+            placeholder="Price"
+            required="true"
+            ng-class="{disabled: formLoading}")
+        //- .columns.medium-6
+          div(input-price
+            form-ui
+            ng-model="price"
+            placeholder="Price"
+            required="true"
+            ng-class="{disabled: formLoading}")
     //- .columns
       .row
         .columns.large-3.medium-6
@@ -263,6 +295,8 @@ section(ng-class="formClasses")
         | By clicking on submit, you agree to our&nbsp;
         a(target="_self", href="/info/privacy-terms") privacy and terms of use.
 
+    .columns
+      gcaptcha
 
   .row
     .columns.large-3.medium-6

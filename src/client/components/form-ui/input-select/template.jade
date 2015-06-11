@@ -1,0 +1,10 @@
+input.field(ng-init="opened=false"
+  ng-focus="focused=true"
+  ng-blurs="focused=false"
+  ng-model="userInput")
+
+.placeholder(ng-class="{shrink: focused || userInput}") {{ placeholder }}
+
+ul(ng-class="{opened: focused}").medium-block-grid-2
+  li(ng-repeat="cat in list"
+    ng-click="setItem(cat)") {{ cat.name }}

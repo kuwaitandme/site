@@ -1,2 +1,5 @@
-textarea.field(ng-focus="focused=true", ng-model="value")
-.placeholder(ng-class="{shrink: focused }") {{ placeholder }}
+textarea.field(
+  ng-focus="focused=true"
+  ng-blur="focused=false"
+  ng-model="value")
+.placeholder(ng-class="{shrink: focused || value }") {{ placeholder }}

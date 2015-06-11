@@ -1,0 +1,16 @@
+.field(ng-init="opened=false"
+  ng-click="opened=true; parent_category=null; child_category=null"
+  ng-model="userInput")
+    span {{ parent_category.name }}&nbsp;
+    span(ng-if="parent_category.children.length > 0") / {{ child_category.name }}
+
+.placeholder(ng-class="{shrink: parent_category}") {{ placeholder }}
+
+ul(ng-class="{opened: opened && !parent_category.id}").medium-block-grid-2
+  li(ng-repeat="cat in categories"
+    ng-click="setParent(cat)") {{ cat.name }}
+
+ul(ng-class="{opened: opened && parent_category.children}"
+  ng-if="parent_category").medium-block-grid-2
+  li(ng-repeat="childcat in parent_category.children"
+    ng-click="setChild(childcat)") {{ childcat.name }}
