@@ -1,11 +1,11 @@
-form-ui
+*[form-ui]
   +single-transition(border)
   @extend .font-cantarell
   white-space: normal
-  border: 1px solid #e6e6e6
+  border: 1px solid #e0e0e0
   line-height: 50px
   position: relative
-  color: #7f7f7f
+  color: #333
 
   .placeholder
     -webkit-font-smoothing: antialiased
@@ -45,27 +45,22 @@ form-ui
     background: none
     border: none
     font-size: 14px
+    min-height: 57px
     color: #000
     line-height: 14px
     outline: none !important
     padding: 35px 20px 12px 20px
     width: 100%
-  input
-    height: 58px
-  textarea
-    padding-top: 0
-    margin-top: 35px
-    min-height: 200px
 
   &.success.focused
     color: $color-success
     background: $color-success-faint
     border-color: $color-success
-  &.warning
+  &.warning, &.ng-invalid-minlength
     color: $color-warn
     background: $color-warn-faint
     border-color: $color-warn
-  &.error
+  &.error, &.ng-invalid-maxlength
     color: $color-error
     background: $color-error-faint
     border-color: $color-error

@@ -12,7 +12,8 @@ module.exports = (app) ->
   app.directive "header", require "./header/directive"
   app.directive "auth", require "./auth/directive"
 
-  app.directive "formUi", require "./form-ui/directive"
+  # app.directive "formUi", require "./form-ui/directive"
   app.directive "inputText", require "./form-ui/input-text/directive"
   app.directive "inputTextarea", require "./form-ui/input-textarea/directive"
+  app.directive "inputPrice", require "./form-ui/input-price/directive"
   # app.directive "inputTextarea", require "./form-ui/directive"

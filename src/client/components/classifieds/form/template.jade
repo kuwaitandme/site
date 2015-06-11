@@ -10,38 +10,40 @@ section(ng-class="formClasses")
       .action.red(ng-click="changeStatus('ARCHIVED')") Archive this classified
 
     .columns
-      form-ui
-        input-text(
-          model="classified.title"
-          ng-class="{disabled: formLoading}"
-          options="{min:20, max:140, required:true}"
-          placeholder="'Title'"
-          type="'input'")
+      div(input-text
+        form-ui
+        maxlength="140"
+        minlength="20"
+        ng-model="classified.title"
+        placeholder="Title"
+        required="true"
+        ng-class="{disabled: formLoading}")
 
     .columns
-      form-input(
-        model="classified.description"
-        ng-class="{disabled: formLoading}"
-        options="{min:50, max:2000, required:true}"
-        placeholder="'Description'"
-        type="'textarea'")
+      div(input-textarea
+        form-ui
+        maxlength="2000"
+        minlength="50"
+        ng-maxlength
+        ng-minlength
+        ng-model="classified.description"
+        ng-required="true"
+        placeholder="Description"
+        ng-class="{disabled: formLoading}")
 
-    //- .columns.seperator
 
-    .columns(nsg-if="classified.title && classified.description")
+    .columns(ng-sif="classified.title && classified.description")
       .row
         .columns.medium-6
-          form-input(
-            model="classified.priceType"
-            ng-class="{disabled: formLoading}"
-            options="{required:true}"
-            placeholder="'Price'"
-            type="'select'")
-
+          div(input-price
+            form-ui
+            placeholder="Price"
+            required="true"
+            ng-class="{disabled: formLoading}")
 
     //- .columns
       .row
-        .columns.large-3.medium-4.small-6
+        .columns.large-3.medium-6
           button.add-images(ng-click="addImages()") Add Images
 
     //- .columns.gallery
@@ -263,5 +265,5 @@ section(ng-class="formClasses")
 
 
   .row
-    .columns.large-3.medium-4.small-6
+    .columns.large-3.medium-6
       button.submit(ng-click="submit()") {{ formLoading ? "Submitting..." : "Submit classified" }}

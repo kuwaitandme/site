@@ -9,12 +9,20 @@ $notifications, $scope, Classifieds, Categories, Locations, Users) ->
   $scope.categories = Categories.getAll()
   $scope.locations = Locations.getAll()
   # If classified is not defined, then set it to it's default values
-  $scope.classified ?= Classifieds.getDefault()
+  $scope.classified = Classifieds.getDefault()
   # Setup some defaults for functions that might be overridden by the parent
   $scope.formClasses ?= {}
-
   # Attach the css class for when the form is loading
   $scope.formClasses.loading = $scope.formLoading
+
+  r = ->
+    console.log ">", $scope.classified.title
+    setTimeout r, 1000
+  r()
+  # # setT
+  # $scope.$watch "classified", (a) ->
+  #   console.log 'title', a
+  # , true
 
   updateAvailableCredits = ->
     userCredits = currentUser.credits or 0

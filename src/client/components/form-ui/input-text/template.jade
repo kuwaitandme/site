@@ -1,6 +1,2 @@
-input.field(
-  ng-blur="formClasses.focused=false"
-  ng-focus="formClasses.focused=true"
-  ng-model="inputValue"
-)
-.placeholder(ng-class="{'shrink': formClasses.focused || inputValue}") {{ placeholder }}
+input.field(ng-focus="focused=true", ng-model="value")
+.placeholder(ng-class="{shrink: focused }") {{ placeholder }}
