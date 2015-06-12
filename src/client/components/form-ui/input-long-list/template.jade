@@ -1,6 +1,5 @@
 input.field(ng-init="opened=false"
-  ng-focus="focused=true"
-  ng-blurs="focused=false"
+  ng-focus="focused=true; onTouch()"
   ng-model="userInput")
 
 .placeholder(ng-class="{shrink: focused || userInput}") {{ placeholder }}

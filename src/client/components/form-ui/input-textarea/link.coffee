@@ -10,6 +10,9 @@ module.exports = (scope, element, attributes, ngModel) ->
     updateCounter()
     scope.$evalAsync read
 
+
+  scope.onTouch = -> ngModel.$setTouched()
+
   updateCounter = ->
     if not (ngModel.$validators.minlength or ngModel.$validators.maxlength)
       return scope.remainingChars = ""

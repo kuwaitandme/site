@@ -1,6 +1,6 @@
 module.exports = (scope, element, attributes, ngModel) ->
-  # Assign the placeholder's value
   scope.placeholder = attributes.placeholder
+  scope.type = attributes.type or "text"
 
   # Specify how the UI should be updated
   ngModel.$render = -> scope.value = ngModel.$viewValue
@@ -30,3 +30,6 @@ module.exports = (scope, element, attributes, ngModel) ->
     else scope.remainingChars = ""
 
   updateCounter()
+
+
+  scope.onTouch = -> ngModel.$setTouched()

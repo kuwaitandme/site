@@ -3,4 +3,4 @@ exports = module.exports = ->
   controller: require "./controller"
   scope: list: "="
   require: "ngModel"
-  templateUrl: "components/form-ui/input-long-list/template"
+  templateUrl: "components/form-ui/input-images/template"

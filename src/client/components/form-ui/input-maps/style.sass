@@ -1,0 +1,21 @@
+*[input-maps]
+    position: relative
+    label
+      text-align: center
+      font-size: 0.8rem
+      padding-bottom: 10px
+    > .row
+      margin-left: 0
+      margin-right: 0
+    #maps-container
+      min-height: 300px
+      &.disabled:before
+        background: rgba(255, 255, 255, 0.8)
+        content: ''
+        height: 100%
+        left: 0
+        padding: 2rem
+        position: absolute
+        top: 0
+        width: 100%
+        z-index: 2

@@ -16,7 +16,7 @@ $notifications, $scope, Classifieds, Categories, Locations, Users) ->
   $scope.formClasses.loading = $scope.formLoading
 
   # r = ->
-  #   console.log ">", $scope
+  #   console.log ">", $scope.classified
   #   setTimeout r, 1000
   # r()
   # # setT

@@ -1,0 +1,64 @@
+*[input-images]
+  padding: 0 10px
+  border: 0 !important
+
+  button
+    background: #3498db
+    font-size: 0.8rem
+    width: 100%
+    &:hover, &:focus
+      background: #2980b9
+
+  ul
+    margin-top: 30px
+  li
+    height: 100%
+    position: relative
+
+    > div
+      +radius(3px)
+      overflow: hidden
+
+    &.to-delete-from-server, &.to-delete
+      .close
+        @extend .close:hover
+      img
+        border-color: #E74C3C !important
+      .main
+        display: none
+    &.set-main-image
+      .main
+        @extend .main:hover
+      img
+        border-color: #30cd72 !important
+    .action
+      +clearfix
+      div
+        float: left
+        line-height: 1.5
+        width: 50%
+
+    .close, .main
+      +single-transition
+      background: #DDD
+      color: #000
+      content: '\f00d'
+      cursor: pointer
+      display: inline-block
+      font-size: 0.7rem
+      opacity: 1
+      padding: 7px 10px
+      text-align: center
+      text-transform: uppercase
+      top: 0
+    .close
+      color: #FFF
+      background: #E74C3C
+    .main
+      &:hover
+        background: #30cd72
+        color: #FFF
+
+    img
+      +single-transition
+      border: 5px solid #DDD

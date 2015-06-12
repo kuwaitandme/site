@@ -1,16 +1,16 @@
 .field(ng-init="opened=false"
-  ng-click="opened=true; parent_category=null; child_category=null"
+  ng-click="opened=true; parentCategory=null; childCategory=null; onTouch()"
   ng-model="userInput")
-    span {{ parent_category.name }}&nbsp;
-    span(ng-if="parent_category.children.length > 0") / {{ child_category.name }}
+    span {{ parentCategory.name }}&nbsp;
+    span(ng-if="parentCategory.children.length > 0") / {{ childCategory.name }}
 
-.placeholder(ng-class="{shrink: parent_category}") {{ placeholder }}
+.placeholder(ng-class="{shrink: parentCategory}") {{ placeholder }}
 
-ul(ng-class="{opened: opened && !parent_category.id}").medium-block-grid-2
-  li(ng-repeat="cat in categories"
+ul(ng-class="{opened: opened && !parentCategory.id}").medium-block-grid-2
+  li(ng-repeat="cat in cats"
     ng-click="setParent(cat)") {{ cat.name }}
 
-ul(ng-class="{opened: opened && parent_category.children}"
-  ng-if="parent_category").medium-block-grid-2
-  li(ng-repeat="childcat in parent_category.children"
+ul(ng-class="{opened: opened && parentCategory.children}"
+  ng-if="parentCategory").medium-block-grid-2
+  li(ng-repeat="childcat in parentCategory.children"
     ng-click="setChild(childcat)") {{ childcat.name }}

@@ -1,13 +1,18 @@
 exports = module.exports = ($scope, Categories) ->
-  $scope.categories = Categories.getAll()
+  $scope.cats = Categories.getAll()
+
+  # Initialize this so that the $watch in the link function can bind to it.
+  $scope.childCategory = null
+  $scope.parentCategory = null
 
   $scope.setParent = (cat) ->
-    $scope.parent_category = cat
+    $scope.parentCategory = cat
     if not cat.children? then $scope.opened = false
   $scope.setChild = (cat) ->
-    $scope.child_category = cat
-    if not cat.children? then $scope.opened = false
-  # $scope.list = $scope.categories[0].children
+    $scope.childCategory = cat
+    $scope.opened = false
+
+
 exports.$inject = [
   "$scope"
   "models.categories"

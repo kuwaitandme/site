@@ -1,7 +1,7 @@
 .field(
   ng-init="opened=false"
   ng-class="{opened: opened}",
-  ng-click="opened=!opened") {{ priceText }}
+  ng-click="opened=!opened; onTouch()") {{ priceText }}
 
 .placeholder(ng-class="{shrink: priceText}") {{ placeholder }}
 
@@ -10,7 +10,8 @@ ul(ng-class="{opened: opened}")
   li.value(ng-click="opened=false; priceType=1") Contact Owner
   li
     input(type="number"
-      placeholder="Your price in KWD"
+      min=0
       ng-blur="opened=false"
       ng-focus="priceType=2"
-      ng-model="priceValue")
+      ng-model="priceValue"
+      placeholder="Your price in KWD")

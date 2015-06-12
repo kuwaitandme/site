@@ -1,40 +1,28 @@
 module.exports = (scope, element, attributes, ngModel) ->
   scope.placeholder = attributes.placeholder
 
+  # Rewrite the isEmpty condition, so that ngModel can set the invalid class
+  # respectively
+  ngModel.$isEmpty = ->
+    model = ngModel.$viewValue
+    if scope.childCategory and model.child_category? then return false
+    if scope.parentCategory
+      if scope.parentCategory.children.length > 0
+        if scope.childCategory then return false
+        else return true
+      else return false
+    true
 
-  # scope.setItem = (item) ->
-  #   scope.userInput = item.name
-  #   scope.focused = false
+  # Write data to the model
+  read = ->
+    scope.$evalAsync -> ngModel.$setViewValue
+      parent_category: scope.parentCategory or {}
+      child_category: scope.childCategory or {}
 
-  # # Specify how the UI should be updated
-  # ngModel.$render = ->
-  #   switch Number scope.priceType
-  #     when 0 then scope.priceText = "Free"
-  #     when 1 then scope.priceText = "Contact Owner"
-  #     when 2
-  #       price = scope.priceValue.toString()
-  #       formattedPrice = price.replace /\B(?=(\d{3})+(?!\d))/g, ","
-  #       scope.priceText = "#{formattedPrice} KWD"
 
-  # # Update the scope values whenever the model changes
-  # ngModel.$formatters.push (modelValue={}) ->
-  #   scope.priceType = modelValue.priceType
-  #   scope.priceValue = modelValue.priceValue
+  # These lines constantly call the entire update cycle, whenever their values
+  # have been changed.
+  scope.$watch "parentCategory", read
+  scope.$watch "childCategory", read
 
-  # # Parse the view values before sending them back to the modal to be updated
-  # ngModel.$parsers.push (viewValue) ->
-  #   modelValue = ngModel.$modelValue or {}
-  #   modelValue.priceType = viewValue.priceType
-  #   modelValue.priceValue = viewValue.priceValue
-  #   modelValue
-
-  # # Write data to the model
-  # read = ->
-  #   scope.$evalAsync -> ngModel.$setViewValue
-  #     priceType: scope.priceType
-  #     priceValue: scope.priceValue
-  #   ngModel.$render()
-  # # These lines constantly call the entire update cycle, whenever their values
-  # # have been changed.
-  # scope.$watch "priceType", read
-  # scope.$watch "priceValue", read
+  scope.onTouch = -> ngModel.$setTouched()

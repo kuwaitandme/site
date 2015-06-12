@@ -32,28 +32,10 @@ section(ng-class="formClasses")
         required="true"
         ng-class="{disabled: formLoading}")
 
-
-    //- Image section 1. Here we keep the button used to add the images
+    //- Image section.
     .columns
-      //- This input form is used to spawn the file selector dialog
-      input(type="file"
-        multiple
-        fn-model-file="fileChange"
-        ng-disabled="formLoading").hide
-      button.add-images(ng-click="addImages()") Add Images
-
-
-    //- Image section 2. Here the uploaded images get displayed
-    .columns.gallery
-      ul.small-block-grid-2.medium-block-grid-3.large-block-grid-4
-        li(data-id="{{ image.id }}",
-          class="{{ image.status }}",
-          ng-class="{'set-main-image': image.main }"
-          ng-repeat="image in classified.images track by $index")
-          div
-            .action.close(ng-click="removeImage($event)") remove
-            .action.main(ng-click="setmainImage($event)") main image
-            img.thumb(ng-src!="{{ image.src }}")
+      div(input-images, form-ui
+        ng-model="images")
 
 
     //- Contact section
@@ -61,21 +43,21 @@ section(ng-class="formClasses")
       .row
         .columns.medium-6
           div(input-price, form-ui
-            ng-model="classified"
+            ng-model="price"
             placeholder="Price *"
             required="true"
             ng-class="{disabled: formLoading}")
         .columns.medium-6
           div(input-long-list, form-ui
             list="locations"
-            ng-model="classified.location"
+            ng-model="location"
             placeholder="Location *"
             required="true"
             ng-class="{disabled: formLoading}")
         .columns.medium-6
           div(input-category, form-ui
             list="categories"
-            ng-model="classified"
+            ng-model="categories"
             placeholder="Category *"
             required="true"
             ng-class="{disabled: formLoading}")
@@ -84,6 +66,7 @@ section(ng-class="formClasses")
             form-ui
             ng-model="classified.contact.email"
             placeholder="Email *"
+            type="email"
             required="true")
         .columns.medium-6
           div(input-text
@@ -158,7 +141,7 @@ section(ng-class="formClasses")
       .row.collapse
         .columns
           //- This is the container which will hold the map
-          #maps-container
+          //- #maps-container(google-maps-input, ng-model="maps")
 
 
     //- Disclaimer section
