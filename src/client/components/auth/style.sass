@@ -1,5 +1,5 @@
 section[auth]
-  background: rgba(255, 255, 255, 0.95)
+  background: rgba(0, 0, 0, 0.8)
   display: none
   position: fixed
   top: 0
@@ -10,75 +10,80 @@ section[auth]
   z-index: 4
   text-align: center
 
+  .hero
+    background: url(/images/hero/landing.jpg)
+    height: 520px
+    margin-bottom: 0 !important
+    position: relative
+    &:after
+      position: absolute
+      top: 0
+      left: 0
+      width: 100%
+      height: 100%
+      content: ''
+      background: -moz-linear-gradient(to bottom,rgba(0,0,0,0) 20%,rgba(0,0,0,0.7) 100%)
+      background: linear-gradient(to bottom, rgba(0,0,0,0) 20%,rgba(0,0,0,0.7) 100%)
+    // width: 100%
 
-  .row
-    max-width: 600px
-    padding: 100px 80px
+  > .row
+    background: #FFF
+    max-width: 620px
+    margin: 60px auto
+    // padding: 10px 80px
+    .columns div
+      padding: 15px 0
 
+    .contents
+      width: 100%
+      display: inline-block
+      vertical-align: middle
+
+    -webkit-box-shadow: 0px 0px 12px 0px rgba(0,0,0,0.5);
+    -moz-box-shadow: 0px 0px 12px 0px rgba(0,0,0,0.5);
+    box-shadow: 0px 0px 12px 0px rgba(0,0,0,0.5);
+
+  .option-text
+    font-size: 14px
+
+  .columns
+    margin-bottom: 15px
   .title
     text-align: center
     padding: 30px
-    @extend .font-roboto-slab
+    // @extend .font-roboto-slab
     color: #000
     font-size: 30px
     line-height: 1.4
     margin-bottom: 30px
 
-  ul
-    display: inline-block
-    vertical-align: middle
-    outline: none
-    overflow: hidden
-    // max-width: 580px
-    li
-      +single-transition
-      cursor: pointer
-      margin: 0 auto
-      position: relative
-      width: 200px
   a
-    +radius(100px)
+    +single-transition
+    +radius(3px)
     @extend .font-open
-    // background: #f60
-    border-bottom: 3px solid rgba(0,0,0,0.15)
-    max-width: 200px
     margin: 0 auto
     color: #FFF
     display: block
-    // text-transform: uppercase
     font-size: 12px
-    margin-bottom: 0.9375rem
     padding: 0.5rem
     text-align: center
     text-decoration: none
     overflow: none
-    // -webkit-box-shadow: 0px 0px 12px 0px rgba(0,0,0,0.5);
-    // -moz-box-shadow: 0px 0px 12px 0px rgba(0,0,0,0.5);
-    // box-shadow: 0px 0px 12px 0px rgba(0,0,0,0.5);
+    height: 40px
+    line-height: 20px
+    margin-bottom: 10px
+
   .windows
     background: #945990
-  .linkedin
-    background: #44788A
-  .github
-    background: #000
-    color: #FFF
   .facebook
     background: #567CC5
   .google-plus
     background: #DF4A32
-  .yahoo
-    background: #514099
-  .twitter
-    background: #00C2F3
-  .openid
-    background: #F68122
-  .email
+  .login
     background: #F60
-    // color: #000
-  .reddit
-    color: #000
-    background: #CEE3F8
-  .amazon
-    background: #232F3E
-  .wordpress
-    background: #1E8CBE
+  .signup
+    border: 1px solid #F60
+    color: #f60
+    &:hover
+      color: #FFF
+      background: #F60

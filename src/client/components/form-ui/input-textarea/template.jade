@@ -3,3 +3,4 @@ textarea.field(
   ng-blur="focused=false"
   ng-model="value")
 .placeholder(ng-class="{shrink: focused || value }") {{ placeholder }}
+.counter(ng-class="{focused: focused }") {{ remainingChars }}

@@ -1,0 +1,191 @@
+
+    //- .columns.gallery
+      ul.small-block-grid-2.medium-block-grid-3.large-block-grid-4
+        li(data-id="{{ image.id }}",
+          class="{{ image.status }}",
+          ng-class="{'set-main-image': image.main }"
+          ng-repeat="image in classified.images track by $index")
+
+          .close(ng-click="removeImage($event)") remove
+          .main(ng-click="setmainImage($event)") main image
+          img.thumb(ng-src!="{{ image.src }}")
+
+
+
+    //- ul.classified.meta.columns.medium-6
+      li.row.collapse
+        .meta-title.columns.medium-4 Price
+        .columns.medium-8
+          select(ng-model="classified.priceType",
+            ng-required="true",
+            ng-disabled="formLoading")
+            option(disabled, value="") Choose a price
+            option(value="0") Free
+            option(value="1") Contact Owner
+            option(value="2") Specify Value
+          .error
+
+      li.row.collapse(ng-if="classified.priceType == 2")
+        .meta-title.columns.medium-4
+        .columns.medium-8
+          input(type="number",
+            placeholder="give your price here (KWD)",
+            ng-model="classified.priceValue",
+            ng-required="true",
+            ng-disabled="formLoading",
+            min=0)
+          .error(invalid="price must only contain numbers")
+
+      li.row.collapse
+        .meta-title.columns.medium-4 Email
+        .columns.medium-8
+          input(type="email", placeholder="contact@website.com",
+            ng-model="classified.contact.email", ng-required="true",
+            ng-disabled="formLoading || disableEmailField")
+          .error(invalid="email must be valid")
+
+      li.row.collapse
+        .meta-title.columns.medium-4 Category
+        .columns.medium-8
+          select(ng-model="classified.parentCategory",
+            ng-options="category.name for category in categories",
+            ng-required="true",
+            ng-disabled="formLoading")
+            option(disabled, selected, value="") Choose a category
+          .error
+
+      li.row.collapse(ng-if="classified.parentCategory.children.length > 0")
+        .meta-title.columns.medium-4
+        .columns.medium-8
+          select(ng-model="classified.childCategory",
+            ng-options="child.name for child in classified.parentCategory.children",
+            ng-required="true",
+            ng-disabled="formLoading")
+            option(disabled, selected, value="") Choose a sub-category
+          .error
+
+      li.row.collapse
+        .meta-title.columns.medium-4 Location
+        .columns.medium-8
+          select(ng-model="location",
+            ng-options="location.name for location in locations",
+            ng-required="true",
+            ng-disabled="formLoading")
+            option(disabled, selected, value="") Choose a location
+          .error
+
+    //- ul.classified.meta.columns.medium-6
+      li.row.collapse
+        .meta-title.columns.medium-4 Phone
+        .columns.medium-8
+          input(type="text",
+            placeholder="+965 12345678",
+            ng-model="classified.contact.phone",
+            ng-disabled="formLoading")
+      li.row.collapse(ng-if="location && location.id != '0'")
+        .meta-title.columns.medium-4 Address
+        .columns.medium-8
+          input(type="text",
+            placeholder="Address line 1",
+            ng-model="classified.contact.address1",
+            ng-disabled="formLoading")
+      li.row.collapse(ng-if="location && location.id != '0'")
+        .meta-title.columns.medium-4
+        .columns.medium-8
+          input(type="text",
+            placeholder="Address line 2",
+            ng-model="classified.contact.address2",
+            ng-disabled="formLoading")
+      li.row.collapse
+        .meta-title.columns.medium-4 Link
+        .columns.medium-8
+          input(type="url",
+            placeholder="https://example.com",
+            ng-model="classified.contact.website")
+          .error(invalid="link must be a valid url",
+            ng-disabled="formLoading")
+      li.row.collapse.extras
+        .meta-title.columns.medium-4 Extras
+        .columns.medium-8
+          .row
+            //- .columns(ng-if="classified.contact.email")
+              input(type="checkbox",
+                ng-model="classified.meta.hideEmail")
+              label Keep my email hidden
+            .columns
+              input(type="checkbox",
+                ng-model="classified.meta.hideSearchEngine",
+                ng-disabled="formLoading")
+              label Hide this classified from search engines
+            .columns
+              input(type="checkbox",
+                ng-model="classified.meta.hideEmail")
+              label Hide my email
+            .columns
+              input(type="checkbox",
+                ng-model="classified.meta.shareSocial",
+                ng-init="classified.meta.shareSocial=true",
+                ng-disabled="formLoading")
+              label Allow sharing on social networks
+            .columns
+              input(type="checkbox",
+                ng-model="classified.meta.deliveryIncluded",
+                ng-disabled="formLoading")
+              label I provide delivery
+            .columns(ng-if="classified.meta.deliveryIncluded")
+              input(type="checkbox",
+                ng-model="classified.meta.freeDeliveryIncluded",
+                ng-disabled="formLoading")
+              label Delivery will be free of charge
+            .columns(ng-if="classified.contact.phone")
+              input(type="checkbox",
+                ng-model="classified.meta.whatsapp",
+                ng-disabled="formLoading")
+              label I am available on Whatsapp
+            .columns(ng-if="classified.contact.phone")
+              input(type="checkbox",
+                ng-model="classified.meta.viber",
+                ng-disabled="formLoading")
+              label I am available on Viber
+
+    //- .perks.columns
+      .credits-info.medium-6.columns
+        .text You have
+        .count {{ availableCredits || 0}}
+          span(class="subtract") - {{ (urgentPrice * 1) + (promotePrice * 1) || 0 }}
+        .text credits
+      ul.meta.medium-6.columns
+        li.row.collapse
+          .meta-title.columns.medium-4 Promote my classified to the frontpage
+          .columns.medium-8
+            select(ng-model="promotePrice",
+              ng-disabled="formLoading")
+              option(value="0", selected) Don't promote this classified
+              option(ng-disabled="availableCredits + promotePrice < 10",
+                value="10") 1 day (10 credits)
+              option(ng-disabled="availableCredits + promotePrice < 20",
+                value="20") 2 days (20 credits)
+              option(ng-disabled="availableCredits + promotePrice < 30",
+                value="30") 3 days (30 credits)
+              option(ng-disabled="availableCredits + promotePrice < 40",
+                value="40") 4 days (40 credits)
+              option(ng-disabled="availableCredits + promotePrice < 50",
+                value="50") 5 days (50 credits)
+              option(ng-disabled="availableCredits + promotePrice < 60",
+                value="60") 6 days (60 credits)
+        li.row.collapse
+          .meta-title.columns.medium-4 Make my classified urgent
+          .columns.medium-8
+            select(ng-model="urgentPrice",
+              ng-disabled="formLoading")
+              option(value="0", selected) Don't make this classified urgent
+              option(ng-disabled="availableCredits + urgentPrice < 20",
+                value="20") 1 day (20 credits)
+              option(ng-disabled="availableCredits + urgentPrice < 40",
+                value="40") 2 days (40 credits)
+              option(ng-disabled="availableCredits + urgentPrice < 60",
+                value="60") 3 days (60 credits)
+              option(ng-disabled="availableCredits + urgentPrice < 80",
+                value="80") 4 days (80 credits)
+              option(ng-disabled="availableCredits + urgentPrice < 100",
+                value="100") 5 days (100 credits)

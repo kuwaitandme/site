@@ -1,4 +1,4 @@
-[classified-form]
+*[classified-form]
   $border-color: #f0f0f0
   $color-error: #E04B2A
   $color-inactive: rgba(0, 0, 0, 0.02)
@@ -35,8 +35,11 @@
     padding: 0 10px
     li
       height: 100%
-      // padding: 0.9375rem
       position: relative
+
+      > div
+        +radius(3px)
+        overflow: hidden
 
       &.to-delete-from-server, &.to-delete
         .close
@@ -46,59 +49,51 @@
       &.set-main-image
         .main
           @extend .main:hover
+      .action
+        display: inline-block
+        width: 49.1%
 
       .close, .main
-        text-transform: uppercase
         +single-transition
+        background: #DDD
         color: #000
-        background: $border-color
         content: '\f00d'
         cursor: pointer
-        font-size: 0.7rem
-        padding: 7px 10px
         display: inline-block
-        text-align: center
-        top: 0
+        font-size: 0.7rem
         opacity: 1
-        &:hover
-          color: #FFF
+        padding: 7px 10px
+        text-align: center
+        text-transform: uppercase
+        top: 0
       .close
+        color: #FFF
+        background: #E74C3C
         &:hover
-          background: #E74C3C
           ~ img
-            border-color: #E74C3C
+            border-color: #E74C3C !important
       .main
         &:hover
+          color: #FFF
           background: #30cd72
           ~ img
-            border-color: #30cd72
+            border-color: #30cd72 !important
       img
         +single-transition
-        border: 4px solid $border-color
+        border: 4px solid #DDD
 
   .meta
-    padding-bottom: 0 !important
-    li
-      text-align: left !important
-      padding-bottom: 0.5rem !important
-    // .meta-title, .meta-value
-    //   padding-left: 0
-    .meta-title
-      padding-top: 10px
-      padding-right: 20px !important
-      position: relative !important
-      // width: 90px !important
-    .columns
-      margin-bottom: 0 !important
-    select, input
-      font-size: 0.8rem
-      padding:  0.5rem
-      width: 100%
-
-    @media only screen and (min-width: 40.063em)
-      .extras
-        .row
-          margin-top: 15px
+    // Meta attribute colors
+    .delivery
+      background: #DD4B39
+    .hideEmail
+      background: #111
+    .viber
+      background: #774F98
+    .whatsapp
+      background: #11AE09
+    .googlemaps
+      background: #F69615
 
 
   .credits-info
@@ -118,7 +113,9 @@
   .google-maps
     position: relative
     label
+      text-align: center
       font-size: 0.8rem
+      padding-bottom: 10px
     > .row
       margin-left: 0
       margin-right: 0
@@ -136,13 +133,14 @@
         z-index: 2
 
 
-  .submit, .add-images
+  button
     +radius(3px)
     @extend .font-cantarell
     color: #FFF
     font-size: 0.9rem
     height: 46px
     padding: 10px 30px
+    cursor: pointer
     text-transform: uppercase
     width: 100%
     z-index: 3
@@ -159,7 +157,6 @@
 
 
   .disclaimer
-    text-align: center
     padding:  1rem
     color: #000
     opacity: 0.7

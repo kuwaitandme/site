@@ -1,5 +1,5 @@
 ## TODO: Add automatic resize of content
-exports = module.exports = ($googleMaps, $imageResizer, $location, $log,
+exports = module.exports = ($element, $googleMaps, $imageResizer, $location, $log,
 $notifications, $scope, Classifieds, Categories, Locations, Users) ->
   @name = "[component:classified-form]"
   currentUser = Users.getCurrentUser()
@@ -8,17 +8,17 @@ $notifications, $scope, Classifieds, Categories, Locations, Users) ->
   # Initialize the models
   $scope.categories = Categories.getAll()
   $scope.locations = Locations.getAll()
-  # If classified is not defined, then set it to it's default values
+  # If classified is note defined, then set it to it's default values
   $scope.classified = Classifieds.getDefault()
   # Setup some defaults for functions that might be overridden by the parent
   $scope.formClasses ?= {}
   # Attach the css class for when the form is loading
   $scope.formClasses.loading = $scope.formLoading
 
-  r = ->
-    console.log ">", $scope.classified.title
-    setTimeout r, 1000
-  r()
+  # r = ->
+  #   console.log ">", $scope
+  #   setTimeout r, 1000
+  # r()
   # # setT
   # $scope.$watch "classified", (a) ->
   #   console.log 'title', a
@@ -42,8 +42,6 @@ $notifications, $scope, Classifieds, Categories, Locations, Users) ->
     $scope.classified.contact.email = currentUserEmail
   if $scope.classified.contact.email? then $scope.disableEmailField = true
 
-  $scope.classified.parentCategory = Categories.findByParentId $scope.classified.parent_category or null
-  $scope.classified.childCategory = Categories.findByChildId $scope.classified.child_category or null
   $scope.location = Locations.findById $scope.classified.location
 
   # Set the super editable property iff the user is a moderator or an admin
@@ -53,8 +51,8 @@ $notifications, $scope, Classifieds, Categories, Locations, Users) ->
 
   # Function to popup the file selector dialog
   $scope.addImages = ->
-    $el = angular.element document.querySelectorAll "[type='file']"
-    $el[0].click()
+    $fileInput = $element[0].querySelectorAll "[type='file']"
+    $fileInput[0].click()
 
   # If the status has been changed, immediately submit the classified
   $scope.changeStatus = (newStatus) =>
@@ -177,6 +175,7 @@ $notifications, $scope, Classifieds, Categories, Locations, Users) ->
         $scope.classified.meta.gmapY or 47.98656463623047
       )
       # Initialize the map
+      # console.log $element[0].find "#maps-container"
       gmap = document.getElementById "maps-container"
       map = new google.maps.Map gmap,
         center: myLatlng
@@ -211,6 +210,7 @@ $notifications, $scope, Classifieds, Categories, Locations, Users) ->
 
 
 exports.$inject = [
+  "$element"
   "$googleMaps"
   "$imageResizer"
   "$location"

@@ -1,22 +1,16 @@
 .row
-  .title.columns Sign in or create an account
 
-  .columns.medium-6
-    a.facebook(target="_self", href="/auth/oauth/facebook") Facebook
-  .columns.medium-6
-    a.google-plus(target="_self", href="/auth/oauth/google") Google Plus
-  .columns.medium-6
-    a.windows(target="_self", href="/auth/oauth/windowslive") Windows Live
-  .columns.medium-6
-    a.linkedin(target="_self", href="/auth/oauth/linkedin") LinkedIn
-  .columns.medium-6
-    a.amazon(target="_self", href="/auth/oauth/amazon") Amazon
-  .columns.medium-6
-    a.email(ng-click="showEmailForm=true") Email
-    //- li
-      a.wordpress(target="_self", href="/auth/oauth/wordpress") Wordpress
-    //- li
-      a.reddit(target="_self", href="/auth/oauth/reddit") Reddit
-    //- li
-      a.openid(target="_self", href="/auth/oauth/openid") OpenId
-    //- li
+
+  .columns.medium-5.hero
+
+  .columns.medium-7
+    .contents
+      .oauth
+        a.facebook(target="_self", href="/auth/oauth/facebook") Continue with Facebook
+        a.google-plus(target="_self", href="/auth/oauth/google") Continue with Google+
+        a.windows(target="_self", href="/auth/oauth/windowslive") Continue with Windows Live
+      .option-text Or use your email address
+      .email
+        a.login(ng-click="showEmailForm=true") Login
+        a.signup(ng-click="showEmailForm=true") Sign Up
+
