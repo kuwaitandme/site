@@ -94,7 +94,8 @@
     "validator": "^3.34.0",
     "webdriverio": "^2.4.5",
     "winston-request-logger": "^1.0.5",
-    "xss": "^0.2.1"
+    "xss": "^0.2.1",
+    "zpad": "^0.5.0"
   },
   "devDependencies": {
     "browser-sync": "~2.1.4",
