@@ -1,4 +1,4 @@
-exports = module.exports = ($http, console, $storage) -> new class
+exports = module.exports = ($http, console, $storage, $environment) -> new class
   name: "[model:location]"
 
   # Returns all the locations.
@@ -15,11 +15,11 @@ exports = module.exports = ($http, console, $storage) -> new class
   download: ->
     if @locations? then return
     console.log @name, "downloading locations"
-
+    console.log
     # A helper function to retrieve the locations from the API
     _fetchFromAPI = =>
       console.log @name, "fetching locations from API"
-      $http.get "/api/locations"
+      $http.get "#{$environment.url}/api/locations"
       .success (locations) =>
         console.log @name, "fetched locations from API"
         @locations = locations
@@ -45,4 +45,5 @@ exports.$inject = [
   "$http"
   "$log"
   "$storage"
+  "$environment"
 ]

@@ -3,15 +3,15 @@ section(ng-class="formClasses")
 
     .columns.admin-panel(ng-if="classified.id")
       .row
-        .columns.small-6.medium-3
+        .columns.medium-4
           button.green(ng-click="changeStatus('ACTIVE')", ng-if="superEditable") Publish
-        .columns.small-6.medium-3
+        .columns.medium-4
           button.red(ng-click="changeStatus('REJECTED')", ng-if="superEditable") Reject
-        .columns.small-6.medium-3
+        .columns.medium-4
           button.red(ng-click="changeStatus('BANNED')", ng-if="superEditable") Ban
         //- .action.red(ng-click="classified.status = 3 && submit()", ng-if="superEditable") Promote
         //- .action.red(ng-click="classified.status = 3 && submit()", ng-if="superEditable") Demote
-        .columns.small-6.medium-3
+        .columns.medium-4.end
           button.red(ng-click="changeStatus('ARCHIVED')") Archive/Delete
 
 

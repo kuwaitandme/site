@@ -7,7 +7,8 @@ module.exports = (scope, element, attributes, ngModel) ->
     model = ngModel.$viewValue
     if scope.childCategory and model.child_category? then return false
     if scope.parentCategory
-      if scope.parentCategory.children.length > 0
+      children = scope.parentCategory.children
+      if children and children.length > 0
         if scope.childCategory then return false
         else return true
       else return false

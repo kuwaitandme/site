@@ -38,6 +38,7 @@ exports = module.exports = (settings, cache) ->
 
       options.data ?= {}
       options.publicData =
+        url: settings.url
         environment: settings.server.env
         magic: settings.magic or {}
         staticUrl: settings.staticUrl

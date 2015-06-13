@@ -2,14 +2,13 @@ exports = module.exports = ($environment, $location, $log, $notifications,
 $scope, $stateParams, Classifieds) ->
   @name = "[page:account-cl-single]"
   $log.log @name, "initializing"
+  $scope.$emit "page-loaded"
 
 
-  Classifieds.get $stateParams.id, (error, classified) ->
-    for image in classified.images or []
-      image.status = "on-server"
-      image.src = "#{ $environment.staticUrl }/uploads/thumb/#{image.filename}"
+  Classifieds.get $stateParams.id
+  .then (classified) ->
+    console.log classified
     $scope.classified = classified
-    $scope.$emit "page-loaded"
 
   # When classified has been edited successfully, redirect to the account page
   $scope.$on "classified-form:submitted", ($event, classified) ->

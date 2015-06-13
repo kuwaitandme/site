@@ -2,7 +2,7 @@
 exports = module.exports = ($element, $googleMaps, $imageResizer, $location, $log,
 $notifications, $scope, Classifieds, Categories, Locations, Users) ->
   @name = "[component:classified-form]"
-  currentUser = Users.getCurrentUser()
+  currentUser = Users.getCurrent()
   $log.log @name, "initializing"
 
   $scope.price = null
@@ -50,7 +50,7 @@ $notifications, $scope, Classifieds, Categories, Locations, Users) ->
   # Set the super editable property iff the user is a moderator or an admin
   currentUser = currentUser or {}
   roles = Users.roles
-  $scope.superEditable = currentUser.role in [roles.MODERATOR, roles.ADMIN]
+  # $scope.superEditable = currentUser.role in [roles.MODERATOR, roles.ADMIN]
 
 
   # If the status has been changed, immediately submit the classified

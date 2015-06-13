@@ -5,10 +5,10 @@ exports = module.exports = ($scope, Categories) ->
   $scope.childCategory = null
   $scope.parentCategory = null
 
-  $scope.setParent = (cat) ->
+  $scope.setParent = (cat={}) ->
     $scope.parentCategory = cat
     if not cat.children? then $scope.opened = false
-  $scope.setChild = (cat) ->
+  $scope.setChild = (cat={}) ->
     $scope.childCategory = cat
     $scope.opened = false
 

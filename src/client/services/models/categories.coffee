@@ -1,4 +1,4 @@
-exports = module.exports = ($http, console, $storage) -> new class
+exports = module.exports = ($http, console, $storage, $environment) -> new class
   name: "[model:category]"
 
   ###
@@ -60,7 +60,7 @@ exports = module.exports = ($http, console, $storage) -> new class
     # send an API call to the server to fetch them.
     _getCounters = (callback=->) =>
       console.log @name, "fetching category counters"
-      $http.get "/api/categories/counters"
+      $http.get "#{$environment.url}/api/categories/counters"
       .success (response) =>
         console.log @name, "fetched category counters"
         console.debug @name, response
@@ -73,11 +73,10 @@ exports = module.exports = ($http, console, $storage) -> new class
 
     # A helper function to retrieve the categories from the API
     _fetchFromAPI = =>
-      $http.get "/api/categories/"
-      .success (categories) =>
+      $http.get "#{$environment.url}/api/categories/"
+      .success (@categories) =>
         console.log @name, "fetched categories from API"
-        @categories = categories
-        $storage.local "models:category", angular.toJson categories
+        $storage.local "models:category", angular.toJson @categories
 
     # Check in cache
     cache = $storage.local "models:category"
@@ -103,4 +102,5 @@ exports.$inject = [
   "$http"
   "$log"
   "$storage"
+  "$environment"
 ]
