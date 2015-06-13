@@ -6,29 +6,19 @@
   $color-warn: #FFB604
   background: #FFF
 
-  input
-    &[type='checkbox']
-      margin-right: 5px !important
-      width: auto !important
 
   .columns
     margin-bottom: 30px
 
   .admin-panel
-    +clearfix
-    .action
-      border-bottom: 3px solid rgba(0,0,0,0.2)
-      color: #FFF
-      cursor: pointer
-      float: left
-      font-size: 0.7rem
-      margin-right: 5px
-      padding: 0.5rem 1rem
-      text-transform: uppercase
-      &, &.green
-        background: $color-valid
-      &.red
-        background: $color-error
+    margin-bottom: 0
+    margin-top: 30px
+    .row
+      margin-bottom: 0
+    .green
+      background: $color-valid
+    .red
+      background: $color-error
 
   .meta
     // Meta attribute colors
@@ -86,6 +76,11 @@
       border-bottom: 1px solid blue
 
     // @extend section[classified-single] .disclaimer
+
+  label
+    text-align: center
+    font-size: 0.8rem
+    padding-bottom: 10px
 
   &.loading
     position: relative

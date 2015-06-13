@@ -3,13 +3,11 @@ $scope, $stateParams, Classifieds) ->
   @name = "[page:account-cl-single]"
   $log.log @name, "initializing"
 
-  staticUrl = $environment.staticUrl
 
-  $scope.heroURL = "landing.jpg"
   Classifieds.get $stateParams.id, (error, classified) ->
     for image in classified.images or []
       image.status = "on-server"
-      image.src = "#{ staticUrl }/uploads/thumb/#{image.filename}"
+      image.src = "#{ $environment.staticUrl }/uploads/thumb/#{image.filename}"
     $scope.classified = classified
     $scope.$emit "page-loaded"
 

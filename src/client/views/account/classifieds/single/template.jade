@@ -1,11 +1,6 @@
-#page-hero
-  img(fn-image-loader!="<%= staticUrl %>/images/hero/{{ heroURL }}",
-    fn-image-success="onHeroLoad()")
-
-
 .row
   h1.columns Edit your classified
   h3.columns You are about to edit this classified. Once you have finished making your changes, click on the submit button below.
   h3.columns All changes will get reviewed by a moderator which can take upto 24hrs.
 
-section(classified-form, ng-if="classified")
+section(classified-form, ng-model="classified", ng-if="classified")

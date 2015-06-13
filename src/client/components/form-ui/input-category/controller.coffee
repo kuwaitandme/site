@@ -12,6 +12,10 @@ exports = module.exports = ($scope, Categories) ->
     $scope.childCategory = cat
     $scope.opened = false
 
+  $scope.$watch "parent_category", (id) ->
+    $scope.setParent Categories.findByParentId id
+  $scope.$watch "child_category", (id) ->
+    $scope.setChild Categories.findByChildId id
 
 exports.$inject = [
   "$scope"

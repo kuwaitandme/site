@@ -22,6 +22,7 @@ exports = module.exports = ($stateProvider, $locationProvider, $urlMatcher,
   _route "account/classifieds/single",  "/account/classifieds/{id:[0-9]+}"
   _route "account/moderate",            "/account/moderate"
   _route "account/moderate/single",     "/account/moderate/{id:[0-9]+}"
+  _route "auth",                        "/auth"
   _route "auth/logout",                 "/auth/logout"
   _route "classified/finish",           "/classified/finish/{id:[0-9]+}"
   _route "classified/edit",             "/classified/edit/{id:[0-9]+}"

@@ -1,4 +1,4 @@
-body#auth-dis
+body#auth
 
   #page-hero
     &:after
@@ -30,7 +30,38 @@ body#auth-dis
     margin-bottom: 2rem
     // border: 1px solid #DDD
     border-bottom: 0
-  .auth-methods
+  .oauth-methods
+    a
+      +single-transition
+      +radius(3px)
+      @extend .font-open
+      margin: 0 auto
+      color: #FFF
+      display: block
+      font-size: 12px
+      padding: 0.5rem
+      text-align: center
+      text-decoration: none
+      overflow: none
+      height: 40px
+      line-height: 20px
+      margin-bottom: 10px
+    .option-text
+      font-size: 14px
+    .windows
+      background: #945990
+    .facebook
+      background: #567CC5
+    .google-plus
+      background: #DF4A32
+    .login
+      background: #F60
+    .signup
+      border: 1px solid #F60
+      color: #f60
+      &:hover
+        color: #FFF
+        background: #F60
 
   .extra-links
     text-align: center

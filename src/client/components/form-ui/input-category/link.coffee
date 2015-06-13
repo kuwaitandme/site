@@ -13,6 +13,12 @@ module.exports = (scope, element, attributes, ngModel) ->
       else return false
     true
 
+  ngModel.$render = ->
+    model = ngModel.$modelValue or {}
+    scope.parent_category = model.parent_category
+    scope.child_category = model.child_category
+
+
   # Write data to the model
   read = ->
     scope.$evalAsync -> ngModel.$setViewValue

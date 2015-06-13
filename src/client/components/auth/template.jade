@@ -1,8 +1,11 @@
-.row
-
-
-  .columns.medium-5.hero
-
+.row(ng-init="show=true")
+  .columns.medium-5.hero.hide-for-small
+    .intro
+      h2 Why Sign Up?
+      ul
+        li View advanced statistics
+        li Manage your classifieds
+        li Get free 100 credits
   .columns.medium-7
     .contents
       .oauth
@@ -11,6 +14,8 @@
         a.windows(target="_self", href="/auth/oauth/windowslive") Continue with Windows Live
       .option-text Or use your email address
       .email
-        a.login(ng-click="showEmailForm=true") Login
-        a.signup(ng-click="showEmailForm=true") Sign Up
+        a.login(href="/auth", ng-click="close()") Login
+        a.signup(href="/auth", ng-click="close()") Sign Up
 
+  .close(ng-click="close()")
+    img(src!="<%= staticUrl %>/images/close.png")

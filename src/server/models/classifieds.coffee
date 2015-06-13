@@ -18,7 +18,7 @@ exports = module.exports = (knex) ->
     fields: [
       "child_category", "contact", "created", "description"
       "images", "language", "location", "meta", "owner"
-      "parent_category", "priceType", "priceValue", "slug"
+      "parent_category", "price_type", "price_value", "slug"
       "status", "title", "type", "weight", "id"
     ]
 

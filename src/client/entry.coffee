@@ -25,8 +25,8 @@ app = angular.module "App", [
 boot = ->
   console.log "[app] bootstraping angular"
   html = (document.getElementsByTagName "html")[0]
-  body = (document.getElementsByTagName "body")[0]
-  body.className = body.className.replace /\initializing\b/, ''
+  body = angular.element (document.getElementsByTagName "body")[0]
+  body.removeClass "initializing"
   angular.bootstrap html, ["App"]
 
 

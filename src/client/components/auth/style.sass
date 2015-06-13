@@ -1,20 +1,30 @@
 section[auth]
+  +single-transition
   background: rgba(0, 0, 0, 0.8)
   display: none
   position: fixed
   top: 0
+  opacity: 0
   left: 0
   bottom: 0
+  overflow-y: scroll
   width: 100%
   min-height: 100%
   z-index: 4
   text-align: center
-
+  &.show
+    display: block
+  &.fade
+    opacity: 1
   .hero
     background: url(/images/hero/landing.jpg)
+    background-position: -100px 100%
+    background-size: auto 100%
     height: 520px
+    padding: 0
     margin-bottom: 0 !important
     position: relative
+    color: #FFF
     &:after
       position: absolute
       top: 0
@@ -22,68 +32,90 @@ section[auth]
       width: 100%
       height: 100%
       content: ''
-      background: -moz-linear-gradient(to bottom,rgba(0,0,0,0) 20%,rgba(0,0,0,0.7) 100%)
-      background: linear-gradient(to bottom, rgba(0,0,0,0) 20%,rgba(0,0,0,0.7) 100%)
+      background: -moz-linear-gradient(to bottom,rgba(0,0,0,0.2) 20%,rgba(0,0,0,0.9) 100%)
+      background: linear-gradient(to bottom, rgba(0,0,0,0.2) 20%,rgba(0,0,0,0.9) 100%)
     // width: 100%
+    .intro
+      position: absolute
+      bottom: 0
+      z-index: 2
+      width: 100%
+      text-align: left
+      padding: 15px
+      h2
+        @extend .font-roboto-slab
+        padding-bottom: 10px
+        border-bottom: 2px solid #FFF
+        font-size: 18px
+      li
+        font-size: 14px
+        &:before
+          content: '\b7'
+          font-size: 18px
+          padding-right: 10px
+          padding-left: 5px
 
   > .row
     background: #FFF
-    max-width: 620px
     margin: 60px auto
-    // padding: 10px 80px
-    .columns div
+    max-width: 620px
+    position: relative
+
+    -moz-box-shadow: 0px 0px 12px 0px rgba(0,0,0,0.5)
+    -webkit-box-shadow: 0px 0px 12px 0px rgba(0,0,0,0.5)
+    box-shadow: 0px 0px 12px 0px rgba(0,0,0,0.5)
+
+    .columns
+      margin-bottom: 15px
+
+
+  .close
+    position: absolute
+    top: 0
+    cursor: pointer
+    background: #FFF
+    padding: 10px
+    height: 45px
+    width: 40px
+    right: -40px
+
+
+  .contents
+    display: inline-block
+    padding-top: 50px
+    vertical-align: middle
+    width: 100%
+
+    div
       padding: 15px 0
-
-    .contents
-      width: 100%
-      display: inline-block
-      vertical-align: middle
-
-    -webkit-box-shadow: 0px 0px 12px 0px rgba(0,0,0,0.5);
-    -moz-box-shadow: 0px 0px 12px 0px rgba(0,0,0,0.5);
-    box-shadow: 0px 0px 12px 0px rgba(0,0,0,0.5);
-
-  .option-text
-    font-size: 14px
-
-  .columns
-    margin-bottom: 15px
-  .title
-    text-align: center
-    padding: 30px
-    // @extend .font-roboto-slab
-    color: #000
-    font-size: 30px
-    line-height: 1.4
-    margin-bottom: 30px
-
-  a
-    +single-transition
-    +radius(3px)
-    @extend .font-open
-    margin: 0 auto
-    color: #FFF
-    display: block
-    font-size: 12px
-    padding: 0.5rem
-    text-align: center
-    text-decoration: none
-    overflow: none
-    height: 40px
-    line-height: 20px
-    margin-bottom: 10px
-
-  .windows
-    background: #945990
-  .facebook
-    background: #567CC5
-  .google-plus
-    background: #DF4A32
-  .login
-    background: #F60
-  .signup
-    border: 1px solid #F60
-    color: #f60
-    &:hover
+    a
+      +single-transition
+      +radius(3px)
+      @extend .font-open
+      margin: 0 auto
       color: #FFF
+      display: block
+      font-size: 12px
+      padding: 0.5rem
+      text-align: center
+      text-decoration: none
+      overflow: none
+      height: 40px
+      line-height: 20px
+      margin-bottom: 10px
+    .option-text
+      font-size: 14px
+    .windows
+      background: #945990
+    .facebook
+      background: #567CC5
+    .google-plus
+      background: #DF4A32
+    .login
       background: #F60
+    .signup
+      border: 1px solid #F60
+      color: #f60
+      &:hover
+        color: #FFF
+        background: #F60

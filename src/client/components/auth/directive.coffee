@@ -1,3 +1,3 @@
 exports = module.exports = ->
-  # controller: require "./controller"
+  controller: require "./controller"
   templateUrl: "components/auth/template"

@@ -6,27 +6,15 @@
   .columns.medium-7.medium-centered
     h1 Login or Signup using
 
-    ul.auth-methods.row
+    ul.oauth-methods.row
       li.medium-6.large-4.columns
         a.facebook.method(target="_self", href="/auth/oauth/facebook") Facebook
       li.medium-6.large-4.columns
         a.google-plus.method(target="_self", href="/auth/oauth/google") Google Plus
       li.medium-6.large-4.columns
         a.windows.method(target="_self", href="/auth/oauth/windowslive") Windows Live
-      //- li.medium-6.large-4.columns
-        a.wordpress.method(target="_self", href="/auth/oauth/wordpress") Wordpress
-      li.medium-6.large-4.columns
-        a.linkedin.method(target="_self", href="/auth/oauth/linkedin") LinkedIn
-      //- li.medium-6.large-4.columns
-        a.reddit.method(target="_self", href="/auth/oauth/reddit") Reddit
-      li.medium-6.large-4.columns
-        a.amazon.method(target="_self", href="/auth/oauth/amazon") Amazon
-      //- li.medium-6.large-4.columns
-        a.openid.method(target="_self", href="/auth/oauth/openid") OpenId
-      li.medium-6.large-4.columns
-        a.email.method(ng-click="showEmailForm=true") Email
 
-  .email-forms(ng-if="showEmailForm")
+  .email-forms
     .columns.large-6.medium-7.medium-centered.large-uncentered
       form.row.collapse(ng-submit="doLogin()")
         input.columns(type="email", ng-model="login.username", required,

@@ -2,12 +2,17 @@ section(ng-class="formClasses")
   form.row(name="form", novalidate)
 
     .columns.admin-panel(ng-if="classified.id")
-      .action.green(ng-click="changeStatus('ACTIVE')", ng-if="superEditable") Publish
-      .action.red(ng-click="changeStatus('REJECTED')", ng-if="superEditable") Reject
-      .action.red(ng-click="changeStatus('BANNED')", ng-if="superEditable") Ban
-      //- .action.red(ng-click="classified.status = 3 && submit()", ng-if="superEditable") Promote
-      //- .action.red(ng-click="classified.status = 3 && submit()", ng-if="superEditable") Demote
-      .action.red(ng-click="changeStatus('ARCHIVED')") Archive this classified
+      .row
+        .columns.small-6.medium-3
+          button.green(ng-click="changeStatus('ACTIVE')", ng-if="superEditable") Publish
+        .columns.small-6.medium-3
+          button.red(ng-click="changeStatus('REJECTED')", ng-if="superEditable") Reject
+        .columns.small-6.medium-3
+          button.red(ng-click="changeStatus('BANNED')", ng-if="superEditable") Ban
+        //- .action.red(ng-click="classified.status = 3 && submit()", ng-if="superEditable") Promote
+        //- .action.red(ng-click="classified.status = 3 && submit()", ng-if="superEditable") Demote
+        .columns.small-6.medium-3
+          button.red(ng-click="changeStatus('ARCHIVED')") Archive/Delete
 
 
     //- Title
@@ -56,43 +61,37 @@ section(ng-class="formClasses")
             ng-class="{disabled: formLoading}")
         .columns.medium-6
           div(input-category, form-ui
-            list="categories"
             ng-model="categories"
             placeholder="Category *"
             required="true"
             ng-class="{disabled: formLoading}")
         .columns.medium-6
-          div.disabled(input-text
-            form-ui
-            ng-model="classified.contact.email"
+          div.disabled(input-text, form-ui
+            disabled="!!user"
+            ng-model="user.email"
             placeholder="Email *"
             type="email"
             required="true")
         .columns.medium-6
-          div(input-text
-            form-ui
-            ng-model="classified.contact.name"
+          div(input-text, form-ui
+            disabled="!!user"
+            ng-model="user.full_name"
             placeholder="Your Name *"
             required="true")
         .columns.medium-6
           div(input-tel
             form-ui
-            ng-model="classified.contact.phone"
+            ng-model="contact.phone"
             placeholder="Telephone"
             required="true")
-        .columns.medium-6(ng-if-dis="classified.location")
-          div(input-text
-            form-ui
-            ng-model="classified.contact.address1"
-            placeholder="Address Line 1"
-            required="true")
-        .columns.medium-6(ng-if-dis="classified.location")
-          div(input-text
-            form-ui
-            ng-model="classified.contact.address2"
-            placeholder="Address Line 2"
-            required="true")
-
+        .columns.medium-6(ng-if="location && location != 0")
+          div(input-text, form-ui
+            ng-model="contact.address1"
+            placeholder="Address Line 1")
+        .columns.medium-6(ng-if="location && location != 0")
+          div(input-text, form-ui
+            ng-model="contact.address2"
+            placeholder="Address Line 2")
 
       //- Meta attributes
       .row.meta
@@ -100,32 +99,32 @@ section(ng-class="formClasses")
           div(input-checkbox-icon
             form-ui
             placeholder="Share on social networks"
-            ng-model="classified.meta.shareSocial")
+            ng-model="meta.shareSocial")
         .columns.large-4.medium-6
           div.hideEmail(input-checkbox-icon
             form-ui
             placeholder="Keep my email hidden"
-            ng-model="classified.meta.hideEmail")
+            ng-model="meta.hideEmail")
         .columns.large-4.medium-6
           div.delivery(input-checkbox-icon
             form-ui
             placeholder="I provide delivery"
-            ng-model="classified.meta.deliveryIncluded")
+            ng-model="meta.deliveryIncluded")
         .columns.large-4.medium-6
           div.delivery(input-checkbox-icon
             form-ui
             placeholder="Delivery will be free"
-            ng-model="classified.meta.freeDeliveryIncluded")
+            ng-model="meta.freeDeliveryIncluded")
         .columns.large-4.medium-6
           div.viber(input-checkbox-icon
             form-ui
             placeholder="I am available on Viber"
-            ng-model="classified.meta.viber")
+            ng-model="meta.viber")
         .columns.large-4.medium-6
           div.whatsapp(input-checkbox-icon
             form-ui
             placeholder="I am available on Whatsapp"
-            ng-model="classified.meta.whatsapp")
+            ng-model="meta.whatsapp")
         .columns.large-4.medium-6
           div.googlemaps(input-checkbox-icon
             form-ui
@@ -141,7 +140,7 @@ section(ng-class="formClasses")
       .row.collapse
         .columns
           //- This is the container which will hold the map
-          //- #maps-container(google-maps-input, ng-model="maps")
+          #maps-container(google-maps-input, ng-model="maps")
 
 
     //- Disclaimer section

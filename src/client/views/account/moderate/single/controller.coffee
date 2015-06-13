@@ -3,8 +3,6 @@ $scope, $stateParams, Classifieds) ->
   @name = "[page:account-cl-single]"
   $log.log @name, "initializing"
 
-  $scope.heroURL = "landing.jpg"
-
   # Fetch the classified from the API
   Classifieds.get $stateParams.id, (error, classified) ->
     staticUrl = $environment.staticUrl
