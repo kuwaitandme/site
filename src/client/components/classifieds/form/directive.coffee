@@ -1,6 +1,6 @@
 exports = module.exports = ->
   controller: require "./controller"
   link: require "./link"
-  require: "ngModel"
+  # require: "ngModel"
   scope: true
   templateUrl: "components/classifieds/form/template"

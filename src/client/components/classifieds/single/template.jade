@@ -15,7 +15,7 @@
   .columns.content
     .row
       h2.columns.title(contenteditable-dis="true", placholder="title", itemprop="name") {{ classified.title }}
-      //- ul.columns.tags
+      ul.columns.tags
         li.whatsapp(ng-if="classified.meta.whatsapp") Whatsapp
         li.viber(ng-if="classified.meta.viber") Viber
         li.green(ng-if="classified.hasDelivery") Delivery included

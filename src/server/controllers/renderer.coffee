@@ -47,7 +47,7 @@ exports = module.exports = (settings, cache) ->
         google:
           analyticsCode: settings.google.analyticsCode
           clientID: settings.google.clientID
-          reCaptchaKey: settings.google.reCaptcha
+          reCaptchaKey: settings.google.reCaptcha.siteKey
       # options.config =
         # mode: config.mode
         # magic: config.magic

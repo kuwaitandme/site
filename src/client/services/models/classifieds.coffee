@@ -71,7 +71,7 @@ exports = module.exports = ($environment, $location, $http, $log, $q) ->
 
 
 
-  model::save = (classified={}) ->
+  model::save = (classified={}, headers) ->
     if not classified.id?
       method = "POST"
       url = "#{$environment.url}/api/classifieds"
@@ -84,11 +84,11 @@ exports = module.exports = ($environment, $location, $http, $log, $q) ->
     formdata = getFormdata classified
     # Send the request with a 'multi-part/formdata' encoding.
     $http
-      url: url
       data: formdata
+      headers: angular.extend headers, "Content-Type": undefined
       method: method
       transformRequest: angular.identity
-      headers: "Content-Type": undefined
+      url: url
     .then parse
 
 

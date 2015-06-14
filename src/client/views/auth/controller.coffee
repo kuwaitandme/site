@@ -11,7 +11,7 @@ Languages, Users) ->
     $notifications.error Languages.translate query._error
     $location.search "_error", null
 
-  $scope.onHeroLoad = -> $scope.$emit "page-loaded"
+  $scope.$emit "page-loaded"
 
 
   $scope.login = {}

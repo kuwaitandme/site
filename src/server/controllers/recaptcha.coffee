@@ -7,10 +7,10 @@ querystring    = require "querystring"
 exports = module.exports = (IoC, settings) ->
   logger = IoC.create "igloo/logger"
 
-  API_END_POINT = "/api/recaptcha/siteverify"
+  API_END_POINT = "/recaptcha/api/siteverify"
   API_HOST      = "www.google.com"
-  siteKey       = settings.reCaptcha.siteKey
-  siteSecret    = settings.reCaptcha.secret
+  siteKey       = settings.google.reCaptcha.siteKey
+  siteSecret    = settings.google.reCaptcha.siteSecret
 
   # A helper function to send a call to the reCaptcha API. This function calls
   # the callback with the result of the captcha validation.
@@ -20,7 +20,7 @@ exports = module.exports = (IoC, settings) ->
       response: APIdata.response
       secret: siteSecret
     # Generate the query string.
-    data_qs = querystring.stringify data
+    data_qs = querystring.stringify dataToSend
     # Prepare the request parameters which we will send to the Google reCaptcha.
     req_options =
       host: API_HOST
@@ -28,14 +28,15 @@ exports = module.exports = (IoC, settings) ->
       path: API_END_POINT
       port: 443
       headers:
-        "Content-Length" : data_qs.length
-        "Content-Type"   : "application/x-www-form-urlencoded"
+        "Content-Length": data_qs.length
+        "Content-Type": "application/x-www-form-urlencoded"
     # Finally, send the request to the API
     request = https.request req_options, (response) ->
       body = ""
       response.on "data", (chunk) -> body += chunk
       response.on "error", -> callback "recaptcha-not-reachable"
       response.on "end", ->
+        console.log body
         result = JSON.parse body
         if result.success then callback()
         else callback result["error-codes"]
@@ -50,13 +51,13 @@ exports = module.exports = (IoC, settings) ->
     verify: (request) ->
       new Promise (resolve, reject) =>
         logger.debug "checking reCaptcha"
-        if not settings.reCaptcha.enabled then return resolve request
+        if not settings.reCaptcha then return resolve request
 
         # Get the ip and the user's captcha response.
         remoteIP = request.connection.remoteAddress
         captchaData = request.query.captcha or
           request.body["g-recaptcha-response"] or
-          request.headers["x-gcaptcha"]
+          request.headers["x-recaptcha"]
         # Prepare the data to be sent to the API
         APIdata = remoteip: remoteIP, response: captchaData
 

@@ -5,15 +5,11 @@ exports = module.exports = ($scope, $root, $stateParams, $log, Classifieds) ->
 
   $root.bodyStyles['stick-header'] = true
 
-  $scope.$on "classified-changed", (event, classified) ->
-    $scope.classified = classified
-
-
   if not $scope.classified?
-    Classifieds.get $stateParams.id, (error, classified) ->
+    Classifieds.get $stateParams.id
+    .then (classified) ->
       $scope.classified = classified
       $scope.$emit "page-loaded"
-      # $root.meta.robotsNoIndex = classified.meta.hideSearchEngine
 
 
 exports.$inject = [

@@ -68,6 +68,14 @@ $notifications, $scope, Classifieds, Categories, Locations, Users) ->
     # Set the attempted class so that CSS can highlight invalid any fields
     $scope.formClasses.attempted = true
 
+    if not $scope.form.$invalid
+      return $notifications.error "You have some invalid fields in your form. Have a look at them again"
+
+    if not $scope.form.gcaptcha
+      return $notifications.error "You must pass the Captcha!"
+
+    # Form is good to submit. Start the submission
+
     classified = angular.extend(
       $scope.classified
       $scope.categories
@@ -79,13 +87,11 @@ $notifications, $scope, Classifieds, Categories, Locations, Users) ->
       {meta: $scope.meta}
     )
 
-    if not $scope.form.$invalid
-      return $notifications.error "You have some invalid fields in your form. Have a look at them again"
+    headers = angular.extend(
+      "x-csrf-token": $scope.form.csrf
+      "x-recaptcha": $scope.form.gcaptcha
+    )
 
-    if not $scope.form.gcaptcha
-      return $notifications.error "You must pass the Captcha!"
-
-    # Form is good to submit. Start the submission
     $scope.formLoading = $scope.formClasses.loading = true
     $log.log @name, "submitting form"
 
@@ -95,23 +101,26 @@ $notifications, $scope, Classifieds, Categories, Locations, Users) ->
 
     # $scope.classified.spendUrgentPerk = $scope.urgentPrice
     # $scope.classified.spendPromotePerk = $scope.promotePrice
-    Classifieds.save $scope.classified, (error, classified) =>
+    Classifieds.save $scope.classified, headers
+    .then (classified) ->
+      $scope.$emit "classified-form:submitted", classified
+    .catch (response) =>
+      error = response.data
+      $log.error @name, error
+      switch error
+        when "not enough credits"
+          message = "You don't have enough credits"
+        when "need login"
+          message = "You must be logged in an account to manage a classified"
+        when "email conflict"
+          message = "That email address has an account with this site. You must login with that email otherwise this classified is considered as spam."
+        when "not privileged"
+          message = "You can't make changes to this classified"
+        else
+          message = "Something went wrong while saving your classified. Try again later"
+      $notifications.error message, 10000
+    .finally ->
       $scope.formLoading = $scope.formClasses.loading = false
-      if error
-        $log.error @name, error
-        switch error
-          when "not enough credits"
-            message = "You don't have enough credits"
-          when "need login"
-            message = "You must be logged in an account to post a classified"
-          when "email conflict"
-            message = "That email address has an account with this site. You must login with that email otherwise this classified is considered as spam."
-          when "not privileged"
-            message = "You can't make changes to this classified"
-          else
-            message = "Something went wrong while saving your classified. Try again later"
-        $notifications.error message, 10000
-      else $scope.$emit "classified-form:submitted", classified
 
 
 exports.$inject = [

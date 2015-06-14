@@ -1,17 +1,19 @@
-# config
 path      = require "path"
-parentDir = path.join __dirname, "../.."
-appDir    = path.join parentDir, "src/server"
 
-pkg          = require path.join parentDir, "package"
+# Setup the different directory variables
+parentDir    = path.join __dirname, "../.."
+appDir       = path.join parentDir, "src/server"
 assetsDir    = path.join parentDir, "var/public"
 publicDir    = path.join parentDir, "var/public"
 viewsDir     = path.join appDir,    "views"
 modelsDir    = path.join parentDir, "etc/db"
 templatesDir = path.join viewsDir,  "emails"
-maxAge       = 24 * 60 * 60 * 1000
 
+# Other constants
+pkg          = require path.join parentDir, "package"
+maxAge       = 24 * 60 * 60 * 1000
 knexConfig   = require "./knexfile"
+
 
 exports = module.exports = ->
   defaults:
@@ -140,7 +142,7 @@ exports = module.exports = ->
 
     session:
       cookie: maxAge: maxAge
-      key: "s"
+      # key: "s"
       resave: true
       saveUninitialized: true
       secret: "change-me"
@@ -164,8 +166,10 @@ exports = module.exports = ->
     cookieParser: "kme-change-me"
 
     csrf:
-      enabled: false
-      options: cookie: maxAge: maxAge
+      enabled: true
+      options: cookie:
+        key: "XSRF-TOKEN"
+        maxAge: maxAge
 
     redis:
       host: "localhost"

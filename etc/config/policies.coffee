@@ -13,7 +13,7 @@ exports = module.exports = (IoC, User) ->
     ensureLoggedIn:    ensureLoggedIn
     ensureLoggedOut:   ensureLoggedOut
     ensureApiToken:    ensureApiToken
-    # notApiRouteRegexp: /^(?!\/api\/).*$/
+    notApiRouteRegexp: /^(?!\/api\/).*$/
     adminRouteRegexp:  /^(\/admin).*$/
 
   # since there are issues with `passport-http` right now

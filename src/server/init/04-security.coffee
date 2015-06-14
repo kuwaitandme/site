@@ -14,9 +14,9 @@ exports = module.exports = (IoC, settings, policies) ->
   # note: disabled automatically for XHR (AJAX) requests
   # and requests with `/api` prefixed route path
   if settings.csrf.enabled
-    app.all policies.notApiRouteRegexp, (req, res, next) ->
-      if req.xhr then return next()
-      csrf(settings.csrf.options) req, res, next
+    app.use (request, response, next) ->
+      if request.xhr then return next()
+      (csrf settings.csrf.options) request, response, next
 
 exports["@require"] = [
   "$container"
