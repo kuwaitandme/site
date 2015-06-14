@@ -157,4 +157,5 @@ section(ng-class="formClasses")
 
     //- Finally the submit button
     .columns.large-3.medium-6.end
+      csrf(ng-model="form.csrf")
       button.submit(ng-click="submit()") {{ formLoading ? "Submitting..." : "Submit classified" }}

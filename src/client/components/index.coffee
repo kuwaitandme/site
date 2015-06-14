@@ -23,3 +23,4 @@ module.exports = (app) ->
   app.directive "inputTel", require "./form-ui/input-tel/directive"
   app.directive "inputText", require "./form-ui/input-text/directive"
   app.directive "inputTextarea", require "./form-ui/input-textarea/directive"
+  app.directive "csrf", require "./form-ui/csrf/directive"

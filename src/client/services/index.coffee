@@ -1,4 +1,4 @@
-module.exports = (app) ->
+-module.exports = (app) ->
   console.log "[services] initializing"
 
   # app.service "$facebook",          require "./facebook.sdk"
@@ -11,6 +11,7 @@ module.exports = (app) ->
   app.service "$notifications",     require "./notifications"
   app.service "$scroller",          require "./scroller"
   app.service "$storage",           require "./storage"
+  app.service "$csrf",              require "./csrf"
 
   app.factory "models.categories",  require "./models/categories"
   app.factory "models.classifieds", require "./models/classifieds"
