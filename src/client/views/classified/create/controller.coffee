@@ -10,10 +10,8 @@ Users) ->
     $notifications.success "Your classified has been submitted successfully!"
     $location.path "/classified/finish/#{classified.id}"
 
-  # $scope.isUserLoggedIn = Users.isLoggedIn()
-  # if not Users.isLoggedIn()
-  #   $location.search "_error", "need_login_for_post"
-  #   $location.path "/auth"
+  $scope.classified = {}
+
   $scope.$emit "page-loaded"
 
 exports.$inject = [

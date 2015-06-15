@@ -13,7 +13,7 @@ $timeout, Languages, Users) ->
     $notifications.success string.replace "_NAME_", currentUserName
     $location.search "_success", null
 
-  if currentUser.role in [Users.roles.MODERATOR, Users.roles.ADMIN]
+  if currentUser.isModerator() or currentUser.isAdmin()
     $scope.isModerator = true
 
   container = $element[0].querySelector ".row"

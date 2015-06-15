@@ -2,12 +2,11 @@ exports = module.exports = ($environment, $location, $log, $notifications,
 $scope, $stateParams, Classifieds) ->
   @name = "[page:account-cl-single]"
   $log.log @name, "initializing"
-  $scope.$emit "page-loaded"
 
-
+  # Fetch the classified from the API
   Classifieds.get $stateParams.id
   .then (classified) ->
-    console.log classified
+    $scope.$emit "page-loaded"
     $scope.classified = classified
 
   # When classified has been edited successfully, redirect to the account page

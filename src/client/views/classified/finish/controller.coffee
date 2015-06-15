@@ -4,7 +4,8 @@ exports = module.exports = ($scope, $stateParams, $googleMaps, console, Classifi
   console.debug @name, "routeParams", $stateParams
 
   $scope.heroURL = "landing.jpg"
-  Classifieds.get $stateParams.id, (error, classified) =>
+  Classifieds.get $stateParams.id
+  .then (classified) ->
     $scope.classified = classified
     $scope.$emit "page-loaded"
 
