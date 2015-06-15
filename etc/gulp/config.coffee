@@ -23,7 +23,6 @@ module.exports =
 
 
   minify:
-    cssSrc: "var/public/stylesheets/style.css"
     jsSrc: "var/public/build/*.js"
     jsDest: "var/public/build/"
 
