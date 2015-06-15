@@ -11,67 +11,36 @@ exports = module.exports = (IoC, settings, cache) ->
   modelsDir = settings.modelsDir
   name = "[magicnumbers]"
 
-  buildPaths = [
-    "#{publicDir}/javascripts/app.js"
-    "#{publicDir}/javascripts/templates.js"
-    "#{publicDir}/stylesheets/style.css"
-  ]
+  checksumFile = "#{publicDir}/build/checksums"
 
-  libraryPaths = ["#{publicDir}/javascripts/libraries.js"]
+  # This function reads and updates the md5 sums from the checksum file.
+  readChecksums = ->
+    logger.log name, "reading checksums"
+    md5sums = {}
 
-  modelPaths = [
-    "#{modelsDir}/migrations"
-    "#{modelsDir}/seeds"
-  ]
+    # Start reading the checksums file and save them into a local variable
+    text = (fs.readFileSync checksumFile).toString()
+    lines = text.split "\n"
+    for line in lines
+      words = line.split "  "
+      filename = words[1]
+      sum = words[0]
+      if filename
+        md5sums[filename] = sum
+        logger.debug name, "MD5 #{sum} = #{filename}"
 
-  _calculateMagic = (paths, callback) ->
-    files = []
-    for path in paths
-      isDir = (fs.lstatSync path).isDirectory()
-      # console.log path, isDir
-      if isDir
-        tmpFiles = fs.readdirSync path
-        files.push "#{path}/#{file}" for file in tmpFiles
-      else files.push path
+    # Now that we have the sums, we now update the settings and clear the cache.
+    settings.magic = md5sums
+    cache.clear()
 
-    # Map each file into the md5file, which generates md5-checksums for each
-    # file.
-    async.map files, md5File, (error, sums) ->
-      if error then callback error
-      # Concatenate all the md5 sums
-      newBadSum = ""
-      newBadSum += sum for sum in sums
-      finalMd5 = md5 newBadSum
-      # Return the new MD5 checksum
-      callback null, finalMd5
 
-  _resetMagic = (paths, key) ->
-    _calculateMagic paths, (error, magic) ->
-      logger.debug name, "setting #{key} magic to: #{magic}"
-      settings.magic[key] = magic
-      cache.clear
+  # We ask for node to re-calculate the checksums in case if there needs to be
+  # any updating that is done on-the-go..
+  try fs.watch checksumFile, readChecksums
+  catch e then console.log e
 
-  resetApplicationMagic = -> _resetMagic buildPaths, "application"
-  resetLibraryMagic = -> _resetMagic libraryPaths, "library"
-  resetModelMagic = -> _resetMagic modelPaths, "models"
-
-  for dir in buildPaths
-    try fs.watch dir, resetApplicationMagic
-    catch e then console.log e
-
-  for dir in libraryPaths
-    try fs.watch dir, resetLibraryMagic
-    catch e then console.log e
-
-  for dir in modelPaths
-    try fs.watch dir, resetModelMagic
-    catch e then console.log e
-
-  settings.magic ?= {}
-  resetApplicationMagic()
-  resetLibraryMagic()
-  resetModelMagic()
-
+  # Finally, read the checksums for the first time.
+  readChecksums()
 
 exports["@require"] = [
   "$container"

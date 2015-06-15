@@ -20,17 +20,11 @@ var dependencies = [
 var gulp = require("./etc/gulp")(dependencies);
 
 
-gulp.task("build", function (callback) {
-  runSequence(
-    ["coffee", "sass", "jade", "bower"],
-    "md5",
-    "checksum",
-    callback);
-});
+gulp.build("build", ["coffee", "sass", "jade", "bower", "server"])
 
 gulp.task("deploy", function (callback) {
   runSequence(
-    ["coffee", "sass", "jade", "bower", "server"],
+    "build",
     "minify",
     "md5",
     "checksum",
@@ -38,4 +32,12 @@ gulp.task("deploy", function (callback) {
 });
 
 
-gulp.task("default", ["build", "watch"]);
+gulp.task("default", function (callback) {
+  runSequence(
+    "build",
+    "md5",
+    "checksum",
+    "watch",
+    callback);
+});
+

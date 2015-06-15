@@ -10,8 +10,8 @@ maxScriptCount = 11
 window.scripts = [
   {
     id: "app:style-css"
-    remote: ["#{u}/stylesheets/style.css?m=#{publicData.magic.application}"]
-    local: "/stylesheets/style.css?m=#{publicData.magic.application}"
+    remote: ["#{u}/build/md5/style_#{publicData.magic['style.css']}.css"]
+    local: "/build/md5/style_#{publicData.magic['style.css']}.css"
   }
   {
     id: "library"
@@ -24,17 +24,17 @@ window.scripts = [
       "//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.14/angular-ui-router.min.js"
       "//cdnjs.cloudflare.com/ajax/libs/masonry/3.3.0/masonry.pkgd.min.js"
     ]
-    local: "/javascripts/libraries.js?m=#{publicData.magic.library}"
+    local: "/build/md5/libraries_#{ publicData.magic['libraries.js'] }.js"
   }
   {
     id: "app:template"
-    remote: ["#{u}/javascripts/templates.js?m=#{publicData.magic.application}"]
-    local: "/javascripts/templates.js?m=#{publicData.magic.application}"
+    remote: ["#{u}/build/md5/templates_#{publicData.magic['templates.js']}.js"]
+    local: "/build/md5/templates_#{publicData.magic['templates.js']}.js"
   }
   {
     id: "app:script"
-    remote: ["#{u}/javascripts/app.js?m=#{publicData.magic.application}"]
-    local: "/javascripts/app.js?m=#{publicData.magic.application}"
+    remote: ["#{u}/build/md5/app_#{publicData.magic['app.js']}.js"]
+    local: "/build/md5/app_#{publicData.magic['app.js']}.js"
   }
   {
     id: "library:font-css"
