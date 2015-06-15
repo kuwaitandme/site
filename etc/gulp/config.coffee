@@ -34,9 +34,9 @@ module.exports =
     targetFilenameMin: "templates.js"
 
   watch:
-    jsPattern: "src/client/**/*.coffee"
-    cssPattern: "src/client/**/*.{sass,scss}"
+    coffeePattern: "src/client/**/*.coffee"
     jadePattern: "src/client/**/*.jade"
+    sassPattern: "src/client/**/*.{sass,scss}"
     serverPattern: "src/server/views/components/footer-scripts/*.coffee"
 
   docs:

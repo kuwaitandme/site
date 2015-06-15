@@ -20,7 +20,7 @@ var dependencies = [
 var gulp = require("./etc/gulp")(dependencies);
 
 
-gulp.build("build", ["coffee", "sass", "jade", "bower", "server"])
+gulp.task("build", ["coffee", "sass", "jade", "bower", "server"])
 
 gulp.task("deploy", function (callback) {
   runSequence(
