@@ -1,18 +1,35 @@
 module.exports =
   coffee:
-    dest: "var/public/javascripts"
+    dest: "var/public/build"
     src: "src/client/entry.coffee"
     targetFilename: "app.js"
     targetFilenameMin: "app.js"
 
   sass:
-    dest: "var/public/stylesheets"
+    dest: "var/public/build"
     src: "src/client/style.sass"
     targetFilename: "style.css"
     targetFilenameMin: "style.css"
 
+  md5:
+    src: "var/public/build/*.{js,css}"
+    dest: "var/public/build/md5"
+
+  checksum:
+    src: "var/public/build/*.{js,css}"
+    filename: "checksums"
+    hash: "md5"
+    dest: "var/public/build"
+
+
+  minify:
+    cssSrc: "var/public/stylesheets/style.css"
+    jsSrc: "var/public/build/*.js"
+    jsDest: "var/public/build/"
+
+
   jade:
-    dest: "var/public/javascripts"
+    dest: "var/public/build"
     src: "src/client/**/*.jade"
     targetFilename: "templates.js"
     targetFilenameMin: "templates.js"
@@ -43,5 +60,5 @@ module.exports =
       src: "src/server/db/*.coffee"
 
   bower:
-    dest: "var/public/javascripts/"
+    dest: "var/public/build/"
     targetFilename: "libraries.js"

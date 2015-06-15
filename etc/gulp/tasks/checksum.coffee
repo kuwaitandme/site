@@ -7,6 +7,7 @@ uglify    = require "gulp-uglifyjs"
 
 module.exports = (gulp, config) -> ->
   gulp.src config.src
-  .pipe (coffeeify options: debug: true).on "error", gutil.log
-  .pipe rename config.targetFilename
-  .pipe gulp.dest config.dest
+  .pipe hashsum
+    dest: config.dest
+    hash: config.hash
+    filename: config.filename
