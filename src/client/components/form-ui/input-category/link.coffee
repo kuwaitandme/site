@@ -23,9 +23,8 @@ module.exports = (scope, element, attributes, ngModel) ->
   # Write data to the model
   read = ->
     scope.$evalAsync -> ngModel.$setViewValue
-      parent_category: scope.parentCategory or {}
-      child_category: scope.childCategory or {}
-
+      parent_category: (scope.parentCategory or {}).id
+      child_category: (scope.childCategory or {}).id
 
   # These lines constantly call the entire update cycle, whenever their values
   # have been changed.

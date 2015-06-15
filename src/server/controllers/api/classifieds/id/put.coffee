@@ -18,7 +18,6 @@ Users) ->
 
   # Check if user has privileges to modify the classified
   checkUserPrivelages = (results) ->
-    console.log results
     # Grab the request and the classified (sent by the prev promise)
     request = results.request
     oldClassified = results.classified

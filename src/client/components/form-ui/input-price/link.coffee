@@ -3,8 +3,8 @@ module.exports = (scope, element, attributes, ngModel) ->
 
   # Rewrite the isEmpty condition
   ngModel.$isEmpty = (value={}) ->
-    if value.priceType in [0, 1] then return false
-    if value.priceType is 2 and value.priceValue > 0 then return false
+    if value.price_type in [0, 1] then return false
+    if value.price_type is 2 and value.price_value > 0 then return false
     true
 
 

@@ -40,7 +40,7 @@ section(ng-class="formClasses")
     //- Image section.
     .columns
       div(input-images, form-ui
-        ng-model="images")
+        ng-model="ctrl.images")
 
 
     //- Contact section
@@ -48,34 +48,34 @@ section(ng-class="formClasses")
       .row
         .columns.medium-6
           div(input-price, form-ui
-            ng-model="price"
+            ng-model="ctrl.price"
             placeholder="Price *"
             required="true"
             ng-class="{disabled: formLoading}")
         .columns.medium-6
           div(input-long-list, form-ui
             list="locations"
-            ng-model="location"
+            ng-model="ctrl.location"
             placeholder="Location *"
             required="true"
             ng-class="{disabled: formLoading}")
         .columns.medium-6
           div(input-category, form-ui
-            ng-model="categories"
+            ng-model="ctrl.categories"
             placeholder="Category *"
-            required="true"
+            requireds="true"
             ng-class="{disabled: formLoading}")
         .columns.medium-6
           div.disabled(input-text, form-ui
-            disabled="!!user"
-            ng-model="user.email"
+            disabled="!!ctrl.user"
+            ng-model="ctrl.user.email"
             placeholder="Email *"
             type="email"
             required="true")
         .columns.medium-6
           div(input-text, form-ui
-            disabled="!!user"
-            ng-model="user.full_name"
+            disabled="!!ctrl.user"
+            ng-model="ctrl.user.full_name"
             placeholder="Your Name *"
             required="true")
         .columns.medium-6
@@ -84,11 +84,11 @@ section(ng-class="formClasses")
             ng-model="contact.phone"
             placeholder="Telephone"
             required="true")
-        .columns.medium-6(ng-if="location && location != 0")
+        .columns.medium-6(ng-if="form.location && form.location != 0")
           div(input-text, form-ui
             ng-model="contact.address1"
             placeholder="Address Line 1")
-        .columns.medium-6(ng-if="location && location != 0")
+        .columns.medium-6(ng-if="form.location && form.location != 0")
           div(input-text, form-ui
             ng-model="contact.address2"
             placeholder="Address Line 2")
@@ -129,18 +129,18 @@ section(ng-class="formClasses")
           div.googlemaps(input-checkbox-icon
             form-ui
             placeholder="Add Google Maps"
-            ng-model="form.mapsEnabled")
+            ng-model="ctrl.mapsEnabled")
 
 
     //- Google Maps
-    .google-maps.columns(ng-if="form.mapsEnabled",
+    .google-maps.columns(ng-if="ctrl.mapsEnabled",
       ng-init="drawMap()")
       label.hide-for-large-up Touch/Tap to place the marker
       label.show-for-large-up Drag and drop the marker to set the map!
       .row.collapse
         .columns
           //- This is the container which will hold the map
-          #maps-container(google-maps-input, ng-model="maps")
+          #maps-container(google-maps-input, ng-model="ctrl.maps")
 
 
     //- Disclaimer section
@@ -152,10 +152,10 @@ section(ng-class="formClasses")
 
     //- Google reCaptcha
     .columns
-      div(google-recaptcha, ng-model="form.gcaptcha")
+      div(google-recaptcha, ng-model="ctrl.gcaptcha")
 
 
     //- Finally the submit button
     .columns.large-3.medium-6.end
-      csrf(ng-model="form.csrf")
+      csrf(ng-model="ctrl.csrf")
       button.submit(ng-click="submit()") {{ formLoading ? "Submitting..." : "Submit classified" }}

@@ -36,7 +36,6 @@ exports = module.exports = (IoC, settings) ->
       response.on "data", (chunk) -> body += chunk
       response.on "error", -> callback "recaptcha-not-reachable"
       response.on "end", ->
-        console.log body
         result = JSON.parse body
         if result.success then callback()
         else callback result["error-codes"]

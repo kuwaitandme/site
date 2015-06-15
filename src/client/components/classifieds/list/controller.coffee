@@ -64,8 +64,8 @@ $window, Classifieds) ->
     # and can then get used here (due to angular scope inheritance).
     angular.extend parameters, ($scope.query or {})
     # Finally!, run the query..
-    Classifieds.query parameters, (error, classifieds) =>
-      if error then $log.error error
+    Classifieds.query parameters
+    .then (classifieds) =>
       if classifieds.length == 0 then $scope.queryFinished = true
       $log.log @name, "finished loading classifieds"
       $log.debug @name, "loaded #{classifieds.length} classified(s)"
@@ -75,6 +75,8 @@ $window, Classifieds) ->
         classified.imageLoaded = -> masonry.layout()
         $scope.classifieds.push classified
       $scope.loadingClassifieds = false
+    .catch (response) -> $log.error response
+
   $scope.loadClassifieds()
   # Reload the classified after a second to fix the bug when there aren't
   # enough classifieds to trigger the scroll

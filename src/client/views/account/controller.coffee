@@ -3,7 +3,7 @@ $timeout, Languages, Users) ->
   @name = "[page:account]"
   $log.log @name, "initializing"
   $scope.$emit "page-loaded"
-  currentUser = Users.getCurrentUser() or {}
+  currentUser = Users.getCurrent() or {}
 
 
   query = $location.search()

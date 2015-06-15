@@ -96,14 +96,22 @@ h1
   overflow: hidden
 
 button
-  @extend font-roboto
   +single-transition
+  +radius(3px)
+  @extend .font-cantarell
   background: #2ecc71
   border: 0
   color: #FFF
-  font-size: 0.8rem
-  padding: 0.5rem 1rem
-  // border-bottom: 3px solid rgba(0,0,0,0.3)
+  cursor: pointer
+  font-size: 0.9rem
+  height: 46px
+  padding: 10px 30px
+  text-transform: uppercase
+  width: 100%
+  z-index: 3
   &:hover, &:focus
     outline: none
-    background: #2cc36b
+    &:after
+      background: #2cc36b
+  &.error
+    background: $color-error

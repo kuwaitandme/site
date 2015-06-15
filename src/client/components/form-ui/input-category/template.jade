@@ -4,7 +4,7 @@
     span {{ parentCategory.name }}&nbsp;
     span(ng-if="parentCategory.children.length > 0") / {{ childCategory.name }}
 
-.placeholder(ng-class="{shrink: parentCategory}") {{ placeholder }}
+.placeholder(ng-class="{shrink: parentCategory.id}") {{ placeholder }}
 
 ul(ng-class="{opened: opened && !parentCategory.id}").medium-block-grid-2
   li(ng-repeat="cat in cats"

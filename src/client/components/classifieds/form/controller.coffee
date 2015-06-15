@@ -5,11 +5,16 @@ $notifications, $scope, Classifieds, Categories, Locations, Users) ->
   currentUser = Users.getCurrent()
   $log.log @name, "initializing"
 
-  $scope.price = null
-  $scope.gcaptcha = null
+  $scope.ctrl =
+    categories: {}
+    contact: {}
+    gcaptcha: null
+    location: {}
+    meta: {}
+    price: {}
+    user: currentUser.get()
 
-  # Initialize the models
-  $scope.categories = Categories.getAll()
+
   $scope.locations = Locations.getAll()
   # If classified is not defined, then set it to it's default values
   # $scope.classified ?= Classifieds.getDefault()
@@ -18,14 +23,6 @@ $notifications, $scope, Classifieds, Categories, Locations, Users) ->
   # Attach the css class for when the form is loading
   $scope.formClasses.loading = $scope.formLoading
 
-  # r = ->
-  #   console.log ">", $scope.classified
-  #   setTimeout r, 1000
-  # r()
-  # # setT
-  # $scope.$watch "classified", (a) ->
-  #   console.log 'title', a
-  # , true
 
   updateAvailableCredits = ->
     userCredits = currentUser.credits or 0
@@ -38,19 +35,10 @@ $notifications, $scope, Classifieds, Categories, Locations, Users) ->
   $scope.$watch "urgentPrice", updateAvailableCredits
   $scope.$watch "promotePrice", updateAvailableCredits
 
-  # Automatically populate and/or disable the email field
-  $scope.user = currentUser
-  # if not $scope.classified.contact.email? and currentUserEmail?
-  #   $scope.disableEmailField = true
-  #   $scope.classified.contact.email = currentUserEmail
-  # if $scope.classified.contact.email? then $scope.disableEmailField = true
-
-  # $scope.location = Locations.findById $scope.classified.location
 
   # Set the super editable property iff the user is a moderator or an admin
-  currentUser = currentUser or {}
-  roles = Users.roles
-  # $scope.superEditable = currentUser.role in [roles.MODERATOR, roles.ADMIN]
+  if currentUser.isModerator() or currentUser.isAdmin()
+    $scope.superEditable = true
 
 
   # If the status has been changed, immediately submit the classified
@@ -71,25 +59,25 @@ $notifications, $scope, Classifieds, Categories, Locations, Users) ->
     if not $scope.form.$invalid
       return $notifications.error "You have some invalid fields in your form. Have a look at them again"
 
-    if not $scope.form.gcaptcha
+    if not $scope.ctrl.gcaptcha
       return $notifications.error "You must pass the Captcha!"
 
     # Form is good to submit. Start the submission
 
     classified = angular.extend(
       $scope.classified
-      $scope.categories
-      $scope.location
-      $scope.price
-      {contact: $scope.contact}
-      {images: $scope.images}
-      {meta: $scope.maps}
+      $scope.ctrl.categories
+      $scope.ctrl.price
+      {contact: $scope.contact or {}}
+      {images: $scope.ctrl.images}
+      {location: $scope.ctrl.location}
       {meta: $scope.meta}
+      {meta: $scope.maps}
     )
 
     headers = angular.extend(
-      "x-csrf-token": $scope.form.csrf
-      "x-recaptcha": $scope.form.gcaptcha
+      "x-csrf-token": $scope.ctrl.csrf
+      "x-recaptcha": $scope.ctrl.gcaptcha
     )
 
     $scope.formLoading = $scope.formClasses.loading = true
@@ -97,7 +85,7 @@ $notifications, $scope, Classifieds, Categories, Locations, Users) ->
 
     # Delete the image.src (which contains the base64 data) to avoid
     # repetition of the image upload.
-    delete image.src for image in ($scope.classified.images or [])
+    delete image.src for image in ($scope.ctrl.images or [])
 
     # $scope.classified.spendUrgentPerk = $scope.urgentPrice
     # $scope.classified.spendPromotePerk = $scope.promotePrice

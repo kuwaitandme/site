@@ -3,7 +3,10 @@ defaults =
   images: []
   meta: {}
 
-statuses =
+
+model = ->
+
+model::statuses =
   INACTIVE: 0
   ACTIVE: 1
   REJECTED: 2
@@ -64,10 +67,9 @@ serializeGET: (obj) ->
   str.join '&'
 
 
-model = ->
 model::name = "[model:classified]"
 
-exports = module.exports = ($environment, $location, $http, $log, $q) ->
+exports = module.exports = ($environment, $location, $http, $httpParamSerializer, $log, $q) ->
 
 
 
@@ -89,22 +91,24 @@ exports = module.exports = ($environment, $location, $http, $log, $q) ->
       method: method
       transformRequest: angular.identity
       url: url
-    .then parse
+    .then parseResponse
 
 
   model::query = (parameters) ->
-    $http.get "#{$environment.url}/api/classifieds?#{serializeGET parameters}"
-    .then parse
+    $http.get "#{$environment.url}/api/classifieds?#{$httpParamSerializer parameters}"
+    .then (response) ->
+      cl = parse cl for cl in response.data
+      response.data
 
 
   model::get = (id) ->
     $http.get "#{$environment.url}/api/classifieds/#{id}"
-    .then parse
+    .then parseResponse
 
 
   model::getBySlug = (slug) ->
     $http.get "#{$environment.url}/api/classifieds/slug/#{slug}"
-    .then parse
+    .then parseResponse
 
 
   # This function simple returns a blank classified with the default fields
@@ -114,9 +118,10 @@ exports = module.exports = ($environment, $location, $http, $log, $q) ->
   # This function is run with every classified that is fetched from the API.
   # This makes sure that all necessary fields are parsed and extra fields (for
   # front-end purposes only) are also set.
-  parse = (response) ->
+  parseResponse = (response) -> parse response.data
+  parse = (data) ->
     # First off give any defaults if needed.
-    cl = angular.extend defaults, response.data
+    cl = angular.extend defaults, data
     # if cl.priceType? then cl.priceType = String cl.priceType
     # # Sets the social links
     # SOURCE = "https://#{$location.host()}"
@@ -133,23 +138,24 @@ exports = module.exports = ($environment, $location, $http, $log, $q) ->
     # Find and set the main image
     for image in (cl.images or [])
       image.src = "#{$environment.staticUrl}/uploads/thumb/#{image.filename}"
-    for image in (cl.images or [])
-      cl.mainImage = image
-      imageURL = "#{$environment.staticUrl}/uploads/main/#{image.filename}"
-      cl.social.pintrest = "https://pinterest.com/pin/create/button/?url=#{URL}&media=#{imageURL}&description=#{cl.title}"
-      if image.main? and image.main then break
+    # for image in (cl.images or [])
+    #   cl.mainImage = image
+    #   imageURL = "#{$environment.staticUrl}/uploads/main/#{image.filename}"
+    #   cl.social.pintrest = "https://pinterest.com/pin/create/button/?url=#{URL}&media=#{imageURL}&description=#{cl.title}"
+    #   if image.main? and image.main then break
     # Setup special variables for ENUM-type objects
     switch cl.status
-      when statuses.ACTIVE then cl.isActive    = true
-      when statuses.ARCHIVED then cl.isArchived  = true
-      when statuses.BANNED then cl.isBanned    = true
-      when statuses.EXPIRED then cl.hasExpired  = true
-      when statuses.INACTIVE then cl.underReview = true
-      when statuses.REJECTED then cl.isRejected  = true
+      when model::statuses.ACTIVE then cl.isActive    = true
+      when model::statuses.ARCHIVED then cl.isArchived  = true
+      when model::statuses.BANNED then cl.isBanned    = true
+      when model::statuses.EXPIRED then cl.hasExpired  = true
+      when model::statuses.INACTIVE then cl.underReview = true
+      when model::statuses.REJECTED then cl.isRejected  = true
     switch cl.language
       when languages.ARABIC then cl.isArabic  = true
       when languages.ENGLISH then cl.isEnglish = true
     # Set the delivery variables
+    cl.meta ?= {}
     if cl.meta.deliveryIncluded
       if not cl.meta.freeDeliveryIncluded then cl.hasDelivery = true
       else cl.hasFreeDelivery = true
@@ -164,6 +170,7 @@ exports.$inject = [
   "$environment"
   "$location"
   "$http"
+  "$httpParamSerializer"
   "$log"
   "$q"
 ]

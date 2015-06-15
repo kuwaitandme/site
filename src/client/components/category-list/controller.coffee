@@ -1,6 +1,6 @@
-exports = module.exports = ($element, $scope, $location, console, Categories) ->
+exports = module.exports = ($element, $scope, $location, $log, Categories) ->
   @name = "[component:category-list]"
-  console.log @name, "initializing"
+  $log.log @name, "initializing"
 
   $scope.categories = []
   catContainer = $element[0].querySelector "ul"

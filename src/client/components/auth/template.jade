@@ -1,4 +1,4 @@
-.row(ng-init="show=true")
+.row(ng-init="show=true; tab='main'")
   .columns.medium-5.hero.hide-for-small
     .intro
       h2 Why Sign Up?
@@ -6,7 +6,9 @@
         li View advanced statistics
         li Manage your classifieds
         li Get free 100 credits
-  .columns.medium-7
+
+  //- Main tab
+  .columns.medium-7(ng-if="tab == 'main'")
     .contents
       .oauth
         a.facebook(target="_self", href="/auth/oauth/facebook") Continue with Facebook
@@ -14,8 +16,63 @@
         a.windows(target="_self", href="/auth/oauth/windowslive") Continue with Windows Live
       .option-text Or use your email address
       .email
-        a.login(href="/auth", ng-click="close()") Login
-        a.signup(href="/auth", ng-click="close()") Sign Up
+        a.login(ng-click="goto('login')") Login
+        a.signup(ng-click="goto('signup')") Sign Up
+
+
+  //- Login tab
+  .columns.medium-7(ng-if="tab == 'login'")
+    form.row.collapse.auth-tab
+      div.columns(input-text
+        form-ui
+        maxlength="140"
+        ng-model="login.username"
+        placeholder="Email"
+        required="true"
+        ng-class="{disabled: formLoading}")
+      div.columns(input-text
+        form-ui
+        maxlength="140"
+        ng-model="login.password"
+        placeholder="Password"
+        type="password"
+        required="true"
+        ng-class="{disabled: formLoading}")
+      csrf(ng-model="login._csrf")
+      button.columns.success(ng-click="doLogin()") Login
+      button.columns.error(ng-click="goto('main')") Cancel
+
+
+  //- Signup
+  .columns.medium-7(ng-if="tab == 'signup'")
+    .row.collapse.auth-tab(ng-init="signup={}")
+      div.columns(input-text
+        form-ui
+        maxlength="140"
+        ng-model="signup.fullname"
+        placeholder="Full Name"
+        required="true"
+        ng-class="{disabled: formLoading}")
+      div.columns(input-text
+        form-ui
+        maxlength="140"
+        ng-model="signup.email"
+        placeholder="Email"
+        required="true"
+        ng-class="{disabled: formLoading}")
+      div.columns(input-text
+        form-ui
+        maxlength="140"
+        ng-model="signup.password"
+        placeholder="Password"
+        type="password"
+        required="true"
+        ng-class="{disabled: formLoading}")
+      csrf(ng-model="signup._csrf")
+      div.columns(google-recaptcha, ng-model="signup.gcaptcha")
+      button.columns.success(ng-click="doSignup()") Signup
+      button.columns.error(ng-click="goto('main')") Cancel
+
 
   .close(ng-click="close()")
     img(src!="<%= staticUrl %>/images/close.png")
