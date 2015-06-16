@@ -1,9 +1,10 @@
+name = "[component:classified-interactive-list]"
+body = (document.getElementsByTagName "body")[0]
+scrollPosition = 0
+
 exports = module.exports = ($element, $location, $log, $root, $scope, $timeout,
 $window, Classifieds) ->
-  @name = "[component:classified-interactive-list]"
-  $log.log @name, "initializing"
-  body = (document.getElementsByTagName "body")[0]
-  scrollPosition = 0
+  $log.log name, "initializing"
 
   # This function spawns the cards UI and hides the classified list.
   $scope.$on "classified-list:click", ($event, data) ->

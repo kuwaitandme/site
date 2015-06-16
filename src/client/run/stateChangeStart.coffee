@@ -8,7 +8,7 @@ exports = module.exports = ($root, $log, $storage) ->
   $root.$on "$stateChangeStart",
     (event, toState, toParams, fromState, fromParams) ->
       # $storage.tmp null, null
-      # $root.bodyStyles = {}
+      $root.bodyStyles = {}
       console.log "loading"
       $root.bodyClasses.loading = true
 
