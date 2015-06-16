@@ -2,6 +2,7 @@ section.row
   #search-info.row(style!="background-image: url(<%= staticUrl %>/images/hero/{{ heroURL }})")
     img(fn-image-loader!="<%= staticUrl %>/images/hero/{{ heroURL }}",
       fn-image-success="onHeroLoad()")
+    .shade
     h1.columns {{ parentCategory.name }}
     h2.columns(ng-if="childCategory.id") {{ childCategory.name }}
   section(classified-interactive-list)
