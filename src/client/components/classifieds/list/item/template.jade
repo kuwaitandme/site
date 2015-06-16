@@ -21,8 +21,8 @@ section(ng-class="{'show-status': showStatus, 'urgent':classified.meta.urgentPer
         itemtype="http://schema.org/Offer")
         span(itemprop="priceCurrency",
           content="KWD")
-        span(content="{{ (classified.priceValue || 0 ) }}",
-          itemprop="price") {{ classified.priceValue | price:classified.priceType }}
+        span(content="{{ (classified.price_value || 0 ) }}",
+          itemprop="price") {{ classified.price_value | price : classified.price_type }}
       li.status.small-6.columns(ng-if="showStatus") {{ classified.status | status:"classified" }}
       li.date.small-6.columns.text-right
         //- a(ng-href="/{{ classified.slug }}")
