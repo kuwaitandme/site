@@ -9,14 +9,14 @@
     h1.tagline Your free local classifieds in Kuwait
     .cta
       a(href="/classified/create"
-        ng-click="trackEvent('Create classified')") Post your classified
+        ng-clicks="trackEvent('Create classified')") Post your classified
       a(href="/classified"
-        ng-click="trackEvent('Find classified')") Find a classified
+        ng-clicks="trackEvent('Find classified')") Find a classified
       .hide-if-loggedin
         a(ng-click="showAuth(); trackEvent('Login')") Login/Signup
       .show-if-loggedin
         a(ng-href="/account"
-          ng-click="trackEvent('Manage account')") Manage your Account
+          ng-clicks="trackEvent('Manage account')") Manage your Account
 
 #featured-classifieds.row(ng-if="displayClassifiedList")
   h2 Latest Classifieds

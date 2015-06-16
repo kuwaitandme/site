@@ -94,9 +94,10 @@
         | buyer/sellers.
 
 
-      a.google-maps.columns(ng-if="classified.meta.gmapX && classified.show",
-        ng-init="mapHeight = window.innerHeight / 2",
-        ng-style-dis="{height: window.innerHeight + 'px'}",
+      a.google-maps.columns(ng-if="classified.meta.gmapX && classified.show"
+        ng-init="mapHeight = window.innerHeight / 2"
+        ng-style-dis="{height: window.innerHeight + 'px'}"
+        target="_blank"
         ng-href="//www.google.co.in/maps/dir//{{classified.meta.gmapX}},{{classified.meta.gmapY}}")
         #maps-container(google-maps, ng-model="classified.meta")
 
