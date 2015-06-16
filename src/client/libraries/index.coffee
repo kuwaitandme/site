@@ -2,10 +2,9 @@ module.exports = (app) ->
   console.log "[libraries] initializing"
 
   app.service "$facebook",          require "./facebook/sdk"
-  app.service "$google.analytics",  require "./google/analytics"
 
   app.service "Facebook",          require "./facebook/sdk"
-  app.service "Google.analytics",  require "./google/analytics"
+  app.service "Google.Analytics",  require "./google/analytics"
   app.service "Google.Maps", require "./google/maps/service"
   app.service "Google.reCaptcha", require "./google/reCaptcha/service"
 

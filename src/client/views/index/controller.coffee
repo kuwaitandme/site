@@ -1,4 +1,4 @@
-exports = module.exports = ($scope, $scroller, $root, $log, Classifieds) ->
+exports = module.exports = ($scope, $scroller, $root, $log, $ga, Classifieds) ->
   @name = "[page:landing]"
   $log.log @name, "initializing"
   $scope.gotoElement = (eID) -> setTimeout (-> $scroller.scrollTo eID), 100
@@ -8,8 +8,10 @@ exports = module.exports = ($scope, $scroller, $root, $log, Classifieds) ->
   $scope.$emit "page-loaded"
   $scope.onHeroLoad = ->
 
-  $scope.showAuth = ->
-    $root.$broadcast "show:auth-modal"
+  $scope.showAuth = -> $root.$broadcast "show:auth-modal"
+
+  $scope.trackEvent = (action) ->
+    $ga.trackEvent "Call to action", "click"
 
   $scope.query = status: Classifieds.statuses.ACTIVE
 
@@ -19,5 +21,6 @@ exports.$inject = [
   "$rootScope"
   "$log"
 
+  "Google.Analytics"
   "models.classifieds"
 ]

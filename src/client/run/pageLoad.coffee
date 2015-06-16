@@ -15,5 +15,5 @@ exports.$inject = [
   "$log"
   "$rootScope"
 
-  "Google.analytics"
+  "Google.Analytics"
 ]
