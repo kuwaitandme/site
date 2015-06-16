@@ -104,6 +104,13 @@ exports = module.exports = (knex) ->
           page = parameters.page
           if not _validInt page then page = 1
 
+          # This subquery makes sure that only users that are ACTIVE have their
+          # classifieds being queried..
+          qb.whereRaw "owner in (
+              SELECT u.id FROM users AS u
+                WHERE u.status = 1
+            )"
+
           qb.limit classifiedsPerPage
           qb.offset (page - 1) * classifiedsPerPage
           qb.orderBy "weight", "DESC"
