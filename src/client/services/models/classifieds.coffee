@@ -42,7 +42,7 @@ class Classified
   # This function returns the main image for the classified. If it doesn't have
   # a main image, then it finds one.
   mainImage: ->
-    for image in @cl.images
+    for image in (@cl.images or [])
       img = image
       if image.main then break
     img
@@ -92,8 +92,6 @@ getFormdata = (classified) ->
   formdata
 
 
-
-
 exports = module.exports = ($environment, $location, $http, $serialize, $log) ->
   name = "[model:classified]"
   API = "#{$environment.url}/api/classifieds"
@@ -102,7 +100,7 @@ exports = module.exports = ($environment, $location, $http, $serialize, $log) ->
   # This makes sure that all necessary fields are parsed and extra fields (for
   # front-end purposes only) are also set.
   parseResponse = (response) -> parse response.data
-  parse = (data) ->
+  parse = (data={}) ->
     # Sets the social links
     source = "https://#{$location.host()}"
     url = "https://#{$location.host()}/#{data.slug}"
@@ -122,18 +120,17 @@ exports = module.exports = ($environment, $location, $http, $serialize, $log) ->
     for image in (data.images or [])
       image.src = "#{$environment.staticUrl}/uploads/thumb/#{image.filename}"
       image.srcMain = "#{$environment.staticUrl}/uploads/main/#{image.filename}"
-
-    # Now create a Classified object with this new data and return it.
-    new Classified data
-
+    data
 
   class Model
-
     constructor: ->
       $log.log name, "initializing"
       cl = new Classified
       @statuses = cl.statuses
       @languages = cl.languages
+
+
+    toModel: (data) -> new Classified parse data
 
 
     save: (classified={}, headers) ->
@@ -162,11 +159,6 @@ exports = module.exports = ($environment, $location, $http, $serialize, $log) ->
       $log.debug name, "query", parameters
       query = $serialize parameters
       $http.get "#{API}?#{query}"
-      .then (response) ->
-        # Since we will get an array of classifieds, we parse each one by one.
-        cl = parse cl for cl in response.data
-        # Finally return the modified response...
-        response.data
 
 
     # Returns a classified given it's id

@@ -8,7 +8,7 @@ exports = module.exports = ($scope, $scroller, $root, $log, $ga, Classifieds) ->
   $scope.$emit "page-loaded"
   $scope.onHeroLoad = ->
 
-  $scope.showAuth = -> $root.$broadcast "show:auth-modal"
+  $scope.showAuth = -> $root.$broadcast "auth:show"
 
   $scope.trackEvent = (action) ->
     $ga.trackEvent "Call to action", "click"

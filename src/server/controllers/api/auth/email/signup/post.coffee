@@ -8,7 +8,7 @@ exports = module.exports = (IoC, Email, reCaptcha, Users) ->
 
   validateRequest = (request) ->
     email = request.body.email
-    fullname = request.body.fullname
+    fullname = request.body.full_name
     password = request.body.password
     # Check for any missing fields
     if not fullname or not password or not email
@@ -22,7 +22,7 @@ exports = module.exports = (IoC, Email, reCaptcha, Users) ->
 
   createNewUserObject = (request) ->
     email: request.body.email
-    full_name: request.body.fullname
+    full_name: request.body.full_name
     login_providers: email: request.body.email
     meta: activationToken: Users.randomPassword()
     password: Users.hashPassword request.body.password
@@ -74,7 +74,10 @@ exports = module.exports = (IoC, Email, reCaptcha, Users) ->
     .spread validateWithDBUser
     .spread sendEmail
     # Once done, return the fields that have been changed back to the user
-    .then (result) -> response.json result.toJSON()
+    .then (result) ->
+      request.logIn result, (error) ->
+        if error then throw error
+        response.json result
     .catch (error) ->
       logger.error    error.stack
       response.status error.status or 400

@@ -21,17 +21,20 @@ exports = module.exports = ($scope, $element, $root, $timeout, $location, $log, 
 
   $scope.goto = (name) -> $scope.tab = name
 
-  $scope.$on "show:auth-modal", -> $scope.open()
+  $scope.$on "auth:show", -> $scope.open()
+  $scope.$on "auth:show-signup", (event, data) ->
+    $scope.open()
+    $scope.tab = "signup"
+    $scope.signup = angular.extend $scope.signup, data
+    console.log $scope.signup, arguments
 
   $scope.login = {}
   $scope.doLogin = ->
     Users.login $scope.login
     .then (response) ->
-      $scope.close()
-      $root.$broadcast "refresh"
-      $scope.$on "show:auth-modal", -> $scope.open()
       $location.path "/account"
       $location.search "_success", "login_success"
+      $scope.close()
     .catch (response) ->
       $notifications.error "Invalid login. Please check your credentials"
       $log.error name, response.data, response.status
@@ -43,8 +46,10 @@ exports = module.exports = ($scope, $element, $root, $timeout, $location, $log, 
     console.log $scope.signup
     Users.signup $scope.signup
     .then (response) ->
-      $notifications.success "An activation email has been sent, #{response. data.full_name}! (Check your spam folder too)", 10000
       $log.log name, "signup successful! waiting for activation page"
+      $notifications.success "An activation email has been sent, #{response. data.full_name}! (Check your spam folder too)", 10000
+      $root.$broadcast "user:refresh"
+      $scope.close()
     .catch (response) ->
       $notifications.error "Signup failed. Please check your credentials or try again later"
       $log.error name, response.data, response.status

@@ -2,7 +2,7 @@ controller = module.exports =
 
   get: (request, response, next) ->
     if not request.isAuthenticated()
-      return response.redirect "/auth/login?error=need_login"
+      return response.redirect "/?error=need_login"
 
     render = global.modules.renderer
     render request, response,

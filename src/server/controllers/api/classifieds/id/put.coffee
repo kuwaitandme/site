@@ -136,7 +136,8 @@ Users) ->
       resolve [oldClassified.id, classifiedDiff]
 
   (request, response, next) ->
-    reCaptcha.verify request
+    # reCaptcha.verify request
+    Promise.resolve request
     # Check if the parameters in the request are proper or not.
     .then checkRequest
     # Validation has been done, the request is proper, Fetch the classified

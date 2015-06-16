@@ -30,7 +30,7 @@ class User
   isModerator: -> @user.role is @roles.MODERATOR
 
   get: -> @user
-  set: (data) -> @user = angular.extend @defaults, data
+  set: (data) -> @user = angular.extend {}, @defaults, data
 
 
 currentUser = new User
@@ -42,6 +42,7 @@ exports = module.exports = ($http, $root, $log, $storage, $environment) ->
   # Updates the current user
   updateUser = (data) ->
     currentUser.set data
+    console.log data, currentUser.user
     $root.bodyClasses["logged-in"] = not currentUser.isAnonymous()
     $log.log name, "updating the current user"
 
@@ -67,7 +68,9 @@ exports = module.exports = ($http, $root, $log, $storage, $environment) ->
     # both locally and from the server.
     logout: ->
       $http.get "#{$environment.url}/api/auth/logout"
-      .then updateUser
+      .then ->
+        $root.$broadcast "user:refresh"
+        updateUser {}
 
 
     # Download the current user from either the sessionStorage or from the API
@@ -103,6 +106,7 @@ exports = module.exports = ($http, $root, $log, $storage, $environment) ->
         url: "#{$environment.url}/api/auth/email/login"
       .then (response) ->
         updateUser response.data
+        $root.$broadcast "user:refresh"
         response
 
 
@@ -113,6 +117,10 @@ exports = module.exports = ($http, $root, $log, $storage, $environment) ->
         method: "POST"
         headers: headers
         url: "#{$environment.url}/api/auth/email/signup"
+      .then (response) ->
+        updateUser response.data
+        $root.$broadcast "user:refresh"
+        response
 
 
   new Model

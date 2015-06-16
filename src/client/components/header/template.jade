@@ -5,7 +5,7 @@
   #grabber-container(ng-click="toggleHeader()")
     #grabber
       #notification-counter(ng-if="unreadNotifications > 0") {{ unreadNotifications }}
-  //- #nav-social-container.hide-for-small
+  #nav-social-container.hide-for-small
     a(target="_blank", href="https://www.facebook.com/KuwaitandMe") &#xf09a;
     a(target="_blank", href="https://twitter.com/kuwaitandme") &#xf099;
     a(target="_blank", href="https://plus.google.com/+Kuwaitandmeclassifieds") &#xf0d5;
@@ -31,13 +31,13 @@ nav#sub-header
           .link.columns.medium-3
             a(href="/") Home
           .link.columns.medium-3
-            a(href="/classified/post") Post a classified
+            a(href="/classified/create") Post a classified
           .link.columns.medium-3
             a(href="/classified") Browse classifieds
         .row
           .columns.medium-3.title.dark Account
           .link.columns.medium-3.hide-if-loggedin
-            a(href="/auth") Login/Signup
+            a(ng-click="showAuth()") Login/Signup
           //- .link.columns.medium-3.end.hide-if-loggedin
             a(href="/auth/reset", ng-click="closeHeader()") Reset password
           .link.columns.medium-3.show-if-loggedin

@@ -2,8 +2,8 @@ ul.classified-list-container.row(fn-scroll="onScroll",
   ng-init="loadingClassifieds=false; queryFinished=false"
   ng-style="{ 'display': (hideList ? 'none' : 'block') }")
   li.large-3.medium-4.small-6.columns(ng-repeat="classified in classifieds")
-    div(classified-list-item,
-      ng-click="onClassifiedClick($index, classified)")
+    div(classified-list-item, ng-model="classifieds[$index]"
+      ng-click="onClassifiedClick($index, classifieds[$index])")
 
 .ajax-loading(ng-if="loadingClassifieds") Loading classifieds!
 .ajax-finish(ng-if="queryFinished && classifieds.length > 0") {{ finishMessage }}

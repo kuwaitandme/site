@@ -1,8 +1,8 @@
 ## TODO: Add automatic resize of content
 exports = module.exports = ($element, $location, $log, $notifications, $scope,
-Classifieds, Locations, Users) ->
-  @name = "[component:classified-form]"
-  $log.log @name, "initializing"
+$root, Classifieds, Locations, Users) ->
+  name = "[component:classified-form]"
+  $log.log name, "initializing"
 
   $scope.ctrl ?= {}
   $scope.locations = Locations.getAll()
@@ -26,6 +26,10 @@ Classifieds, Locations, Users) ->
   currentUser = Users.getCurrent()
   $scope.ctrl.user = currentUser.get()
 
+  $scope.$on "user:refresh", ->
+    currentUser = Users.getCurrent()
+    $scope.ctrl.user = currentUser.get()
+
   # Set the super editable property iff the user is a moderator or an admin
   if currentUser.isModerator() or currentUser.isAdmin()
     $scope.superEditable = true
@@ -33,7 +37,7 @@ Classifieds, Locations, Users) ->
 
   # If the status has been changed, immediately submit the classified
   $scope.changeStatus = (newStatus) =>
-    $log.debug @name, "changing status to : '#{newStatus}'"
+    $log.debug name, "changing status to : '#{newStatus}'"
     $scope.classified.status = Classifieds.statuses[newStatus]
     $scope.submit()
 
@@ -43,15 +47,20 @@ Classifieds, Locations, Users) ->
     # If the form is already sent to the server then avoid resubmitting.
     if $scope.formLoading then return
 
+    if currentUser.isAnonymous()
+      $notifications.warn "You will need an account to create classifieds", 10000
+      return $root.$broadcast "auth:show-signup", $scope.ctrl.user
+
     # Set the attempted class so that CSS can highlight invalid any fields
     $scope.formClasses.attempted = true
 
     # Check if the form is invalid or if the captcha has not been filled
     if $scope.form.$invalid
-      error = "You have some invalid fields in your form. Have a look at " +
-        "them again"
+      error = "You have some invalid fields in your form. Have a look at
+        them again"
     # if not $scope.ctrl.gcaptcha then error =  "You must pass the Captcha!"
     if error then return $notifications.error error
+
 
     # Now combine together all the data from the form and bring it to a single
     # classified object
@@ -72,7 +81,7 @@ Classifieds, Locations, Users) ->
 
     # Form is good to submit. Start the submission
     $scope.formLoading = $scope.formClasses.loading = true
-    $log.log @name, "submitting form", classified
+    $log.log name, "submitting form", classified
 
     # Delete the image.src (which contains the base64 data) to avoid
     # repetition of the image upload.
@@ -84,7 +93,7 @@ Classifieds, Locations, Users) ->
     .then (classified) -> $scope.$emit "classified-form:submitted", classified
     .catch (response) =>
       error = response.data
-      $log.error @name, error
+      $log.error name, error
       switch error
         when "not enough credits"
           message = "You don't have enough credits"
@@ -106,6 +115,7 @@ exports.$inject = [
   "$log"
   "$notifications"
   "$scope"
+  "$rootScope"
 
   "models.classifieds"
   "models.locations"

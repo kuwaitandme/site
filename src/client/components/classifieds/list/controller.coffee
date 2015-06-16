@@ -1,10 +1,10 @@
 exports = module.exports = ($element, $location, $log, $root, $scope, $timeout,
 $window, Classifieds) ->
-  @name = "[component:classified-list]"
+  name = "[component:classified-list]"
   body = (document.getElementsByTagName "body")[0]
   currentPage = 1
   scrollPosition = 0
-  $log.log @name, "initializing"
+  $log.log name, "initializing"
 
 
   # Initialize masonry
@@ -27,7 +27,7 @@ $window, Classifieds) ->
   # Setup the 'finish' and 'empty' classifieds message
   $scope.finishMessage ?= (->
     texts = [
-      "Damn, there are no more classifieds!"
+      "Oh man, there are no more classifieds!"
       "Mayday! we're all out of classifieds!"
       "Woops! that's all we got!"
       "Wowie! that seems to be all we have!"
@@ -56,8 +56,8 @@ $window, Classifieds) ->
   # This function loads more classifieds from the server.
   $scope.classifieds = []
   $scope.loadClassifieds = =>
-    $log.log @name, "loading more classifieds"
-    $log.debug @name, "page:", currentPage
+    $log.log name, "loading more classifieds"
+    $log.debug name, "page:", currentPage
     parameters = page: currentPage++
     # Extend the $scope.query object to our query parameters. This way we can
     # have parent controllers define the $scope.query according to their needs
@@ -65,15 +65,18 @@ $window, Classifieds) ->
     angular.extend parameters, ($scope.query or {})
     # Finally!, run the query..
     Classifieds.query parameters
-    .then (classifieds) =>
-      if classifieds.length == 0 then $scope.queryFinished = true
-      $log.log @name, "finished loading classifieds"
-      $log.debug @name, "loaded #{classifieds.length} classified(s)"
-      # For each classified attach the imageLoader and add it to the DOM
-      # (manually that is).
-      for classified in classifieds
-        classified.imageLoaded = -> masonry.layout()
-        $scope.classifieds.push classified
+    .then (response) ->
+      $log.log name, "finished loading classifieds"
+      $log.debug name, "loaded #{response.data.length} classified(s)"
+      classifieds = response.data or []
+      if classifieds.length != 0
+        # For each classified attach the imageLoader and add it to the DOM
+        # (manually that is).
+        for classified in classifieds
+          classified.imageLoaded = -> masonry.layout()
+          $scope.classifieds.push classified
+      else $scope.queryFinished = true
+
       $scope.loadingClassifieds = false
     .catch (response) -> $log.error response
 
@@ -98,7 +101,7 @@ $window, Classifieds) ->
     # If we have passed 80% down the window, then load more classifieds
     if scroll / documentHeight * 100 > 80
       $scope.loadingClassifieds = true
-      $scope.loadClassifieds()
+      # $scope.loadClassifieds()
 
 
 exports.$inject = [

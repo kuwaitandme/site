@@ -1,12 +1,12 @@
 exports = module.exports = (renderer) ->
   controller = (request, response, next) ->
     if not request.isAuthenticated()
-      return response.redirect "/auth?_error=need_login"
+      return response.redirect "/?_error=need_login"
 
     # Redirect non-admin users to the auth page
     if (request.user.get "role") not in
     [Users.roles.MODERATOR, Users.roles.ADMIN]
-      return response.redirect "/auth?_error=not_priv"
+      return response.redirect "/?_error=not_priv"
 
     options =
       page: "account/manage"

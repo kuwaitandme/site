@@ -12,13 +12,14 @@
       opacity: 1 !important
   &.urgent
     border: 1px solid #FA2A00
-  .urgent-banner
-    font-size: 0.7rem
-    background: #FA2A00
+  .banner
+    font-size: 12px
     color: #FFF
     padding: 5px
     text-align: center
     text-transform: uppercase
+    &.urgent
+      background: #FA2A00
   .link
     display: inilne-block
     padding-right: 10px
@@ -86,21 +87,5 @@
   .urgent-banner
 
   &.perk-urgent .container
-
     .urgent-banner
       display: block
-
-  // .status
-  //   @extend .font-title
-  //   background: green
-  //   color: #FFF
-  //   display: none
-  //   font-size: 0.9rem
-  //   padding: 5px
-  //   text-align: center
-  //   &.error
-  //     background: red
-  //   &.warn
-  //     background: orange
-  // &.show-statuses .status
-  //   display: block

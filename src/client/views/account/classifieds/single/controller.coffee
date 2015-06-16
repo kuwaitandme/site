@@ -7,7 +7,8 @@ $scope, $stateParams, Classifieds) ->
   Classifieds.get $stateParams.id
   .then (classified) ->
     $scope.$emit "page-loaded"
-    $scope.classified = classified.get()
+    console.log classified
+    $scope.classified = classified
 
   # When classified has been edited successfully, redirect to the account page
   $scope.$on "classified-form:submitted", ($event, classified) ->

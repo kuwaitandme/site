@@ -6,7 +6,7 @@ exports = module.exports = ($scope, $stateParams, $googleMaps, console, Classifi
   $scope.heroURL = "landing.jpg"
   Classifieds.get $stateParams.id
   .then (classified) ->
-    $scope.classified = classified.get()
+    $scope.classified = classified
     $scope.$emit "page-loaded"
 
 

@@ -67,14 +67,14 @@ section(ng-class="formClasses")
             ng-class="{disabled: formLoading}")
         .columns.medium-6
           div.disabled(input-text, form-ui
-            disabled="!!ctrl.user"
+            ng-disabled="!!ctrl.user.id"
             ng-model="ctrl.user.email"
             placeholder="Email *"
             type="email"
             required="true")
         .columns.medium-6
           div(input-text, form-ui
-            disabled="!!ctrl.user"
+            ng-disabled="!!ctrl.user.id"
             ng-model="ctrl.user.full_name"
             placeholder="Your Name *"
             required="true")

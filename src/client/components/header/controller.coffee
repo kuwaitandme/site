@@ -16,6 +16,8 @@ exports = module.exports = ($scope, $root, console, setTimeout) ->
   # A click handler to display the sub header
   $scope.openHeader = -> $root.bodyClasses["show-subheader"] = true
 
+  $scope.showAuth = -> $root.$broadcast "auth:show"
+
 
   # A click handler to hide the sub header. It also removes all unwanted unread
   # notifications.
