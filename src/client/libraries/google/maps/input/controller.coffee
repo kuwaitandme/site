@@ -1,4 +1,4 @@
-module.exports = ($scope, $element, $googleMaps) ->
+exports = module.exports = ($scope, $element, $googleMaps) ->
   $scope.gmapX ?= 29.375770981110353
   $scope.gmapY ?= 47.98656463623047
 
@@ -42,5 +42,6 @@ module.exports = ($scope, $element, $googleMaps) ->
 exports.$inject = [
   "$scope"
   "$element"
+
   "Google.Maps"
 ]

@@ -10,6 +10,6 @@ exports = module.exports = ($scope) ->
       if item.name.toLowerCase() is value.toLowerCase()
         $scope.targetItem = item.id
 
-exports = [
+exports.$inject = [
   "$scope"
 ]

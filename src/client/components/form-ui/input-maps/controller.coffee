@@ -67,6 +67,6 @@ exports = module.exports = ($scope) ->
     $li.data().$scope.image.main = true
 
 
-exports = [
+exports.$inject = [
   "$scope"
 ]

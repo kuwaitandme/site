@@ -18,5 +18,6 @@ exports = module.exports = ($scope, $element, reCaptcha) ->
 exports.$inject = [
   "$scope"
   "$element"
+
   "Google.reCaptcha"
 ]
