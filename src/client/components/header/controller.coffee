@@ -1,6 +1,7 @@
+name = "[component:header]"
+
 exports = module.exports = ($scope, $root, console, setTimeout) ->
-  @name = "[component:header]"
-  console.log @name, "initializing"
+  console.log name, "initializing"
 
   # Use this to adjust how long the flash notifications stay on the header,
   # before they disappear
@@ -11,7 +12,6 @@ exports = module.exports = ($scope, $root, console, setTimeout) ->
   $scope.flashNotifications = []
   $scope.unreadNotifications = 12
   $scope.notifications = []
-  $root.bodyClasses ?= {}
 
   # A click handler to display the sub header
   $scope.openHeader = -> $root.bodyClasses["show-subheader"] = true
@@ -55,25 +55,17 @@ exports = module.exports = ($scope, $root, console, setTimeout) ->
       if not notification.hasRead then $scope.unreadNotifications++
   $scope.$watch "notifications", onNotificationRead, true
 
-  # This function gets called when the close button in the flash notifications
-  # has been pressed.
-  $scope.closeFlashNotification = (index) ->
-    closedNotification = ($scope.flashNotifications.splice index, 1)[0]
-    for notification in $scope.notifications
-      if notification.$$hashkey is closedNotification.$$hashkey
-        notification.hasRead = true
-
-  # Listen for a notification event and add the new notification
-  $scope.$on "notification", (event, notification) ->
-    $scope.flashNotifications.push notification
-    lifetime = notification.timeout or flashNotificationLifetime
-    # Set a timeout function to remove the notification
-    ((notifications) -> setTimeout ->
-      index = $scope.flashNotifications.indexOf notification
-      if index? then $scope.flashNotifications.splice index, 1
-    , lifetime) notification
-    # If it was a regular notification then add it to the header
-    if not notification.flash then $scope.notifications.push notification
+  # # Listen for a notification event and add the new notification
+  # $scope.$on "notification", (event, notification) ->
+  #   $scope.flashNotifications.push notification
+  #   lifetime = notification.timeout or flashNotificationLifetime
+  #   # Set a timeout function to remove the notification
+  #   # ((notifications) -> setTimeout ->
+  #   #   index = $scope.flashNotifications.indexOf notification
+  #   #   if index? then $scope.flashNotifications.splice index, 1
+  #   # , lifetime) notification
+  #   # If it was a regular notification then add it to the header
+  #   if not notification.flash then $scope.notifications.push notification
 
 
 exports.$inject = [

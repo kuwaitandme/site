@@ -13,10 +13,6 @@
     a(target="_blank", href="https://www.reddit.com/r/kuwaitclassifieds") &#xf1a1;
     a(target="_blank", href="https://instagram.com/kuwaitandme") &#xf16d;
 
-#notifications-popup-container(ng-if="flashNotifications.length > 0")
-  .notification(ng-repeat="n in flashNotifications", class="{{ n.type }}",
-    ng-click="closeFlashNotification($index)")
-    .text {{ n.text }}
 
 nav#sub-header
   .row.collapse
