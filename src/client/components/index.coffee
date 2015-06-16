@@ -11,6 +11,7 @@ module.exports = (app) ->
 
   app.directive "auth", require "./auth/directive"
   app.directive "header", require "./header/directive"
+  app.directive "notifications", require "./notifications/directive"
 
   # app.directive "formUi", require "./form-ui/directive"
   # app.directive "inputSelect", require "./form-ui/input-select/directive"

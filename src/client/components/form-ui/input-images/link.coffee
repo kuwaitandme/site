@@ -7,8 +7,8 @@ module.exports = (scope, element, attributes, ngModel) ->
 
   scope.onTouch = -> ngModel.$setTouched()
 
-  scope.$watch "targetItem", (value={}) ->
-    scope.$evalAsync -> ngModel.$setViewValue value.id
+  scope.$watch "images", (value=[]) ->
+    scope.$evalAsync -> ngModel.$setViewValue value
 
   # Specify how the UI should be updated
   ngModel.$render = ->

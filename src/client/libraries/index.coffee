@@ -2,8 +2,6 @@ module.exports = (app) ->
   console.log "[libraries] initializing"
 
   app.service "$facebook",          require "./facebook/sdk"
-  app.service "$googleMaps",        require "./google/maps"
-  # app.service "$googleRecaptcha",   require "./google/recaptcha"
   app.service "$google.analytics",  require "./google/analytics"
 
   app.service "Facebook",          require "./facebook/sdk"
@@ -12,6 +10,7 @@ module.exports = (app) ->
   app.service "Google.reCaptcha", require "./google/reCaptcha/service"
 
   app.directive "googleRecaptcha", require "./google/reCaptcha/directive"
+  app.directive "googleMaps", require "./google/maps/directive"
   app.directive "googleMapsInput", require "./google/maps/input/directive"
 
   app.directive "masonry",           require "./masonry/directive-master"

@@ -1,40 +1,30 @@
 ## TODO: Add automatic resize of content
-exports = module.exports = ($element, $googleMaps, $imageResizer, $location, $log,
-$notifications, $scope, Classifieds, Categories, Locations, Users) ->
+exports = module.exports = ($element, $location, $log, $notifications, $scope,
+Classifieds, Locations, Users) ->
   @name = "[component:classified-form]"
-  currentUser = Users.getCurrent()
   $log.log @name, "initializing"
 
-  $scope.ctrl =
-    categories: {}
-    contact: {}
-    gcaptcha: null
-    location: {}
-    meta: {}
-    price: {}
-    user: currentUser.get()
-
-
+  $scope.ctrl ?= {}
   $scope.locations = Locations.getAll()
-  # If classified is not defined, then set it to it's default values
-  # $scope.classified ?= Classifieds.getDefault()
-  # Setup some defaults for functions that might be overridden by the parent
-  $scope.formClasses ?= {}
+
   # Attach the css class for when the form is loading
-  $scope.formClasses.loading = $scope.formLoading
+  $scope.formClasses = loading: $scope.formLoading
 
 
-  updateAvailableCredits = ->
-    userCredits = currentUser.credits or 0
-    urgentPrice = (Number $scope.urgentPrice or 0) * 1
-    promotePrice = (Number $scope.promotePrice or 0) * 1
-    $scope.urgentPrice = String urgentPrice
-    $scope.promotePrice = String promotePrice
-    $scope.availableCredits = userCredits - (urgentPrice + promotePrice)
-  updateAvailableCredits()
-  $scope.$watch "urgentPrice", updateAvailableCredits
-  $scope.$watch "promotePrice", updateAvailableCredits
+  # updateAvailableCredits = ->
+  #   userCredits = currentUser.credits or 0
+  #   urgentPrice = (Number $scope.urgentPrice or 0) * 1
+  #   promotePrice = (Number $scope.promotePrice or 0) * 1
+  #   $scope.urgentPrice = String urgentPrice
+  #   $scope.promotePrice = String promotePrice
+  #   $scope.availableCredits = userCredits - (urgentPrice + promotePrice)
+  # updateAvailableCredits()
+  # $scope.$watch "urgentPrice", updateAvailableCredits
+  # $scope.$watch "promotePrice", updateAvailableCredits
 
+  # Get and set the current user
+  currentUser = Users.getCurrent()
+  $scope.ctrl.user = currentUser.get()
 
   # Set the super editable property iff the user is a moderator or an admin
   if currentUser.isModerator() or currentUser.isAdmin()
@@ -56,23 +46,23 @@ $notifications, $scope, Classifieds, Categories, Locations, Users) ->
     # Set the attempted class so that CSS can highlight invalid any fields
     $scope.formClasses.attempted = true
 
+    # Check if the form is invalid or if the captcha has not been filled
     if not $scope.form.$invalid
-      return $notifications.error "You have some invalid fields in your form. Have a look at them again"
+      error = "You have some invalid fields in your form. Have a look at " +
+        "them again"
+    # if not $scope.ctrl.gcaptcha then error =  "You must pass the Captcha!"
+    if error then return $notifications.error error
 
-    if not $scope.ctrl.gcaptcha
-      return $notifications.error "You must pass the Captcha!"
-
-    # Form is good to submit. Start the submission
-
+    # Now combine together all the data from the form and bring it to a single
+    # classified object
     classified = angular.extend(
       $scope.classified
       $scope.ctrl.categories
       $scope.ctrl.price
       {contact: $scope.contact or {}}
-      {images: $scope.ctrl.images}
+      {images: $scope.ctrl.images or []}
       {location: $scope.ctrl.location}
-      {meta: $scope.meta}
-      {meta: $scope.maps}
+      {meta: angular.extend {}, $scope.meta, $scope.ctrl.maps}
     )
 
     headers = angular.extend(
@@ -80,8 +70,9 @@ $notifications, $scope, Classifieds, Categories, Locations, Users) ->
       "x-recaptcha": $scope.ctrl.gcaptcha
     )
 
+    # Form is good to submit. Start the submission
     $scope.formLoading = $scope.formClasses.loading = true
-    $log.log @name, "submitting form"
+    $log.log @name, "submitting form", classified
 
     # Delete the image.src (which contains the base64 data) to avoid
     # repetition of the image upload.
@@ -90,8 +81,7 @@ $notifications, $scope, Classifieds, Categories, Locations, Users) ->
     # $scope.classified.spendUrgentPerk = $scope.urgentPrice
     # $scope.classified.spendPromotePerk = $scope.promotePrice
     Classifieds.save $scope.classified, headers
-    .then (classified) ->
-      $scope.$emit "classified-form:submitted", classified
+    .then (classified) -> $scope.$emit "classified-form:submitted", classified
     .catch (response) =>
       error = response.data
       $log.error @name, error
@@ -107,21 +97,17 @@ $notifications, $scope, Classifieds, Categories, Locations, Users) ->
         else
           message = "Something went wrong while saving your classified. Try again later"
       $notifications.error message, 10000
-    .finally ->
-      $scope.formLoading = $scope.formClasses.loading = false
+    .finally -> $scope.formLoading = $scope.formClasses.loading = false
 
 
 exports.$inject = [
   "$element"
-  "$googleMaps"
-  "$imageResizer"
   "$location"
   "$log"
   "$notifications"
   "$scope"
 
   "models.classifieds"
-  "models.categories"
   "models.locations"
   "models.users"
 ]

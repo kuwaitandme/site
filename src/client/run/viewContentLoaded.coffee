@@ -1,5 +1,6 @@
-exports = module.exports = ($state, $root, $window) ->
+exports = module.exports = ($state, $root, $window, $log, $notifications) ->
   $root.$on "$viewContentLoaded", ->
+    $notifications.parseURL()
     state = $state.$current
     if not state.scrollTo? $window.scrollTo 0, 0
     else
@@ -21,4 +22,5 @@ exports.$inject = [
   "$rootScope"
   "$window"
   "$log"
+  "$notifications"
 ]

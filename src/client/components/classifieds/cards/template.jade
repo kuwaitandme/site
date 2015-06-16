@@ -24,6 +24,7 @@
   ng-swipe-left="next()"
   ng-swipe-right="previous()")
   section(classified-single,
+    ng-model="classified"
     ng-repeat="classified in classifieds | limitTo : indexLimit : indexOffset"
     ng-class="calculateClass($index)"
     data-index="{{ $index }}")

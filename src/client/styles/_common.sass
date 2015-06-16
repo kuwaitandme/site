@@ -48,14 +48,14 @@ body
   margin: 0
   position: relative
   .hide-if-loggedin
-    display: block
+    display: block !important
   .show-if-loggedin
-    display: none
+    display: none !important
   &.logged-in
     .show-if-loggedin
-      display: block
+      display: block !important
     .hide-if-loggedin
-      display: none
+      display: none !important
 
 h1, h2, h3, h4, h5, h6
   @extend .font-cantarell

@@ -17,7 +17,6 @@ Categories, Classifieds) ->
     child_category:  $scope.childCategory.id
     parent_category: $scope.parentCategory.id
 
-  $rootScope.bodyClasses = $rootScope.bodyClasses or {}
   for cls of $rootScope.bodyClasses then if (cls.indexOf "cl-") is 0
     $rootScope.bodyClasses[cls] = false
   $rootScope.bodyClasses["cl-#{$stateParams.parent}"] = true

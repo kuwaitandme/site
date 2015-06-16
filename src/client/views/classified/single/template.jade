@@ -1,5 +1,1 @@
-div(ng-switch="!!classified")
-  div(ng-switch-when="true")
-    section(classified-single)
-  .row(ng-switch-default)
-    #ajax-spinner
+section(classified-single, ng-model="classified", ng-if="classified")

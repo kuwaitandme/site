@@ -1,8 +1,8 @@
-body#classified-search
+body#classified-category
   &:before
     background-image: url(/images/cat-spritesheet.jpg)
     content: ''
-  // background: #000
+
   #page-hero:after
     content: ''
 
@@ -10,21 +10,20 @@ body#classified-search
   main
     background: transparent
 
-    > section
-      > h1, > h2
-        @extend .font-open
-        // color: #FFF
-        margin: 0
+    .instruction
+      padding-bottom: 50px
+      h1, h3
+        margin:  0
+        padding: 10px 20px
+        text-align: center
+      h3
+        @extend .font-cantarell
+        font-size: 1rem
         font-weight: bold
-        padding: 0 1rem
-        text-shadow: 1px 1px 2px #999
-      > h1
-        margin-top: 100px
+        a
+          color: $color-red
+          text-decoration: none
+          border-bottom: 3px solid $color-red
+      h1
         font-size: 3rem
-      > h2
-        font-size: 1.3rem
-      > section
-        margin-top: 50px
-        margin-bottom: 100px
-      section[classified-list]
-        background: #FFF
+        padding-top: 50px

@@ -19,7 +19,7 @@ class User
 
   constructor: (data) -> @set data
 
-  isAnonymous: -> @user.id?
+  isAnonymous: -> not @user.id?
 
   isActive: -> @user.status is @statuses.ACTIVE
   isBanned: -> @user.status is @statuses.BANNED
@@ -33,91 +33,89 @@ class User
   set: (data) -> @user = angular.extend @defaults, data
 
 
+currentUser = new User
+
+
 exports = module.exports = ($http, $root, $log, $storage, $environment) ->
   name = "[model:user]"
 
-  model = -> $log.log name, "initializing"
-  model.currentUser = new User
-
   # Updates the current user
-  model::updateUser = (user) ->
+  updateUser = (data) ->
+    $root.bodyClasses["logged-in"] = not currentUser.isAnonymous()
     $log.log name, "updating the current user"
-    model.currentUser.set user
-    $root.bodyClasses["logged-in"] = not model.currentUser.isAnonymous()
-    $storage.session "models:user:current", angular.toJson user
+    console.log not currentUser.isAnonymous()
+    currentUser.set data
+
+  class Model
+    constructor: -> $log.log name, "initializing"
+
+    # Returns the current user
+    getCurrent: -> currentUser
+
+    # Use these functions to check if a user is logged-in/logged-out
+    isLoggedIn: -> not currentUser.isAnonymous()
+    isAnonymous: -> not currentUser.isAnonymous()
 
 
-  # Returns the current user
-  model::getCurrent = -> model.currentUser
-  # if currentUser? and currentUser.id then currentUser
-  # else (angular.fromJson $storage.session "models:user:current") or {}
-
-
-  # Use these functions to check if a user is logged-in/logged-out
-  model::isLoggedIn = -> model::getCurrent().id?
-  model::isAnonymous = -> not isLoggedIn()
-
-
-  # Re-downloads the user from the server.
-  model::refresh = ->
-    $http.get "#{$environment.url}/api/users/current"
-    .then model::updateUser
-
-
-  # A simple function to perform a user-logout. Deletes the current session
-  # both locally and from the server.
-  model::logout = ->
-    $http.get "#{$environment.url}/api/auth/logout"
-    .then model::updateUser
-
-
-  # Download the current user from either the sessionStorage or from the API
-  model::download = ->
-
-    # This helper function is used to get the user details from the API
-    fetchFromAPI = ->
-      $log.log name, "downloading user"
+    # Re-downloads the user from the server.
+    refresh: ->
       $http.get "#{$environment.url}/api/users/current"
-      .success  model::updateUser
+      .then updateUser
 
-    # Attempt to get the user from the cache.
-    cache = $storage.session "models:user:current"
-    if cache?
-      # user was found in session cache, prepare to translate it and return
-      $log.log name, "retrieving current user from cache"
-      try model::updateUser angular.fromJson cache
-      catch exception
-        # Something went wrong while parsing the locations. No problem,
-        # we'll retrieve it from the API.
+
+    # A simple function to perform a user-logout. Deletes the current session
+    # both locally and from the server.
+    logout: ->
+      $http.get "#{$environment.url}/api/auth/logout"
+      .then updateUser
+
+
+    # Download the current user from either the sessionStorage or from the API
+    download: ->
+      # This helper function is used to get the user details from the API
+      fetchFromAPI = ->
+        $log.log name, "downloading user"
+        $http.get "#{$environment.url}/api/users/current"
+        .success  updateUser
+
+      # Attempt to get the user from the cache.
+      cache = $storage.session "models:user:current"
+      if cache?
+        # user was found in session cache, prepare to translate it and return
+        $log.log name, "retrieving current user from cache"
+        try updateUser angular.fromJson cache
+        catch exception
+          # Something went wrong while parsing the locations. No problem,
+          # we'll retrieve it from the API.
+          fetchFromAPI()
+      else
+        # locations were never saved. So retrieve it from the API.
+        $log.log name, "retrieving current user from API"
         fetchFromAPI()
-    else
-      # locations were never saved. So retrieve it from the API.
-      $log.log name, "retrieving current user from API"
-      fetchFromAPI()
 
 
-  # Performs an API call to login the user using Email.
-  model::login = (credentials, headers) ->
-    $http
-      data: credentials
-      method: "POST"
-      headers: headers
-      url: "#{$environment.url}/api/auth/email/login"
-    .then (response) ->
-      model::updateUser response.data
-      response
+    # Performs an API call to login the user using Email.
+    login: (credentials, headers) ->
+      $http
+        data: credentials
+        method: "POST"
+        headers: headers
+        url: "#{$environment.url}/api/auth/email/login"
+      .then (response) ->
+        updateUser response.data
+        response
 
 
-  # Performs an API call to signup the user using Email.
-  model::signup = (details, headers) ->
-    $http
-      data: details
-      method: "POST"
-      headers: headers
-      url: "#{$environment.url}/api/auth/email/login"
+    # Performs an API call to signup the user using Email.
+    signup: (details, headers) ->
+      $http
+        data: details
+        method: "POST"
+        headers: headers
+        url: "#{$environment.url}/api/auth/email/login"
 
 
-  new model
+  new Model
 
 
 exports.$inject = [

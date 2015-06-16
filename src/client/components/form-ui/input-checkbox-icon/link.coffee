@@ -4,7 +4,6 @@ module.exports = (scope, element, attributes, ngModel) ->
 
   # Listen for change events to enable binding
   scope.toggle = -> scope.$evalAsync ->
-    console.log 'hit', scope.toggled
     scope.toggled = !scope.toggled
     ngModel.$setViewValue scope.toggled
 

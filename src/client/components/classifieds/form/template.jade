@@ -84,48 +84,48 @@ section(ng-class="formClasses")
             ng-model="contact.phone"
             placeholder="Telephone"
             required="true")
-        .columns.medium-6(ng-if="form.location && form.location != 0")
+        .columns.medium-6(ng-if="!!ctrl.location && ctrl.location != 0")
           div(input-text, form-ui
             ng-model="contact.address1"
             placeholder="Address Line 1")
-        .columns.medium-6(ng-if="form.location && form.location != 0")
+        .columns.medium-6(ng-if="!!ctrl.location && ctrl.location != 0")
           div(input-text, form-ui
             ng-model="contact.address2"
             placeholder="Address Line 2")
 
       //- Meta attributes
       .row.meta
-        .columns.large-4.medium-6
+        .columns.large-4.medium-6.end
           div(input-checkbox-icon
             form-ui
             placeholder="Share on social networks"
             ng-model="meta.shareSocial")
-        .columns.large-4.medium-6
+        .columns.large-4.medium-6.end
           div.hideEmail(input-checkbox-icon
             form-ui
             placeholder="Keep my email hidden"
             ng-model="meta.hideEmail")
-        .columns.large-4.medium-6
+        .columns.large-4.medium-6.end
           div.delivery(input-checkbox-icon
             form-ui
             placeholder="I provide delivery"
             ng-model="meta.deliveryIncluded")
-        .columns.large-4.medium-6
+        .columns.large-4.medium-6.end(ng-if="meta.deliveryIncluded")
           div.delivery(input-checkbox-icon
             form-ui
             placeholder="Delivery will be free"
             ng-model="meta.freeDeliveryIncluded")
-        .columns.large-4.medium-6
+        .columns.large-4.medium-6.end(ng-if="contact.phone")
           div.viber(input-checkbox-icon
             form-ui
             placeholder="I am available on Viber"
             ng-model="meta.viber")
-        .columns.large-4.medium-6
+        .columns.large-4.medium-6.end(ng-if="contact.phone")
           div.whatsapp(input-checkbox-icon
             form-ui
             placeholder="I am available on Whatsapp"
             ng-model="meta.whatsapp")
-        .columns.large-4.medium-6
+        .columns.large-4.medium-6.end(ng-if="!!ctrl.location && ctrl.location != 0")
           div.googlemaps(input-checkbox-icon
             form-ui
             placeholder="Add Google Maps"

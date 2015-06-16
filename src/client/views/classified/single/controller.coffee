@@ -5,11 +5,10 @@ exports = module.exports = ($scope, $root, $stateParams, $log, Classifieds) ->
 
   $root.bodyStyles['stick-header'] = true
 
-  if not $scope.classified?
-    Classifieds.get $stateParams.id
-    .then (classified) ->
-      $scope.classified = classified
-      $scope.$emit "page-loaded"
+  Classifieds.get $stateParams.id
+  .then (classified) ->
+    $scope.classified = classified
+    $scope.$emit "page-loaded"
 
 
 exports.$inject = [
