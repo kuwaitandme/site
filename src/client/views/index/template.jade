@@ -12,7 +12,7 @@
         ng-click="trackEvent('Create classified')") Post your classified
       a(href="/classified"
         ng-click="trackEvent('Find classified')") Find a classified
-      .hide-if-loggedin1
+      .hide-if-loggedin
         a(ng-click="showAuth(); trackEvent('Login')") Login/Signup
       .show-if-loggedin
         a(ng-href="/account"

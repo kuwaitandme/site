@@ -47,7 +47,7 @@ Classifieds, Locations, Users) ->
     $scope.formClasses.attempted = true
 
     # Check if the form is invalid or if the captcha has not been filled
-    if not $scope.form.$invalid
+    if $scope.form.$invalid
       error = "You have some invalid fields in your form. Have a look at " +
         "them again"
     # if not $scope.ctrl.gcaptcha then error =  "You must pass the Captcha!"

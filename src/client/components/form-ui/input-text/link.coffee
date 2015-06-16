@@ -30,6 +30,6 @@ module.exports = (scope, element, attributes, ngModel) ->
     else scope.remainingChars = ""
 
   updateCounter()
-
+  ngModel.$validate()
 
   scope.onTouch = -> ngModel.$setTouched()

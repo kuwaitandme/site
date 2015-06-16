@@ -2,6 +2,7 @@ name = "[component:classified-interactive-list]"
 body = (document.getElementsByTagName "body")[0]
 scrollPosition = 0
 
+
 exports = module.exports = ($element, $location, $log, $root, $scope, $timeout,
 $window, Classifieds) ->
   $log.log name, "initializing"

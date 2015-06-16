@@ -63,7 +63,7 @@ section(ng-class="formClasses")
           div(input-category, form-ui
             ng-model="ctrl.categories"
             placeholder="Category *"
-            requireds="true"
+            required="true"
             ng-class="{disabled: formLoading}")
         .columns.medium-6
           div.disabled(input-text, form-ui
@@ -82,8 +82,7 @@ section(ng-class="formClasses")
           div(input-tel
             form-ui
             ng-model="contact.phone"
-            placeholder="Telephone"
-            required="true")
+            placeholder="Telephone")
         .columns.medium-6(ng-if="!!ctrl.location && ctrl.location != 0")
           div(input-text, form-ui
             ng-model="contact.address1"

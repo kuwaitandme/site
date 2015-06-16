@@ -1,4 +1,5 @@
-passport = require "passport"
+Promise   = require "bluebird"
+passport  = require "passport"
 validator = require "validator"
 
 # Controller for the Registering a user via email
@@ -9,13 +10,9 @@ exports = module.exports = (IoC, Email, reCaptcha, Users) ->
     email = request.body.email
     fullname = request.body.fullname
     password = request.body.password
-    repassword = request.body.repassword
     # Check for any missing fields
-    if not fullname or not repassword or not password or not email
+    if not fullname or not password or not email
       throw new Error "missing fields"
-    # Check for password mis-match
-    if password is not repassword
-      throw new Error "password mismatch"
     # Check for invalid characters
     if not (validator.isEmail email) or
     not (validator.matches fullname, /[a-zA-Z\s]*/)
@@ -69,7 +66,8 @@ exports = module.exports = (IoC, Email, reCaptcha, Users) ->
 
 
   (request, response, next) ->
-    reCaptcha.verify request
+    # reCaptcha.verify request
+    Promise.resolve request
     .then validateRequest
     .then createNewUserObject
     .then (newUser) -> [newUser, Users.findOnePromise email: newUser.email]

@@ -41,10 +41,10 @@ exports = module.exports = ($http, $root, $log, $storage, $environment) ->
 
   # Updates the current user
   updateUser = (data) ->
+    currentUser.set data
     $root.bodyClasses["logged-in"] = not currentUser.isAnonymous()
     $log.log name, "updating the current user"
-    console.log not currentUser.isAnonymous()
-    currentUser.set data
+
 
   class Model
     constructor: -> $log.log name, "initializing"
@@ -76,7 +76,7 @@ exports = module.exports = ($http, $root, $log, $storage, $environment) ->
       fetchFromAPI = ->
         $log.log name, "downloading user"
         $http.get "#{$environment.url}/api/users/current"
-        .success  updateUser
+        .success updateUser
 
       # Attempt to get the user from the cache.
       cache = $storage.session "models:user:current"
@@ -112,7 +112,7 @@ exports = module.exports = ($http, $root, $log, $storage, $environment) ->
         data: details
         method: "POST"
         headers: headers
-        url: "#{$environment.url}/api/auth/email/login"
+        url: "#{$environment.url}/api/auth/email/signup"
 
 
   new Model

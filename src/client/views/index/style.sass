@@ -9,8 +9,6 @@ body#index
   main
     background: transparent
 
-
-
   #splash
     text-align: center
     padding: 150px 0 50px 0
@@ -37,7 +35,6 @@ body#index
           background: #000
           color: #FFF
     h1.tagline
-      // color: #FFF
       font-size: 1.7rem
       margin: 0 auto
       max-width: 400px
@@ -45,7 +42,6 @@ body#index
       text-align: center
     #collage
       background-size: 85%
-      // background: #000
       height: 100%
       left: 0
       opacity: 1
@@ -53,6 +49,10 @@ body#index
       top: 0
       width: 100%
       z-index: -1
+      @media #{$medium-only}
+        background-size: 100%
+      @media #{$small-only}
+        background-size: 150%
 
     h2
       font-weight: 400

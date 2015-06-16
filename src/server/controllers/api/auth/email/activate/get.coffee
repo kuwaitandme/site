@@ -9,8 +9,8 @@ validator = require "validator"
 exports = module.exports = (IoC, Users) ->
   logger = IoC.create "igloo/logger"
 
-  activationSuccessRedirect = "/auth?_success=activate_success"
-  activationFailRedirect = "/auth?_error=activate_fail"
+  activationSuccessRedirect = "/?_success=activate_success"
+  activationFailRedirect = "/?_error=activate_fail"
 
   # First check if the request contains all the necessary parameters
   validateRequest = (request) ->

@@ -3,12 +3,12 @@ exports = module.exports = ($root, $log, $storage) ->
   @name = "[run:stateChangeStart]"
   $log.log @name, "initialized"
 
-  $root.bodyClasses = {}
+  $root.bodyClasses ?= {}
 
   $root.$on "$stateChangeStart",
     (event, toState, toParams, fromState, fromParams) ->
       # $storage.tmp null, null
-      $root.bodyStyles = {}
+      $root.bodyStyles ?= {}
       console.log "loading"
       $root.bodyClasses.loading = true
 

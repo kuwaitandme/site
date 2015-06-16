@@ -18,6 +18,7 @@ module.exports = (scope, element, attributes, ngModel) ->
     model = ngModel.$modelValue or {}
     scope.parent_category = model.parent_category
     scope.child_category = model.child_category
+    ngModel.$validate()
 
 
   # Write data to the model

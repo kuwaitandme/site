@@ -45,7 +45,7 @@
 
   //- Signup
   .columns.medium-7(ng-if="tab == 'signup'")
-    .row.collapse.auth-tab(ng-init="signup={}")
+    .row.collapse.auth-tab
       div.columns(input-text
         form-ui
         maxlength="140"
@@ -69,7 +69,7 @@
         required="true"
         ng-class="{disabled: formLoading}")
       csrf(ng-model="signup._csrf")
-      div.columns(google-recaptcha, ng-model="signup.gcaptcha")
+      //- div.columns(google-recaptcha, ng-model="signup.gcaptcha")
       button.columns.success(ng-click="doSignup()") Signup
       button.columns.error(ng-click="goto('main')") Cancel
 
