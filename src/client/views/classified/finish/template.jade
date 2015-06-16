@@ -1,29 +1,24 @@
-#page-hero
-  img(fn-image-loader!="<%= staticUrl %>/images/hero/{{ heroURL }}",
-    fn-image-success="onHeroLoad()")
-
 .row
-  h1.columns Awesome! Your classified has been uploaded
+  h1.columns Awesome! Your classified has been uploaded ...
 section.row
   p.columns
-    | Your classified has been uploaded and is now online. It will be reviewed by
-    | our moderators just to make sure that everything falls in place.
-  p.columns It will be online for 90 days after which it will automatically expire.
+    | Your classified has now been uploaded and will be online within an hour.
+    | It will be reviewed by our moderators just to make sure that everything
+    | falls in place.
+  p.columns(ng-if-dis="user.isInactive()")
+    | Note that you will have to activate your account <b>(if it already hasn't been
+    | activated)</b> before moderators approve your classified. Check your email
+    | inbox (including your junk folder) for any activation emails.
 
   .columns
     ul.social-links.row
       li.medium-4.columns
-        a(href="{{ classified.social.facebook }}").facebook.row
-          .icon.small-3.columns &#xf09a;
-          .text.small-9.columns Share on Facebook
+        a(href="{{ classified.social.facebook }}").facebook.row Share on Facebook
       li.medium-4.columns
-        a(href="{{ classified.social.twitter }}").twitter.row
-          .icon.small-3.columns &#xf099;
-          .text.small-9.columns Tweet on Twitter
+        a(href="{{ classified.social.twitter }}").twitter.row Tweet on Twitter
       li.medium-4.columns
-        a(href="{{ classified.social.gplus }}").gplus.row
-          .icon.small-3.columns &#xf0d5;
-          .text.small-9.columns Share on Google+
-.row.collapse
+        a(href="{{ classified.social.gplus }}").gplus.row Share on Google+
+
   .columns
-    a.button.submit(ng-href="/{{ classified.slug }}") View your classified
+    a(ng-href="/{{ classified.slug }}")
+      button.green View your classified

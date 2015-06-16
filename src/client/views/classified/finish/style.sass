@@ -5,36 +5,37 @@ body#classified-finish
     margin-top: 100px
   h1, h3
     @extend .font-open
-    color: #FFF
+    // color: #FFF
     font-weight: bold
     margin:  0
     padding: 1rem
-    text-shadow: 1px 2px 2px #000
+    // text-shadow: 1px 2px 2px #000
 
+  h1
+    text-transform: none
+    font-size: 3rem
   #page-hero:after
     content: ""
 
   main
     background: transparent
-    margin: 100px auto
+    margin: 50px auto
     section
       background: #FFF
     p
-      font-size: 0.9rem
+      font-size: 1rem
 
     .submit
       width: 100%
       color: #FFF
       display: block
       text-decoration: none
-      border-bottom: 3px solid rgba(0,0,0,0.1)
       text-align: center
       background: #2ecc71
 
     a, .submit
-      padding: 8px 10px
+      // padding: 8px 10px
       font-size: 0.8rem
-      border-bottom: 5px solid rgba(0,0,0,0.1)
 
     ul.social-links
       margin-top: 2rem
@@ -54,10 +55,11 @@ body#classified-finish
           background: #CC4534
           &:hover
             background: #A3372A
-        .icon
-          margin-top: 4px
-          @extend .font-awesome
         a
           +single-transition
-          margin: 0
+          @extend button
           display: block
+          margin: 0
+          text-align: center
+          text-decoration: none
+          text-transform: none
