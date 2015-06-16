@@ -22,32 +22,30 @@ body#index
     .cta
       margin: 35px auto
       a
-        @extend .font-cantarell
-        text-transform: uppercase
         +single-transition
+        @extend .font-cantarell
         background: rgba(255, 255, 255, 0.01)
-        border: 2px solid #EEE
-        color: #FFF
+        border: 2px solid #000
+        color: #000
         display: inline-block
         font-size: 12px
         margin: 10px 15px
         padding: 10px 20px
         text-decoration: none
+        text-transform: uppercase
         &:hover
-          background: #FFF
-          color: #000
+          background: #000
+          color: #FFF
     h1.tagline
-      color: #FFF
+      // color: #FFF
       font-size: 1.7rem
       margin: 0 auto
       max-width: 400px
       padding: 40px 10px 0 10px
       text-align: center
-      text-shadow: 1px 1px 2px #000
     #collage
       background-size: 85%
-      background: #d2a688
-      background-image: url("/images/collage.png")
+      // background: #000
       height: 100%
       left: 0
       opacity: 1
@@ -55,16 +53,6 @@ body#index
       top: 0
       width: 100%
       z-index: -1
-      &:after
-        content: ''
-        position: absolute
-        top: 0
-        left: 0
-        width: 100%
-        height: 100%
-
-        // background: -moz-linear-gradient(to bottom,rgba(0,0,0,0) 50%,rgba(0,0,0,0.7) 50%,rgba(0,0,0,1) 100%)
-        background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.6) 50%,rgba(0,0,0,0.97) 90%)
 
     h2
       font-weight: 400
@@ -73,8 +61,8 @@ body#index
         +single-transition(background)
         @extend .font-open
         background: rgba(255, 255, 255, 0.2)
-        border-bottom: #FFF 3px solid
-        color: #fff
+        border-bottom: #000 3px solid
+        color: #000
         display: block
         font-weight: bold
         padding: 1rem
@@ -82,9 +70,30 @@ body#index
         text-decoration: none
         text-shadow: 1px 1px 2px #000
         width: 100%
-        &:hover, &
-          background: #F60
-          border-color: rgba(0,0,0,0.3)
+
+    // These styles get applied when the collage has been loaded
+    &.imgLoaded
+      color: #000
+      h1.tagline
+        color: #FFF
+        text-shadow: 1px 1px 2px #000
+      #collage
+        // background-image: url("/images/collage.png")
+        &:after
+          content: ''
+          position: absolute
+          top: 0
+          left: 0
+          width: 100%
+          height: 100%
+          // background: -moz-linear-gradient(to bottom,rgba(0,0,0,0) 50%,rgba(0,0,0,0.7) 50%,rgba(0,0,0,1) 100%)
+          background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.6) 50%,rgba(0,0,0,0.97) 90%)
+      a
+        color: #FFF
+        border-color: #FFF
+        &:hover
+          color: #000
+          background: #FFF
           text-shadow: none
 
   h4

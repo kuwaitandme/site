@@ -1,12 +1,19 @@
 .row
-  #splash.columns
-    #collage(src!="<%= staticUrl %>/images/collage.png")
-    img(src!="<%= staticUrl %>/images/kme-logo-white.png")
+  #splash.columns(ng-class="{imgLoaded: imgLoaded}")
+    #collage(ng-style!="{'background-image': 'url(<%= staticUrl %>/images/collage.png)'}")
+    img.hide(fn-image-loader!="<%= staticUrl %>/images/collage.png",
+      fn-image-success="imgLoaded=true")
+
+    img(src!="<%= staticUrl %>/images/kme-logo-white.png",
+      ng-class="{hide: !imgLoaded}")
     h1.tagline Your free local classifieds in Kuwait
     .cta
       a(href="/classified/create") Post your classified
       a(href="/classified") Find a classified
-      a(href="/info/app") Download App
+      .hide-if-loggedin
+        a(ng-click="showAuth()") Login/Signup
+      .show-if-loggedin
+        a(ng-href="/account") Manage your Account
 
 #featured-classifieds.row(ng-if="displayClassifiedList")
   h2 Latest Classifieds
