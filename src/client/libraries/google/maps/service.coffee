@@ -1,8 +1,9 @@
-exports = module.exports = ($window, $environment) -> new class
-  name: "[service:google-maps]"
+name = "[service:google-maps]"
 
+
+exports = module.exports = ($window, $environment, $log) -> new class
   constructor: ->
-    console.log @name, "initializing"
+    $log.log name, "initializing"
     # Prepare the URL for the maps API
     APIkey = "AIzaSyBUcoOW5jw2GvlFQI49FIGl6I7czXcX5iQ"
     url = "https://maps.googleapis.com/maps/api/js?key=#{APIkey}&callback=initializeGmap"
@@ -106,4 +107,5 @@ exports = module.exports = ($window, $environment) -> new class
 exports.$inject = [
   "$window"
   "$environment"
+  "$log"
 ]

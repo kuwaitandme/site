@@ -1,4 +1,4 @@
-exports = module.exports = ($http, console, $storage, $environment) -> new class
+exports = module.exports = ($http, $log, $storage, $environment) -> new class
   name: "[model:category]"
 
   ###
@@ -54,47 +54,47 @@ exports = module.exports = ($http, console, $storage, $environment) -> new class
   # Downloads the categories either from the API or from the cache
   download: ->
     if @categories? then return
-    console.log @name, "downloading categories"
+    $log.log @name, "downloading categories"
 
     # Category counter are not cached because they change regularly, so we
     # send an API call to the server to fetch them.
     _getCounters = (callback=->) =>
-      console.log @name, "fetching category counters"
+      $log.log @name, "fetching category counters"
       $http.get "#{$environment.url}/api/categories/counters"
       .success (response) =>
-        console.log @name, "fetched category counters"
-        console.debug @name, response
+        $log.log @name, "fetched category counters"
+        $log.debug @name, response
         @_setCounters response
         callback null, response
       .error (response) =>
         callback response
-        console.error @name, "error fetching category counters"
-        console.error @name, response
+        $log.error @name, "error fetching category counters"
+        $log.error @name, response
 
     # A helper function to retrieve the categories from the API
     _fetchFromAPI = =>
       $http.get "#{$environment.url}/api/categories/"
       .success (@categories) =>
-        console.log @name, "fetched categories from API"
+        $log.log @name, "fetched categories from API"
         $storage.local "models:category", angular.toJson @categories
 
     # Check in cache
     cache = $storage.local "models:category"
     if cache?
       # Categories was found in cache, prepare to translate it and return
-      console.log @name, "fetching categories from cache"
+      $log.log @name, "fetching categories from cache"
       try
         @categories = angular.fromJson cache
         _getCounters()
-        console.log @name, "fetched categories from cache"
+        $log.log @name, "fetched categories from cache"
       catch exception
         # Something went wrong while parsing the categories. No problem, we'll
         # retrieve it from the API.
-        console.error @name, "can't parse categories from cache"
+        $log.error @name, "can't parse categories from cache"
         _fetchFromAPI().then -> _getCounters()
     else
       # Categories were never saved. So retrieve it from the API.
-      console.log @name, "fetching categories from API"
+      $log.log @name, "fetching categories from API"
       _fetchFromAPI().then -> _getCounters()
 
 

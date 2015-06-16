@@ -1,4 +1,4 @@
-exports = module.exports = ($http, console, $storage, $environment) -> new class
+exports = module.exports = ($http, $log, $storage, $environment) -> new class
   name: "[model:location]"
 
   # Returns all the locations.
@@ -14,21 +14,21 @@ exports = module.exports = ($http, console, $storage, $environment) -> new class
   # Downloads the location, either from the cache or from API
   download: ->
     if @locations? then return
-    console.log @name, "downloading locations"
-    console.log
+    $log.log @name, "downloading locations"
+    $log.log
     # A helper function to retrieve the locations from the API
     _fetchFromAPI = =>
-      console.log @name, "fetching locations from API"
+      $log.log @name, "fetching locations from API"
       $http.get "#{$environment.url}/api/locations"
       .success (locations) =>
-        console.log @name, "fetched locations from API"
+        $log.log @name, "fetched locations from API"
         @locations = locations
         $storage.local "models:location", angular.toJson locations
 
     cache = $storage.local "models:location"
     if cache?
       # locations was found in cache, prepare to translate it and return
-      console.log @name, "retrieving locations from cache"
+      $log.log @name, "retrieving locations from cache"
       try
         @locations = angular.fromJson cache
       catch exception
@@ -37,7 +37,7 @@ exports = module.exports = ($http, console, $storage, $environment) -> new class
         _fetchFromAPI()
     else
       # locations were never saved. So retrieve it from the API.
-      console.log @name, "retrieving locations from API"
+      $log.log @name, "retrieving locations from API"
       _fetchFromAPI()
 
 

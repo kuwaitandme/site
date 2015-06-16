@@ -11,24 +11,24 @@
   Session storage: Use this to save objects that only need to withing the
   current session. They get erased when the user closes the browser.
 ###
-exports = module.exports = ($window, console, $environment) -> new class
+exports = module.exports = ($window, $log, $environment) -> new class
   name: "[service:storage]"
 
 
   constructor: ->
-    console.log @name, "initializing"
+    $log.log @name, "initializing"
     # Setup the temporary storage
-    console.log @name, "setting up temporary storage"
+    $log.log @name, "setting up temporary storage"
     @tmp = @_createFallbackStorage()
     # Check if HTML5 localStorage is supported. If not then create fallback
     # storages for both session and local.
-    console.log @name, "setting up local and session storage"
+    $log.log @name, "setting up local and session storage"
     if @_supportsHTML5storage()
       @local = (key, value) => @_operate localStorage, key, value
       # @session = (key, value) => @_operate sessionStorage, key, value
       @session = @_createFallbackStorage()
     else
-      console.warn @name, "using fallback storages for local and session"
+      $log.warn @name, "using fallback storages for local and session"
       @fallback = true
       @local = @_createFallbackStorage()
       @session = @_createFallbackStorage()

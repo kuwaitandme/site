@@ -39,7 +39,6 @@ exports = module.exports = ($scope, $element, $root, $timeout, $location, $log, 
   # Function to perform user registration
   $scope.signup = {}
   $scope.doSignup = ->
-    console.log $scope.signup
     Users.signup $scope.signup
     .then (response) ->
       $log.log name, "signup successful! waiting for activation page"

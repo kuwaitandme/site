@@ -1,4 +1,7 @@
-exports = module.exports = ($location) ->
-  console.log "reloading page"
+exports = module.exports = ($location, $log) ->
+  $log.log "reloading page"
   $location.reload()
-exports.$inject = ["$location"]
+exports.$inject = [
+  "$location"
+  "$log"
+]

@@ -1,7 +1,7 @@
 name = "[component:header]"
 
-exports = module.exports = ($scope, $root, console, setTimeout) ->
-  console.log name, "initializing"
+exports = module.exports = ($scope, $root, $log, setTimeout) ->
+  $log.log name, "initializing"
 
   # Use this to adjust how long the flash notifications stay on the header,
   # before they disappear

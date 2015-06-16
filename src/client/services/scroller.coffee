@@ -1,10 +1,10 @@
-exports = module.exports = ($window, console) ->
+exports = module.exports = ($window, $log) ->
   name: "[scroller]"
   scrollDown: (px) ->
   scrollTo: (eID) ->
     return # Disabled for now
 
-    console.log @name, "scrolling to ##{eID}"
+    $log.log @name, "scrolling to ##{eID}"
     isAnimating = true
     html = document.documentElement
     body = document.body

@@ -1,6 +1,6 @@
-exports = module.exports = ($scope, $scroller, console) ->
+exports = module.exports = ($scope, $scroller, $log) ->
   @name = "[page:landing]"
-  console.log @name, "initializing"
+  $log.log @name, "initializing"
   $scope.gotoElement = (eID) -> setTimeout (-> $scroller.scrollTo eID), 100
 
 

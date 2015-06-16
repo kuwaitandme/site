@@ -1,4 +1,4 @@
-module.exports = ($scope) ->
+exports = module.exports = ($scope) ->
 
   # Function to popup the file selector dialog
   $scope.addImages = ->
@@ -66,3 +66,7 @@ module.exports = ($scope) ->
     # And then tag our specific image as the main image
     $li.data().$scope.image.main = true
 
+
+exports = [
+  "$scope"
+]

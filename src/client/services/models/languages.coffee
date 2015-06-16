@@ -45,7 +45,7 @@ exports = module.exports = ($http, $log) -> new class
   # download: ->
   #   if @languages? then return
 
-  #   console.log @name, "downloading languages"
+  #   $log.log @name, "downloading languages"
   #   cache = $cache.get "models:language"
   #   # A helper function to retrieve the languages from the API
   #   _fetchFromAPI = =>
@@ -56,7 +56,7 @@ exports = module.exports = ($http, $log) -> new class
 
   #   if cache?
   #     # languages was found in cache, prepare to translate it and return
-  #     console.log @name, "retrieving languages from cache"
+  #     $log.log @name, "retrieving languages from cache"
   #     try
   #       @languages = angular.fromJson cache
   #     catch exception
@@ -65,7 +65,7 @@ exports = module.exports = ($http, $log) -> new class
   #       _fetchFromAPI()
   #   else
   #     # languages were never saved. So retrieve it from the API.
-  #     console.log @name, "retrieving languages from API"
+  #     $log.log @name, "retrieving languages from API"
   #     _fetchFromAPI()
 
 

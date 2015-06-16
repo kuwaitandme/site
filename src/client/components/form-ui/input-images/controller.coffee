@@ -1,4 +1,4 @@
-module.exports = ($scope, $element, $imageResizer) ->
+exports = module.exports = ($scope, $element, $imageResizer, $log) ->
 
   # Function to popup the file selector dialog
   $scope.addImages = ->

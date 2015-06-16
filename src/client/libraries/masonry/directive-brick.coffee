@@ -8,5 +8,4 @@ module.exports = ->
     # # else
 
     # scope.masonry = new Masonry element[0], options
-    # console.log scope
     # # gutter

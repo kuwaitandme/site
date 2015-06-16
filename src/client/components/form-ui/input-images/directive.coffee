@@ -1,6 +1,6 @@
 exports = module.exports = ->
-  link: require "./link"
   controller: require "./controller"
-  scope: list: "="
+  link: require "./link"
   require: "ngModel"
+  scope: list: "="
   templateUrl: "components/form-ui/input-images/template"

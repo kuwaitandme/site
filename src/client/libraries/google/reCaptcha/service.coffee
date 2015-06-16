@@ -1,8 +1,8 @@
-exports = module.exports = ($window, $environment) -> new class
+exports = module.exports = ($window, $environment, $log) -> new class
   name: "[service:google-recaptcha]"
 
   constructor: ->
-    console.log @name, "initializing"
+    $log.log @name, "initializing"
     # Prepare the URL for the reCaptcha API
     url = "//www.google.com/recaptcha/api.js"
     # Insert the script into the DOM
@@ -26,7 +26,7 @@ exports = module.exports = ($window, $environment) -> new class
 
 
   initialize: (elementId, options) ->
-    console.log @name, "initializing captcha on DOM id:", elementId
+    $log.log @name, "initializing captcha on DOM id:", elementId
     @onLoad ->
       widgetId = $window.grecaptcha.render elementId,
         callback: (response) -> options.callback response
@@ -37,4 +37,5 @@ exports = module.exports = ($window, $environment) -> new class
 exports.$inject = [
   "$window"
   "$environment"
+  "$log"
 ]

@@ -9,7 +9,7 @@ exports = module.exports = ($root, $log, $storage) ->
     (event, toState, toParams, fromState, fromParams) ->
       # $storage.tmp null, null
       $root.bodyStyles ?= {}
-      console.log "loading"
+      $log.log "loading"
       $root.bodyClasses.loading = true
 
       $log.log "[router] switching #{fromState.name} -> #{toState.name}"

@@ -42,7 +42,6 @@ exports = module.exports = ($http, $root, $log, $storage, $environment) ->
   # Updates the current user
   updateUser = (data) ->
     currentUser.set data
-    console.log data, currentUser.user
     $root.bodyClasses["logged-in"] = not currentUser.isAnonymous()
     $log.log name, "updating the current user"
 

@@ -20,7 +20,6 @@ exports = module.exports = ($timeout, $window) ->
       if Math.abs(lastScrollTop - st) <= delta and st is not 0 then return
       # If they scrolled down and are past the navbar, add the target class.
       # This is necessary so you never see what is "behind" the navbar.
-      console.log st, $window.innerHeight, document.body.offsetHeight, st + $window.innerHeight < document.body.offsetHeight
       if st > lastScrollTop and st > targetHeight
         element.classList.add targetClass
       # 'Scroll Up'
@@ -45,4 +44,5 @@ exports = module.exports = ($timeout, $window) ->
 exports.$inject = [
   "$timeout"
   "$window"
+  "$log"
 ]

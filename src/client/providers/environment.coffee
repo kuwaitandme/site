@@ -9,9 +9,9 @@ exports = module.exports = -> new class
     "$window"
     "$log"
     "$base64"
-    ($window, console, $base64) ->
-      console.log @name, "initializing"
-      console.log @name, "decoding server-side data"
+    ($window, $log, $base64) ->
+      $log.log @name, "initializing"
+      $log.log @name, "decoding server-side data"
       try
         config = {}
         # Decode the cryptedData and extend the properties of the publicData
@@ -21,7 +21,7 @@ exports = module.exports = -> new class
         @config = config
         return config
       catch e
-        console.error @name, "error decoding server-side data"
-        console.error e
+        $log.error @name, "error decoding server-side data"
+        $log.error e
         return {}
   ]
