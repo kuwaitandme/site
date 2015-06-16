@@ -12,6 +12,7 @@ exports = module.exports = ($scope, $element, $root, $timeout, $location, $log, 
     $timeout (-> $element.removeClass "show"), 500
     $root.bodyStyles.overflowY = ""
 
+
   $scope.open = ->
     $scope.tab = "main"
     $root.bodyStyles.overflowY = "hidden"
@@ -19,14 +20,9 @@ exports = module.exports = ($scope, $element, $root, $timeout, $location, $log, 
     $element.addClass "show"
     $timeout (-> $element.addClass "fade"), 100
 
+
   $scope.goto = (name) -> $scope.tab = name
 
-  $scope.$on "auth:show", -> $scope.open()
-  $scope.$on "auth:show-signup", (event, data) ->
-    $scope.open()
-    $scope.tab = "signup"
-    $scope.signup = angular.extend $scope.signup, data
-    console.log $scope.signup, arguments
 
   $scope.login = {}
   $scope.doLogin = ->
@@ -53,6 +49,13 @@ exports = module.exports = ($scope, $element, $root, $timeout, $location, $log, 
     .catch (response) ->
       $notifications.error "Signup failed. Please check your credentials or try again later"
       $log.error name, response.data, response.status
+
+
+  $scope.$on "auth:show", -> $scope.open()
+  $scope.$on "auth:show-signup", (event, data) ->
+    $scope.open()
+    $scope.tab = "signup"
+    $scope.signup = angular.extend $scope.signup, data
 
 
 exports.$inject = [

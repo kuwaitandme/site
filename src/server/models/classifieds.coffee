@@ -87,7 +87,7 @@ exports = module.exports = (knex) ->
       new Promise (resolve, reject) ->
         buildQuery = (qb) ->
           # Helper function to check if the number is a valid int
-          _validInt = (i) -> i? and validator.isInt i, { min: 0 }
+          _validInt = (i) -> i? and validator.isInt i, {min: 0}
 
           pcat = parameters.parent_category
           if _validInt pcat then qb.where "parent_category", pcat
