@@ -1,4 +1,5 @@
 coffeeify   = require "gulp-coffeeify"
+foreach     = require "gulp-foreach"
 uglifyJS    = require "gulp-uglifyjs"
 
 module.exports = (gulp, config) -> ->
