@@ -1,0 +1,30 @@
+.modal
+  position: fixed
+  top: 0
+  bottom: 0
+  left: 0
+  width: 100%
+  height: 100%
+  background: rgba(0,0,0,0.9)
+  z-index: 3
+  padding: 65px 10px
+
+  > .content
+    +radius(3px)
+    background: #FFF
+    margin: 0 auto
+    max-width: $row-width
+    z-index: 1
+
+    -webkit-box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.5)
+    -moz-box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.5)
+    box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.5)
+
+  > .close
+    position: absolute
+    top: 0
+    bottom: 0
+    left: 0
+    width: 100%
+    height: 100%
+    z-index: -1
