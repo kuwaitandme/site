@@ -5,7 +5,7 @@ input(type="file"
   ng-disabled="formLoading").hide
 button(ng-click="addImages()") Add some Photos!
 
-ul.small-block-grid-2.medium-block-grid-3.large-block-grid-4
+ul.medium-block-grid-3.large-block-grid-4
   li(data-id="{{ image.id }}",
     class="{{ image.status }}",
     ng-class="{'set-main-image': image.main }"
