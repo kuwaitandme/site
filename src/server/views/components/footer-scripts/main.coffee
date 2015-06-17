@@ -66,12 +66,12 @@ incrementProgressBar = ->
   totalScriptsLoaded++
   setProgressBar totalScriptsLoaded, maxScriptCount
 
-###*
- * This function neatly adds the script/stylesheet into the DOM, and that too
- * asynchronously. It also takes care of making sure that CSS code is loaded in
- * a non-blocking manner (This means that you need to make sure that you have
- * some inline styles on the page otherwise the page will look ugly when the
- * CSS has not yet fully loaded. See more about render-blocking CSS).
+###
+ This function neatly adds the script/stylesheet into the DOM, and that too
+ asynchronously. It also takes care of making sure that CSS code is loaded in
+ a non-blocking manner (This means that you need to make sure that you have
+ some inline styles on the page otherwise the page will look ugly when the
+ CSS has not yet fully loaded. See more about render-blocking CSS).
 ###
 _addScript = (urlsOrCode, isCSS, isCode) ->
   if isCSS
@@ -107,7 +107,7 @@ _addScript = (urlsOrCode, isCSS, isCode) ->
   # Setup our listeners for when the script/css has been inserted
   $fileref.onreadystatechange = ->
     if this.media is "none" then this.media = "all"
-    if @readyState is "complete" then incrementProgressBar();
+    if @readyState is "complete" then incrementProgressBar()
   $fileref.onload = ->
     if this.media is "none" then this.media = "all"
     incrementProgressBar()
@@ -116,9 +116,9 @@ _addScript = (urlsOrCode, isCSS, isCode) ->
   else head.insertBefore $fileref, head.firstChild
 
 
-###*
- * This function processes the given script and attempts to load it either from
- * the cache or from the remote URL..
+###
+ This function processes the given script and attempts to load it either from
+ the cache or from the remote URL..
 ###
 processScript = (script) ->
   isCode = false
