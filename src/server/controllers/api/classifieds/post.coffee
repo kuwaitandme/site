@@ -101,8 +101,8 @@ Events, Users) ->
 
   # The API call starts executing from here
   (request, response, next) ->
-    reCaptcha.verify request
-    # Promise.resolve request
+    # reCaptcha.verify request
+    Promise.resolve request
     # Then parse the form
     .then parseForm
     # Then analyze the data, taking care of the perks.
