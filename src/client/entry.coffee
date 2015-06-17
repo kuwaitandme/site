@@ -14,6 +14,7 @@ app = angular.module "App", [
 (require "./directives")    app
 (require "./filters")       app
 (require "./libraries")     app
+(require "./models")        app
 (require "./providers")     app
 (require "./run")           app
 (require "./services")      app

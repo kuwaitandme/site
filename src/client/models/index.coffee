@@ -1,5 +1,5 @@
 module.exports = (app) ->
-  console.log "[services] initializing"
+  console.log "[models] initializing"
 
   app.factory "models.categories",    require "./categories"
   app.factory "models.classifieds",   require "./classifieds"
