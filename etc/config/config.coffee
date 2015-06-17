@@ -106,6 +106,8 @@ exports = module.exports = ->
       port: ""
       currency: "USD"
 
+    phonegap: csrfBypassKey: "XXXXXXXXX"
+
     appDir: appDir
     assetsDir: assetsDir
     cache: false

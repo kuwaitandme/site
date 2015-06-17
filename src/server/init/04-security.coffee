@@ -15,7 +15,9 @@ exports = module.exports = (IoC, settings, policies) ->
   # and requests with `/api` prefixed route path
   if settings.csrf.enabled
     app.use (request, response, next) ->
-      if request.xhr then return next()
+      if request.headers["x-phonegap"] is settings.phonegap.csrfBypassKey or
+      request.xhr
+        return next()
       (csrf settings.csrf.options) request, response, next
 
 exports["@require"] = [
