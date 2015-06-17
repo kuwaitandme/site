@@ -2,3 +2,7 @@
   .notification(ng-repeat="n in flashNotifications track by $index", class="{{ n.type }}",
     ng-click="closeFlashNotification($index)")
     .text {{ n.text }}
+
+#toast-notification-container(ng-if="showToast")
+  .notification
+    .text {{ toastText }}Use arrow keys to navigate

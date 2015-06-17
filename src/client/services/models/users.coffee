@@ -1,5 +1,3 @@
-currentUser = {}
-
 class User
   roles:
     NORMAL: 0
@@ -34,7 +32,7 @@ class User
 
 
 currentUser = new User
-
+downloadedFlag = false
 
 exports = module.exports = ($http, $root, $log, $storage, $environment) ->
   name = "[model:user]"
@@ -42,9 +40,12 @@ exports = module.exports = ($http, $root, $log, $storage, $environment) ->
   # Updates the current user
   updateUser = (data) ->
     currentUser.set data
+    $root.$broadcast "user:refresh", data
     $root.bodyClasses["logged-in"] = not currentUser.isAnonymous()
     $log.log name, "updating the current user"
 
+  resetFlag = ->
+    downloadedFlag = false
 
   class Model
     constructor: -> $log.log name, "initializing"
@@ -67,9 +68,7 @@ exports = module.exports = ($http, $root, $log, $storage, $environment) ->
     # both locally and from the server.
     logout: ->
       $http.get "#{$environment.url}/api/auth/logout"
-      .then ->
-        $root.$broadcast "user:refresh"
-        updateUser {}
+      .success resetFlag
 
 
     # Download the current user from either the sessionStorage or from the API
@@ -80,17 +79,19 @@ exports = module.exports = ($http, $root, $log, $storage, $environment) ->
         $http.get "#{$environment.url}/api/users/current"
         .success updateUser
 
-      # Attempt to get the user from the cache.
-      cache = $storage.session "models:user:current"
-      if cache?
-        # user was found in session cache, prepare to translate it and return
-        $log.log name, "retrieving current user from cache"
-        try updateUser angular.fromJson cache
-        catch exception
-          # Something went wrong while parsing the locations. No problem,
-          # we'll retrieve it from the API.
-          fetchFromAPI()
-      else
+
+      # # Attempt to get the user from the cache.
+      # cache = $storage.session "models:user:current"
+      # if downloadedFlag
+        # # user was found in session cache, prepare to translate it and return
+        # $log.log name, "retrieving current user from cache"
+        # try updateUser angular.fromJson cache
+        # catch exception
+        #   # Something went wrong while parsing the locations. No problem,
+        #   # we'll retrieve it from the API.
+        #   fetchFromAPI()
+      if not downloadedFlag
+        downloadedFlag = true
         # locations were never saved. So retrieve it from the API.
         $log.log name, "retrieving current user from API"
         fetchFromAPI()
@@ -103,10 +104,7 @@ exports = module.exports = ($http, $root, $log, $storage, $environment) ->
         method: "POST"
         headers: headers
         url: "#{$environment.url}/api/auth/email/login"
-      .then (response) ->
-        updateUser response.data
-        $root.$broadcast "user:refresh"
-        response
+      .success resetFlag
 
 
     # Performs an API call to signup the user using Email.
@@ -116,10 +114,7 @@ exports = module.exports = ($http, $root, $log, $storage, $environment) ->
         method: "POST"
         headers: headers
         url: "#{$environment.url}/api/auth/email/signup"
-      .then (response) ->
-        updateUser response.data
-        $root.$broadcast "user:refresh"
-        response
+      .success resetFlag
 
 
   new Model

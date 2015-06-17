@@ -1,13 +1,12 @@
 name = "[component:notification]"
 
+# Use this to adjust how long the flash notifications stay on the header,
+# before they disappear
+toastNotificationLifetime = 5000
+
 exports = module.exports = ($scope, $root, $log, $timeout) ->
   $log.log name, "initializing"
 
-  # Use this to adjust how long the flash notifications stay on the header,
-  # before they disappear
-  flashNotificationLifetime = 5000
-
-  $scope.flashNotifications = []
   $scope.unreadNotifications = 12
   $scope.notifications = []
 
@@ -21,6 +20,7 @@ exports = module.exports = ($scope, $root, $log, $timeout) ->
     #   if not notification.hasFlashedToUser
     #     notification.hasFlashedToUser = true
   $scope.$watch "notifications", onNotificationAdded, true
+
 
   # Add a listener for when notifications get marked as 'read' to update the
   # counter
@@ -41,16 +41,12 @@ exports = module.exports = ($scope, $root, $log, $timeout) ->
 
 
   # Listen for a notification event and add the new notification
-  $scope.$on "notification", (event, notification) ->
-    $scope.flashNotifications.push notification
-    lifetime = notification.timeout or flashNotificationLifetime
+  $root.$on "toast-notification", (event, notification) ->
+    $scope.showToast = true
+    $scope.toastText = notification.text
+    lifetime = notification.timeout or toastNotificationLifetime
     # Set a timeout function to remove the notification
-    ((notifications) -> $timeout ->
-      index = $scope.flashNotifications.indexOf notification
-      if index? then $scope.flashNotifications.splice index, 1
-    , lifetime) notification
-    # If it was a regular notification then add it to the header
-    if not notification.flash then $scope.notifications.push notification
+    $timeout (-> $scope.showToast = false), lifetime
 
 
 exports.$inject = [

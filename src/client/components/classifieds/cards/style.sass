@@ -1,6 +1,6 @@
 *[classified-cards]
   +single-transition(all, 1s)
-  background: #f6f6f6
+  background: #EBEBEC
   // background: rgba(255, 255, 255, 0.95)
   // background: #FFF
   bottom: 0
@@ -71,11 +71,16 @@
     position: relative
     > section
       +single-transition(0.25)
+      +radius(3px)
+      overflow: hidden
       margin-bottom: 60px
       position: absolute
       top: 0
       width: 100%
       z-index: 1
+
+      box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0.04), 0px 1px 4px 1px rgba(0, 0, 0, 0.08), inset 0px 0px 0px 1px rgba(255, 255, 255, 0.5);
+
     .next, .prev
       display: none
       opacity: 0
@@ -108,7 +113,7 @@
       right: -600px
 
   > .close-bg
-    background: #f6f6f6
+    background: #EBEBEC
     height: 100%
     left: 0
     position: fixed
