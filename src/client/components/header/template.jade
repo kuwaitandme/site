@@ -37,7 +37,7 @@ nav#sub-header
         .row
           .columns.medium-3.title.dark Account
           .link.columns.medium-3.hide-if-loggedin
-            a(ng-click="showAuth()") Login/Signup
+            a(ng-click="showAuth(); closeHeader()") Login/Signup
           //- .link.columns.medium-3.end.hide-if-loggedin
             a(href="/auth/reset", ng-click="closeHeader()") Reset password
           .link.columns.medium-3.show-if-loggedin
