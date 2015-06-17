@@ -1,0 +1,37 @@
+.modal
+  .close(ng-click="closeModel()")
+  .content
+    section(filterbox-content)
+      h1 Narrow your search
+      p Set the different options below to narrow down your search query.
+      .row
+        .columns.medium-6
+          div(input-text
+            form-ui
+            maxlength="140"
+            ng-model="ctrl.keywords"
+            placeholder="Keywords"
+            ng-class="{disabled: formLoading}")
+
+        .columns.medium-6
+          div(input-long-list, form-ui
+            list="locations"
+            ng-model="ctrl.location"
+            placeholder="Location"
+            required="true"
+            ng-class="{disabled: formLoading}")
+
+        .columns.medium-6
+          div(input-category, form-ui
+            ng-model="ctrl.categories"
+            placeholder="Category"
+            required="true"
+            ng-class="{disabled: formLoading}")
+
+        .columns.medium-6
+          div(input-price, form-ui
+            ng-model="ctrl.price"
+            placeholder="Price range"
+            required="true"
+            ng-class="{disabled: formLoading}")
+      button.green Save Query
