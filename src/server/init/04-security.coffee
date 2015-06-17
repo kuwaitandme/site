@@ -13,7 +13,7 @@ exports = module.exports = (IoC, settings, policies) ->
   # cross site request forgery prevention (csrf)
   # note: disabled automatically for XHR (AJAX) requests
   # and requests with `/api` prefixed route path
-  if settings.csrf.enabled
+  if settings.csrf.enabled and false
     app.use (request, response, next) ->
       if request.headers["x-phonegap"] is settings.phonegap.csrfBypassKey or
       request.xhr
