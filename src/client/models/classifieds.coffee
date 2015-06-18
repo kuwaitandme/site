@@ -1,4 +1,4 @@
-class Classified
+class Classified extends require "./default"
   statuses:
     INACTIVE: 0
     ACTIVE: 1
@@ -21,38 +21,31 @@ class Classified
 
   constructor: (data) -> @set data
 
-  isSaved: -> @cl.id?
+  isSaved: -> @data.id?
 
   # To check for classified status
-  isActive: -> @cl.status is @statuses.ACTIVE
-  isBanned: -> @cl.status is @statuses.BANNED
-  isInactive: -> @cl.status is @statuses.INACTIVE
-  isRejected: -> @cl.status is @statuses.REJECTED
+  isActive: -> @data.status is @statuses.ACTIVE
+  isBanned: -> @data.status is @statuses.BANNED
+  isInactive: -> @data.status is @statuses.INACTIVE
+  isRejected: -> @data.status is @statuses.REJECTED
 
   # To check for language
-  isEnglish: -> @cl.languages is @languages.ENGLISH
-  isArabic: -> @cl.languages is @languages.ARABIC
-  isHindi: -> @cl.languages is @languages.HINDI
+  isEnglish: -> @data.languages is @languages.ENGLISH
+  isArabic: -> @data.languages is @languages.ARABIC
+  isHindi: -> @data.languages is @languages.HINDI
 
   # To check for delivery status
-  hasDelivery: -> @cl.meta.deliveryIncluded
-  hasFreeDelivery: -> @cl.meta.freeDeliveryIncluded
+  hasDelivery: -> @data.meta.deliveryIncluded
+  hasFreeDelivery: -> @data.meta.freeDeliveryIncluded
 
 
   # This function returns the main image for the classified. If it doesn't have
   # a main image, then it finds one.
   mainImage: ->
-    for image in (@cl.images or [])
+    for image in (@data.images or [])
       img = image
       if image.main then break
     img
-
-
-  # These get and set methods properly set/get the classified taking care of
-  # any missing data.
-  get: -> @cl
-  set: (data) -> @cl = angular.extend @defaults, data
-
 
 
 # This helper function is used during classified posting/editing to create a
