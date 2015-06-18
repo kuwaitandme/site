@@ -75,21 +75,22 @@ Users) ->
   # Add cookie parsing support
   app.use cookieParser settings.cookieParser
 
-  # add request.session cookie support
+  # add request.session cookie support, and use Redis for storage
   settings.session.store = sessions
-  app.use session settings.session
+  app.sessionInstance = session settings.session
+  app.use app.sessionInstance
 
   # Initialize passport
   app.use passport.initialize()
   app.use passport.session()
 
   # add session, and use Redis for storage
-  app.use session settings.session
+  # app.use session settings.session
 
   # Oauth authentication
   _passport = (provider='', Strategy) ->
     if not settings[provider]? or not settings[provider].enabled then return
-    logger.debug name, "activating '#{provider}' oauth authentication"
+    logger.info "[passport]", "using '#{provider}' oauth authentication"
     options = {}
     options.callbackURL = "#{settings.url}/auth/oauth/#{provider}/callback"
     options = _.extend options, settings[provider].oauth

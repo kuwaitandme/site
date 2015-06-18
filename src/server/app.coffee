@@ -15,8 +15,8 @@ IoC.loader "models",      IoC.node _path "models"
 
 app = bootable express()
 
-app.phase bootable.di.initializers _path "init"
+app.phase bootable.di.initializers _path "init/pre"
 app.phase bootable.di.routes       _path "routes"
 app.phase IoC.create "igloo/server"
-
+app.phase bootable.di.initializers _path "init/post"
 module.exports = app
