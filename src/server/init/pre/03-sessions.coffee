@@ -84,10 +84,7 @@ Users) ->
   app.use passport.initialize()
   app.use passport.session()
 
-  # add session, and use Redis for storage
-  # app.use session settings.session
-
-  # Oauth authentication
+  # OAuth authentication
   _passport = (provider='', Strategy) ->
     if not settings[provider]? or not settings[provider].enabled then return
     logger.info "[passport]", "using '#{provider}' oauth authentication"
@@ -108,16 +105,20 @@ Users) ->
       Users.findOne {email: username}, (error, user) ->
         if error then return done error
         logger.debug name, "fetched user", user
+
         if not user? then return done "bad username/email", false
+
         # User exists, check password
         json = user.toJSON()
         logger.debug name, "user json", json
         if not Users.isPasswordValid password, json.password
           return done "password mismatch", false
+
         # Check if account is active or not
         if not Users.isActive json
           if json.meta and not json.meta.hasTemporaryPassword
             return done "not allowed to login", false
+
         # Login successful! return user
         done null, user
 

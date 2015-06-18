@@ -114,7 +114,7 @@ exports = module.exports = (IoC, knex, cache) ->
 
 
     # Serialize and de-serialize functions for passport
-    serialize: -> (user, callback) => callback null, user.id
+    serialize: -> (user, callback) -> callback null, user.id
     deserialize: -> (id, callback) => @get id, (err, user) -> callback err, user
 
 
