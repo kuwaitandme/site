@@ -6,7 +6,7 @@ xss            = require "xss"
 
 
 exports = module.exports = (IoC, reCaptcha, uploader, Classifieds, Events
-Users) ->
+Notifications, Users) ->
   logger = IoC.create "igloo/logger"
 
   # Check if the request has the required data
@@ -79,89 +79,104 @@ Users) ->
     newClassified.contact.email ?= user.get "email"
     [newClassified, oldClassified, files["images[]"]]
 
-  # This function creates a diff between the old and new classified.
-  createDiff = (newClassified, oldClassified, newImages) ->
-    new Promise (resolve) ->
-      # Now start processing a diff of the classified
-      classifiedDiff = {}
-      filteredClassified = Classifieds.filter newClassified
-      # console.log filteredClassified
-      observableDiff oldClassified.toJSON(), filteredClassified, (diff) ->
-        if not diff.path? then return
-        key = diff.path[0]
-        # Don't edit any fields that are supposed to be 'final'
-        if key in Classifieds.finalFields then return
-        # For JSON fields, use JSON.stringify to save new results, or
-        # else pg will throw an 'invalid json' error.
-        if key in Classifieds.jsonFields
-          # Avoid editing the images field
-          if key is "images" then return
-          classifiedDiff[key] = JSON.stringify newClassified[key]
-        # For all other fields, simply assign directly.
-        else classifiedDiff[key] = newClassified[key]
-      # Here we remove the images that are in the server with the images
-      # that have been flagged to be deleted.
-      finalImages = []
-      filesToDelete = newClassified.filesToDelete or []
-      images = newClassified.images or []
-      activeImages = 0
-      for image in images
-        if activeImages >= 12
-          # We have exceeded our limit for images, start deleting all
-          # remaining images
-          #   TODO: delete them now
-        else if image.filename in filesToDelete
-          # do something with this file as it has been flagged to be deleted
-          #   TODO: delete them now
-        else
-          found = false
-          for newImage in newImages
-            if newImage.oldFilename is image.filename
-              found = true
-              if newImage.isUploaded
-                # This image is new and was uploaded successfully.
-                image.filename = newImage.newFilename
-                image.color = newImage.color
-                finalImages.push image
-              break
-          # This file has been unchanged, so simply add it without any changes.
-          if not found then finalImages.push image
-          # Increment this counter so that we stay within the limit of images
-          # per classified.
-          activeImages++
-      # The final set of images, will be the images after deletion and
-      # the new set of images.
-      classifiedDiff.images = JSON.stringify finalImages
-      logger.debug classifiedDiff
-      resolve [oldClassified.id, classifiedDiff]
+
+  ###
+    This function creates a diff between the old and new classified.
+  ###
+  createDiff = (promise) ->
+    newClassified = promise.newClassified
+    oldClassified = promise.oldClassified
+    newImages = promise.newImages
+
+    # Now start processing a diff of the classified
+    classifiedDiff = {}
+    filteredClassified = Classifieds.filter newClassified
+    # console.log filteredClassified
+    observableDiff oldClassified.toJSON(), filteredClassified, (diff) ->
+      if not diff.path? then return
+      key = diff.path[0]
+      # Don't edit any fields that are supposed to be 'final'
+      if key in Classifieds.finalFields then return
+      # For JSON fields, use JSON.stringify to save new results, or
+      # else pg will throw an 'invalid json' error.
+      if key in Classifieds.jsonFields
+        # Avoid editing the images field
+        if key is "images" then return
+        classifiedDiff[key] = JSON.stringify newClassified[key]
+      # For all other fields, simply assign directly.
+      else classifiedDiff[key] = newClassified[key]
+    # Here we remove the images that are in the server with the images
+    # that have been flagged to be deleted.
+    finalImages = []
+    filesToDelete = newClassified.filesToDelete or []
+    images = newClassified.images or []
+    activeImages = 0
+    for image in images
+      if activeImages >= 12
+        # We have exceeded our limit for images, start deleting all
+        # remaining images
+        #   TODO: delete them now
+      else if image.filename in filesToDelete
+        # do something with this file as it has been flagged to be deleted
+        #   TODO: delete them now
+      else
+        found = false
+        for newImage in newImages
+          if newImage.oldFilename is image.filename
+            found = true
+            if newImage.isUploaded
+              # This image is new and was uploaded successfully.
+              image.filename = newImage.newFilename
+              image.color = newImage.color
+              finalImages.push image
+            break
+        # This file has been unchanged, so simply add it without any changes.
+        if not found then finalImages.push image
+        # Increment this counter so that we stay within the limit of images
+        # per classified.
+        activeImages++
+    # The final set of images, will be the images after deletion and
+    # the new set of images.
+    classifiedDiff.images = JSON.stringify finalImages
+    logger.debug classifiedDiff
+    promise.diff = classifiedDiff
+    promise
+
+
+  createNotification = (promise) ->
+    if promise.diff.status is Classifieds.statuses.ACTIVE
+      Notifications.create promise.request, "CLASSIFIED_ACTIVE",
+        id: promise.oldClassified.id
+
+    [promise.oldClassified.id, promise.diff]
+
 
   (request, response, next) ->
     # reCaptcha.verify request
     Promise.resolve request
-    # Check if the parameters in the request are proper or not.
     .then checkRequest
-    # Validation has been done, the request is proper, Fetch the classified
     .then Classifieds.getPromise
-    # Restructure the output to contain the request
-    .then (classified) -> Promise.props classified: classified, request: request
-    # Check if the user has the privelages to modify this classified.
+    # Restructure the output promise to contain the request
+    .then (classified) -> classified: classified, request: request
     .then checkUserPrivelages
-    # Start parsing the multi-part data
     .spread parseForm
-    # Then analyze the data, taking care of the perks.
     .spread analyzeData
-    # Upload the files into the server
+    # Upload the files into the server using the uploader's promise..
     .spread (newClassified, oldClassified, newImages) ->
       options = prefix: newClassified.id
-      [newClassified, oldClassified, uploader.uploadPromise newImages, options]
-    # Create a diff between the two classifieds
-    .spread createDiff
+      Promise.props
+        request: request
+        newClassified: newClassified
+        oldClassified: oldClassified
+        newImages: uploader.uploadPromise newImages, options
+    .then createDiff
+    .then createNotification
     # Log the event into the database!
     .spread (id, json) ->
       Events.log request, "CLASSIFIED_EDIT", classified: id
       [id, json]
     # Now update the classified with the diff!
-    .spread Classifieds.patchPromise
+    .spread Classifieds.patch
     # Once done, return the fields that have been changed back to the user
     .then (result) -> response.json result.toJSON()
     # If there were any errors, return it with a default 400 HTTP code.
@@ -178,6 +193,7 @@ exports["@require"] = [
 
   "models/classifieds"
   "models/events"
+  "models/notifications"
   "models/users"
 ]
 exports["@singleton"] = true
