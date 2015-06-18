@@ -155,7 +155,7 @@ Notifications, Users) ->
     # reCaptcha.verify request
     Promise.resolve request
     .then checkRequest
-    .then Classifieds.getPromise
+    .then Classifieds.get
     # Restructure the output promise to contain the request
     .then (classified) -> classified: classified, request: request
     .then checkUserPrivelages

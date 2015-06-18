@@ -7,13 +7,14 @@ exports = module.exports = (renderer, Categories, Classifieds) ->
     reverse = false
 
     _renderPage = (title) ->
-      Classifieds.query parameters, (error, classifieds) ->
-        if error then return next error
+      Classifieds.query parameters
+      .then (classifieds) ->
         options =
           data: classifieds: classifieds.toJSON()
           page: "classified/search"
           title: title or response.__ "title.classified.search"
         renderer request, response, options, false
+      .catch (error) -> next error
 
 
     Categories.getAll (error, categories) ->

@@ -28,9 +28,8 @@ exports = module.exports = (renderer, Classifieds) ->
     # if request.cookies["pay-w-tweet"]
     #   async.parallel [=> promoteClassified request]
 
-    query =  status: Classifieds.statuses.ACTIVE
-    Classifieds.query query, (error, classifieds) ->
-      if error then return next error
+    Classifieds.query status: Classifieds.statuses.ACTIVE
+    .then (classifieds) ->
       args =
         description: description
         data: classifieds: classifieds.toJSON()
@@ -38,6 +37,7 @@ exports = module.exports = (renderer, Classifieds) ->
         title: response.__ "title.landing"
 
       renderer request, response, args, true
+    .catch (error) -> next error
 
 
 exports["@require"] = [

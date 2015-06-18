@@ -12,7 +12,7 @@ exports = module.exports = (IoC, Classifieds) ->
       if not id? then throw new Error "id is missing"
       if not validator.isInt id then throw new Error "bad id"
       id
-    .then Classifieds.getPromise
+    .then Classifieds.get
     # Return the result!
     .then (result) ->
       if result? then response.json result

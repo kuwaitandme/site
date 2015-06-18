@@ -10,8 +10,11 @@ exports = module.exports = (Classifieds) ->
       response.status 404
       response.json {}
     else
-      Classifieds.getBySlug slug, (error, classified) ->
-        response.json classified
+      Classifieds.getBySlug slug
+      .then (classified) -> response.json classified
+      .catch ->
+        response.status 400
+        response.json {}
 
 
 exports["@require"] = ["models/classifieds"]

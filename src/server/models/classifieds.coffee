@@ -83,145 +83,90 @@ exports = module.exports = (knex) ->
 
 
 
-    queryPromise: (parameters) ->
-      new Promise (resolve, reject) ->
-        buildQuery = (qb) ->
-          # Helper function to check if the number is a valid int
-          _validInt = (i) -> i? and validator.isInt i, {min: 0}
-
-          pcat = parameters.parent_category
-          if _validInt pcat then qb.where "parent_category", pcat
-
-          ccat = parameters.child_category
-          if _validInt ccat then qb.where "child_category", ccat
-
-          owner = parameters.owner
-          if _validInt owner then qb.where "owner", owner
-
-          status = parameters.status
-          if _validInt status then qb.where "status", status
-
-          page = parameters.page
-          if not _validInt page then page = 1
-
-          # This subquery makes sure that only users that are ACTIVE have their
-          # classifieds being queried..
-          qb.whereRaw "owner in (
-              SELECT u.id FROM users AS u
-                WHERE u.status = 1
-            )"
-
-          qb.limit classifiedsPerPage
-          qb.offset (page - 1) * classifiedsPerPage
-          qb.orderBy "weight", "DESC"
-          qb.orderBy "created", "DESC"
-
-        model.query buildQuery
-          .fetchAll()
-          .then (classifieds) -> resolve classifieds
-
-
-    query: (parameters, callback) ->
-      buildQuery = (qb) =>
+    query: (parameters) ->
+      buildQuery = (qb) ->
         # Helper function to check if the number is a valid int
-        _validInt = (i) -> i? and validator.isInt i, { min: 0 }
+        validInt = (i) -> i? and validator.isInt i, {min: 0}
 
         pcat = parameters.parent_category
-        if _validInt pcat then qb.where "parent_category", pcat
+        if validInt pcat then qb.where "parent_category", pcat
 
         ccat = parameters.child_category
-        if _validInt ccat then qb.where "child_category", ccat
+        if validInt ccat then qb.where "child_category", ccat
 
         owner = parameters.owner
-        if _validInt owner then qb.where "owner", owner
+        if validInt owner then qb.where "owner", owner
 
         status = parameters.status
-        if _validInt status then qb.where "status", status
+        if validInt status then qb.where "status", status
 
         page = parameters.page
-        if not _validInt page then page = 1
+        if not validInt page then page = 1
 
-        qb.limit @classifiedsPerPage
-        qb.offset (page - 1) * @classifiedsPerPage
+        # This subquery makes sure that only users that are ACTIVE have their
+        # classifieds being queried..
+        qb.whereRaw "owner in (
+            SELECT u.id FROM users AS u
+              WHERE u.status = 1
+          )"
+
+        qb.limit classifiedsPerPage
+        qb.offset (page - 1) * classifiedsPerPage
+        qb.orderBy "weight", "DESC"
         qb.orderBy "created", "DESC"
 
-      @model.query buildQuery
-        .fetchAll()
-        .then (classifieds) -> callback null, classifieds
+      model.query(buildQuery).fetchAll()
 
 
-    getParentCategoryCount: (callback) ->
+    getParentCategoryCount: ->
       buildQuery = (qb) =>
         qb.select "parent_category as id"
         qb.count "parent_category"
         qb.where "status", @statuses.ACTIVE
         qb.groupBy "parent_category"
 
-      @model.query buildQuery
-        .fetchAll()
-        .then (counters={}) -> callback null, counters
+      model.query(buildQuery).fetchAll()
 
-    getChildCategoryCount: (callback) ->
+
+    getChildCategoryCount: ->
       buildQuery = (qb) =>
         qb.select "child_category as id"
         qb.count "child_category"
         qb.groupBy "child_category"
         qb.where "status", @statuses.ACTIVE
 
-      @model.query buildQuery
-        .fetchAll()
-        .then (counters) -> callback null, counters
+      model.query(buildQuery).fetchAll()
 
 
     findNeighbouring: (id, parameters={}, searchForward=true) ->
-      new Promise (resolve, reject) ->
-        buildQuery = (qb) =>
-          # Helper function to check if the number is a valid int
-          _validInt = (i) -> i? and validator.isInt i, { min: 0 }
-          owner = parameters.owner
-          if _validInt owner then qb.where "owner", owner
-          status = parameters.status
-          if _validInt status then qb.where "status", status
-          if searchForward then qb.where "id", ">", id
-          else qb.where "id", "<", id
-          qb.limit 1
+      buildQuery = (qb) =>
+        # Helper function to check if the number is a valid int
+        validInt = (i) -> i? and validator.isInt i, {min: 0}
 
-        model.query buildQuery
-          .fetchAll()
-          .then (classifieds) -> resolve classifieds
+        owner = parameters.owner
+        if validInt owner then qb.where "owner", owner
 
+        status = parameters.status
+        if validInt status then qb.where "status", status
 
-    getPromise: (id) ->
-      new Promise (resolve, reject) =>
-        model.forge id: id
-          .fetch().then (classified) -> resolve classified
+        if searchForward then qb.where "id", ">", id
+        else qb.where "id", "<", id
+
+        qb.limit 1
+
+      model.query(buildQuery).fetchAll()
 
 
-    get: (id, callback) ->
-      @model.forge id: id
-        .fetch().then (classified) -> callback null, classified
+    getPromise: (id) -> model.forge(id: id).fetch()
 
 
-    getBySlug: (slug, callback) ->
-      @model.forge slug: slug
-        .fetch().then (classified) -> callback null, classified
+    getBySlug: (slug) -> model.forge(slug: slug).fetch()
 
 
-    create: (parameters, callback=->) ->
-      newClassified = @filter parameters
-      @model.forge newClassified
-        .save().then (classified) -> callback null, classified
-
-    createPromise: (parameters) ->
-      newClassified = @filter parameters
-      new Promise (resolve, reject) ->
-        model.forge newClassified
-          .save().then (classified) -> resolve classified
+    create: (parameters) -> model.forge(@filter parameters).save()
 
 
-    patch: (id, parameters) ->
-      model.forge id: id
-      .save parameters
+    patch: (id, parameters) -> model.forge(id: id).save parameters
 
 
     calculateDaysActive: (perkName, credits) ->

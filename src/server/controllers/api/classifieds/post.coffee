@@ -111,7 +111,7 @@ Events, Users) ->
     .spread (data, files) ->
       imagesMeta = data.images
       delete data.images
-      [files, imagesMeta, Classifieds.createPromise data]
+      [files, imagesMeta, Classifieds.create data]
     # Here we validate and save the files that get returned from the formidable
     # object.
     .spread (newImages, imagesMeta, newClassified) ->
