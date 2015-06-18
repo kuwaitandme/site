@@ -159,7 +159,7 @@ exports = module.exports = (knex) ->
       model.query(buildQuery).fetchAll()
 
 
-    getPromise: (id) -> model.forge(id: id).fetch()
+    get: (id) -> model.forge(id: id).fetch()
 
 
     getBySlug: (slug) -> model.forge(slug: slug).fetch()
