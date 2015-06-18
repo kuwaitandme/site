@@ -1,16 +1,14 @@
-exports = module.exports = ($log, $root, ga) ->
+exports = module.exports = ($log, Notifications) ->
   body = document.body
   name = "[run:socket.io]"
   $log.log name, "initialized"
 
   socket = io()
-  socket.on 'notifications', (data) -> console.log "gotscoket", data
-
+  socket.on "notifications", (d) -> Notifications.add d
 
 
 exports.$inject = [
   "$log"
-  "$rootScope"
 
-  "Google.Analytics"
+  "models.notifications"
 ]

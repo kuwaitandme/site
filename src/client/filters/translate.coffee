@@ -1,4 +1,4 @@
 dict =
-  CLASSIFIED_ACTIVE: "Your classified has been approved by a moderator, view it here"
+  CLASSIFIED_ACTIVE: "Your classified has been approved by a moderator"
 
 module.exports =  -> (text) -> dict[text]

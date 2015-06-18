@@ -11,10 +11,14 @@ exports = module.exports = ($environment, $http, $serialize, $location, $log, $r
 
   notifications = []
 
-  class Model
-    constructor: ->
-      $log.log name, "initializing"
-      $root.$on "socket:notification", -> @download()
+  new class Model
+    constructor: -> $log.log name, "initializing"
+
+    add: (data) ->
+      notification = new Notification data
+      notifications.push  notification
+      $root.$emit "notifications:refresh"
+      $root.$emit "notifications:add", notification
 
     download: ->
       $log.log name, "downloading notifications"
@@ -24,14 +28,10 @@ exports = module.exports = ($environment, $http, $serialize, $location, $log, $r
         $log.debug name, "got #{notifications.length} notifications"
         notifications = do -> new Notification n for n in notifications
         $root.$emit "notifications:refresh"
-      # .then (@notifications) =>
-      #   console.log notifications
+        $root.$emit "notifications:add", notifications[0]
+
 
     getAll: -> notifications
-
-
-
-  new Model
 
 
 exports.$inject = [
