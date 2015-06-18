@@ -5,6 +5,7 @@ parentDir    = path.join __dirname, "../.."
 appDir       = path.join parentDir, "src/server"
 assetsDir    = path.join parentDir, "var/public"
 publicDir    = path.join parentDir, "var/public"
+backupDir    = path.join parentDir, "var/backups"
 viewsDir     = path.join appDir,    "views"
 modelsDir    = path.join parentDir, "etc/db"
 templatesDir = path.join viewsDir,  "emails"
@@ -114,6 +115,7 @@ exports = module.exports = ->
     pkg: pkg
     publicDir: publicDir
     modelsDir: modelsDir
+    backupDir: backupDir
     showStack: true
 
     reCaptcha:

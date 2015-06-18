@@ -1,39 +1,63 @@
-exec = (require 'child_process').exec
-path = require 'path'
-util = require 'util'
+Promise = require "bluebird"
+exec = (require "child_process").exec
+path = require "path"
+zpad = require "zpad"
 
-module.exports = ->
 
-  backupPath = path.normalize "#{global.root}/../var/backups"
+exports = module.exports = (IoC, settings) ->
+  logger = IoC.create "igloo/logger"
+  name = "[cron:backup-database]"
 
-  doCompression = (backupSource) ->
-    console.log 'compressing backup file'
 
-    _twodigits = (number) -> "0#{number}".slice -2
-    date = new Date
-    month = _twodigits date.getMonth() + 1
-    year = date.getFullYear()
-    day = _twodigits date.getDate()
-
-    timestamp = "#{day}-#{month}-#{year}"
-    backupDestination = path.normalize "#{global.root}/../var/backups/#{timestamp}.tgz"
-
-    cmd = "tar -zcvf #{backupDestination} #{backupSource}"
+  ###
+    This function simply wraps our exec function inside a Promise
+  ###
+  execPromise = (cmd) -> new Promise (resolve, reject) ->
     exec cmd, (error, stdout, stderr) ->
+      if error
+        logger.error stderr
+        reject error
+      else resolve stdout
 
 
-  doBackup = (tempDirectory) ->
-    console.log 'performing mongodb backup'
-    console.log 'using temporary directory', tempDirectory
+  ###
+    Helper function to create the timestamp.
+  ###
+  createTimestamp = ->
+    date = new Date
+    month = zpad date.getMonth() + 1
+    year = zpad date.getFullYear()
+    day = zpad date.getDate()
+    "#{month}-#{day}-#{year}"
 
-    config = global.config.mongodb
-    cmd = "mongodump -d #{config.database} -u #{config.username} -p
-      #{config.password} -o #{tempDirectory}"
 
-    exec cmd, (error, stdout, stderr) -> doCompression tempDirectory
+  ###
+    Runs a postgres command to perform a SQL dump. For this function to run
+    properly, the password used to authenticate during the dump must be
+    saved in the ~/.pgpass file.
+
+    See http://www.postgresql.org/docs/current/static/libpq-pgpass.html
+    and http://www.postgresql.org/docs/8.1/static/backup.html
+  ###
+  doBackup = ->
+    logger.info name, "running"
+    config = settings.knex.connection
+    timestamp = createTimestamp()
+    destination = "#{settings.backupDir}/db-#{timestamp}.gz"
+
+    cmd = "pg_dump -d #{config.database} -U #{config.user} |
+      gzip > #{destination}"
+
+    execPromise(cmd).then -> destination
 
 
-  # exec 'mktemp -d', (error, stdout, stderr) ->
-  #   # TODO: Handle error here
-  #   # tempDirectory = (path.normalize stdout).split('\n')[0]
-  #   # doBackup tempDirectory
+  task = ->
+    doBackup().then (dest) -> logger.info name, "created backup file in #{dest}"
+    .catch (error) -> logger.error name, "backup failed"
+
+
+exports["@require"] = [
+  "$container"
+  "igloo/settings"
+]
+exports["@singleton"] = true
