@@ -46,7 +46,7 @@ exports = module.exports = (IoC, Users) ->
     delete userJSON.meta.newName
     delete userJSON.meta.newPassword
     patch.meta = userJSON.meta
-    Users.patchPromise userJSON.id, patch
+    Users.patch userJSON.id, patch
 
 
   controller = (request, response, next) ->

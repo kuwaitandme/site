@@ -38,7 +38,7 @@ exports = module.exports = (IoC, Users) ->
   activateUser = (userJSON) ->
     delete userJSON.meta.activationToken
     patch = status: Users.statuses.ACTIVE, meta: userJSON.meta
-    Users.patchPromise userJSON.id, patch
+    Users.patch userJSON.id, patch
 
 
   controller = (request, response, next) ->

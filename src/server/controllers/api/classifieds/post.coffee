@@ -125,7 +125,7 @@ Events, Users) ->
       Events.log request, "CLASSIFIED_CREATE", classified: id
       [id, json]
     # Update the classified with the images and return the result to the user.
-    .spread Classifieds.patchPromise
+    .spread Classifieds.patch
     # Now send the email to the user about the new classified
     .then emailUser
     # Once done, return the fields that have been changed back to the user

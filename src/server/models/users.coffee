@@ -118,16 +118,10 @@ exports = module.exports = (IoC, knex, cache) ->
     deserialize: -> (id, callback) => @get id, (err, user) -> callback err, user
 
 
-    patch: (id, parameters, callback) ->
-      @model.forge id: id
-        .save parameters#, patch: true
-        .then (classified) -> callback null, classified
-
-
-    patchPromise: (id, parameters) -> new Promise (resolve, reject) ->
+    patch: (id, parameters) ->
       model.forge id: id
-        .save parameters
-        .then (classified) -> resolve classified
+      .save parameters
+
 
     # Helper function to create a random password
     randomPassword: ->

@@ -48,7 +48,7 @@ exports = module.exports = (IoC, Email, reCaptcha, Users) ->
           template: "user-modified"
           subject: "Your account has been modified. Verify this!"
           user: dbUser
-        [emailOptions, Users.patchPromise dbUserJSON.id, dbUserJSON]
+        [emailOptions, Users.patch dbUserJSON.id, dbUserJSON]
     # If there is no user with that email, create the user
     else
       emailOptions =

@@ -19,7 +19,7 @@ exports = module.exports = (IoC, knex) ->
     ###
       Creates a new notification in the Database
     ###
-    create: (request, message, data, user={}) ->
+    create: (request={}, message, data, user={}) ->
       logger.debug name, "creating notification: '#{message}'"
       newNotification =
         message: message

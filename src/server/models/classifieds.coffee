@@ -219,16 +219,9 @@ exports = module.exports = (knex) ->
           .save().then (classified) -> resolve classified
 
 
-    patchPromise: (id, parameters) -> new Promise (resolve, reject) ->
+    patch: (id, parameters) ->
       model.forge id: id
-        .save parameters
-        .then (classified) -> resolve classified
-
-
-    patch: (id, parameters, callback) ->
-      @model.forge id: id
-        .save parameters#, patch: true
-        .then (classified) -> callback null, classified
+      .save parameters
 
 
     calculateDaysActive: (perkName, credits) ->
