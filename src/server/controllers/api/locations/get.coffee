@@ -1,16 +1,25 @@
-exports = module.exports = (Locations, cache) ->
+exports = module.exports = (Locations, Cache) ->
   controller = (request, response, next) ->
     response.contentType "application/json"
+    cacheKey = "route:api/locations"
 
     # Check in cache
-    cache.get "route:api/locations", (error, results) =>
-      if results then return response.end results
+    Cache.get cacheKey
 
-      # Categories was not cached, so query and then save in cache
-      Locations.getAll (error, collection) ->
-        json = JSON.stringify collection, null, 2
-        cache.set "route:api/locations", json
-        response.end json
+    # The Locations were not cached, so query and then save in cache
+    .catch ->
+
+      # Get all the locations from the DB.
+      Locations.getAll()
+      .then (results) ->
+        Cache.set cacheKey, JSON.stringify results, null, 2
+
+    # This promise only executes when the locations have been fetched (either
+    # from the DB or from the cache)
+    .then (results) ->
+      response.contentType "application/json"
+      response.end results
+    .catch (error) -> next error
 
 
 exports["@require"] = [
