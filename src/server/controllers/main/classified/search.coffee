@@ -2,25 +2,15 @@
 
 exports = module.exports = (renderer, Categories, Classifieds) ->
   controller = (request, response, next) ->
-    parameters = {}
     page = 1
     reverse = false
+    parameters = {}
 
-    _renderPage = (title) ->
-      Classifieds.query parameters
-      .then (classifieds) ->
-        options =
-          data: classifieds: classifieds.toJSON()
-          page: "classified/search"
-          title: title or response.__ "title.classified.search"
-        renderer request, response, options, false
-      .catch (error) -> next error
+    parentCategory = request.params[0]
+    childCategory = request.params[1]
 
-
-    Categories.getAll (error, categories) ->
-      if error then next error
-      parentCategory = request.params[0]
-      childCategory = request.params[1]
+    Categories.getAll()
+    .then (categories) ->
 
       if parentCategory
         # Query on the parent category based on the first slug
@@ -40,8 +30,16 @@ exports = module.exports = (renderer, Categories, Classifieds) ->
             break
         if not parameters.parent_category then return next()
 
-      # Render the page with the resulting query parameters
-      _renderPage title
+
+      Classifieds.query parameters
+      .then (classifieds) ->
+        options =
+          data: classifieds: classifieds.toJSON()
+          page: "classified/search"
+          title: title or response.__ "title.classified.search"
+        renderer request, response, options, false
+
+    .catch (error) -> next error
 
 
 exports["@require"] = [

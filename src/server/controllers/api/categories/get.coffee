@@ -8,11 +8,11 @@ exports = module.exports = (Categories, Cache, email) ->
 
     # If nothing was found in the cache then we re-query the DB.
     .catch (results) ->
+
       # Get all the categories from the DB.
       Categories.getAll()
       .then (results) ->
-        json = JSON.stringify results, null, 2
-        Cache.set cacheKey, json
+        Cache.set cacheKey, JSON.stringify results, null, 2
 
     # This promise only executes when the categories have been fetched (either
     # from the DB or from the cache)
