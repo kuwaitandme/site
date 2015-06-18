@@ -1,9 +1,10 @@
-exports = module.exports = (IoC, cache) ->
+exports = module.exports = (IoC, Cache) ->
   logger = IoC.create "igloo/logger"
+  name = "[cron:clear-cache]"
 
   job = ->
-    logger.info "clearing category counters"
-    cache.del "route:api/categories/counters"
+    logger.info name, "running"
+    Cache.del "route:api/categories/counters"
 
 
 exports["@require"] = [

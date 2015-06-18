@@ -51,7 +51,7 @@ exports = module.exports = (IoC, settings) ->
     execPromise(cmd).then -> destination
 
 
-  task = ->
+  job = ->
     doBackup().then (dest) -> logger.info name, "created backup file in #{dest}"
     .catch (error) -> logger.error name, "backup failed"
 

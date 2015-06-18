@@ -7,7 +7,7 @@ exports = module.exports = (IoC) ->
   name = "[memory-cache]"
 
   new class Memory
-    constructor: -> logger.info name, "initializing"
+    constructor: -> logger.debug name, "initializing"
 
 
     ###
