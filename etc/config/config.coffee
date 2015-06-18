@@ -148,7 +148,7 @@ exports = module.exports = ->
       cookie: maxAge: maxAge
       # key: "s"
       resave: true
-      saveUninitialized: true
+      saveUninitialized: false
       secret: "change-me"
 
     trustProxy: true
