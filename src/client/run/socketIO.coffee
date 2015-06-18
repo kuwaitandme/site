@@ -2,11 +2,9 @@ exports = module.exports = ($log, $root, ga) ->
   body = document.body
   name = "[run:socket.io]"
   $log.log name, "initialized"
+
   socket = io()
-  socket.emit 'blah', { my: 'data' }
-  socket.on 'news', (data) ->
-    console.log("gotscoket",data)
-  # });
+  socket.on 'notifications', (data) -> console.log "gotscoket", data
 
 
 
