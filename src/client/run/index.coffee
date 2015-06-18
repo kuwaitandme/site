@@ -4,3 +4,4 @@ module.exports = (app) ->
   app.run require "./pageLoad"
   app.run require "./stateChangeStart"
   app.run require "./viewContentLoaded"
+  app.run require "./socketIO"
