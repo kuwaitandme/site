@@ -2,9 +2,9 @@ exports = module.exports = (IoC) ->
   logger = IoC.create "igloo/logger"
 
   job = ->
-    logger.info "expiring inactive classifieds"
-    # expiredate = new Date()
-    # expiredate.setDate expiredate.getDate() - 30
+    logger.info "expiring inactive perks"
+    expiredate = new Date()
+    expiredate.setDate expiredate.getDate() - 30
 
     # Classified = global.models.classified
     # Classified.model.find { created: $lt: expiredate }, (error, classifieds) ->
