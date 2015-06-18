@@ -1,0 +1,11 @@
+extends ../../layout.jade
+
+
+block robots
+  //- Start printing out links to the parent category pages
+  each category in data.categories
+    a(href="/classified/#{category.slug}", itemprop="url")= category.name
+
+    //- And for the child category pages
+    each childCategory in category.children
+      a(href="/classified/#{category.slug}/#{childCategory.slug}", itemprop="url")= childCategory.name

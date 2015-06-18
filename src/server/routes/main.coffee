@@ -39,7 +39,7 @@ exports = module.exports = (IoC, settings) ->
   _route "/auth/oauth/([a-z]+)",                    "auth/oauth/index"
   _route "/auth/oauth/([a-z]+)/callback",           "auth/oauth/callback"
 
-  _route "/classified",                             "classified/search"
+  _route "/classified",                             "classified/categories"
   _route "/classified/create",                      "classified/create"
   _route "/classified/edit/([0-9]*)",               "classified/edit"
   _route "/classified/finish/([0-9]+)",             "classified/finish"
