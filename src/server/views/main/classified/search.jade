@@ -4,5 +4,5 @@ block robots
   each classified in robots.classifieds
     if classified
       span(itemscope itemtype="http://schema.org/Invoice")
-        h1(itemprop="name")= classified.title
+        h2(itemprop="name")= classified.title
         a(href="/#{classified.slug}", itemprop="url") link
