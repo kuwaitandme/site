@@ -1,4 +1,4 @@
--module.exports = (app) ->
+module.exports = (app) ->
   console.log "[services] initializing"
 
   # app.service "$facebook",          require "./facebook.sdk"
