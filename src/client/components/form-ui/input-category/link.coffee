@@ -4,7 +4,7 @@ module.exports = (scope, element, attributes, ngModel) ->
   # Rewrite the isEmpty condition, so that ngModel can set the invalid class
   # respectively
   ngModel.$isEmpty = ->
-    model = ngModel.$viewValue
+    model = ngModel.$viewValue or {}
     if scope.childCategory and model.child_category? then return false
     if scope.parentCategory
       children = scope.parentCategory.children
