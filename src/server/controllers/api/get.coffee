@@ -16,6 +16,7 @@ exports = module.exports = (settings, Locations, Categories, Classifieds, Users)
 
 exports["@require"] = [
   "igloo/settings"
+
   "models/locations"
   "models/categories"
   "models/classifieds"

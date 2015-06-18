@@ -1,21 +1,19 @@
 name = "[component:header]"
 
+# Allow upto 'X' unread notifications to be put in the sub-header
+maxUnreadNotifications = 3
+
 exports = module.exports = ($scope, $root, $log, $timeout, Notifications) ->
   $log.log name, "initializing"
 
-  # Use this to adjust how long the flash notifications stay on the header,
-  # before they disappear
-  flashNotificationLifetime = 5000
-  # Allow upto 'X' unread notifications to be put in the sub-header
-  maxUnreadNotifications = 3
-
-  $scope.flashNotifications = []
-  $scope.unreadNotifications = 12
   $scope.notifications = []
+  $scope.unreadNotifications = 0
 
   # A click handler to display the sub header
   $scope.openHeader = -> $root.bodyClasses["show-subheader"] = true
 
+  # This function sends an event which gets picked by the auth component and
+  # shows the auth modal..
   $scope.showAuth = -> $root.$broadcast "auth:show"
 
 
@@ -33,47 +31,36 @@ exports = module.exports = ($scope, $root, $log, $timeout, Notifications) ->
 
   $root.$on "$stateChangeStart", $scope.closeHeader
 
+
   # This click handler is used to toggle (display/hide) the subheader.
   $scope.toggleHeader = ->
     headerIsOpened = $root.bodyClasses["show-subheader"]
     if headerIsOpened then $scope.closeHeader()
     else $scope.openHeader()
 
+
+  # Add a listener for when notifications get marked as 'read' to update the DB.
+  $scope.onNotificationRead = -> Notifications.signalRead()
+
+
   # When a new notification gets added, run the below function to display it
   # properly
-  onNotificationAdded = (notifications) ->
+  readNotification = ->
     $scope.unreadNotifications = 0
+    notifications = Notifications.getAll()
+
+    # Now calculate how many unread notifications exist.
     for notification in notifications
-      console.log notification, notification.hasRead()
       if not notification.hasRead() then $scope.unreadNotifications++
 
+    # Retrieve the JSON of the classifieds and update the DOM
     json = do -> notification.get() for notification in notifications
     $scope.notifications = json
 
-  # $scope.$watch "notifications", onNotificationAdded, true
-
-  # # Add a listener for when notifications get marked as 'read' to update the
-  # # counter
-  # onNotificationRead = (notifications) ->
-  #     # console.log name, notification
-  # $scope.$watch "notifications", onNotificationRead, true
-
-  $scope.$on "notifications:refresh", ->
-    $scope.notification = Notifications.getAll()
-    # console.log name, 's', $scope.notification
-    onNotificationAdded $scope.notification
-    # console.log name, Notifications.getAll()
-  # # Listen for a notification event and add the new notification
-  # $scope.$on "notification", (event, notification) ->
-  #   $scope.flashNotifications.push notification
-  #   lifetime = notification.timeout or flashNotificationLifetime
-  #   # Set a timeout function to remove the notification
-  #   # ((notifications) -> $timeout ->
-  #   #   index = $scope.flashNotifications.indexOf notification
-  #   #   if index? then $scope.flashNotifications.splice index, 1
-  #   # , lifetime) notification
-  #   # If it was a regular notification then add it to the header
-  #   if not notification.flash then $scope.notifications.push notification
+  # Attach this function to the refresh event and run it once (because the header
+  # can initialize after the notifications have been downloaded).
+  $scope.$on "notifications:refresh", readNotification
+  readNotification()
 
 
 exports.$inject = [
@@ -81,5 +68,6 @@ exports.$inject = [
   "$rootScope"
   "$log"
   "$timeout"
+
   "models.notifications"
 ]
