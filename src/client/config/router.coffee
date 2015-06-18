@@ -12,9 +12,10 @@ exports = module.exports = ($stateProvider, $locationProvider, $urlMatcher,
       templateUrl: "views/#{page}/template"
       url: route
       resolve:
-        categories: ["models.categories", (category) -> category.download()]
-        user: ["models.users", (user) -> user.download()]
-        location: ["models.locations", (location) -> location.download()]
+        categories: ["models.categories", (m) -> m.download()]
+        user: ["models.users", (m) -> m.download()]
+        location: ["models.locations", (m) -> m.download()]
+        notifications: ["models.notifications", (m) -> m.download()]
 
   _route "index",                       ""
   _route "account",                     "/account"

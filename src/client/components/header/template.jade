@@ -19,9 +19,10 @@ nav#sub-header
     .columns.small-centered
       ul#notifications()
         li(ng-if="notifications.length > 0",
-          ng-repeat="n in notifications",
-          ng-mouseover="n.hasRead = true"
-          class="{{ n.type }}", ng-class="{read: n.hasRead, hide: n.remove}") {{ n.text }}
+          ng-repeat="n in notifications | limitTo: 4",
+          ng-mouseover="n.hasRead = 1"
+          ng-click="n.remove = true"
+          class="{{ n.type }}", ng-class="{read: n.hasRead == 1, hide: n.remove}") {{ n.message | translate}}
         li.error.none(ng-if="notifications.length == 0") You have no new notifications
 
 
