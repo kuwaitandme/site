@@ -46,6 +46,7 @@ exports = module.exports = (IoC) ->
   _r "/messages/classified",                 "messages/classified",       POST
   _r "/messages/contact",                    "messages/contact",          POST
   _r "/notifications",                       "notifications",             GET
+  _r "/notifications/read",                  "notifications/read",        GET
   _r "/users/([0-9]+)?",                     "users",                     DELETE
   _r "/users/([0-9]+)?",                     "users",                     GET
   _r "/users/([0-9]+)?",                     "users",                     PATCH

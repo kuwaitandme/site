@@ -3,7 +3,7 @@ bCrypt    = require "bcrypt-nodejs"
 requestIp = require "request-ip"
 validator = require "validator"
 
-exports = module.exports = (IoC, knex) ->
+exports = module.exports = (IoC, knex, io) ->
   logger = IoC.create "igloo/logger"
   name = "[model:notifications]"
 
@@ -21,13 +21,18 @@ exports = module.exports = (IoC, knex) ->
     ###
     create: (request={}, message, data, user={}) ->
       logger.debug name, "creating notification: '#{message}'"
+      userID = (request.user and request.user.id) or user.id
       newNotification =
         message: message
-        user: (request.user and request.user.id) or user.id
+        user: userID
         data: data
 
-      model.forge newNotification
-      .save()
+      # With the naming convention we use, we relay the notification using
+      # websockets back to the user..
+      io.to("user:#{userID}").emit "notifications", newNotification
+
+      # Then we save the actual notification in the DB
+      model.forge(newNotification).save()
 
 
     ###
@@ -51,12 +56,21 @@ exports = module.exports = (IoC, knex) ->
         qb.offset (page - 1) * notificationsPerPage
         qb.orderBy "timestamp", "DESC"
 
-      model.query buildQuery
-      .fetchAll()
+      model.query(buildQuery).fetchAll()
+
+
+    ###
+      Updates the notifications with the given user id
+    ###
+    patch: (id, parameters) ->
+      knex "notifications"
+      .where "user", "=", id
+      .update parameters
 
 
 exports["@singleton"] = true
 exports["@require"] = [
   "$container"
   "igloo/knex"
+  "controllers/io"
 ]
