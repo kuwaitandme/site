@@ -37,9 +37,9 @@ exports = module.exports = (IoC, knex) ->
         type: enums[eventName]
         user: (request.user and request.user.id) or user.id
       if data? then newEvent.data = JSON.stringify data
-      new Promise (resolve, reject) ->
-        model.forge newEvent
-        .save().then (event) -> resolve event
+
+      model.forge newEvent
+      .save()
 
 
     query: (parameters) ->
@@ -57,8 +57,7 @@ exports = module.exports = (IoC, knex) ->
           qb.orderBy "timestamp", "DESC"
 
         model.query buildQuery
-          .fetchAll()
-          .then (events) -> resolve events
+        .fetchAll()
 
 
 exports["@singleton"] = true
