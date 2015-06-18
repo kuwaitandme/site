@@ -13,13 +13,12 @@ exports = module.exports = (renderer, Categories, Classifieds) ->
     .then (categories) ->
 
       if parentCategory
-        # Query on the parent category based on the first slug
+        # Iterate on the parent category based on the first slug
         for parent in categories
           if parent.slug == parentCategory
             parameters.parent_category = parent.id
             title = parent.name
-
-            # Query on the child category based on the second slug
+            # Iterate on the child category based on the second slug
             if childCategory?
               for child in parent.children
                 if child.slug == childCategory
