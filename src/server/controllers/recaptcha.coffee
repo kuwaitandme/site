@@ -43,7 +43,7 @@ exports = module.exports = (IoC, settings) ->
     request.end()
 
 
-  new class
+  new class reCaptcha
     # This is a function that returns a Promise function. It returns back the
     # request if the captcha successfully validated. It throws an error if
     # the captcha failed.

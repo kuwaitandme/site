@@ -1,20 +1,25 @@
-exports = module.exports = (Categories, cache, email) ->
+exports = module.exports = (Categories, Cache, email) ->
   controller = (request, response, next) ->
-    # email.send "testing", "stevent95@gmail.com", 'testing'
-    # console.log
-    # email.sendTemplate "stevent95@gmail.com", "temporaryCreatedUser",
-    #   subject: "An account has been made for you"
-    #   user: request.user
     response.contentType "application/json"
-    # Check in cache
-    cache.get "route:api/categories", (error, results) =>
-      if results then return response.end results
+    cacheKey = "route:api/categories"
 
-      # Categories was not cached, so query and then save in cache
-      Categories.getAll (error, results) ->
+    # Check in the cache first.
+    Cache.get cacheKey
+
+    # If nothing was found in the cache then we re-query the DB.
+    .catch (results) ->
+      # Get all the categories from the DB.
+      Categories.getAll()
+      .then (results) ->
         json = JSON.stringify results, null, 2
-        cache.set "route:api/categories", json
-        response.end json
+        Cache.set cacheKey, json
+
+    # This promise only executes when the categories have been fetched (either
+    # from the DB or from the cache)
+    .then (results) ->
+      response.contentType "application/json"
+      response.end results
+    .catch (error) -> next error
 
 
 exports["@singleton"] = true

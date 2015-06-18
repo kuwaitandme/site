@@ -11,7 +11,9 @@ exports = module.exports = (knex) ->
   collection = bookshelf.Collection.extend model: @model
 
   classifiedsPerPage = 30
-  new class
+
+
+  new class Model
     classifiedsPerPage: 30
 
     # These are all the fields that are valid columns in the table
