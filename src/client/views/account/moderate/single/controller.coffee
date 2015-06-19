@@ -1,7 +1,9 @@
+name = "[page:account-md-single]"
+
+
 exports = module.exports = ($environment, $location, $log, $notifications,
 $scope, $stateParams, Classifieds) ->
-  @name = "[page:account-cl-single]"
-  $log.log @name, "initializing"
+  $log.log name, "initializing"
 
   # Fetch the classified from the API
   Classifieds.get $stateParams.id

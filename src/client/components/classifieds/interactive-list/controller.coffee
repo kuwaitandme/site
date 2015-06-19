@@ -29,7 +29,7 @@ Classifieds) ->
     # notification describing about the use of arrow keys
     if not $storage.local "help:arrow-keys"
       $storage.local "help:arrow-keys", 1
-      $scope.$emit "toast-notification", "Use arrow keys to navigate"
+      $scope.$emit "toast-notification", "Use the arrow keys to navigate"
 
 
   ###

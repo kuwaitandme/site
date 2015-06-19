@@ -1,8 +1,10 @@
+name = "[service:google-recaptcha]"
+
+
 exports = module.exports = ($window, $environment, $log) -> new class
-  name: "[service:google-recaptcha]"
 
   constructor: ->
-    $log.log @name, "initializing"
+    $log.log name, "initializing"
     # Prepare the URL for the reCaptcha API
     url = "//www.google.com/recaptcha/api.js"
     # Insert the script into the DOM
@@ -13,9 +15,9 @@ exports = module.exports = ($window, $environment, $log) -> new class
     head.insertBefore $fileref, head.firstChild
 
 
-  onLoad: (callback=->) ->
+  onLoad: (callback) ->
     waitForElement = ->
-      if $window.grecaptcha? then callback()
+      if $window.grecaptcha? then callback and callback()
       else setTimeout (-> waitForElement()), 250
     waitForElement()
 
@@ -26,7 +28,7 @@ exports = module.exports = ($window, $environment, $log) -> new class
 
 
   initialize: (elementId, options) ->
-    $log.log @name, "initializing captcha on DOM id:", elementId
+    $log.log name, "initializing captcha on DOM id:", elementId
     @onLoad ->
       widgetId = $window.grecaptcha.render elementId,
         callback: (response) -> options.callback response

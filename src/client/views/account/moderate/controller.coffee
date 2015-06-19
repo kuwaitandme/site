@@ -1,6 +1,8 @@
+name = "[page:account-moderate]"
+
+
 exports = module.exports = ($scope, $location, $log, Classifieds) ->
-  @name = "[page:account-manage]"
-  $log.log @name, "initializing"
+  $log.log name, "initializing"
   $scope.$emit "page-loaded"
 
   # Prepare the query for the classified.list controller. This object

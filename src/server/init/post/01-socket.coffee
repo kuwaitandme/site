@@ -30,6 +30,7 @@ exports = module.exports = (IoC, settings) ->
       userid = socket.handshake.session.passport.user
       roomName = "user:#{userid}"
 
+      if not userid? then throw "no user"
       logger.debug name, "assigning id:#{id} room '#{roomName}'"
       socket.join roomName
     catch e then logger.debug name, "not assigning id:#{id} any room"

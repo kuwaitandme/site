@@ -4,9 +4,8 @@ class Notification extends require "./default"
   # To check for delivery status
   hasRead: -> @data.hasRead is 1
 
-
+name = "[model:notifications]"
 exports = module.exports = ($environment, $http, $serialize, $location, $log, $root) ->
-  name = "[model:notifications]"
   APIurl = "#{$environment.url}/api/notifications"
 
   notifications = []
@@ -25,8 +24,8 @@ exports = module.exports = ($environment, $http, $serialize, $location, $log, $r
       $root.$emit "notifications:refresh", notifications
 
     download: ->
-      if not downloaded then downloaded = true
-      else return
+      if downloaded then return
+      downloaded = true
       $log.log name, "downloading notifications"
       $http.get APIurl
       .then (response) ->
@@ -40,6 +39,7 @@ exports = module.exports = ($environment, $http, $serialize, $location, $log, $r
       if readSentToAPI then return
       readSentToAPI = true
       $http.get "#{APIurl}/read"
+      # .then (response) -> $root.$emit "notifications:refresh", notifications
 
 
     getAll: -> notifications
