@@ -3,8 +3,8 @@ exports = module.exports = ($log, Notifications) ->
   name = "[run:socket.io]"
   $log.log name, "initialized"
 
-  socket = io()
-  socket.on "notifications", (d) -> Notifications.add d
+  # socket = io()
+  # socket.on "notifications", (d) -> Notifications.add d
 
 
 exports.$inject = [
