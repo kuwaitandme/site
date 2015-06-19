@@ -102,6 +102,7 @@ Disallow: /classified/55122acfdf7f30c6133aafe5
 # Remove old links captured from Google webmaster's 404 list
 Disallow: /ar/classified/single
 Disallow: /classified/single
+Disallow: /classified/search
 Disallow: /en/2013/
 Disallow: /en/2013/07/
 Disallow: /en/2013/07/14/
@@ -113,11 +114,14 @@ Disallow: /en/2013/07/14/news/typhoon-forces-evacuation-of-500000-in-china/
 Disallow: /en/classified/single
 Disallow: /en/forums/forum/general-disscussion/
 Disallow: /en/uploads/main/
+Disallow: /guest
+Disallow: /wp-content/
+
 
 # Remove old links captured from GoogleBot's 404s in the access log
 Disallow: /en/uploads/
 Disallow: /forums/
-Disallow: /wp-content/
+Disallow: /plugins
 Disallow: /en/privacy
 Disallow: /en/terms
 Disallow: /ar/privacy
