@@ -15,11 +15,11 @@ exports = module.exports = (Classifieds) ->
     try newqueryString = querystring.stringify query
     catch e then newqueryString = ""
 
-    Classifieds.get id, (error, classified) ->
-      if error then next error
+    Classified.get id
+    .then (classified) ->
       if not classified then return next()
       response.redirect "/#{classified.toJSON().slug}?#{newqueryString}"
-
+    .catch next
 
 exports["@require"] = ["models/classifieds"]
 exports["@singleton"] = true
