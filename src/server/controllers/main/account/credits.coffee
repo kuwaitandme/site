@@ -1,12 +1,13 @@
-# Controller for the privacy page. Simply displays the privacy policy view.
-controller = module.exports =
-  get: (request, response, next) ->
+exports = module.exports = (renderer) ->
+  controller = (request, response, next) ->
     if not request.isAuthenticated()
-      return response.redirect "/?error=need_login"
+      return response.redirect "/?_error=need_login"
 
-    args =
+    options =
       page: "account/credits"
       title: response.__ "title.account.credits"
+    renderer request, response, options, true
 
-    render = global.modules.renderer
-    render request, response, args, true
+
+exports["@require"] = ["controllers/renderer"]
+exports["@singleton"] = true

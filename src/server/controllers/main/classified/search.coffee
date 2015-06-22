@@ -44,7 +44,7 @@ exports = module.exports = (renderer, Categories, Classifieds) ->
         title: title or response.__ "title.classified.search"
       renderer request, response, options, false
 
-    .catch (error) -> next error
+    .catch next
 
 
 exports["@require"] = [

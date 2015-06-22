@@ -1,10 +1,13 @@
-controller = module.exports =
-
-  get: (request, response, next) ->
+exports = module.exports = (renderer) ->
+  controller = (request, response, next) ->
     if not request.isAuthenticated()
-      return response.redirect "/?error=need_login"
+      return response.redirect "/?_error=need_login"
 
-    render = global.modules.renderer
-    render request, response,
+    options =
       page: "account/profile"
       title: response.__ "title.account.profile"
+    renderer request, response, options, true
+
+
+exports["@require"] = ["controllers/renderer"]
+exports["@singleton"] = true

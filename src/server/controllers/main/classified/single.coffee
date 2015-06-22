@@ -22,7 +22,8 @@ exports = module.exports = (renderer, Classified) ->
         page: "classified/single"
         title: classified.title
       renderer request, response, options, false
-    .catch (error) -> next error
+
+    .catch next
 
 
 exports["@require"] = [

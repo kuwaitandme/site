@@ -1,7 +1,7 @@
 extends ../layout.jade
 
 block robots
-  each classified in robots.classifieds
+  each classified in data.classifieds
     if classified
       span(itemscope itemtype="http://schema.org/Product")
         h2(itemprop="name")= classified.title
