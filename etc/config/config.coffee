@@ -41,7 +41,9 @@ exports = module.exports = ->
 
     google:
       enabled: true
-      reCaptcha: "XXXXXXXXXX"
+      reCaptcha:
+        siteKey: "XXXXXXXXXX"
+        siteSecret: "XXXXXXXXXX"
       analyticsCode: "UA-XXXXXXXXXX-X"
       oauth:
         clientID: "XXXXXXXXXX"

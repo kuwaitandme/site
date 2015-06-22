@@ -43,21 +43,19 @@ exports = module.exports = (IoC, knex) ->
 
 
     query: (parameters) ->
-      eventsPerPage = 30
-      new Promise (resolve, reject) ->
-        buildQuery = (qb) ->
-          # Helper function to check if the number is a valid int
-          _validInt = (i) -> i? and validator.isInt i, min: 0
+      eventsPerPage = 300
+      buildQuery = (qb) ->
+        # Helper function to check if the number is a valid int
+        _validInt = (i) -> i? and validator.isInt i, min: 0
 
-          page = parameters.page
-          if not _validInt page then page = 1
+        page = parameters.page
+        if not _validInt page then page = 1
 
-          qb.limit eventsPerPage
-          qb.offset (page - 1) * eventsPerPage
-          qb.orderBy "timestamp", "DESC"
+        qb.limit eventsPerPage
+        qb.offset (page - 1) * eventsPerPage
+        qb.orderBy "timestamp", "DESC"
 
-        model.query buildQuery
-        .fetchAll()
+      model.query(buildQuery).fetchAll()
 
 
 exports["@singleton"] = true
