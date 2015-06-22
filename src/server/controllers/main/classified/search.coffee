@@ -70,10 +70,11 @@ exports = module.exports = (Cache, renderer, Categories, Classifieds) ->
     # renderer and return the output
     .then (classifieds) ->
       options =
+        cache: cache
         data: classifieds: classifieds
         page: "classified/search"
         title: title
-      renderer request, response, options, cache
+      renderer request, response, options
 
     # On any error, simply return a 404
     .catch -> next()

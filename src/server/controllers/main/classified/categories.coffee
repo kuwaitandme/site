@@ -1,22 +1,22 @@
-# getQueryParameters = (require "../../api/query/helpers").getQueryParameters
-
 exports = module.exports = (renderer, Categories, Classifieds) ->
   controller = (request, response, next) ->
-    page = 1
-    reverse = false
-    title = null
-
-    parentCategory = request.params[0]
-    childCategory = request.params[1]
-
+    # First get all the categories (which also gets cached! so should barely
+    # take any time...)
     Categories.getAll()
     .then (categories) ->
       options =
-        data: categories: categories
+        cache:
+          key: "route:/classified"
+        data:
+          categories: categories
         page: "classified/categories"
         title: response.__ "title.classified.search"
-      renderer request, response, options, false
 
+      [request, response, options]
+    # Then render the page, using a cache with an Infinite lifetime..
+    .spread renderer
+
+    # Pass any errors to the handlers
     .catch next
 
 

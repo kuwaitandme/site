@@ -3,6 +3,11 @@ description = "Publish and Browse classifieds in Kuwait. Quick, easy and
   absolutely free! Jobs, property, real estate, cars and classifieds in Kuwait.
   Post an ad, browse ads, buy, sell or rent."
 
+# Cache options
+cache =
+  timeout: 60 * 10 # Give a 10 minute lifespan
+  key: "route:/"
+
 
 # Controller for the landing page. Displays the front-page with the top
 # classifieds.
@@ -10,11 +15,8 @@ exports = module.exports = (Cache, renderer, Classifieds) ->
 
   controller = (request, response, next) ->
 
-    # Give a 10 minute timeout for the life in the cache
-    cacheTimeout = 60 * 10
-    cacheKey = "route:/"
-
-    Cache.get cacheKey
+    # First check the cache..
+    Cache.get cache.key
 
     # If nothing in the cache was found, then the function throws an error. We
     # catch it here and re-fill the cache by calculating the counters again..
@@ -22,16 +24,21 @@ exports = module.exports = (Cache, renderer, Classifieds) ->
       Classifieds.query status: Classifieds.statuses.ACTIVE
       .then (classifieds) ->
         json = classifieds.toJSON()
-        Cache.set cacheKey, json, cacheTimeout
+        Cache.set cache.key, json, cache.timeout
         json
+
+    # Once we get classifieds (either from the cache or from the DB), we start
+    # rendering the page
     .then (classifieds) ->
-      args =
+      options =
+        cache: cache
         data: classifieds: classifieds
         description: description
         page: "landing"
         title: response.__ "title.landing"
 
-      renderer request, response, args, cacheTimeout
+      renderer request, response, options
+
     .catch next
 
 

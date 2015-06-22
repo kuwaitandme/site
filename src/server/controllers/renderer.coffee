@@ -13,6 +13,7 @@ exports = module.exports = (settings, Cache) ->
     settings: settings
     staticUrl: settings.staticUrl
     url: settings.url
+    cache: {}
 
     publicData:
       environment: settings.server.env
@@ -33,14 +34,15 @@ exports = module.exports = (settings, Cache) ->
   defaults.cryptedData = (new Buffer JSON.stringify defaults.cryptedData)
   .toString "base64"
 
-  fn = (request, response, options={}, cache={}) ->
+  fn = (request, response, options={}) ->
     # Setup the cache variables
     cacheKey = "never-set"
-    if cache.key?
+    if options.cache?
       cacheEnable = true
-      cacheKey = "renderer@#{cache.key}"
+      cacheKey = "renderer@#{options.cache.key}"
+      cacheTimeout = options.timeout
 
-    # # Set the language
+    # # ScacheTimeout language
     # options.lang = request.getLocale()
     # options.lang = "en"
     if options.lang == "ar" then options.dir = "rtl"
@@ -62,8 +64,9 @@ exports = module.exports = (settings, Cache) ->
       # Now that we have compiled the HTML, we decide if we want to cache it or
       # not. Note that these function return a promise which then resolves to
       # the HTML code..
-      if cache.timeout then Cache.set cacheKey, html, cache.timeout
+      if cacheTimeout then Cache.set cacheKey, html, cacheTimeout
       else if cacheEnable then Cache.set cacheKey, html
+      else html
 
     # Finally write to the response!
     .then (html) ->

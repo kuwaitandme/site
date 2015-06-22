@@ -1,12 +1,13 @@
 Promise   = require "bluebird"
 validator = require "validator"
 
+modifySuccessRedirect = "/auth?_success=account_changes_saved"
+modifyFailRedirect = "/auth?_error=account_changes_failed"
+
 # (untested)
 exports = module.exports = (IoC, Users) ->
   logger = IoC.create "igloo/logger"
 
-  modifySuccessRedirect = "/auth?_success=account_changes_saved"
-  modifyFailRedirect = "/auth?_error=account_changes_failed"
 
   # First check if the request contains all the necessary parameters
   validateRequest = (request) ->
@@ -37,9 +38,10 @@ exports = module.exports = (IoC, Users) ->
   # All validation went well. Ok, so now we update the user with a new 'active'
   # status and the activation token removed.
   updateUser = (userJSON) ->
-    patch = {}
-    patch.full_name = userJSON.meta.newName
-    patch.password = userJSON.meta.newPassword
+    patch =
+      full_name: userJSON.meta.newName
+      password: userJSON.meta.newPassword
+
     # Remove the meta fields to create the new meta object that will get patched
     # along with the fullname and password.
     delete userJSON.meta.signupVerifyToken

@@ -13,7 +13,9 @@ exports = module.exports = (renderer, Classified) ->
       if not classified.id? then return next()
       if classified.meta? then noIndex = classified.meta.robotsNoIndex
 
-      # Render the page!
+      # Render the page! NOTE that this controller will not have any cache
+      # because of the nature of it's content.. And so is the most expensive
+      # page in terms of response time.
       options =
         data:
           noIndex: noIndex or false
@@ -21,7 +23,7 @@ exports = module.exports = (renderer, Classified) ->
         description: classified.description
         page: "classified/single"
         title: classified.title
-      renderer request, response, options, false
+      renderer request, response, options
 
     .catch next
 

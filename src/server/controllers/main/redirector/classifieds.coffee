@@ -13,7 +13,8 @@ querystring = require "querystring"
  *                        redirect to
  *          HTTP:404      if the id does not match to any classified in the DB.
  *
- * @example GET sitename.tld/c/123 -> 301 sitename.tld/classified-slug-here-123
+ * @example
+ * GET sitename.tld/c/123 -> 301 sitename.tld/classified-slug-here-123
 ###
 exports = module.exports = (Classifieds) ->
   controller = (request, response, next) ->

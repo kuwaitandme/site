@@ -33,7 +33,6 @@ exports = module.exports = (IoC, settings) ->
   _route "/info/donate",                            "info/donate"
   _route "/info/terms-privacy",                     "info/terms-privacy"
 
-  _route "/auth",                                   "auth/index"
   # _route "/auth/forgot",                            "auth/forgot"
   _route "/auth/logout",                            "auth/logout"
   _route "/auth/oauth/([a-z]+)",                    "auth/oauth/index"
@@ -41,7 +40,6 @@ exports = module.exports = (IoC, settings) ->
 
   _route "/classified",                             "classified/categories"
   _route "/classified/create",                      "classified/create"
-  _route "/classified/edit/([0-9]*)",               "classified/edit"
   _route "/classified/finish/([0-9]+)",             "classified/finish"
   _route "/classified/([a-z\-]*)",                  "classified/search"
   _route "/classified/([0-9a-z\-]+)/([0-9a-z\-]*)", "classified/search"
