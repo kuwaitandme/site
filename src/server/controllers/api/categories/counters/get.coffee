@@ -27,7 +27,8 @@ exports = module.exports = (Classifieds, Cache) ->
     .then (results) ->
       response.contentType "application/json"
       response.end results
-    .catch (error) -> next error
+
+    .catch next
 
 
 exports["@singleton"] = true

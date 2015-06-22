@@ -11,15 +11,14 @@ exports = module.exports = (Locations, Cache) ->
 
       # Get all the locations from the DB.
       Locations.getAll()
-      .then (results) ->
-        Cache.set cacheKey, JSON.stringify results, null, 2
+      .then (results) -> Cache.set cacheKey, JSON.stringify results, null, 2
 
     # This promise only executes when the locations have been fetched (either
     # from the DB or from the cache)
     .then (results) ->
       response.contentType "application/json"
       response.end results
-    .catch (error) -> next error
+    .catch next
 
 
 exports["@require"] = [

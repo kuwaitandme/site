@@ -20,13 +20,9 @@ exports = module.exports = (IoC, Classifieds) ->
         error = new Error "classified not found"
         error.status = 404
         throw error
-    # If there were any errors, return it with a default 500 HTTP code.
-    .catch (error) ->
-      if not error.status? or error.status is not 404
-        logger.error error.stack
-      response.status error.status or 500
-      response.json   error.message
 
+    # Error handler
+    .catch next
 
 exports["@require"] = [
   "$container"

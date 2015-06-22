@@ -19,7 +19,9 @@ exports = module.exports = (Categories, Cache, email) ->
     .then (results) ->
       response.contentType "application/json"
       response.end results
-    .catch (error) -> next error
+
+    # Error handler
+    .catch next
 
 
 exports["@singleton"] = true

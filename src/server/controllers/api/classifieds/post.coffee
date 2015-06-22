@@ -132,11 +132,9 @@ Events, Users) ->
     .then (classified) ->
       logger.debug name, classified
       response.json classified
-    # If there were any errors, return it with a default 400 HTTP code.
-    .catch (error) ->
-      logger.error error.stack
-      response.status error.status or 400
-      response.json error.message
+
+    # Error handler
+    .catch next
 
 
 exports["@require"] = [

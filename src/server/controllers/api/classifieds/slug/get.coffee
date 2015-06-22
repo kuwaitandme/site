@@ -12,10 +12,9 @@ exports = module.exports = (Classifieds) ->
     else
       Classifieds.getBySlug slug
       .then (classified) -> response.json classified
-      .catch ->
-        response.status 400
-        response.json {}
 
+      # Error handler
+      .catch next
 
 exports["@require"] = ["models/classifieds"]
 exports["@singleton"] = true

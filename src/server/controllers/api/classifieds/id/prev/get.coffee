@@ -11,13 +11,12 @@ exports = module.exports = (IoC, Classifieds) ->
       id = request.params.id
       if request.params.id? then Classifieds.get request.params.id
       else Classifieds.query request.query
+
     # Return the result!
     .then (result) -> response.json result
-    # If there were any errors, return it with a default 500 HTTP code.
-    .catch (error) ->
-      logger.error    error.stack
-      response.status error.status or 500
-      response.json   error.message
+
+    # Error handler
+    .catch next
 
 
 exports["@require"] = [

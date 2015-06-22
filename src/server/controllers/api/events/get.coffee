@@ -6,9 +6,9 @@ exports = module.exports = (Events) ->
     # Prints out the events in a CSV style format
     Events.query request.query
     .then (events) ->
-      eventsJson = events.toJSON()
+      eventsJSON = events.toJSON()
       output = ""
-      for event in eventsJson
+      for event in eventsJSON
         timestamp = event.timestamp
 
         date = util.format "%s:%s:%s %s/%s/%s",
@@ -28,6 +28,7 @@ exports = module.exports = (Events) ->
           (JSON.stringify event.data or {})
         output += eventString
       response.end output
+    .catch next
 
 exports["@require"] = ["models/events"]
 exports["@singleton"] = true
