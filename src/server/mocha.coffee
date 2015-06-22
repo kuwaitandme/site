@@ -18,28 +18,55 @@ path     = require "path"
 walk     = require "fs-walk"
 
 
+IoC      = require "electrolyte"
+express  = require "express"
+igloo    = require "igloo"
+path     = require "path"
+
+
 # Setup some defaults..
 app = "http://development.kuwaitandme.com"
-name = "[test]"
-testPaths = []
-testFilename = "test.coffee"
-
-walkPath = path.join __dirname, "."
-console.log name, "walking on src directory"
 
 
-# Start walking and look for the test files
-walk.walkSync walkPath, (basedir, filename, stat) ->
-  # Now this condition ensures that any file which contains the 'test.coffee'
-  # string in its filename gets included in our list of tests to run.
-  if filename.indexOf(testFilename) > -1
-    console.log name, "grabbing #{file}"
+# dependency injection
+_path = (newpath) -> path.join __dirname, newpath
+IoC.loader                IoC.node _path "../../etc/config"
+IoC.loader "controllers", IoC.node _path "controllers"
+IoC.loader "cron",        IoC.node _path "cron"
+IoC.loader "igloo",       igloo
+IoC.loader "models",      IoC.node _path "models"
+IoC.loader "mocha",       IoC.node _path "mocha"
 
-    file = "#{basedir}/#{filename}"
-    testPaths.push file
+logger = IoC.create "igloo/logger"
 
 
-# Now require each of the tests and pass the app to it..
-console.log name, "grabbed #{testPaths.length} test file(s)"
-console.log name, "running mocha on each test"
-fn = (require test) app for test in testPaths
+# Now this block of code, walks through all the sub-files and fetches out files
+# that contain the 'test.coffee' string inside their filename.
+#
+# Each file that matches this condition is added and returned as an array
+tests = do ->
+  testFilename = "test.coffee"
+  walkPath = path.join __dirname, "."
+  logger.info "walking on src directory"
+  testPaths = []
+
+  # Start walking and look for the test files
+  walk.walkSync walkPath, (basedir, filename, stat) ->
+    # Now this condition ensures that any file which contains the 'test.coffee'
+    # string in its filename gets included in our list of tests to run.
+    if -1 < filename.indexOf testFilename
+      file = path.join basedir, filename.split(".coffee")[0]
+      relativePath = path.relative __dirname, file
+
+      logger.info "running #{relativePath}"
+      testPaths.push relativePath
+
+
+  # Now require each of the tests and pass the app to it..
+  logger.info "fetched #{testPaths.length} test file(s)"
+  testPaths
+
+
+# Finally for each test file, require it! (using electrolyte) and execute it
+# using the app's URL
+(IoC.create test) app for test in tests

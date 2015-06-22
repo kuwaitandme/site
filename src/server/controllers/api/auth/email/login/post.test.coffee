@@ -4,9 +4,7 @@ supertest        = require "supertest"
 
 route = "/api/auth/email/login"
 
-
-module.exports = (app) ->
-
+exports = module.exports = (IoC) -> (app) ->
   # A helper function to shorten most of the common operations
   post = -> supertest.agent(app).post route
 
@@ -91,3 +89,7 @@ module.exports = (app) ->
           for cookie in cookies
             if cookie.indexOf("connect.sid=") is -1 then return done()
           done "'set-cookie' is missing session's cookie"
+
+
+exports["@require"] = ["$container"]
+exports["@singleton"] = true
