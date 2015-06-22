@@ -1,98 +1,77 @@
 jade = require "jade"
+_ = require "underscore"
 
 # A helper function to render the page properly with the right parameters and
 # some default values.
-exports = module.exports = (settings, cache) ->
-  fn = (request, response, options={}) ->
-    # First generate the page's bodyid. This is what we will use for adding
-    # the right CSS as well as the key used for caching the page.
-    options.bodyid = options.page.replace /\//g, "-"
+exports = module.exports = (settings, Cache) ->
+  defaults =
+    _: global.__
+    lang: "en"
 
-    # cacheId = "page:#{request.getLocale()}:#{options.bodyid}"
-    cacheId = "page:en:#{options.bodyid}"
+    data: {}
+    environment: settings.server.env
+    settings: settings
+    staticUrl: settings.staticUrl
+    url: settings.url
 
-    response.header "Content-Type", "text/html; charset=utf-8"
+    publicData:
+      environment: settings.server.env
+      magic: settings.magic or {}
+      staticUrl: settings.staticUrl
+      url: settings.url
 
-    # Render the page. This function is responsible for setting up all the
-    # variables properly as well as saving the view into the cache if needed
-    render = (cacheError) ->
-      if cacheError then throw err
+    cryptedData:
+      facebook:
+        clientid: settings.facebook.clientid
+      google:
+        analyticsCode: settings.google.analyticsCode
+        clientID: settings.google.clientID
+        reCaptchaKey: settings.google.reCaptcha.siteKey
 
-      # Setup options for the page
-      # options._ =  global.__
+  # Base64 encode the crypted data key.. (it gets decoded in the client side,
+  # but this just makes sure that bots don't fetch any sensitive info)..
+  defaults.cryptedData = (new Buffer JSON.stringify defaults.cryptedData)
+    .toString "base64"
 
-      # Set the language
-      # options.lang = request.getLocale()
-      options.lang = "en"
-      if options.lang == "ar" then options.dir = "rtl"
+  fn = (request, response, options={}, cache=false) ->
 
-      # Set the title!
-      if options.title?
-        options.title = "#{options.title} - #{settings.sitename}"
-      else options.title = "#{settings.sitename}"
+    # Setup the cache variables
+    cacheKey = "page:#{options.page}"
+    if cache
+      cacheEnable = true
+      if typeof cache is 'number' then cacheTTL = cache
 
-      options.environment = settings.server.env
-      options.settings = settings
-      options.staticUrl = settings.staticUrl
-      options.url = settings.url
 
-      options.data ?= {}
-      options.publicData =
-        url: settings.url
-        environment: settings.server.env
-        magic: settings.magic or {}
-        staticUrl: settings.staticUrl
-      options.cryptedData =
-        facebook: clientid: settings.facebook.clientid
-        google:
-          analyticsCode: settings.google.analyticsCode
-          clientID: settings.google.clientID
-          reCaptchaKey: settings.google.reCaptcha.siteKey
-      # options.config =
-        # mode: config.mode
-        # magic: config.magic
-        # ga: config.ga
-        # reCaptcha: config.reCaptcha.site
-        # TCO:
-          # sid: config._2checkout.sid
-          # publicKey: config._2checkout.publicKey
-          # sandbox: config._2checkout.sandbox
+    # # Set the language
+    # options.lang = request.getLocale()
+    # options.lang = "en"
+    if options.lang == "ar" then options.dir = "rtl"
 
-      options.robots = options.data
-      options.cryptedData = (new Buffer JSON.stringify options.cryptedData)
-        .toString "base64"
-      # options.data.csrf = csrfToken
-
-      # Setup options for the jade compiler
-      isDevelopment = options.environment == "development"
+    # Now check in cache for the HTML of this page
+    Cache.get cacheKey
+    .catch ->
+      # Setup options for the jade compiler and HTML compiler
       jadeOptions =
-        cache: not isDevelopment
-        pretty: isDevelopment
+        cache: cacheEnable
+        pretty: options.environment is "development"
+      htmlOptions = _.extend defaults, options
 
       # Compile and render the page
-      fn = jade.compileFile "#{settings.views.dir}/main/#{options.page}.jade", jadeOptions
-      html = fn options
+      viewURL = "#{settings.views.dir}/main/#{options.page}.jade"
+      fn = jade.compileFile viewURL, jadeOptions
+      html = fn htmlOptions
 
-      # If we are caching this page, then set it into the cache
-      if options.cachePage and isDevelopment then cache.set cacheId, html
+    # Now that we have compiled the HTML, we decide if we want to cache it or
+    # not.
+    .then (html) ->
+      if cacheTTL then Cache.set cacheKey, html, cacheTTL
+      else if cacheEnable then Cache.set cacheKey, html
+      else html
 
-      # Return the page
+    .then (html) ->
+      response.header "Content-Type", "text/html; charset=utf-8"
       response.end html
 
-    # If we are looking in our cache, then try to find the view in the cache
-    if options.cachePage
-
-      # Get the value from the cache
-      cache.get cacheId, (error, result) ->
-        if error then render error
-
-        # If the cache was found, then return it
-        if result then response.end result
-        # Else re-render the page and then save it into the cache
-        else render null
-
-    # Render the page if we are not looking in the cache
-    else render null
 
 exports["@require"] = [
   "igloo/settings"
