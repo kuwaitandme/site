@@ -8,7 +8,7 @@
     "schema-down": "knex --knexfile ./etc/config/knexfile.coffee migrate:rollback --cwd ./etc/db",
     "seed": "knex seed:run --cwd ./etc/db --knexfile ./etc/config/knexfile.coffee",
     "start": "coffee ./bin/server.coffee",
-    "test": "bash ./test/test.sh"
+    "test": " mocha src/server/mocha.coffee --compilers coffee:coffee-script/register"
   },
   "dependencies": {
     "MD5": "^1.2.1",
@@ -40,10 +40,12 @@
     "electrolyte": "0.0.3",
     "emailjs": "^0.3.12",
     "errorhandler": "^1.0.1",
+    "expect.js": "^0.3.1",
     "express": "~4.11.1",
     "express-paginate": "^0.0.4",
     "express-session": "^1.2.1",
     "formidable": "^1.0.17",
+    "fs-walk": "0.0.1",
     "gm": "^1.17.0",
     "helmet": "^0.4.0",
     "i18n": "*",
