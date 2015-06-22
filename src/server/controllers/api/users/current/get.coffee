@@ -8,8 +8,7 @@ module.exports = ->
       user.authHash = ""
       user.password = ""
       response.json user
-    else
-      # response.status 404
-      response.json {}
+    else response.json {}
+
 
 exports["@singleton"] = true

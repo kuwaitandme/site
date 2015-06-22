@@ -5,6 +5,8 @@ exports = module.exports = (Notifications) ->
     Notifications.query request.query
     .then (results) -> response.json results
 
+    # Error handler
+    .catch next
 
 exports["@require"] = ["models/notifications"]
 exports["@singleton"] = true

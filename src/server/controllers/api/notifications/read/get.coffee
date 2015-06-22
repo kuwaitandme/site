@@ -7,6 +7,8 @@ exports = module.exports = (Notifications) ->
     Notifications.patch request.user.id, hasRead: 1
     .then (results) -> response.json results
 
+    # Error handler
+    .catch next
 
 exports["@require"] = ["models/notifications"]
 exports["@singleton"] = true
