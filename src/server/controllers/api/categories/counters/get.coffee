@@ -28,6 +28,7 @@ exports = module.exports = (Classifieds, Cache) ->
       response.contentType "application/json"
       response.end results
 
+    # Error handler
     .catch next
 
 
