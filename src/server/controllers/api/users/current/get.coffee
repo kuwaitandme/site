@@ -1,6 +1,7 @@
 module.exports = ->
   controller = (request, response, next) ->
     user = request.user
+    json = {}
 
     if user?
       json = user.toJSON()
@@ -10,8 +11,7 @@ module.exports = ->
       delete json.meta.activationToken
       delete json.password
 
-      response.json json
-    else response.json {}
+    response.json json
 
 
 exports["@singleton"] = true
