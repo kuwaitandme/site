@@ -3,12 +3,14 @@ _                 = require "underscore"
 moment            = require "moment"
 validator         = require "validator"
 
+options =
+  classifiedsPerPage: 30
+  tableName: "classifieds"
 
 exports = module.exports = (knex) ->
   bookshelf = (require "bookshelf") knex
-  model = bookshelf.Model.extend
-    tableName: "classifieds", defaults: slug: "", status: 0
-  collection = bookshelf.Collection.extend model: @model
+  model = bookshelf.Model.extend tableName: options.tableName
+  collection = bookshelf.Collection.extend model: model
 
   classifiedsPerPage = 30
 

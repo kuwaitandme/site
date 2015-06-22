@@ -31,16 +31,14 @@ exports = module.exports = (settings, Cache) ->
   # Base64 encode the crypted data key.. (it gets decoded in the client side,
   # but this just makes sure that bots don't fetch any sensitive info)..
   defaults.cryptedData = (new Buffer JSON.stringify defaults.cryptedData)
-    .toString "base64"
+  .toString "base64"
 
-  fn = (request, response, options={}, cache=false) ->
-
+  fn = (request, response, options={}, cache={}) ->
     # Setup the cache variables
-    cacheKey = "page:#{options.page}"
-    if cache
+    cacheKey = "never-set"
+    if cache.key?
       cacheEnable = true
-      if typeof cache is 'number' then cacheTTL = cache
-
+      cacheKey = "renderer@#{cache.key}"
 
     # # Set the language
     # options.lang = request.getLocale()
@@ -53,7 +51,7 @@ exports = module.exports = (settings, Cache) ->
       # Setup options for the jade compiler and HTML compiler
       jadeOptions =
         cache: cacheEnable
-        pretty: options.environment is "development"
+        pretty: defaults.environment is "development"
       htmlOptions = _.extend defaults, options
 
       # Compile and render the page
@@ -61,13 +59,13 @@ exports = module.exports = (settings, Cache) ->
       fn = jade.compileFile viewURL, jadeOptions
       html = fn htmlOptions
 
-    # Now that we have compiled the HTML, we decide if we want to cache it or
-    # not.
-    .then (html) ->
-      if cacheTTL then Cache.set cacheKey, html, cacheTTL
+      # Now that we have compiled the HTML, we decide if we want to cache it or
+      # not. Note that these function return a promise which then resolves to
+      # the HTML code..
+      if cache.timeout then Cache.set cacheKey, html, cache.timeout
       else if cacheEnable then Cache.set cacheKey, html
-      else html
 
+    # Finally write to the response!
     .then (html) ->
       response.header "Content-Type", "text/html; charset=utf-8"
       response.end html
