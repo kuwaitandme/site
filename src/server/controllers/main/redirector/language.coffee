@@ -1,6 +1,6 @@
-validator = require "validator"
-url = require "url"
 querystring = require "querystring"
+url = require "url"
+validator = require "validator"
 
 
 exports = module.exports = (Classifieds) ->

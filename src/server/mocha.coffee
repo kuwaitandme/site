@@ -69,4 +69,8 @@ tests = do ->
 
 # Finally for each test file, require it! (using electrolyte) and execute it
 # using the app's URL
-(IoC.create test) app for test in tests
+for test in tests
+  try (IoC.create test) app
+  catch e then logger.error e
+
+

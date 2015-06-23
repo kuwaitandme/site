@@ -10,7 +10,7 @@ exports = module.exports = (IoC) -> (app) ->
    * @param  String route          The route to check
   ###
   checkforHTML = (route) ->
-    it "has HTML code? #{route}", (done) ->
+    it "has valid HTML? #{route}", (done) ->
       supertest app
       .get route
       .expect "Content-Type", /text\/html/
@@ -60,7 +60,7 @@ exports = module.exports = (IoC) -> (app) ->
 
     describe "check if routes are accessible (with authentication)", ->
 
-    describe.skip "check if all routes contain some HTML code", ->
+    describe.skip "check if all routes contain valid HTML code", ->
       checkforHTML "/"
       checkforHTML "/classified"
       checkforHTML "/classified/create"
