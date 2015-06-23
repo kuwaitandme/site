@@ -2,7 +2,7 @@ exports = module.exports = (Users) ->
   controller = (request, response, next) ->
     id = request.params[0]
 
-    if not id? then
+    if not id?
       response.status 404
       response.json "need id"
 
