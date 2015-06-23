@@ -5,6 +5,13 @@ cachemanMemory = Promise.promisifyAll require "cacheman-memory"
  * This controller acts as an interface for the 'cachema-memory' module, adding
  * a few extra things and promisifying all the functions.
  *
+ * NOTE: This cache must _ONLY_ _ONLY_ be used for resources that are finite in
+ * size. ie. Do not use this cache for example storing classified pages
+ * (because they are unique) but instead use it for content that are is fixed
+ * like the category pages or the locations from the DB. Storing indefinite
+ * items in this cache is a bad idea as you will run out memory if there are
+ * too many items. (For such cases use redis instead).
+ *
  * @author Steven Enamakel <me@steven.pw>
 ###
 exports = module.exports = (IoC) ->
