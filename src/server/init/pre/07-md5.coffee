@@ -3,13 +3,14 @@ fs      = require "fs"
 md5     = require "MD5"
 md5File = require "md5-file"
 
-exports = module.exports = (IoC, settings, cache) ->
+
+name = "[md5]"
+exports = module.exports = (IoC, settings, Cache) ->
   logger = IoC.create "igloo/logger"
-  logger.debug "[init] starting magicnumbers listeners"
+  logger.debug name, "initializing md5 listeners"
 
   publicDir = settings.publicDir
   modelsDir = settings.modelsDir
-  name = "[magicnumbers]"
 
   checksumFile = "#{publicDir}/build/checksums"
 
@@ -31,13 +32,13 @@ exports = module.exports = (IoC, settings, cache) ->
 
     # Now that we have the sums, we now update the settings and clear the cache.
     settings.magic = md5sums
-    cache.clear()
+    Cache.clear()
 
 
   # We ask for node to re-calculate the checksums in case if there needs to be
   # any updating that is done on-the-go..
   try fs.watch checksumFile, readChecksums
-  catch e then console.log e
+  catch e then logger.error e
 
   # Finally, read the checksums for the first time.
   readChecksums()
