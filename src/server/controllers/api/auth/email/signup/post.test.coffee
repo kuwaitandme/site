@@ -91,9 +91,13 @@ exports = module.exports = (IoC) -> (app) ->
 
 
     describe.skip "for a successful signup", ->
-      it "make sure the return code is valid JSON", ->
-      it "make sure the password and activation field is hidden", ->
-      it "make sure that a session cookie is set", (done) ->
+      it "ensure that XSS code is filtered out", (done) -> done()
+
+      it "ensure the return code is valid JSON", (done) -> done()
+
+      it "ensure the password and activation field is hidden", (done) -> done()
+
+      it "ensure that a session cookie is set", (done) ->
         user.end (error, response) ->
           if response.header["set-cookie"]? then return done()
           else return done "missing 'set-cookie' header"
