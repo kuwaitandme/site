@@ -47,7 +47,7 @@ logger = IoC.create "igloo/logger"
 tests = do ->
   testFilename = "test.coffee"
   walkPath = path.join __dirname, "."
-  logger.info "walking on src directory"
+  logger.info "walking on '#{walkPath}' directory"
   testPaths = []
 
   # Start walking and look for the test files
@@ -58,7 +58,7 @@ tests = do ->
       file = path.join basedir, filename.split(".coffee")[0]
       relativePath = path.relative __dirname, file
 
-      logger.info "running #{relativePath}"
+      logger.debug "  caught #{relativePath}"
       testPaths.push relativePath
 
 

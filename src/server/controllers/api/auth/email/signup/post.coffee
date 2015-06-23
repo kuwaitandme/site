@@ -13,6 +13,9 @@ exports = module.exports = (IoC, Email, reCaptcha, Users) ->
     # Check for any missing fields
     if not fullname or not password or not email
       throw new Error "missing fields"
+    # Check for a short password
+    if password.length < 6
+      throw new Error "short password"
     # Check for invalid characters
     if not (validator.isEmail email) or
     not (validator.matches fullname, /[a-zA-Z\s]*/)

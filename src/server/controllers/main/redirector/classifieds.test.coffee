@@ -39,7 +39,7 @@ exports = module.exports = (IoC, Classifieds) -> (app) ->
     .expect 404, done
 
 
-  describe "check if the classified redirector", ->
+  describe "/c/(:id) GET - Classified redirector", ->
     classifieds = null
     sampleClassified = null
 
@@ -53,7 +53,7 @@ exports = module.exports = (IoC, Classifieds) -> (app) ->
         sampleClassified = classifieds[0]
         done()
 
-    it "can redirect correctly for classified with different ids", (done) ->
+    it "can redirect correctly for some sample classifieds", (done) ->
       promises = []
       promises.push checkForRedirect classified for classified in classifieds
       Promise.all promises
