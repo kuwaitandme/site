@@ -2,6 +2,7 @@
 exports = module.exports = ($element, $location, $log, $notifications, $scope,
 $root, Classifieds, Locations, Users) ->
   name = "[component:classified-form]"
+  currentUser = null
   $log.log name, "initializing"
 
   $scope.ctrl ?= {}
@@ -22,33 +23,50 @@ $root, Classifieds, Locations, Users) ->
   # $scope.$watch "urgentPrice", updateAvailableCredits
   # $scope.$watch "promotePrice", updateAvailableCredits
 
-  # Get and set the current user
-  currentUser = Users.getCurrent()
-  $scope.ctrl.user = currentUser.get()
-
-  $scope.$on "user:refresh", ->
+  # Every time the user changes reset the current user and the classified's
+  # owner.
+  onUserChange = ->
+    # Get and set the current user
     currentUser = Users.getCurrent()
-    $scope.ctrl.user = currentUser.get()
+    # Give the classified an owner, if the classified has as id then fetch
+    # the classified's owner from the API. Else leave the current user as the
+    # user of this classified.
+    if $scope.classified.id? and $scope.classified.owner
+      Users.get $scope.classified.owner
+      .success (user) -> $scope.ctrl.user = user
+    else $scope.ctrl.user = currentUser.get()
 
-  # Set the super editable property iff the user is a moderator or an admin
-  if currentUser.isModerator() or currentUser.isAdmin()
-    $scope.superEditable = true
+    # Set the super editable property iff the user is a moderator or an admin
+    if currentUser.isModerator() or currentUser.isAdmin()
+      $scope.superEditable = true
 
 
-  # If the status has been changed, immediately submit the classified
-  $scope.changeStatus = (newStatus) =>
+  # Now setup our listener and run the function once just to initialize things.
+  $scope.$on "user:refresh", onUserChange
+  onUserChange()
+
+
+  # If the status has been changed, immediately submit the classified.
+  # This just makes editing much more faster.
+  #
+  # TODO: Fix the security issue here...
+  $scope.changeStatus = (newStatus) ->
     $log.debug name, "changing status to : '#{newStatus}'"
     $scope.classified.status = Classifieds.statuses[newStatus]
     $scope.submit()
 
+  window.a = $scope
 
-  # This function handlers when the form gets submitted.
-  $scope.submit = =>
+  # This function handles when the form gets submitted.
+  $scope.submit = ->
     # If the form is already sent to the server then avoid resubmitting.
     if $scope.formLoading then return
 
+    # If the user isn't logged in then ask for the signup page using any of the
+    # filled in details.
     if currentUser.isAnonymous()
-      $notifications.warn "You will need an account to create classifieds", 10000
+      message = "You will need an account to create classifieds"
+      $notifications.warn message, 10000
       return $root.$broadcast "auth:show-signup", $scope.ctrl.user
 
     # Set the attempted class so that CSS can highlight invalid any fields
@@ -64,7 +82,9 @@ $root, Classifieds, Locations, Users) ->
 
     # Now combine together all the data from the form and bring it to a single
     # classified object
-    classified = angular.extend(
+    classified = {}
+    angular.extend(
+      classified
       $scope.classified
       $scope.ctrl.categories
       $scope.ctrl.price
@@ -74,10 +94,11 @@ $root, Classifieds, Locations, Users) ->
       {meta: angular.extend {}, $scope.meta, $scope.ctrl.maps}
     )
 
-    headers = angular.extend(
+    console.log name, "sending"
+
+    headers =
       "x-csrf-token": $scope.ctrl.csrf
       "x-recaptcha": $scope.ctrl.gcaptcha
-    )
 
     # Form is good to submit. Start the submission
     $scope.formLoading = $scope.formClasses.loading = true
@@ -89,11 +110,17 @@ $root, Classifieds, Locations, Users) ->
 
     # $scope.classified.spendUrgentPerk = $scope.urgentPrice
     # $scope.classified.spendPromotePerk = $scope.promotePrice
-    Classifieds.save $scope.classified, headers
+    Classifieds.save classified, headers
+
+    # If classified could be submitted properly then send the success event
+    # so that the parent controllers can act accordingly
     .then (classified) -> $scope.$emit "classified-form:submitted", classified
-    .catch (response) =>
+
+    # Else handle any error
+    .catch (response) ->
       error = response.data
       $log.error name, error
+
       switch error
         when "not enough credits"
           message = "You don't have enough credits"
@@ -106,6 +133,8 @@ $root, Classifieds, Locations, Users) ->
         else
           message = "Something went wrong while saving your classified. Try again later"
       $notifications.error message, 10000
+
+
     .finally -> $scope.formLoading = $scope.formClasses.loading = false
 
 

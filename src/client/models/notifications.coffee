@@ -18,6 +18,7 @@ exports = module.exports = ($environment, $http, $serialize, $location, $log, $r
       $root.$on "notifications:refresh", -> readSentToAPI = false
 
     add: (data) ->
+      console.log data
       notification = new Notification data
       notifications.push notification
       $root.$emit "notifications:add", notification

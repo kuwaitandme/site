@@ -3,7 +3,8 @@ scrollPosition = 0
 body = (document.getElementsByTagName "body")[0]
 
 
-exports = module.exports = ($scope, $element, $root, $timeout, $location, $log, $notifications, Users) ->
+exports = module.exports = ($scope, $element, $root, $timeout, $location, $log,
+$notifications, Users) ->
   $log.log name, "initializing"
 
   $scope.close = ->
@@ -23,12 +24,13 @@ exports = module.exports = ($scope, $element, $root, $timeout, $location, $log, 
 
   $scope.goto = (name) -> $scope.tab = name
 
-
+  # Login button handler
   $scope.login = {}
   $scope.doLogin = ->
     Users.login $scope.login
     .then (response) ->
-      $location.path "/account"
+      if $location.path() is "/"
+        $location.path "/account"
       $location.search "_success", "login_success"
       $scope.close()
     .catch (response) ->
@@ -42,11 +44,12 @@ exports = module.exports = ($scope, $element, $root, $timeout, $location, $log, 
     Users.signup $scope.signup
     .then (response) ->
       $log.log name, "signup successful! waiting for activation page"
-      $notifications.success "An activation email has been sent, #{response. data.full_name}! (Check your spam folder too)", 10000
-      $root.$broadcast "user:refresh"
+      $notifications.success "An activation email has been sent,
+        #{response.data.full_name}! (Check your spam folder too)", 10000
       $scope.close()
     .catch (response) ->
-      $notifications.error "Signup failed. Please check your credentials or try again later"
+      $notifications.error "Signup failed. Please check your credentials or try
+        again later"
       $log.error name, response.data, response.status
 
 

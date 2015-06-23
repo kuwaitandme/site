@@ -1,5 +1,5 @@
 name = "[service:notifications]"
-exports = module.exports = ($http, $log, $location, $root, $storage, $timeout, Users, Languages) -> new class
+exports = module.exports = ($http, $log, $location, $notifications, $storage, $timeout, Users, Languages) -> new class
   constructor: -> $log.log name, "initializing"
 
   # Returns a list of all the notifications
@@ -7,14 +7,20 @@ exports = module.exports = ($http, $log, $location, $root, $storage, $timeout, U
 
 
   _create: (message, type="success", timeout=5000) ->
-    $root.$broadcast "notification",
-      flash: true, hasRead: false, text: message, timeout: timeout, type: type
+    $notifications.add
+      flash: true
+      hasRead: false
+      message: message
+      timeout: timeout
+      type: type
+
 
   _translate: (token) ->
     currentUser = Users.getCurrent() or {}
     currentUserName = currentUser.get().full_name or ""
     message = Languages.translate token
     message.replace "_NAME_", currentUserName
+
 
   error: (message, timeout) -> @_create message, "error", timeout
   success: (message, timeout) -> @_create message, "success", timeout
@@ -37,7 +43,7 @@ exports.$inject = [
   "$http"
   "$log"
   "$location"
-  "$rootScope"
+  "models.notifications"
   "$storage"
   "$timeout"
 

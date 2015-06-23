@@ -37,6 +37,7 @@ exports = module.exports = ($scope, $root, $log, $timeout) ->
 
   # Listen for a notification event to add the a flash notification
   $root.$on "notifications:add", (event, data) ->
+    console.log event, data
     notification = data.get()
     $scope.flashNotifications.push notification
     # Set a timeout function to remove the notification
