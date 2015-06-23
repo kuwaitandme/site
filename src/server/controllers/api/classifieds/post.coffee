@@ -71,6 +71,8 @@ Events, Users) ->
     # malformed request)
     data.contact ?= {}
     data.contact.email ?= user.get "email"
+    data.slug = "dummy"
+    data.status = Classifieds.statuses.INACTIVE
     [data, files["images[]"]]
 
   # Finally update the classified with the diff into the DB.
@@ -94,7 +96,7 @@ Events, Users) ->
   # Send an email about the new classified
   emailUser = (classified) ->
     contactDetails = classified.get "contact"
-    Email.sendTemplate contactDetails.email, "classifiedSubmitted",
+    Email.sendTemplate contactDetails.email, "classified/submitted",
       classified: classified.toJSON()
       subject: "Your classified has been submitted"
     classified

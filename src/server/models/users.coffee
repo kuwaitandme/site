@@ -57,9 +57,9 @@ exports = module.exports = (IoC, knex, cache) ->
     get: (id, callback=->) ->
       @findOne { id: id }, (error, user) -> callback error, user
 
-    getPromise: (id) -> new Promise (resolve, reject) ->
+    getPromise: (id) ->
       model.forge id: id
-      .fetch().then (user) -> resolve user
+      .fetch()
 
 
     # Creates a new user

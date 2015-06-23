@@ -5,8 +5,8 @@ observableDiff = (require "deep-diff").observableDiff
 xss            = require "xss"
 
 
-exports = module.exports = (IoC, reCaptcha, uploader, Classifieds, Events
-Notifications, Users) ->
+exports = module.exports = (IoC, reCaptcha, uploader, Email, Classifieds,
+Events, Notifications, Users) ->
   logger = IoC.create "igloo/logger"
 
   # Check if the request has the required data
@@ -21,6 +21,7 @@ Notifications, Users) ->
     # Grab the request and the classified (sent by the prev promise)
     request = results.request
     oldClassified = results.classified
+    # console.log results, typeof oldClassified
     # Fetch the user
     owner = oldClassified.get "owner"
     user = request.user or {}
@@ -144,9 +145,25 @@ Notifications, Users) ->
 
 
   createNotification = (promise) ->
-    if promise.diff.status is Classifieds.statuses.ACTIVE
+    classified = promise.newClassified
+
+    # If the classified has been set to ACTIVE (which can only be done by a
+    # moderator/admin).
+    if promise.diff.status is Classifieds.statuses.ACTIVE or true
+
+      # Then publish a notification to the user
       Notifications.create promise.request, "CLASSIFIED_ACTIVE",
-        id: promise.oldClassified.id
+        id: classified.id
+
+      # And also send an email.
+      Users.getPromise classified.owner
+      .then (user) -> user.get "email"
+      .then (email) ->
+        mailOptions =
+          classified: classified
+          subject: "Your classified is approved"
+        [email, "classified/approved", mailOptions]
+      .spread Email.sendTemplate
 
     [promise.oldClassified.id, promise.diff]
 
@@ -157,7 +174,7 @@ Notifications, Users) ->
     .then checkRequest
     .then Classifieds.get
     # Restructure the output promise to contain the request
-    .then (classified) -> classified: classified, request: request
+    .then (model) -> classified: model, request: request
     .then checkUserPrivelages
     .spread parseForm
     .spread analyzeData
@@ -190,6 +207,7 @@ exports["@require"] = [
   "$container"
   "controllers/recaptcha"
   "controllers/uploader"
+  "controllers/email"
 
   "models/classifieds"
   "models/events"

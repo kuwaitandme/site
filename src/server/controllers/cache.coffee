@@ -20,9 +20,6 @@ exports = module.exports = (IoC) ->
   name = "[memory-cache]"
 
   new class Memory
-    constructor: -> logger.debug name, "initializing"
-
-
     ###*
      * Stores or updates a value. Takes an optional TTL (time-to-live)
      *
