@@ -69,6 +69,7 @@ exports = module.exports = ($window, $log, $environment) -> new class
   _supportsHTML5storage: ->
     try $window["localStorage"]?
     catch e then false
+    true
 
 
 exports.$inject = [
