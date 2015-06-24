@@ -9,12 +9,12 @@ maxScriptCount = 12
 
 window.scripts = [
   {
-    id: "app:style-css"
-    remote: ["#{u}/build/md5/style_#{publicData.magic['style.css']}.css"]
-    local: "/build/md5/style_#{publicData.magic['style.css']}.css"
+    id: "style.css"
+    remote: ["#{u}/build/md5/style_#{publicData.md5['style.css']}.css"]
+    local: "/build/md5/style_#{publicData.md5['style.css']}.css"
   }
   {
-    id: "library"
+    id: "libraries.js"
     remote: [
       "//ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular.min.js"
       "//cdnjs.cloudflare.com/ajax/libs/angular-hotkeys/1.4.5/hotkeys.min.js"
@@ -25,20 +25,20 @@ window.scripts = [
       "//cdnjs.cloudflare.com/ajax/libs/masonry/3.3.0/masonry.pkgd.min.js"
       # "//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.5/socket.io.min.js"
     ]
-    local: "/build/md5/libraries_#{ publicData.magic['libraries.js'] }.js"
+    local: "/build/md5/libraries_#{ publicData.md5['libraries.js'] }.js"
   }
   {
-    id: "app:template"
-    remote: ["#{u}/build/md5/templates_#{publicData.magic['templates.js']}.js"]
-    local: "/build/md5/templates_#{publicData.magic['templates.js']}.js"
+    id: "templates.js"
+    remote: ["#{u}/build/md5/templates_#{publicData.md5['templates.js']}.js"]
+    local: "/build/md5/templates_#{publicData.md5['templates.js']}.js"
   }
   {
-    id: "app:script"
-    remote: ["#{u}/build/md5/app_#{publicData.magic['app.js']}.js"]
-    local: "/build/md5/app_#{publicData.magic['app.js']}.js"
+    id: "app.js"
+    remote: ["#{u}/build/md5/app_#{publicData.md5['app.js']}.js"]
+    local: "/build/md5/app_#{publicData.md5['app.js']}.js"
   }
   {
-    id: "library:font-css"
+    id: "fonts.css"
     remote: [
       "//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css"
       "//fonts.googleapis.com/css?family=Cantarell"
@@ -57,7 +57,7 @@ window.initializeGmap = ->
 head = (document.getElementsByTagName "head")[0]
 body = (document.getElementsByTagName "body")[0]
 totalScriptsLoaded = 0
-isDevelopment = publicData.environment == "development"
+isDevelopment = publicData.environment == "development" and false
 
 # Create this helper function to automatically increment the progress bar.
 incrementProgressBar = ->
@@ -117,46 +117,48 @@ _addScript = (urlsOrCode, isCSS, isCode) ->
   else head.insertBefore $fileref, head.firstChild
 
 
-###
- This function processes the given script and attempts to load it either from
- the cache or from the remote URL..
+###*
+ * This function processes the given script and attempts to load it either from
+ * the cache or from the remote URL..
 ###
 processScript = (script) ->
   isCode = false
   isCSS = (script.id.substr -3) == "css"
   urlsOrCode = script.remote
+
   # If HTML5 localStorage is supported, attempt to load the scripts from
   # the application cache. If we are in development mode then don't load from
   # the cache at all!
   if Storage? and script.local? and not isDevelopment
-    appChanged = (localStorage.getItem "magic:application") != String publicData.magic.application
-    libraryChanged = (localStorage.getItem "magic:library") != String publicData.magic.library
-    # Note that the goal of these conditions is to ensure that app files are
-    # compared with their version, but if the library versions differ then
-    # we ignore the app files too.
-    isLibrary = (script.id.split ":")[0] is "library"
-    localVersionString = if isLibrary then "magic:library" else "magic:application"
-    remoteVersionString = if isLibrary then "library" else "application"
+    cacheID = "script:#{script.id}"
+    md5ID = "md5:#{script.id}"
+
     # Check if local and remote version of the libraries differ
-    localVersion = String localStorage.getItem localVersionString
-    remoteVersion = String window.publicData.magic[remoteVersionString]
+    localVersion = String localStorage.getItem md5ID
+    remoteVersion = String window.publicData.md5[script.id]
+
     # Check for the script in our cache
-    scriptCache = localStorage.getItem script.id
+    scriptCache = localStorage.getItem cacheID
+
     # If versions differ, then don't load from cache and instead load
     # the script normally. The frontend App will eventually clear out the cache
     # and update it with the new version.
-    if libraryChanged or (appChanged and not isLibrary)
-      console.log "skipping:", script.id
+    if localVersion != remoteVersion or localVersion is "null"
+      console.log "avoiding #{script.id} from cache"
       scriptCache = null
+
     # If the cache exists, then read from it and set a flag to let our
     # helper functions know to that we are sending it raw code..
     if scriptCache
       console.log "fetching from cache:", script.id
       urlsOrCode = [scriptCache]
       isCode = true
+
   # If we are in development mode, then we simply load the local scripts
   # to avoid delays from the remote servers.
-  if isDevelopment and script.local? then urlsOrCode = [script.local]
+  if isDevelopment and not isCode and script.local?
+    urlsOrCode = [script.local]
+
   # Finally!! load the processed script into the DOM.
   _addScript urlOrCode, isCSS, isCode for urlOrCode in urlsOrCode
 

@@ -14,14 +14,16 @@ $environment) -> new class
   ###
   constructor: ->
     $log.log @name, "initializing"
+
     # Check if localStorage is supported
     @fallback = false or $storage.fallback
     if @fallback then return
+
     # Cache the startup scripts for the next time the user visits the
-    # site. Begin the cache after 4 seconds so that other AJAX requests
+    # site. Begin the cache after 7 seconds so that other AJAX requests
     # finish by then.
     @checkVersions()
-    setTimeout (=> @cacheStartupScripts()), 1000
+    $timeout (=> @cacheStartupScripts()), 1000
 
 
   ###
@@ -33,32 +35,46 @@ $environment) -> new class
   ###
   checkVersions: ->
     $log.log @name, "checking cache version"
-    magic = $environment.magic or {}
-    # Helper function to manage the localStorage keys
-    _clearApplicationCache =  -> _removeKeysHelper "app"
-    _clearLibrariesCache =    -> _removeKeysHelper "library"
-    _clearModelsCache =       -> _removeKeysHelper "models"
-    _removeKeysHelper = (tag) ->
-      keysToRemove = []
-      for i in [0...localStorage.length]
-        key = localStorage.key i
-        if key? and ((key.split ":")[0] == tag) then keysToRemove.push key
-      localStorage.removeItem key for key in keysToRemove
-    # Check the library's versions
-    if ($storage.local "magic:library") != String magic.library
-      $log.log @name, "library caches differ, clearing"
-      _clearLibrariesCache()
-      $storage.local "magic:library", String magic.library
-    # Check the models's versions
-    if ($storage.local "magic:models") != String magic.models
-      $log.log @name, "model caches differ, clearing"
-      _clearModelsCache()
-      $storage.local "magic:models", String magic.models
-    # Check the app's versions
-    if ($storage.local "magic:application") != String magic.application
-      $log.log @name, "application caches differ, clearing"
-      _clearApplicationCache()
-      $storage.local "magic:application", String magic.application
+    md5 = $environment.md5 or {}
+    storageKeys = []
+
+    # Now start iterating through every key in the localStorage
+    for i in [0...localStorage.length]
+      # Filter out keys that don't start with "script:"
+      storageKey = localStorage.key(i) or ""
+      keyParts = storageKey.split ":"
+      if keyParts[0] is "md5"
+        filename = keyParts[1]
+        # If the MD5 sum does not match then clear the localStorage cache
+        if md5[filename] is not $storage.local storageKey
+          $log.log @name, "clearing cache for file:", filename
+          $storage.local storageKey, null
+
+
+
+    # # Helper function to manage the localStorage keys
+    # _clearApplicationCache =  -> _removeKeysHelper "app"
+    # _clearLibrariesCache =    -> _removeKeysHelper "library"
+    # _clearModelsCache =       -> _removeKeysHelper "models"
+    # _removeKeysHelper = (tag) ->
+    #   keysToRemove = []
+    #   for i in [0...localStorage.length]
+    #   localStorage.removeItem key for key in keysToRemove
+    # # Check the library's versions
+    # if ($storage.local "magic:library") != String magic.library
+    #   $log.log @name, "library caches differ, clearing"
+    #   _clearLibrariesCache()
+    #   $storage.local "magic:library", String magic.library
+    # # Check the models's versions
+    # if ($storage.local "magic:models") != String magic.models
+    #   $log.log @name, "model caches differ, clearing"
+    #   _clearModelsCache()
+    #   $storage.local "magic:models", String magic.models
+    # # Check the app's versions
+    # if ($storage.local "magic:application") != String magic.application
+    #   $log.log @name, "application caches differ, clearing"
+    #   _clearApplicationCache()
+    #   $storage.local "magic:application", String magic.application
 
 
   ###
@@ -69,16 +85,21 @@ $environment) -> new class
   from the cache and avoid making requests from the CDN.
 
   The code that loads the script that is saved in the local path of the app.
-  This is done, because most browsers don"t allow cross-browser requests
+  This is done, because most browsers don't allow cross-browser requests
   and saving the scripts local is a solution for this.
   ###
   cacheStartupScripts: ->
+    $log.log @name, "downloading scripts"
     if @fallback then return
+    md5 = $environment.md5 or {}
+
     # The list of scripts is accessible to us by the global variable "scripts"
-    for script in scripts
-      storageId = script.id
+    for script in scripts then do (script) ->
+      storageId = "script:#{script.id}"
+      md5ID = "md5:#{script.id}"
       # Check if the script already exists in the cache
       cache = $storage.local storageId
+
       # $log.log storageId, cache, cache == null
       # $log.log script, not ($storage.local storageId)?
       if script.local and not $storage.local storageId
@@ -90,9 +111,10 @@ $environment) -> new class
             $http.get url
             .success (result) =>
               $storage.local storageId, result
-              $log.log @name, "cached script:", storageId
+              $storage.local md5ID, md5[script.id]
+              $log.log @name, "cached sscript:", script.id
           catch e
-            $log.error @name, "could not cache script", storageId
+            $log.error @name, "could not cache script", script.id
             $log.error @name, "url was", url
             $log.error e.stack
         ajax storageId, script.local

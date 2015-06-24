@@ -9,7 +9,7 @@ exports = module.exports = (settings, Locations, Categories, Classifieds, Users)
         }
       ]
       description: "This is the API for communicating with all frontend apps"
-      magic: settings.magic
+      md5: settings.md5
       status: "online"
     response.json data
 

@@ -41,7 +41,9 @@ exports = module.exports = ($window, $log, $environment) -> new class
   _operate: (storage, key, value) ->
     if key == null and value == null then storage.clear()
     else if typeof value is "undefined" then return storage.getItem key
-    else if value? then return storage.setItem key, value
+    else if value?
+      $log.log @name, "setting", key
+      return storage.setItem key, value
     else return storage.removeItem key
 
 

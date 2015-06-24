@@ -17,7 +17,7 @@ exports = module.exports = (settings, Cache) ->
 
     publicData:
       environment: settings.server.env
-      magic: settings.magic or {}
+      md5: settings.md5 or {}
       staticUrl: settings.staticUrl
       url: settings.url
 

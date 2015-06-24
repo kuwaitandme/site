@@ -31,7 +31,7 @@ exports = module.exports = (IoC, settings, Cache) ->
         logger.debug name, "MD5 #{sum} = #{filename}"
 
     # Now that we have the sums, we now update the settings and clear the cache.
-    settings.magic = md5sums
+    settings.md5 = md5sums
     Cache.clear()
 
 
