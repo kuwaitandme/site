@@ -27,4 +27,4 @@ section(ng-class="{'show-status': showStatus, 'urgent':cl.meta.urgentPerk && !sh
           span.link &#xf0c6;
         span {{ cl.created | prettydate }}
   .status.banner(ng-if="showStatus") {{ cl.status | status:"classified" }}
-  .urgent.banner(ng-if="cl.meta.urgentPerk && !showStatus") Urgent
+  //- .urgent.banner(ng-if="cl.meta.urgentPerk && !showStatus") Urgent

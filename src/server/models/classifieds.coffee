@@ -115,7 +115,7 @@ exports = module.exports = (knex) ->
 
         qb.limit classifiedsPerPage
         qb.offset (page - 1) * classifiedsPerPage
-        qb.orderBy "weight", "DESC"
+        # qb.orderBy "weight", "DESC"
         qb.orderBy "created", "DESC"
 
       model.query(buildQuery).fetchAll()
