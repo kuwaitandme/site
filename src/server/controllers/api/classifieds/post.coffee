@@ -118,7 +118,7 @@ Events, Users) ->
     # object.
     .spread (newImages, imagesMeta, newClassified) ->
       options = prefix: newClassified.id
-      [newClassified, imagesMeta, uploader.uploadPromise newImages, options]
+      [newClassified, imagesMeta, uploader.upload newImages, options]
     # With the files now uploaded, update the data of the current classified
     # object.
     .spread updateData

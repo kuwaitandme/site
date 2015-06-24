@@ -86,7 +86,6 @@ exports = module.exports = (knex) ->
       cl
 
 
-
     query: (parameters) ->
       buildQuery = (qb) ->
         # Helper function to check if the number is a valid int

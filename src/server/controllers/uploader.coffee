@@ -121,22 +121,85 @@ validate = (file) ->
 
   status
 
+
 exports = module.exports = (settings) ->
+  # Setup some defaults
   thumbsDir = "#{settings.publicDir}/uploads/thumb"
   uploadDir = "#{settings.publicDir}/uploads/main"
+  maxFiles = 12
+
+
+  ###*
+  * Given the asynchronous tasks for this function, perform them. Delete
+  * the temporary file if "isValid" is false; Move the temporary file
+  * into permanent storage if "isValid" is true.
+  *
+  * We do this asynchronously and wait for all the files to be uploaded. Once
+  * we are done we create another asynchronous task to start creating
+  * thumbnails. For more explanation see the code
+  *
+  * WARN: Because we are using command-line 'mv' command there is always the
+  * risk of having shellcode getting through. Although I'm only aware of
+  * having PHP shellcode, the CDN serves the images which (unlike the main
+  * server) could be running a PHP (+ NGINX) parser. Make this more secure.
+  ###
+  operate = (tasks) -> new Promise (resolve, reject) ->
+    # Start analyzing each file and either upload or delete it
+    asyncJob = (task, finish) ->
+      if task.isValid
+        # Copy the file into the upload path if the file is valid
+        mv task.oldPath, task.newPath, (error) -> finish error
+
+      # Delete the file from our temporary storage
+      else fs.unlink task.oldPath, (error) -> finish error
+
+
+    # Now start creating the thumbnails asynchronously
+    asyncFinish = (error) ->
+      if error then reject error
+      else resolve createThumbnails tasks
+
+    # Start the async tasks
+    async.each tasks, asyncJob, asyncFinish
+
+
+  ###*
+  * Creates the thumbnails asynchronously. We need to do this in async too
+  * because the function that we use is single-threaded and does not support
+  * callback functions. This is bad for us, so we work around by using the
+  * async module.
+  *
+  * What's more is that we need to wait for all the files to be uploaded
+  * before we start making the thumbnails, since we don't want to work on
+  * empty files. So that"s we needed to make another async call on the
+  * previous function, to give us the signal that the file upload is over.
+  ###
+  createThumbnails = (tasks) -> new Promise (resolve, reject) ->
+    asyncJob = (task, finish) ->
+      if task.isValid
+        # First compress the image, 'Lossless' is my favorite..
+        gm task.newPath
+        .resize 1500, 1500
+        .compress "Lossless"
+        .autoOrient()
+        .write task.newPath, (error) ->
+          if error then return finish error
+
+          # Then create the thumbnail
+          gm task.newPath
+          .resize 400, 400
+          .crop 400, 400, 0, 0
+          .autoOrient()
+          .write "#{path.normalize thumbsDir}/#{task.newFilename}", finish
+
+    asyncFinish = (error) ->
+      if error then reject error
+      else resolve()
+
+    async.each tasks, asyncJob, asyncFinish
+
 
   new class Uploader
-    maxFiles: 12
-    thumbsDir: "#{settings.publicDir}/uploads/thumb"
-    uploadDir: "#{settings.publicDir}/uploads/main"
-
-
-    uploadPromise: (files, options) -> new Promise (resolve, reject) =>
-      @upload files, options, (error, newImages=[]) ->
-        if error then reject error
-        else resolve newImages
-
-
     ###*
     * Starts the upload of files into the server. It makes sure that the files
     * are valid files (using validation logic in the function below this one)
@@ -145,7 +208,7 @@ exports = module.exports = (settings) ->
     * It does the file uploads (asynchronously) and at the same time creates
     * the thumbnails for each image (asynchronously too).
     ###
-    upload: (files, options={}, callback=->) ->
+    upload: (files, options={}) ->
       asyncTasks = []
       ret = []
 
@@ -163,11 +226,11 @@ exports = module.exports = (settings) ->
       # Start iterating through each file
       for file in files
         # First, check if the file is valid or not
-        isValid = @validate file
+        isValid = validate file
 
         # Then check if we have exceed our files per classified limit. If
         # so then mark all files, starting from this file onwards as invalid
-        if asyncTasks.length >= @maxFiles then isValid = false
+        if asyncTasks.length >= maxFiles then isValid = false
 
         # Add a task to operate on this file
         newFilename = "#{prefix}#{_createUniqueFilename file.path}"
@@ -188,16 +251,14 @@ exports = module.exports = (settings) ->
           newFilename: newFilename
           oldFilename: file.name
 
+      console.log ret
       # Perform file operations to move the file from the temporary
       # storage into the public uploads folder.
-      #
-      # Note that this is done asynchronously. Which is quite neat since
-      # we don't have to wait for the files to get uploaded and can
-      # continue to continue performing operations on the DB.
-      @operate asyncTasks
+      operate asyncTasks
 
-      # Call the callback function with the list of uploaded files
-      callback null, ret
+      # Once the files have been saved, we resolve our promise with the list of
+      # images.
+      .then -> ret
 
 
     ###*
@@ -205,12 +266,12 @@ exports = module.exports = (settings) ->
     *
     * TODO: test this function
     ###
-    delete: (files) ->
-      asyncJob = (filepath, finish) =>
+    delete: (files) -> new Promise (resolve, reject) ->
+      asyncJob = (filepath, finish) ->
         # Prepare the functions to remove the files
-        removeImage = (callback) =>
+        removeImage = (callback) ->
           fs.unlink "#{uploadDir}/#{filepath}", callback
-        removeThumbnail = (callback) =>
+        removeThumbnail = (callback) ->
           fs.unlink "#{thumbsDir}/#{filepath}", callback
 
         # create the async job that will remove the files
@@ -223,74 +284,9 @@ exports = module.exports = (settings) ->
 
       # For each file in the list, attempt to remove it's thumbnail and
       # main image.
-      #
-      # Here we really don't care about the errors that will come. So our
-      # error handler is a blank function.
       async.each files, asyncJob, (error, result) ->
-
-
-    ###*
-    * Given the asynchronous tasks for this function, perform them. Delete
-    * the temporary file if "isValid" is false; Move the temporary file
-    * into permanent storage if "isValid" is true.
-    *
-    * We do this asynchronously and wait for all the files to be uploaded. Once
-    * we are done we create another asynchronous task to start creating
-    * thumbnails. For more explanation see the code
-    *
-    * WARN: Because we are using command-line 'mv' command there is always the
-    * risk of having shellcode getting through. Although I'm only aware of
-    * having PHP shellcode, the CDN serves the images which (unlike the main
-    * server) could be running a PHP (+ NGINX) parser. Make this more secure.
-    ###
-    operate: (tasks) ->
-      # Start analyzing each file and either upload or delete it
-      asyncJob = (task, finish) ->
-        if task.isValid
-          # Copy the file into the upload path if the file is valid
-          mv task.oldPath, task.newPath, (error) -> finish error
-
-        # Delete the file from our temporary storage
-        else fs.unlink task.oldPath, (error) -> finish error
-
-
-      # Now start creating the thumbnails asynchronously
-      asyncFinish = => @createThumbnails tasks
-
-      # Start the async tasks
-      async.each tasks, asyncJob, asyncFinish
-
-
-    ###*
-    * Creates the thumbnails asynchronously. We need to do this in async too
-    * because the function that we use is single-threaded and does not support
-    * callback functions. This is bad for us, so we work around by using the
-    * async module.
-    *
-    * What's more is that we need to wait for all the files to be uploaded
-    * before we start making the thumbnails, since we don't want to work on
-    * empty files. So that"s we needed to make another async call on the
-    * previous function, to give us the signal that the file upload is over.
-    ###
-    createThumbnails: (tasks) ->
-      asyncJob = (task, finish) =>
-        if task.isValid
-          # First compress the image, 'Lossless' is my favorite..
-          gm task.newPath
-          .resize 1500, 1500
-          .compress "Lossless"
-          .autoOrient()
-          .write task.newPath, (error) =>
-            if error then return finish error
-
-            # Then create the thumbnail
-            gm task.newPath
-            .resize 400, 400
-            .crop 400, 400, 0, 0
-            .autoOrient()
-            .write "#{path.normalize thumbsDir}/#{task.newFilename}", finish
-
-      async.each tasks, asyncJob, ->
+        if error then reject error
+        else resolve result
 
 
 exports["@require"] = ["igloo/settings"]

@@ -185,7 +185,7 @@ Events, Notifications, Users) ->
         request: request
         newClassified: newClassified
         oldClassified: oldClassified
-        newImages: uploader.uploadPromise newImages, options
+        newImages: uploader.upload newImages, options
     .then createDiff
     .then createNotification
     # Log the event into the database!
