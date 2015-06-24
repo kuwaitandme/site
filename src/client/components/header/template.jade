@@ -4,7 +4,7 @@
     a#header-logo(href="/")
   #grabber-container(ng-click="toggleHeader()")
     #grabber
-      #notification-counter(ng-if="unreadNotifications > 0") {{ unreadNotifications }}
+      //- #notification-counter(ng-if="unreadNotifications > 0") {{ unreadNotifications }}
   #nav-social-container.hide-for-small
     a(target="_blank", href="https://www.facebook.com/KuwaitandMe") &#xf09a;
     a(target="_blank", href="https://twitter.com/kuwaitandme") &#xf099;
@@ -17,7 +17,7 @@
 nav#sub-header
   .row.collapse
     .columns.small-centered
-      ul#notifications()
+      //- ul#notifications()
         li(ng-if="notifications.length > 0",
           ng-repeat="n in notifications | limitTo: 4",
           ng-mouseover="n.hasRead = 1; onNotificationRead()"

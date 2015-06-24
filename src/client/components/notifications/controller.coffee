@@ -28,23 +28,24 @@ exports = module.exports = ($scope, $root, $log, $timeout) ->
 
   # Listen for a toast notification event to add the new notification
   $root.$on "toast-notification", (event, notification) ->
+    console.log event, notification
     $scope.showToast = true
-    $scope.toastText = notification.text
-    lifetime = notification.timeout or toastNotificationLifetime
+    $scope.toastText = notification
     # Set a timeout function to remove the notification
-    $timeout (-> $scope.showToast = false), lifetime
+    $timeout (-> $scope.showToast = false), toastNotificationLifetime
 
 
   # Listen for a notification event to add the a flash notification
   $root.$on "notifications:add", (event, data) ->
-    console.log event, data
     notification = data.get()
+    console.log notification
     $scope.flashNotifications.push notification
+
     # Set a timeout function to remove the notification
-    ((notifications) -> $timeout ->
+    do (notification) -> $timeout ->
       index = $scope.flashNotifications.indexOf notification
       if index? then $scope.flashNotifications.splice index, 1
-    , flashNotificationLifetime) notification
+    , flashNotificationLifetime
 
 
 exports.$inject = [
