@@ -81,7 +81,7 @@ getFormdata = (classified) ->
   # Finally convert the classified into a JSON string and send it to the server.
   classified.new_images = newImages
   classified.images = images
-  formdata.append "classified", angular.toJson classified
+  formdata.append "classified", angular.toJson classified, 2
   formdata
 
 
