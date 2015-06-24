@@ -9,6 +9,8 @@ exports = module.exports = (IoC, knex, cache) ->
   model      = bookshelf.Model.extend tableName: "users"
   collection = bookshelf.Collection.extend model: model
 
+  usersPerPage = 20
+
   new class
     name: "[model:users]"
     loginStrategies:
@@ -38,9 +40,24 @@ exports = module.exports = (IoC, knex, cache) ->
 
 
     # Queries all the users that matches the given parameters
-    query: (parameters, callback=->) ->
-      @collection.forge parameters
-        .query().then (users) -> callback null, users
+    query: (parameters) ->
+      buildQuery = (qb) ->
+        # Helper function to check if the number is a valid int
+        validInt = (i) -> i? and validator.isInt i, min: 0
+
+        status = parameters.status
+        if validInt status then qb.where "status", status
+
+        page = parameters.page
+        if not validInt page then page = 1
+
+        qb.limit usersPerPage
+        qb.offset (page - 1) * usersPerPage
+        qb.orderBy "created", "DESC"
+
+      model.query(buildQuery).fetchAll()
+      # collection.forge parameters
+      # .query()
 
 
     # Finds a specific user with the given parameters
