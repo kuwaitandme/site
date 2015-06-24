@@ -41,7 +41,7 @@
             span(itemprop="offers", itemscope, itemtype="http://schema.org/Offer")
               span(itemprop="priceCurrency", content="KWD")
               span.meta-value(itemprop="price",
-                content="{{ (classified.priceValue || 0 ) }}") {{ classified.priceValue | price:classified.priceType }}
+                content="{{ (classified.priceValue || 0 ) }}") {{ classified.price_value | price:classified.price_type }}
           li(ng-if="classified.created", itemprop="datePublished" content="{{ classified.created }}")
             span.meta-title Published:
             span.meta-value {{ classified.created | prettydate }}
