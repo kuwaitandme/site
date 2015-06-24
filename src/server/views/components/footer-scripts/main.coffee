@@ -1,12 +1,19 @@
+###*
+ *
+ *
+ * @author Steven Enamakel <m2=e@steven.pw>
+###
 u = publicData.staticUrl
 
-###
-  Set this to the total number of scripts in the page. Ideally we could use a
-  loop and find out programatically, but I prefer to hard-code it as the
-  dependencies don't change that often.
-###
+
+# Set this to the total number of scripts in the page. Ideally we could use a
+# loop and find out programatically, but I prefer to hard-code it as the
+# dependencies don't change that often.
 maxScriptCount = 12
 
+
+#
+#
 window.scripts = [
   {
     id: "style.css"
@@ -49,15 +56,18 @@ window.scripts = [
   }
 ]
 
+
 # Defining this function for some reason fixes the google maps API from not
 # loading. This function is set as the callback fn. in the maps's URL.
 window.initializeGmap = ->
+
 
 # Define some variables
 head = (document.getElementsByTagName "head")[0]
 body = (document.getElementsByTagName "body")[0]
 totalScriptsLoaded = 0
-isDevelopment = publicData.environment == "development"
+isDevelopment = publicData.environment == "development" and false
+
 
 # Create this helper function to automatically increment the progress bar.
 incrementProgressBar = ->
@@ -67,12 +77,17 @@ incrementProgressBar = ->
   totalScriptsLoaded++
   setProgressBar totalScriptsLoaded, maxScriptCount
 
-###
- This function neatly adds the script/stylesheet into the DOM, and that too
- asynchronously. It also takes care of making sure that CSS code is loaded in
- a non-blocking manner (This means that you need to make sure that you have
- some inline styles on the page otherwise the page will look ugly when the
- CSS has not yet fully loaded. See more about render-blocking CSS).
+
+###*
+ * This function neatly adds the script/stylesheet into the DOM, and that too
+ * asynchronously. It also takes care of making sure that CSS code is loaded in
+ * a non-blocking manner (This means that you need to make sure that you have
+ * some inline styles on the page otherwise the page will look ugly when the
+ * CSS has not yet fully loaded. See more about render-blocking CSS).
+ *
+ * @param {[type]} [varname] [description]
+ * @param {[type]} [varname] [description]
+ * @param {[type]} [varname] [description]
 ###
 _addScript = (urlsOrCode, isCSS, isCode) ->
   if isCSS
@@ -82,20 +97,20 @@ _addScript = (urlsOrCode, isCSS, isCode) ->
     else $fileref = document.createElement "link"
     $fileref.rel = "stylesheet"
     $fileref.type = "text/css"
-    ###
-      This line is sort-of a hack to make the CSS page non-render blocking.
-      We must make sure that when the stylesheet is loaded fully, we must
-      replace this attribute with the standard 'all' otherwise the browser won't
-      apply the CSS.
 
-      This media tag is used to match different devices. Setting it to none
-      makes it not match any device and causes the browser to truely load in
-      async.
-    ###
+    # This line is sort-of a hack to make the CSS page non-render blocking.
+    # We must make sure that when the stylesheet is loaded fully, we must
+    # replace this attribute with the standard 'all' otherwise the browser won't
+    # apply the CSS.
+    #
+    # This media tag is used to match different devices. Setting it to none
+    # makes it not match any device and causes the browser to truely load in
+    # async.
     $fileref.media = "none"
   else
     $fileref = document.createElement "script"
     $fileref.type = "text/javascript"
+
   # Populate the element with our cached code
   if isCode
     # This line makes sure that our render-blocking hack is reverted..
@@ -105,6 +120,7 @@ _addScript = (urlsOrCode, isCSS, isCode) ->
     if isCSS then $fileref.href = urlsOrCode
     else $fileref.src = urlsOrCode
   $fileref.async = false
+
   # Setup our listeners for when the script/css has been inserted
   $fileref.onreadystatechange = ->
     if this.media is "none" then this.media = "all"
@@ -112,6 +128,7 @@ _addScript = (urlsOrCode, isCSS, isCode) ->
   $fileref.onload = ->
     if this.media is "none" then this.media = "all"
     incrementProgressBar()
+
   # Finally with whatever element we have created, insert it into the body
   if isCSS then head.appendChild $fileref
   else head.insertBefore $fileref, head.firstChild
@@ -120,6 +137,8 @@ _addScript = (urlsOrCode, isCSS, isCode) ->
 ###*
  * This function processes the given script and attempts to load it either from
  * the cache or from the remote URL..
+ *
+ * @param {[type]} [varname] [description]
 ###
 processScript = (script) ->
   isCode = false
@@ -161,6 +180,7 @@ processScript = (script) ->
 
   # Finally!! load the processed script into the DOM.
   _addScript urlOrCode, isCSS, isCode for urlOrCode in urlsOrCode
+
 
 # Now that all our helper functions have been defined, we start processing each
 # script one-by-one..

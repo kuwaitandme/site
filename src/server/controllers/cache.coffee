@@ -85,9 +85,8 @@ exports = module.exports = (IoC) ->
     ###
     del: (key) ->
       logger.debug name, "deleting: #{key}"
-      new Promise (resolve, reject) ->
-        cache.del key, (error, value) ->
-          if error then reject error else resolve value
+      new Promise (resolve, reject) -> cache.del key, (error, value) ->
+        if error then reject error else resolve value
 
 
     ###*
@@ -101,8 +100,8 @@ exports = module.exports = (IoC) ->
     ###
     clear: ->
       logger.debug name, "clearing"
-      new Promise (resolve, reject) ->
-        cache.clear (error, value) -> if error then reject error else resolve()
+      new Promise (resolve, reject) -> cache.clear (error, value) ->
+        if error then reject error else resolve()
 
 
 exports["@singleton"] = true

@@ -9,14 +9,24 @@ exports = module.exports = (IoC, reCaptcha, uploader, Email, Classifieds,
 Events, Notifications, Users) ->
   logger = IoC.create "igloo/logger"
 
-  # Check if the request has the required data
+  ###*
+   * Check if the request has the required data
+   * @param  {[type]} request [description]
+   * @return {[type]}         [description]
+  ###
   checkRequest = (request) ->
     id = request.params[0]
     if not request.isAuthenticated() then throw new Error "need login"
     else if not id? then throw new Error "need valid id"
     else id
 
-  # Check if user has privileges to modify the classified
+
+  ###*
+   * Check if user has privileges to modify the classified
+   *
+   * @param  {[type]} results [description]
+   * @return {[type]}         [description]
+  ###
   checkUserPrivelages = (results) ->
     # Grab the request and the classified (sent by the prev promise)
     request = results.request
@@ -31,7 +41,14 @@ Events, Notifications, Users) ->
       throw new Error "not privileged"
     [request, oldClassified]
 
-  # Start parsing the multi-part encoded data
+
+  ###*
+   * Start parsing the multi-part encoded data
+   *
+   * @param  {[type]} request       [description]
+   * @param  {[type]} oldClassified [description]
+   * @return {[type]}               [description]
+  ###
   parseForm = (request, oldClassified) -> new Promise (resolve, reject) ->
     form = new formidable.IncomingForm
     form.keepExtensions = true
@@ -45,7 +62,16 @@ Events, Notifications, Users) ->
       if error then reject error
       resolve [oldClassified, request, fields, filesRequest]
 
-  # Analyze the data from fromidable.
+
+  ###*
+   * Analyze the data from fromidable.
+   *
+   * @param  {[type]} oldClassified [description]
+   * @param  {[type]} request       [description]
+   * @param  {[type]} fields        [description]
+   * @param  {[type]} files         [description]
+   * @return {[type]}               [description]
+  ###
   analyzeData = (oldClassified, request, fields, files) ->
     # The classified data gets passed as a JSON string, so here we parse it
     # first.
@@ -81,8 +107,8 @@ Events, Notifications, Users) ->
     [newClassified, oldClassified, files["images[]"]]
 
 
-  ###
-    This function creates a diff between the old and new classified.
+  ###*
+   * This function creates a diff between the old and new classified.
   ###
   createDiff = (promise) ->
     newClassified = promise.newClassified
@@ -144,6 +170,12 @@ Events, Notifications, Users) ->
     promise
 
 
+  ###*
+   * [createNotification description]
+   *
+   * @param  {[type]} promise [description]
+   * @return {[type]}         [description]
+  ###
   createNotification = (promise) ->
     classified = promise.newClassified
 
