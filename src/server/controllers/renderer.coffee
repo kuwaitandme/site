@@ -1,8 +1,20 @@
 jade = require "jade"
 _ = require "underscore"
 
-# A helper function to render the page properly with the right parameters and
-# some default values.
+
+###*
+ * A helper module which returns a function used to render the page properly
+ * with the right parameters and some default values.
+ *
+ * This module introduces in-memory cache to avoid having jade to recompile
+ * redundant HTML and also introduces alot of custom variables that are also
+ * exposed to the compiler.
+ *
+ * For a better understanding about how to use this module see the documentation
+ * of the function that gets returned below.
+ *
+ * @author Steven Enamakel <me@steven.pw>
+###
 exports = module.exports = (settings, Cache) ->
   defaults =
     _: global.__
@@ -17,7 +29,6 @@ exports = module.exports = (settings, Cache) ->
 
     publicData:
       environment: settings.server.env
-      md5: settings.md5 or {}
       staticUrl: settings.staticUrl
       url: settings.url
 
@@ -34,7 +45,16 @@ exports = module.exports = (settings, Cache) ->
   defaults.cryptedData = (new Buffer JSON.stringify defaults.cryptedData)
   .toString "base64"
 
-  fn = (request, response, options={}) ->
+
+  ###*
+   * TODO: Write this...
+   *
+   *
+   * @param  {[type]} request            [description]
+   * @param  {[type]} response           [description]
+   * @param  {[type]} options            [description]
+  ###
+  (request, response, options={}) ->
     # Setup the cache variables
     cacheKey = "never-set"
     if options.cache?
@@ -47,8 +67,15 @@ exports = module.exports = (settings, Cache) ->
     # options.lang = "en"
     if options.lang == "ar" then options.dir = "rtl"
 
-    # Now check in cache for the HTML of this page
+    # Set the MD5 variables into the publicData field
+    options.publicData ?= {}
+    options.publicData.md5 = settings.md5 or {}
+
+    # Everything has been set so now check the cache for the HTML of this page
     Cache.get cacheKey
+
+    # If there was nothing found in the cache, then start the compilation
+    # procedures.
     .catch ->
       # Setup options for the jade compiler and HTML compiler
       jadeOptions =
