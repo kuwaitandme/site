@@ -17,7 +17,7 @@ exports = module.exports = (IoC) -> (app) ->
     .end done
 
 
-  describe "#{route} POST - Signup API", ->
+  describe.skip "#{route} POST - Signup API", ->
     it "Content-Type must be JSON", (done) ->
       post().expect "Content-Type", /json/
       .end done
