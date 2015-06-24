@@ -49,16 +49,19 @@ $environment) ->
   ###
   cacheStartupScripts = ->
     if fallback then return
-    $log.log name, "downloading scripts"
+    $log.log name, "caching startup scripts via async"
 
     # The list of scripts is accessible to us by the global variable "scripts"
-    for script in window.scripts then do (script) ->
+    for script in $window.scripts then do (script) ->
       storageId = "script:#{script.id}"
       md5ID = "md5:#{script.id}"
 
+      localMD5 = $storage.local md5ID
+      remoteMD5 = md5[script.id]
+
       # Check if the script already exists in the cache
       cache = $storage.local storageId
-      if script.local and not $storage.local md5ID
+      if script.local and not localMD5
 
         # If the script was not in cache then start fetching the local version
         # of the script asynchronously, and then save it into the cache.
@@ -66,10 +69,12 @@ $environment) ->
         ajax = (storageId, url) ->
           try
             $http.get url
-            .success (result) ->
-              $storage.local storageId, result
-              $storage.local md5ID, md5[script.id]
+            .then (response) ->
+              # Update the script and the MD5 hash of it
+              $storage.local storageId, response.data
+              $storage.local md5ID, remoteMD5
               $log.log name, "cached script:", script.id
+
           catch e
             $log.error name, "could not cache script", script.id
             $log.error name, "url was", url
