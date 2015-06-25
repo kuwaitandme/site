@@ -40,13 +40,13 @@ exports = module.exports = (IoC) -> (app) ->
       checkRouteFor 200, "/classified/create"
       checkRouteFor 200, "/info/terms-privacy"
 
-      describe "requests that need authentication should redirect", ->
+      describe "requests that need authentication should redirect to login", ->
         checkRouteFor 302, "/account/classifieds"
         checkRouteFor 302, "/account/moderate"
         checkRouteFor 302, "/account/profile"
         checkRouteFor 302, "/account/credits"
 
-      describe.skip "requests that need & have authentication should return 200", ->
+      describe.skip "requests that need & have session should return 200", ->
         checkRouteFor 302, "/account/manage"
         checkRouteFor 302, "/account/profile"
         checkRouteFor 302, "/classified/post"

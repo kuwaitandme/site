@@ -109,4 +109,3 @@ exports["@require"] = [
   "models/users"
 ]
 exports["@singleton"] = true
-

@@ -9,7 +9,7 @@ exports = module.exports = (IoC) -> (app) ->
   post = -> supertest.agent(app).post route
 
 
-  describe.skip "#{route} POST - Login API", ->
+  describe "#{route} POST - Login API", ->
     it "Content-Type must be JSON", (done) ->
       post().expect "Content-Type", /json/
       .end done
