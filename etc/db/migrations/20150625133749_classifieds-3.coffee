@@ -6,6 +6,7 @@ exports.up = (knex, Promise) ->
     knex.raw "ALTER TABLE classifieds ALTER COLUMN meta SET DEFAULT '{}'"
     knex.raw "ALTER TABLE classifieds ALTER COLUMN owner SET NOT NULL"
     knex.raw "ALTER TABLE classifieds ALTER COLUMN price_value SET DEFAULT 0"
+    knex.raw "ALTER TABLE classifieds ALTER COLUMN slug SET DEFAULT ''"
     knex.raw "ALTER TABLE classifieds ALTER COLUMN status SET DEFAULT 0"
   ]
 
@@ -18,5 +19,6 @@ exports.down = (knex, Promise) ->
     knex.raw "ALTER TABLE classifieds ALTER COLUMN meta DROP DEFAULT"
     knex.raw "ALTER TABLE classifieds ALTER COLUMN owner DROP NOT NULL"
     knex.raw "ALTER TABLE classifieds ALTER COLUMN price_value DROP DEFAULT"
+    knex.raw "ALTER TABLE classifieds ALTER COLUMN slug DROP DEFAULT"
     knex.raw "ALTER TABLE classifieds ALTER COLUMN status DROP DEFAULT"
   ]
