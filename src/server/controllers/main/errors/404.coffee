@@ -1,10 +1,10 @@
 exports = module.exports = (renderer, Classifieds) ->
   controller = (request, response, next) ->
     response.status 404
-    args =
+    options =
       page: "errors/404"
       title: "Page not found"
-    renderer request, response, args, true
+    renderer request, response, options
 
 
 exports["@require"] = ["controllers/renderer"]
