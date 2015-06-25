@@ -16,6 +16,15 @@ mv          = require "mv"
 path        = require "path"
 
 
+MAX_FILE_SIZE = 6 * 1024 * 1024 # 6MB
+MAX_FILES_PER_UPLOAD = 12
+
+IMAGE_MAXSIZE_MAIN = 1500 # 1500px x 1500px
+IMAGE_MAXSIZE_THUMB = 400 # 400px x 400px
+
+THUMBNAIL_DIR = "/uploads/thumb"
+MAINIMAGE_DIR = "/uploads/main"
+
 
 ###*
  * Returns the extension of the given filename. TODO: Find path's equivalent.
@@ -107,13 +116,15 @@ _createUniqueFilename = (filename) ->
 *
 * @param File file        The file object which is to be validated
 *
-* @return Boolean         [description]
+* @return Boolean         Returns True iff the file is good to be uploaded.
+*
+* TODO: Work on this because this is vulnerable to shellcode attacks..
 ###
 validate = (file) ->
   status = true
 
   # Check on the 6MB limit per file
-  if not (0 < file.size < (6 * 1024 * 1024)) then status = false
+  if not (0 < file.size < (MAX_FILE_SIZE)) then status = false
 
   # Check for invalid filetype
   if not file.type in ["image/gif", "image/png", "image/jpg",
@@ -124,9 +135,8 @@ validate = (file) ->
 
 exports = module.exports = (settings) ->
   # Setup some defaults
-  thumbsDir = "#{settings.publicDir}/uploads/thumb"
-  uploadDir = "#{settings.publicDir}/uploads/main"
-  maxFiles = 12
+  thumbsDir = "#{settings.publicDir}#{THUMBNAIL_DIR}"
+  uploadDir = "#{settings.publicDir}#{MAINIMAGE_DIR}"
 
 
   ###*
@@ -142,16 +152,30 @@ exports = module.exports = (settings) ->
   * risk of having shellcode getting through. Although I'm only aware of
   * having PHP shellcode, the CDN serves the images which (unlike the main
   * server) could be running a PHP (+ NGINX) parser. Make this more secure.
+  *
+  * @param Array tasks                The tasks that have been set from the
+  *                                   upload function. Each task should be an
+  *                                   object containing a newPath, oldPath
+  *                                   and newFilename key.
+  *
+  * @return Promise                   A promise that resolves once the images
+  *                                   have been uploaded and the thumbnails have
+  *                                   been created.
   ###
   operate = (tasks) -> new Promise (resolve, reject) ->
     # Start analyzing each file and either upload or delete it
     asyncJob = (task, finish) ->
       if task.isValid
-        # Copy the file into the upload path if the file is valid
-        mv task.oldPath, task.newPath, (error) -> finish error
+        # Compress the image, ('Lossless' is my favorite..) and write it to it's
+        # destination
+        gm task.oldPath
+        .resize IMAGE_MAXSIZE_MAIN, IMAGE_MAXSIZE_MAIN
+        .compress "Lossless"
+        .autoOrient()
+        .write task.newPath, finish
 
       # Delete the file from our temporary storage
-      else fs.unlink task.oldPath, (error) -> finish error
+      else fs.unlink task.oldPath, finish
 
 
     # Now start creating the thumbnails asynchronously
@@ -171,31 +195,28 @@ exports = module.exports = (settings) ->
   *
   * What's more is that we need to wait for all the files to be uploaded
   * before we start making the thumbnails, since we don't want to work on
-  * empty files. So that"s we needed to make another async call on the
+  * empty files. So that's why we needed to make another async call on the
   * previous function, to give us the signal that the file upload is over.
+  *
+  * @param Array tasks         An array of tasks that was passed to the operate
+  *                            function.
+  *
+  * @return Promise            A promise that resolves iff the thumbnails could
+  *                            be created.
   ###
   createThumbnails = (tasks) -> new Promise (resolve, reject) ->
+    # For each image, asynchronously run this function
     asyncJob = (task, finish) ->
       if task.isValid
-        # First compress the image, 'Lossless' is my favorite..
+        # Then create the thumbnail
         gm task.newPath
-        .resize 1500, 1500
-        .compress "Lossless"
+        .resize IMAGE_MAXSIZE_THUMB, IMAGE_MAXSIZE_THUMB
+        .crop IMAGE_MAXSIZE_THUMB, IMAGE_MAXSIZE_THUMB, 0, 0
         .autoOrient()
-        .write task.newPath, (error) ->
-          if error then return finish error
+        .write "#{path.normalize thumbsDir}/#{task.newFilename}", finish
 
-          # Then create the thumbnail
-          gm task.newPath
-          .resize 400, 400
-          .crop 400, 400, 0, 0
-          .autoOrient()
-          .write "#{path.normalize thumbsDir}/#{task.newFilename}", finish
-
-    asyncFinish = (error) ->
-      if error then reject error
-      else resolve()
-
+    # Execute the async call..
+    asyncFinish = (error) -> if error then reject error else resolve()
     async.each tasks, asyncJob, asyncFinish
 
 
@@ -207,18 +228,26 @@ exports = module.exports = (settings) ->
     *
     * It does the file uploads (asynchronously) and at the same time creates
     * the thumbnails for each image (asynchronously too).
+    *
+    * @param Array files       An array of file object that have to uploaded.
+    * @param Object options    Options that get used during the file upload.
+    *
+    * @return Promise          Returns a promise that resolves with an array
+    *                          of successfully uploaded files (with the dominant
+    *                          color and new/old file paths).
     ###
     upload: (files=[], options={}) ->
-      console.log files
       asyncTasks = []
       ret = []
-
-      if options.prefix then prefix = "#{options.prefix}-"
-      else prefix = ""
 
       # Avoid reading empty file uploads
       if not files? then return Promise.resolve []
       if not files.length? or files.length == 0 then return Promise.resolve []
+
+      # Find if there is any file prefix set (used to rename images under
+      # a classified's id).
+      if options.prefix then prefix = "#{options.prefix}-"
+      else prefix = ""
 
       # Files uploads that have only one file, get passed as an object, so
       # recast it into an array.
@@ -231,7 +260,7 @@ exports = module.exports = (settings) ->
 
         # Then check if we have exceed our files per classified limit. If
         # so then mark all files, starting from this file onwards as invalid
-        if asyncTasks.length >= maxFiles then isValid = false
+        if asyncTasks.length >= MAX_FILES_PER_UPLOAD then isValid = false
 
         # Add a task to operate on this file
         newFilename = "#{prefix}#{_createUniqueFilename file.path}"
@@ -265,6 +294,14 @@ exports = module.exports = (settings) ->
     * A quick function to delete the files at the given locations.
     *
     * TODO: test this function
+    *
+    * @param array files            An array of files that need to be deleted.
+    *                               Each array item follows the same object
+    *                               hierarchy as the ones that passed in the
+    *                               operate function.
+    *
+    * @return Promise               A promise that resolves iff the files were
+    *                               successfully deleted.
     ###
     delete: (files) -> new Promise (resolve, reject) ->
       asyncJob = (filepath, finish) ->
@@ -274,16 +311,17 @@ exports = module.exports = (settings) ->
         removeThumbnail = (callback) ->
           fs.unlink "#{thumbsDir}/#{filepath}", callback
 
-        # create the async job that will remove the files
+        # create the async job that will remove the files. Because we don't
+        # expect to have any other errors than OS related errors, we wrap this
+        # job inside async's retry.
         retryJob = (finish) ->
           async.parallel [removeImage, removeThumbnail], finish
 
-        # Attempt the remove the files while retrying for 3 times on any
-        # error.
+        # Attempt the remove the files while retrying for 3 times on any error.
         async.retry 3, retryJob, finish
 
-      # For each file in the list, attempt to remove it's thumbnail and
-      # main image.
+      # For each file in the list, attempt to remove it's thumbnail and main
+      # image.
       async.each files, asyncJob, (error, result) ->
         if error then reject error
         else resolve result
