@@ -1,18 +1,36 @@
+###*
+ * [Promise description]
+ *
+ * @author Steven Enamakel <me@steven.pw>
+###
 Promise           = require "bluebird"
 _                 = require "underscore"
-moment            = require "moment"
-validator         = require "validator"
 jsonValidator     = require("jsonschema").Validator
+moment            = require "moment"
+traverse          = require "traverse"
+validator         = require "validator"
+xss               = require "xss"
+Bookshelf         = require "bookshelf"
 
-options =
-  classifiedsPerPage: 30
-  tableName: "classifieds"
-
-
+TABLENAME = "classifieds"
+CLASSIFIEDS_PER_PAGE = 30
 POSTGRES_INT_MAX = 2147483647
 POSTGRES_MAX_CHAR = 255
 
-class ClassifiedValidator
+###*
+ * [classifiedSchema description]
+ * @type {class}
+###
+classifiedSchema = new class ClassifiedSchema
+  # These are all the fields that are valid columns in the table
+  fields: [
+    "child_category", "contact", "created", "description"
+    "images", "language", "location", "meta", "owner"
+    "parent_category", "price_type", "price_value", "slug"
+    "status", "title", "type", "weight", "id"
+  ]
+
+  # Schema for the contact:[] field
   contactSchema:
     id: "/contact"
     type: "object"
@@ -21,6 +39,7 @@ class ClassifiedValidator
       phone: type: "string", maxLength: 140
       website: type: "string", maxLength: 2083
 
+  # Schema for the meta:{} field
   metaSchema:
     id: "/meta"
     type: "object"
@@ -37,6 +56,7 @@ class ClassifiedValidator
       viber: type: "boolean"
       whatsapp: type: "boolean"
 
+  # Schema for the image:[] field
   imageSchema:
     id: "/images"
     type: "object"
@@ -48,6 +68,7 @@ class ClassifiedValidator
       width: type: "integer", minimum: 0, maximum: POSTGRES_INT_MAX
     required: ["filename"]
 
+  # The main schema for the classified
   mainSchema:
     id: "/classified"
     type: "object"
@@ -76,6 +97,7 @@ class ClassifiedValidator
       "description", "location", "parent_category", "price_type", "title"
     ]
 
+
   constructor: ->
     @v = new jsonValidator
     @v.addSchema @contactSchema, "/contact"
@@ -83,10 +105,19 @@ class ClassifiedValidator
     @v.addSchema @imageSchema, "/images"
 
 
+  ###*
+   * [validate description]
+   *
+   * @param  {[type]} json [description]
+   * @return {[type]}      [description]
+  ###
   validate: (json) ->
+    # Validate first based on the schema
     results = @v.validate json, @mainSchema
+
+    # Then validate based on any custom rules
     try
-      console.log json.price_value
+      # If price_type is CUSTOM then price_value must be set
       if json.price_type is 2 and (not price_value? or
       price_value <= 0)
         results.valid = false
@@ -94,110 +125,59 @@ class ClassifiedValidator
         error.property = "instance.price_value"
         results.errors.push error
     catch e
-    results
+
+    # Now if there is an error, then throw the first one we find.
+    if not results.valid and results.errors
+      error = results.errors[0]
+      error.message = "#{error.property} #{error.message}"
+      throw results.errors[0]
 
 
-  # # These are all the fields that are valid columns in the table
-  # fields: [
-  #   "child_category", "contact", "created", "description"
-  #   "images", "language", "location", "meta", "owner"
-  #   "parent_category", "price_type", "price_value", "slug"
-  #   "status", "title", "type", "weight", "id"
-  # ]
+  ###*
+   * [clean description]
+   *
+   * @param  JSON json         The classified object that is to be cleaned
+   * @return JSON              The result after cleaning the object
+  ###
+  clean: (json) ->
+    # First pick out only the necessary fields, removing unwanted ones
+    json = @filter json
 
-  # # These are all the fields that are compulsory for a classified
-  # # submitted by the user
-  # requiredFields: [
-  #   "description", "location", "parent_category", "price_type", "title"
-  # ]
+    # Traverse through each key that is a string and perform an XSS filter on it
+    traverse json
+    .forEach (value) -> if typeof value is "string" then value = xss value
 
-  # # These are all the fields that must not be changed once the model has
-  # # been saved once in the database
-  # finalFields: ["id", "owner", "slug", "created"]
-  # jsonFields:
-  #   images:
-  #     color: String
-  #     filename: String
-  #     height: Number
-  #     main: Boolean
-  #   contact:
-  #     address1: String
-  #     address2: String
-  #     email: String
-  #     phone: String
-  #     website: String
-  #   meta:
-  #     shareSocial: Boolean
-  #     gmapX: Number
-  #     gmapY: Number
+    # Return the cleaned object
+    json
 
+  filter: (json) -> _.pick json, (value, key, object) => key in @fields
 
-  # constructor: (classified) -> @data = classified
-
-  # # Returns properly iff the classified is valid. Throws an Error otherwise
-  # # with the description of the error
-  # isValid: ->
-  #   if not @data? then throw new Error "missing classified"
-  #   for requiredField in @requiredFields
-  #     if not @data[requiredField]?
-  #       throw new Error "missing #{requiredField}"
-
-  #   if not validator.isLength @data.description, 50, 2000
-  #    throw new Error "description bad length"
-
-  #   if not validator.isLength @data.title, 20, 140
-  #     throw new Error "title bad length"
-
-
-classifiedValidator = new ClassifiedValidator
 
 exports = module.exports = (knex) ->
-  bookshelf = (require "bookshelf") knex
-  model = bookshelf.Model.extend tableName: options.tableName
+  bookshelf = Bookshelf knex
+  model = bookshelf.Model.extend tableName: TABLENAME
   collection = bookshelf.Collection.extend model: model
 
   classifiedsPerPage = 30
 
 
-  Classified = new class Model
+  new class Model
     classifiedsPerPage: 30
 
-    # These are all the fields that are valid columns in the table
-    fields: [
-      "child_category", "contact", "created", "description"
-      "images", "language", "location", "meta", "owner"
-      "parent_category", "price_type", "price_value", "slug"
-      "status", "title", "type", "weight", "id"
-    ]
-
-    # These are all the fields that are compulsory for a classified
-    # submitted by the user
-    requiredFields: [
-      "description", "location", "parent_category", "price_type", "title"
-    ]
-
-    # These are all the fields that must not be changed once the model has
-    # been saved once in the database
-    finalFields: ["id", "owner", "slug", "created"]
-    jsonFields: ["images", "meta", "contact"]
-
-
-    isValid: (data) ->
-      result = classifiedValidator.validate data
-      if not result.valid and result.errors
-        error = result.errors[0]
-        error.message = "#{error.property} #{error.message}"
-        console.log error
-        throw result.errors[0]
-      # console.log result
 
 
     constructor: ->
       bookshelf = (require "bookshelf") knex
       @model      = bookshelf.Model.extend
-        tableName: "classifieds"
+        tableName: TABLENAME
         defaults: slug: "", status: 0
       @collection = bookshelf.Collection.extend model: @model
+
+
+    # These are ports for the classified schema class..
+    clean: (json) -> classifiedSchema.clean json
+    filter: (json) -> classifiedSchema.filter json
+    validate: (json) -> classifiedSchema.validate json
 
 
     statuses:
@@ -221,51 +201,13 @@ exports = module.exports = (knex) ->
       CONTACT_OWNER: 1
       CUSTOM: 2
 
-    # # Returns properly iff the classified is valid. Throws an Error otherwise
-    # # with the description of the error
-    # isValid: (classified) ->
-    #   if not classified? then throw new Error "missing classified"
-    #   for requiredField in @requiredFields
-    #     if not classified[requiredField]?
-    #       throw new Error "missing #{requiredField}"
 
-    #   if not validator.isLength classified.description, 50, 2000
-    #    throw new Error "description bad length"
-
-    #   if not validator.isLength classified.title, 20, 140
-    #     throw new Error "title bad length"
-
-
-    evaluatePerks: (cl, user, perks) ->
-      if not (perks.urgent? or perks.promote?) then return cl
-      # Get the credits to be spent for each perk
-      creditsToSpendForUrgent = Number perks.urgent or 0
-      creditsToSpendForPromote = Number perks.promote or 0
-      # Find out the total credits that will get spent
-      creditsToSpend = creditsToSpendForPromote + creditsToSpendForUrgent
-      # Check if the user has enough credits
-      if creditsToSpend > user.credits then throw new Error "not enough credits"
-      # Now update the perks taking care of any previous values.
-      if creditsToSpendForUrgent > 0
-        offset = moment cl.meta.urgentPerk
-        # Calculate how many days the classified should be urgent
-        urgentDays = creditsToSpendForUrgent / 20
-        # Calculate and update the new expiry date
-        newDate = offset.add urgentDays, "days"
-        cl.meta.urgentPerk = newDate.valueOf()
-      if creditsToSpendForPromote > 0
-        cl.weight = 10
-        offset = moment cl.meta.promotePerk
-        # Calculate how many days the classified should be promoted
-        promoteDays = creditsToSpendForPromote / 10
-        # Calculate the and update the new expiry date
-        newDate = offset.add promoteDays, "days"
-        cl.meta.promotePerk = newDate.valueOf()
-      # Perks have been updated and their expiry dates have been set. So now
-      # return the modified the classified object.
-      cl
-
-
+    ###*
+     * [query description]
+     *
+     * @param  {[type]} parameters [description]
+     * @return {[type]}            [description]
+    ###
     query: (parameters) ->
       buildQuery = (qb) ->
         # Helper function to check if the number is a valid int
@@ -293,14 +235,19 @@ exports = module.exports = (knex) ->
               WHERE u.status = 1
           )"
 
-        qb.limit classifiedsPerPage
-        qb.offset (page - 1) * classifiedsPerPage
+        qb.limit CLASSIFIEDS_PER_PAGE
+        qb.offset (page - 1) * CLASSIFIEDS_PER_PAGE
         # qb.orderBy "weight", "DESC"
         qb.orderBy "created", "DESC"
 
       model.query(buildQuery).fetchAll()
 
 
+    ###*
+     * [getParentCategoryCount description]
+     *
+     * @return {[type]} [description]
+    ###
     getParentCategoryCount: ->
       buildQuery = (qb) =>
         qb.select "parent_category as id"
@@ -311,6 +258,11 @@ exports = module.exports = (knex) ->
       model.query(buildQuery).fetchAll()
 
 
+    ###*
+     * [getChildCategoryCount description]
+     *
+     * @return {[type]} [description]
+    ###
     getChildCategoryCount: ->
       buildQuery = (qb) =>
         qb.select "child_category as id"
@@ -321,6 +273,14 @@ exports = module.exports = (knex) ->
       model.query(buildQuery).fetchAll()
 
 
+    ###*
+     * [findNeighbouring description]
+     *
+     * @param  {[type]} id                 [description]
+     * @param  {[type]} parameters={}    [description]
+     * @param  {[type]} searchForward=true [description]
+     * @return {[type]}                    [description]
+    ###
     findNeighbouring: (id, parameters={}, searchForward=true) ->
       buildQuery = (qb) =>
         # Helper function to check if the number is a valid int
@@ -340,27 +300,55 @@ exports = module.exports = (knex) ->
       model.query(buildQuery).fetchAll()
 
 
+    ###*
+     * [get description]
+     *
+     * @param  {[type]} id [description]
+     * @return {[type]}    [description]
+    ###
     get: (id) -> model.forge(id: id).fetch()
 
 
+    ###*
+     * [getBySlug description]
+     *
+     * @param  {[type]} slug [description]
+     * @return {[type]}      [description]
+    ###
     getBySlug: (slug) -> model.forge(slug: slug).fetch()
 
 
+    ###*
+     * [create description]
+     *
+     * @param  {[type]} parameters [description]
+     * @return {[type]}            [description]
+    ###
     create: (parameters) -> model.forge(@filter parameters).save()
 
 
+    ###*
+     * [patch description]
+     *
+     * @param  {[type]} id         [description]
+     * @param  {[type]} parameters [description]
+     * @return {[type]}            [description]
+    ###
     patch: (id, parameters) -> model.forge(id: id).save parameters
 
 
+    ###*
+     * [calculateDaysActive description]
+     *
+     * @param  {[type]} perkName [description]
+     * @param  {[type]} credits  [description]
+     * @return {[type]}          [description]
+    ###
     calculateDaysActive: (perkName, credits) ->
       switch perkName
         when "urgent" then credits/10
         when "promote" then credits/20
         else 0
-
-
-
-    filter: (data) -> _.pick data, (value, key, object) => key in @fields
 
 
 exports["@require"] = ["igloo/knex"]

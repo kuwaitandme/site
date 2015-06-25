@@ -107,7 +107,7 @@ _createUniqueFilename = (filename) ->
 *
 * @param File file        The file object which is to be validated
 *
-*
+* @return Boolean         [description]
 ###
 validate = (file) ->
   status = true
@@ -208,7 +208,8 @@ exports = module.exports = (settings) ->
     * It does the file uploads (asynchronously) and at the same time creates
     * the thumbnails for each image (asynchronously too).
     ###
-    upload: (files, options={}) ->
+    upload: (files=[], options={}) ->
+      console.log files
       asyncTasks = []
       ret = []
 
@@ -217,7 +218,7 @@ exports = module.exports = (settings) ->
 
       # Avoid reading empty file uploads
       if not files? then return Promise.resolve []
-      if files.length? and files.length == 0 then return Promise.resolve []
+      if not files.length? or files.length == 0 then return Promise.resolve []
 
       # Files uploads that have only one file, get passed as an object, so
       # recast it into an array.

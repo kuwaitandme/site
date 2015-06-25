@@ -15,7 +15,7 @@ exports = module.exports = (IoC, Users) -> (app) ->
     else post().field "classified", JSON.stringify classified
 
   getGoodClassified = ->
-    title: "African Servals, fennec fox , Margay kittens , Cheetah Cubs , Egyptain Mau for sale"
+    title: "African Servals, fennec fox , <script></script>Margay kittens , Cheetah Cubs , Egyptain Mau for sale"
     description: "African Servals, Margay kittens, Cheetah cubs, F1 Savanah Kittens , Ocelot kittens, fennec foxWell adjusted kittens guaranteed at reasonable prices. Pets or Show Cats. large & exotic looking kittens that are raised in our home Contact us for more details and pics email: mustafafridon@gmail.com"
     parent_category: 3
     child_category: 90
@@ -31,17 +31,15 @@ exports = module.exports = (IoC, Users) -> (app) ->
         main: true
         width: 377
         color: "#b19487"
-        srcMain: "https://static.kuwaitandme.com/uploads/main/114-201552321175462-Le1.JPG"
       }
     ]
     meta: {}
     type: 0
 
 
-
   describe.only "#{route} POST", ->
     user = null
-    # Before each test make sure that we login as the default user
+
     before "login as default user", (done) ->
       user = supertest.agent app
       user.post "/api/auth/email/login"
@@ -162,19 +160,22 @@ exports = module.exports = (IoC, Users) -> (app) ->
 
         it.skip "location doesn't exist in DB", (done) ->
 
-        it "images is not valid", (done) ->
-          classified.images = "dog"
-          check "instance.images is not of a type(s) array", done
+        describe "for image field when", ->
+          it "it is not valid", (done) ->
+            classified.images = "dog"
+            check "instance.images is not of a type(s) array", done
 
-        it "meta is not valid", (done) ->
-          classified.meta = "dog"
-          check "instance.meta is not of a type(s) object", done
+        describe "for image field when", ->
+          it "it is not valid", (done) ->
+            classified.meta = "dog"
+            check "instance.meta is not of a type(s) object", done
 
-        it "contact is not valid", (done) ->
-          classified.contact = "dog"
-          check "instance.contact is not of a type(s) object", done
+        describe "for contact field when", ->
+          it "it is not valid", (done) ->
+            classified.contact = "dog"
+            check "instance.contact is not of a type(s) object", done
 
-    describe.skip "for valid parameters and logged in user; response should", ->
+    describe "for valid parameters and logged in user; response should", ->
       originalClassified = getGoodClassified()
       savedClassified = null
 
@@ -204,6 +205,25 @@ exports = module.exports = (IoC, Users) -> (app) ->
         savedClassified.should.have.property "owner"
         .which.is.a.Number()
         .and.is.above 0
+
+      it "have status should be set to INACTIVE", ->
+        savedClassified.should.have.property "status"
+        .which.is.a.Number()
+        .and.is.exactly 0
+
+      it "have XSS filters enabled", ->
+        savedClassified.should.have.property "title"
+        .which.is.a.String()
+        .and.not.match /<script>/
+
+      describe.skip "for images:[] fields have", ->
+        it "all added images must be listed", ->
+        it "all images must have the dominant color set", ->
+        it "all images must exist in the filesystem", ->
+        it "all images thumbnails must exist in the filesystem", ->
+        it "all images must have width attribute set", ->
+        it "all images must have height attribute set", ->
+        it "one main image must be set", ->
 
 
 exports["@require"] = [
