@@ -1,4 +1,5 @@
 Promise           = require "bluebird"
+validator         = require "validator"
 formidable        = require "formidable"
 keyword_extractor = require "keyword-extractor"
 
@@ -18,14 +19,23 @@ Events, Users) ->
     # too. If the title had Arabic characters, then we simply leave the url
     # alone and instead a 'classified' prefix to the slug.
     regex = /[a-zA-Z0-9]+/g
+
     # If nothing matched then give a default prefix of 'classified'
     components = (title.match regex) or ["classified"]
+
     # Combine all the words with the dash.
     keywords = encodeURIComponent components.join "-"
+
     # Finally generate the slug and return it
     slug = "#{keywords.toLowerCase()}-#{id}"
 
-  # Start parsing the multi-part encoded data
+
+  ###*
+   * Start parsing the multi-part encoded data
+   *
+   * @param  {[type]} request [description]
+   * @return {[type]}         [description]
+  ###
   parseForm = (request) -> new Promise (resolve, reject) ->
     form = new formidable.IncomingForm
     form.keepExtensions = true
@@ -35,18 +45,36 @@ Events, Users) ->
     # error while processing the form.
     form.on "error", (error) -> throw error
     # Start parsing the form
-    form.parse request, (error, fields, filesRequest) ->
+    form.parse request, (error, fields={}, filesRequest) ->
       if error then reject error
       resolve [request, fields, filesRequest]
 
-  # Analyze the data from fromidable.
-  analyzeData = (request, fields, files) ->
-    # The classified data gets passed as a JSON string, so here we parse it
-    # first.
-    data = JSON.parse fields.classified
+
+  validateRequest = (request, fields, files) ->
+    # Check if the classified field is set properly
+    if not fields.classified?
+      throw new Error "missing classified field"
+
+    # Check and parse the JSON string that was sent.
+    if not validator.isJSON fields.classified
+      throw new Error "classified field is not a JSON"
+    classified = JSON.parse fields.classified
+
+    # Check if the user is logged in
     user = request.user or {}
-    # Check first if the user is logged in
     if not user.id then throw new Error "need login"
+
+    # Check if the required fields are present. This function automatically
+    # throws an error based on the classified's JSON
+    Classifieds.isValid classified
+
+    # All good, so continue!
+    [request, classified, files]
+
+
+  # Analyze the data from fromidable.
+  analyzeData = (request, data, files) ->
+    user = request.user or {}
     # Find out how many credits we will have to spend.
     promotePrice = data.spendPromotePerk
     urgentPrice = data.spendUrgentPerk
@@ -105,30 +133,28 @@ Events, Users) ->
   (request, response, next) ->
     # reCaptcha.verify request
     Promise.resolve request
-    # Then parse the form
     .then parseForm
-    # Then analyze the data, taking care of the perks.
+    .spread validateRequest
     .spread analyzeData
+
     # Create the classified and extract the image meta-data
     .spread (data, files) ->
       imagesMeta = data.images
       delete data.images
       [files, imagesMeta, Classifieds.create data]
+
     # Here we validate and save the files that get returned from the formidable
     # object.
     .spread (newImages, imagesMeta, newClassified) ->
       options = prefix: newClassified.id
       [newClassified, imagesMeta, uploader.upload newImages, options]
-    # With the files now uploaded, update the data of the current classified
-    # object.
+
     .spread updateData
     # Log the event into the database!
     .spread (id, json) ->
       Events.log request, "CLASSIFIED_CREATE", classified: id
       [id, json]
-    # Update the classified with the images and return the result to the user.
     .spread Classifieds.patch
-    # Now send the email to the user about the new classified
     .then emailUser
     # Once done, return the fields that have been changed back to the user
     .then (classified) ->
@@ -136,7 +162,9 @@ Events, Users) ->
       response.json classified
 
     # Error handler
-    .catch next
+    .catch (error) ->
+      error.status = 400
+      next error
 
 
 exports["@require"] = [
