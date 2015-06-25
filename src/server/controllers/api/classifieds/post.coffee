@@ -1,10 +1,15 @@
 ###*
  * This controller is responsible for creating a new classified. It takes care
  * of uploading the images, parsing the request, saving the classified and
- * sending an email to creator. It also handles errors returning them in JSON.
+ * sending an email to creator. It also handles errors and returns them in JSON.
  *
- * @url
- * POST multipart/form-data /api/classifieds -> JSON { errors or classified }
+ * @param String classified      A JSON (string-encoded) of the classified to
+ *                               be uploaded
+ * @param File files[]           An array of files that is to be uploaded.
+ * @required classified
+ *
+ * @example
+ * POST multipart/form-data sitename.tld/api/classifieds -> JSON
  *
  * @author Steven Enamakel <me@steven.pw>
 ###
@@ -99,8 +104,7 @@ Events, Users) ->
     fields = promise.fields
 
     # Check if the classified field is set properly.
-    if not fields.classified?
-      throw new Error "missing classified field"
+    if not fields.classified? then throw new Error "missing classified field"
 
     # Check and parse the JSON string that was sent.
     if not validator.isJSON fields.classified
@@ -110,12 +114,12 @@ Events, Users) ->
     # Check if the user is logged in.
     if not user.id then throw new Error "need login"
 
-    # Clean the classified (remove any XSS code).
-    classified = Classifieds.clean classified
-
     # Check if the JSON is valid. (This function automatically throws an error
     # if it's not).
     Classifieds.validate classified
+
+    # Clean the classified (remove any XSS code).
+    classified = Classifieds.clean classified
 
     # Set the current user as the owner for this classified.
     classified.owner = user.id
@@ -129,7 +133,7 @@ Events, Users) ->
     classified.slug = ""
     classified.status = Classifieds.statuses.INACTIVE
 
-    # All good, so continue!
+    # All good, so attach the classified to the promise and continue!
     promise.classified = classified
     promise
 
@@ -156,6 +160,8 @@ Events, Users) ->
           imageMeta.filename = newImage.newFilename
           imageMeta.color = newImage.color
           finalImages.push imageMeta
+
+    # Once the final images have been set, we update the images..
     promise.newClassified.set "images", JSON.stringify finalImages
 
     # Get the slug for the classified using the newly generated id and

@@ -1,5 +1,5 @@
 ###*
- * [Promise description]
+ * This module is responsible for handling DB queries for classifieds.
  *
  * @author Steven Enamakel <me@steven.pw>
 ###
@@ -18,17 +18,32 @@ POSTGRES_INT_MAX = 2147483647
 POSTGRES_MAX_CHAR = 255
 
 ###*
- * [classifiedSchema description]
- * @type {class}
+ * This class represents a classified's schema. It basically is responsible for
+ * validating and cleaning classifieds..
 ###
-classifiedSchema = new class ClassifiedSchema
-  # These are all the fields that are valid columns in the table
-  fields: [
-    "child_category", "contact", "created", "description"
-    "images", "language", "location", "meta", "owner"
-    "parent_category", "price_type", "price_value", "slug"
-    "status", "title", "type", "weight", "id"
-  ]
+class ClassifiedSchema
+  # Enum for the different statuses.
+  statuses:
+    INACTIVE: 0
+    ACTIVE: 1
+    REJECTED: 2
+    ARCHIVED: 3
+    BANNED: 4
+    FLAGGED: 5
+    VERIFIED: 6
+    EXPIRED: 7
+
+  # Enum for the different languages.
+  languages:
+    ENGLISH: 1
+    ARABIC: 2
+    HINDI: 3
+
+  # Enum for the different prices.
+  prices:
+    FREE: 0
+    CONTACT_OWNER: 1
+    CUSTOM: 2
 
   # Schema for the contact:[] field
   contactSchema:
@@ -99,10 +114,18 @@ classifiedSchema = new class ClassifiedSchema
 
 
   constructor: ->
+    # Initialize the validator and attach our different schemas..
     @v = new jsonValidator
     @v.addSchema @contactSchema, "/contact"
     @v.addSchema @metaSchema, "/meta"
     @v.addSchema @imageSchema, "/images"
+
+    # Grab the different fields from the schemas so that our filters can use
+    # them later...
+    @imageFields = do => key for key of @imageSchema.properties
+    @metaFields = do => key for key of @metaSchema.properties
+    @contactFields = do => key for key of @contactSchema.properties
+    @mainFields = do => key for key of @mainSchema.properties
 
 
   ###*
@@ -134,7 +157,7 @@ classifiedSchema = new class ClassifiedSchema
 
 
   ###*
-   * [clean description]
+   * Cleans a classified by performing XSS and key filters on it.
    *
    * @param  JSON json         The classified object that is to be cleaned
    * @return JSON              The result after cleaning the object
@@ -150,7 +173,28 @@ classifiedSchema = new class ClassifiedSchema
     # Return the cleaned object
     json
 
-  filter: (json) -> _.pick json, (value, key, object) => key in @fields
+
+  ###*
+   * Filters the classified object and removes any unwanted fields.
+   *
+   * @param  Object json       A JSON of the classified
+   * @return Object            A filtered object of the classified that has all
+   *                           unwanted fields removed out.
+  ###
+  filter: (json) ->
+    json = _.pick json, (v, key, o) => key in @mainFields
+
+    # Because Underscore refuses to perform a deep pick/extend, we will have to
+    # manually filter out all the sub-json fields..
+    if json.images then for image in (json.images or [])
+      image = _.pick image, (v, key, o) => key in @imageFields
+    if json.meta
+      json.meta = _.pick json.meta, (v, key, o) => key in @metaFields
+    if json.contact
+      json.contact = _.pick json.contact, (v, key, o) => key in @contactFields
+
+    # This json has now been properly filtered. Return it.
+    json
 
 
 exports = module.exports = (knex) ->
@@ -158,55 +202,14 @@ exports = module.exports = (knex) ->
   model = bookshelf.Model.extend tableName: TABLENAME
   collection = bookshelf.Collection.extend model: model
 
-  classifiedsPerPage = 30
-
-
-  new class Model
-    classifiedsPerPage: 30
-
-
-
-    constructor: ->
-      bookshelf = (require "bookshelf") knex
-      @model      = bookshelf.Model.extend
-        tableName: TABLENAME
-        defaults: slug: "", status: 0
-      @collection = bookshelf.Collection.extend model: @model
-
-
-    # These are ports for the classified schema class..
-    clean: (json) -> classifiedSchema.clean json
-    filter: (json) -> classifiedSchema.filter json
-    validate: (json) -> classifiedSchema.validate json
-
-
-    statuses:
-      INACTIVE: 0
-      ACTIVE: 1
-      REJECTED: 2
-      ARCHIVED: 3
-      BANNED: 4
-      FLAGGED: 5
-      VERIFIED: 6
-      EXPIRED: 7
-
-
-    languages:
-      ENGLISH: 1
-      ARABIC: 2
-      HINDI: 3
-
-    prices:
-      FREE: 0
-      CONTACT_OWNER: 1
-      CUSTOM: 2
-
-
+  new class Model extends ClassifiedSchema
     ###*
-     * [query description]
+     * Query the DB with the given parameters
      *
-     * @param  {[type]} parameters [description]
-     * @return {[type]}            [description]
+     * @param  Object parameters      The query parameters.
+     *
+     * @return Promise                A promise that resolves with the results
+     *                                of the query.
     ###
     query: (parameters) ->
       buildQuery = (qb) ->
@@ -335,20 +338,6 @@ exports = module.exports = (knex) ->
      * @return {[type]}            [description]
     ###
     patch: (id, parameters) -> model.forge(id: id).save parameters
-
-
-    ###*
-     * [calculateDaysActive description]
-     *
-     * @param  {[type]} perkName [description]
-     * @param  {[type]} credits  [description]
-     * @return {[type]}          [description]
-    ###
-    calculateDaysActive: (perkName, credits) ->
-      switch perkName
-        when "urgent" then credits/10
-        when "promote" then credits/20
-        else 0
 
 
 exports["@require"] = ["igloo/knex"]

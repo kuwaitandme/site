@@ -37,7 +37,7 @@ exports = module.exports = (IoC, Users) -> (app) ->
     type: 0
 
 
-  describe.only "#{route} POST", ->
+  describe.only "#{route} POST:", ->
     user = null
 
     before "login as default user", (done) ->
@@ -165,7 +165,7 @@ exports = module.exports = (IoC, Users) -> (app) ->
             classified.images = "dog"
             check "instance.images is not of a type(s) array", done
 
-        describe "for image field when", ->
+        describe "for meta field when", ->
           it "it is not valid", (done) ->
             classified.meta = "dog"
             check "instance.meta is not of a type(s) object", done
