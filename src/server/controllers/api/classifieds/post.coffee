@@ -85,7 +85,7 @@ Events, Users) ->
       if error then reject error
       resolve Promise.props
         fields: fields
-        files: filesRequest
+        files: filesRequest["images[]"]
         request: request
 
 
@@ -154,8 +154,9 @@ Events, Users) ->
     # If an image was uploaded find it's metadata and add it to the list of
     # final images
     finalImages = []
+
     for newImage in (promise.newImages or [])
-      for imageMeta in imagesMeta
+      for imageMeta in (promise.imagesMeta or [])
         if newImage.oldFilename is imageMeta.filename and newImage.isUploaded
           imageMeta.filename = newImage.newFilename
           imageMeta.color = newImage.color
