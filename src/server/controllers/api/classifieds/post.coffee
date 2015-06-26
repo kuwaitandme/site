@@ -11,6 +11,8 @@
  * @example
  * POST multipart/form-data sitename.tld/api/classifieds -> JSON
  *
+ * TODO: Have UIDs for images
+ *
  * @author Steven Enamakel <me@steven.pw>
 ###
 

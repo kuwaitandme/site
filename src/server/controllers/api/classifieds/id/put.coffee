@@ -68,6 +68,9 @@ Events, Notifications, Users) ->
       throw new Error "classified field is not a JSON"
     classified = JSON.parse fields.classified
 
+    # Save the filesToDelete array later on..
+    promise.filesToDelete = classified.filesToDelete
+
     # Check if the user is logged in.
     if not promise.request.isAuthenticated() then throw new Error "need login"
 
@@ -143,7 +146,7 @@ Events, Notifications, Users) ->
         # We have exceeded our limit for images, start deleting all
         # remaining images
         #   TODO: delete them now
-      else if image.filename in filesToDelete
+      else if image.filename in promise.filesToDelete
         # do something with this file as it has been flagged to be deleted
         #   TODO: delete them now
       else
@@ -166,6 +169,8 @@ Events, Notifications, Users) ->
             break
 
         # This file has been unchanged, so simply add it without any changes.
+        #
+        # FIX: This can cause unwanted paths being set..
         if not found then finalImages.push image
 
         # Increment this counter so that we stay within the limit of images
