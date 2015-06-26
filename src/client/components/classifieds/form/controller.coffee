@@ -57,9 +57,6 @@ $root, Classifieds, Locations, Users) ->
       $notifications.warn message, 10000
       return $root.$broadcast "auth:show-signup", $scope.ctrl.user
 
-    # Set the classes so that CSS can work it's magic.
-    return $scope.formClasses.loading = true
-
     # Check if the form is invalid or if the reCaptcha has not been filled.
     if $scope.form.$invalid
       error = "You have some invalid fields in your form. Have a look at
