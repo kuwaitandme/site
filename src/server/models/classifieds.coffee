@@ -60,6 +60,7 @@ class ClassifiedSchema
     type: "object"
     properties:
       deliveryIncluded: type: "boolean"
+      dontShareSocial: type: "boolean"
       freeDeliveryIncluded: type: "boolean"
       gmapX: type: "float"
       gmapY: type: "float"
