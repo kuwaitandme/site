@@ -5,39 +5,19 @@ should           = require "should"
 route = "/api/classifieds"
 
 
-exports = module.exports = (IoC, Users) -> (app) ->
+exports = module.exports = (IoC, Classifieds, Users) -> (app) ->
   users = []
+  downloadedClassified = null
+
+  put = -> supertest.agent(app).put route
+  putClassified = (classified, user) ->
+    if user? then user.put(route).field "classified", JSON.stringify classified
+    else put().field "classified", JSON.stringify classified
+
+  getSampleClassified = -> JSON.parse JSON.stringify downloadedClassified
 
 
-  post = -> supertest.agent(app).post route
-  postClassified = (classified, user) ->
-    if user? then user.post(route).field "classified", JSON.stringify classified
-    else post().field "classified", JSON.stringify classified
-
-  getGoodClassified = ->
-    title: "African Servals, fennec fox , <script></script>Margay kittens , Cheetah Cubs , Egyptain Mau for sale"
-    description: "African Servals, Margay kittens, Cheetah cubs, F1 Savanah Kittens , Ocelot kittens, fennec foxWell adjusted kittens guaranteed at reasonable prices. Pets or Show Cats. large & exotic looking kittens that are raised in our home Contact us for more details and pics email: mustafafridon@gmail.com"
-    parent_category: 3
-    child_category: 90
-    location: 78
-    price_type: 1
-    price_value: 0
-    language: 0
-    status: 1
-    images: [
-      {
-        filename: "114-201552321175462-Le1.JPG"
-        height: 576
-        main: true
-        width: 377
-        color: "#b19487"
-      }
-    ]
-    meta: {}
-    type: 0
-
-
-  describe.only "#{route} POST:", ->
+  describe.only "#{route} PUT:", ->
     user = null
 
     before "login as default user", (done) ->
@@ -49,44 +29,56 @@ exports = module.exports = (IoC, Users) -> (app) ->
       .expect 200
       .end done
 
+
+    before "load a sample classified", (done) ->
+      Classifieds.query {}
+      .then (classifieds) ->
+        if not classifieds.length? or classifieds.length < 1
+          done new Error "There must be at least one classified in DB to test
+            this module"
+        downloadedClassified = classifieds.toJSON()[0]
+        route += "/#{downloadedClassified.id}"
+        done()
+
+
     it "Content-Type must be JSON", (done) ->
-      post()
+      put()
       .expect "Content-Type", /json/
       .end done
 
 
     describe "for invalid parameters give 400 when", ->
       it "classified field is missing", (done) ->
-        post()
+        put()
         .expect 400
         .expect JSON.stringify "missing classified field"
         .end done
 
       it "classified field is not a JSON", (done) ->
-        post()
+        put()
         .field "classified", "i-am-not-a-JSON"
         .expect 400
         .expect JSON.stringify "classified field is not a JSON"
         .end done
 
       it "classified field is a JSON but user is not logged in", (done) ->
-        postClassified {}
+        putClassified {}
         .expect 400
         .expect JSON.stringify "need login"
         .end done
 
-      describe "user is logged in and", ->
+      describe "admin is logged in and", ->
         user = null
         classified = null
 
         # Helper function to submit the test classified and expect the given
         # message from the API
         check = (message, done) ->
-          postClassified classified, user
+          putClassified classified, user
           .expect JSON.stringify message
           .end done
 
-        beforeEach "reset test classified", -> classified = getGoodClassified()
+        beforeEach "reset test classified", -> classified = getSampleClassified()
 
         it "description is empty", (done) ->
           delete classified.description
@@ -175,59 +167,60 @@ exports = module.exports = (IoC, Users) -> (app) ->
             classified.contact = "dog"
             check "instance.contact is not of a type(s) object", done
 
-    describe "for valid parameters and logged in user; response should", ->
-      savedClassified = null
+    # describe.skip "for valid parameters and logged in user; response should", ->
+    #   # savedClassified = null
 
-      before "post a valid classified", (done) ->
-        originalClassified = getGoodClassified()
-        postClassified originalClassified, user
-        .expect 200
-        .end (error, response) ->
-          if error then return done error
-          savedClassified = response.body
-          done()
+    #   before "post a valid classified", (done) ->
+    #     originalClassified = getGoodClassified()
+    #     putClassified originalClassified, user
+    #     .expect 200
+    #     .end (error, response) ->
+    #       if error then return done error
+    #       savedClassified = response.body
+    #       done()
 
-      it "be a valid JSON", ->
-        savedClassified.should.be.a.Object()
+    #   it "be a valid JSON", ->
+    #     savedClassified.should.be.a.Object()
 
-      it "have id set", ->
-        savedClassified.should.have.property "id"
-        .which.is.a.Number()
-        .and.is.above 0
+    #   it "have id set", ->
+    #     savedClassified.should.have.property "id"
+    #     .which.is.a.Number()
+    #     .and.is.above 0
 
-      it "have a proper slug set", ->
-        savedClassified.should.have.property "slug"
-        .which.is.a.String()
-        # This makes sure that it matches our format for slugs
-        .and.match /[a-z\-]+-[0-9]+/
+    #   it "have a proper slug set", ->
+    #     savedClassified.should.have.property "slug"
+    #     .which.is.a.String()
+    #     # This makes sure that it matches our format for slugs
+    #     .and.match /[a-z\-]+-[0-9]+/
 
-      it "have an owner set", ->
-        savedClassified.should.have.property "owner"
-        .which.is.a.Number()
-        .and.is.above 0
+    #   it "have an owner set", ->
+    #     savedClassified.should.have.property "owner"
+    #     .which.is.a.Number()
+    #     .and.is.above 0
 
-      it "have status should be set to INACTIVE", ->
-        savedClassified.should.have.property "status"
-        .which.is.a.Number()
-        .and.is.exactly 0
+    #   it "have status should be set to INACTIVE", ->
+    #     savedClassified.should.have.property "status"
+    #     .which.is.a.Number()
+    #     .and.is.exactly 0
 
-      it "have XSS filters enabled", ->
-        savedClassified.should.have.property "title"
-        .which.is.a.String()
-        .and.not.match /<script>/
+    #   it "have XSS filters enabled", ->
+    #     savedClassified.should.have.property "title"
+    #     .which.is.a.String()
+    #     .and.not.match /<script>/
 
-      describe.skip "for images:[] fields have", ->
-        it "all added images must be listed", ->
-        it "all images must have the dominant color set", ->
-        it "all images must exist in the filesystem", ->
-        it "all images thumbnails must exist in the filesystem", ->
-        it "all images must have width attribute set", ->
-        it "all images must have height attribute set", ->
-        it "one main image must be set", ->
+    #   describe.skip "for images:[] fields have", ->
+    #     it "all added images must be listed", ->
+    #     it "all images must have the dominant color set", ->
+    #     it "all images must exist in the filesystem", ->
+    #     it "all images thumbnails must exist in the filesystem", ->
+    #     it "all images must have width attribute set", ->
+    #     it "all images must have height attribute set", ->
+    #     it "one main image must be set", ->
 
 
 exports["@require"] = [
   "$container"
+  "models/classifieds"
   "models/users"
 ]
 exports["@singleton"] = true
