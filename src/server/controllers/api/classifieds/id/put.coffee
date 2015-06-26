@@ -2,138 +2,129 @@ Promise        = require "bluebird"
 _              = require "underscore"
 formidable     = require "formidable"
 observableDiff = (require "deep-diff").observableDiff
-xss            = require "xss"
+validator      = require "validator"
 
 
 exports = module.exports = (IoC, reCaptcha, uploader, Email, Classifieds,
 Events, Notifications, Users) ->
   logger = IoC.create "igloo/logger"
 
-  ###*
-   * Check if the request has the required data
-   * @param  {[type]} request [description]
-   * @return {[type]}         [description]
-  ###
-  checkRequest = (request) ->
-    id = request.params[0]
-    if not request.isAuthenticated() then throw new Error "need login"
-    else if not id? then throw new Error "need valid id"
-    else id
-
-
-  ###*
-   * Check if user has privileges to modify the classified
-   *
-   * @param  {[type]} results [description]
-   * @return {[type]}         [description]
-  ###
-  checkUserPrivelages = (results) ->
-    # Grab the request and the classified (sent by the prev promise)
-    request = results.request
-    oldClassified = results.classified
-    # console.log results, typeof oldClassified
-    # Fetch the user
-    owner = oldClassified.get "owner"
-    user = request.user or {}
-    # Validate!
-    if owner != user.id and not
-    ((Users.isAdmin user) or (Users.isModerator user))
-      throw new Error "not privileged"
-    [request, oldClassified]
-
 
   ###*
    * Start parsing the multi-part encoded data
    *
-   * @param  {[type]} request       [description]
-   * @param  {[type]} oldClassified [description]
-   * @return {[type]}               [description]
+   * @param  Object request         The Express request object
+   *
+   * @return Promise                A Promise that resolves if the form could
+   *                                be parsed properly. The request, parsed
+   *                                fields and files that have been uploaded
+   *                                are attached to this promise.
   ###
-  parseForm = (request, oldClassified) -> new Promise (resolve, reject) ->
+  parseForm = (request) -> new Promise (resolve, reject) ->
+    # Check for the id..
+    id = request.params[0]
+    if not id? or not validator.isInt id, {min: 0}
+      reject new Error "need valid id"
+
     form = new formidable.IncomingForm
     form.keepExtensions = true
     form.multiples = true
     form.maxFieldsSize = 10 * 1024 * 1024 # 10MB
+
     # Setup error handler. This function gets called whenever there is an
     # error while processing the form.
-    form.on "error", (error) -> throw error
+    form.on "error", (error) -> reject error
+
     # Start parsing the form
     form.parse request, (error, fields, filesRequest) ->
       if error then reject error
-      resolve [oldClassified, request, fields, filesRequest]
+      resolve Promise.props
+        id: id
+        request: request
+        fields: fields
+        files: filesRequest["images[]"]
 
 
   ###*
-   * Analyze the data from fromidable.
+   * Validate the request and clean it properly before creating the classified.
    *
-   * @param  {[type]} oldClassified [description]
-   * @param  {[type]} request       [description]
-   * @param  {[type]} fields        [description]
-   * @param  {[type]} files         [description]
-   * @return {[type]}               [description]
+   * @param  Promise.props promise         The promise object from the previous
+   *                                       function
+   *
+   * @return Promise.props                 The original promise with the
+   *                                       cleaned classified attached as
+   *                                       'classified'
   ###
-  analyzeData = (oldClassified, request, fields, files) ->
-    # The classified data gets passed as a JSON string, so here we parse it
-    # first.
-    newClassified = JSON.parse fields.classified
-    user = request.user or {}
-    # Check first if the user is logged in
-    if not user.id then throw new Error "need login"
-    # Find out how many credits we will have to spend.
-    promotePrice = newClassified.spendPromotePerk
-    urgentPrice = newClassified.spendUrgentPerk
-    creditsToSpend = urgentPrice + promotePrice
-    if creditsToSpend > 0
-      # Evaluate the perks with the given user and the credits
-      newClassified = Classifieds.evaluatePerks newClassified, user.toJSON(),
-        promote: promotePrice
-        urgent: urgentPrice
-      # Send an event about how many credits the user spent
-      eventData =
-        id: oldClassified.id
-        type: "cl"
-        spent:
-          promote: promotePrice
-          urgent: urgentPrice
-      Events.log request, "CREDITS_SPENT", eventData
-      # Update the user with the new amount of credits
-      (user.set "credits", (user.get "credits") - creditsToSpend).save()
-    # Set the current user as the owner for this classified.
-    newClassified.owner = user.id
-    # Also override the email field. (In case the user manages to send a
-    # malformed request)
-    newClassified.contact ?= {}
-    newClassified.contact.email ?= user.get "email"
-    [newClassified, oldClassified, files["images[]"]]
+  validateRequest = (promise) ->
+    user = promise.request.user or {}
+    fields = promise.fields
+
+    # Check if the classified field is set properly.
+    if not fields.classified? then throw new Error "missing classified field"
+
+    # Check and parse the JSON string that was sent.
+    if not validator.isJSON fields.classified
+      throw new Error "classified field is not a JSON"
+    classified = JSON.parse fields.classified
+
+    # Check if the user is logged in.
+    if not promise.request.isAuthenticated() then throw new Error "need login"
+
+    # Check if the user has the right privileges to edit this classified
+    owner = promise.oldClassified.get "owner"
+    user = promise.request.user or {}
+    if owner != user.id and not
+    ((Users.isAdmin user) or (Users.isModerator user))
+      throw new Error "not privileged"
+
+    # Clean the classified (remove any XSS code).
+    classified = Classifieds.clean classified
+
+    # Check if the JSON is valid. (This function automatically throws an error
+    # if it's not).
+    Classifieds.validate classified
+
+    # All good, so attach the classified to the promise and continue!
+    promise.newClassified = classified
+    promise
 
 
   ###*
    * This function creates a diff between the old and new classified.
+   *
+   * @param  Promise.props promise         The promise object from the previous
+   *                                       function
+   *
+   * @return Promise.props                 The original promise with the
+   *                                       diff now attached.
   ###
   createDiff = (promise) ->
     newClassified = promise.newClassified
     oldClassified = promise.oldClassified
     newImages = promise.newImages
+    diff = {}
 
     # Now start processing a diff of the classified
-    classifiedDiff = {}
-    filteredClassified = Classifieds.filter newClassified
-    # console.log filteredClassified
-    observableDiff oldClassified.toJSON(), filteredClassified, (diff) ->
+    observableDiff oldClassified.toJSON(), newClassified, (diff) ->
       if not diff.path? then return
       key = diff.path[0]
+
       # Don't edit any fields that are supposed to be 'final'
       if key in Classifieds.finalFields then return
+
       # For JSON fields, use JSON.stringify to save new results, or
-      # else pg will throw an 'invalid json' error.
+      # else the DB will throw an 'invalid json' error.
       if key in Classifieds.jsonFields
         # Avoid editing the images field
         if key is "images" then return
-        classifiedDiff[key] = JSON.stringify newClassified[key]
+        diff[key] = JSON.stringify newClassified[key]
+
       # For all other fields, simply assign directly.
-      else classifiedDiff[key] = newClassified[key]
+      else diff[key] = newClassified[key]
+
     # Here we remove the images that are in the server with the images
-    # that have been flagged to be deleted.
+    # that have been flagged to be deleted and we also include any newly
+    # added images.
     finalImages = []
     filesToDelete = newClassified.filesToDelete or []
     images = newClassified.images or []
@@ -147,41 +138,62 @@ Events, Notifications, Users) ->
         # do something with this file as it has been flagged to be deleted
         #   TODO: delete them now
       else
+        # Unlike the post function, for every image we need to find the image
+        # pair from the uploader and from the original image meta data.
+        #
+        # This block takes care of iterating through each of the images and
+        # properly adding images that have just been added into the diff.
         found = false
         for newImage in newImages
-          if newImage.oldFilename is image.filename
+          if newImage.oldFilename is image.filename and
+          not newImage.alreadyAdded
             found = true
             if newImage.isUploaded
               # This image is new and was uploaded successfully.
+              newImage.alreadyAdded = true
               image.filename = newImage.newFilename
               image.color = newImage.color
               finalImages.push image
             break
+
         # This file has been unchanged, so simply add it without any changes.
         if not found then finalImages.push image
+
         # Increment this counter so that we stay within the limit of images
         # per classified.
         activeImages++
+
     # The final set of images, will be the images after deletion and
     # the new set of images.
-    classifiedDiff.images = JSON.stringify finalImages
-    logger.debug classifiedDiff
-    promise.diff = classifiedDiff
+    diff.images = JSON.stringify finalImages
+
+    # Attach the diff and return
+    logger.debug diff
+    promise.diff = diff
     promise
 
 
   ###*
-   * [createNotification description]
+   * Once the diff has been created, this function creates a notification iff
+   * the classified's status has just been set to ACTIVE. Because setting a
+   * classified as ACTIVE can only be done by a moderator/admin, we need to
+   * notify the actual owner of the classified that his/her classified has been
+   * approved.
    *
-   * @param  {[type]} promise [description]
-   * @return {[type]}         [description]
+   * Basically this function creates a notification and an email and sends it to
+   * the owner iff the classified has been approved.
+   *
+   * @param  Promise.props promise   The promise object from the previous
+   *                                 function.
+   *
+   * @return Promise.props           The same promise, unchanged.
   ###
   createNotification = (promise) ->
     classified = promise.newClassified
 
     # If the classified has been set to ACTIVE (which can only be done by a
     # moderator/admin).
-    if promise.diff.status is Classifieds.statuses.ACTIVE or true
+    if promise.diff.status is Classifieds.statuses.ACTIVE
 
       # Then publish a notification to the user
       Notifications.create promise.request, "CLASSIFIED_ACTIVE",
@@ -197,42 +209,45 @@ Events, Notifications, Users) ->
         [email, "classified/approved", mailOptions]
       .spread Email.sendTemplate
 
-    [promise.oldClassified.id, promise.diff]
+    promise
 
 
   (request, response, next) ->
     # reCaptcha.verify request
     Promise.resolve request
-    .then checkRequest
-    .then Classifieds.get
-    # Restructure the output promise to contain the request
-    .then (model) -> classified: model, request: request
-    .then checkUserPrivelages
-    .spread parseForm
-    .spread analyzeData
+    .then parseForm
+
+    # .then checkRequest
+    .then (promise) ->
+      promise.oldClassified = Classifieds.get promise.id
+      Promise.props promise
+
+    .then validateRequest
+    # .then checkUserPrivelages
     # Upload the files into the server using the uploader's promise..
-    .spread (newClassified, oldClassified, newImages) ->
-      options = prefix: newClassified.id
-      Promise.props
-        request: request
-        newClassified: newClassified
-        oldClassified: oldClassified
-        newImages: uploader.upload newImages, options
+    .then (promise) ->
+      options = prefix: promise.id
+      promise.newImages = uploader.upload promise.files, options
+      Promise.props promise
+
     .then createDiff
     .then createNotification
+    .then (promise) -> [promise.oldClassified.id, promise.diff]
+
     # Log the event into the database!
     .spread (id, json) ->
       Events.log request, "CLASSIFIED_EDIT", classified: id
       [id, json]
-    # Now update the classified with the diff!
+
     .spread Classifieds.patch
+
     # Once done, return the fields that have been changed back to the user
     .then (result) -> response.json result.toJSON()
-    # If there were any errors, return it with a default 400 HTTP code.
+
+    # Error handler. Return all errors as 400s (including 500's)
     .catch (error) ->
-      logger.error    error.stack
-      response.status error.status or 400
-      response.json   error.message
+      logger.error error
+      next (error.status = 400) and error
 
 
 exports["@require"] = [
