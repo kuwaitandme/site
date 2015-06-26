@@ -23,5 +23,4 @@ exports.seed = (knex, Promise) ->
     (_ins 10, "Services"),
     (_ins 11, "Pets & Animals"),
     (_ins 12, "Miscellaneous")
-
   )

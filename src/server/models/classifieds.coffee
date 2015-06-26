@@ -77,7 +77,7 @@ class ClassifiedSchema
     type: "object"
     properties:
       color: type: "string", maxLength: 7
-      filename: type: "string", maxLength: 40
+      filename: type: "string", maxLength: 300
       height: type: "integer", minimum: 0, maximum: POSTGRES_INT_MAX
       main: type: "boolean"
       width: type: "integer", minimum: 0, maximum: POSTGRES_INT_MAX
