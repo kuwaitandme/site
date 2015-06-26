@@ -77,6 +77,7 @@ Events, Notifications, Users) ->
     ((Users.isAdmin user) or (Users.isModerator user))
       throw new Error "not privileged"
 
+
     # Clean the classified (remove any XSS code).
     classified = Classifieds.clean classified
 
@@ -102,9 +103,10 @@ Events, Notifications, Users) ->
     newClassified = promise.newClassified
     oldClassified = promise.oldClassified
     newImages = promise.newImages
-    diff = {}
+    classifiedDiff = {}
 
     # Now start processing a diff of the classified
+    # See: https://www.npmjs.com/package/deep-diff
     observableDiff oldClassified.toJSON(), newClassified, (diff) ->
       if not diff.path? then return
       key = diff.path[0]
@@ -117,10 +119,10 @@ Events, Notifications, Users) ->
       if key in Classifieds.jsonFields
         # Avoid editing the images field
         if key is "images" then return
-        diff[key] = JSON.stringify newClassified[key]
+        classifiedDiff[key] = JSON.stringify newClassified[key]
 
       # For all other fields, simply assign directly.
-      else diff[key] = newClassified[key]
+      else classifiedDiff[key] = newClassified[key]
 
     # Here we remove the images that are in the server with the images
     # that have been flagged to be deleted and we also include any newly
@@ -165,11 +167,11 @@ Events, Notifications, Users) ->
 
     # The final set of images, will be the images after deletion and
     # the new set of images.
-    diff.images = JSON.stringify finalImages
+    classifiedDiff.images = JSON.stringify finalImages
 
     # Attach the diff and return
-    logger.debug diff
-    promise.diff = diff
+    logger.debug classifiedDiff
+    promise.diff = classifiedDiff
     promise
 
 
@@ -203,6 +205,7 @@ Events, Notifications, Users) ->
       Users.getPromise classified.owner
       .then (user) -> user.get "email"
       .then (email) ->
+        console.log "sending email to", email
         mailOptions =
           classified: classified
           subject: "Your classified is approved"

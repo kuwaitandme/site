@@ -158,8 +158,8 @@ class ClassifiedSchema
     # Then validate based on any custom rules
     try
       # If price_type is CUSTOM then price_value must be set
-      if json.price_type is 2 and (not price_value? or
-      price_value <= 0)
+      if json.price_type is @prices.CUSTOM and (not json.price_value? or
+      json.price_value <= 0)
         results.valid = false
         error = new Error "must not be empty when instance.price_type is CUSTOM"
         error.property = "instance.price_value"
