@@ -60,27 +60,32 @@ getFormdata = (classified) ->
 
   # Extract the images and start parsing it
   images = classified.images or []
-  delete classified.images
+  finalImages = []
+  # delete classified.images
   for image in images
     if image.status is "to-upload"
       if image.main then hasMainImage = true
+
       # Add all new images into a different variable, and add each image as
       # a separate field in the fromdata object.
       formdata.append "images[]", image.file, image.file.name
+
     else if image.status is "to-delete-from-server"
       classified.filesToDelete ?= []
       classified.filesToDelete.push image.filename
-    # Remove unwanted fields (that are not supposed be passed to the server this way)
-    delete image.src
-    delete image.file
-    delete image.status
+
+    # Copy only the required fields into our special array.
+    finalImages.push
+      filename: image.filename
+      height: image.height
+      main: image.main
+      width: image.width
 
   # If a main image has not been found, then set one.
   if not hasMainImage and newImages.length > 0 then newImages[0].main = true
 
   # Finally convert the classified into a JSON string and send it to the server.
-  classified.new_images = newImages
-  classified.images = images
+  classified.images = finalImages
   formdata.append "classified", angular.toJson classified, 2
   formdata
 
@@ -140,7 +145,7 @@ exports = module.exports = ($environment, $location, $http, $serialize, $log) ->
       # Send the request with a 'multi-part/formdata' encoding.
       $http
         data: formdata
-        headers: angular.extend headers, "Content-Type": undefined
+        headers: angular.extend {}, headers, "Content-Type": undefined
         method: method
         transformRequest: angular.identity
         url: url

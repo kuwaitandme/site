@@ -38,7 +38,7 @@ $root, Classifieds, Locations, Users) ->
   # If the status has been changed, immediately submit the classified.
   # This just makes editing much more faster.
   #
-  # TODO: Fix the security issue here...
+  # TODO: Fix the security issue here with recaptcha...
   $scope.changeStatus = (newStatus) ->
     $log.debug name, "changing status to : '#{newStatus}'"
     $scope.classified.status = Classifieds.statuses[newStatus]
@@ -93,10 +93,6 @@ $root, Classifieds, Locations, Users) ->
 
     # Set the loading flag.
     $scope.formLoading = true
-
-    # Delete the image.src (which contains the base64 data) to avoid
-    # repetition of the image upload.
-    delete image.src for image in ($scope.ctrl.images or [])
 
     # Now pass the classified object to the save function which will take care
     # of uploading the classified..

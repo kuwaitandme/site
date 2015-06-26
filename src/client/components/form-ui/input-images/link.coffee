@@ -5,7 +5,4 @@ module.exports = (scope, element, attributes, ngModel) ->
     scope.$evalAsync -> ngModel.$setViewValue value
 
   # Specify how the UI should be updated
-  ngModel.$render = ->
-    scope.images = ngModel.$modelValue or []
-    # $scope.masonry.appended
-    $scope.masonry.layout()
+  ngModel.$render = -> scope.images = ngModel.$modelValue or []
