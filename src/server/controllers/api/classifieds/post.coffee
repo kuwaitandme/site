@@ -5,7 +5,7 @@
  *
  * @param String classified      A JSON (string-encoded) of the classified to
  *                               be uploaded
- * @param File files[]           An array of files that is to be uploaded.
+ * @param File images[]          An array of files that is to be uploaded.
  * @required classified
  *
  * @example
@@ -84,9 +84,9 @@ Events, Users) ->
     form.parse request, (error, fields={}, filesRequest) ->
       if error then reject error
       resolve Promise.props
-        request: request
         fields: fields
         files: filesRequest
+        request: request
 
 
   ###*
@@ -112,7 +112,7 @@ Events, Users) ->
     classified = JSON.parse fields.classified
 
     # Check if the user is logged in.
-    if not user.id then throw new Error "need login"
+    if not promise.request.isAuthenticated() then throw new Error "need login"
 
     # Check if the JSON is valid. (This function automatically throws an error
     # if it's not).
@@ -227,7 +227,7 @@ Events, Users) ->
     .spread Classifieds.patch
     .then emailUser
 
-    # Once done, return the fields that have been changed back to the user
+    # Once done, return the entire classified back to the user
     .then (classified) ->
       logger.debug name, classified
       response.json classified

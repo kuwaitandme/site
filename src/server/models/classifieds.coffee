@@ -113,6 +113,23 @@ class ClassifiedSchema
     ]
 
 
+  # These are JSON fields
+  jsonFields: ["contact", "images", "meta"]
+
+
+  # These are fields that should not be changed
+  finalFields: ["created", "id", "owner", "email"]
+
+  # The default values
+  defaults:
+    contact: {}
+    images: []
+    meta: {}
+    price_value: 0
+    slug: ""
+    status: 0
+    weight: 0
+
   constructor: ->
     # Initialize the validator and attach our different schemas..
     @v = new jsonValidator
@@ -157,21 +174,30 @@ class ClassifiedSchema
 
 
   ###*
-   * Cleans a classified by performing XSS and key filters on it.
+   * Cleans a classified by performing XSS and key filters on it and also
+   * applying any default values in case we expect any DB insertion errors.
    *
    * @param  JSON json         The classified object that is to be cleaned
    * @return JSON              The result after cleaning the object
   ###
   clean: (json) ->
     # First pick out only the necessary fields, removing unwanted ones
-    json = @filter json
+    filteredJSON = @filter json
 
-    # Traverse through each key that is a string and perform an XSS filter on it
-    traverse json
-    .forEach (value) -> if typeof value is "string" then value = xss value
+    # Traverse through each key
+    traverse filteredJSON
+    .forEach (value) ->
+      # If it is not defined then remove it.. (remove any annoying nulls..)
+      if not value? then @remove()
+      # If it is a string then perform an XSS filter on it
+      else if typeof value is "string" then value = xss value
+
+    # Apply the default values.
+    finalJSON = {}
+    _.extend finalJSON, @defaults, filteredJSON
 
     # Return the cleaned object
-    json
+    finalJSON
 
 
   ###*

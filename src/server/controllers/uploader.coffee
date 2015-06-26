@@ -240,18 +240,17 @@ exports = module.exports = (settings) ->
       asyncTasks = []
       ret = []
 
-      # Avoid reading empty file uploads
-      if not files? then return Promise.resolve []
-      if not files.length? or files.length == 0 then return Promise.resolve []
+      # Files uploads that have only one file, get passed as an object, so we
+      # recast it into an array to avoid breaking our iterators..
+      if not files.length? then files = [files]
+
+      # Avoid reading empty file uploads.
+      if files.length is 0 then return Promise.resolve []
 
       # Find if there is any file prefix set (used to rename images under
       # a classified's id).
       if options.prefix then prefix = "#{options.prefix}-"
       else prefix = ""
-
-      # Files uploads that have only one file, get passed as an object, so
-      # recast it into an array.
-      if not files.length? then files = [files]
 
       # Start iterating through each file
       for file in files
@@ -274,6 +273,7 @@ exports = module.exports = (settings) ->
         # If the file is valid, then call the dominant color fn;
         dominantColor = if isValid then _getDominantColor file.path
 
+
         # Add the file into our list of processed files.
         ret.push
           color: dominantColor
@@ -281,6 +281,7 @@ exports = module.exports = (settings) ->
           newFilename: newFilename
           oldFilename: file.name
 
+      console.log ret
       # Perform file operations to move the file from the temporary
       # storage into the public uploads folder.
       operate asyncTasks
