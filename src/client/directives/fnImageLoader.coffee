@@ -29,14 +29,13 @@ module.exports = ->
     success = ->
       element.removeClass "image-loading"
       element.addClass "image-success"
-      fn = scope.fnImageSuccess
-      if fn? then fn()
+      if attributes.fnImageSuccess then scope.fnImageSuccess()
+
     failure = ->
       element.removeClass "image-loading"
       element.addClass "image-fail"
-      fn = scope.fnImageFail or scope.fnImageSuccess
-      if fn? then fn()
-
+      if attributes.fnImageFail then scope.fnImageFail()
+      else if attributes.fnImageSuccess then scope.fnImageSuccess()
 
     # Now finally trigger the loading of the image. (this happens immediately
     # once we set the 'src' attribute)
