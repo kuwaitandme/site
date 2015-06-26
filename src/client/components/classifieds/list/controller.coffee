@@ -1,11 +1,12 @@
 exports = module.exports = ($element, $location, $log, $root, $scope, $timeout,
 $window, Classifieds) ->
   name = "[component:classified-list]"
+  $log.log name, "initializing"
+
+  # Setup some defaults..
   body = (document.getElementsByTagName "body")[0]
   currentPage = 1
   scrollPosition = 0
-  $log.log name, "initializing"
-
 
   # Initialize masonry
   classifedList = $element[0].querySelector ".classified-list-container"
@@ -59,10 +60,14 @@ $window, Classifieds) ->
     $log.log name, "loading more classifieds"
     $log.debug name, "page:", currentPage
     parameters = page: currentPage++
+
     # Extend the $scope.query object to our query parameters. This way we can
     # have parent controllers define the $scope.query according to their needs
     # and can then get used here (due to angular scope inheritance).
+    #
+    # TODO, move this ngModel..
     angular.extend parameters, ($scope.query or {})
+
     # Finally!, run the query..
     Classifieds.query parameters
     .then (response) ->
@@ -80,28 +85,33 @@ $window, Classifieds) ->
       $scope.loadingClassifieds = false
     .catch (response) -> $log.error response
 
+  # Load the first batch of classifieds
   $scope.loadClassifieds()
-  # Reload the classified after a second to fix the bug when there aren't
+
+  # Reload the classified after a few seconds to fix the bug when there aren't
   # enough classifieds to trigger the scroll
-  setTimeout (-> $scope.loadClassifieds()), 1000
+  setTimeout (-> $scope.loadClassifieds()), 5000
 
 
   # Setup the onScroll function.
   $scope.onScroll = ($event) ->
     if $scope.queryFinished or $scope.loadingClassifieds then return
+
     # Setup some defaults
     body = document.body
     html = document.documentElement
+
     # Calculate the scroll position
     documentHeight = Math.max(
       body.clientHeight, body.offsetHeight, body.scrollHeight
       html.clientHeight, html.offsetHeight, html.scrollHeight
     )
     scroll = body.scrollTop + $window.innerHeight
+
     # If we have passed 80% down the window, then load more classifieds
     if scroll / documentHeight * 100 > 80
       $scope.loadingClassifieds = true
-      # $scope.loadClassifieds()
+      $scope.loadClassifieds()
 
 
 exports.$inject = [
