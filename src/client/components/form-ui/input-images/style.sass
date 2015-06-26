@@ -10,13 +10,19 @@
       background: #2980b9
 
   ul
-    margin-top: 30px
+    +clearfix
+    max-width: 900px
+    margin: 30px auto 0 auto
   li
-    height: 100%
-    position: relative
+    float: left
+    // height: 100%
+    width: 50%
+    max-width: 200px
+    margin: 10px
 
     > div
       +radius(3px)
+      position: relative
       overflow: hidden
 
     &.to-delete-from-server, &.to-delete
@@ -26,16 +32,17 @@
         border-color: #E74C3C !important
       .main
         display: none
+
     &.set-main-image
       .main
         @extend .main:hover
       img
         border-color: #30cd72 !important
+
     .action
       +clearfix
       div
         float: left
-        line-height: 1.5
         width: 50%
 
     .close, .main
@@ -45,12 +52,12 @@
       cursor: pointer
       display: inline-block
       font-size: 0.7rem
+      height: 25px
+      line-height: 1
       opacity: 1
       padding: 7px 10px
       text-align: center
       text-transform: uppercase
-      // line-height: 1
-      height: 40px
       top: 0
     .close
       color: #FFF
@@ -63,3 +70,4 @@
     img
       +single-transition
       border: 5px solid #DDD
+      width: 100%

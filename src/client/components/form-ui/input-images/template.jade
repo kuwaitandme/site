@@ -5,9 +5,9 @@ input(type="file"
   ng-disabled="formLoading").hide
 button(ng-click="addImages()") Add some Photos!
 
-ul.medium-block-grid-3.large-block-grid-4
-  li(data-id="{{ image.id }}",
-    class="{{ image.status }}",
+ul.images
+  li(data-id="{{ image.id }}"
+    class="{{ image.status }}"
     ng-class="{'set-main-image': image.main }"
     ng-repeat="image in images track by $index")
     div
