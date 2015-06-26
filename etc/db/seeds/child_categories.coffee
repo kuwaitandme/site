@@ -93,4 +93,8 @@ exports.seed = (knex, Promise) ->
     (_ins "Livestock", 11),
     (_ins "Supplies & Accessories", 11),
     (_ins "Others", 11)
+
+    # Miscellaneous
+    (_ins "Websites", 12)
+    (_ins "Others", 12)
   )
