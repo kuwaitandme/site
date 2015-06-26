@@ -4,8 +4,8 @@ Categories, Classifieds) ->
   $log.log @name, "initializing"
   $log.debug @name, "routeParams", $stateParams
 
-  $scope.childCategory  = Categories.findBySlug $stateParams.child
-  $scope.parentCategory = Categories.findBySlug $stateParams.parent
+  $scope.childCategory  = Categories.findBySlug($stateParams.child) or {}
+  $scope.parentCategory = Categories.findBySlug($stateParams.parent) or {}
 
   $scope.heroURL = "cl-#{$scope.parentCategory.slug or 'miscellaneous'}.jpg"
   $scope.onHeroLoad = -> $scope.$emit "page-loaded"
