@@ -8,6 +8,7 @@
   position: fixed
   top: 60px
   width: 100%
+  z-index: 2
 
   #page-loading-bar
     +single-transition
@@ -33,11 +34,13 @@
 body.loading
   background: #FFF !important
   overflow-y: hidden
+  main, #page-hero, footer
+    opacity: 0
+
+body.show-loader, body.loading
   #page-loader
     display: block
     #page-loading-bar
       -webkit-animation-duration: 5s
       -webkit-animation-iteration-count: infinite
       -webkit-animation-name: loader-dynamic-load
-  main, #page-hero, footer
-    opacity: 0

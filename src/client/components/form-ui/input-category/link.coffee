@@ -1,18 +1,15 @@
 module.exports = (scope, element, attributes, ngModel) ->
   scope.placeholder = attributes.placeholder
 
+  isCategoryValid = (cat) -> cat? and typeof cat.id is "number"
+
   # Rewrite the isEmpty condition, so that ngModel can set the invalid class
   # respectively
   ngModel.$isEmpty = ->
-    model = ngModel.$viewValue or {}
-    if scope.childCategory and model.child_category? then return false
-    if scope.parentCategory
-      children = scope.parentCategory.children
-      if children and children.length > 0
-        if scope.childCategory then return false
-        else return true
-      else return false
-    true
+    if isCategoryValid(scope.parentCategory) and
+    isCategoryValid scope.childCategory then false
+    else true
+
 
   ngModel.$render = ->
     model = ngModel.$modelValue or {}
@@ -22,9 +19,15 @@ module.exports = (scope, element, attributes, ngModel) ->
 
   # Write data to the model
   read = ->
+    if isCategoryValid scope.childCategory
+      child = scope.childCategory.id
+    if isCategoryValid scope.parentCategory
+      parent = scope.parentCategory.id
+
     scope.$evalAsync -> ngModel.$setViewValue
-      parent_category: (scope.parentCategory or {}).id
-      child_category: (scope.childCategory or {}).id
+      child_category: child
+      parent_category: parent
+
 
   # These lines constantly call the entire update cycle, whenever their values
   # have been changed.

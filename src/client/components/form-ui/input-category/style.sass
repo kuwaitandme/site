@@ -4,7 +4,17 @@
     cursor: pointer
     position: relative
     line-height: 22px !important
-
+    &:after
+      +single-transition
+      @extend .font-awesome
+      content: '\f107'
+      position: absolute
+      right: 27px
+      top: 27px
+    &.opened:after
+      -ms-transform: rotate(180deg); /* IE 9 */
+      -webkit-transform: rotate(180deg); /* Chrome, Safari, Opera */
+      transform: rotate(180deg);
   ul
     +single-transition
     top: 0%

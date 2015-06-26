@@ -1,4 +1,5 @@
 .field(ng-init="opened=false"
+  ng-class="{opened: opened}"
   ng-click="opened=true; parentCategory=null; childCategory=null; onTouch()"
   ng-model="userInput")
     span {{ parentCategory.name }}&nbsp;

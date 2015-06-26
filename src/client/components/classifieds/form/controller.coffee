@@ -11,23 +11,12 @@ $root, Classifieds, Locations, Users) ->
   # Attach the css class for when the form is loading
   $scope.formClasses = loading: $scope.formLoading
 
-
-  # updateAvailableCredits = ->
-  #   userCredits = currentUser.credits or 0
-  #   urgentPrice = (Number $scope.urgentPrice or 0) * 1
-  #   promotePrice = (Number $scope.promotePrice or 0) * 1
-  #   $scope.urgentPrice = String urgentPrice
-  #   $scope.promotePrice = String promotePrice
-  #   $scope.availableCredits = userCredits - (urgentPrice + promotePrice)
-  # updateAvailableCredits()
-  # $scope.$watch "urgentPrice", updateAvailableCredits
-  # $scope.$watch "promotePrice", updateAvailableCredits
-
   # Every time the user changes reset the current user and the classified's
-  # owner.
+  # owner (if needed).
   onUserChange = ->
-    # Get and set the current user
+    # Get and set the current user.
     currentUser = Users.getCurrent()
+
     # Give the classified an owner, if the classified has as id then fetch
     # the classified's owner from the API. Else leave the current user as the
     # user of this classified.
@@ -36,7 +25,7 @@ $root, Classifieds, Locations, Users) ->
       .success (user) -> $scope.ctrl.user = user
     else $scope.ctrl.user = currentUser.get()
 
-    # Set the super editable property iff the user is a moderator or an admin
+    # Set the super editable property iff the user is a moderator or an admin.
     if currentUser.isModerator() or currentUser.isAdmin()
       $scope.superEditable = true
 
@@ -55,7 +44,6 @@ $root, Classifieds, Locations, Users) ->
     $scope.classified.status = Classifieds.statuses[newStatus]
     $scope.submit()
 
-  window.a = $scope
 
   # This function handles when the form gets submitted.
   $scope.submit = ->
@@ -69,10 +57,10 @@ $root, Classifieds, Locations, Users) ->
       $notifications.warn message, 10000
       return $root.$broadcast "auth:show-signup", $scope.ctrl.user
 
-    # Set the attempted class so that CSS can highlight invalid any fields
-    $scope.formClasses.attempted = true
+    # Set the classes so that CSS can work it's magic.
+    return $scope.formClasses.loading = true
 
-    # Check if the form is invalid or if the captcha has not been filled
+    # Check if the form is invalid or if the reCaptcha has not been filled.
     if $scope.form.$invalid
       error = "You have some invalid fields in your form. Have a look at
         them again"
@@ -81,7 +69,7 @@ $root, Classifieds, Locations, Users) ->
 
 
     # Now combine together all the data from the form and bring it to a single
-    # classified object
+    # classified object.
     classified = {}
     angular.extend(
       classified
@@ -94,48 +82,56 @@ $root, Classifieds, Locations, Users) ->
       {meta: angular.extend {}, $scope.meta, $scope.ctrl.maps}
     )
 
-    console.log name, "sending"
+    $log.log name, "sending"
 
     headers =
       "x-csrf-token": $scope.ctrl.csrf
       "x-recaptcha": $scope.ctrl.gcaptcha
 
-    # Form is good to submit. Start the submission
-    $scope.formLoading = $scope.formClasses.loading = true
+    # Form is good to submit; Start the submission.
     $log.log name, "submitting form", classified
+
+    # Set the CSS class.
+    $root.bodyClasses["show-loader"] = $scope.formClasses.loading = true
+
+    # Set the loading flag.
+    $scope.formLoading = true
 
     # Delete the image.src (which contains the base64 data) to avoid
     # repetition of the image upload.
     delete image.src for image in ($scope.ctrl.images or [])
 
-    # $scope.classified.spendUrgentPerk = $scope.urgentPrice
-    # $scope.classified.spendPromotePerk = $scope.promotePrice
+    # Now pass the classified object to the save function which will take care
+    # of uploading the classified..
     Classifieds.save classified, headers
 
     # If classified could be submitted properly then send the success event
-    # so that the parent controllers can act accordingly
+    # so that the parent controllers can act accordingly.
     .then (classified) -> $scope.$emit "classified-form:submitted", classified
 
-    # Else handle any error
+    # Else handle any error.
     .catch (response) ->
       error = response.data
       $log.error name, error
 
       switch error
-        when "not enough credits"
-          message = "You don't have enough credits"
-        when "need login"
-          message = "You must be logged in an account to manage a classified"
-        when "email conflict"
-          message = "That email address has an account with this site. You must login with that email otherwise this classified is considered as spam."
-        when "not privileged"
-          message = "You can't make changes to this classified"
-        else
-          message = "Something went wrong while saving your classified. Try again later"
+        when "not enough credits" then message = "You don't have enough credits"
+        when "need login" then message = "You must be logged in an account to
+          manage a classified"
+        when "email conflict" then message = "That email address has an account
+          with this site. You must login with that email otherwise this
+          classified is considered as spam."
+        when "not privileged" then message = "You can't make changes to this
+          classified"
+        else message = "Something went wrong while saving your classified. Try
+          again later"
       $notifications.error message, 10000
 
-
-    .finally -> $scope.formLoading = $scope.formClasses.loading = false
+    # After submitting the classified, make sure we reset the flags and CSS
+    # classes..
+    .finally ->
+      $root.bodyClasses["show-loader"] = $scope.formClasses.loading = false
+      $scope.formLoading = false
 
 
 exports.$inject = [

@@ -6,7 +6,8 @@ module.exports = (scope, element, attributes, ngModel) ->
   # targetItem contains the id of the selected element, which is set by the
   # controller.
   scope.$watch "targetItem", (value) ->
-    scope.focused = false
+    console.log value, value?
+    if value? then scope.focused = false
     scope.$evalAsync -> ngModel.$setViewValue value
 
 
