@@ -53,7 +53,9 @@ exports = module.exports = (IoC, settings) ->
     # the captcha failed.
     verify: (request) ->
       logger.debug name, "checking captcha"
-      if not settings.reCaptcha then return
+      # Disable re-captcha for now...
+      if not settings.reCaptcha or true then return Promise.resolve request
+      # if not settings.reCaptcha then return Promise.resolve request
 
       # Get the ip and the user's captcha response.
       remoteIP = request.connection.remoteAddress

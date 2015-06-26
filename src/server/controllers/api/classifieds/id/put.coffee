@@ -1,3 +1,4 @@
+# TODO avoid editing of banned classifieds..
 Promise        = require "bluebird"
 _              = require "underscore"
 formidable     = require "formidable"
@@ -39,10 +40,10 @@ Events, Notifications, Users) ->
     form.parse request, (error, fields, filesRequest) ->
       if error then reject error
       resolve Promise.props
-        id: id
-        request: request
         fields: fields
         files: filesRequest["images[]"]
+        id: id
+        request: request
 
 
   ###*
@@ -77,6 +78,12 @@ Events, Notifications, Users) ->
     ((Users.isAdmin user) or (Users.isModerator user))
       throw new Error "not privileged"
 
+    # Check if the classified can be modified..
+    if promise.oldClassified.get("status") in [
+      Classifieds.statuses.BANNED
+      Classifieds.statuses.FLAGGED
+      Classifieds.statuses.REJECTED
+    ] then throw new Error "classified won't be edited"
 
     # Clean the classified (remove any XSS code).
     classified = Classifieds.clean classified
@@ -193,9 +200,15 @@ Events, Notifications, Users) ->
   createNotification = (promise) ->
     classified = promise.newClassified
 
+    # Check if the user has the super privileges (to change the status of the
+    # classified)
+    user = promise.request.user or {}
+    isSuper = (Users.isAdmin user) or (Users.isModerator user)
+
     # If the classified has been set to ACTIVE (which can only be done by a
     # moderator/admin).
     if promise.diff.status is Classifieds.statuses.ACTIVE
+      if not isSuper then throw new Error "not privileged"
 
       # Then publish a notification to the user
       Notifications.create promise.request, "CLASSIFIED_ACTIVE",
@@ -205,28 +218,31 @@ Events, Notifications, Users) ->
       Users.getPromise classified.owner
       .then (user) -> user.get "email"
       .then (email) ->
-        console.log "sending email to", email
         mailOptions =
           classified: classified
           subject: "Your classified is approved"
         [email, "classified/approved", mailOptions]
       .spread Email.sendTemplate
 
+    # Now every time a change has been made, it will have to get reviewed by
+    # an Admin/Moderator. So automatically revert the classified back to
+    # INACTIVE...
+    else if not isSuper then promise.diff.status = Classifieds.statuses.INACTIVE
+
     promise
 
 
+  # The API call starts executing from here
   (request, response, next) ->
-    # reCaptcha.verify request
-    Promise.resolve request
+    reCaptcha.verify request
     .then parseForm
 
-    # .then checkRequest
     .then (promise) ->
       promise.oldClassified = Classifieds.get promise.id
       Promise.props promise
 
     .then validateRequest
-    # .then checkUserPrivelages
+
     # Upload the files into the server using the uploader's promise..
     .then (promise) ->
       options = prefix: promise.id

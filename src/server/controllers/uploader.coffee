@@ -165,6 +165,10 @@ exports = module.exports = (settings) ->
   operate = (tasks) -> new Promise (resolve, reject) ->
     # Start analyzing each file and either upload or delete it
     asyncJob = (task, finish) ->
+      # Sometimes you do hit this condition. In which case we simply ignore
+      # performing any file operations..
+      if not task.oldPath then finish()
+
       if task.isValid
         # Compress the image, ('Lossless' is my favorite..) and write it to it's
         # destination
@@ -272,7 +276,6 @@ exports = module.exports = (settings) ->
 
         # If the file is valid, then call the dominant color fn;
         dominantColor = if isValid then _getDominantColor file.path
-
 
         # Add the file into our list of processed files.
         ret.push

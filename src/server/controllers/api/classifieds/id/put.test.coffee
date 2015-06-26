@@ -17,7 +17,7 @@ exports = module.exports = (IoC, Classifieds, Users) -> (app) ->
   getSampleClassified = -> JSON.parse JSON.stringify downloadedClassified
 
 
-  describe.only "#{route} PUT:", ->
+  describe "#{route} PUT:", ->
     user = null
 
     before "login as default user", (done) ->

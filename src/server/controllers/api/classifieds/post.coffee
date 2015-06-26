@@ -114,12 +114,12 @@ Events, Users) ->
     # Check if the user is logged in.
     if not promise.request.isAuthenticated() then throw new Error "need login"
 
+    # Clean the classified (remove any XSS code).
+    classified = Classifieds.clean classified
+
     # Check if the JSON is valid. (This function automatically throws an error
     # if it's not).
     Classifieds.validate classified
-
-    # Clean the classified (remove any XSS code).
-    classified = Classifieds.clean classified
 
     # Set the current user as the owner for this classified.
     classified.owner = user.id
@@ -191,8 +191,7 @@ Events, Users) ->
 
   # The API call starts executing from here
   (request, response, next) ->
-    # reCaptcha.verify request
-    Promise.resolve request
+    reCaptcha.verify request
     .then parseForm
     .then validateRequest
 
