@@ -18,8 +18,8 @@ exports = module.exports = (IoC, Users) -> (app) ->
     title: "African Servals, fennec fox , <script></script>Margay kittens , Cheetah Cubs , Egyptain Mau for sale"
     description: "African Servals, Margay kittens, Cheetah cubs, F1 Savanah Kittens , Ocelot kittens, fennec foxWell adjusted kittens guaranteed at reasonable prices. Pets or Show Cats. large & exotic looking kittens that are raised in our home Contact us for more details and pics email: mustafafridon@gmail.com"
     parent_category: 3
-    child_category: 90
-    location: 78
+    child_category: 165
+    location: 154
     price_type: 1
     price_value: 0
     language: 0
@@ -37,7 +37,7 @@ exports = module.exports = (IoC, Users) -> (app) ->
     type: 0
 
 
-  describe.only "#{route} POST:", ->
+  describe "#{route} POST:", ->
     user = null
 
     before "login as default user", (done) ->
@@ -166,12 +166,12 @@ exports = module.exports = (IoC, Users) -> (app) ->
             check "instance.images is not of a type(s) array", done
 
         describe "for meta field when", ->
-          it "it is not valid", (done) ->
+          it.skip "it is not valid", (done) ->
             classified.meta = "dog"
             check "instance.meta is not of a type(s) object", done
 
         describe "for contact field when", ->
-          it "it is not valid", (done) ->
+          it.skip "it is not valid", (done) ->
             classified.contact = "dog"
             check "instance.contact is not of a type(s) object", done
 

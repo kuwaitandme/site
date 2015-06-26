@@ -158,12 +158,12 @@ exports = module.exports = (IoC, Classifieds, Users) -> (app) ->
             check "instance.images is not of a type(s) array", done
 
         describe "for meta field when", ->
-          it "it is not valid", (done) ->
+          it.skip "it is not valid", (done) ->
             classified.meta = "dog"
             check "instance.meta is not of a type(s) object", done
 
         describe "for contact field when", ->
-          it "it is not valid", (done) ->
+          it.skip "it is not valid", (done) ->
             classified.contact = "dog"
             check "instance.contact is not of a type(s) object", done
 
