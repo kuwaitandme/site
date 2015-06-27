@@ -50,6 +50,9 @@ exports = module.exports = (Cache, renderer, Categories, Classifieds) ->
         if not parameters.parent_category
           throw new Error "bad parent category"
 
+        # Allow only active classifieds to be listed
+        parameters.status = Classifieds.statuses.ACTIVE
+
         # Once the parameters have been filtered out, we send it to the DB for
         # querying..
         parameters
