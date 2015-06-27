@@ -1,6 +1,7 @@
+name = "[page:landing]"
+
 exports = module.exports = ($scope, $scroller, $root, $log, $ga, Classifieds) ->
-  @name = "[page:landing]"
-  $log.log @name, "initializing"
+  $log.log name, "initializing"
   $scope.gotoElement = (eID) -> setTimeout (-> $scroller.scrollTo eID), 100
 
   $scope.heroURL = "landing.jpg"
@@ -8,10 +9,10 @@ exports = module.exports = ($scope, $scroller, $root, $log, $ga, Classifieds) ->
   $scope.$emit "page-loaded"
   $scope.onHeroLoad = ->
 
-  $scope.showAuth = -> $root.$broadcast "auth:show"
+  $scope.showAuth = -> $root.$broadcast "component:auth:show"
 
-  $scope.trackEvent = (action) ->
-    $ga.trackEvent "Call to action", "click"
+  # Everytime a CTA button is clicked, send it to ga..
+  $scope.trackEvent = (action) -> $ga.trackEvent "Call to action", "click"
 
   $scope.query = status: Classifieds.statuses.ACTIVE
 

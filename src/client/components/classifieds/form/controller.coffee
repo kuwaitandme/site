@@ -55,7 +55,8 @@ $root, Classifieds, Locations, Users) ->
     if currentUser.isAnonymous()
       message = "You will need an account to create classifieds"
       $notifications.warn message, 10000
-      return $root.$broadcast "auth:show-signup", $scope.ctrl.user
+      $root.$broadcast "component:auth:show-signup", $scope.ctrl.user
+      return
 
     # Check if the form is invalid or if the reCaptcha has not been filled.
     if $scope.form.$invalid
