@@ -14,12 +14,12 @@ name = "[factory:modal]"
 
 
 exports = module.exports = ($document, $compile, $controller, $http, $rootScope,
-$q, $templateCache, $timeout) ->
+$q, $templateCache, $timeout, $log) ->
   # Keep a global variable linking to the current modal.
   currentModal = null
 
   # Get the body of the document, we'll add the modal to this.
-  containerElement = $document.find("modal").find("div").eq(2)
+  containerElement = $document.find("modal").find "section"
 
   # Returns a promise which gets the template, either
   # from the template parameter or via a request to the
@@ -35,24 +35,32 @@ $q, $templateCache, $timeout) ->
   # If the modal controller requested to close the modal, then we explictly
   # call the modal's close function
   $rootScope.$on "factory:modal:close", ->
-    console.log name, "explicitly closing modal"
+    $log.log name, "explicitly closing modal"
     if currentModal? and currentModal.inputs? and currentModal.inputs.close?
       currentModal.inputs.close()
 
 
   $rootScope.$on "factory:modal:finish", ->
-    console.log name, "finishing up modal"
+    $log.log name, "finishing up modal"
 
     # We can now clean up the scope and remove the element from the DOM.
     if currentModal?
+      window.a = currentModal
       # Destroy the scope.
       if currentModal.scope? then currentModal.scope.$destroy()
       # Remove the element from the DOM
-      if currentModal.element then currentModal.element.remove()
+      currentModal.element.remove()
 
 
   new class ModalService
     showModal: (options) ->
+
+
+      # Find the container for the modal!
+      modalContainer = $document.find "modal"
+      containerElement = modalContainer[0].getElementsByClassName "content"
+      containerElement = angular.element containerElement
+
       # Create a deferred we'll resolve when the modal is ready.
       deferred = $q.defer()
 
@@ -83,19 +91,19 @@ $q, $templateCache, $timeout) ->
         closeDeferred = $q.defer()
         inputs =
           $scope: modalScope
-          close: (result, delay=0) ->
+          close: (result, delay=600) ->
+            # Send a message to our modal's controller to hide the modal
+            $rootScope.$emit "component:modal:hide"
+
             $timeout delay
             .then ->
               # Resolve the "close" promise.
               closeDeferred.resolve result
 
-              # Send a message to our modal's controller to hide the modal
-              $rootScope.$emit "component:modal:hide"
-
               # Unless we null out all of these objects we seem to suffer
               # from memory leaks, if anyone can explain why then I'd
               # be very interested to know.
-              closeDeferred = deferred = inputs = inputs.close = null
+              deferred = inputs = inputs.close = null
               modal = modalElement = modalScope = null
 
         # If we have provided any inputs, pass them to the controller.
@@ -146,4 +154,5 @@ exports.$inject = [
   "$q"
   "$templateCache"
   "$timeout"
+  "$log"
 ]

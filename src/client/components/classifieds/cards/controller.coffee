@@ -56,6 +56,7 @@ exports = module.exports = ($element, $scope, $timeout, hotkeys) ->
     $scope.indexOffset = Math.max $scope.index - 1 , 0
     $scope.indexLimit = if $scope.index is 0 then 2 else 3
 
+
   # This function calculate which classes to be set (along with ng-class='')
   # for the card with the given index. With a tiny algorithm, we can keep
   # track of the next, previous and current cards and animate them accordingly.

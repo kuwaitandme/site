@@ -8,6 +8,7 @@ $window, Classifieds) ->
   currentPage = 1
   scrollPosition = 0
 
+
   # Initialize masonry
   classifedList = $element[0].querySelector ".classified-list-container"
   masonry = new Masonry classifedList, transitionDuration: 0
@@ -17,8 +18,8 @@ $window, Classifieds) ->
   # redirecting to the edit page
   $scope.onClassifiedClick = ($index, classified) ->
     $scope.$emit "classified-list:click",
-      $index: $index
       classified: classified
+      $index: $index
 
 
   # During a refresh event, re-layout masonry.
@@ -85,12 +86,9 @@ $window, Classifieds) ->
       $scope.loadingClassifieds = false
     .catch (response) -> $log.error response
 
+
   # Load the first batch of classifieds
   $scope.loadClassifieds()
-
-  # Reload the classified after a few seconds to fix the bug when there aren't
-  # enough classifieds to trigger the scroll
-  setTimeout (-> $scope.loadClassifieds()), 5000
 
 
   # Setup the onScroll function.
