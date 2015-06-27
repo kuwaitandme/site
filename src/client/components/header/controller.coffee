@@ -14,7 +14,7 @@ exports = module.exports = ($scope, $root, $log, $timeout, Notifications) ->
 
   # This function sends an event which gets picked by the auth component and
   # shows the auth modal..
-  $scope.showAuth = -> $root.$broadcast "auth:show"
+  $scope.showAuth = -> $root.$broadcast "component:auth:show"
 
 
   # A click handler to hide the sub header. It also removes all unwanted unread
