@@ -1,29 +1,26 @@
 section(filterbox-content)
   h1 Narrow your search
-  p Set the different options below to narrow down your search query.
+  p Set the different options below and find exactly what you want.
   .row
     .columns.medium-6
-      div(input-text
-        form-ui
+      div(input-keywords, form-ui
         maxlength="140"
+        ng-class="{disabled: formLoading}"
         ng-model="ctrl.keywords"
-        placeholder="Keywords"
-        ng-class="{disabled: formLoading}")
+        placeholder="Keywords")
 
     .columns.medium-6
       div(input-long-list, form-ui
         list="locations"
+        ng-class="{disabled: formLoading}"
         ng-model="ctrl.location"
-        placeholder="Location"
-        required="true"
-        ng-class="{disabled: formLoading}")
+        placeholder="Location")
 
     .columns.medium-6
       div(input-category, form-ui
+        ng-class="{disabled: formLoading}"
         ng-model="ctrl.categories"
-        placeholder="Category"
-        required="true"
-        ng-class="{disabled: formLoading}")
+        placeholder="Category")
 
     .columns.medium-6
       div(input-price, form-ui
@@ -31,4 +28,13 @@ section(filterbox-content)
         placeholder="Price range"
         required="true"
         ng-class="{disabled: formLoading}")
-  button.green Save Query
+
+    .columns.medium-6
+      div(input-long-list, form-ui
+        list="sorts"
+        ng-class="{disabled: formLoading}"
+        ng-model="ctrl.sorting"
+        placeholder="Sort by")
+
+
+  button.green(ng-click="submit()") Save Query

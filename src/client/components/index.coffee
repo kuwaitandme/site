@@ -17,6 +17,7 @@ module.exports = (app) ->
   # app.directive "formUi", require "./form-ui/directive"
   # app.directive "inputSelect", require "./form-ui/input-select/directive"
   # app.directive "inputTextarea", require "./form-ui/directive"
+  app.directive "inputKeywords", require "./form-ui/input-keywords/directive"
   app.directive "inputCategory", require "./form-ui/input-category/directive"
   app.directive "inputCheckboxIcon", require "./form-ui/input-checkbox-icon/directive"
   app.directive "inputImages", require "./form-ui/input-images/directive"
