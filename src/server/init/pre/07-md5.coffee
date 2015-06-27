@@ -13,10 +13,10 @@ exports = module.exports = (IoC, settings, Cache) ->
   modelsDir = settings.modelsDir
 
   checksumFile = "#{publicDir}/build/checksums"
+  logger.debug name, "reading checksums from", checksumFile
 
   # This function reads and updates the md5 sums from the checksum file.
   readChecksums = ->
-    logger.log name, "reading checksums"
     md5sums = {}
 
     # Start reading the checksums file and save them into a local variable
@@ -37,7 +37,7 @@ exports = module.exports = (IoC, settings, Cache) ->
 
   # We ask for node to re-calculate the checksums in case if there needs to be
   # any updating that is done on-the-go..
-  try fs.watch checksumFile, readChecksums
+  try fs .watch checksumFile, readChecksums
   catch e then logger.error e
 
   # Finally, read the checksums for the first time.

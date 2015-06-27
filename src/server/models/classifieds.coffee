@@ -13,7 +13,7 @@ xss               = require "xss"
 Bookshelf         = require "bookshelf"
 
 TABLENAME = "classifieds"
-CLASSIFIEDS_PER_PAGE = 30
+CLASSIFIEDS_PER_PAGE = 20
 POSTGRES_INT_MAX = 2147483647
 POSTGRES_MAX_CHAR = 255
 

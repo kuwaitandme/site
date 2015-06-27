@@ -69,7 +69,7 @@ Events, Notifications, Users) ->
     classified = JSON.parse fields.classified
 
     # Save the filesToDelete array later on..
-    promise.filesToDelete = classified.filesToDelete
+    promise.filesToDelete = classified.filesToDelete or []
 
     # Check if the user is logged in.
     if not promise.request.isAuthenticated() then throw new Error "need login"
@@ -138,7 +138,6 @@ Events, Notifications, Users) ->
     # that have been flagged to be deleted and we also include any newly
     # added images.
     finalImages = []
-    filesToDelete = newClassified.filesToDelete or []
     images = newClassified.images or []
     activeImages = 0
     for image in images
