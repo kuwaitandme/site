@@ -1,5 +1,6 @@
 module.exports = (app) ->
-  console.log "[run] preparing run stages"
+  console.log "[components] initializing"
+
   app.directive "categoryList", require "./category-list/directive"
 
   app.directive "classifiedCards", require "./classifieds/cards/directive"
@@ -28,4 +29,5 @@ module.exports = (app) ->
 
   app.directive "filterbox", require "./filterbox/directive"
 
+  app.directive "modal", require "./modal/directive"
   app.factory "modal", require "./modal/factory"

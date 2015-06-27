@@ -28,7 +28,6 @@ exports = module.exports = ($scope, $root, $log, $timeout) ->
 
   # Listen for a toast notification event to add the new notification
   $root.$on "toast-notification", (event, notification) ->
-    console.log event, notification
     $scope.showToast = true
     $scope.toastText = notification
     # Set a timeout function to remove the notification
@@ -38,7 +37,6 @@ exports = module.exports = ($scope, $root, $log, $timeout) ->
   # Listen for a notification event to add the a flash notification
   $root.$on "notifications:add", (event, data) ->
     notification = data.get()
-    console.log notification
     $scope.flashNotifications.push notification
 
     # Set a timeout function to remove the notification

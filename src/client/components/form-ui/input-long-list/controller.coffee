@@ -7,7 +7,7 @@ exports = module.exports = ($scope) ->
   $scope.$watch "userInput", (value="", previous) ->
     $scope.targetItem = null
 
-    for item in $scope.list
+    for item in ($scope.list or [])
       if item.name.toLowerCase() is value.toLowerCase()
         $scope.targetItem = item.id
 
@@ -16,6 +16,4 @@ exports = module.exports = ($scope) ->
     # list to popup..
     if previous? and not $scope.targetItem? then $scope.focused = true
 
-exports.$inject = [
-  "$scope"
-]
+exports.$inject = ["$scope"]
