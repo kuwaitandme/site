@@ -1,21 +1,10 @@
-section[auth]
+.show-auth-modal modal .content
+  max-width: 620px
+
+.row[auth]
   +single-transition
-  background: rgba(0, 0, 0, 0.95)
-  display: none
-  position: fixed
-  top: 0
-  opacity: 0
-  left: 0
-  bottom: 0
-  overflow-y: scroll
-  width: 100%
-  min-height: 100%
-  z-index: 4
   text-align: center
-  &.show
-    display: block
-  &.fade
-    opacity: 1
+
   .hero
     background: url(/images/hero/landing.jpg)
     background-position: -100px 100%
@@ -55,37 +44,14 @@ section[auth]
           padding-right: 10px
           padding-left: 5px
 
-  > .row
-    background: #FFF
-    margin: 60px auto
-    max-width: 620px
-    position: relative
-
-    -moz-box-shadow: 0px 0px 12px 0px rgba(0,0,0,0.5)
-    -webkit-box-shadow: 0px 0px 12px 0px rgba(0,0,0,0.5)
-    box-shadow: 0px 0px 12px 0px rgba(0,0,0,0.5)
-
-    .columns
-      margin-bottom: 15px
+  .columns
+    margin-bottom: 15px
 
   .auth-tab
     padding-top: 30px
     *[google-recaptcha]
       > div > div
         margin: 0 auto
-
-  .close
-    position: absolute
-    top: 0
-    cursor: pointer
-    background: #FFF
-    padding: 10px
-    height: 45px
-    width: 40px
-    right: -40px
-    @media only screen and (max-width: 64.063em)
-      top: -45px
-      right: 0
 
   button
     height: 40px
