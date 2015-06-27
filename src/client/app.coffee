@@ -43,7 +43,6 @@ setTimeout ->
 , 3000
 
 
-
 console.log name, "initializing with angular"
 app = angular.module "App", [
   # "ngCookies"
@@ -69,7 +68,7 @@ app = angular.module "App", [
 
 # Helper function to boot the angular App.
 boot = ->
-  console.log app, "bootstraping angular"
+  console.log name, "bootstraping angular"
   html = (document.getElementsByTagName "html")[0]
   body = angular.element (document.getElementsByTagName "body")[0]
   body.removeClass "initializing"
@@ -91,6 +90,6 @@ boot = ->
 waitAndCheck = ->
   if JST? then boot()
   else
-    console.log app, "waiting for dependencies"
+    console.log name, "waiting for dependencies"
     setTimeout waitAndCheck, 250
 waitAndCheck()
