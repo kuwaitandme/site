@@ -1,0 +1,10 @@
+textarea.field(ng-focus="focused=true; onTouch()"
+  type="{{ type }}"
+  ng-disabled="{{ ngDisabled || false }}"
+  ng-blur="focused=false"
+  ng-trim="false"
+  ng-model="value")
+.placeholder(ng-class="{shrink: focused || value }") {{ placeholder }}
+ul.keywords
+  li(ng-repeat="word in keywords track by $index"
+    ng-click="removeWord(word)") {{ word }}

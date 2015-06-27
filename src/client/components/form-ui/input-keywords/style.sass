@@ -1,0 +1,26 @@
+*[input-keywords]
+  textarea
+    min-height: 167px !important
+    word-spacing: 15px
+    line-height: 30px !important
+
+  .keywords
+    color: #FFF
+    font-size: 14px
+    left: 20px
+    margin: 0
+    padding-right: 20px
+    position: absolute
+    top: 38px
+
+    li
+      +radius(3px)
+      +single-transition
+      background: $color-success
+      cursor: pointer
+      display: inline-block
+      margin: 0px 15px 7px -6px
+      padding: 5px
+
+      &:hover
+        background: $color-error
