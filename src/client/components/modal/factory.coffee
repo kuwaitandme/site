@@ -1,27 +1,55 @@
-# angularModalService.js
-#
-# Modal service for AngularJS - supports creating popups and modals via a
-# service. Find instruction on how to use this by visiting the git repo in the
-# copyright link
-#
-# (Created by Dave Kerr; Modified by Steven Enamakel)
-# COPYRIGHT https://github.com/dwmkerr/angular-modal-service/blob/master/LICENSE
+###*
+ * angularModalService.js
+ *
+ * Modal service for AngularJS - supports creating popups and modals via a
+ * service. Find instructions on how to use this by visiting the git repo in the
+ * link below.
+ *
+ * (Created by Dave Kerr; Modified by Steven Enamakel)
+ * https://github.com/dwmkerr/angular-modal-service
+###
+
+
+name = "[factory:modal]"
+
+
 exports = module.exports = ($document, $compile, $controller, $http, $rootScope,
 $q, $templateCache, $timeout) ->
+  # Keep a global variable linking to the current modal.
+  currentModal = null
+
   # Get the body of the document, we'll add the modal to this.
-  body = $document.find "body"
+  containerElement = $document.find("modal").find("div").eq(2)
 
   # Returns a promise which gets the template, either
   # from the template parameter or via a request to the
   # template url parameter.
   getTemplate = (template, templateUrl) ->
     deferred = $q.defer()
-    if template
-      deferred.resolve template
-    else if templateUrl
-      deferred.resolve $templateCache.get templateUrl
+    if template then deferred.resolve template
+    else if templateUrl then deferred.resolve $templateCache.get templateUrl
     else deferred.reject "No template or templateUrl has been specified."
     deferred.promise
+
+
+  # If the modal controller requested to close the modal, then we explictly
+  # call the modal's close function
+  $rootScope.$on "factory:modal:close", ->
+    console.log name, "explicitly closing modal"
+    if currentModal? and currentModal.inputs? and currentModal.inputs.close?
+      currentModal.inputs.close()
+
+
+  $rootScope.$on "factory:modal:finish", ->
+    console.log name, "finishing up modal"
+
+    # We can now clean up the scope and remove the element from the DOM.
+    if currentModal?
+      # Destroy the scope.
+      if currentModal.scope? then currentModal.scope.$destroy()
+      # Remove the element from the DOM
+      if currentModal.element then currentModal.element.remove()
+
 
   new class ModalService
     showModal: (options) ->
@@ -40,12 +68,14 @@ $q, $templateCache, $timeout) ->
         controllerName = "#{controllerName} as #{options.controllerAs}"
 
       # Get the actual html of the template.
-      getTemplate(options.template, options.templateUrl).then (template) ->
+      getTemplate options.template, options.templateUrl
+      .then (template) ->
         # Create a new scope for the modal.
         modalScope = $rootScope.$new()
 
         # Create the inputs object to the controller - this will include
         # the scope, as well as all inputs provided.
+        #
         # We will also create a deferred that is resolved with a provided
         # close function. The controller can then call "close(result)".
         # The controller can also provide a delay for closing - this is
@@ -53,23 +83,20 @@ $q, $templateCache, $timeout) ->
         closeDeferred = $q.defer()
         inputs =
           $scope: modalScope
-          close: (result, delay) ->
-            if not delay? then delay = 0
-            $timeout ->
+          close: (result, delay=0) ->
+            $timeout delay
+            .then ->
               # Resolve the "close" promise.
               closeDeferred.resolve result
 
-              # We can now clean up the scope and remove the element from the
-              # DOM.
-              modalScope.$destroy()
-              modalElement.remove()
+              # Send a message to our modal's controller to hide the modal
+              $rootScope.$emit "component:modal:hide"
 
               # Unless we null out all of these objects we seem to suffer
               # from memory leaks, if anyone can explain why then I'd
               # be very interested to know.
               closeDeferred = deferred = inputs = inputs.close = null
               modal = modalElement = modalScope = null
-            , delay
 
         # If we have provided any inputs, pass them to the controller.
         if options.inputs
@@ -88,26 +115,25 @@ $q, $templateCache, $timeout) ->
         # Create the controller, explicitly specifying the scope to use.
         modalController = $controller controllerName, inputs
 
-        # Finally, append the modal to the DOM.
-        if options.appendElement
-          # Append to custom append element
-          options.appendElement.append modalElement
-        else
-          # Append to body when no custom append element is specified
-          body.append modalElement
+        # Append to our container
+        containerElement.append modalElement
+
+        # Let the modal controller know that we want to display the modal
+        $rootScope.$emit "component:modal:show"
 
         # We now have a modal object...
         modal =
           close: closeDeferred.promise
           controller: modalController
           element: modalElement
+          inputs: inputs
           scope: modalScope
+        currentModal = modal
+
         # ...which is passed to the caller via the promise.
         deferred.resolve modal
 
-      .then null, (error) ->
-        # "catch" doesn't work in IE8.
-        deferred.reject error
+      .catch deferred.reject
       deferred.promise
 
 
