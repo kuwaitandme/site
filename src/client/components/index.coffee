@@ -28,7 +28,7 @@ module.exports = (app) ->
   app.directive "inputTextarea", require "./form-ui/input-textarea/directive"
   app.directive "csrf", require "./form-ui/csrf/directive"
 
-  app.directive "filterbox", require "./filterbox/directive"
+  # app.directive "filterbox", require "./filterbox/directive"
 
   app.directive "modal", require "./modal/directive"
   app.factory "modal", require "./modal/factory"
