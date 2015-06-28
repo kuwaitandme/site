@@ -28,7 +28,7 @@ exports = module.exports = (reCaptcha, Email, Classifieds, Messages, Users) ->
 
       # Before we send the email, we need the classified owner's email. So we
       # query for the email first
-      Users.getPromise message.get "to_user"
+      Users.get message.get "to_user"
       .then (user) -> user.get "email"
 
       # Once we have the destination email, we then prepare to send the message.

@@ -219,7 +219,7 @@ Events, Notifications, Users) ->
         id: classified.id
 
       # And also send an email.
-      Users.getPromise classified.owner
+      Users.get classified.owner
       .then (user) -> user.get "email"
       .then (email) ->
         mailOptions = classified: classified

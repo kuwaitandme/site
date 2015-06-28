@@ -47,7 +47,7 @@ exports = module.exports = (IoC, Users) ->
     # Validate the request
     .then validateRequest
     # Get the user (but redirect the output to nice array format)
-    .spread (id, token) -> [token, Users.getPromise id]
+    .spread (id, token) -> [token, Users.get id]
     # Validate the request with the user from the DB
     .spread validateWithDB
     # Activate the user!

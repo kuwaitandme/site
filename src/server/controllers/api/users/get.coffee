@@ -12,7 +12,7 @@ exports = module.exports = (Users) ->
         throw Error
       id
     # All good, so now query the DB
-    .then Users.getPromise
+    .then Users.get
     .then (user) ->
       if not user then throw Error
 

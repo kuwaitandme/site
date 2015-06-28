@@ -31,58 +31,77 @@ Users) ->
     if profile.emails.length == 0 or (not _.isObject profile.emails[0]) or
     not validator.isEmail profile.emails[0].value
       return done new Error "no oauth email found"
+
     # Query for the user based on the provider.
-    Users.findOne {email: profile.emails[0].value}, (error, user) ->
-      if error then return done error
+    Users.findOne {email: profile.emails[0].value}
+    .then (user) ->
+      if not user? then throw new Error "not found"
+
       # User exists, check if the provider's details have been set and return
       # the user back to passport
-      if user
-        json = user.toJSON()
-        # Start checking the login providers
-        if json.login_providers?
-          # If the login provider has not yet been set, then set it.
-          if not json.login_providers[profile.provider]?
-            ## Welcome email here!
-            json.login_providers[profile.provider] = uid: profile.id
-            logger.debug name, "adding social network [#{profile.provider}] to existing user", profile.emails[0].value
-            return Users.patch json.id, json, done
-          else logger.debug name, "using social network [#{profile.provider}] from existing user", profile.emails[0].value
-          # Events.log request, "LOGIN", {provider: profile.provider}, user
-        return done null, user
+      json = user.toJSON()
+
+      # Start checking the login providers
+      if json.login_providers?
+
+        # If the login provider has not yet been set, then set it.
+        if not json.login_providers[profile.provider]?
+          ## Welcome email here!
+          json.login_providers[profile.provider] = uid: profile.id
+          logger.debug name, "adding social network [#{profile.provider}] to existing user", profile.emails[0].value
+          return Users.patch json.id, json
+
+      logger.debug name, "using social network [#{profile.provider}] from existing user", profile.emails[0].value
+      user
+
+    .catch (error) ->
+      if error.message != "not found" then throw error
+
       # If the user did not exist, then create a new user
       password = Users.randomPassword()
-      newUser =
+      parameters =
         email: profile.emails[0].value
         full_name: "#{profile.name.givenName} #{profile.name.familyName}"
         login_providers: {}
         meta: hasTemporaryPassword: true
         password: Users.hashPassword password
         status: Users.statuses.ACTIVE
-      newUser.login_providers[profile.provider] = uid: profile.id
+
+      # Set the login provider.
+      parameters.login_providers[profile.provider] = uid: profile.id
+
       # Not create the user in the database
-      logger.debug name, "user does not exist, creating new user", newUser
-      Users.create newUser, (error, user) ->
-        if error then done error
-        else if not user? then done new Error "registration error"
+      logger.debug name, "user does not exist, creating new user", parameters
+      Users.createPromise parameters
+      .then (user) ->
+        if not user? then throw new Error "registration error"
         else
           logger.debug name, "new user created with id", user.id
           Email.sendTemplate "Welcome to Kuwait & Me!",
-            profile.emails[0].value, "user-welcome-oauth",
+            profile.emails[0].value, "user/welcome-oauth",
               password: password
               user: user.toJSON()
-          done null, user
+        user
+    # Once the promise resolves we will have a user that has been just created
+    # or previously signed up.
+    .then (user) -> done null, user
+    .catch (error) -> done error.message
+
 
   # Add cookie parsing support
   app.use cookieParser settings.cookieParser
+
 
   # add request.session cookie support, and use Redis for storage
   settings.session.store = sessions
   app.sessionInstance = session settings.session
   app.use app.sessionInstance
 
+
   # Initialize passport
   app.use passport.initialize()
   app.use passport.session()
+
 
   # OAuth authentication
   _passport = (provider='', Strategy) ->
@@ -99,28 +118,31 @@ Users) ->
   _passport "twitter",     TwitterStrategy
   _passport "windowslive", WindowsStrategy
 
+
   # Email Authentication
   if settings.emailAuth.enabled
     passport.use new LocalStrategy (username, password, done) ->
-      Users.findOne {email: username}, (error, user) ->
-        if error then return done error
+      Users.findOne {email: username}
+      .then (user) ->
         logger.debug name, "fetched user", user
-
-        if not user? then return done "bad username/email", false
+        if not user? then throw new Error "bad username/email"
 
         # User exists, check password
         json = user.toJSON()
         logger.debug name, "user json", json
         if not Users.isPasswordValid password, json.password
-          return done "password mismatch", false
+          throw new Error "password mismatch"
 
         # Check if account is active or not
         if not Users.isActive json
           if json.meta and not json.meta.hasTemporaryPassword
-            return done "not allowed to login", false
+            return throw new Error "not allowed to login"
 
         # Login successful! return user
-        done null, user
+        user
+
+      .then (user) -> done null, user
+      .catch (error) -> done error.message
 
   # Add passport serialization/de-serialization
   passport.deserializeUser Users.deserialize()
