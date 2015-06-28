@@ -186,9 +186,9 @@ Events, Users) ->
   ###
   emailUser = (classified) ->
     contactDetails = classified.get "contact"
-    Email.sendTemplate contactDetails.email, "classified/submitted",
-      classified: classified.toJSON()
-      subject: "Your classified has been submitted"
+    Email.sendTemplate "Your classified has been submitted",
+      contactDetails.email, "classified/submitted",
+        classified: classified.toJSON()
     classified
 
 
