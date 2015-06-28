@@ -52,48 +52,14 @@ exports = module.exports = (reCaptcha, Email, Classifieds, Messages, Users) ->
         Email.sendTemplate emailSubject, destinationEmail, "classified/message",
           templateOptions, emailOptions
 
+      # Once the email is sent, we resolve the message from the modal.
       .then -> message
+
+    # Return the JSON of the new message to the user
     .then (json) -> response.json json
-    .catch (error) ->
-      console.error error.stacks
-      next (error.status = 400) and error
 
-    # captchaFail = ->
-    #   response.status 401
-    #   response.json "captcha failed"
-
-    # captchaSuccess = ->
-    #   if not request.body
-    #     response.status 400
-    #     return response.json "missing email/message"
-
-    #   email = request.body.email
-    #   message = request.body.message
-
-    #   # Perform some validation
-    #   # TODO perform some XSS checks
-    #   if not email?                       then status = "email is missing."
-    #   else if not validator.isEmail email then status = "bad email"
-    #   else if not message?                then status = "message is missing"
-    #   else if message.length < 10         then status = "message is too short"
-    #   else if 2000 < message.length       then status = "message is too long"
-    #   if status?
-    #     response.status 400
-    #     return response.json status
-
-    #   # Prepare the email's settings
-    #   options =
-    #     subject: "#{email} sent a message to your classified"
-    #     email: email
-    #     message: message
-    #     classified: classified
-    #     headers: "reply-to" : email
-
-    #   # Send the email using the template
-    #   email.sendTemplate classified.email, "classified-reply", options
-    #   response.json "Message sent"
-
-    # reCaptcha.verify request, captchaSuccess, captchaFail
+    # All error to be masked as HTTP 400.
+    .catch (error) -> next (error.status = 400) and error
 
 
 exports["@require"] = [

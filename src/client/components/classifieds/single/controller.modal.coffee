@@ -16,9 +16,23 @@ $notifications, Messages, close) ->
     if error then return $notifications.error error
 
     # Attach the classified's id
+    $scope.loading = true
     $scope.data.id = $scope.id
 
+    # Send the message!
     Messages.create $scope.data, Messages.types.CLASSIFIED
+
+    # If the message could be sent, then hide the modal and show a notification.
+    .then ->
+      $notifications.success "Your message was sent"
+      close()
+
+    # Handle any errors here
+    .catch -> $notifications.error "Your message could not be sent, try again
+      later"
+
+    # Remove the loading class.
+    .finally -> $scope.loading = false
 
 
 

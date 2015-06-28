@@ -16,16 +16,17 @@ exports = module.exports = (IoC, knex) ->
 
 
   validate = (data) -> new Promise (resolve, reject) ->
-    if not validator.isEmail data.from_email then return reject "bad email"
+    if not validator.isEmail data.from_email
+      return reject new Error "bad email"
     if not validator.isInt data.to_user, {min: 0}
-      return reject "bad to_user"
+      return reject new Error "bad to_user"
     if from_user? and not validator.isInt data.from_user, {min: 0}
-      return reject "bad from_user"
+      return reject new Error "bad from_user"
     # console.log data.message.length
     # if not validator.isLength data.message, {min: 10, max: 2000}
     #   return reject "bad message"
     if from_name? and not validator.isLength data.from_name, {min: 0, max: 140}
-      return reject "bad from_name"
+      return reject new Error "bad from_name"
 
     # If everything was all good, then resolve with the data.
     resolve data

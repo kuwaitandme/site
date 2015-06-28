@@ -1,4 +1,4 @@
-form(name="form", ng-init="data").cl-single-modal.row
+form(name="form", ng-class="{loading: loading}").cl-single-modal.row
   h1.columns Send a message
 
   .columns
@@ -28,4 +28,4 @@ form(name="form", ng-init="data").cl-single-modal.row
     required="true"
     ng-class="{disabled: formLoading}")
 
-  button.blue(ng-click="submit()") Send your Message
+  button.blue(ng-click="submit()", ng-class="{inactive: loading}") Send your Message
