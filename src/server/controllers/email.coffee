@@ -1,6 +1,9 @@
 Promise = require "bluebird"
-
 _       = require "underscore"
+
+nodemailer = require "nodemailer"
+smtpTransport = require "nodemailer-smtp-transport"
+
 email   = require "emailjs"
 fs      = require "fs"
 jade    = require "jade"
@@ -20,11 +23,29 @@ exports = module.exports = (IoC, settings) ->
   name = "[email]"
   logger = IoC.create "igloo/logger"
 
+  console.log
+    host: settings.email.smtp.hostname
+    port: settings.email.smtp.port or 25
+    secure: settings.email.smtp.ssl
+    auth:
+      user: settings.email.smtp.username
+      pass: settings.email.smtp.password
+  transporter = nodemailer.createTransport
+    # host: settings.email.smtp.hostname
+    # port: settings.email.smtp.port or 25
+    # secure: settings.email.smtp.ssl
+    service: "Gmail"
+    auth:
+      user: settings.email.smtp.username
+      pass: settings.email.smtp.password
+
+
   # Setup some defaults
-  defauts =
+  defaultJadeOptions =
     sitename: settings.sitename
     url: settings.url
     webmasterAddress: settings.email.webmasterAddress
+
 
   # Grab the email root
   emailRoot = settings.email.templates.dir
@@ -38,7 +59,7 @@ exports = module.exports = (IoC, settings) ->
    *                                      which this email is to be sent.
    * @param  String template              The relative URL to the the template
    *                                      (wrt to /views/email).
-   * @param  Object options               The options that get sent to the
+   * @param  Object templateOptions       The options that get sent to the
    *                                      jade renderer.
    *
    * @return Promise                      A promise resolving iff the email
@@ -48,23 +69,27 @@ exports = module.exports = (IoC, settings) ->
    * instance.sendTemplate("abd@mail.com", "account/activate",
    *   {subject: "Hello World"});
   ###
-  sendTemplate = (destination, template, options={}) ->
+  sendTemplate = (subject, destination, template, templateOptions={},
+  emailOptions={}) ->
     if not settings.email.enabled then return Promise.resolve()
 
     # Extend the default options
-    options = _.extend defauts, options
+    jadeOptions = _.extend defaultJadeOptions, templateOptions
 
     # Render the plain-text version of the email
     plainTextTemplate = jade.compileFile "#{emailRoot}/plaintext/#{template}"
-    plainText = plainTextTemplate options
+    plainText = plainTextTemplate jadeOptions
 
     # Render the HTML version of the email
     logger.debug name, "rendering email template", template
     htmlTemplate = jade.compileFile "#{emailRoot}/#{template}.jade"
-    options.html = htmlTemplate options
+    html = htmlTemplate jadeOptions
+
+    # Attach the html to the email options
+    emailOptions.html = html
 
     # Finally send the email
-    send options.subject, destination, plainText, options
+    send subject, destination, plainText, emailOptions
 
 
   ###*
@@ -84,39 +109,27 @@ exports = module.exports = (IoC, settings) ->
    * @return Promise                   A promise that resolves iff the email
    *                                   got sent out successfully.
   ###
-  send = (subject, destination, message, options={}) ->
+  send = (subject, destination, message, mailOptions={}) ->
     new Promise (resolve, reject) ->
       if not settings.email.enabled then return resolve()
 
-      # Extend the default options
-      options = _.extend defauts, options
-
-      # Connect to the SMTP server
-      server = email.server.connect
-        user: settings.email.smtp.username
-        password: settings.email.smtp.password
-        host: settings.email.smtp.hostname
-        ssl: settings.email.smtp.ssl
-
-      # Create the message
-      message = email.message.create
+      defaultsMailOptions =
         from: "#{settings.sitename} <#{settings.email.noreplyAddress}>"
         subject: subject
         bcc: settings.email.webmasterAddress
         text: message
         to: destination
 
-      # Include HTML attachements
-      if options.html? then message.attach
-        alternative: true
-        data: options.html
-      message.attach attachment for attachment in (options.attachments or [])
+      # Extend the default options
+      options = _.extend {}, defaultsMailOptions, mailOptions
+
+      console.log options
 
       # Start sending the message
       logger.debug name, "sending email to #{destination}"
-      server.send message, (error, message) ->
+      transporter.sendMail options, (error, info) ->
         if error then reject error
-        else resolve()
+        else resolve info
 
   send: send
   sendTemplate: sendTemplate
