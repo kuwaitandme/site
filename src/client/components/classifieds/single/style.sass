@@ -1,4 +1,9 @@
 section[classified-single]
+  a
+    color: blue
+    text-decoration: none
+    border-bottom: 1px solid blue
+
   .gallery
     background: #f6f6f6
     margin: 0
@@ -70,7 +75,7 @@ section[classified-single]
 
 
   .meta
-    margin-bottom: .5rem
+    margin: .5rem 0
     // padding: 0
     ul
       margin:  0
@@ -154,14 +159,17 @@ section[classified-single]
 
   .disclaimer
     text-align: center
-    padding:  1rem
+    padding: 1rem
     color: #000
     opacity: 0.7
     font-size: 0.7rem
-  a
-    color: blue
-    text-decoration: none
-    border-bottom: 1px solid blue
+
+  .contact
+    margin-top: 1rem
+    padding: 0
+    button
+      border-radius: 0
+
 
   ul#extras-sidebar
     +clearfix
@@ -212,3 +220,13 @@ section[classified-single]
 //       max-width: 45% !important
 //   .gmnoprint
 //     display:none
+
+
+.cl-single-modal
+  // padding: 15px
+  h1
+    text-align: center
+  .columns
+    margin-bottom: 15px
+  button
+    border-radius: 0

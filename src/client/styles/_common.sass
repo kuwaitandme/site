@@ -101,7 +101,7 @@ button
   @extend .font-cantarell
   background: #2ecc71
   border: 0
-  color: #FFF
+  color: #FFF !important
   cursor: pointer
   font-size: 0.9rem
   height: 46px
@@ -111,7 +111,11 @@ button
   z-index: 3
   &:hover, &:focus
     outline: none
-    &:after
-      background: #2cc36b
-  &.error
+    background: #3ba567
+  &.blue
+    background: #2ec6cc
+    &:hover, &:focus
+      background: #2c90c1
+
+  &.error, &.red
     background: $color-error

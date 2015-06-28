@@ -1,0 +1,31 @@
+form(name="form", ng-init="data").cl-single-modal.row
+  h1.columns Send a message to {{ name }}!
+
+  .columns
+    div(input-text
+    form-ui
+    maxlength="140"
+    ng-model="data.from_name"
+    placeholder="Your name"
+    ng-class="{disabled: formLoading}")
+
+  .columns
+    div(input-text
+    form-ui
+    maxlength="140"
+    ng-model="data.from_email"
+    placeholder="Your email*"
+    required="true"
+    ng-class="{disabled: formLoading}")
+
+
+  .columns
+    div(input-textarea, form-ui
+    maxlength="2000"
+    minlength="10"
+    ng-model="data.message"
+    placeholder="Your message *"
+    required="true"
+    ng-class="{disabled: formLoading}")
+
+  button.blue(ng-click="submit()") Send your Message

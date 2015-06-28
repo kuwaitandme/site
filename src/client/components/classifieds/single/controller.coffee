@@ -1,4 +1,5 @@
-exports = module.exports = ($element, $log, $scope, $timeout, Classifieds) ->
+exports = module.exports = ($element, $log, $scope, $timeout, Classifieds,
+Modal) ->
   @name = "[component:classified-single]"
   $log.log @name, "initializing"
 
@@ -17,6 +18,15 @@ exports = module.exports = ($element, $log, $scope, $timeout, Classifieds) ->
   # When images are loaded, re-layout masonry
   $scope.update = -> if cl.masonry? then cl.masonry.layout()
 
+
+  $scope.showContactModal = ->
+    ContactModal = Modal.showModal
+      controller: require "./controller.modal"
+      templateUrl: "components/classifieds/single/template.modal"
+    .then (modal) -> modal.scope.id = cl.id
+
+
+
 exports.$inject = [
   "$element"
   "$log"
@@ -24,4 +34,5 @@ exports.$inject = [
   "$timeout"
 
   "models.classifieds"
+  "modal"
 ]

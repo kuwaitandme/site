@@ -93,6 +93,8 @@
         | . It is your duty to ensure safety and authenticity while dealing with any
         | buyer/sellers.
 
+      .columns.contact(ng-click="showContactModal()")
+        button Contact the Owner
 
       a.google-maps.columns(ng-if="classified.meta.gmapX && classified.show"
         ng-init="mapHeight = window.innerHeight / 2"
