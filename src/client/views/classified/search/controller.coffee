@@ -8,7 +8,8 @@ Categories, Classifieds) ->
   $scope.parentCategory = Categories.findBySlug($stateParams.parent) or {}
 
   $scope.heroURL = "cl-#{$scope.parentCategory.slug or 'miscellaneous'}.jpg"
-  $scope.onHeroLoad = -> $scope.$emit "page-loaded"
+  $scope.onHeroLoad = ->
+  $scope.$emit "page-loaded"
 
   $scope.query =
     child_category:  $scope.childCategory.id

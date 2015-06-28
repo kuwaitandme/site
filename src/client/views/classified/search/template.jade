@@ -1,8 +1,20 @@
+#search-hero(ng-class="{hide: !loaded}"
+  style!="background-image: url(<%= staticUrl %>/images/hero/{{ heroURL }})")
+
 section.row
-  #search-info.row(style!="background-image: url(<%= staticUrl %>/images/hero/{{ heroURL }})")
-    img(fn-image-loader!="<%= staticUrl %>/images/hero/{{ heroURL }}",
-      fn-image-success="onHeroLoad()")
-    .shade
+  #search-info.row(ng-class="{loaded: loaded}")
     h1.columns {{ parentCategory.name }}
     h2.columns(ng-if="childCategory.id") {{ childCategory.name }}
-  section(classified-interactive-list)
+
+section.row(classified-interactive-list)
+
+img.hide(fn-image-loader!="<%= staticUrl %>/images/hero/{{ heroURL }}",
+  fn-image-success="loaded=true")
+//- section.row
+//-   #search-info.row(style!="background-image: url(<%= staticUrl %>/images/hero/{{ heroURL }})")
+//-     img(fn-image-loader!="<%= staticUrl %>/images/hero/{{ heroURL }}",
+//-       fn-image-success="onHeroLoad()")
+//-     .shade
+//-     h1.columns {{ parentCategory.name }}
+//-     h2.columns(ng-if="childCategory.id") {{ childCategory.name }}
+//-   section(classified-interactive-list)
