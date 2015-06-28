@@ -103,8 +103,7 @@ $q, $templateCache, $timeout, $log) ->
               # Unless we null out all of these objects we seem to suffer
               # from memory leaks, if anyone can explain why then I'd
               # be very interested to know.
-              deferred = inputs = inputs.close = null
-              modal = modalElement = modalScope = null
+              deferred = inputs = modal = modalElement = modalScope = null
 
         # If we have provided any inputs, pass them to the controller.
         if options.inputs

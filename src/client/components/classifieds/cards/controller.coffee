@@ -79,7 +79,7 @@ exports = module.exports = ($element, $scope, $timeout, hotkeys) ->
   hotkeys.bindTo $scope
   .add(combo: "left", callback: -> $scope.previous())
   .add(combo: "right", callback: -> $scope.next())
-  .add(combo: "esc", callback: -> $scope.close())
+  # .add(combo: "esc", callback: -> $scope.close())
 
 exports.$inject = [
   "$element"
