@@ -43,7 +43,7 @@ exports = module.exports = (IoC) ->
   _r "/events",                              "events",                    GET
   _r "/lang/([a-z]+)",                       "lang",                      GET
   _r "/locations",                           "locations",                 GET
-  _r "/messages/classified",                 "messages/classified",       POST
+  _r "/messages/classified/([0-9]+)?",       "messages/classified",       POST
   _r "/messages/contact",                    "messages/contact",          POST
   _r "/notifications",                       "notifications",             GET
   _r "/notifications/read",                  "notifications/read",        GET

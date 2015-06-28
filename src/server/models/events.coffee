@@ -1,7 +1,7 @@
 Promise   = require "bluebird"
-bCrypt    = require "bcrypt-nodejs"
 requestIp = require "request-ip"
 validator = require "validator"
+
 
 exports = module.exports = (IoC, knex) ->
   logger = IoC.create "igloo/logger"
@@ -20,12 +20,13 @@ exports = module.exports = (IoC, knex) ->
     CLASSIFIED_CREATE: 4
     CLASSIFIED_EDIT: 5
     CLASSIFIED_DELETE: 6
+    CLASSIFIED_MESSAGE: 7
     # Credit events
-    CREDITS_EARNED: 7
-    CREDITS_SPENT: 8
+    CREDITS_EARNED: 8
+    CREDITS_SPENT: 9
     # Transaction events
-    TRANSACTION_SUCCESS: 7
-    TRANSACTION_FAIL: 7
+    TRANSACTION_SUCCESS: 10
+    TRANSACTION_FAIL: 11
 
 
   new class

@@ -11,6 +11,7 @@ exports = module.exports = (renderer, settings) ->
     # Render 404 errors separately.
     template = if error.status is 404 then "404" else "error"
 
+
     options =
       page: "errors/5XX"
       title: "Something freaky happened!"
