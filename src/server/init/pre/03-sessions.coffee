@@ -66,10 +66,10 @@ Users) ->
         else if not user? then done new Error "registration error"
         else
           logger.debug name, "new user created with id", user.id
-          Email.sendTemplate profile.emails[0].value, "user-welcome-oauth",
-            user: user.toJSON()
-            password: password
-            subject: "Welcome to Kuwait & Me!"
+          Email.sendTemplate "Welcome to Kuwait & Me!",
+            profile.emails[0].value, "user-welcome-oauth",
+              password: password
+              user: user.toJSON()
           done null, user
 
   # Add cookie parsing support

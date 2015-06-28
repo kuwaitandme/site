@@ -21,7 +21,7 @@ exports = module.exports = (IoC, knex) ->
       return reject "bad to_user"
     if from_user? and not validator.isInt data.from_user, {min: 0}
       return reject "bad from_user"
-    console.log data.message.length
+    # console.log data.message.length
     # if not validator.isLength data.message, {min: 10, max: 2000}
     #   return reject "bad message"
     if from_name? and not validator.isLength data.from_name, {min: 0, max: 140}

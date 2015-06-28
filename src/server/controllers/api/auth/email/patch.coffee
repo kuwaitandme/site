@@ -31,8 +31,7 @@ module.exports = (request, response, next) ->
 
       # All good otherwise, send reset email
       else
-        Email.sendTemplate user.email, "passwdreset",
-          subject: "Reset your password"
+        Email.sendTemplate "Reset your password", user.email, "passwdreset",
           user: user
 
         response.json "reset sent"

@@ -37,10 +37,12 @@ exports = module.exports = (IoC, Email, reCaptcha, Users) ->
     if dbUser
       dbUserJSON = dbUser.toJSON()
       if dbUserJSON.login_providers?
+
         # User exists and already has been registered with email login.
         if dbUserJSON.login_providers.email
           throw new Error "user already registered with email"
         else dbUserJSON.login_providers.email = newUser.email
+
         # User exists but does not have email login, so modify the current
         # user. Then save into the DB.
         dbUserJSON.meta ?= {}
@@ -52,6 +54,7 @@ exports = module.exports = (IoC, Email, reCaptcha, Users) ->
           subject: "Your account has been modified. Verify this!"
           user: dbUser
         [emailOptions, Users.patch dbUserJSON.id, dbUserJSON]
+
     # If there is no user with that email, create the user
     else
       emailOptions =
@@ -64,7 +67,8 @@ exports = module.exports = (IoC, Email, reCaptcha, Users) ->
 
   sendEmail = (emailOptions, newUser) ->
     emailOptions.user = newUser.toJSON()
-    Email.sendTemplate emailOptions.email, emailOptions.template, emailOptions
+    Email.sendTemplate emailOptions.subject, emailOptions.email,
+      emailOptions.template, emailOptions
     newUser
 
 
@@ -76,6 +80,7 @@ exports = module.exports = (IoC, Email, reCaptcha, Users) ->
     .then (newUser) -> [newUser, Users.findOnePromise email: newUser.email]
     .spread validateWithDBUser
     .spread sendEmail
+
     # Once done, return the fields that have been changed back to the user
     .then (result) ->
       request.logIn result, (error) ->

@@ -222,10 +222,13 @@ Events, Notifications, Users) ->
       Users.getPromise classified.owner
       .then (user) -> user.get "email"
       .then (email) ->
-        mailOptions =
-          classified: classified
-          subject: "Your classified is approved"
-        [email, "classified/approved", mailOptions]
+        mailOptions = classified: classified
+        [
+          "Your classified is approved"
+          email
+          "classified/approved"
+          mailOptions
+        ]
       .spread Email.sendTemplate
 
     # Now every time a change has been made, it will have to get reviewed by
