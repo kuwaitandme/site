@@ -60,23 +60,11 @@ exports = module.exports = (IoC, knex, cache) ->
       # .query()
 
 
-    # Finds a specific user with the given parameters
-    findOne: (parameters={}, callback=->) ->
-      @model.forge parameters
-        .fetch().then (user) -> callback null, user
-
-    findOnePromise: (parameters={}) -> new Promise (resolve, reject) ->
-      model.forge parameters
-      .fetch().then (user) -> resolve user
+    findOne: (parameters={}) -> model.forge(parameters).fetch()
 
 
     # Fetches a user, but unlike findOne this takes in only an id.
-    get: (id, callback=->) ->
-      @findOne { id: id }, (error, user) -> callback error, user
-
-    getPromise: (id) ->
-      model.forge id: id
-      .fetch()
+    get: (id) -> model.forge(id: id).fetch()
 
 
     # Creates a new user
@@ -86,10 +74,9 @@ exports = module.exports = (IoC, knex, cache) ->
       .save().then (user) -> callback null, user
 
 
-    createPromise: (parameters) -> new Promise (resolve, reject) ->
+    createPromise: (parameters) ->
       parameters.credits = 100
-      model.forge parameters
-      .save().then (user) -> resolve user
+      model.forge(parameters).save()
 
 
     # Creates a user with the given email, with a temporary password
@@ -132,12 +119,13 @@ exports = module.exports = (IoC, knex, cache) ->
 
     # Serialize and de-serialize functions for passport
     serialize: -> (user, callback) -> callback null, user.id
-    deserialize: -> (id, callback) => @get id, (err, user) -> callback err, user
+    deserialize: -> (id, callback) =>
+      @get id
+        .then (user) -> callback null, user
+        .catch (error) -> callback error.message
 
 
-    patch: (id, parameters) ->
-      model.forge id: id
-      .save parameters
+    patch: (id, parameters) -> model.forge(id: id).save parameters
 
 
     # Helper function to create a random password
