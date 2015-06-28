@@ -7,11 +7,12 @@ route = "/api/classifieds"
 
 exports = module.exports = (IoC, Users) -> (app) ->
   users = []
+  user = null
 
 
   post = -> supertest.agent(app).post route
-  postClassified = (classified, user) ->
-    if user? then user.post(route).field "classified", JSON.stringify classified
+  postClassified = (classified, u) ->
+    if u? then u.post(route).field "classified", JSON.stringify classified
     else post().field "classified", JSON.stringify classified
 
   getGoodClassified = ->
@@ -76,7 +77,6 @@ exports = module.exports = (IoC, Users) -> (app) ->
         .end done
 
       describe "user is logged in and", ->
-        user = null
         classified = null
 
         # Helper function to submit the test classified and expect the given

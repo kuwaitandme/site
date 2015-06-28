@@ -50,7 +50,7 @@ exports = module.exports = (IoC, Email, reCaptcha, Users) ->
         dbUserJSON.meta.newPassword = newUser.password
         dbUserJSON.meta.signupVerifyToken = newUser.meta.activationToken
         emailOptions =
-          template: "user-modified"
+          template: "user/signup-modified"
           subject: "Your account has been modified. Verify this!"
           user: dbUser
         [emailOptions, Users.patch dbUserJSON.id, dbUserJSON]
@@ -77,7 +77,7 @@ exports = module.exports = (IoC, Email, reCaptcha, Users) ->
     Promise.resolve request
     .then validateRequest
     .then createNewUserObject
-    .then (newUser) -> [newUser, Users.findOnePromise email: newUser.email]
+    .then (newUser) -> [newUser, Users.findOne email: newUser.email]
     .spread validateWithDBUser
     .spread sendEmail
 
