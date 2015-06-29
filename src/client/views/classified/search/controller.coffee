@@ -1,4 +1,4 @@
-exports = module.exports = ($scope, $stateParams, $rootScope, $log,
+exports = module.exports = ($scope, $stateParams, $rootScope, $log, $location
 Categories, Classifieds) ->
   @name = "[page:classified-search]"
   $log.log @name, "initializing"
@@ -11,10 +11,16 @@ Categories, Classifieds) ->
   $scope.onHeroLoad = ->
   $scope.$emit "page-loaded"
 
-  $scope.query =
-    child_category:  $scope.childCategory.id
-    parent_category: $scope.parentCategory.id
-    status:          Classifieds.statuses.ACTIVE
+  $scope.query = {}
+  angular.extend(
+    $scope.query
+    $location.search()
+    {
+      child_category:  $scope.childCategory.id
+      parent_category: $scope.parentCategory.id
+      status:          Classifieds.statuses.ACTIVE
+    }
+  )
 
   for cls of $rootScope.bodyClasses then if (cls.indexOf "cl-") is 0
     $rootScope.bodyClasses[cls] = false
@@ -26,6 +32,7 @@ exports.$inject = [
   "$stateParams"
   "$rootScope"
   "$log"
+  "$location"
 
   "models.categories"
   "models.classifieds"

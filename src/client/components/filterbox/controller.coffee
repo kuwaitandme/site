@@ -7,7 +7,6 @@ exports = module.exports = ($scope, $log, modal) ->
     modal.showModal
       controller: require "./controller-modal"
       templateUrl: "components/filterbox/template-modal"
-  $scope.showModal()
 
 
 exports.$inject = [

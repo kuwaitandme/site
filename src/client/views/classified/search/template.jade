@@ -7,6 +7,7 @@ section.row
     h2.columns(ng-if="childCategory.id") {{ childCategory.name }}
 
 section.row(classified-interactive-list)
+section(filterbox)
 
 img.hide(fn-image-loader!="<%= staticUrl %>/images/hero/{{ heroURL }}",
   fn-image-success="loaded=true")

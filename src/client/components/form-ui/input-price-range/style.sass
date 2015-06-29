@@ -1,7 +1,20 @@
-*[input-long-list]
+*[input-price-range]
   position: relative
   .field
+    cursor: pointer
+    min-height: 67px !important
     position: relative
+    &:after
+      +single-transition
+      @extend .font-awesome
+      content: '\f107'
+      position: absolute
+      right: 27px
+      top: 27px
+    &.opened:after
+      -ms-transform: rotate(180deg); /* IE 9 */
+      -webkit-transform: rotate(180deg); /* Chrome, Safari, Opera */
+      transform: rotate(180deg);
 
   ul
     +single-transition
@@ -13,8 +26,6 @@
     background: #FFF
     z-index: -1
     position: absolute
-    max-height: 51 * 3px
-    overflow-y: auto
     &.opened
       position: relative
       z-index: 1
@@ -22,19 +33,10 @@
       opacity: 1
     li
       +single-transition
-      background: #f9f9f9
-      border-bottom: 1px solid #ddd
-      cursor: pointer
-      line-height: 50px
       padding: 0 10px
-
-      @media #{$small-only}
-        width: 100%
-
-      @media #{$medium-up}
-        &:nth-child(even)
-          border-left: 1px solid #ddd
-
+      border-bottom: 1px solid #ddd
+      line-height: 50px
+      background: #f9f9f9
       &.value
         cursor: pointer
         &:hover
@@ -42,7 +44,8 @@
       input
         background: inherit
         outline: none
-        width: 100%
+        width: 50%
         height: 100%
         border: 0
         padding: 18px 0
+

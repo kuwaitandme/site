@@ -2,15 +2,15 @@
   // display: none
 
   .icon
-    +radius(3px)
+    +radius(300px)
     @extend .font-awesome
     +single-transition
     background: #FF6600
-    bottom: 30px
+    bottom: 20px
     color: #FFF
     cursor: pointer
     height: 55px
-    left: 30px
+    left: 20px
     padding: 20px
     position: fixed
     text-align: center
@@ -34,3 +34,10 @@ section[filterbox-content]
   .columns
     margin-bottom: 2rem
 
+@media #{$screen} and (max-width:#{lower-bound($large-range)})
+  button
+    border-radius: 0
+    bottom: 0
+    left: 0
+    position: fixed
+    width: 100%

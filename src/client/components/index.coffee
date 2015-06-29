@@ -22,13 +22,15 @@ module.exports = (app) ->
   app.directive "inputCheckboxIcon", require "./form-ui/input-checkbox-icon/directive"
   app.directive "inputImages", require "./form-ui/input-images/directive"
   app.directive "inputLongList", require "./form-ui/input-long-list/directive"
+  app.directive "inputList", require "./form-ui/input-list/directive"
   app.directive "inputPrice", require "./form-ui/input-price/directive"
+  app.directive "inputPriceRange", require "./form-ui/input-price-range/directive"
   app.directive "inputTel", require "./form-ui/input-tel/directive"
   app.directive "inputText", require "./form-ui/input-text/directive"
   app.directive "inputTextarea", require "./form-ui/input-textarea/directive"
   app.directive "csrf", require "./form-ui/csrf/directive"
 
-  # app.directive "filterbox", require "./filterbox/directive"
+  app.directive "filterbox", require "./filterbox/directive"
 
   app.directive "modal", require "./modal/directive"
   app.factory "modal", require "./modal/factory"

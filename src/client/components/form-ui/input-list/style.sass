@@ -1,7 +1,9 @@
-*[input-long-list]
+*[input-list]
   position: relative
   .field
     position: relative
+    min-height: 67px !important
+    cursor: pointer
 
   ul
     +single-transition
@@ -27,14 +29,6 @@
       cursor: pointer
       line-height: 50px
       padding: 0 10px
-
-      @media #{$small-only}
-        width: 100%
-
-      @media #{$medium-up}
-        &:nth-child(even)
-          border-left: 1px solid #ddd
-
       &.value
         cursor: pointer
         &:hover
