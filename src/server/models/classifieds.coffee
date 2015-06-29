@@ -249,6 +249,20 @@ exports = module.exports = (knex) ->
         ccat = parameters.child_category
         if validInt ccat then qb.where "child_category", ccat
 
+        location = parameters.location
+        if validInt location then qb.where "location", location
+
+        price_type = parameters.price_type
+        if validInt price_type then qb.where "price_type", price_type
+
+        price_value_min = parameters.price_value_min
+        if validInt price_value_min
+          qb.where "price_value", ">=", price_value_min
+
+        price_value_max = parameters.price_value_max
+        if validInt price_value_max
+          qb.where "price_value", "<=", price_value_max
+
         owner = parameters.owner
         if validInt owner then qb.where "owner", owner
 
@@ -268,7 +282,15 @@ exports = module.exports = (knex) ->
         qb.limit CLASSIFIEDS_PER_PAGE
         qb.offset (page - 1) * CLASSIFIEDS_PER_PAGE
         # qb.orderBy "weight", "DESC"
-        qb.orderBy "created", "DESC"
+
+        sort = parameters.sort
+        switch sort
+          # Most Expensive
+          when 2 then qb.orderBy "price_value", "DESC"
+          # Cheapest
+          when 3 then qb.orderBy "price_value", "ASC"
+          # Latest
+          else qb.orderBy "created", "DESC"
 
       model.query(buildQuery).fetchAll()
 
