@@ -269,6 +269,7 @@ exports = module.exports = (knex) ->
         status = parameters.status
         if validInt status then qb.where "status", status
 
+
         page = parameters.page
         if not validInt page then page = 1
 
@@ -279,10 +280,18 @@ exports = module.exports = (knex) ->
               WHERE u.status = 1
           )"
 
+        keywords = String parameters.keywords or ""
+        keywordCount = 0
+        for keyword in keywords.split " "
+          if validator.isAlphanumeric keyword
+            if keywordCount++ is 0 then qb.where "title", "like", "#{keyword}%"
+            else qb.orWhere "title", "like", "#{keyword}%"
+
         qb.limit CLASSIFIEDS_PER_PAGE
         qb.offset (page - 1) * CLASSIFIEDS_PER_PAGE
         # qb.orderBy "weight", "DESC"
 
+        console.log qb.toString()
         sort = parameters.sort
         switch sort
           # Most Expensive

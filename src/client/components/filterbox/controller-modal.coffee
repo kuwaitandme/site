@@ -1,4 +1,5 @@
-exports = module.exports = ($scope, $stateParams, $location, close, Locations, Categories) ->
+exports = module.exports = ($root, $scope, $stateParams, $location,
+$timeout, close, Locations, Categories) ->
   $scope.ctrl = {}
   $scope.locations = Locations.getAll()
   $scope.closeModel = -> close()
@@ -23,18 +24,9 @@ exports = module.exports = ($scope, $stateParams, $location, close, Locations, C
   $scope.ctrl.sort = $location.search()["sort"]
 
   $scope.sorts = [
-    {
-      id: 1
-      name: "Latest First"
-    }
-    {
-      id: 2
-      name: "Most expensive"
-    }
-    {
-      id: 3
-      name: "Most cheapest"
-    }
+    { id: 1, name: "Latest First"}
+    { id: 2, name: "Most expensive" }
+    { id: 3, name: "Most cheapest"}
   ]
 
 
@@ -57,18 +49,23 @@ exports = module.exports = ($scope, $stateParams, $location, close, Locations, C
     if parentCat then returnUrl += "/#{parentCat.slug}"
     if childCat then returnUrl += "/#{childCat.slug}"
 
+
+
     # Redirect to the correct URL
     $location.path returnUrl
     $location.search query
+    location.reload()
 
     # Close the modal
     close()
 
 
 exports.$inject = [
+  "$rootScope"
   "$scope"
   "$stateParams"
   "$location"
+  "$timeout"
   "close"
   "models.locations"
   "models.categories"
