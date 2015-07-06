@@ -23,9 +23,11 @@ hotkeys) ->
 
     # Properly animate a fade-out effect
     contentDOM.removeClass "show"
-    $root.bodyClasses["modal-displayed"] = false
 
-    console.log $location.$$search
+    # TODO check for compatibilty
+    if $location.search "modal-show" then history.back()
+
+    $root.bodyClasses["modal-displayed"] = false
 
     $element.css "opacity", 0
     $timeout(500).then ->
@@ -54,7 +56,9 @@ hotkeys) ->
 
 
   $scope.$on "$locationChangeStart", ->
-    if isModalOpen then $scope.$emit "component:modal:hide"
+    if isModalOpen
+      $root.bodyClasses["modal-displayed"] = false
+      $scope.$emit "component:modal:hide"
 
 
 

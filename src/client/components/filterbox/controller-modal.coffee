@@ -8,28 +8,28 @@ $timeout, close, Locations, Categories) ->
   childCategory  = Categories.findBySlug($stateParams.child) or {}
   parentCategory = Categories.findBySlug($stateParams.parent) or {}
   $scope.ctrl.categories =
-    child_category:  childCategory.id
+    child_category: childCategory.id
     parent_category: parentCategory.id
 
   # Set the keywords
-  $scope.ctrl.keywords = $location.search()["keywords"]
+  $scope.ctrl.keywords = $location.$$search.keywords
 
   # Set the location
-  $scope.ctrl.location = $location.search()["location"]
+  $scope.ctrl.location = $location.$$search.location
 
   # Set the  price
   $scope.ctrl.price = $location.search()
 
   # And finally the sort options
-  $scope.ctrl.sort = $location.search()["sort"]
+  $scope.ctrl.sort = $location.$$search.sort
 
   $scope.sorts = [
-    { id: 1, name: "Latest First"}
-    { id: 2, name: "Most expensive" }
-    { id: 3, name: "Most cheapest"}
+    {id: 1, name: "Latest First"}
+    {id: 2, name: "Most expensive"}
+    {id: 3, name: "Most cheapest"}
   ]
 
-
+  # Function to create the query url and refresh the page...
   $scope.submit = ->
     query = {}
     categories = $scope.ctrl.categories
@@ -49,11 +49,13 @@ $timeout, close, Locations, Categories) ->
     if parentCat then returnUrl += "/#{parentCat.slug}"
     if childCat then returnUrl += "/#{childCat.slug}"
 
-
-
     # Redirect to the correct URL
     $location.path returnUrl
     $location.search query
+
+    # Sometimes, if the search query only changes the router doesn't refresh. So
+    # our best fix is to simply reload the entire page. (which shouldn't take
+    # too long given the advanced caching techniques used)..
     location.reload()
 
     # Close the modal
