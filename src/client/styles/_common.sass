@@ -18,10 +18,10 @@ ol
     list-style: decimal
 
 .text-unselectable
-  -webkit-user-select: none
   -moz-user-select: none
   -ms-user-select: none
   -o-user-select: none
+  -webkit-user-select: none
   user-select: none
 
 .blue
@@ -43,19 +43,23 @@ ol
   margin: $global-margin 0
   width: 100%
 
+
 body
   background: #FFF
   margin: 0
   position: relative
-  .hide-if-loggedin
-    display: block !important
-  .show-if-loggedin
-    display: none !important
+
   &.logged-in
     .show-if-loggedin
       display: block !important
     .hide-if-loggedin
       display: none !important
+
+  .hide-if-loggedin
+    display: block !important
+  .show-if-loggedin
+    display: none !important
+
 
 h1, h2, h3, h4, h5, h6
   @extend .font-cantarell
@@ -63,41 +67,24 @@ h1, h2, h3, h4, h5, h6
 h1
   text-transform: uppercase
 
-// .input, input, textarea, select {
-//   border: 0;
-//   display: inline-block;
-//   overflow: hidden;
-//   padding-right: -10px;
-//   padding: 10px;
-//   width: 100%;
-
-//   @include single-transition(background);
-
-//   &.submit {
-//     background: #2ecc71;
-//     // border-bottom: 5px solid #27ae60 !important;
-//     border: 0;
-//     color: #FFF;
-//     font-weight: 700;
-//     padding: 10px 30px;
-//     width: auto;
-//   }
-// }
 
 .gmnoprint img
   max-width: none
+
 
 .ajax-spinner
   padding: 20px
   text-align: center
 
+
 .stop-scrolling
   height: 100%
   overflow: hidden
 
+
 button
-  +single-transition
   +radius(3px)
+  +single-transition
   @extend .font-cantarell
   background: #2ecc71
   border: 0
@@ -109,9 +96,10 @@ button
   text-transform: uppercase
   width: 100%
   z-index: 3
+
   &:hover, &:focus
-    outline: none
     background: #3ba567
+    outline: none
   &.blue
     background: #2ec6cc
     &:hover, &:focus

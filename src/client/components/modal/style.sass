@@ -1,20 +1,16 @@
 modal
   +single-transition(opacity)
-  background: rgba(0,0,0,0.9)
+  background: #DDD
   bottom: 0
   display: none
   height: 100%
   left: 0
+  overflow-y: scroll
   padding: 65px 10px
   position: fixed
   top: 0
   width: 100%
   z-index: 5
-  overflow-y: scroll
-
-  -moz-box-shadow: 0px 0px 12px 0px rgba(0,0,0,0.5)
-  -webkit-box-shadow: 0px 0px 12px 0px rgba(0,0,0,0.5)
-  box-shadow: 0px 0px 12px 0px rgba(0,0,0,0.5)
 
   @media #{$large-up}
     overflow-y: auto
@@ -22,17 +18,18 @@ modal
   > .content
     +radius(3px)
     +single-transition(opacity)
-    opacity: 0
     background: #FFF
     margin-top: 50px
     margin: 0 auto
     max-width: $row-width
+    opacity: 0
     z-index: 1
 
-    -webkit-box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.5)
-    -moz-box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.5)
-    box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.5)
+    border: 1px solid #AAA
 
+    -moz-box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.1)
+    -webkit-box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.1)
+    box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.1)
     &.show
       opacity: 1
 
@@ -44,6 +41,7 @@ modal
     top: 0
     width: 100%
     z-index: -1
+
     .close-icon
       $size: 40px
       background: #FFF
@@ -53,3 +51,7 @@ modal
       right: 0
       top: 0
       width: $size
+
+body.modal-displayed
+  main, header
+    display: none
