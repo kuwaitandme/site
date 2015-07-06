@@ -1,9 +1,11 @@
 name = "[component:modal]"
 
 
-exports = module.exports = ($element, $scope, $root, $log, $timeout, hotkeys) ->
+exports = module.exports = ($element, $scope, $root, $log, $timeout, $location,
+hotkeys) ->
   $log.log name, "initializing"
 
+  isModalOpen = false
 
   # Get the container where we will insert our content.
   contentDOM = angular.element $element[0].getElementsByClassName "content"
@@ -17,8 +19,14 @@ exports = module.exports = ($element, $scope, $root, $log, $timeout, hotkeys) ->
   $root.$on "component:modal:hide", ->
     $log.log name, "hiding"
 
+    isModalOpen = false
+
     # Properly animate a fade-out effect
     contentDOM.removeClass "show"
+    $root.bodyClasses["modal-displayed"] = false
+
+    console.log $location.$$search
+
     $element.css "opacity", 0
     $timeout(500).then ->
       # After animation is done, we hide the element from the render queue
@@ -27,15 +35,27 @@ exports = module.exports = ($element, $scope, $root, $log, $timeout, hotkeys) ->
       # Then signal the factory, that we are done cleaning up here.
       $scope.$emit "factory:modal:finish"
 
+      $location.search "modal-show", null
+
 
   # This function takes care of the show event from the factory modal
   $root.$on "component:modal:show", ->
     $log.log name, "showing"
 
+    $location.search "modal-show", true
+
     # Properly animate a fade-in effect
     $element.css "display", "block"
     $element.css "opacity", 1
-    $timeout(100).then -> contentDOM.addClass "show"
+    $timeout(100).then ->
+      contentDOM.addClass "show"
+      $root.bodyClasses["modal-displayed"] = true
+      isModalOpen = true
+
+
+  $scope.$on "$locationChangeStart", ->
+    if isModalOpen then $scope.$emit "component:modal:hide"
+
 
 
   # Signal the factory modal to close it's current instance.
@@ -55,5 +75,6 @@ exports.$inject = [
   "$rootScope"
   "$log"
   "$timeout"
+  "$location"
   "hotkeys"
 ]
