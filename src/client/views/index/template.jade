@@ -15,14 +15,14 @@
 
     //- CTA buttons
     .cta
-      a(href="/classified/create"
+      a(fn-route="/classified/create"
         ng-clicks="trackEvent('Create classified')") Post your classified
-      a(href="/classified"
+      a(fn-route="/classified"
         ng-clicks="trackEvent('Find classified')") Find a classified
       .hide-if-loggedin
         a(ng-click="showAuth(); trackEvent('Login')") Login/Signup
       .show-if-loggedin
-        a(ng-href="/account"
+        a(fn-route="/account"
           ng-clicks="trackEvent('Manage account')") Manage your Account
 
 #featured-classifieds.row(ng-if="displayClassifiedList")

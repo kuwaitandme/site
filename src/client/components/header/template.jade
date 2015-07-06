@@ -1,7 +1,7 @@
 //- #main-header.columns(ng-scrollup-class="nav-up")
 #main-header
   #header-logo-container
-    a#header-logo(href="/")
+    a#header-logo(fn-route="/")
   #grabber-container(ng-click="toggleHeader()")
     #grabber
       //- #notification-counter(ng-if="unreadNotifications > 0") {{ unreadNotifications }}
@@ -30,11 +30,11 @@ nav#sub-header
         .row
           .columns.medium-3.title Main
           .link.columns.medium-3
-            a(href="/") Home
+            a(fn-route="/") Home
           .link.columns.medium-3
-            a(href="/classified/create") Post a classified
+            a(fn-route="/classified/create") Post a classified
           .link.columns.medium-3
-            a(href="/classified") Browse classifieds
+            a(fn-route="/classified") Browse classifieds
         .row
           .columns.medium-3.title.dark Account
           .link.columns.medium-3.hide-if-loggedin
@@ -42,11 +42,11 @@ nav#sub-header
           //- .link.columns.medium-3.end.hide-if-loggedin
             a(href="/auth/reset", ng-click="closeHeader()") Reset password
           .link.columns.medium-3.show-if-loggedin
-            a(href="/account") Manage account
+            a(fn-route="/account") Manage account
           //- .link.columns.medium-3.end.show-if-loggedin
           //-   a(href="/settings", ng-click="closeHeader()") Settings
           .link.columns.medium-3.end.show-if-loggedin
-            a(href="/auth/logout") Logout
+            a(fn-route="/auth/logout") Logout
         //- .row
           .columns.medium-3.title More
           .link.columns.medium-3

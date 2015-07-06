@@ -13,12 +13,12 @@ section.row
   .columns
     ul.social-links.row
       li.medium-4.columns
-        a(href="{{ classified.social.facebook }}").facebook.row Share on Facebook
+        a(ng-href="{{ classified.social.facebook }}").facebook.row Share on Facebook
       li.medium-4.columns
-        a(href="{{ classified.social.twitter }}").twitter.row Tweet on Twitter
+        a(ng-href="{{ classified.social.twitter }}").twitter.row Tweet on Twitter
       li.medium-4.columns
-        a(href="{{ classified.social.gplus }}").gplus.row Share on Google+
+        a(ng-href="{{ classified.social.gplus }}").gplus.row Share on Google+
 
   .columns
-    a(ng-href="/{{ classified.slug }}")
+    a(fn-route="/{{ classified.slug }}")
       button.green View your classified
