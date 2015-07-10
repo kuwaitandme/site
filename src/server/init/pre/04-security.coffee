@@ -1,3 +1,4 @@
+ddos   = require "ddos"
 helmet = require "helmet"
 csrf   = require "csurf"
 
@@ -19,6 +20,11 @@ exports = module.exports = (IoC, settings, policies) ->
       request.xhr
         return next()
       (csrf settings.csrf.options) request, response, next
+
+  # Add a DDoS middleware; to protect against DDoS attacks. Add the middleware
+  # if we are not in development mode..
+  isDevelopment = settings.server.env == "development"
+  if not isDevelopment then app.use (new ddos maxcount: 50).express
 
 exports["@require"] = [
   "$container"
