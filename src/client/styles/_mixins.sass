@@ -3,19 +3,6 @@
   -moz-transition: $property $speed $ease
   -webkit-transition: $property $speed $ease
 
-
-=radius($radius: $global-radius)
-  @if $radius
-    border-radius: $radius
-
-// We use this to do clear floats
-=clearfix
-  &:before, &:after
-    content: " "
-    display: table
-  &:after
-    clear: both
-
 =force-gpu
   -webkit-transform: translateZ(0)
   -moz-transform: translateZ(0)

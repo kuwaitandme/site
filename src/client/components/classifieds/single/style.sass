@@ -59,6 +59,18 @@ section[classified-single]
         background: #FFB604
       &.red
         background: #D3402A
+      &.normal
+        color: #777
+        background: #EEE
+      &.location
+        background: #FA9E25
+        .icon
+          display: inline-block
+          padding-top: 1px
+          padding-right: 15px
+          font-size: 0.9rem
+        // background-clip:
+        // background: #2ec6cc
 
   .description
     @extend .font-open
@@ -76,36 +88,66 @@ section[classified-single]
 
   .meta
     margin: .5rem 0
+    text-align: center
     // padding: 0
     ul
       margin:  0
       li
-        font-size: 0.8rem
         margin: 0 auto
         padding: 0
         margin-bottom: 0.5rem
         position: relative
-        text-align: left
         word-wrap: break-word
         a
           word-wrap: break-word
           word-break: break-word
-        .meta-title, .meta-value
-          display: inline-block
+        // .meta-title, .meta-value
+        //   display: inline-block
         .meta-title, .perk-title
           padding-right: 5px
           font-weight: bold
+        .meta-title
+          font-size: 0.7rem
+        .meta-value
+          padding: 5px
+          font-size: 1rem
 
-        @media only screen and (min-width: 40em)
-          .meta-title
-            text-align: right
-          .meta-value
-            padding-right: 30px
-            text-align: left
+  .owner-meta
+    margin-bottom: 4rem
+    .title
+      @extend .font-open
+      color: #999
+      font-size: 11px
+      margin-bottom: 0
+      text-align: center
+      text-transform: uppercase
+      &.date
+        margin: 0
 
+    .price
+      background: #f6f6f6
+      padding: 10px 0
+      font-size: 1.2rem
+    .price, .user
+      @extend .font-roboto-slab
+      text-align: center
+    .user
+      background: #FFF
+      font-size: 1.4rem
+      padding: 10px
 
+    .tags
+      margin: 1rem auto
+      text-align: center
 
-  .user
+    .contact
+      border-top: 1px solid #DDD
+      padding-top: 1rem
+
+  // .owner-meta, .de
+  //   margin-bottom: 3rem
+
+  .user-dis
     font-size: 0.8rem
     position: relative
     min-height: 147px
@@ -157,19 +199,10 @@ section[classified-single]
     #maps-container
       min-height: 300px
 
-  .disclaimer
-    text-align: center
-    padding: 1rem
+  .legal
     color: #000
-    opacity: 0.7
     font-size: 0.7rem
-
-  .contact
-    margin-top: 1rem
-    padding: 0
-    button
-      border-radius: 0
-
+    padding: 1rem
 
   ul#extras-sidebar
     +clearfix
@@ -212,6 +245,27 @@ section[classified-single]
         text-align: center
         height: 40px
         width: 40px
+
+  .social-share
+    padding: 0
+    position: absolute
+    top: 0
+    right: 0
+    text-align: right
+
+    .icon
+      +single-transition(background)
+      cursor: pointer
+      display: inline-block
+      font-size: 12px
+      padding: 11px
+      opacity: 0.8
+
+      &:hover
+        color: #FFF
+        opacity: 1
+        background: #F60
+
 // @media print
 //   .c-gallery
 //     border-bottom: none !important

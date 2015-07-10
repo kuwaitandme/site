@@ -1,4 +1,4 @@
-.row.collapse(itemscope, itemtype="http://schema.org/Product")
+.row(itemscope, itemtype="http://schema.org/Product")
   .columns(ng-if-dis="classified.show")
     ul.gallery(ng-if="classified.images",
       masonry='{"gutter": 0, "itemSelector": \'li\' }')
@@ -11,58 +11,73 @@
             fn-image-loader!="<%= staticUrl %>/uploads/thumb/{{ image.filename }}",
             fn-image-success="masonry.layout")
 
-
+.row
   .columns.content
     .row
-      h2.columns.title(contenteditable-dis="true", placholder="title", itemprop="name") {{ classified.title }}
-      ul.columns.tags
-        li.whatsapp(ng-if="classified.meta.whatsapp") Whatsapp
-        li.viber(ng-if="classified.meta.viber") Viber
-        li.green(ng-if="classified.hasDelivery") Delivery included
-        li.green(ng-if="classified.hasFreeDelivery") Free Delivery included
-        li.yellow(ng-if="classified.underReview") Under Review
-        li.green(ng-if="classified.isActive") Active
-        li.red(ng-if="classified.isRejected") Rejected
-        li.red(ng-if="classified.isBanned") Banned
-        li.red(ng-if="classified.isArchived") Archived
-        li.red(ng-if="classified.meta.urgentPerk") Urgent
+      .columns.medium-8.large-9
+        .row.collapse
+          h2.columns.title(contenteditable-dis="true", placholder="title", itemprop="name") {{ classified.title }}
+          ul.columns.tags
+            li.whatsapp(ng-if="classified.meta.whatsapp") Whatsapp
+            li.viber(ng-if="classified.meta.viber") Viber
+            li.green(ng-if="classified.hasDelivery") Delivery included
+            li.green(ng-if="classified.hasFreeDelivery") Free Delivery included
+            li.yellow(ng-if="classified.underReview") Under Review
+            li.green(ng-if="classified.isActive") Active
+            li.red(ng-if="classified.isRejected") Rejected
+            li.red(ng-if="classified.isBanned") Banned
+            li.red(ng-if="classified.isArchived") Archived
+            li.red(ng-if="classified.meta.urgentPerk") Urgent
+            li.normal(itemprop="datePublished"
+              content="{{ classified.created }}") Posted {{ classified.created | prettydate }}
+            li.normal Viewed {{ classified.meta.views || "10,213"}} times
+            li.location
+              .icon &#xf041;
+              {{ classified.location | location }}
 
+          pre.columns.description(itemprop="description",
+            ng-if-dis="classified.show") {{ classified.description }}
 
-      pre.columns.description(itemprop="description",
-        ng-if-dis="classified.show") {{ classified.description }}
+      .columns.large-3.medium-4.owner-meta
+        .row.collapse.price
+          .title Price
+          span(itemprop="offers", itemscope, itemtype="http://schema.org/Offer")
+            span(itemprop="priceCurrency", content="KWD")
+            span.value(itemprop="price",
+              content="{{ (classified.price_value || 0 ) }}") {{ classified.price_value | price:classified.price_type }}
+        .title posted By
+        .user {{ owner.full_name }}
+        .title.date Registered: {{ owner.created | prettydate }}
+        ul.tags
+          //- li.yellow Offline
+          //- li.green Online
+        .contact(ng-click="showContactModal()")
+          button.blue Contact
+        .avatar
 
-      .columns.meta(ng-if-dis="classified.show")
+      //- .columns.meta(ng-if-dis="classified.show")
         ul.small-block-grid-1.medium-block-grid-3
           //- li
             span.meta-title Views:
             span.meta-value {{ classified.views || 0 }}
-          li
-            span.meta-title Price:
-            span(itemprop="offers", itemscope, itemtype="http://schema.org/Offer")
-              span(itemprop="priceCurrency", content="KWD")
-              span.meta-value(itemprop="price",
-                content="{{ (classified.price_value || 0 ) }}") {{ classified.price_value | price:classified.price_type }}
-          li(ng-if="classified.created", itemprop="datePublished" content="{{ classified.created }}")
-            span.meta-title Published:
-            span.meta-value {{ classified.created | prettydate }}
           li(ng-if="classified.parent_category")
-            span.meta-title Category:
-            span.meta-value {{ classified.parent_category | category : "parent" }}
+            .meta-title Category:
+            .meta-value {{ classified.parent_category | category : "parent" }}
               span(ng-if="classified.child_category") &nbsp;- {{ classified.child_category | category : "child"}}
           li(ng-if="classified.location")
-            span.meta-title Location:
-            span.meta-value {{ classified.location | location }}
+            .meta-title Location:
+            .meta-value {{ classified.location | location }}
           li(ng-if="classified.contact.website")
-            span.meta-title Website:
-            span.meta-value
+            .meta-title Website:
+            .meta-value
               a(ng-href="{{ classified.contact.website }}", target="_blank") {{ classified.contact.website | link}}
           li(ng-if="classified.contact.address1")
-            span.meta-title Address:
-            span.meta-value
+            .meta-title Address:
+            .meta-value
               a(ng-href="//www.google.co.in/maps/dir//{{classified.meta.gmapX}},{{classified.meta.gmapY}}",
                 ng-if="classified.meta.gmapX") {{ classified.contact.address1 }}, {{ classified.contact.address2 }}
               a(ng-if="!classified.meta.gmapX") {{ classified.contact.address1 }}, {{ classified.contact.address2 }}
-          li(ng-if="classified.contact.email && !classified.meta.hideEmail")
+          //- li(ng-if="classified.contact.email && !classified.meta.hideEmail")
             span.meta-title Email:
             span.meta-value
               a(ng-href="mailto:{{ classified.contact.email }}?subject=Reply to your classified: {{ classified.title }}") {{ classified.contact.email }}
@@ -83,18 +98,8 @@
               b Phone:
               a
           a.contact(ng-click="showContactForm = true", ng-if="classified.contact.email") Contact Me
-          .contact-form.columns(ng-if="showContactForm") I shall send your message!
+          .contact-form.columns(ng-if="showContactForm") I shall send your message
 
-
-      .disclaimer.columns
-        b Disclaimer:&nbsp;
-        | By viewing this classified, you are agreeing to our&nbsp;
-        a(target="_self", href="/info/terms-privacy") privacy conditions and terms of use
-        | . It is your duty to ensure safety and authenticity while dealing with any
-        | buyer/sellers.
-
-      .columns.contact(ng-click="showContactModal()")
-        button Contact the Owner
 
       a.google-maps.columns(ng-if="classified.meta.gmapX && classified.show"
         ng-init="mapHeight = window.innerHeight / 2"
@@ -103,6 +108,9 @@
         ng-href="//www.google.co.in/maps/dir//{{classified.meta.gmapX}},{{classified.meta.gmapY}}")
         #maps-container(google-maps, ng-model="classified.meta")
 
+
+      //- .social-share.columns
+        .icon &#xf064;
 
 
       //- ul#extras-sidebar.columns
@@ -125,3 +133,20 @@
         //- li.blank
         //- li.fav
         //-   a.icon(ng-href="/{{ classified.slug }}") &#xf005;
+
+      .legal.columns.medium-6
+        b Disclaimer:
+        br
+        | By viewing this classified, you are agreeing to our&nbsp;
+        a(target="_self", href="/info/terms-privacy") privacy conditions and terms of use
+        | . It is your duty to ensure safety and authenticity while dealing with any
+        | buyer/sellers.
+
+      .legal.columns.medium-6
+        b Safety Tips:
+        br
+        | 1. Always keep yourself protected and meet seller at a safe location.
+        br
+        | 2. Check any item before you buy.
+        br
+        | 3. Pay only after collecting the item.

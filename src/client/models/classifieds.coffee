@@ -1,3 +1,18 @@
+statuses =
+  INACTIVE: 0
+  ACTIVE: 1
+  REJECTED: 2
+  ARCHIVED: 3
+  BANNED: 4
+  FLAGGED: 5
+  VERIFIED: 6
+  EXPIRED: 7
+
+languages =
+  ENGLISH: 1
+  ARABIC:  2
+  HINDI:   3
+
 class Classified extends require "./default"
   statuses:
     INACTIVE: 0
@@ -118,6 +133,22 @@ exports = module.exports = ($environment, $location, $http, $serialize, $log) ->
     for image in (data.images or [])
       image.src = "#{$environment.staticUrl}/uploads/thumb/#{image.filename}"
       image.srcMain = "#{$environment.staticUrl}/uploads/main/#{image.filename}"
+
+    # To check for classified status
+    data.isActive = data.status is statuses.ACTIVE
+    data.isBanned = data.status is statuses.BANNED
+    data.isInactive = data.status is statuses.INACTIVE
+    data.isRejected = data.status is statuses.REJECTED
+
+    # # To check for language
+    # isEnglish: -> @data.languages is @languages.ENGLISH
+    # isArabic: -> @data.languages is @languages.ARABIC
+    # isHindi: -> @data.languages is @languages.HINDI
+
+    # # To check for delivery status
+    # hasDelivery: -> @data.meta.deliveryIncluded
+    # hasFreeDelivery: -> @data.meta.freeDeliveryIncluded
+
     data
 
   class Model
