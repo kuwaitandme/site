@@ -291,7 +291,6 @@ exports = module.exports = (knex) ->
         qb.offset (page - 1) * CLASSIFIEDS_PER_PAGE
         # qb.orderBy "weight", "DESC"
 
-        console.log qb.toString()
         sort = parameters.sort
         switch sort
           # Most Expensive
