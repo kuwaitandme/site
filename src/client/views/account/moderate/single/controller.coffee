@@ -8,7 +8,7 @@ $scope, $stateParams, Classifieds) ->
   # Fetch the classified from the API
   Classifieds.get $stateParams.id
   .then (classified) ->
-    $scope.$emit "page-loaded"
+    $scope.$emit "page-loaded", allowBackNavigation: true
     $scope.classified = classified
 
   # When classified has been edited successfully, redirect to the account page

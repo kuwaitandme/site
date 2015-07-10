@@ -3,7 +3,7 @@ name = "[page:account-moderate]"
 
 exports = module.exports = ($scope, $location, $log, Classifieds) ->
   $log.log name, "initializing"
-  $scope.$emit "page-loaded"
+  $scope.$emit "page-loaded", allowBackNavigation: true
 
   # Prepare the query for the classified.list controller. This object
   # gets inherited by the classified.list controller.

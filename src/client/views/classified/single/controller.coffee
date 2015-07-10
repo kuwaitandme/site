@@ -1,9 +1,11 @@
-exports = module.exports = ($scope, $root, $stateParams, $log, Classifieds) ->
-  @name = "[page:classified-single]"
-  $log.log @name, "initializing"
-  $log.debug @name, "routeParams", $stateParams
+name = "[page:classified-single]"
 
-  $root.bodyStyles['stick-header'] = true
+
+exports = module.exports = ($scope, $root, $stateParams, $log, Classifieds) ->
+  $log.log name, "initializing"
+  $log.debug name, "routeParams", $stateParams
+
+  # $root.bodyStyles['stick-header'] = true
 
   Classifieds.get $stateParams.id
   .then (classified) ->
