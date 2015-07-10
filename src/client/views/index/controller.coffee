@@ -1,23 +1,30 @@
 name = "[page:landing]"
 
-exports = module.exports = ($scope, $scroller, $root, $log, $ga, Classifieds) ->
+exports = module.exports = ($scope, $location, $scroller, $root, $log, $ga,
+Classifieds) ->
   $log.log name, "initializing"
   $scope.gotoElement = (eID) -> setTimeout (-> $scroller.scrollTo eID), 100
 
   $scope.heroURL = "landing.jpg"
   $scope.displayClassifiedList = true
+
   $scope.$emit "page-loaded"
-  $scope.onHeroLoad = ->
 
   $scope.showAuth = -> $root.$broadcast "component:auth:show"
 
   # Everytime a CTA button is clicked, send it to ga..
-  $scope.trackEvent = (action) -> $ga.trackEvent "Call to action", "click"
+  $scope.trackEvent = (a) -> $ga.trackEvent "Call to action", "click", a
 
+  # When classified has been clicked, redirect to its page
+  $scope.$on "classified-list:click", ($event, data) ->
+    $location.path "/#{data.classified.slug}"
+
+  # Set the query for the classified list!
   $scope.query = status: Classifieds.statuses.ACTIVE
 
 exports.$inject = [
   "$scope"
+  "$location"
   "$scroller"
   "$rootScope"
   "$log"

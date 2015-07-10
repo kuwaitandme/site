@@ -23,13 +23,6 @@ exports = module.exports = (IoC, settings) ->
   name = "[email]"
   logger = IoC.create "igloo/logger"
 
-  console.log
-    host: settings.email.smtp.hostname
-    port: settings.email.smtp.port or 25
-    secure: settings.email.smtp.ssl
-    auth:
-      user: settings.email.smtp.username
-      pass: settings.email.smtp.password
   transporter = nodemailer.createTransport
     # host: settings.email.smtp.hostname
     # port: settings.email.smtp.port or 25
@@ -122,8 +115,6 @@ exports = module.exports = (IoC, settings) ->
 
       # Extend the default options
       options = _.extend {}, defaultsMailOptions, mailOptions
-
-      console.log options
 
       # Start sending the message
       logger.debug name, "sending email to #{destination}"

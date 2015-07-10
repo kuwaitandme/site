@@ -1,7 +1,7 @@
 //- #main-header.columns(ng-scrollup-class="nav-up")
 #main-header
   #header-logo-container
-    a#header-logo(fn-route="/")
+    a#header-logo(ng-click="headerLogoClick()")
   #grabber-container(ng-click="toggleHeader()")
     #grabber
       //- #notification-counter(ng-if="unreadNotifications > 0") {{ unreadNotifications }}

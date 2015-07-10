@@ -1,5 +1,6 @@
 modal
   +single-transition(opacity)
+  +force-gpu
   background: #DDD
   bottom: 0
   display: none
@@ -16,6 +17,7 @@ modal
     overflow-y: auto
 
   > .content
+    +force-gpu
     +radius(3px)
     +single-transition(opacity)
     background: #FFF
@@ -44,7 +46,7 @@ modal
 
     .close-icon
       $size: 40px
-      background: #FFF
+      background: #DDD
       height: $size
       padding: 8px 12px
       position: absolute

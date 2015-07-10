@@ -27,4 +27,4 @@
 
 #featured-classifieds.row(ng-if="displayClassifiedList")
   h2 Latest Classifieds
-  section(classified-interactive-list)
+  section(classified-list, ng-model="query")

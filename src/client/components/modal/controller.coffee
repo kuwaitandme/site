@@ -61,7 +61,6 @@ hotkeys) ->
       $scope.$emit "component:modal:hide"
 
 
-
   # Signal the factory modal to close it's current instance.
   $scope.closeModal = -> $scope.$emit "factory:modal:close"
 

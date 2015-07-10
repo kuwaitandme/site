@@ -3,7 +3,8 @@ name = "[component:header]"
 # Allow upto 'X' unread notifications to be put in the sub-header
 maxUnreadNotifications = 3
 
-exports = module.exports = ($scope, $root, $log, $timeout, Notifications) ->
+exports = module.exports = ($scope, $root, $log, $timeout, $location,
+Notifications) ->
   $log.log name, "initializing"
 
   $scope.notifications = []
@@ -63,11 +64,17 @@ exports = module.exports = ($scope, $root, $log, $timeout, Notifications) ->
   readNotification()
 
 
+  $scope.headerLogoClick = ->
+    if not $root.bodyClasses["show-header-backbutton"] then $location.path "/"
+    else history.back()
+
+
 exports.$inject = [
   "$scope"
   "$rootScope"
   "$log"
   "$timeout"
+  "$location"
 
   "models.notifications"
 ]
