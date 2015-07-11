@@ -29,7 +29,7 @@
         li.red(ng-if="classified.meta.urgentPerk") Urgent
         li.normal(itemprop="datePublished"
           content="{{ classified.created }}") Posted {{ classified.created | prettydate }}
-        li.normal Viewed {{ classified.meta.views || "10,213"}} times
+        //- li.normal Viewed {{ classified.meta.views || "10,213"}} times
         li.location
           .icon &#xf041;
           | {{ classified.location | location }}
