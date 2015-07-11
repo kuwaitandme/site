@@ -82,6 +82,7 @@ header
 
     &, ul#notifications, #nav-footer
       +single-transition(all, 500ms)
+      +force-gpu
     ul#notifications
       // display: none
       // margin-top: 20px
@@ -188,13 +189,19 @@ body.show-subheader
   nav#sub-header
     top: 60px
 
-  main
-    transform: translateX(-200px)
-
   // main:before
-  //   opacity: 1
-  //   content: ''
-  //   height: 100%
+  //   // transform: translateX(-200px)
+
+  main:before
+    background: rgba(0,0,0,0.8)
+    position: absolute
+    top: 0
+    left: 0
+    width: 100%
+    z-index: 1
+    opacity: 1
+    content: ''
+    height: 100%
 
 body.stick-header, body.show-subheader
   #main-header

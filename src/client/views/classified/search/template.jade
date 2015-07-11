@@ -6,7 +6,7 @@ section.row
     h1.columns {{ parentCategory.name }}
     h2.columns(ng-if="childCategory.id") {{ childCategory.name }}
 
-section.row(classified-interactive-list)
+section.row(classified-list, ng-model="listOptions")
 section(filterbox)
 
 img.hide(fn-image-loader!="<%= staticUrl %>/images/hero/{{ heroURL }}",

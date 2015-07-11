@@ -1,19 +1,16 @@
 name = "[page:account-manage]"
-
-
 exports = module.exports = ($location, $log, $scope, Users) ->
   $log.log name, "initializing"
   $scope.$emit "page-loaded", allowBackNavigation: true
 
-  # Prepare the query for the classified.list controller. This object
-  # gets inherited by the classified.list controller.
-  $scope.query = owner: Users.getCurrent().get().id or -1
-  $scope.finishMessage = "End of classifieds"
-  $scope.emptyMessage = "You have no classifieds"
-  $scope.showStatus = true
-
-  $scope.$on "classified-list:click", ($event, data) ->
-    $location.path "/account/classifieds/#{data.classified.id}"
+  # Prepare options for the classified list.
+  $scope.listOptions =
+    options:
+      emptyMessage: "You have no classifieds"
+      finishMessage: "End of classifieds"
+      urlTransformer: (classified) -> "/account/classifieds/#{classified.id}"
+      showStatus: true
+    query: status: owner: Users.getCurrent().get().id or -1
 
 
 exports.$inject = [

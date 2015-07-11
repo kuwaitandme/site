@@ -5,6 +5,8 @@
  * This way, we can deploy the app into PhoneGap application (which use
  * hashbang URLs) without rewriting the links and have the entire app navigate
  * properly.
+ *
+ * TODO: make this use href instead of $location...
 ###
 exports = module.exports = ($location)->
   link: (scope, element, attributes) ->

@@ -2,9 +2,8 @@ ul.classified-list-container.row(fn-scroll="onScroll",
   ng-init="loadingClassifieds=false; queryFinished=false"
   ng-style="{ 'display': (hideList ? 'none' : 'block') }")
   li.large-3.medium-4.small-6.columns(ng-repeat="classified in classifieds")
-    a(ng-href="{{ urlTransform(classified) }}")
-      div(classified-list-item, ng-model="classifieds[$index]"
-        ng-click="onClassifiedClick($index, classifieds[$index])")
+    a(ng-href="{{ urlTransformer(classified) }}")
+      div(classified-list-item, ng-model="classifieds[$index]")
 
 .ajax-loading(ng-if="loadingClassifieds") Loading classifieds!
 

@@ -1,8 +1,9 @@
 exports = module.exports = (Category) ->
-  (categoryId, type) ->
+  (categoryId, type, key="name") ->
     switch type
       when "parent" then category = Category.findByParentId categoryId
       when "child" then category = Category.findByChildId categoryId
-    category.name
+    category ?= {}
+    category[key]
 
 exports.$inject = ["models.categories"]

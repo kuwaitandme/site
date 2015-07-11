@@ -1,20 +1,19 @@
+name = "[component:classified-list]"
 exports = module.exports = ($element, $location, $log, $root, $scope, $timeout,
-$window, Classifieds) ->
-  name = "[component:classified-list]"
+$serialize, $storage, $window, Classifieds) ->
   $log.log name, "initializing"
 
   # Setup some defaults..
   body = (document.getElementsByTagName "body")[0]
+  storageKey = classifedList = masonry = null
   currentPage = 1
+  options = query = {}
   scrollPosition = 0
-  classifedList = null
-  masonry = null
+  storageKey = "#{name}#{$serialize query}"
 
-  options = {}
-  query = {}
 
-  initializeQuery = ->
-    console.log name, "re-initializing"
+  $scope.$watch "query", ->
+    $log.log name, "re-initializing"
     query = $scope.query
     currentPage = 1
 
@@ -26,34 +25,41 @@ $window, Classifieds) ->
     masonry.remove classifedList.childNodes
     $scope.classifieds = []
 
+    # Reset the storage key
+    storageKey = "#{name}#{$serialize query}"
+
     # Load the first batch of classifieds
     $scope.loadClassifieds()
-  $scope.$watch "query", initializeQuery
 
 
   # During a refresh event, re-layout masonry.
   $scope.$on "refresh", -> $timeout (-> masonry.layout() ), 100
 
-  initializeOptions = ->
+
+  $scope.$watch "options", ->
+    # This function returns a random text from the array below.
+    randomMessage = do ->
+      texts = [
+        "Yiikes, there are no more classifieds!"
+        "Mayday! we're all out of classifieds!"
+        "Woops! that's all we got!"
+        "Wowie! that seems to be all we have!"
+      ]
+      texts[Math.floor Math.random() * texts.length]
+
+    # Setup the default options.
     defaultOptions =
+      emptyMessage: randomMessage
+      finishMessage: randomMessage
       maxClassifieds: 9999
       urlTransformer: (classified) -> "/#{classified.slug}"
-      finishMessage: do ->
-        texts = [
-          "Oh man, there are no more classifieds!"
-          "Mayday! we're all out of classifieds!"
-          "Woops! that's all we got!"
-          "Wowie! that seems to be all we have!"
-        ]
-        texts[Math.floor Math.random() * texts.length]
-    defaultOptions.emptyMessage = defaultOptions.finishMessage
 
+    # Extend the options from the model with the default values.
     angular.extend options, defaultOptions, $scope.options
-
     $scope.finishMessage = options.finishMessage
     $scope.emptyMessage = options.emptyMessage
-    $scope.urlTransform = options.urlTransformer
-  $scope.$watch "options", initializeOptions
+    $scope.urlTransformer = options.urlTransformer
+    console.log $scope.urlTransformer
 
 
   # Listen to any changes to the classified list. If more classified have been
@@ -93,7 +99,6 @@ $window, Classifieds) ->
     .then (response) ->
       $log.log name, "finished loading classifieds"
       $log.debug name, "loaded #{response.data.length} classified(s)"
-
       classifieds = response.data or []
 
       # For each classified attach the imageLoader and add it to the DOM
@@ -103,6 +108,7 @@ $window, Classifieds) ->
         if classified.id != $scope.query.exclude and
         # Then check if we have reached our limit for max no. of classifieds
         $scope.classifieds.length < options.maxClassifieds
+          classified.showStatus = options.showStatus
           # Attach masonry handler and add it to the DOM..
           classified.imageLoaded = -> masonry.layout()
           $scope.classifieds.push classified
@@ -114,6 +120,8 @@ $window, Classifieds) ->
 
       # Remove the lock for the loadingClassifieds
       $scope.loadingClassifieds = false
+
+      $storage.session storageKey, angular.toJson $scope.classifieds
     .catch (response) -> $log.error response
 
 
@@ -147,6 +155,8 @@ exports.$inject = [
   "$rootScope"
   "$scope"
   "$timeout"
+  "$httpParamSerializer"
+  "$storage"
   "$window"
 
   "models.classifieds"

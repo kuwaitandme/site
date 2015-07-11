@@ -1,6 +1,6 @@
+name = "[page:classified-search]"
 exports = module.exports = ($scope, $stateParams, $rootScope, $log, $location
 Categories, Classifieds) ->
-  name = "[page:classified-search]"
   $log.log name, "initializing"
   $log.debug name, "routeParams", $stateParams
 
@@ -8,11 +8,11 @@ Categories, Classifieds) ->
   $scope.parentCategory = Categories.findBySlug($stateParams.parent) or {}
 
   $scope.heroURL = "cl-#{$scope.parentCategory.slug or 'miscellaneous'}.jpg"
-  $scope.$emit "page-loaded", allowBackNavigation: true
+  $scope.$emit "page-loaded"
 
-  $scope.query = {}
+  $scope.listOptions = query: {}, options: {}
   angular.extend(
-    $scope.query
+    $scope.listOptions.query
     $location.search()
     {
       child_category: $scope.childCategory.id

@@ -1,4 +1,4 @@
-section(ng-class="{'show-status': showStatus, 'urgent':cl.meta.urgentPerk && !showStatus}",
+section(ng-class="{'show-status': cl.showStatus, 'urgent':cl.meta.urgentPerk && !cl.showStatus}",
   itemscope
   class="{{ cl.status | status:'classified' | lowercase }}"
   itemtype="http://schema.org/Product")
@@ -14,7 +14,7 @@ section(ng-class="{'show-status': showStatus, 'urgent':cl.meta.urgentPerk && !sh
     .title
       span(itemprop="name") {{ cl.title | limitTo: 120 }}
 
-    ul.meta.row.collapse(ng-if="!showStatus")
+    ul.meta.row.collapse(ng-if="!cl.showStatus")
       li.price.small-6.columns(itemprop="offers"
         itemscope
         itemtype="http://schema.org/Offer")
@@ -26,5 +26,5 @@ section(ng-class="{'show-status': showStatus, 'urgent':cl.meta.urgentPerk && !sh
         //- a(ng-href="/{{ classified.slug }}")
           span.link &#xf0c6;
         span {{ cl.created | prettydate }}
-  .status.banner(ng-if="showStatus") {{ cl.status | status:"classified" }}
+  .status.banner(ng-if="cl.showStatus") {{ cl.status | status:"classified" }}
   //- .urgent.banner(ng-if="cl.meta.urgentPerk && !showStatus") Urgent

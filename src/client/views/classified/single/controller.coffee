@@ -25,6 +25,7 @@ exports = module.exports = ($scope, $root, $stateParams, $log, Classifieds) ->
 
     # Set the query params for the similar classifieds..
     $scope.similarListOptions.query =
+      # Don't include the childcategory for the timebeing..
       # child_category: classified.child_category
       exclude: classified.id
       parent_category: classified.parent_category
