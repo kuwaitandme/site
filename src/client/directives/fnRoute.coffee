@@ -8,12 +8,10 @@
 ###
 exports = module.exports = ($location)->
   link: (scope, element, attributes) ->
-    # Initialize.
     element = attributes.$$element[0]
-    url = attributes.fnRoute
 
     # On click, redirect the page using the $location service.
-    onClick = -> scope.$apply -> $location.url url
+    onClick = -> scope.$apply -> $location.url attributes.fnRoute
     (angular.element element).bind "click", onClick
 
 

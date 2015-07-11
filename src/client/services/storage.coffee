@@ -1,15 +1,18 @@
-###
-  This service offers an interface to three kinds of storage. Temporary, local
-  and session.
-
-  Temporary storage: Use this to save objects that only need to live within the
-  lifetime of the current window/tab.
-
-  Local storage: Use this to save objects that only need to live forever. They
-  don't get erased unless the user decides to clear the browser's saved data.
-
-  Session storage: Use this to save objects that only need to withing the
-  current session. They get erased when the user closes the tab.
+###*
+ * This service offers an interface to three kinds of storage. Temporary, local
+ * and session.
+ *
+ * Temporary storage: Use this to save objects that only need to live within the
+ * lifetime of the current window/tab.
+ *
+ * Local storage: Use this to save objects that only need to live forever. They
+ * don't get erased unless the user decides to clear the browser's saved data.
+ *
+ * Session storage: Use this to save objects that only need to withing the
+ * current session. They get erased when the user closes the tab.
+ *
+ * @module Services.Storage
+ * @author Steven Enamakel <me@steven.pw>
 ###
 name = "[service:storage]"
 
