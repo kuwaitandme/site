@@ -1,24 +1,26 @@
 modal
   +single-transition(opacity)
   +force-gpu
-  background: #DDD
+  background: rgba(0,0,0,0.8)
   bottom: 0
   display: none
   height: 100%
   left: 0
   overflow-y: scroll
-  padding: 65px 10px
+  padding: 65px 0
   position: fixed
   top: 0
   width: 100%
   z-index: 5
 
   @media #{$large-up}
+    padding: 65px 10px
     overflow-y: auto
+    > .content
+      +radius(3px)
 
   > .content
     +force-gpu
-    +radius(3px)
     +single-transition(opacity)
     background: #FFF
     margin-top: 50px
@@ -27,11 +29,10 @@ modal
     opacity: 0
     z-index: 1
 
-    border: 1px solid #AAA
-
     -moz-box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.1)
     -webkit-box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.1)
     box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.1)
+
     &.show
       opacity: 1
 
@@ -46,7 +47,7 @@ modal
 
     .close-icon
       $size: 40px
-      background: #DDD
+      background: #FFF
       height: $size
       padding: 8px 12px
       position: absolute
@@ -54,6 +55,6 @@ modal
       top: 0
       width: $size
 
-body.modal-displayed
-  main, header
-    display: none
+// body.modal-displayed
+//   main, header
+//     display: none

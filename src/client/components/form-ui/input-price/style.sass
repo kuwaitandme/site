@@ -4,6 +4,7 @@
     cursor: pointer
     min-height: 67px !important
     position: relative
+
     &:after
       +single-transition
       @extend .font-awesome
@@ -12,12 +13,14 @@
       right: 27px
       top: 27px
     &.opened:after
-      -ms-transform: rotate(180deg); /* IE 9 */
-      -webkit-transform: rotate(180deg); /* Chrome, Safari, Opera */
-      transform: rotate(180deg);
+      -ms-transform: rotate(180deg) /* IE 9 */
+      -webkit-transform: rotate(180deg) /* Chrome, Safari, Opera */
+      transform: rotate(180deg)
+
 
   ul
     +single-transition
+    +force-gpu
     top: 0%
     margin: 0
     left: 0
@@ -33,6 +36,7 @@
       opacity: 1
     li
       +single-transition
+      +force-gpu
       padding: 0 10px
       border-bottom: 1px solid #ddd
       line-height: 50px
