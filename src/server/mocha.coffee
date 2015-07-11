@@ -25,7 +25,7 @@ path     = require "path"
 
 
 # Setup some defaults..
-app = "http://development.kuwaitandme.com"
+app = "https://development.kuwaitandme.com"
 
 
 # dependency injection
