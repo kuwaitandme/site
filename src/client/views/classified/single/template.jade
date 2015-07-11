@@ -2,7 +2,7 @@ section(classified-single, ng-model="classified", ng-if="classified")
 
 .seperator
 
-section.row
+section.row(ng-if="classified")
   h2.columns Similar classifieds
   section.columns(classified-list, ng-model="similarListOptions")
 

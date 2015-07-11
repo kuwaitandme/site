@@ -11,8 +11,15 @@ exports = module.exports = ($scope, $root, $stateParams, $log, Classifieds) ->
       hideFinishMessage: true
       emptyMessage: "This user has only one classified"
 
-  $scope.similarListOptions = {}
+  $scope.similarListOptions =
+    options:
+      maxClassifieds: 10
+      loadSinglePage: true
+      hideFinishMessage: true
+      emptyMessage: "There are no similar classifieds"
 
+
+  # Load the classified!
   Classifieds.get($stateParams.id).then (classified) ->
     $scope.$emit "page-loaded"
 
@@ -22,7 +29,11 @@ exports = module.exports = ($scope, $root, $stateParams, $log, Classifieds) ->
       status: Classifieds.statuses.ACTIVE
       exclude: classified.id
 
+    $scope.similarListOptions.query = query
+
     $scope.userListOptions.query = query
+    $scope.userListOptions.query.owner = classified.owner
+
     $scope.classified = classified
 
 

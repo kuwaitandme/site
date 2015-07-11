@@ -31,7 +31,6 @@ $window, Classifieds) ->
 
     # Load the first batch of classifieds
     $scope.loadClassifieds()
-    .then -> console.debug name, "initialized"
   $scope.$watch "query", initializeQuery
 
 
@@ -39,18 +38,23 @@ $window, Classifieds) ->
   $scope.$on "refresh", -> $timeout (-> masonry.layout() ), 100
 
   initializeOptions = ->
-    options = $scope.options
+    defaultOptions =
+      maxClassifieds: 9999
+      finishMessage: do ->
+        texts = [
+          "Oh man, there are no more classifieds!"
+          "Mayday! we're all out of classifieds!"
+          "Woops! that's all we got!"
+          "Wowie! that seems to be all we have!"
+        ]
+        texts[Math.floor Math.random() * texts.length]
+    defaultOptions.emptyMessage = defaultOptions.finishMessage
 
-    # Setup the 'finish' and 'empty' classifieds message
-    $scope.finishMessage = options.finishMessage or do ->
-      texts = [
-        "Oh man, there are no more classifieds!"
-        "Mayday! we're all out of classifieds!"
-        "Woops! that's all we got!"
-        "Wowie! that seems to be all we have!"
-      ]
-      texts[Math.floor Math.random() * texts.length]
-    $scope.emptyMessage = options.emptyMessage or $scope.finishMessage
+    angular.extend options, defaultOptions, $scope.options
+    console.debug name, options
+
+    $scope.finishMessage = options.finishMessage
+    $scope.emptyMessage = options.emptyMessage
   $scope.$watch "options", initializeOptions
 
 
@@ -75,15 +79,15 @@ $window, Classifieds) ->
   # This function loads more classifieds from the server.
   $scope.classifieds = []
   $scope.loadClassifieds = ->
+    # Check and set the lock
+    if $scope.loadingClassifieds then return
+    else $scope.loadingClassifieds = true
+
     $log.log name, "loading more classifieds"
     $log.debug name, "page:", currentPage
-    parameters = page: currentPage++
 
-    # Extend the $scope.query object to our query parameters. This way we can
-    # have parent controllers define the $scope.query according to their needs
-    # and can then get used here (due to angular scope inheritance).
-    #
-    # TODO, move this ngModel..
+    # Prepare the query parameters
+    parameters = page: currentPage++
     angular.extend parameters, (query or {})
 
     # Finally!, run the query..
@@ -97,23 +101,30 @@ $window, Classifieds) ->
       # For each classified attach the imageLoader and add it to the DOM
       # (individually).
       for classified in classifieds
-        if classified.id != $scope.query.exclude
+        # First check if this classified is to be included or not..
+        if classified.id != $scope.query.exclude and
+        # Then check if we have reached our limit for max no. of classifieds
+        $scope.classifieds.length < options.maxClassifieds
+          # Attach masonry handler and add it to the DOM..
           classified.imageLoaded = -> masonry.layout()
           $scope.classifieds.push classified
 
+      # If there are no classifieds (remaining or in the DOM) then set the
+      # finish flag to stop the scroller from loading more classifieds.
+      if $scope.classifieds.length is 0 or classifieds.length is 0
+        $scope.queryFinished = true
 
-      if $scope.classifieds.length is 0 then $scope.queryFinished = true
-
+      # Remove the lock for the loadingClassifieds
       $scope.loadingClassifieds = false
     .catch (response) -> $log.error response
 
 
   # Setup the onScroll function.
   $scope.onScroll = ($event) ->
-    # If the user has disabled scrolling functions then return
+    # If the user has disabled scrolling functions then return.
     if options.loadSinglePage then return
 
-    # If there is a query running then return..
+    # If there is a query running then return.
     if $scope.queryFinished or $scope.loadingClassifieds then return
 
     # Setup some defaults
@@ -128,9 +139,7 @@ $window, Classifieds) ->
     scroll = body.scrollTop + $window.innerHeight
 
     # If we have passed 80% down the window, then load more classifieds
-    if scroll / documentHeight * 100 > 80
-      $scope.loadingClassifieds = true
-      $scope.loadClassifieds()
+    if scroll / documentHeight * 100 > 80 then $scope.loadClassifieds()
 
 
 exports.$inject = [
