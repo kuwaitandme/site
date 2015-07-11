@@ -10,7 +10,7 @@ exports = module.exports = ($location, $log, $scope, Users) ->
       finishMessage: "End of classifieds"
       urlTransformer: (classified) -> "/account/classifieds/#{classified.id}"
       showStatus: true
-    query: status: owner: Users.getCurrent().get().id or -1
+    query: owner: Users.getCurrent().get().id or -1
 
 
 exports.$inject = [
