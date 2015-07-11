@@ -21,19 +21,22 @@ exports = module.exports = ($scope, $root, $stateParams, $log, Classifieds) ->
 
   # Load the classified!
   Classifieds.get($stateParams.id).then (classified) ->
-    $scope.$emit "page-loaded"
+    $scope.$emit "page-loaded", title: classified.title
 
-    query =
-      child_category: classified.child_category
+    # Set the query params for the similar classifieds..
+    $scope.similarListOptions.query =
+      # child_category: classified.child_category
+      exclude: classified.id
       parent_category: classified.parent_category
       status: Classifieds.statuses.ACTIVE
+
+    # Set the query for the user's posted classifieds.
+    $scope.userListOptions.query =
       exclude: classified.id
+      owner: classified.owner
+      status: Classifieds.statuses.ACTIVE
 
-    $scope.similarListOptions.query = query
-
-    $scope.userListOptions.query = query
-    $scope.userListOptions.query.owner = classified.owner
-
+    # Finally attach the classified in the DOM.
     $scope.classified = classified
 
 

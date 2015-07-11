@@ -26,9 +26,6 @@ $window, Classifieds) ->
     masonry.remove classifedList.childNodes
     $scope.classifieds = []
 
-    $scope.urlTransform = options.urlTransformer or (index) ->
-      "/#{$scope.classifieds[index].slug}"
-
     # Load the first batch of classifieds
     $scope.loadClassifieds()
   $scope.$watch "query", initializeQuery
@@ -40,6 +37,7 @@ $window, Classifieds) ->
   initializeOptions = ->
     defaultOptions =
       maxClassifieds: 9999
+      urlTransformer: (classified) -> "/#{classified.slug}"
       finishMessage: do ->
         texts = [
           "Oh man, there are no more classifieds!"
@@ -51,10 +49,10 @@ $window, Classifieds) ->
     defaultOptions.emptyMessage = defaultOptions.finishMessage
 
     angular.extend options, defaultOptions, $scope.options
-    console.debug name, options
 
     $scope.finishMessage = options.finishMessage
     $scope.emptyMessage = options.emptyMessage
+    $scope.urlTransform = options.urlTransformer
   $scope.$watch "options", initializeOptions
 
 
