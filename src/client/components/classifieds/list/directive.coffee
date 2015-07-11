@@ -1,4 +1,6 @@
 exports = module.exports = ->
   controller: require "./controller"
-  transclude: true
+  link: require "./link"
+  require: "ngModel"
+  scope: true
   templateUrl: "components/classifieds/list/template"
