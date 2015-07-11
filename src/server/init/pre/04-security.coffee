@@ -26,6 +26,7 @@ exports = module.exports = (IoC, settings, policies) ->
   isDevelopment = settings.server.env == "development"
   if not isDevelopment then app.use (new ddos maxcount: 50).express
 
+
 exports["@require"] = [
   "$container"
   "igloo/settings"

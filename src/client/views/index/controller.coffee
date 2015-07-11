@@ -20,7 +20,9 @@ Classifieds) ->
     $location.path "/#{data.classified.slug}"
 
   # Set the query for the classified list!
-  $scope.query = status: Classifieds.statuses.ACTIVE
+  $scope.classifiedList =
+    query:
+      status: Classifieds.statuses.ACTIVE
 
 exports.$inject = [
   "$scope"
