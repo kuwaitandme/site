@@ -12,11 +12,15 @@ exports = module.exports = (knex, Cache) ->
   cacheKey = "model:categories"
   new class Model
 
+    ###*
+     * Returns all the categories in the DB. The returned JSON contains an array
+     * of parent categories which in-turn contain an array of child categories.
+     *
+     *
+     * @return Promise       A promise which resolves with the entire JSON of
+     *                       the categories.
     ###
-      Returns all the categories in the DB. The returned JSON contains an array
-      of parent categories which in-turn contain an array of child categories.
-    ###
-    getAll: (callback) ->
+    getAll: ->
       # Check in cache first
       Cache.get cacheKey
 

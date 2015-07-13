@@ -3,11 +3,8 @@ socket = require "socket.io"
 redisIOstore = require "socket.io-redis"
 
 name = "[socket.io]"
-
-
 exports = module.exports = (IoC, settings) ->
   app = this
-
   logger = IoC.create "igloo/logger"
   logger.debug name, "initializing server"
 
@@ -19,6 +16,7 @@ exports = module.exports = (IoC, settings) ->
 
   # Now allow the socket to read from the session DB
   io.use socketSession app.sessionInstance
+
 
   # Finally for every connection that is made, we add the user to it's own
   # room using the data we get from passport

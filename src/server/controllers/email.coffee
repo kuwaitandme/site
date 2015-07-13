@@ -1,12 +1,10 @@
-Promise = require "bluebird"
-_       = require "underscore"
-
-nodemailer = require "nodemailer"
+Promise       = require "bluebird"
+_             = require "underscore"
+email         = require "emailjs"
+fs            = require "fs"
+jade          = require "jade"
+nodemailer    = require "nodemailer"
 smtpTransport = require "nodemailer-smtp-transport"
-
-email   = require "emailjs"
-fs      = require "fs"
-jade    = require "jade"
 
 
 ###*

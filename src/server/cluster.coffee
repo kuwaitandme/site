@@ -2,8 +2,8 @@ recluster = require "recluster"
 path      = require "path"
 IoC       = require "electrolyte"
 
-cluster = recluster path.join __dirname, "app.coffee"
 name = "[cluster]"
+cluster = recluster path.join __dirname, "app.coffee"
 
 IoC.loader IoC.node path.join __dirname, "boot"
 IoC.loader "igloo", require "igloo"

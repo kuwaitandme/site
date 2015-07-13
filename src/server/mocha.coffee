@@ -71,5 +71,3 @@ tests = do ->
 for test in tests
   try (IoC.create test) app
   catch e then logger.error e
-
-
