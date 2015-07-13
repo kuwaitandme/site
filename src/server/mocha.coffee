@@ -61,7 +61,6 @@ tests = do ->
       logger.debug "  caught #{relativePath}"
       testPaths.push relativePath
 
-
   # Now require each of the tests and pass the app to it..
   logger.info "fetched #{testPaths.length} test file(s)"
   testPaths
