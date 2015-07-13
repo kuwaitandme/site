@@ -38,6 +38,7 @@
     "deep-diff": "^0.3.2",
     "easyimage": "^1.2.2",
     "ejs": "^1.0.0",
+    "elasticsearch": "^5.0.0",
     "electrolyte": "0.0.3",
     "emailjs": "^0.3.12",
     "errorhandler": "^1.0.1",
