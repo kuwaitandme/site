@@ -16,42 +16,42 @@ exports = module.exports = (IoC, logger, settings, policies) ->
   app = this
 
   # ignore GET /favicon.ico
-  app.use serveFavicon(path.join(settings.publicDir, "favicon.ico"))
-  if settings.server.env == "development"
-    # less middleware
-    # app.use(lessMiddleware(settings.less.path, settings.less.options));
-    # jade-amd templates
-    app.use settings.jade.amd.path, jadeAmd.jadeAmdMiddleware(settings.jade.amd.options)
+  app.use serveFavicon path.join settings.publicDir, "favicon.ico"
 
-  # # static server (always keep this first)
-  # # <http://goo.gl/j2BEl5>
+  # # jade-amd templates
+  # if settings.server.env == "development"
+  #   app.use settings.jade.amd.path, jadeAmd.jadeAmdMiddleware(settings.jade.amd.options)
+
+  # Static server (always keep this first).
+  # <http://goo.gl/j2BEl5>
   app.use serveStatic settings.publicDir, settings.staticServer
 
-  # adds X-Response-Time header
+  # Adds X-Response-Time header.
   app.use responseTime digits: 5
 
-  # prepare req.log for error handler
+  # Prepare req.log for error handler.
   app.use (req, res, next) ->
     req.log =
-      response_time: (new Date).getTime()
-      path: req.path
-      query: req.query
       body: req.body
       params: req.params
+      path: req.path
+      query: req.query
+      response_time: (new Date).getTime()
     next()
 
-  # winston request logger before everything else
+  # Winston request logger before everything else
   # but only if it was enabled in settings
   if settings.logger.requests
     app.use winstonRequestLogger.create logger,
-      '': ":method :statusCode :url[pathname]",
+      "": ":method :statusCode :url[pathname]"
       RT: ":responseTimems"
-      # URL:
+
   # parse request bodies
   # support _method (PUT in forms etc)
-  app.use bodyParser.json(), bodyParser.urlencoded(extended: true), methodOverride("_method")
+  app.use bodyParser.json(), bodyParser.urlencoded(extended: true),
+    methodOverride "_method"
 
-  # pagination
+  # Pagination
   app.use paginate.middleware 10, 50
 
 

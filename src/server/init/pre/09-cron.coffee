@@ -16,7 +16,7 @@ exports = module.exports = (IoC, settings) ->
   # Runs every day at 9PM
   cronDaily = ->
     logger.info name, "running daily cron scripts"
-    if settings.environment is "production" then emailReport()
+    if settings.server.env == "production" then emailReport()
     # deleteBadUsers()
     # expireClassifieds()
     # rotateLogfiles()

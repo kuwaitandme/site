@@ -6,30 +6,26 @@ https    = require "https"
 exports = module.exports = (IoC, settings) ->
   app = this
 
-  # set the environment
+  # Set the environment.
   app.set "env", settings.server.env
 
-  # set the default views directory
+  # Set the default views directory.
   app.set "views", settings.views.dir
 
-  # set to two spaces for JSON
+  # Set to two spaces for JSON
   app.set "json spaces", 2
 
-  # set the default view engine
+  # Set the default view engine.
   app.set "view engine", settings.views.engine
 
-  if settings.server.env == "development"
-    # make view engine output pretty
-    app.locals.pretty = true
-
-  if settings.server.env == "production"
-    # enable view caching
+  # Make view engine output pretty in development mode.
+  if settings.server.env == "development" then app.locals.pretty = true
+  # Enable caching and compression in production/testing mode.
+  else
     app.enable "view cache"
-    # compress response data with gzip/deflate
-    # this overwrites res.write and res.end functions
     app.use compress()
-    # jade-amd templates
-    # TODO: use my gulp jade/requirejs task
+
+  # Finally create the server, with HTTP/HTTPS
   if settings.server.ssl.enabled
     @server = https.createServer settings.server.ssl.options, this
   else @server = http.createServer this

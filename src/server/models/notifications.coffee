@@ -35,8 +35,12 @@ exports = module.exports = (IoC, knex, io) ->
       model.forge(newNotification).save()
 
 
-    ###
-      Query the notifications in the DB with the given parameters
+
+    ###*
+     * Query the notifications in the DB with the given parameters
+     *
+     * @param  {[type]} parameters [description]
+     * @return {[type]}            [description]
     ###
     query: (parameters) ->
       buildQuery = (qb) ->

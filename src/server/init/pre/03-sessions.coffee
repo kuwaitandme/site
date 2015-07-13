@@ -24,8 +24,16 @@ Users) ->
   logger = IoC.create "igloo/logger"
   name = "[session]"
 
-  # This function gets called for each of the OAuth logins. A uniform function
-  # that takes care of everything from DB.... FINISH
+  ###*
+   * This function gets called for each of the OAuth logins. A uniform function
+   * that takes care of everything from DB....
+   *
+   * @param  {[type]}   accessToken  [description]
+   * @param  {[type]}   refreshToken [description]
+   * @param  {[type]}   profile      [description]
+   * @param  {Function} done         [description]
+   * @return {[type]}                [description]
+  ###
   providerAuthCallback = (accessToken, refreshToken, profile, done) ->
     logger.debug name, "got profile from OAuth:", profile.provider
     if profile.emails.length == 0 or (not _.isObject profile.emails[0]) or
@@ -33,25 +41,27 @@ Users) ->
       return done new Error "no oauth email found"
 
     # Query for the user based on the provider.
-    Users.findOne {email: profile.emails[0].value}
+    Users.findOne email: profile.emails[0].value
     .then (user) ->
       if not user? then throw new Error "not found"
 
       # User exists, check if the provider's details have been set and return
-      # the user back to passport
+      # the user back to passport.
       json = user.toJSON()
 
-      # Start checking the login providers
+      # Start checking the login providers.
       if json.login_providers?
 
         # If the login provider has not yet been set, then set it.
         if not json.login_providers[profile.provider]?
           ## Welcome email here!
           json.login_providers[profile.provider] = uid: profile.id
-          logger.debug name, "adding social network [#{profile.provider}] to existing user", profile.emails[0].value
+          logger.debug name, "adding social network [#{profile.provider}] to
+            existing user", profile.emails[0].value
           return Users.patch json.id, json
 
-      logger.debug name, "using social network [#{profile.provider}] from existing user", profile.emails[0].value
+      logger.debug name, "using social network [#{profile.provider}] from
+        existing user", profile.emails[0].value
       user
 
     .catch (error) ->
@@ -82,6 +92,7 @@ Users) ->
               password: password
               user: user.toJSON()
         user
+
     # Once the promise resolves we will have a user that has been just created
     # or previously signed up.
     .then (user) -> done null, user
@@ -103,14 +114,32 @@ Users) ->
   app.use passport.session()
 
 
-  # OAuth authentication
+  ###*
+   * A helper function that nicely registers a passport strategy of an OAuth
+   * provider. This function safely checks if the provider has been enabled
+   * in the settings and registers them in passport using the proper values.
+   *
+   * @param  String           provider='' [description]
+   * @param  PassportStrategy Strategy    [description]
+  ###
   _passport = (provider='', Strategy) ->
+    # If the provider's OAuth information don't exist or if the provider has
+    # not been enabled then return.
     if not settings[provider]? or not settings[provider].enabled then return
-    logger.info "[passport]", "using '#{provider}' oauth authentication"
-    options = {}
-    options.callbackURL = "#{settings.url}/auth/oauth/#{provider}/callback"
-    options = _.extend options, settings[provider].oauth
+    else logger.debug name, "using '#{provider}' oauth authentication"
+
+    # Set the callback URL
+    options = callbackURL: "#{settings.url}/auth/oauth/#{provider}/callback"
+
+    # Extend the prgeoperties from the settings file
+    _.extend options, settings[provider].oauth
+
+    # Now register the strategy in passport
     passport.use new Strategy options, providerAuthCallback
+
+
+  # Using our helper function defined above, we start initialized the OAuth
+  # login service for the different providers we support so far.
   _passport "amazon",      AmazonStrategy
   _passport "facebook",    FacebookStrategy
   _passport "google",      GoogleStrategy
@@ -122,31 +151,32 @@ Users) ->
   # Email Authentication
   if settings.emailAuth.enabled
     passport.use new LocalStrategy (username, password, done) ->
-      Users.findOne {email: username}
-      .then (user) ->
-        logger.debug name, "fetched user", user
+      # First query the DB for the user.
+      Users.findOne(email: username).then (user) ->
+        # Check if the user exists
         if not user? then throw new Error "bad username/email"
 
-        # User exists, check password
+        # User exists, now get
         json = user.toJSON()
         logger.debug name, "user json", json
+
+        # Check if password is valid
         if not Users.isPasswordValid password, json.password
           throw new Error "password mismatch"
 
-        # Check if account is active or not
+        # Check if account is active or not.
         if not Users.isActive json
-          if json.meta and not json.meta.hasTemporaryPassword
-            return throw new Error "not allowed to login"
+          # if json.meta and not json.meta.hasTemporaryPassword
+          return throw new Error "not allowed to login"
 
-        # Login successful! return user
-        user
-
-      .then (user) -> done null, user
+        # Login successful!
+        done null, user
       .catch (error) -> done error.message
 
+
   # Add passport serialization/de-serialization
-  passport.deserializeUser Users.deserialize()
-  passport.serializeUser   Users.serialize()
+  passport.deserializeUser Users.deserialize
+  passport.serializeUser Users.serialize
 
 
 exports["@require"] = [

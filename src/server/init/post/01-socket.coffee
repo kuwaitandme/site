@@ -9,7 +9,7 @@ exports = module.exports = (IoC, settings) ->
   app = this
 
   logger = IoC.create "igloo/logger"
-  logger.info name, "initializing"
+  logger.debug name, "initializing server"
 
   # Initialize a Socket.io server and use redis as the adapter
   io = socket app.server
