@@ -1,23 +1,36 @@
+###*
+ * [Promise description]
+ *
+ * @author Steven Enamakel <me@steven.pw>
+###
 Promise   = require "bluebird"
 bCrypt    = require "bcrypt-nodejs"
 requestIp = require "request-ip"
 validator = require "validator"
 
+
+notificationsPerPage = 30
+TABLENAME = "notifications"
+
+
 exports = module.exports = (IoC, knex, io) ->
   logger = IoC.create "igloo/logger"
   name = "[model:notifications]"
 
-  notificationsPerPage = 30
 
   bookshelf   = (require "bookshelf") knex
-  model      = bookshelf.Model.extend tableName: "notifications"
+  model      = bookshelf.Model.extend tableName: TABLENAME
   collection = bookshelf.Collection.extend model: model
 
 
-  new class Notification
-
-    ###
-      Creates a new notification in the Database
+  class Model
+    ###*
+     * Creates a new notification in the Database
+     * @param  {[type]} request={} [description]
+     * @param  {[type]} message      [description]
+     * @param  {[type]} data         [description]
+     * @param  {[type]} user={}    [description]
+     * @return {[type]}              [description]
     ###
     create: (request={}, message, data, user={}) ->
       logger.debug name, "creating notification: '#{message}'"
@@ -63,14 +76,19 @@ exports = module.exports = (IoC, knex, io) ->
       model.query(buildQuery).fetchAll()
 
 
-    ###
-      Updates the notifications with the given user id
+    ###*
+     * Updates the notifications with the given user id
+     *
+     * @param  Number id         [description]
+     * @param  Object parameters [description]
+     * @return Promise            [description]
     ###
     patch: (id, parameters) ->
       knex "notifications"
       .where "user", "=", id
       .update parameters
 
+  new Model
 
 exports["@singleton"] = true
 exports["@require"] = [

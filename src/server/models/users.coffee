@@ -1,6 +1,12 @@
+###*
+ * [Promise description]
+ *
+ * @author Steven Enamakel <me@steven.pw>
+###
 Promise   = require "bluebird"
 bCrypt    = require "bcrypt-nodejs"
 validator = require "validator"
+TABLENAME = "users"
 
 
 loginStrategies =
@@ -23,7 +29,6 @@ statuses =
   SUSPENDED: 3
 
 
-
 ###*
  * Helper function to create a random password
  *
@@ -40,7 +45,7 @@ exports = module.exports = (IoC, knex, cache) ->
   name = "[model:users]"
 
   bookshelf   = (require "bookshelf") knex
-  model      = bookshelf.Model.extend tableName: "users"
+  model      = bookshelf.Model.extend tableName: TABLENAME
   collection = bookshelf.Collection.extend model: model
 
   usersPerPage = 20
@@ -94,35 +99,40 @@ exports = module.exports = (IoC, knex, cache) ->
 
 
     # Creates a new user
-    create: (parameters={}, callback=->) ->
+    create: (parameters={}) ->
       parameters.credits = 100
-      @model.forge parameters
-      .save().then (user) -> callback null, user
-
-
-    patch: (id, parameters) -> model.forge(id: id).save parameters
-
-
-    createPromise: (parameters={}) ->
-      # Gave the user 100 credits to play with at first
-      parameters.credits = 100
-
       model.forge(parameters).save()
 
 
-    # Creates a user with the given email, with a temporary password
+    ###*
+     * Creates a user with the given email, with a temporary password
+     *
+     * @param  {[type]} email       [description]
+     * @param  {[type]} newPassword [description]
+     * @return {[type]}             [description]
+    ###
     createTemporary: (email, newPassword) ->
-      @findOne(email: email).then (user) =>
+      Model.findOne(email: email).then (user) =>
         if user then throw new Error "email conflict"
 
         newUser =
           email: email
           full_name: "Anonymous"
           login_providers: email: email
-          password: @hashPassword newPassword
+          password: Model.hashPassword newPassword
           meta: hasTemporaryPassword: true
-          status: @statuses.ACTIVE
-        @createPromise newUser
+          status: statuses.ACTIVE
+        Model.create newUser
+
+    ###*
+     * [patch description]
+     * @param  {[type]} id         [description]
+     * @param  {[type]} parameters [description]
+     * @return {[type]}            [description]
+    ###
+    patch: (id, parameters) -> model.forge(id: id).save parameters
+
+
 
 
     ###*
@@ -152,7 +162,6 @@ exports = module.exports = (IoC, knex, cache) ->
      *
      * @param  String  password1      The plaintext password
      * @param  String  password2      The hashed version of the password
-     *
      * @return Boolean                True iff the hashed version of the
      *                                plaintext and the given hash match.
     ###
@@ -165,7 +174,6 @@ exports = module.exports = (IoC, knex, cache) ->
      * Function to generate a strong salted hash using the given password.
      *
      * @param  String password     The password to hash.
-     *
      * @return String              The hashed password.
     ###
     hashPassword: (password) ->
@@ -179,7 +187,6 @@ exports = module.exports = (IoC, knex, cache) ->
      * to be used with passport's passport.serialize().
      *
      * @param  bookshelf.Model user  The model of the user to serialize.
-     *
      * @param  Function callback     The callback function that returns the
      *                               serialize version of the user.
     ###

@@ -1,17 +1,25 @@
+###*
+ * This module gives functions to query on the different categories for a
+ * classified.
+ *
+ * @author Steven Enamakel <me@steven.pw>
+###
 Promise = require "bluebird"
+TABLENAME_CHILD = "child_categories"
+TABLENAME_PARENT = "parent_categories"
 
 
 exports = module.exports = (knex, Cache) ->
   bookshelf        = (require "bookshelf") knex
+  cacheKey         = "model:categories"
 
-  childModel       = bookshelf.Model.extend tableName: "child_categories"
-  parentModel      = bookshelf.Model.extend tableName: "parent_categories"
+  childModel       = bookshelf.Model.extend tableName: TABLENAME_CHILD
+  parentModel      = bookshelf.Model.extend tableName: TABLENAME_PARENT
   childCollection  = bookshelf.Collection.extend model: childModel
   parentCollection = bookshelf.Collection.extend model: parentModel
 
-  cacheKey = "model:categories"
-  new class Model
 
+  new class Model
     ###*
      * Returns all the categories in the DB. The returned JSON contains an array
      * of parent categories which in-turn contain an array of child categories.

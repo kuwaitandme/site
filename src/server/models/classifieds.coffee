@@ -1,5 +1,5 @@
 ###*
- * This module is responsible for handling DB queries for classifieds.
+ *
  *
  * @author Steven Enamakel <me@steven.pw>
 ###
@@ -16,6 +16,7 @@ TABLENAME = "classifieds"
 CLASSIFIEDS_PER_PAGE = 20
 POSTGRES_INT_MAX = 2147483647
 POSTGRES_MAX_CHAR = 255
+
 
 ###*
  * This class represents a classified's schema. It basically is responsible for

@@ -3,9 +3,9 @@ zpad = require "zpad"
 
 exports = module.exports = (Events) ->
   controller = (request, response, next) ->
+
     # Prints out the events in a CSV style format
-    Events.query request.query
-    .then (events) ->
+    Events.query(request.query).then (events) ->
       eventsJSON = events.toJSON()
       output = ""
       for event in eventsJSON
@@ -28,6 +28,7 @@ exports = module.exports = (Events) ->
           (JSON.stringify event.data or {})
         output += eventString
       response.end output
+
     .catch next
 
 exports["@require"] = ["models/events"]

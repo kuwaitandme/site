@@ -1,15 +1,21 @@
+###*
+ * [Promise description]
+ *
+ * @author Steven Enamakel <me@steven.pw>
+###
 Promise = require "bluebird"
+TABLENAME = "locations"
 
 
 exports = module.exports = (knex, Cache) ->
   bookshelf = (require "bookshelf") knex
-
-  model      = bookshelf.Model.extend tableName: "locations"
-  collection = bookshelf.Collection.extend model: model
-
   cacheKey = "model:locations"
 
-  new class Model
+  model      = bookshelf.Model.extend tableName: TABLENAME
+  collection = bookshelf.Collection.extend model: model
+
+
+  class Model
     getAll: ->
       # Check in cache first
       Cache.get cacheKey
@@ -29,6 +35,8 @@ exports = module.exports = (knex, Cache) ->
       # into a proper object to avoid any inconsistencies from the receiving
       # end.
       .then (results) -> JSON.parse results
+
+  new Model
 
 
 exports["@singleton"] = true
