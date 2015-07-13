@@ -1,6 +1,6 @@
 {
   "arrow_spacing": {
-    "level": "error"
+    "level": "warn"
   },
   "camel_case_classes": {
     "level": "error"
@@ -16,7 +16,7 @@
     }
   },
   "braces_spacing": {
-    "level": "error"
+    "level": "warn"
   },
   "cyclomatic_complexity": {
     "value": 10,
@@ -90,7 +90,7 @@
     "level": "error"
   },
   "no_trailing_whitespace": {
-    "level": "error",
+    "level": "warn",
     "allowed_in_comments": false,
     "allowed_in_empty_lines": true
   },

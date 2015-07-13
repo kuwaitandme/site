@@ -1,7 +1,7 @@
-Kuwait and Me
+Kuwait & Me
 =============
 
-Kuwait and Me is a free online public classified site that aims to create a closer community in Kuwait. It is ad-free and is easy to use.
+Kuwait & Me is a free online public classified site that aims to create a closer community in Kuwait. It is ad-free and is easy to use.
 
 Documentation
 -------------
