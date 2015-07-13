@@ -1,7 +1,10 @@
 Kuwait & Me
 =============
 
-![Build Status](https://travis-ci.org/kuwaitandme/site.svg)
+[![Build Status](https://travis-ci.org/kuwaitandme/site.svg)](https://travis-ci.org/kuwaitandme/site)
+[![Dependency Status](https://david-dm.org/kuwaitandme/site.svg)](https://david-dm.org/kuwaitandme/site)
+[![Code Climate](https://codeclimate.com/github/kuwaitandme/site/badges/gpa.svg)](https://codeclimate.com/github/kuwaitandme/site)
+
 
 Kuwait & Me is an [open-source](LICENSE.md) community site that is all about making Kuwait a better place to live. It is feature packed, ad-free, beautiful and will always be free to use.
 
