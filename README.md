@@ -2,6 +2,7 @@ Kuwait & Me
 =============
 
 ![Build Status](https://travis-ci.org/kuwaitandme/site.svg)
+
 Kuwait & Me is an [open-source](LICENSE.md) community site that is all about making Kuwait a better place to live. It is feature packed, ad-free, beautiful and will always be free to use.
 
 
