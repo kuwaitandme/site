@@ -97,7 +97,6 @@ boot/local.js
 /var/public/javascripts/*.js
 /var/public/stylesheets/*.css
 /src/server/**/*.js
-/docs
 /tmp
 /.env
 
