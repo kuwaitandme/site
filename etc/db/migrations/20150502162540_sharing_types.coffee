@@ -5,4 +5,4 @@ exports.up = (knex, Promise) ->
     table.string("slug").notNull().unique()
 
 
-exports.down = (knex, Promise) -> knex.schema.dropTable "sharing_item_types"
+exports.down = (knex, Promise) -> knex.schema.dropTable "sharing_types"
