@@ -7,6 +7,7 @@
     "schema-up": "knex --knexfile ./etc/config/knexfile.coffee migrate:latest --cwd ./etc/db",
     "schema-down": "knex --knexfile ./etc/config/knexfile.coffee migrate:rollback --cwd ./etc/db",
     "seed": "knex seed:run --cwd ./etc/db --knexfile ./etc/config/knexfile.coffee",
+    "docs": "docker -n --ignore_hidden --colour_scheme emacs -m -i src/server/models -o docs",
     "start": "coffee ./bin/server.coffee",
     "test": "NODE_TLS_REJECT_UNAUTHORIZED=0 mocha src/server/mocha.coffee --compilers coffee:coffee-script/register --check-leaks --bail"
   },

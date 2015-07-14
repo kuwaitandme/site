@@ -4,26 +4,27 @@
  * @author Steven Enamakel <me@steven.pw>
 ###
 Promise = require "bluebird"
-TABLENAME = "locations"
 
 
-exports = module.exports = (knex, Cache) ->
-  bookshelf = (require "bookshelf") knex
-  cacheKey = "model:locations"
-
-  model      = bookshelf.Model.extend tableName: TABLENAME
-  collection = bookshelf.Collection.extend model: model
+exports = module.exports = (BaseModel, Cache) ->
+  class Model extends BaseModel
+    tableName: "locations"
 
 
-  class Model
+    ###*
+     * [getAll description]
+     * @return {[type]} [description]
+    ###
     getAll: ->
+      cacheKey = "model:locations"
+
       # Check in cache first
       Cache.get cacheKey
 
       # If the locations was not found in cache, then start querying the DB
-      .catch ->
+      .catch =>
         # Query the DB
-        collection.forge({}).query()
+        @collection.forge({}).query()
 
         # Once the results have been fetched from the DB, we save the
         # locations into the cache.
@@ -41,6 +42,6 @@ exports = module.exports = (knex, Cache) ->
 
 exports["@singleton"] = true
 exports["@require"] = [
-  "igloo/knex"
+  "models/base"
   "controllers/cache"
 ]

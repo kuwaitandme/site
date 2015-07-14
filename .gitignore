@@ -88,7 +88,7 @@ bower_components/
 coverage/
 boot/local.js
 .vagrant/
-
+/docs
 /bin/activate
 /var/public/uploads
 /var/public/build

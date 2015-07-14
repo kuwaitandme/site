@@ -1,7 +1,9 @@
-###*
- * Entry point for the server-side. INCOMPLETE
- *
- * @author Steven Enamakel <me@steven.pw>
+###
+Entry point
+===========
+Entry point for the server-side. INCOMPLETE
+
+Steven Enamakel <me@steven.pw>
 ###
 
 IoC      = require "electrolyte"
