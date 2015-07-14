@@ -19,6 +19,7 @@ exports = module.exports = (IoC, settings) ->
   if settings.server.env == "development"
     app.locals.pretty = true
     app.set "json spaces", 2
+
   # Enable caching and compression in production/testing mode.
   else
     app.enable "view cache"
