@@ -12,10 +12,8 @@ exports.up = (knex, Promise) ->
     table.integer("language").notNull().references("id").inTable "languages"
     table.integer("reputation").notNull().defaultTo 0
     table.integer("edited").notNull().defaultTo 0
-    table.timestamp("created_at").notNull().defaultTo knex.raw "now()"
-    table.timestamp("modified_at").notNull().defaultTo knex.raw "now()"
-    table.timestamp("updated_at").notNull().defaultTo knex.raw "now()"
     table.json("meta")
+    table.timestamps()
 
 
 exports.down = (knex, Promise) -> knex.schema.dropTable "forum_posts"

@@ -3,6 +3,7 @@ exports.up = (knex, Promise) ->
     table.increments().primary()
     table.integer("chats_room").notNull().references("id").inTable "chats_room_statuses"
     table.integer("user").notNull().references("id").inTable "users"
+    table.timestamps()
     table.unique ["chats_room", "user"]
 
 

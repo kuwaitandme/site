@@ -16,8 +16,7 @@ exports.up = (knex, Promise) ->
     table.integer("language").notNull().references("id").inTable "languages"
     table.integer("status").notNull().references("id").inTable "user_statuses"
     table.integer("role").notNull().references("id").inTable "user_roles"
-    table.timestamp("created_at").notNull().defaultTo knex.raw "now()"
-    table.timestamp("updated_at").notNull().defaultTo knex.raw "now()"
+    table.timestamps();
 
 
 exports.down = (knex, Promise) -> knex.schema.dropTable "users"
