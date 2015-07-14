@@ -6,11 +6,12 @@
  * for when the App grows large-scale.
  *
  * The code below walks through all the files in the source tree and grabs all
- * the files that match the "*test.coffee" expression. It then requires it and
- * calls it with the 'app' variable (see below).
+ * the files that match the "*test.coffee" expression. It then instantiates it
+ * with an instance of the server (the 'app' variable; see below).
  *
  * This configuration also allows us to have nice filenames like
- * 'get.test.coffee', 'put.test.coffee', 'part1.test.coffee' etc ...
+ * 'get.test.coffee', 'put.test.coffee', 'part1.test.coffee' etc ... that can be
+ * descriptive about the test itself.
  *
  * @author Steven Enamakel <me@steven.pw>
 ###
@@ -25,6 +26,7 @@ path     = require "path"
 
 
 # Setup some defaults..
+# TODO: Fix this to use an instance. travis complains about unit tests failing.
 app = "https://development.kuwaitandme.com"
 
 
