@@ -8,28 +8,50 @@ header
   top: 0
   left: 0
   width: 100%
+  background: #FFF
   z-index: 4
 
+  $shadow-opacity: 0.1
+  box-shadow: -3px -3px 3px 0 rgba(0,0,0,$shadow-opacity), 3px 0 3px 0 rgba(0,0,0,$shadow-opacity), 0 3px 3px 0 rgba(0,0,0,$shadow-opacity)
 
-  // > .row
-  //   max-width: none1
+  #header-logo-container
+    cursor: pointer
+    left: 50%
+    margin-left: (146/2) * -1px
+    padding: 14px 0
+    position: absolute
+    top: 0
+
+    #header-logo
+      background-image: url(#{$image_root}/images/header/logo.png)
+      background-size: 147px
+      display: block
+      height: 27px
+      width: 146px
+
+  #grabber-container
+    cursor: pointer
+    float: left
+    padding: 19px 25px
+    #grabber
+      background-image: url(#{$image_root}/images/header/grabber.png)
+      background-size: 100%
+      height: 21px
+      position: relative
+      width: 21px
+
+  #header-logo, #grabber
+    background-repeat: no-repeat
+
   #main-header
-    +single-transition
     +clearfix
-    background: #FFF
+    +single-transition
     border-bottom: 1px solid #f6f6f6
     height: $headerHeight
     z-index: 1
 
     &.nav-up
       margin-top: -$headerHeight
-    #header-logo, #grabber
-      // background-image: url(/images/common-spritesheet.png)
-      background-repeat: no-repeat
-    #grabber-container
-      cursor: pointer
-      float: right
-      padding: 24px 25px
     #nav-social-container
       @extend .font-awesome
       float: right
@@ -42,186 +64,35 @@ header
         text-decoration: none
         &:hover
           opacity: 1
-    #header-logo-container
-      cursor: pointer
-      float: left
-      padding: 18px 20px
 
-    #grabber
-      background-image: url(/images/hamburger.png)
-      height: 12px
-      position: relative
-      width: 21px
-      #notification-counter
-        $size: 18px
-        +radius(100px)
-        background: #E74C3C
-        color: #FFF
-        font-size: 10px
-        height: $size
-        line-height: $size
-        position: absolute
-        right: 15px
-        text-align: center
-        top: -10px
-        width: $size
-
-
-    // &:hover ~ nav#sub-header ul#notifications
-    //   height: 35px !important
 
   nav#sub-header
-    top: -400px
-    overflow-y: auto
-    position: fixed
-    width: 100%
-    z-index: -1
+    border-top: 1px solid #ddd
+    // display: none
 
-    @media only screen and (max-width: 40em)
-      top: -1000px
-
-    &, ul#notifications, #nav-footer
-      +single-transition(all, 500ms)
-      +force-gpu
-    ul#notifications
-      // display: none
-      // margin-top: 20px
-      margin: 0
-      overflow: hidden
+    ul.main-sublinks
+      margin: 0 auto
+      max-width: 800px
       li
-        +single-transition
-        color: #FFF
-        font-size: 0.8rem
-        padding: 0.5rem 1rem
-        border-bottom: 1px solid rgba(0,0,0,0.1)
-        // margin-bottom: 10px
-        position: relative
-        &:last-child
-          margin-bottom: 0
-        // &:nth-child(even)
-        //   background: rgba(0,0,0,0.1)
-        &.none
-          margin: 0
-        &.success, &
-          background: #30B632
-        &.warning
-          background: #FF9900
-        &.error
-          background: #D8432E
-        &.read
-          opacity: 0.8
-        &:hover
-          opacity: 1
-
-    #nav-links
-      @extend .font-title
-      background: #fff
-      font-size: 1rem
-      margin-top: 10px
-      overflow: hidden
-
-      .title
-        background: #F60
-        color: #FFF
-        display: inline-block
-        font-size: 1rem
-        font-weight: bold
-        padding: 1rem
-        text-align: right
-        text-transform: uppercase
-
-        @media only screen and (min-width: 40em)
-          &.dark
-            background: #DB5800
-      .link
-        text-align: center
-        font-size: 0.9rem
-      li
+        border-left: 1px solid #ddd
+        border-bottom: 1px solid #ddd
         padding: 0
-      a
-        +single-transition
-        border-bottom: 3px solid transparent
-        color: #000
-        display: block
-        height: 56px
-        padding: 1rem 0
-        text-decoration: none
-        width: 100%
+        color: #777
+        a
+          text-decoration: none
+          display: block
+          +single-transition(background)
+          color: inherit
+          cursor: pointer
+          padding: 9px 7px
+          text-align: center
+          text-transform: uppercase
+          font-size: 10px
+        &:last-child
+          border-right: 1px solid #ddd
         &:hover
-          border-bottom-color: #F60
-
-    #nav-footer
-      @extend .font-title
-      background: #FFF
-      color: #000
-      font-size: 0.7rem
-      padding: 1rem
-      overflow: hidden
-      text-align: center
-      a
-        color: blue
-        text-decoration: none
-
-#nav-widget-user
-  margin-top: 20px
-  overflow: hidden
-  background: #FFF
-  .thumb
-    padding: 20px
-    text-align: center
-
-    img
-      width: 100px
-      height: 100px
-      background: #F60
-
-      -webkit-border-radius: 50px
-      -moz-border-radius: 50px
-      border-radius: 50px
-
-
-body.show-subheader
-  header, nav#sub-header
-    bottom: 0
-    overflow-y: auto
-  #main-header
-    margin-top: 0
-  nav#sub-header
-    top: 60px
-
-  // main:before
-  //   // transform: translateX(-200px)
-
-  main:before
-    background: rgba(0,0,0,0.8)
-    position: absolute
-    top: 0
-    left: 0
-    width: 100%
-    z-index: 1
-    opacity: 1
-    content: ''
-    height: 100%
-
-body.stick-header, body.show-subheader
-  #main-header
-    margin-top: 0
-
-#header-logo
-  background-image: url(/images/header-logo.png)
-  background-size: 25px;
-  display: block
-  height: 25px
-  width: 25px
-
-body.show-header-backbutton
-  #header-logo-container
-    padding:  20px !important
-  #header-logo
-    background-image: url(/images/arrow.png)
-    height: 20px
-    width: 20px
-    background-size: 20px
+          background: #F60
+          color: #FFF
 
 @media print
   header

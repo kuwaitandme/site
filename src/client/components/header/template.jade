@@ -1,160 +1,22 @@
 //- #main-header.columns(ng-scrollup-class="nav-up")
 #main-header
   #header-logo-container
-    a#header-logo(ng-click="headerLogoClick()")
+    a#header-logo(fn-route="/")
   #grabber-container(ng-click="toggleHeader()")
     #grabber
-      //- #notification-counter(ng-if="unreadNotifications > 0") {{ unreadNotifications }}
-  #nav-social-container.hide-for-small
-    a(target="_blank", href="https://www.facebook.com/KuwaitandMe") &#xf09a;
-    a(target="_blank", href="https://twitter.com/kuwaitandme") &#xf099;
-    a(target="_blank", href="https://plus.google.com/+Kuwaitandmeclassifieds") &#xf0d5;
-    a(target="_blank", href="https://www.pinterest.com/kuwaitandme") &#xf231;
-    a(target="_blank", href="https://www.reddit.com/r/kuwaitclassifieds") &#xf1a1;
-    a(target="_blank", href="https://instagram.com/kuwaitandme") &#xf16d;
 
 
 nav#sub-header
-  .row.collapse
-    .columns.small-centered
-      //- ul#notifications()
-        li(ng-if="notifications.length > 0",
-          ng-repeat="n in notifications | limitTo: 4",
-          ng-mouseover="n.hasRead = 1; onNotificationRead()"
-          ng-click="n.remove = true"
-          class="{{ n.type }}", ng-class="{read: n.hasRead == 1, hide: n.remove}") {{ n.message | translate}}
-        li.error.none(ng-if="notifications.length == 0") You have no new notifications
-
-
-      #nav-links.row
-        .row
-          .columns.medium-3.title Main
-          .link.columns.medium-3
-            a(fn-route="/") Home
-          .link.columns.medium-3
-            a(fn-route="/classified/create") Post a classified
-          .link.columns.medium-3
-            a(fn-route="/classified") Browse classifieds
-        .row
-          .columns.medium-3.title.dark Account
-          .link.columns.medium-3.hide-if-loggedin
-            a(ng-click="showAuth(); closeHeader()") Login/Signup
-          //- .link.columns.medium-3.end.hide-if-loggedin
-            a(href="/auth/reset", ng-click="closeHeader()") Reset password
-          .link.columns.medium-3.show-if-loggedin
-            a(fn-route="/account") Manage account
-          //- .link.columns.medium-3.end.show-if-loggedin
-          //-   a(href="/settings", ng-click="closeHeader()") Settings
-          .link.columns.medium-3.end.show-if-loggedin
-            a(fn-route="/auth/logout") Logout
-        //- .row
-          .columns.medium-3.title More
-          .link.columns.medium-3
-            a(href="/info/contact", ng-click="closeHeader()") Contact Us
-          .link.columns.medium-3
-            a(href="/info", ng-click="closeHeader()") About Us
-          .link.columns.medium-3.end
-            a(href="/info/donate", ng-click="closeHeader()") Donate
-
-      #nav-footer
-        | Copyright &copy; &middot;
-        | Kuwait &amp; Me &middot; 2015 &middot;&nbsp;
-        a(href="/info/terms-privacy", target="_self") Usage &amp; Privacy
-
-
-  //- #header-search
-  //-   form
-  //-     input(placeholder="search ...", name="keywords", type="text")
-  //-   #search-close.icon &#xf00d;
-  //-   #search-submit.icon &#xf002;
-
-  //- nav#mobile-nav.hide-for-large-up.hide-when-searching
-  //-   #mobile-icon
-  //-       img(src="/images/header-logo.png")
-  //-   ul
-  //-     li.left.icon.search-trigger
-  //-       a &#xf002;
-  //-     li#nav-grabber &#xf0c9;
-  //-   #subheader
-  //-     ul.lang
-  //-       li.nav-item
-  //-         a(href!="/en/", data-view) {{ "header.home" | translate }}
-  //-       li.nav-item
-  //-         a(href!="/en/classified", data-view) {{ "header.csearch" | translate }}
-  //-       li.main-item.hide-if-loggedin
-  //-         a(href!="/en/guest/post", data-view) {{ "header.cpost" | translate }}
-  //-       li.main-item.show-if-loggedin
-  //-         a(href!="/en/classified/post", data-view) {{ "header.cpost" | translate }}
-  //-       li.nav-item.hide-if-loggedin
-  //-         a(href!="/en/auth/login", data-view) {{ "header.login" | translate }}
-  //-       li.nav-item.hide-if-loggedin
-  //-         a(href!="/en/auth/signup", data-view) {{ "header.signup" | translate }}
-  //-       li.main-item.show-if-loggedin
-  //-         a(href!="/en/account", data-view) {{ "header.manage" | translate }}
-  //-       li.main-item.show-if-loggedin
-  //-         a(href!="/en/auth/logout", data-view) {{ "header.logout" | translate }}
-  //-       li.main-item
-  //-         a(href!="/en/contact", data-view) {{ "header.contact" | translate }}
-  //-       li.main-item
-  //-         a(href!="/en/about", data-view) {{ "header.about" | translate }}
-  //-       li.main-item
-  //-         a(href!="/en/terms-privacy") {{ "header.terms-privacy" | translate }}
-  //- nav#main-nav.show-for-large-up.hide-when-searching
-  //-   ul
-  //-     li.main-item.left.home.icon
-  //-       a(href!="/en/", data-view) &#xf015;
-  //-     li.main-item.left.search-trigger.icon
-  //-       a &#xf002;
-  //-     li.main-item.settings.icon &#xf013;
-  //-       ul.subnav.hide-if-loggedin
-  //-         li.with-link
-  //-           a(href!="/en/auth/, ng-click="closeHeader()"login", data-view) {{ "header.login" | translate }}
-  //-         li.with-link
-  //-           a(href!="/en/auth/, ng-click="closeHeader()"signup", data-view) {{ "header.signup" | translate }}
-
-  //-       ul.subnav.show-if-loggedin
-  //-         li.user-title.lang
-  //-           span {{ "header.welcome" | translate }}
-  //-           .name
-  //-         //- li.user-credits
-  //-         //-   span You have&nbsp;
-  //-         //-   span.count 0
-  //-         //-   span &nbsp;Credits
-  //-         li.user-thumb
-  //-           img(src="")
-  //-         //- li.with-link
-  //-           a(href!="/en/account/, ng-click="closeHeader()"credits", data-view) Buy Credits
-  //-         li.with-link.lang
-  //-           a(href!="/en/account", ng-click="closeHeader()", data-view) {{ "header.view" | translate }}
-  //-         li.with-link.lang
-  //-           a(href!="/en/auth/, ng-click="closeHeader()"logout", data-view) {{ "header.logout" | translate }}
-  //-     li.main-item.social
-  //-       a.facebook(href="https://www.facebook.com/KuwaitandME") &#xf09a;
-  //-     li.main-item.social
-  //-       a.googleplus(href="https://www.google.com/+Kuwaitandmeclassifieds") &#xf0d5;
-  //-     li.main-item.social
-  //-       a.twitter(href="https://twitter.com/kuwaitandme") &#xf099;
-  //-     li.main-item.social
-  //-       a.youtube(href="https://www.youtube.com/channel/UCRd6d6Tcya8JBwnNB8MFo5A") &#xf16a;
-  //-     li.main-item.social
-  //-       a.instagram(href="https://instagram.com/kuwaitandme/") &#xf16d;
-
-  //- ul#sub-nav.show-for-large-up
-  //-   li.lang
-  //-     a(href!="/en/classified", data-view="classified-search") {{ "header.csearch" | translate }}
-  //-   li.hide-if-loggedin.lang
-  //-     a(href!="/en/guest/post", data-view="guest-post") {{ "header.cpost" | translate }}
-  //-   li.show-if-loggedin.lang
-  //-     a(href!="/en/classified/post", data-view="classified-post") {{ "header.cpost" | translate }}
-  //-   li.nav-item.hide-if-loggedin.lang
-  //-     a(href!="/en/auth/login", data-view="auth-login") {{ "header.login" | translate }}
-  //-   li.nav-item.hide-if-loggedin.lang
-  //-     a(href!="/en/auth/signup", data-view="auth-signup") {{ "header.signup" | translate }}
-  //-   li.show-if-loggedin.lang
-  //-     a(href!="/en/account", data-view="account-index") {{ "header.manage" | translate }}
-  //-   li.lang
-  //-     a(href!="/en/contact", data-view="contact") {{ "header.contact" | translate }}
-  //-   li.lang
-  //-     a(href!="/en/about", data-view="about") {{ "header.about" | translate }}
-  //-   li.lang
-  //-     a(href!="/en/terms-privacy") {{ "header.terms-privacy" | translate }}
+  ul.main-sublinks.small-block-grid-3.medium-block-grid-6
+    li
+      a(fn-route="/food") Food
+    li
+      a(fn-route="/forums") Forums
+    li
+      a(fn-route="/meetups") Meetups
+    li
+      a(fn-route="/news") News
+    li
+      a(fn-route="/sharing") Sharing
+    li
+      a(fn-route="/shopping") Shopping
