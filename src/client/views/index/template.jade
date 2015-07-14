@@ -1,4 +1,5 @@
-.row
+h1
+//- .row
   #splash.columns(ng-class="{imgLoaded: imgLoaded}")
 
     //- CTA background
@@ -25,6 +26,6 @@
         a(fn-route="/account"
           ng-clicks="trackEvent('Manage account')") Manage your Account
 
-#featured-classifieds.row(ng-if="displayClassifiedList")
+//- #featured-classifieds.row(ng-if="displayClassifiedList")
   h2 Latest Classifieds
   section(classified-list, ng-model="classifiedList")
