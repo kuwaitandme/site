@@ -7,7 +7,7 @@ exports = module.exports = (IoC, settings) ->
   app.phase bootable.di.routes path.join __dirname, "main"
 
   # error handler (always keep this last)
-  app.phase -> app.use IoC.create "controllers/main/errors/5XX"
+  app.phase -> app.use IoC.create "controllers/errors/5XX"
 
 
 exports["@require"] = [

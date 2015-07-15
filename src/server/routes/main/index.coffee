@@ -42,12 +42,12 @@ exports = module.exports = (IoC, settings) ->
   ###
   route = (url, controller) ->
     if typeof controller is "string"
-      controller = IoC.create "controllers/main/#{controller}"
+      controller = IoC.create "controllers/#{controller}"
     router.get (new RegExp "^#{url}/?$"), controller
 
 
   # Add route for the landing page
-  route "",              "landing"
+  route "",              "index"
 
   # Add route for each of the sub-pages
   (require "./account")  route

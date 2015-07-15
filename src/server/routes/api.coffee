@@ -38,47 +38,36 @@ exports = module.exports = (IoC) ->
       when GET
         router.get    (new RegExp "^#{url}/?$"), api "#{controller}/get"
 
-  r "",                                     ".",                         GET
-
-  r "/auth/email",                          "auth/email",                PUT
-  r "/auth/email/activate/([0-9]+)",        "auth/email/activate",       GET
-  r "/auth/email/login",                    "auth/email/login",          POST
-  r "/auth/email/signup",                   "auth/email/signup",         POST
-  r "/auth/logout",                         "auth/logout",               GET
-
-  r "/categories",                          "categories",                GET
-  r "/categories/counters",                 "categories/counters",       GET
-
-  r "/csrf",                                "csrf",                      GET
-
-  r "/logs",                                "logs",                      GET
-
+  # r "",                                     ".",                         GET
+  # r "/auth/email",                          "auth/email",                PUT
+  # r "/auth/email/activate/([0-9]+)",        "auth/email/activate",       GET
+  # r "/auth/email/login",                    "auth/email/login",          POST
+  # r "/auth/email/signup",                   "auth/email/signup",         POST
+  # r "/auth/logout",                         "auth/logout",               GET
+  # r "/categories",                          "categories",                GET
+  # r "/categories/counters",                 "categories/counters",       GET
+  # r "/csrf",                                "csrf",                      GET
+  # r "/logs",                                "logs",                      GET
   r "/forums/topics",                       "forums/topics",             GET
-
-  r "/lang/([a-z]+)",                       "lang",                      GET
-
-  r "/locations",                           "locations",                 GET
-
-  r "/messages/classified/([0-9]+)?",       "messages/classified",       POST
-  r "/messages/contact",                    "messages/contact",          POST
-
-  r "/notifications",                       "notifications",             GET
-  r "/notifications/read",                  "notifications/read",        GET
-
-  r "/sharing",                             "sharing",                   GET
-  r "/sharing",                             "sharing",                   POST
-  r "/sharing/([0-9]+)",                    "sharing/id",                DELETE
-  r "/sharing/([0-9]+)",                    "sharing/id",                GET
-  r "/sharing/([0-9]+)",                    "sharing/id",                PUT
-  r "/sharing/([0-9]+)/(next|prev)",        "sharing/id/next-prev",      GET
-  r "/sharing/([0-9]+)/prev",               "sharing/id/prev",           GET
-  r "/sharing/slug/([^/]+)",                "sharing/slug",              GET
-
-  r "/users/([0-9]+)?",                     "users",                     DELETE
-  r "/users/([0-9]+)?",                     "users",                     GET
-  r "/users/([0-9]+)?",                     "users",                     PATCH
-  r "/users/([0-9]+)?",                     "users",                     PUT
-  r "/users/current",                       "users/current",             GET
+  # r "/lang/([a-z]+)",                       "lang",                      GET
+  # r "/locations",                           "locations",                 GET
+  # r "/messages/classified/([0-9]+)?",       "messages/classified",       POST
+  # r "/messages/contact",                    "messages/contact",          POST
+  # r "/notifications",                       "notifications",             GET
+  # r "/notifications/read",                  "notifications/read",        GET
+  # r "/sharing",                             "sharing",                   GET
+  # r "/sharing",                             "sharing",                   POST
+  # r "/sharing/([0-9]+)",                    "sharing/id",                DELETE
+  # r "/sharing/([0-9]+)",                    "sharing/id",                GET
+  # r "/sharing/([0-9]+)",                    "sharing/id",                PUT
+  # r "/sharing/([0-9]+)/(next|prev)",        "sharing/id/next-prev",      GET
+  # r "/sharing/([0-9]+)/prev",               "sharing/id/prev",           GET
+  # r "/sharing/slug/([^/]+)",                "sharing/slug",              GET
+  # r "/users/([0-9]+)?",                     "users",                     DELETE
+  # r "/users/([0-9]+)?",                     "users",                     GET
+  # r "/users/([0-9]+)?",                     "users",                     PATCH
+  # r "/users/([0-9]+)?",                     "users",                     PUT
+  # r "/users/current",                       "users/current",             GET
 
   app.use "/api", router
 
