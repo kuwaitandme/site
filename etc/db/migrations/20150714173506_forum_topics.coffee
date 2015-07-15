@@ -4,7 +4,7 @@ exports.up = (knex, Promise) ->
     table.text("content").notNull()
     table.string("name").notNull()
     table.string("slug").notNull()
-    table.integer("forum_category").references("id").inTable "forum_categories"
+    table.integer("forum_category").notNull().references("id").inTable "forum_categories"
     table.integer("created_by").notNull().references("id").inTable "users"
     table.integer("updated_by").references("id").inTable "users"
     table.integer("status").notNull().references("id").inTable "forum_topic_statuses"
