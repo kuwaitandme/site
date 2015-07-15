@@ -7,10 +7,10 @@ exports.seed = (knex, Promise) ->
       name: name
     (knex "languages").insert values
 
-  Promise.join(
-    # Deletes ALL existing entries
-    knex("languages").del(),
-
+  # Deletes ALL existing entries
+  knex("users").del()
+  .then -> knex("languages").del()
+  .then -> Promise.join(
     (ins "English", "en"),
     (ins "Arabic", "ar"),
     (ins "Hindi", "in")
