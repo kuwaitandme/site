@@ -7,5 +7,5 @@ exports = module.exports = (renderer, Classifieds) ->
     renderer request, response, options
 
 
-exports["@require"] = ["controllers/renderer"]
+exports["@require"] = ["libraries/renderer"]
 exports["@singleton"] = true

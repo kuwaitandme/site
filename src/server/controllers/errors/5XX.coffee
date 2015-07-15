@@ -23,7 +23,7 @@ exports = module.exports = (renderer, settings) ->
 
 
 exports["@require"] = [
-  "controllers/renderer"
+  "libraries/renderer"
   "igloo/settings"
 ]
 exports["@singleton"] = true

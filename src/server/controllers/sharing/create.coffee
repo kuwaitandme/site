@@ -10,5 +10,5 @@ exports = module.exports = (renderer) ->
     renderer request, response, options, false
 
 
-exports["@require"] = ["controllers/renderer"]
+exports["@require"] = ["libraries/renderer"]
 exports["@singleton"] = true

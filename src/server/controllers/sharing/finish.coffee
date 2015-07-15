@@ -14,5 +14,5 @@ exports = module.exports = (renderer) ->
     .catch next
 
 
-exports["@require"] = ["controllers/renderer"]
+exports["@require"] = ["libraries/renderer"]
 exports["@singleton"] = true

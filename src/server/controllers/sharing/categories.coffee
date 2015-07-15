@@ -21,7 +21,7 @@ exports = module.exports = (renderer, Categories, Classifieds) ->
 
 
 exports["@require"] = [
-  "controllers/renderer"
+  "libraries/renderer"
   "models/categories"
   "models/classifieds"
 ]

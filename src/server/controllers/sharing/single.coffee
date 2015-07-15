@@ -29,7 +29,7 @@ exports = module.exports = (renderer, Classified) ->
 
 
 exports["@require"] = [
-  "controllers/renderer"
+  "libraries/renderer"
   "models/classifieds"
 ]
 exports["@singleton"] = true

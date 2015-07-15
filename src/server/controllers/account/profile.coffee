@@ -4,10 +4,10 @@ exports = module.exports = (renderer) ->
       return response.redirect "/?_error=need_login"
 
     options =
-      page: "account/moderate"
-      title: response.__ "title.account.moderate"
+      page: "account/profile"
+      title: response.__ "title.account.profile"
     renderer request, response, options, true
 
 
-exports["@require"] = ["controllers/renderer"]
+exports["@require"] = ["libraries/renderer"]
 exports["@singleton"] = true
