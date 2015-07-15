@@ -1,0 +1,72 @@
+html
+  body
+    // IF privileges.view_thread_tools
+    .btn-group.thread-tools.dropup
+      button.btn.btn-default.dropdown-toggle(data-toggle='dropdown', type='button')
+        | [[topic:thread_tools.title]] 
+        span.caret
+      | &#x9;
+      ul.dropdown-menu.pull-right
+        // IF privileges.editable
+        li
+          a(component='topic/mark-unread-for-all', href='#')
+            i.fa.fa-fw.fa-inbox
+            |  [[topic:thread_tools.markAsUnreadForAll]]
+        | &#x9;&#x9;
+        li
+          a.IF.pinned.ENDIF.pinned(component='topic/pin', href='#', class='<!-- -->hidden<!-- -->')
+            i.fa.fa-fw.fa-thumb-tack
+            |  [[topic:thread_tools.pin]]
+        | &#x9;&#x9;
+        li
+          a.IF.ENDIF(component='topic/unpin', href='#', class='<!-- !pinned -->hidden<!-- !pinned -->')
+            i.fa.fa-fw.fa-thumb-tack.fa-rotate-90
+            |  [[topic:thread_tools.unpin]]
+        | &#x9;&#x9;
+        li
+          a.IF.locked.ENDIF.locked(component='topic/lock', href='#', class='<!-- -->hidden<!-- -->')
+            i.fa.fa-fw.fa-lock
+            |  [[topic:thread_tools.lock]]
+        | &#x9;&#x9;
+        li
+          a.IF.ENDIF(component='topic/unlock', href='#', class='<!-- !locked -->hidden<!-- !locked -->')
+            i.fa.fa-fw.fa-unlock
+            |  [[topic:thread_tools.unlock]]
+        | &#x9;&#x9;
+        li.divider
+        | &#x9;&#x9;
+        li
+          a(component='topic/move', href='#')
+            i.fa.fa-fw.fa-arrows
+            |  [[topic:thread_tools.move]]
+        | &#x9;&#x9;
+        li
+          a(component='topic/fork', href='#')
+            i.fa.fa-fw.fa-code-fork
+            |  [[topic:thread_tools.fork]]
+        | &#x9;&#x9;
+        li.divider
+        // ENDIF privileges.editable
+        // IF privileges.deletable
+        li
+          a.IF.deleted.ENDIF.deleted(component='topic/delete', href='#', class='<!-- -->hidden<!-- -->')
+            i.fa.fa-fw.fa-trash-o
+            |  [[topic:thread_tools.delete]]
+        | &#x9;&#x9;
+        li
+          a.IF.ENDIF(component='topic/restore', href='#', class='<!-- !deleted -->hidden<!-- !deleted -->')
+            i.fa.fa-fw.fa-history
+            |  [[topic:thread_tools.restore]]
+        | &#x9;&#x9;
+        li
+          a.IF.ENDIF(component='topic/purge', href='#', class='<!-- !deleted -->hidden<!-- !deleted -->')
+            i.fa.fa-fw.fa-eraser
+            |  [[topic:thread_tools.purge]]
+        // BEGIN thread_tools
+        li
+          a.(href='#', class='{thread_tools.class}')
+            i.fa.fa-fw(class='{thread_tools.icon}')
+            |  {thread_tools.title}
+        // END thread_tools
+        // ENDIF privileges.deletable
+    // ENDIF privileges.view_thread_tools

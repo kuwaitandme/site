@@ -1,0 +1,392 @@
+html
+  body
+    input(type='hidden', template-variable='category_id', value='{cid}')
+    input(type='hidden', template-variable='category_name', value='{name}')
+    input(type='hidden', template-variable='category_slug', value='{slug}')
+    input(type='hidden', template-variable='topic_count', value='{topic_count}')
+    input(type='hidden', template-variable='currentPage', value='{currentPage}')
+    input(type='hidden', template-variable='pageCount', value='{pageCount}')
+    .category.row
+      .col-md-9(no-widget-class='col-lg-12 col-sm-12', no-widget-target='sidebar')
+        ol.breadcrumb
+          // BEGIN breadcrumbs
+          li(itemscope='itemscope', itemtype='http://data-vocabulary.org/Breadcrumb', <!--='', if='', @last='', --='')
+            | class=&quot;active&quot;
+            // ENDIF @last
+            | &gt;
+            // IF !@last
+            a(href='{breadcrumbs.url}', itemprop='url')
+              // ENDIF !@last
+              span(itemprop='title')
+                | {breadcrumbs.text}
+                // IF @last
+                // IF !feeds:disableRSS
+                // IF rssFeedUrl
+                a(target='_blank', href='{rssFeedUrl}')
+                  i.fa.fa-rss-square
+                // ENDIF rssFeedUrl
+                // ENDIF !feeds:disableRSS
+                // ENDIF @last
+              // IF !@last
+            // ENDIF !@last
+          // END breadcrumbs
+        | &#x9;&#x9;
+        .subcategories.row
+          // BEGIN children
+          .IF.ELSE.col-sm-6.ENDIF.category-item(class='<!-- children.class -->{children.class}<!-- -->col-md-3 col-xs-12<!-- children.class -->', data-cid='{children.cid}', data-numrecentreplies='{children.numRecentReplies}')
+            meta(itemprop='name', content='{children.name}')
+            | &#x9;&#x9;&#x9;&#x9;
+            .category-icon
+              // IF children.link
+              a(style='color: {children.color};', href='{children.link}', itemprop='url', target='_blank')
+                // ELSE
+                a(style='color: {children.color};', href='{config.relative_path}/category/{children.slug}', itemprop='url')
+                  // ENDIF children.link
+                  .category-header(id='category-{children.cid}', class='category-header-image-{children.imageClass}', style='\
+                  <!-- IF children.backgroundImage -->background-image: url({children.backgroundImage});<!-- ENDIF children.backgroundImage -->\
+                  <!-- IF children.bgColor -->background-color: {children.bgColor};<!-- ENDIF children.bgColor -->\
+                  color: {children.color};\
+                  ')
+                    // IF !children.link
+                    span.badge(class='{children.unread-class}')
+                      i.fa.fa-book(data-toggle='tooltip', title='[[global:topics]]')
+                      |  
+                      span.human-readable-number(title='{children.totalTopicCount}') {children.totalTopicCount}
+                      | &nbsp; 
+                      i.fa.fa-pencil(data-toggle='tooltip', title='[[global:posts]]')
+                      |  
+                      span.human-readable-number(title='{children.totalPostCount}') {children.totalPostCount}
+                    // ENDIF !children.link
+                    // IF children.icon
+                    div
+                      i.fa.fa-4x(class='{children.icon}')
+                    // ENDIF children.icon
+                | &#x9;&#x9;&#x9;&#x9;&#x9;
+                .category-box
+                  .category-info
+                    // IF children.link
+                    a(href='{children.link}', itemprop='url', target='_blank')
+                      // ELSE
+                      a(href='{config.relative_path}/category/{children.slug}', itemprop='url')
+                        // ENDIF children.link
+                        h4
+                          // IF children.icon
+                          i.fa.visible-xs-inline(class='{children.icon}')
+                          // ENDIF children.icon
+                          | {children.name}
+                      | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                      .description(itemprop='description') {children.description}
+                  // IF !children.link
+                  // BEGIN posts
+                  .post-preview.clearfix
+                    .post-preview-content
+                      strong
+                        a(href='{config.relative_path}/topic/{children.posts.topic.slug}') {children.posts.topic.title}
+                      | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                      hr
+                      | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                      a(style='color: {children.color};', href='<!-- IF children.posts.user.userslug -->{config.relative_path}/user/{children.posts.user.userslug}<!-- ELSE -->#<!-- ENDIF children.posts.user.userslug-->')
+                        img.pull-left.user-img(src='{children.posts.user.picture}', title='{children.posts.user.username}')
+                      | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                      .content
+                        | {children.posts.content}
+                      | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                      p.fade-out
+                    | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                    span.pull-right.post-preview-footer
+                      span.timeago(title='{children.posts.relativeTime}')
+                      |  &bull;
+                      | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                      a(href='{config.relative_path}/topic/{children.posts.topic.slug}<!-- IF children.posts.index -->/{children.posts.index}<!-- ENDIF children.posts.index -->') [[global:read_more]]
+                  // END posts
+                  // ENDIF !children.link
+          // END children
+        | &#x9;&#x9;
+        .header.category-tools.clearfix
+          // IF privileges.topics:create
+          button#new_topic.btn.btn-primary [[category:new_topic_button]]
+          // ELSE
+          // IF !loggedIn
+          a.btn.btn-primary(href='{config.relative_path}/login') [[category:guest-login-post]]
+          // ENDIF !loggedIn
+          // ENDIF privileges.topics:create
+          span.pull-right
+            // IF loggedIn
+            button.btn.btn-default.btn-success.watch.IF.ENDIF(type='button', class='<!-- !isIgnored -->hidden<!-- !isIgnored -->')
+              i.fa.fa-eye
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              span.visible-sm-inline.visible-md-inline.visible-lg-inline [[category:watch]]
+            | &#x9;&#x9;&#x9;&#x9;
+            button.btn.btn-default.btn-warning.ignore.IF.isIgnored.ENDIF.isIgnored(type='button', class='<!-- -->hidden<!-- -->')
+              i.fa.fa-eye-slash
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              span.visible-sm-inline.visible-md-inline.visible-lg-inline [[category:ignore]]
+            // ENDIF loggedIn
+            // IF privileges.editable
+            .btn-group.thread-tools
+              button.btn.btn-default.dropdown-toggle(data-toggle='dropdown', type='button')
+                span.visible-sm-inline.visible-md-inline.visible-lg-inline [[topic:thread_tools.title]]
+                | &#x9;&#x9;
+                span.visible-xs-inline
+                  i.fa.fa-fw.fa-gear
+                | &#x9;&#x9;
+                span.caret
+              | &#x9;
+              ul.dropdown-menu.pull-right
+                li
+                  a(component='topic/mark-unread-for-all', href='#')
+                    i.fa.fa-fw.fa-inbox
+                    |  [[topic:thread_tools.markAsUnreadForAll]]
+                | &#x9;&#x9;
+                li
+                  a(component='topic/pin', href='#')
+                    i.fa.fa-fw.fa-thumb-tack
+                    |  [[topic:thread_tools.pin]]
+                | &#x9;&#x9;
+                li
+                  a.hidden(component='topic/unpin', href='#')
+                    i.fa.fa-fw.fa-thumb-tack.fa-rotate-90
+                    |  [[topic:thread_tools.unpin]]
+                | &#x9;&#x9;
+                li
+                  a(component='topic/lock', href='#')
+                    i.fa.fa-fw.fa-lock
+                    |  [[topic:thread_tools.lock]]
+                | &#x9;&#x9;
+                li
+                  a.hidden(component='topic/unlock', href='#')
+                    i.fa.fa-fw.fa-unlock
+                    |  [[topic:thread_tools.unlock]]
+                | &#x9;&#x9;
+                li.divider
+                | &#x9;&#x9;
+                li
+                  a(component='topic/move', href='#')
+                    i.fa.fa-fw.fa-arrows
+                    |  [[topic:thread_tools.move]]
+                | &#x9;&#x9;
+                li
+                  a(component='topic/move-all', href='#')
+                    i.fa.fa-fw.fa-arrows
+                    |  [[topic:thread_tools.move_all]]
+                | &#x9;&#x9;
+                li.divider
+                | &#x9;&#x9;
+                li
+                  a(component='topic/delete', href='#')
+                    i.fa.fa-fw.fa-trash-o
+                    |  [[topic:thread_tools.delete]]
+                | &#x9;&#x9;
+                li
+                  a.hidden(component='topic/restore', href='#')
+                    i.fa.fa-fw.fa-history
+                    |  [[topic:thread_tools.restore]]
+                | &#x9;&#x9;
+                li
+                  a.hidden(component='topic/purge', href='#')
+                    i.fa.fa-fw.fa-eraser
+                    |  [[topic:thread_tools.purge]]
+                // BEGIN thread_tools
+                li
+                  a.(href='#', class='{thread_tools.class}')
+                    i.fa.fa-fw(class='{thread_tools.icon}')
+                    |  {thread_tools.title}
+                // END thread_tools
+            // ENDIF privileges.editable
+            // IF loggedIn
+            .btn-group(component='thread/sort')
+              button.btn.btn-default.dropdown-toggle(data-toggle='dropdown', type='button')
+                span.visible-sm-inline.visible-md-inline.visible-lg-inline [[topic:sort_by]]
+                | &#x9;&#x9;
+                span.visible-xs-inline
+                  i.fa.fa-fw.fa-sort
+                | &#x9;&#x9;
+                span.caret
+              | &#x9;
+              ul.dropdown-menu.pull-right
+                li
+                  a.newest_to_oldest(href='#', data-sort='newest_to_oldest')
+                    i.fa.fa-fw
+                    |  [[topic:newest_to_oldest]]
+                | &#x9;&#x9;
+                li
+                  a.oldest_to_newest(href='#', data-sort='oldest_to_newest')
+                    i.fa.fa-fw
+                    |  [[topic:oldest_to_newest]]
+                | &#x9;&#x9;
+                li
+                  a.most_posts(href='#', data-sort='most_posts')
+                    i.fa.fa-fw
+                    |  [[topic:most_posts]]
+            // ENDIF loggedIn
+            .dropdown.share-dropdown.inline-block
+              button.btn.btn-default.dropdown-toggle(type='button', data-toggle='dropdown')
+                span.visible-sm-inline.visible-md-inline.visible-lg-inline [[topic:share]]
+                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                span.visible-xs-inline
+                  i.fa.fa-fw.fa-share-alt
+                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                span.caret
+              ul.dropdown-menu.pull-right(role='menu')
+                li.dropdown-header(role='presentation') [[category:share_this_category]]
+                // IF !config.disableSocialButtons
+                li(role='presentation')
+                  a.facebook-share(role='menuitem', tabindex='-1', href='#')
+                    span.menu-icon
+                      i.fa.fa-facebook
+                    |  Facebook
+                | &#x9;
+                li(role='presentation')
+                  a.twitter-share(role='menuitem', tabindex='-1', href='#')
+                    span.menu-icon
+                      i.fa.fa-twitter
+                    |  Twitter
+                | &#x9;
+                li(role='presentation')
+                  a.google-share(role='menuitem', tabindex='-1', href='#')
+                    span.menu-icon
+                      i.fa.fa-google-plus
+                    |  Google+
+                // ENDIF !config.disableSocialButtons
+                li.text-center
+                  input#category-link.form-control.post-link.inline-block(readonly='true', type='text', value='')
+        // IF !topics.length
+        #category-no-topics.alert.alert-warning
+          | [[category:no_topics]]
+        // ENDIF !topics.length
+        ul#topics-container(component='category', itemscope='', itemtype='http://www.schema.org/ItemList', data-nextstart='{nextStart}')
+          meta(itemprop='itemListOrder', content='descending')
+          // BEGIN topics
+          li.category-item(component='category/topic', class='{function.generateTopicClass}', data-tid='{topics.tid}', data-index='{topics.index}', data-cid='{topics.cid}', itemprop='itemListElement')
+            .category-body
+              .row
+                .col-md-8.col-sm-9
+                  // IF privileges.editable
+                  i.fa.fa-fw.fa-square-o.pull-left.select.pointer
+                  // ENDIF privileges.editable
+                  .category-profile-pic
+                    a(href='<!-- IF topics.user.userslug -->{config.relative_path}/user/{topics.user.userslug}<!-- ELSE -->#<!-- ENDIF topics.user.userslug -->')
+                      // IF topics.thumb
+                      img.profile-image.user-img(src='{topics.thumb}', alt='{topics.title}', title='{topics.title}')
+                      // ELSE
+                      img.profile-image.user-img(src='{topics.user.picture}', alt='{topics.user.username}', title='{topics.user.username}')
+                      // ENDIF topics.thumb
+                  | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                  .category-text
+                    p
+                      strong
+                        i.fa.IF.ENDIF(component='topic/pinned', class='fa-thumb-tack<!-- !topics.pinned --> hide<!-- !topics.pinned -->')
+                        |  
+                        i.fa.IF.ENDIF(component='topic/locked', class='fa-lock<!-- !topics.locked --> hide<!-- !topics.locked -->')
+                      | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                      a.topic-title(component='topic/header', href='{config.relative_path}/topic/{topics.slug}', itemprop='url') {topics.title}
+                      br
+                      | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                      small
+                        | [[global:posted_ago, 
+                        span.timeago(title='{topics.relativeTime}')
+                        | ]]
+                        // IF !topics.unreplied
+                        span.hidden-md.hidden-lg
+                          br
+                          | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                          a(href='{config.relative_path}/topic/{topics.slug}/{topics.teaser.index}')
+                            | [[global:replied_ago, 
+                            span.timeago(title='{topics.teaser.timestamp}')
+                            | ]]
+                        // ENDIF !topics.unreplied
+                        br
+                        // IF topics.tags.length
+                        // BEGIN tags
+                        a(href='{config.relative_path}/tags/{topics.tags.value}')
+                          span.tag-item(data-tag='{topics.tags.value}', style='<!-- IF topics.tags.color -->color: {topics.tags.color};<!-- ENDIF topics.tags.color --><!-- IF topics.tags.bgColor -->background-color: {topics.tags.bgColor};<!-- ENDIF topics.tags.bgColor -->') {topics.tags.value}
+                          span.tag-topic-count {topics.tags.score}
+                        // END tags
+                        // ENDIF topics.tags.length
+                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                .col-xs-1.category-stat.hidden-xs
+                  strong.human-readable-number(title='{topics.postcount}') {topics.postcount}
+                  br
+                  | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                  small [[global:posts]]
+                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                .col-xs-1.category-stat.hidden-xs
+                  strong.human-readable-number(title='{topics.viewcount}') {topics.viewcount}
+                  br
+                  | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                  small [[global:views]]
+                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                .col-xs-2.category-stat.replies.hidden-sm.hidden-xs
+                  // IF topics.unreplied
+                  p.no-replies [[category:no_replies]]
+                  // ELSE
+                  a(href='<!-- IF topics.teaser.user.userslug -->{config.relative_path}/user/{topics.teaser.user.userslug}<!-- ELSE -->#<!-- ENDIF topics.teaser.user.userslug -->')
+                    img.profile-image.small.user-img(src='{topics.teaser.user.picture}', title='{topics.teaser.user.username}')
+                  | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                  a(href='{config.relative_path}/topic/{topics.slug}/{topics.teaser.index}')
+                    | [[global:replied_ago, 
+                    span.timeago(title='{topics.teaser.timestamp}')
+                    | ]]
+                  // ENDIF topics.unreplied
+          // END topics
+        // IF config.usePagination
+        .text-center.IF.ENDIF(class='pagination-container<!-- !pagination.pages.length --> hidden<!-- !pagination.pages.length -->')
+          ul.pagination
+            li.previous.IF.ENDIF(class='pull-left<!-- !pagination.prev.active --> disabled<!-- !pagination.prev.active -->')
+              a(href='?{pagination.prev.qs}', data-page='{pagination.prev.page}')
+                i.fa.fa-chevron-left
+            // BEGIN pages
+            // IF pagination.pages.separator
+            li.page.select-page
+              a(href='#')
+                i.fa.fa-ellipsis-h
+            // ELSE
+            li.IF.ENDIF(class='page<!-- pagination.pages.active --> active<!-- pagination.pages.active -->')
+              a(href='?{pagination.pages.qs}', data-page='{pagination.pages.page}') {pagination.pages.page}
+            // ENDIF pagination.pages.separator
+            // END pages
+            li.next.IF.ENDIF(class='pull-right<!-- !pagination.next.active --> disabled<!-- !pagination.next.active -->')
+              a(href='?{pagination.next.qs}', data-page='{pagination.next.page}')
+                i.fa.fa-chevron-right
+        // ENDIF config.usePagination
+      | &#x9;
+      .col-md-3.col-xs-12.category-sidebar(widget-area='sidebar')
+    #move_thread_modal.modal(tabindex='-1', role='dialog', aria-labelledby='Move Topic', aria-hidden='true')
+      .modal-dialog
+        .modal-content
+          .modal-header
+            button.close(type='button', data-dismiss='modal', aria-hidden='true') &times;
+            | &#x9;&#x9;&#x9;&#x9;
+            h3 [[topic:move_topic]]
+          | &#x9;&#x9;&#x9;
+          .modal-body
+            p#categories-loading
+              i.fa.fa-spin.fa-refresh
+              |  [[topic:load_categories]]
+            | &#x9;&#x9;&#x9;&#x9;
+            p
+              | [[topic:disabled_categories_note]]
+            | &#x9;&#x9;&#x9;&#x9;
+            #move-confirm(style='display: none;')
+              hr
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              .alert.alert-info
+                | [[topic:topic_will_be_moved_to]] 
+                strong
+                  span#confirm-category-name
+          | &#x9;&#x9;&#x9;
+          .modal-footer
+            button#move_thread_cancel.btn.btn-default(type='button', data-dismiss='modal') [[global:buttons.close]]
+            | &#x9;&#x9;&#x9;&#x9;
+            button#move_thread_commit.btn.btn-primary(type='button', disabled='') [[topic:confirm_move]]
+    | &#x9;
+    noscript
+      .text-center
+        ul.pagination
+          // BEGIN pages
+          li(<!--='', if='', pages.active='', --='')
+            | class=&quot;active&quot;
+            // ENDIF pages.active
+            | &gt;
+            a(href='?page={pages.page}') {pages.page}
+          // END pages

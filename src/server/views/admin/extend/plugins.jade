@@ -1,0 +1,151 @@
+html
+  body
+    .plugins
+      .col-lg-9
+        .panel.panel-default
+          .panel-heading
+            i.fa.fa-code-fork
+            |  Installed Plugins
+          | &#x9;&#x9;&#x9;
+          .panel-body
+            ul.installed
+              // BEGIN installed
+              // IF !installed.error
+              li.clearfix(id='{installed.id}', data-plugin-id='{installed.id}', data-version='{installed.version}')
+                .pull-right
+                  // IF installed.isTheme
+                  a.btn.btn-info(href='{config.relative_path}/admin/appearance/themes') Themes
+                  // ELSE
+                  button.btn.IF.ELSE.ENDIF(data-action='toggleActive', class='<!-- installed.active --> btn-warning<!-- --> btn-success<!-- installed.active -->')
+                    i.fa.fa-power-off
+                    // IF installed.active
+                    | Deactivate
+                    // ELSE
+                    | Activate
+                    // ENDIF installed.active
+                  // ENDIF installed.isTheme
+                  button.btn.btn-danger(data-action='toggleInstall', data-installed='1')
+                    i.fa.fa-trash-o
+                    |  Uninstall
+                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                h2
+                  strong {installed.name}
+                // IF installed.description
+                p {installed.description}
+                // ENDIF installed.description
+                // IF installed.outdated
+                i.fa.fa-exclamation-triangle.text-danger
+                // ENDIF installed.outdated
+                small
+                  | Installed 
+                  strong.currentVersion {installed.version}
+                  |  | Latest 
+                  strong.latestVersion {installed.latest}
+                // IF installed.outdated
+                button.btn.btn-success.btn-xs(data-action='upgrade')
+                  i.fa.fa-download
+                  |  Upgrade
+                // ENDIF installed.outdated
+                // IF installed.url
+                p
+                  | For more information: 
+                  a(target='_blank', href='{installed.url}') {installed.url}
+                // ENDIF installed.url
+              // ENDIF !installed.error
+              // IF installed.error
+              li.clearfix(data-plugin-id='{installed.id}')
+                .pull-right
+                  button.btn.btn-default.disabled
+                    i.fa.fa-exclamation-triangle
+                    |  Unknown
+                  | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                  button.btn.btn-danger(data-action='toggleInstall', data-installed='1')
+                    i.fa.fa-trash-o
+                    |  Uninstall
+                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                h2
+                  strong {installed.id}
+                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                p
+                  | The state of this plugin could not be determined, possibly due to a misconfiguration error.
+              // ENDIF installed.error
+              // END installed
+        | &#x9;&#x9;
+        .panel.panel-default
+          .panel-heading
+            i.fa.fa-code-fork
+            |  Download Plugins
+          | &#x9;&#x9;&#x9;
+          .panel-body
+            ul.download
+              // BEGIN download
+              li.clearfix(id='{download.id}', data-plugin-id='{download.id}')
+                .pull-right
+                  button.btn.btn-success.hidden(data-action='toggleActive')
+                    i.fa.fa-power-off
+                    |  Activate
+                  | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                  button.btn.btn-success(data-action='toggleInstall', data-installed='0')
+                    i.fa.fa-download
+                    |  Install
+                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                h2
+                  strong {download.name}
+                // IF download.description
+                p {download.description}
+                // ENDIF download.description
+                small
+                  | Latest 
+                  strong.latestVersion {download.latest}
+                // IF download.url
+                p
+                  | For more information: 
+                  a(target='_blank', href='{download.url}') {download.url}
+                // ENDIF download.url
+              // END download
+      | &#x9;
+      .col-lg-3.acp-sidebar
+        .panel.panel-default
+          .panel-heading Plugin Search
+          | &#x9;&#x9;&#x9;
+          .panel-body
+            input#plugin-search.form-control(type='text', placeholder='Search for plugin...')
+            br
+        | &#x9;&#x9;
+        .panel.panel-default
+          .panel-heading Re-order Plugins
+          | &#x9;&#x9;&#x9;
+          .panel-body
+            button#plugin-order.btn.btn-default.btn-block
+              i.fa.fa-exchange
+              |  Order Active Plugins
+            | &#x9;&#x9;&#x9;&#x9;
+            p.help-block
+              | Certain plugins work ideally when they are initialised before/after other plugins. You can alter this loading behaviour here.
+        | &#x9;&#x9;
+        .panel.panel-default
+          .panel-heading Interested in writing plugins for NodeBB?
+          | &#x9;&#x9;&#x9;
+          .panel-body
+            p
+              | Full documentation regarding plugin authoring can be found in the 
+              a(target='_blank', href='https://docs.nodebb.org/en/latest/plugins/create.html') NodeBB Docs Portal
+              | .
+      | &#x9;
+      #order-active-plugins-modal.modal.fade
+        .modal-dialog
+          .modal-content
+            .modal-header
+              button.close(type='button', data-dismiss='modal', aria-hidden='true') &times;
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              h4.modal-title Order Active Plugins
+            | &#x9;&#x9;&#x9;&#x9;
+            .modal-body
+              p Plugins load in the order specified here, from top to bottom
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              ul.plugin-list
+            | &#x9;&#x9;&#x9;&#x9;
+            .modal-footer
+              button.btn.btn-default(type='button', data-dismiss='modal') Close
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              button#save-plugin-order.btn.btn-primary(type='button') Save

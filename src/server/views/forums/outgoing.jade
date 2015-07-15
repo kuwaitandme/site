@@ -1,0 +1,39 @@
+html
+  body
+    .outgoing
+      ol.breadcrumb
+        // BEGIN breadcrumbs
+        li(itemscope='itemscope', itemtype='http://data-vocabulary.org/Breadcrumb', <!--='', if='', @last='', --='')
+          | class=&quot;active&quot;
+          // ENDIF @last
+          | &gt;
+          // IF !@last
+          a(href='{breadcrumbs.url}', itemprop='url')
+            // ENDIF !@last
+            span(itemprop='title')
+              | {breadcrumbs.text}
+              // IF @last
+              // IF !feeds:disableRSS
+              // IF rssFeedUrl
+              a(target='_blank', href='{rssFeedUrl}')
+                i.fa.fa-rss-square
+              // ENDIF rssFeedUrl
+              // ENDIF !feeds:disableRSS
+              // ENDIF @last
+            // IF !@last
+          // ENDIF !@last
+        // END breadcrumbs
+      | &#x9;
+      .well
+        h3
+          | [[notifications:outgoing_link_message, {title}]]
+        | &#x9;&#x9;
+        p
+          a.btn.btn-primary.btn-lg(href='{url}', rel='nofollow') [[notifications:continue_to, {url}]]
+          | &#x9;&#x9;&#x9;
+          a#return-btn.btn.btn-lg.btn-warning(href='#') [[notifications:return_to, {title}]]
+    script.
+      $('#return-btn').on('click', function() {
+      history.back();
+      return false;
+      });

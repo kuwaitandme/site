@@ -1,0 +1,49 @@
+html
+  body
+    .col-lg-9
+      .panel.panel-default
+        .panel-heading Pagination Settings
+        | &#x9;
+        .panel-body
+          form
+            .checkbox
+              label
+                input(type='checkbox', data-field='usePagination')
+                |  
+                strong Paginate topics and posts instead of using infinite scroll.
+      .panel.panel-default
+        .panel-heading Topic Pagination
+        | &#x9;
+        .panel-body
+          form
+            strong Posts per Page
+            br
+            |  
+            input.form-control(type='text', value='20', data-field='postsPerPage')
+      .panel.panel-default
+        .panel-heading Category Pagination
+        | &#x9;
+        .panel-body
+          form
+            strong Topics per Page
+            br
+            |  
+            input.form-control(type='text', value='20', data-field='topicsPerPage')
+            br
+            | &#x9;&#x9;&#x9;
+            strong Initial Number of Topics to Load on Unread, Recent, and Popular
+            br
+            |  
+            input.form-control(type='text', value='20', data-field='topicsPerList')
+    .col-lg-3.acp-sidebar
+      .panel.panel-default
+        .panel-heading Save Settings
+        | &#x9;&#x9;
+        .panel-body
+          button#save.btn.btn-primary.btn-md Save Changes
+          | &#x9;&#x9;&#x9;
+          button#revert.btn.btn-warning.btn-md Revert Changes
+    script.
+      require(['admin/settings'], function(Settings) {
+      Settings.prepare();
+      });

@@ -1,0 +1,232 @@
+html
+  body
+    .row
+      form.category(role='form', data-cid='{category.cid}')
+        .col-md-9
+          .panel.panel-default
+            .panel-heading
+              i.fa.fa-folder
+              |  Category Settings
+            | &#x9;&#x9;&#x9;&#x9;
+            .panel-body.category-settings-form
+              fieldset
+                .col-xs-12
+                  h3(data-edit-target='#cid-{category.cid}-name')
+                    span {category.name}
+                    |  
+                    small
+                      i.fa.fa-edit
+                  | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                  input.form-control.hide(id='cid-{category.cid}-name', type='text', placeholder='Category Name', data-name='name', value='{category.name}')
+                  | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                  h4(data-edit-target='#cid-{category.cid}-description')
+                    span {category.description}
+                    |  
+                    small
+                      i.fa.fa-edit
+                  | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                  input.form-control.category_description.input-sm.description.hide(id='cid-{category.cid}-description', data-name='description', placeholder='Category Description', value='{category.description}')
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              fieldset
+                .col-xs-12
+                  .form-group
+                    label(for='cid-{category.cid}-parentCid') Parent Category
+                    | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                    br
+                    | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                    .btn-group.IF.ENDIF(class='<!-- !category.parent.name -->hide<!-- !category.parent.name-->')
+                      button.btn.btn-default(type='button', data-action='changeParent', data-parentcid='{category.parent.cid}')
+                        i.fa(class='{category.parent.icon}')
+                        |  {category.parent.name}
+                      | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                      button.btn.btn-warning(type='button', data-action='removeParent', data-parentcid='{category.parent.cid}')
+                        i.fa.fa-times
+                    | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                    button.btn.btn-default.form-control.IF.ENDIF(type='button', class='<!-- category.parent.name -->hide<!-- category.parent.name-->', data-action='setParent')
+                      i.fa.fa-sitemap
+                      |  (None)
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              fieldset
+                .col-sm-4.col-xs-12
+                  .form-group
+                    label(for='cid-{category.cid}-bgColor') Background Colour
+                    | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                    input.form-control.category_bgColor(id='cid-{category.cid}-bgColor', placeholder='#0059b2', data-name='bgColor', value='{category.bgColor}')
+                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                .col-sm-4.col-xs-12
+                  .form-group
+                    label(for='cid-{category.cid}-color') Text Colour
+                    | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                    input.form-control.category_color(id='cid-{category.cid}-color', placeholder='#fff', data-name='color', value='{category.color}')
+                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                .col-sm-4.col-xs-12
+                  .form-group
+                    label(for='cid-{category.cid}-imageClass') Image Class
+                    | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                    select.form-control(id='cid-{category.cid}-imageClass', data-name='imageClass', data-value='{category.imageClass}')
+                      option(value='auto') auto
+                      | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                      option(value='cover') cover
+                      | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                      option(value='contain') contain
+                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                .col-sm-4.col-xs-12
+                  .form-group
+                    label(for='cid-{category.cid}-class') Custom Class
+                    | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                    input.form-control(id='cid-{category.cid}-class', type='text', placeholder='col-md-6 col-xs-6', data-name='class', value='{category.class}')
+                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                .col-sm-4.col-xs-12
+                  .form-group
+                    label(for='cid-{category.cid}-numRecentReplies') # of Recent Replies
+                    | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                    input.form-control(id='cid-{category.cid}-numRecentReplies', type='text', placeholder='2', data-name='numRecentReplies', value='{category.numRecentReplies}')
+                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                .col-sm-4.col-xs-12
+                  .form-group
+                    label(for='cid-{category.cid}-link') External Link
+                    | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                    input.form-control(id='cid-{category.cid}-link', type='text', placeholder='http://domain.com', data-name='link', value='{category.link}')
+          | &#x9;&#x9;&#x9;
+          .panel.panel-default
+            .panel-heading
+              i.fa.fa-key
+              |  Privileges / Access Control
+            | &#x9;&#x9;&#x9;&#x9;
+            .panel-body
+              p
+                | You can configure the access control privileges for this category in this section. Privileges can be granted on a per-user or
+                | a per-group basis. You can add a new user to this table by searching for them in the form below.
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              p.text-warning
+                strong Note
+                | : Privilege settings take effect immediately. It is not necessary to save the category after adjusting
+                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;these settings.
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              hr
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              .privilege-table-container
+                table.table.table-striped.table-hover.privilege-table
+                  tr
+                    th(colspan='2') User
+                    // BEGIN privileges.labels.users
+                    th.text-center {privileges.labels.users.name}
+                    // END privileges.labels.users
+                  // IF privileges.users.length
+                  // BEGIN privileges.users
+                  tr(data-uid='{privileges.users.uid}')
+                    td
+                      img(src='{privileges.users.picture}', title='{privileges.users.username}')
+                    | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                    td {privileges.users.username}
+                    | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;{function.spawnPrivilegeStates, privileges.users.username, privileges}
+                  // END privileges.users
+                  tr
+                    td(colspan='{privileges.columnCount}')
+                      button.btn.btn-primary.btn-xs.pull-right(type='button', data-ajaxify='false', data-action='search.user')
+                        i.fa.fa-plus
+                        |  Add User
+                  // ELSE
+                  tr
+                    td(colspan='{privileges.columnCount}')
+                      .alert.alert-info
+                        button.btn.btn-primary.btn-xs.pull-right(type='button', data-ajaxify='false', data-action='search.user')
+                          i.fa.fa-plus
+                          |  Add User
+                        | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;No user-specific privileges in this category.
+                  // ENDIF privileges.users.length
+                | &#x9;&#x9;&#x9;&#x9;&#x9;
+                table.table.table-striped.table-hover.privilege-table
+                  tr
+                    th(colspan='2') Group
+                    // BEGIN privileges.labels.groups
+                    th.text-center {privileges.labels.groups.name}
+                    // END privileges.labels.groups
+                  // IF privileges.groups.length
+                  // BEGIN privileges.groups
+                  tr(data-group-name='{privileges.groups.name}', data-private='<!-- IF privileges.groups.isPrivate -->1<!-- ELSE -->0<!-- ENDIF privileges.groups.isPrivate -->')
+                    td
+                      // IF privileges.groups.isPrivate
+                      i.fa.fa-lock.text-muted(title='This group is private')
+                      // ENDIF privileges.groups.isPrivate
+                      | {privileges.groups.name}
+                    | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                    td
+                    | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;{function.spawnPrivilegeStates, name, privileges}
+                  // END privileges.groups
+                  tr
+                    td(colspan='{privileges.columnCount}')
+                      button.btn.btn-primary.btn-xs.pull-right(type='button', data-ajaxify='false', data-action='search.group')
+                        i.fa.fa-plus
+                        |  Add Group
+                  // ELSE
+                  tr
+                    td(colspan='{privileges.columnCount}')
+                      .alert.alert-info
+                        button.btn.btn-primary.btn-xs.pull-right(type='button', data-ajaxify='false', data-action='search.group')
+                          i.fa.fa-plus
+                          |  Add Group
+                        | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;No group-specific privileges in this category.
+                  // ENDIF privileges.groups.length
+                | &#x9;&#x9;&#x9;&#x9;&#x9;
+                .help-block
+                  | If the 
+                  code registered-users
+                  |  group is granted a specific privilege, all other groups receive an
+                  | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                  strong implicit privilege
+                  | , even if they are not explicitly defined/checked. This implicit
+                  | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;privilege is shown to you because all users are part of the 
+                  code registered-users
+                  |  user group,
+                  | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;and so, privileges for additional groups need not be explicitly granted.
+        | &#x9;&#x9;
+        .col-md-3.options.acp-sidebar
+          .panel.panel-default.hidden-sm
+            .panel-heading Preview
+            | &#x9;&#x9;&#x9;&#x9;
+            .panel-body
+              .category-preview(style='\
+              <!-- IF category.backgroundImage -->background-image: url({category.backgroundImage});<!-- ENDIF category.backgroundImage -->\
+              <!-- IF category.bgColor -->background-color: {category.bgColor};<!-- ENDIF category.bgColor -->\
+              color: {category.color};\
+              background-size:cover;\
+              ')
+                .icon
+                  i.fa.fa-2x(data-name='icon', value='{category.icon}', class='{category.icon}')
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              .btn-group.btn-group-justified
+                .btn-group
+                  button.btn.btn-default.upload-button(type='button', data-cid='{category.cid}', data-name='image', data-value='{category.image}')
+                    i.fa.fa-upload
+                    |  Upload
+                // IF category.image
+                .btn-group
+                  button.btn.btn-warning.delete-image
+                    i.fa.fa-times(data-name='icon', value='fa-times')
+                    |  Remove
+                // ENDIF category.image
+          | &#x9;&#x9;&#x9;
+          .panel.panel-default
+            .panel-heading Categories Control Panel
+            | &#x9;&#x9;&#x9;&#x9;
+            .panel-body
+              .btn-group.btn-group-justified
+                .btn-group
+                  button.btn.btn-primary.save Save
+                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                .btn-group
+                  button.btn.btn-default.revert Revert
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              hr
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              button.btn.btn-danger.btn-block.btn-xs.purge
+                i.fa.fa-eraser
+                |  Purge Category
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              p.help-block
+                | Purging a category will remove all topics and posts, and delete the category from the database. If you want to
+                | remove a category 
+                em temporarily
+                | , you&apos;ll want to &quot;disable&quot; the category instead.
+    input(type='hidden', template-variable='cid', value='{category.cid}')

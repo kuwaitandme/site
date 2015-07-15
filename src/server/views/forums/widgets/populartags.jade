@@ -1,0 +1,9 @@
+html
+  body
+    .popular-tags
+      // BEGIN tags
+      span.inline-block
+        a(href='{relative_path}/tags/{tags.value}')
+          span.tag-item(class='tag-{tags.value}', style='<!-- IF tags.color -->color: {tags.color};<!-- ENDIF tags.color --><!-- IF tags.bgColor -->background-color: {tags.bgColor};<!-- ENDIF tags.bgColor -->') {tags.value}
+          span.tag-topic-count {tags.score}
+      // END tags

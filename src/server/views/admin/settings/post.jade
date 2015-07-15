@@ -1,0 +1,202 @@
+html
+  body
+    .col-lg-9
+      .panel.panel-default
+        .panel-heading Post Settings
+        | &#x9;
+        .panel-body
+          form
+            .form-group
+              label Default Post Sorting
+              | &#x9;&#x9;&#x9;&#x9;
+              select.form-control(data-field='topicPostSort')
+                option(value='oldest_to_newest') Oldest to Newest
+                | &#x9;&#x9;&#x9;&#x9;&#x9;
+                option(value='newest_to_oldest') Newest to Oldest
+                | &#x9;&#x9;&#x9;&#x9;&#x9;
+                option(value='most_votes') Most Votes
+            | &#x9;&#x9;&#x9;
+            .form-group
+              label Default Topic Sorting
+              | &#x9;&#x9;&#x9;&#x9;
+              select.form-control(data-field='categoryTopicSort')
+                option(value='newest_to_oldest') Newest to Oldest
+                | &#x9;&#x9;&#x9;&#x9;&#x9;
+                option(value='oldest_to_newest') Oldest to Newest
+                | &#x9;&#x9;&#x9;&#x9;&#x9;
+                option(value='most_posts') Most Posts
+            | &#x9;&#x9;&#x9;
+            .form-group
+              label Seconds between Posts
+              | &#x9;&#x9;&#x9;&#x9;
+              input.form-control(type='number', value='10', data-field='postDelay')
+            | &#x9;&#x9;&#x9;
+            .form-group.col-sm-6
+              label Seconds between Posts for New Users
+              | &#x9;&#x9;&#x9;&#x9;
+              input.form-control(type='number', value='120', data-field='newbiePostDelay')
+            | &#x9;&#x9;&#x9;
+            .form-group.col-sm-6
+              label Reputation threshold before this restriction is lifted
+              | &#x9;&#x9;&#x9;&#x9;
+              input.form-control(type='number', value='3', data-field='newbiePostDelayThreshold')
+            | &#x9;&#x9;&#x9;
+            .form-group
+              label Seconds before new user can post
+              | &#x9;&#x9;&#x9;&#x9;
+              input.form-control(type='number', value='10', data-field='initialPostDelay')
+            | &#x9;&#x9;&#x9;
+            .form-group
+              label Number of seconds users are allowed to edit posts after posting. (0 disabled)
+              | &#x9;&#x9;&#x9;&#x9;
+              input.form-control(type='number', value='0', data-field='postEditDuration')
+            | &#x9;&#x9;&#x9;
+            .form-group
+              label Minimum Title Length
+              | &#x9;&#x9;&#x9;&#x9;
+              input.form-control(type='number', value='3', data-field='minimumTitleLength')
+            | &#x9;&#x9;&#x9;
+            .form-group
+              label Maximum Title Length
+              | &#x9;&#x9;&#x9;&#x9;
+              input.form-control(type='number', value='255', data-field='maximumTitleLength')
+            | &#x9;&#x9;&#x9;
+            .form-group
+              label Minimum Post Length
+              | &#x9;&#x9;&#x9;&#x9;
+              input.form-control(type='number', value='8', data-field='minimumPostLength')
+            | &#x9;&#x9;&#x9;
+            .form-group
+              label Maximum Post Length
+              | &#x9;&#x9;&#x9;&#x9;
+              input.form-control(type='number', value='32767', data-field='maximumPostLength')
+            | &#x9;&#x9;&#x9;
+            .checkbox
+              label
+                input(type='checkbox', data-field='trackIpPerPost')
+                |  
+                strong Track IP Address for each post
+      .panel.panel-default
+        .panel-heading Teaser Settings
+        | &#x9;
+        .panel-body
+          form
+            .form-group
+              label Teaser Post
+              | &#x9;&#x9;&#x9;&#x9;
+              select.form-control(data-field='teaserPost')
+                option(value='last') Last
+                | &#x9;&#x9;&#x9;&#x9;&#x9;
+                option(value='first') First
+      .panel.panel-default
+        .panel-heading Signature Settings
+        | &#x9;
+        .panel-body
+          form
+            .checkbox
+              label
+                input(type='checkbox', data-field='disableSignatures')
+                |  
+                strong Disable signatures
+            | &#x9;&#x9;&#x9;
+            .checkbox
+              label
+                input(type='checkbox', data-field='signatures:disableLinks')
+                |  
+                strong Disable links in signatures
+            | &#x9;&#x9;&#x9;
+            .checkbox
+              label
+                input(type='checkbox', data-field='signatures:disableImages')
+                |  
+                strong Disable images in signatures
+            | &#x9;&#x9;&#x9;
+            .form-group
+              label Maximum Signature Length
+              | &#x9;&#x9;&#x9;&#x9;
+              input.form-control(type='text', value='255', data-field='maximumSignatureLength')
+      .panel.panel-default
+        .panel-heading Chat Settings
+        | &#x9;
+        .panel-body
+          form
+            strong Chat Message Inbox Size
+            br
+            |  
+            input.form-control(type='text', value='250', data-field='chatMessageInboxSize')
+      .panel.panel-default
+        .panel-heading Upload Settings
+        | &#x9;
+        .panel-body
+          form
+            .checkbox
+              label
+                input(type='checkbox', data-field='allowFileUploads')
+                |  
+                strong Allow users to upload regular files
+            | &#x9;&#x9;&#x9;
+            .checkbox
+              label
+                input(type='checkbox', data-field='privateUploads')
+                |  
+                strong Make uploaded files private
+            | &#x9;&#x9;&#x9;
+            strong Maximum File Size
+            br
+            |  
+            input.form-control(type='text', value='2048', data-field='maximumFileSize')
+            br
+            | &#x9;&#x9;&#x9;
+            .checkbox
+              label
+                input(type='checkbox', data-field='allowTopicsThumbnail')
+                |  
+                strong Allow users to upload topic thumbnails
+            | &#x9;&#x9;&#x9;
+            strong Topic Thumb Size
+            br
+            |  
+            input.form-control(type='text', value='120', data-field='topicThumbSize')
+            |  
+            br
+            | &#x9;&#x9;&#x9;
+            strong Allowed file types, (ie png, pdf, zip). Leave empty to allow all.
+            br
+            |  
+            input.form-control(type='text', value='', data-field='allowedFileExtensions')
+            br
+      .panel.panel-default
+        .panel-heading Composer Settings
+        | &#x9;
+        .panel-body
+          form
+            p
+              | The following settings govern the functionality and/or appearance of the post composer shown
+              | to users when they create new topics, or reply to existing topics.
+            | &#x9;&#x9;&#x9;
+            .checkbox
+              label(for='composer:showHelpTab')
+                input(type='checkbox', id='composer:showHelpTab', data-field='composer:showHelpTab', checked='')
+                | &#x9;&#x9;&#x9;&#x9;&#x9;Show &quot;Help&quot; tab
+            | &#x9;&#x9;&#x9;
+            .checkbox
+              label(for='composer:allowPluginHelp')
+                input(type='checkbox', id='composer:allowPluginHelp', data-field='composer:allowPluginHelp', checked='')
+                | &#x9;&#x9;&#x9;&#x9;&#x9;Allow plugins to add content to the help tab
+            | &#x9;&#x9;&#x9;
+            .form-group
+              label(for='composer:customHelpText') Custom Help Text
+              | &#x9;&#x9;&#x9;&#x9;
+              textarea.form-control(id='composer:customHelpText', data-field='composer:customHelpText', rows='5')
+    .col-lg-3.acp-sidebar
+      .panel.panel-default
+        .panel-heading Save Settings
+        | &#x9;&#x9;
+        .panel-body
+          button#save.btn.btn-primary.btn-md Save Changes
+          | &#x9;&#x9;&#x9;
+          button#revert.btn.btn-warning.btn-md Revert Changes
+    script.
+      require(['admin/settings'], function(Settings) {
+      Settings.prepare();
+      });

@@ -1,0 +1,15 @@
+html
+  body
+    // BEGIN messages
+    li.chat-message.clear(data-uid='{messages.fromuid}', data-self='{messages.self}', data-break='{messages.newSet}')
+      .message-header
+        span.chat-timestamp.pull-right.timeago(title='{messages.timestampISO}')
+        | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+        a(href='{config.relative_path}/user/{messages.fromUser.userslug}')
+          img.chat-user-image(src='{messages.fromUser.picture}')
+        | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+        strong
+          span.chat-user {messages.fromUser.username}
+      | &#x9;&#x9;&#x9;&#x9;&#x9;
+      .message-body {messages.content}
+    // END messages

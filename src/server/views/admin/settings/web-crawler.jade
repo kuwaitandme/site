@@ -1,0 +1,51 @@
+html
+  body
+    .col-lg-9
+      .panel.panel-default
+        .panel-heading Crawlability Settings
+        | &#x9;
+        .panel-body
+          form
+            strong
+              | Custom Robots.txt 
+              small Leave blank for default
+            br
+            | &#x9;&#x9;&#x9;
+            textarea.form-control(data-field='robots.txt')
+      .panel.panel-default
+        .panel-heading Sitemap &amp; Feed Settings
+        | &#x9;
+        .panel-body
+          form
+            .checkbox
+              label
+                input(type='checkbox', data-field='feeds:disableRSS')
+                |  
+                strong Disable RSS Feeds
+            | &#x9;&#x9;&#x9;
+            .checkbox
+              label
+                input(type='checkbox', data-field='feeds:disableSitemap')
+                |  
+                strong Disable Sitemap.xml
+            | &#x9;&#x9;&#x9;
+            .form-group
+              label Number of Topics to display in the Sitemap
+              | &#x9;&#x9;&#x9;&#x9;
+              input.form-control(type='text', data-field='sitemapTopics')
+            | &#x9;&#x9;&#x9;
+            button#clear-sitemap-cache.btn.btn-warning Clear Sitemap Cache
+            | &#x9;&#x9;&#x9;
+            a.btn.btn-info(href='/sitemap.xml', target='_blank') View Sitemap
+    .col-lg-3.acp-sidebar
+      .panel.panel-default
+        .panel-heading Save Settings
+        | &#x9;&#x9;
+        .panel-body
+          button#save.btn.btn-primary.btn-md Save Changes
+          | &#x9;&#x9;&#x9;
+          button#revert.btn.btn-warning.btn-md Revert Changes
+    script.
+      require(['admin/settings'], function(Settings) {
+      Settings.prepare();
+      });

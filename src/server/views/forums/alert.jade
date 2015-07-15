@@ -1,0 +1,13 @@
+html
+  body
+    .alert.alert-dismissable.clearfix(id='{alert_id}', class='alert-{type}')
+      button.close(type='button', data-dismiss='alert', aria-hidden='true') &times;
+      // IF image
+      img(src='{image}')
+      // ENDIF image
+      // IF title
+      strong {title}
+      // ENDIF title
+      // IF message
+      p {message}
+      // ENDIF message

@@ -1,0 +1,245 @@
+html
+  body
+    .account-username-box(data-userslug='{userslug}', data-uid='{uid}')
+      ul.nav.nav-pills.account-sub-links
+        li
+          a.dropdown-toggle.inline-block(href='#', type='button', data-toggle='dropdown')
+            | [[user:more]]
+            span.caret
+            | &#x9;&#x9;&#x9;&#x9;
+            span.sr-only Toggle Dropdown
+          | &#x9;&#x9;&#x9;
+          ul.dropdown-menu.pull-right(role='menu')
+            li
+              a(href='{config.relative_path}/user/{userslug}/following')
+                i.fa.fa-fw.fa-users
+                |  [[user:following]]
+            | &#x9;&#x9;&#x9;&#x9;
+            li
+              a(href='{config.relative_path}/user/{userslug}/followers')
+                i.fa.fa-fw.fa-users
+                |  [[user:followers]]
+            | &#x9;&#x9;&#x9;&#x9;
+            li.divider
+            | &#x9;&#x9;&#x9;&#x9;
+            li
+              a(href='{config.relative_path}/user/{userslug}/topics')
+                i.fa.fa-fw.fa-book
+                |  [[global:topics]]
+            | &#x9;&#x9;&#x9;&#x9;
+            li
+              a(href='{config.relative_path}/user/{userslug}/posts')
+                i.fa.fa-fw.fa-pencil
+                |  [[global:posts]]
+            | &#x9;&#x9;&#x9;&#x9;
+            li
+              a(href='{config.relative_path}/user/{userslug}/groups')
+                i.fa.fa-fw.fa-users
+                |  [[global:header.groups]]
+            // IF showHidden
+            li
+              a(href='{config.relative_path}/user/{userslug}/favourites')
+                i.fa.fa-fw.fa-heart
+                |  [[user:favourites]]
+            | &#x9;&#x9;&#x9;&#x9;
+            li
+              a(href='{config.relative_path}/user/{userslug}/watched')
+                i.fa.fa-fw.fa-eye
+                |  [[user:watched]]
+            // ENDIF showHidden
+            // BEGIN profile_links
+            li.plugin-link.IF.ELSE.ENDIF(id='{profile_links.id}', class='<!-- profile_links.public -->public<!-- -->private<!-- profile_links.public -->')
+              a(href='{config.relative_path}/user/{userslug}/{profile_links.route}')
+                i.fa.fa-fw(class='{profile_links.icon}')
+                |  {profile_links.name}
+            // END profile_links
+        | &#x9;&#x9;
+        li
+          a#profile.inline-block(href='{config.relative_path}/user/{userslug}')
+            i.fa.fa-user
+            |  [[user:profile]]
+        // IF showHidden
+        li
+          a(href='{config.relative_path}/user/{userslug}/settings')
+            i.fa.fa-gear
+            |  [[user:settings]]
+        | &#x9;&#x9;
+        li
+          a(href='{config.relative_path}/user/{userslug}/edit')
+            i.fa.fa-pencil-square-o
+            |  [[user:edit]]
+        // ENDIF showHidden
+    .account
+      .row
+        .col-xs-12
+          h4 [[user:browsing]]
+          | &#x9;&#x9;&#x9;
+          .well
+            .checkbox
+              label
+                input(type='checkbox', data-property='openOutgoingLinksInNewTab', <!--='', if='', settings.openoutgoinglinksinnewtab='', --='')
+                | checked
+                // ENDIF settings.openOutgoingLinksInNewTab
+                | /&gt; 
+                strong [[user:open_links_in_new_tab]]
+            | &#x9;&#x9;&#x9;&#x9;
+            .checkbox
+              label
+                input(type='checkbox', data-property='topicSearchEnabled', <!--='', if='', settings.topicsearchenabled='', --='')
+                | checked
+                // ENDIF settings.topicSearchEnabled
+                | /&gt; 
+                strong [[user:enable_topic_searching]]
+            | &#x9;&#x9;&#x9;&#x9;
+            p.help-block [[user:topic_search_help]]
+          | &#x9;&#x9;&#x9;
+          h4 [[global:privacy]]
+          | &#x9;&#x9;&#x9;
+          .well
+            .checkbox
+              label
+                input(type='checkbox', data-property='showemail', <!--='', if='', settings.showemail='', --='')
+                | checked
+                // ENDIF settings.showemail
+                | /&gt; 
+                strong [[user:show_email]]
+            | &#x9;&#x9;&#x9;&#x9;
+            .checkbox
+              label
+                input(type='checkbox', data-property='showfullname', <!--='', if='', settings.showfullname='', --='')
+                | checked
+                // ENDIF settings.showfullname
+                | /&gt; 
+                strong [[user:show_fullname]]
+            | &#x9;&#x9;&#x9;&#x9;
+            .checkbox
+              label
+                input(type='checkbox', data-property='restrictChat', <!--='', if='', settings.restrictchat='', --='')
+                | checked
+                // ENDIF settings.restrictChat
+                | /&gt; 
+                strong [[user:restrict_chats]]
+          // IF !disableEmailSubscriptions
+          h4 [[global:email]]
+          | &#x9;&#x9;&#x9;
+          .well
+            .form-group
+              label(for='dailyDigestFreq') [[user:digest_label]]
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              select#dailyDigestFreq.form-control(data-property='dailyDigestFreq')
+                // BEGIN dailyDigestFreqOptions
+                option(value='{dailyDigestFreqOptions.value}', <!--='', if='', dailydigestfreqoptions.selected='', --='')
+                  | selected
+                  // ENDIF dailyDigestFreqOptions.selected
+                  | &gt;{dailyDigestFreqOptions.name}
+                // END dailyDigestFreqOptions
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              p.help-block [[user:digest_description]]
+            | &#x9;&#x9;&#x9;&#x9;
+            .checkbox
+              label
+                input(type='checkbox', data-property='sendChatNotifications', <!--='', if='', settings.sendchatnotifications='', --='')
+                | checked
+                // ENDIF settings.sendChatNotifications
+                | /&gt; 
+                strong [[user:send_chat_notifications]]
+            | &#x9;&#x9;&#x9;&#x9;
+            .checkbox
+              label
+                input(type='checkbox', data-property='sendPostNotifications', <!--='', if='', settings.sendpostnotifications='', --='')
+                | checked
+                // ENDIF settings.sendPostNotifications
+                | /&gt; 
+                strong [[user:send_post_notifications]]
+          // ENDIF !disableEmailSubscriptions
+          h4 [[user:follow]]
+          | &#x9;&#x9;&#x9;
+          .well
+            .checkbox
+              label
+                input(type='checkbox', data-property='followTopicsOnCreate', <!--='', if='', settings.followtopicsoncreate='', --='')
+                | checked
+                // ENDIF settings.followTopicsOnCreate
+                | /&gt; 
+                strong [[user:follow_topics_you_create]]
+            | &#x9;&#x9;&#x9;&#x9;
+            .checkbox
+              label
+                input(type='checkbox', data-property='followTopicsOnReply', <!--='', if='', settings.followtopicsonreply='', --='')
+                | checked
+                // ENDIF settings.followTopicsOnReply
+                | /&gt; 
+                strong [[user:follow_topics_you_reply_to]]
+          | &#x9;&#x9;&#x9;
+          h4 [[groups:groups]]
+          | &#x9;&#x9;&#x9;
+          .well
+            .form-group
+              label(for='grouptitle') [[user:grouptitle]]
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              select#grouptitle.form-control(data-property='groupTitle')
+                option(value='') [[user:no-group-title]]
+                // BEGIN userGroups
+                // IF userGroups.userTitleEnabled
+                option(value='{userGroups.name}', <!--='', if='', usergroups.selected='', --='')
+                  | selected
+                  // ENDIF userGroups.selected
+                  | &gt;{userGroups.userTitle}
+                // ENDIF userGroups.userTitleEnabled
+                // END userGroups
+          | &#x9;&#x9;&#x9;
+          h4 [[global:pagination]]
+          | &#x9;&#x9;&#x9;
+          .well
+            .checkbox
+              label
+                input(type='checkbox', data-property='usePagination', <!--='', if='', settings.usepagination='', --='')
+                | checked
+                // ENDIF settings.usePagination
+                | &gt; 
+                strong [[user:paginate_description]]
+            | &#x9;&#x9;&#x9;&#x9;
+            strong [[user:topics_per_page]]
+            br
+            |  
+            input.form-control(type='text', data-property='topicsPerPage', value='{settings.topicsPerPage}')
+            br
+            | &#x9;&#x9;&#x9;&#x9;
+            strong [[user:posts_per_page]]
+            br
+            |  
+            input.form-control(type='text', data-property='postsPerPage', value='{settings.postsPerPage}')
+            br
+          | &#x9;&#x9;&#x9;
+          h4 [[global:header.notifications]]
+          | &#x9;&#x9;&#x9;
+          .well
+            .checkbox
+              label
+                input(type='checkbox', data-property='notificationSounds', <!--='', if='', settings.notificationsounds='', --='')
+                | checked
+                // ENDIF settings.notificationSounds
+                | &gt; 
+                strong [[user:notification_sounds]]
+          | &#x9;&#x9;&#x9;
+          h4 [[global:language]]
+          | &#x9;&#x9;&#x9;
+          .well
+            select.form-control(data-property='userLang')
+              // BEGIN languages
+              option(value='{languages.code}', <!--='', if='', languages.selected='', --='')
+                | selected
+                // ENDIF languages.selected
+                | &gt;{languages.name} ({languages.code})
+              // END languages
+          // BEGIN customSettings
+          h4 {customSettings.title}
+          | &#x9;&#x9;&#x9;
+          .well
+            | {customSettings.content}
+          // END customSettings
+      | &#x9;
+      .form-actions
+        a#submitBtn.btn.btn-primary(href='#') [[global:save_changes]]
+    input(type='hidden', template-variable='yourid', value='{yourid}')
+    input(type='hidden', template-variable='theirid', value='{theirid}')

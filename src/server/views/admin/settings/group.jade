@@ -1,0 +1,43 @@
+html
+  body
+    .col-lg-9
+      .panel.panel-default
+        .panel-heading General
+        | &#x9;
+        .panel-body
+          form(role='form')
+            .checkbox
+              label
+                input(type='checkbox', data-field='allowPrivateGroups', checked='')
+                |  
+                strong Private Groups
+                | &#x9;&#x9;&#x9;&#x9;&#x9;
+                p.help-block
+                  | If enabled, joining of groups requires the approval of the group owner 
+                  em (Default: enabled)
+                | &#x9;&#x9;&#x9;&#x9;&#x9;
+                p.help-block
+                  strong Beware!
+                  |  If this option is disabled and you have private groups, they automatically become public.
+            | &#x9;&#x9;&#x9;
+            .checkbox
+              label
+                input(type='checkbox', data-field='allowGroupCreation')
+                |  
+                strong Allow Group Creation
+                | &#x9;&#x9;&#x9;&#x9;&#x9;
+                p.help-block
+                  | If enabled, users can create groups 
+                  em (Default: disabled)
+    .col-lg-3.acp-sidebar
+      .panel.panel-default
+        .panel-heading Save Settings
+        | &#x9;&#x9;
+        .panel-body
+          button#save.btn.btn-primary.btn-md Save Changes
+          | &#x9;&#x9;&#x9;
+          button#revert.btn.btn-warning.btn-md Revert Changes
+    script.
+      require(['admin/settings'], function(Settings) {
+      Settings.prepare();
+      });

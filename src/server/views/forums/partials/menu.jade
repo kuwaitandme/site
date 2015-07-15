@@ -1,0 +1,183 @@
+html
+  body
+    .navbar-header
+      button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-collapse')
+        span.icon-bar
+        | &#x9;&#x9;&#x9;&#x9;&#x9;
+        span.icon-bar
+        | &#x9;&#x9;&#x9;&#x9;&#x9;
+        span.icon-bar
+      | &#x9;&#x9;&#x9;&#x9;
+      div
+        a(href='{relative_path}/')
+          img.forum-logo(class='{brand:logo:display}', src='{brand:logo}')
+        // IF showSiteTitle
+        a(href='{relative_path}/')
+          h1.navbar-brand.forum-title {title}
+        // ENDIF showSiteTitle
+        .visible-xs(component='navbar/title')
+          span
+    | &#x9;&#x9;&#x9;
+    #nav-dropdown.navbar-collapse.collapse.navbar-ex1-collapse
+      // IF !maintenanceHeader
+      ul#main-nav.nav.navbar-nav.pull-left
+        // BEGIN navigation
+        // IF function.displayMenuItem, @index
+        li.(class='{navigation.class}')
+          a(href='{relative_path}{navigation.route}', title='{navigation.title}', id='{navigation.id}', target='{navigation.properties.target}')
+            // IF navigation.iconClass
+            i.fa.fa-fw(class='{navigation.iconClass}')
+            // ENDIF navigation.iconClass
+            // IF navigation.text
+            span.(class='{navigation.textClass}') {navigation.text}
+            // ENDIF navigation.text
+        // ENDIF function.displayMenuItem
+        // END navigation
+      // IF loggedIn
+      ul#logged-in-menu.nav.navbar-nav.navbar-right.pull-right
+        li.notifications.dropdown.text-center.hidden-xs
+          a#notif_dropdown.dropdown-toggle(href='#', title='[[global:header.notifications]]', data-toggle='dropdown')
+            i.notification-icon.fa.fa-fw.fa-bell-o(data-content='0')
+          | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+          ul.dropdown-menu(aria-labelledby='notif_dropdown')
+            li
+              ul#notif-list
+                li
+                  a(href='#')
+                    i.fa.fa-refresh.fa-spin
+                    |  [[global:notifications.loading]]
+            | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+            li.notif-dropdown-link
+              a.mark-all-read(href='#') [[notifications:mark_all_read]]
+            | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+            li.notif-dropdown-link
+              a(href='{relative_path}/notifications') [[notifications:see_all]]
+        // IF searchEnabled
+        li.visible-xs
+          a(href='{relative_path}/search')
+            i.fa.fa-search.fa-fw
+            |  [[global:search]]
+        // ENDIF searchEnabled
+        li.visible-xs
+          a(href='{relative_path}/notifications', title='[[notifications:title]]')
+            i.notification-icon.fa.fa-bell-o.fa-fw(data-content='0')
+            |  [[notifications:title]]
+        // IF !disableChat
+        li.chats.dropdown
+          a#chat_dropdown.dropdown-toggle(data-toggle='dropdown', href='#', title='[[global:header.chats]]')
+            i.fa.fa-comment-o.fa-fw(component='chat/icon')
+            |  
+            span.visible-xs-inline [[global:header.chats]]
+          | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+          ul.dropdown-menu(aria-labelledby='chat_dropdown')
+            li
+              ul#chat-list
+                li
+                  a(href='#')
+                    i.fa.fa-refresh.fa-spin
+                    |  [[global:chats.loading]]
+            | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+            li.notif-dropdown-link
+              a(href='{relative_path}/chats') [[modules:chat.see_all]]
+        // ENDIF !disableChat
+        li#user_label.dropdown
+          a#user_dropdown.dropdown-toggle(data-toggle='dropdown', href='#', title='[[global:header.profile]]')
+            img#user-header-picture(src='{user.picture}')
+          | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+          ul#user-control-list.dropdown-menu(aria-labelledby='user_dropdown')
+            li
+              a#user-profile-link(href='{relative_path}/user/{user.userslug}')
+                i.fa.fa-fw.fa-circle.status(class='{user.status}')
+                |  
+                span#user-header-name {user.username}
+            | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+            li.divider(role='presentation')
+            | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+            li
+              a.user-status(href='#', data-status='online')
+                i.fa.fa-fw.fa-circle.status.online
+                span  [[global:online]]
+            | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+            li
+              a.user-status(href='#', data-status='away')
+                i.fa.fa-fw.fa-circle.status.away
+                span  [[global:away]]
+            | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+            li
+              a.user-status(href='#', data-status='dnd')
+                i.fa.fa-fw.fa-circle.status.dnd
+                span  [[global:dnd]]
+            | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+            li
+              a.user-status(href='#', data-status='offline')
+                i.fa.fa-fw.fa-circle.status.offline
+                span  [[global:invisible]]
+            | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+            li.divider(role='presentation')
+            | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+            li#logout-link
+              a(href='#')
+                i.fa.fa-fw.fa-sign-out
+                span  [[global:logout]]
+      // ELSE
+      ul#logged-out-menu.nav.navbar-nav.navbar-right.pull-right
+        // IF allowRegistration
+        li
+          a(href='{relative_path}/register')
+            i.fa.fa-pencil.visible-xs-inline
+            | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+            span [[global:register]]
+        // ENDIF allowRegistration
+        li
+          a(href='{relative_path}/login')
+            i.fa.fa-sign-in.visible-xs-inline
+            | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+            span [[global:login]]
+      // ENDIF loggedIn
+      // IF searchEnabled
+      ul.nav.navbar-nav.navbar-right
+        li
+          form#search-form.navbar-form.navbar-right.hidden-xs(role='search', method='GET', action='')
+            #search-fields.hide
+              .form-group
+                input.form-control(type='text', placeholder='[[global:search]]', name='query', value='')
+              | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+              button.btn.btn-default.hide(type='submit') [[global:search]]
+            | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+            button#search-button.btn.btn-link(type='button')
+              i.fa.fa-search.fa-fw(title='[[global:header.search]]')
+      // ENDIF searchEnabled
+      ul.nav.navbar-nav.navbar-right.pull-right
+        li
+          a#reconnect.hide(href='#', title='Connection to {title} has been lost, attempting to reconnect...')
+            i.fa.fa-check
+      | &#x9;&#x9;&#x9;&#x9;
+      ul.nav.navbar-nav.navbar-right.pagination-block.invisible.visible-lg.visible-md
+        li.dropdown
+          i.fa.fa-angle-double-up.pointer.fa-fw.pagetop
+          | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+          i.fa.fa-angle-up.pointer.fa-fw.pageup
+          | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+          a.dropdown-toggle(href='#', data-toggle='dropdown')
+            span#pagination
+          | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+          i.fa.fa-angle-down.pointer.fa-fw.pagedown
+          | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+          i.fa.fa-angle-double-down.pointer.fa-fw.pagebottom
+          | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+          .progress-container
+            .progress-bar
+          | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+          ul.dropdown-menu(role='menu')
+            input#indexInput.form-control(type='text', placeholder='[[global:pagination.enter_index]]')
+      | &#x9;&#x9;&#x9;&#x9;
+      .header-topic-title.hidden-xs
+        span
+      // ELSE
+      ul.nav.navbar-nav.navbar-right.pull-right
+        li
+          a(href='{relative_path}/login')
+            i.fa.fa-sign-in.visible-xs-inline
+            | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+            span [[global:login]]
+      // ENDIF !maintenanceHeader

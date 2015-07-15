@@ -1,0 +1,10 @@
+html
+  body
+    .moderators
+      // BEGIN moderators
+      a(data-uid='{moderators.uid}', href='../../user/{moderators.userslug}')
+        img.profile-image.user-img(title='{moderators.username}', src='{moderators.picture}')
+      // END moderators
+      // IF !moderators.length
+      | No moderators for this category.
+      // ENDIF !moderators.length

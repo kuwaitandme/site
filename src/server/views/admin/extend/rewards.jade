@@ -1,0 +1,83 @@
+html
+  body
+    #rewards
+      .col-lg-9
+        .panel.panel-default
+          .panel-heading Rewards
+          | &#x9;&#x9;&#x9;
+          .panel-body
+            ul#active
+              // BEGIN active
+              li(data-rid='{active.rid}', data-id='{active.id}')
+                form.main.inline-block
+                  .well.inline-block
+                    label(for='condition') If User&apos;s
+                    br
+                    | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                    select(name='condition', data-selected='{active.condition}')
+                      // BEGIN conditions
+                      option(value='{conditions.condition}') {conditions.name}
+                      // END conditions
+                  | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                  .well.inline-block
+                    label(for='condition') Is:
+                    br
+                    | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                    select(name='conditional', data-selected='{active.conditional}')
+                      // BEGIN conditionals
+                      option(value='{conditionals.conditional}') {conditionals.name}
+                      // END conditionals
+                    | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                    input(type='text', name='value', value='{active.value}')
+                  | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                  .well.inline-block
+                    label(for='condition') Then:
+                    br
+                    | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                    select(name='rid', data-selected='{active.rid}')
+                      // BEGIN rewards
+                      option(value='{rewards.rid}') {rewards.name}
+                      // END rewards
+                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                form.rewards.inline-block
+                  .inputs.well.inline-block
+                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                .clearfix
+                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                .pull-right
+                  .panel-body.inline-block
+                    form.main
+                      label(for='claimable') Amount of times reward is claimable
+                      br
+                      | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                      input(type='text', name='claimable', value='{active.claimable}', placeholder='1')
+                      | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                      small Enter 0 for infinite
+                  | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                  .panel-body.inline-block
+                    button.btn.btn-danger.delete Delete
+                    // IF active.disabled
+                    button.btn.btn-success.toggle Enable
+                    // ELSE
+                    button.btn.btn-warning.toggle Disable
+                    // ENDIF active.disabled
+                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                .clearfix
+              // END active
+            | &#x9;&#x9;&#x9;&#x9;
+            input(type='hidden', template-variable='rewards', value='{function.stringify, rewards}')
+            | &#x9;&#x9;&#x9;&#x9;
+            input(type='hidden', template-variable='active', value='{function.stringify, active}')
+            | &#x9;&#x9;&#x9;&#x9;
+            input(type='hidden', template-variable='conditions', value='{function.stringify, conditions}')
+            | &#x9;&#x9;&#x9;&#x9;
+            input(type='hidden', template-variable='conditionals', value='{function.stringify, conditionals}')
+      | &#x9;
+      .col-lg-3.acp-sidebar
+        .panel.panel-default
+          .panel-heading Rewards Control
+          | &#x9;&#x9;&#x9;
+          .panel-body
+            button#new.btn.btn-success.btn-md New Reward
+            | &#x9;&#x9;&#x9;&#x9;
+            button#save.btn.btn-primary.btn-md Save Changes

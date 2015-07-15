@@ -1,0 +1,134 @@
+html
+  body
+    ol.breadcrumb
+      // BEGIN breadcrumbs
+      li(itemscope='itemscope', itemtype='http://data-vocabulary.org/Breadcrumb', <!--='', if='', @last='', --='')
+        | class=&quot;active&quot;
+        // ENDIF @last
+        | &gt;
+        // IF !@last
+        a(href='{breadcrumbs.url}', itemprop='url')
+          // ENDIF !@last
+          span(itemprop='title')
+            | {breadcrumbs.text}
+            // IF @last
+            // IF !feeds:disableRSS
+            // IF rssFeedUrl
+            a(target='_blank', href='{rssFeedUrl}')
+              i.fa.fa-rss-square
+            // ENDIF rssFeedUrl
+            // ENDIF !feeds:disableRSS
+            // ENDIF @last
+          // IF !@last
+        // ENDIF !@last
+      // END breadcrumbs
+    .row
+      .(class='{register_window:spansize}')
+        .well.well-lg
+          #register-error-notify.alert.alert-danger(<!--='', if='', error='', --='')
+            | style=&quot;display:block&quot;
+            // ELSE
+            | style=&quot;display: none;&quot;
+            // ENDIF error
+            | &gt;
+            button.close(type='button', data-dismiss='alert') &times;
+            | &#x9;&#x9;&#x9;&#x9;
+            strong [[error:registration-error]]
+            | &#x9;&#x9;&#x9;&#x9;
+            p {error}
+          | &#x9;&#x9;&#x9;
+          form.form-horizontal(role='form', action='{config.relative_path}/register', method='post')
+            .form-group
+              label.col-lg-4.control-label(for='email') [[register:email_address]]
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              .col-lg-8
+                .input-group
+                  input#email.form-control(type='text', placeholder='[[register:email_address_placeholder]]', name='email', autocorrect='off', autocapitalize='off')
+                  | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                  span.input-group-addon
+                    span#email-notify
+                      i.fa.fa-circle-o
+                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                span.help-block [[register:help.email]]
+            | &#x9;&#x9;&#x9;&#x9;
+            .form-group
+              label.col-lg-4.control-label(for='username') [[register:username]]
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              .col-lg-8
+                .input-group
+                  input#username.form-control(type='text', placeholder='[[register:username_placeholder]]', name='username', autocorrect='off', autocapitalize='off', autocomplete='off')
+                  | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                  span.input-group-addon
+                    span#username-notify
+                      i.fa.fa-circle-o
+                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                span.help-block
+                  | [[register:help.username_restrictions, {minimumUsernameLength}, {maximumUsernameLength}]]
+            | &#x9;&#x9;&#x9;&#x9;
+            .form-group
+              label.col-lg-4.control-label(for='password') [[register:password]]
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              .col-lg-8
+                .input-group
+                  input#password.form-control(type='password', placeholder='[[register:password_placeholder]]', name='password')
+                  | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                  span.input-group-addon
+                    span#password-notify
+                      i.fa.fa-circle-o
+                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                span.help-block [[register:help.minimum_password_length, {minimumPasswordLength}]]
+            | &#x9;&#x9;&#x9;&#x9;
+            .form-group
+              label.col-lg-4.control-label(for='password-confirm') [[register:confirm_password]]
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              .col-lg-8
+                .input-group
+                  input#password-confirm.form-control(type='password', placeholder='[[register:confirm_password_placeholder]]', name='password-confirm')
+                  | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                  span.input-group-addon
+                    span#password-confirm-notify
+                      i.fa.fa-circle-o
+            // BEGIN regFormEntry
+            .form-group
+              label.col-lg-4.control-label(for='register-{regFormEntry.styleName}') {regFormEntry.label}
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              .col-lg-8(id='register-{regFormEntry.styleName}')
+                | {{regFormEntry.html}}
+            // END regFormEntry
+            // IF termsOfUse
+            .form-group
+              label.col-lg-4.control-label &nbsp;
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              .col-lg-8
+                hr
+                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                strong [[register:terms_of_use]]
+                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                textarea.form-control(readonly='', rows='6') {termsOfUse}
+                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                .checkbox
+                  label
+                    input#agree-terms(type='checkbox', name='agree-terms')
+                    |  [[register:agree_to_terms_of_use]]
+            // ENDIF termsOfUse
+            .form-group
+              .col-lg-offset-4.col-lg-8
+                hr
+                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                button#register.btn.btn-primary.btn-lg.btn-block(type='submit') [[register:register_now_button]]
+            | &#x9;&#x9;&#x9;&#x9;
+            input#referrer(type='hidden', name='referrer', value='')
+            | &#x9;&#x9;&#x9;&#x9;
+            input#token(type='hidden', name='token', value='')
+      // IF alternate_logins
+      .col-md-6
+        .well.well-lg
+          h4 [[register:alternative_registration]]
+          | &#x9;&#x9;&#x9;
+          ul.alt-logins
+            // BEGIN authentication
+            li.(class='{authentication.name}')
+              a(rel='nofollow', target='_top', href='{config.relative_path}{authentication.url}')
+                i.fa.fa-3x(class='{authentication.icon}')
+            // END authentication
+      // ENDIF alternate_logins

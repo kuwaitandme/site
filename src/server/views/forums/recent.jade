@@ -1,0 +1,121 @@
+html
+  body
+    .recent
+      ol.breadcrumb
+        // BEGIN breadcrumbs
+        li(itemscope='itemscope', itemtype='http://data-vocabulary.org/Breadcrumb', <!--='', if='', @last='', --='')
+          | class=&quot;active&quot;
+          // ENDIF @last
+          | &gt;
+          // IF !@last
+          a(href='{breadcrumbs.url}', itemprop='url')
+            // ENDIF !@last
+            span(itemprop='title')
+              | {breadcrumbs.text}
+              // IF @last
+              // IF !feeds:disableRSS
+              // IF rssFeedUrl
+              a(target='_blank', href='{rssFeedUrl}')
+                i.fa.fa-rss-square
+              // ENDIF rssFeedUrl
+              // ENDIF !feeds:disableRSS
+              // ENDIF @last
+            // IF !@last
+          // ENDIF !@last
+        // END breadcrumbs
+      // IF loggedIn
+      button#new_topic.btn.btn-primary [[category:new_topic_button]]
+      // ELSE
+      a.btn.btn-primary(href='{config.relative_path}/login') [[category:guest-login-post]]
+      // ENDIF loggedIn
+      br
+      br
+      | &#x9;
+      a(href='{config.relative_path}/recent')
+        #new-topics-alert.alert.alert-warning.hide
+      // IF !topics.length
+      #category-no-topics.alert.alert-warning
+        strong [[recent:no_recent_topics]]
+      // ENDIF !topics.length
+      .category.row
+        .col-md-12
+          ul#topics-container(component='category', data-nextstart='{nextStart}')
+            // BEGIN topics
+            li.IF.ENDIF.IF.ENDIF(component='category/topic', class='category-item<!-- topics.deleted --> deleted<!-- topics.deleted --><!-- topics.unread --> unread<!-- topics.unread -->', itemprop='itemListElement', data-tid='{topics.tid}', data-cid='{topics.cid}')
+              meta(itemprop='name', content='{function.stripTags, title}')
+              | &#x9;&#x9;&#x9;&#x9;
+              .category-body
+                .row
+                  .col-md-8.col-sm-9
+                    // IF showSelect
+                    i.fa.fa-fw.fa-square-o.pull-left.select.pointer
+                    // ENDIF showSelect
+                    .category-profile-pic
+                      a(href='<!-- IF topics.user.userslug -->{config.relative_path}/user/{topics.user.userslug}<!-- ELSE -->#<!-- ENDIF topics.user.userslug -->')
+                        img.profile-image.user-img(src='{topics.user.picture}', alt='{topics.user.username}', title='{topics.user.username}')
+                    | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                    .category-text
+                      p
+                        strong
+                          // IF topics.pinned
+                          i.fa.fa-thumb-tack
+                          // ENDIF topics.pinned
+                          // IF topics.locked
+                          i.fa.fa-lock
+                          // ENDIF topics.locked
+                        | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                        a.topic-title(href='{config.relative_path}/topic/{topics.slug}', itemprop='url') {topics.title}
+                        br
+                        | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                        small
+                          | [[global:posted_in_ago, 
+                          a(href='{config.relative_path}/category/{topics.category.slug}')
+                            i.fa(class='{topics.category.icon}')
+                            |  {topics.category.name}
+                          | , 
+                          span.timeago(title='{topics.relativeTime}')
+                          | ]]
+                          // IF !topics.unreplied
+                          span.hidden-md.hidden-lg
+                            br
+                            | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                            a(href='{config.relative_path}/topic/{topics.slug}/{topics.teaser.index}')
+                              | [[global:replied_ago, 
+                              span.timeago(title='{topics.teaser.timestamp}')
+                              | ]]
+                          // ENDIF !topics.unreplied
+                          br
+                          // IF topics.tags.length
+                          // BEGIN tags
+                          a(href='{config.relative_path}/tags/{topics.tags.value}')
+                            span.tag-item(data-tag='{topics.tags.value}', style='<!-- IF topics.tags.color -->color: {topics.tags.color};<!-- ENDIF topics.tags.color --><!-- IF topics.tags.bgColor -->background-color: {topics.tags.bgColor};<!-- ENDIF topics.tags.bgColor -->') {topics.tags.value}
+                            span.tag-topic-count {topics.tags.score}
+                          // END tags
+                          // ENDIF topics.tags.length
+                  | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                  .col-xs-1.category-stat.hidden-xs
+                    strong.human-readable-number(title='{topics.postcount}') {topics.postcount}
+                    br
+                    | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                    small [[global:posts]]
+                  | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                  .col-xs-1.category-stat.hidden-xs
+                    strong.human-readable-number(title='{topics.viewcount}') {topics.viewcount}
+                    br
+                    | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                    small [[global:views]]
+                  | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                  .col-xs-2.category-stat.replies.hidden-sm.hidden-xs
+                    // IF topics.unreplied
+                    p.no-replies
+                      a(href='{config.relative_path}/topic/{topics.slug}', itemprop='url') [[category:no_replies]]
+                    // ELSE
+                    a(href='<!-- IF topics.teaser.user.userslug -->{config.relative_path}/user/{topics.teaser.user.userslug}<!-- ELSE -->#<!-- ENDIF topics.teaser.user.userslug -->')
+                      img.profile-image.small.user-img(src='{topics.teaser.user.picture}', title='{topics.teaser.user.username}')
+                    | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                    a(href='{config.relative_path}/topic/{topics.slug}/{topics.teaser.index}')
+                      | [[global:replied_ago, 
+                      span.timeago(title='{topics.teaser.timestamp}')
+                      | ]]
+                    // ENDIF topics.unreplied
+            // END topics

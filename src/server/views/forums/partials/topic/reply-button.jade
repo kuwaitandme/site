@@ -1,0 +1,21 @@
+html
+  body
+    a.btn.btn-primary.IF.ENDIF(component='topic/reply', class='<!-- !privileges.topics:reply -->hidden<!-- !privileges.topics:reply -->') [[topic:reply]]
+    // IF loggedIn
+    // IF !privileges.topics:reply
+    // IF locked
+    a.btn.btn-primary(component='topic/reply/locked', disabled='')
+      i.fa.fa-lock
+      |  [[topic:locked]]
+    // ENDIF locked
+    // ENDIF !privileges.topics:reply
+    // IF !locked
+    a.btn.btn-primary.hidden(component='topic/reply/locked', disabled='')
+      i.fa.fa-lock
+      |  [[topic:locked]]
+    // ENDIF !locked
+    // ELSE
+    // IF !privileges.topics:reply
+    a.btn.btn-primary(href='{config.relative_path}/login') [[topic:guest-login-reply]]
+    // ENDIF !privileges.topics:reply
+    // ENDIF loggedIn

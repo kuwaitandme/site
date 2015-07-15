@@ -1,0 +1,750 @@
+html
+  body
+    .details.row(component='groups/container')
+      .col-xs-12(component='groups/cover', style='background-image: url({group.cover:url}); background-position: {group.cover:position};')
+        .change
+          | [[groups:cover-change]] 
+          i.fa.fa-fw.fa-pencil-square-o
+        | &#x9;&#x9;
+        .save
+          | [[groups:cover-save]] 
+          i.fa.fa-fw.fa-floppy-o
+        | &#x9;&#x9;
+        .indicator
+          | [[groups:cover-saving]] 
+          i.fa.fa-fw.fa-refresh.fa-spin
+        | &#x9;&#x9;
+        .instructions [[groups:cover-instructions]]
+      | &#x9;
+      .col-lg-6.col-xs-12
+        .panel.panel-default
+          .panel-heading
+            h3.panel-title
+              i.fa.fa-list-ul
+              |  [[groups:details.title]]
+              // IF group.private
+              span.label.label-info [[groups:details.private]]
+              // ENDIF group.private
+              // IF group.hidden
+              span.label.label-info [[groups:details.hidden]]
+              // ENDIF group.hidden
+          | &#x9;&#x9;&#x9;
+          .panel-body
+            h1 {group.displayName}
+            | &#x9;&#x9;&#x9;&#x9;
+            p {group.descriptionParsed}
+            // IF isAdmin
+            .pull-right
+              a.btn.btn-info(href='{config.relative_path}/admin/manage/groups/{group.nameEncoded}', target='_blank')
+                i.fa.fa-gear
+                |  [[user:edit]]
+            // ENDIF isAdmin
+            // IF loggedIn
+            .pull-right
+              | {function.membershipBtn, group}
+            // ENDIF loggedIn
+        | &#x9;&#x9;
+        .panel.panel-default
+          .panel-heading
+            h3.panel-title
+              i.fa.fa-users
+              |  [[groups:details.members]]
+          | &#x9;&#x9;&#x9;
+          .panel-body
+            input.form-control(type='text', component='groups/members/search', placeholder='[[global:search]]')
+            br
+            | &#x9;&#x9;&#x9;&#x9;
+            table.table.table-striped.table-hover(component='groups/members')
+              // BEGIN members
+              tr(data-uid='{group.members.uid}')
+                td
+                  a(href='{config.relative_path}/user/{group.members.userslug}')
+                    img(src='{group.members.picture}')
+                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                td.member-name
+                  a(href='{config.relative_path}/user/{group.members.userslug}') {group.members.username}
+                  |  
+                  i.fa.fa-star.text-warning.IF.ENDIF(title='[[groups:owner]]', class='<!-- !group.members.isOwner -->invisible<!-- !group.members.isOwner -->')
+                // IF group.isOwner
+                td
+                  .btn-group.pull-right
+                    button.btn.btn-default.dropdown-toggle(type='button', data-toggle='dropdown', aria-expanded='false')
+                      | More 
+                      span.caret
+                    | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                    ul.dropdown-menu(role='menu')
+                      li
+                        a(href='#', data-ajaxify='false', data-action='toggleOwnership')
+                          | [[groups:details.grant]]
+                      | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                      li
+                        a(href='#', data-ajaxify='false', data-action='kick')
+                          | [[groups:details.kick]]
+                // ENDIF group.isOwner
+              // END members
+        // IF group.isOwner
+        .panel.panel-default
+          .panel-heading
+            h3.panel-title.clearfix
+              i.fa.fa-clock-o
+              |  [[groups:details.pending]]
+              // IF group.pending.length
+              .btn-group.pull-right
+                button.btn.btn-default.btn-sm.dropdown-toggle(type='button', data-toggle='dropdown', aria-expanded='false')
+                  | [[global:more]] 
+                  span.caret
+                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                ul.dropdown-menu(role='menu')
+                  li
+                    a(href='#', data-ajaxify='false', data-action='acceptAll') [[groups:pending.accept_all]]
+                  | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                  li
+                    a(href='#', data-ajaxify='false', data-action='rejectAll') [[groups:pending.reject_all]]
+              // ENDIF group.pending.length
+          | &#x9;&#x9;&#x9;
+          .panel-body
+            table.table.table-striped.table-hover(component='groups/pending')
+              // BEGIN pending
+              tr(data-uid='{group.pending.uid}')
+                td
+                  a(href='{config.relative_path}/user/{group.pending.userslug}')
+                    img(src='{group.pending.picture}')
+                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                td.member-name
+                  a(href='{config.relative_path}/user/{group.pending.userslug}') {group.pending.username}
+                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                td
+                  .btn-group.pull-right
+                    button.btn.btn-default.dropdown-toggle(type='button', data-toggle='dropdown', aria-expanded='false')
+                      | [[global:more]] 
+                      span.caret
+                    | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                    ul.dropdown-menu(role='menu')
+                      li
+                        a(href='#', data-ajaxify='false', data-action='accept') [[groups:pending.accept]]
+                      | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                      li
+                        a(href='#', data-ajaxify='false', data-action='reject') [[groups:pending.reject]]
+              // END pending
+        // ENDIF group.isOwner
+        div(widget-area='left')
+      | &#x9;
+      .col-lg-6.col-xs-12
+        // IF group.isOwner
+        .panel.panel-default
+          .panel-heading.pointer(data-toggle='collapse', data-target='.options')
+            h3.panel-title
+              i.fa.fa-caret-down.pull-right
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              i.fa.fa-cogs
+              |  [[groups:details.owner_options]]
+          | &#x9;&#x9;&#x9;
+          .panel-body.options.collapse
+            form(component='groups/settings', role='form')
+              .form-group
+                label(for='name') [[groups:details.group_name]]
+                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                input#name.form-control(name='name', type='text', value='{group.displayName}')
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              .form-group
+                label(for='name') [[groups:details.description]]
+                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                textarea#description.form-control(name='description', type='text') {group.description}
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              .form-group
+                label(for='userTitle') [[groups:details.badge_text]]
+                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                input#userTitle.form-control(component='groups/userTitleOption', name='userTitle', type='text', value='{group.userTitle}', <!--='', if='', !group.usertitleenabled='', --='')
+                |  disabled
+                // ENDIF !group.userTitleEnabled
+                | /&gt;
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              .form-group
+                label [[groups:details.badge_preview]]
+                br
+                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                span.IF.ENDIF(class='label<!-- !group.userTitleEnabled --> hide<!-- !group.userTitleEnabled -->', style='background-color: {group.labelColor}')
+                  i.fa.icon(class='{group.icon}')
+                  // IF group.userTitle
+                  | {group.userTitle}
+                  // ELSE
+                  | {group.displayName}
+                  // ENDIF group.userTitle
+                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                button.btn.btn-default.btn-sm(component='groups/userTitleOption', type='button', data-action='icon-select', <!--='', if='', !group.usertitleenabled='', --='')
+                  | disabled
+                  // ENDIF !group.userTitleEnabled
+                  | &gt;[[groups:details.change_icon]]
+                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                button.btn.btn-default.btn-sm(component='groups/userTitleOption', type='button', data-action='color-select', <!--='', if='', !group.usertitleenabled='', --='')
+                  | disabled
+                  // ENDIF !group.userTitleEnabled
+                  | &gt;[[groups:details.change_colour]]
+                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                input(type='hidden', name='labelColor', value='<!-- IF group.labelColor -->{group.labelColor}<!-- ENDIF group.labelColor -->')
+                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                input(type='hidden', name='icon', value='<!-- IF group.icon -->{group.icon}<!-- ENDIF group.icon -->')
+                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                #icons(style='display:none;')
+                  .icon-container
+                    .row.fa-icons
+                      i.fa.fa-doesnt-exist
+                      .icon-container
+                        .row.fa-icons
+                          i.fa.fa-doesnt-exist
+                          | &#x9;&#x9;
+                          i.fa.fa-adjust
+                          i.fa.fa-adn
+                          i.fa.fa-align-center
+                          i.fa.fa-align-justify
+                          i.fa.fa-align-left
+                          i.fa.fa-align-right
+                          i.fa.fa-ambulance
+                          i.fa.fa-anchor
+                          i.fa.fa-android
+                          i.fa.fa-angellist
+                          i.fa.fa-angle-double-down
+                          i.fa.fa-angle-double-left
+                          i.fa.fa-angle-double-right
+                          i.fa.fa-angle-double-up
+                          i.fa.fa-angle-down
+                          i.fa.fa-angle-left
+                          i.fa.fa-angle-right
+                          i.fa.fa-angle-up
+                          i.fa.fa-apple
+                          i.fa.fa-archive
+                          i.fa.fa-area-chart
+                          i.fa.fa-arrow-circle-down
+                          i.fa.fa-arrow-circle-left
+                          i.fa.fa-arrow-circle-o-down
+                          i.fa.fa-arrow-circle-o-left
+                          i.fa.fa-arrow-circle-o-right
+                          i.fa.fa-arrow-circle-o-up
+                          i.fa.fa-arrow-circle-right
+                          i.fa.fa-arrow-circle-up
+                          i.fa.fa-arrow-down
+                          i.fa.fa-arrow-left
+                          i.fa.fa-arrow-right
+                          i.fa.fa-arrow-up
+                          i.fa.fa-arrows
+                          i.fa.fa-arrows-alt
+                          i.fa.fa-arrows-h
+                          i.fa.fa-arrows-v
+                          i.fa.fa-asterisk
+                          i.fa.fa-at
+                          i.fa.fa-backward
+                          i.fa.fa-ban
+                          i.fa.fa-bar-chart
+                          i.fa.fa-barcode
+                          i.fa.fa-bars
+                          i.fa.fa-beer
+                          i.fa.fa-behance
+                          i.fa.fa-behance-square
+                          i.fa.fa-bell
+                          i.fa.fa-bell-o
+                          i.fa.fa-bell-slash
+                          i.fa.fa-bell-slash-o
+                          i.fa.fa-bicycle
+                          i.fa.fa-binoculars
+                          i.fa.fa-birthday-cake
+                          i.fa.fa-bitbucket
+                          i.fa.fa-bitbucket-square
+                          i.fa.fa-bold
+                          i.fa.fa-bolt
+                          i.fa.fa-bomb
+                          i.fa.fa-book
+                          i.fa.fa-bookmark
+                          i.fa.fa-bookmark-o
+                          i.fa.fa-briefcase
+                          i.fa.fa-btc
+                          i.fa.fa-bug
+                          i.fa.fa-building
+                          i.fa.fa-building-o
+                          i.fa.fa-bullhorn
+                          i.fa.fa-bullseye
+                          i.fa.fa-bus
+                          i.fa.fa-calculator
+                          i.fa.fa-calendar
+                          i.fa.fa-calendar-o
+                          i.fa.fa-camera
+                          i.fa.fa-camera-retro
+                          i.fa.fa-car
+                          i.fa.fa-caret-down
+                          i.fa.fa-caret-left
+                          i.fa.fa-caret-right
+                          i.fa.fa-caret-square-o-down
+                          i.fa.fa-caret-square-o-left
+                          i.fa.fa-caret-square-o-right
+                          i.fa.fa-caret-square-o-up
+                          i.fa.fa-caret-up
+                          i.fa.fa-cc
+                          i.fa.fa-cc-amex
+                          i.fa.fa-cc-discover
+                          i.fa.fa-cc-mastercard
+                          i.fa.fa-cc-paypal
+                          i.fa.fa-cc-stripe
+                          i.fa.fa-cc-visa
+                          i.fa.fa-certificate
+                          i.fa.fa-chain-broken
+                          i.fa.fa-check
+                          i.fa.fa-check-circle
+                          i.fa.fa-check-circle-o
+                          i.fa.fa-check-square
+                          i.fa.fa-check-square-o
+                          i.fa.fa-chevron-circle-down
+                          i.fa.fa-chevron-circle-left
+                          i.fa.fa-chevron-circle-right
+                          i.fa.fa-chevron-circle-up
+                          i.fa.fa-chevron-down
+                          i.fa.fa-chevron-left
+                          i.fa.fa-chevron-right
+                          i.fa.fa-chevron-up
+                          i.fa.fa-child
+                          i.fa.fa-circle
+                          i.fa.fa-circle-o
+                          i.fa.fa-circle-o-notch
+                          i.fa.fa-circle-thin
+                          i.fa.fa-clipboard
+                          i.fa.fa-clock-o
+                          i.fa.fa-cloud
+                          i.fa.fa-cloud-download
+                          i.fa.fa-cloud-upload
+                          i.fa.fa-code
+                          i.fa.fa-code-fork
+                          i.fa.fa-codepen
+                          i.fa.fa-coffee
+                          i.fa.fa-cog
+                          i.fa.fa-cogs
+                          i.fa.fa-columns
+                          i.fa.fa-comment
+                          i.fa.fa-comment-o
+                          i.fa.fa-comments
+                          i.fa.fa-comments-o
+                          i.fa.fa-compass
+                          i.fa.fa-compress
+                          i.fa.fa-copyright
+                          i.fa.fa-credit-card
+                          i.fa.fa-crop
+                          i.fa.fa-crosshairs
+                          i.fa.fa-css3
+                          i.fa.fa-cube
+                          i.fa.fa-cubes
+                          i.fa.fa-cutlery
+                          i.fa.fa-database
+                          i.fa.fa-delicious
+                          i.fa.fa-desktop
+                          i.fa.fa-deviantart
+                          i.fa.fa-digg
+                          i.fa.fa-dot-circle-o
+                          i.fa.fa-download
+                          i.fa.fa-dribbble
+                          i.fa.fa-dropbox
+                          i.fa.fa-drupal
+                          i.fa.fa-eject
+                          i.fa.fa-ellipsis-h
+                          i.fa.fa-ellipsis-v
+                          i.fa.fa-empire
+                          i.fa.fa-envelope
+                          i.fa.fa-envelope-o
+                          i.fa.fa-envelope-square
+                          i.fa.fa-eraser
+                          i.fa.fa-eur
+                          i.fa.fa-exchange
+                          i.fa.fa-exclamation
+                          i.fa.fa-exclamation-circle
+                          i.fa.fa-exclamation-triangle
+                          i.fa.fa-expand
+                          i.fa.fa-external-link
+                          i.fa.fa-external-link-square
+                          i.fa.fa-eye
+                          i.fa.fa-eye-slash
+                          i.fa.fa-eyedropper
+                          i.fa.fa-facebook
+                          i.fa.fa-facebook-square
+                          i.fa.fa-fast-backward
+                          i.fa.fa-fast-forward
+                          i.fa.fa-fax
+                          i.fa.fa-female
+                          i.fa.fa-fighter-jet
+                          i.fa.fa-file
+                          i.fa.fa-file-archive-o
+                          i.fa.fa-file-audio-o
+                          i.fa.fa-file-code-o
+                          i.fa.fa-file-excel-o
+                          i.fa.fa-file-image-o
+                          i.fa.fa-file-o
+                          i.fa.fa-file-pdf-o
+                          i.fa.fa-file-powerpoint-o
+                          i.fa.fa-file-text
+                          i.fa.fa-file-text-o
+                          i.fa.fa-file-video-o
+                          i.fa.fa-file-word-o
+                          i.fa.fa-files-o
+                          i.fa.fa-film
+                          i.fa.fa-filter
+                          i.fa.fa-fire
+                          i.fa.fa-fire-extinguisher
+                          i.fa.fa-flag
+                          i.fa.fa-flag-checkered
+                          i.fa.fa-flag-o
+                          i.fa.fa-flask
+                          i.fa.fa-flickr
+                          i.fa.fa-floppy-o
+                          i.fa.fa-folder
+                          i.fa.fa-folder-o
+                          i.fa.fa-folder-open
+                          i.fa.fa-folder-open-o
+                          i.fa.fa-font
+                          i.fa.fa-forward
+                          i.fa.fa-foursquare
+                          i.fa.fa-frown-o
+                          i.fa.fa-futbol-o
+                          i.fa.fa-gamepad
+                          i.fa.fa-gavel
+                          i.fa.fa-gbp
+                          i.fa.fa-gift
+                          i.fa.fa-git
+                          i.fa.fa-git-square
+                          i.fa.fa-github
+                          i.fa.fa-github-alt
+                          i.fa.fa-github-square
+                          i.fa.fa-gittip
+                          i.fa.fa-glass
+                          i.fa.fa-globe
+                          i.fa.fa-google
+                          i.fa.fa-google-plus
+                          i.fa.fa-google-plus-square
+                          i.fa.fa-google-wallet
+                          i.fa.fa-graduation-cap
+                          i.fa.fa-h-square
+                          i.fa.fa-hacker-news
+                          i.fa.fa-hand-o-down
+                          i.fa.fa-hand-o-left
+                          i.fa.fa-hand-o-right
+                          i.fa.fa-hand-o-up
+                          i.fa.fa-hdd-o
+                          i.fa.fa-header
+                          i.fa.fa-headphones
+                          i.fa.fa-heart
+                          i.fa.fa-heart-o
+                          i.fa.fa-history
+                          i.fa.fa-home
+                          i.fa.fa-hospital-o
+                          i.fa.fa-html5
+                          i.fa.fa-ils
+                          i.fa.fa-inbox
+                          i.fa.fa-indent
+                          i.fa.fa-info
+                          i.fa.fa-info-circle
+                          i.fa.fa-inr
+                          i.fa.fa-instagram
+                          i.fa.fa-ioxhost
+                          i.fa.fa-italic
+                          i.fa.fa-joomla
+                          i.fa.fa-jpy
+                          i.fa.fa-jsfiddle
+                          i.fa.fa-key
+                          i.fa.fa-keyboard-o
+                          i.fa.fa-krw
+                          i.fa.fa-language
+                          i.fa.fa-laptop
+                          i.fa.fa-lastfm
+                          i.fa.fa-lastfm-square
+                          i.fa.fa-leaf
+                          i.fa.fa-lemon-o
+                          i.fa.fa-level-down
+                          i.fa.fa-level-up
+                          i.fa.fa-life-ring
+                          i.fa.fa-lightbulb-o
+                          i.fa.fa-line-chart
+                          i.fa.fa-link
+                          i.fa.fa-linkedin
+                          i.fa.fa-linkedin-square
+                          i.fa.fa-linux
+                          i.fa.fa-list
+                          i.fa.fa-list-alt
+                          i.fa.fa-list-ol
+                          i.fa.fa-list-ul
+                          i.fa.fa-location-arrow
+                          i.fa.fa-lock
+                          i.fa.fa-long-arrow-down
+                          i.fa.fa-long-arrow-left
+                          i.fa.fa-long-arrow-right
+                          i.fa.fa-long-arrow-up
+                          i.fa.fa-magic
+                          i.fa.fa-magnet
+                          i.fa.fa-male
+                          i.fa.fa-map-marker
+                          i.fa.fa-maxcdn
+                          i.fa.fa-meanpath
+                          i.fa.fa-medkit
+                          i.fa.fa-meh-o
+                          i.fa.fa-microphone
+                          i.fa.fa-microphone-slash
+                          i.fa.fa-minus
+                          i.fa.fa-minus-circle
+                          i.fa.fa-minus-square
+                          i.fa.fa-minus-square-o
+                          i.fa.fa-mobile
+                          i.fa.fa-money
+                          i.fa.fa-moon-o
+                          i.fa.fa-music
+                          i.fa.fa-newspaper-o
+                          i.fa.fa-openid
+                          i.fa.fa-outdent
+                          i.fa.fa-pagelines
+                          i.fa.fa-paint-brush
+                          i.fa.fa-paper-plane
+                          i.fa.fa-paper-plane-o
+                          i.fa.fa-paperclip
+                          i.fa.fa-paragraph
+                          i.fa.fa-pause
+                          i.fa.fa-paw
+                          i.fa.fa-paypal
+                          i.fa.fa-pencil
+                          i.fa.fa-pencil-square
+                          i.fa.fa-pencil-square-o
+                          i.fa.fa-phone
+                          i.fa.fa-phone-square
+                          i.fa.fa-picture-o
+                          i.fa.fa-pie-chart
+                          i.fa.fa-pied-piper
+                          i.fa.fa-pied-piper-alt
+                          i.fa.fa-pinterest
+                          i.fa.fa-pinterest-square
+                          i.fa.fa-plane
+                          i.fa.fa-play
+                          i.fa.fa-play-circle
+                          i.fa.fa-play-circle-o
+                          i.fa.fa-plug
+                          i.fa.fa-plus
+                          i.fa.fa-plus-circle
+                          i.fa.fa-plus-square
+                          i.fa.fa-plus-square-o
+                          i.fa.fa-power-off
+                          i.fa.fa-print
+                          i.fa.fa-puzzle-piece
+                          i.fa.fa-qq
+                          i.fa.fa-qrcode
+                          i.fa.fa-question
+                          i.fa.fa-question-circle
+                          i.fa.fa-quote-left
+                          i.fa.fa-quote-right
+                          i.fa.fa-random
+                          i.fa.fa-rebel
+                          i.fa.fa-recycle
+                          i.fa.fa-reddit
+                          i.fa.fa-reddit-square
+                          i.fa.fa-refresh
+                          i.fa.fa-renren
+                          i.fa.fa-repeat
+                          i.fa.fa-reply
+                          i.fa.fa-reply-all
+                          i.fa.fa-retweet
+                          i.fa.fa-road
+                          i.fa.fa-rocket
+                          i.fa.fa-rss
+                          i.fa.fa-rss-square
+                          i.fa.fa-rub
+                          i.fa.fa-scissors
+                          i.fa.fa-search
+                          i.fa.fa-search-minus
+                          i.fa.fa-search-plus
+                          i.fa.fa-share
+                          i.fa.fa-share-alt
+                          i.fa.fa-share-alt-square
+                          i.fa.fa-share-square
+                          i.fa.fa-share-square-o
+                          i.fa.fa-shield
+                          i.fa.fa-shopping-cart
+                          i.fa.fa-sign-in
+                          i.fa.fa-sign-out
+                          i.fa.fa-signal
+                          i.fa.fa-sitemap
+                          i.fa.fa-skype
+                          i.fa.fa-slack
+                          i.fa.fa-sliders
+                          i.fa.fa-slideshare
+                          i.fa.fa-smile-o
+                          i.fa.fa-sort
+                          i.fa.fa-sort-alpha-asc
+                          i.fa.fa-sort-alpha-desc
+                          i.fa.fa-sort-amount-asc
+                          i.fa.fa-sort-amount-desc
+                          i.fa.fa-sort-asc
+                          i.fa.fa-sort-desc
+                          i.fa.fa-sort-numeric-asc
+                          i.fa.fa-sort-numeric-desc
+                          i.fa.fa-soundcloud
+                          i.fa.fa-space-shuttle
+                          i.fa.fa-spinner
+                          i.fa.fa-spoon
+                          i.fa.fa-spotify
+                          i.fa.fa-square
+                          i.fa.fa-square-o
+                          i.fa.fa-stack-exchange
+                          i.fa.fa-stack-overflow
+                          i.fa.fa-star
+                          i.fa.fa-star-half
+                          i.fa.fa-star-half-o
+                          i.fa.fa-star-o
+                          i.fa.fa-steam
+                          i.fa.fa-steam-square
+                          i.fa.fa-step-backward
+                          i.fa.fa-step-forward
+                          i.fa.fa-stethoscope
+                          i.fa.fa-stop
+                          i.fa.fa-strikethrough
+                          i.fa.fa-stumbleupon
+                          i.fa.fa-stumbleupon-circle
+                          i.fa.fa-subscript
+                          i.fa.fa-suitcase
+                          i.fa.fa-sun-o
+                          i.fa.fa-superscript
+                          i.fa.fa-table
+                          i.fa.fa-tablet
+                          i.fa.fa-tachometer
+                          i.fa.fa-tag
+                          i.fa.fa-tags
+                          i.fa.fa-tasks
+                          i.fa.fa-taxi
+                          i.fa.fa-tencent-weibo
+                          i.fa.fa-terminal
+                          i.fa.fa-text-height
+                          i.fa.fa-text-width
+                          i.fa.fa-th
+                          i.fa.fa-th-large
+                          i.fa.fa-th-list
+                          i.fa.fa-thumb-tack
+                          i.fa.fa-thumbs-down
+                          i.fa.fa-thumbs-o-down
+                          i.fa.fa-thumbs-o-up
+                          i.fa.fa-thumbs-up
+                          i.fa.fa-ticket
+                          i.fa.fa-times
+                          i.fa.fa-times-circle
+                          i.fa.fa-times-circle-o
+                          i.fa.fa-tint
+                          i.fa.fa-toggle-off
+                          i.fa.fa-toggle-on
+                          i.fa.fa-trash
+                          i.fa.fa-trash-o
+                          i.fa.fa-tree
+                          i.fa.fa-trello
+                          i.fa.fa-trophy
+                          i.fa.fa-truck
+                          i.fa.fa-try
+                          i.fa.fa-tty
+                          i.fa.fa-tumblr
+                          i.fa.fa-tumblr-square
+                          i.fa.fa-twitch
+                          i.fa.fa-twitter
+                          i.fa.fa-twitter-square
+                          i.fa.fa-umbrella
+                          i.fa.fa-underline
+                          i.fa.fa-undo
+                          i.fa.fa-university
+                          i.fa.fa-unlock
+                          i.fa.fa-unlock-alt
+                          i.fa.fa-upload
+                          i.fa.fa-usd
+                          i.fa.fa-user
+                          i.fa.fa-user-md
+                          i.fa.fa-users
+                          i.fa.fa-video-camera
+                          i.fa.fa-vimeo-square
+                          i.fa.fa-vine
+                          i.fa.fa-vk
+                          i.fa.fa-volume-down
+                          i.fa.fa-volume-off
+                          i.fa.fa-volume-up
+                          i.fa.fa-weibo
+                          i.fa.fa-weixin
+                          i.fa.fa-wheelchair
+                          i.fa.fa-wifi
+                          i.fa.fa-windows
+                          i.fa.fa-wordpress
+                          i.fa.fa-wrench
+                          i.fa.fa-xing
+                          i.fa.fa-xing-square
+                          i.fa.fa-yahoo
+                          i.fa.fa-yelp
+                          i.fa.fa-youtube
+                          i.fa.fa-youtube-play
+                          i.fa.fa-youtube-square
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              hr
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              .checkbox
+                label
+                  input(name='userTitleEnabled', type='checkbox', <!--='', if='', group.usertitleenabled='', --='')
+                  |  checked
+                  // ENDIF group.userTitleEnabled
+                  | &gt; 
+                  strong [[groups:details.userTitleEnabled]]
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              .checkbox
+                label
+                  input(name='private', type='checkbox', <!--='', if='', group.private='', --='')
+                  |  checked
+                  // ENDIF group.private
+                  | &gt; 
+                  strong [[groups:details.private]]
+                  | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                  p.help-block
+                    | [[groups:details.private_help]]
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              .checkbox
+                label
+                  input(name='hidden', type='checkbox', <!--='', if='', group.hidden='', --='')
+                  |  checked
+                  // ENDIF group.hidden
+                  | &gt; 
+                  strong [[groups:details.hidden]]
+                  | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                  p.help-block
+                    | [[groups:details.hidden_help]]
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              button.btn.btn-link.btn-xs.pull-right(type='button', data-action='delete') Delete Group
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              button.btn.btn-primary(type='button', data-action='update') Save
+        // ENDIF group.isOwner
+        div
+          // IF !posts.length
+          .alert.alert-info [[groups:details.has_no_posts]]
+          // ENDIF !posts.length
+          ul.posts-list(component='posts', data-nextstart='{nextStart}')
+            // BEGIN posts
+            li.posts-list-item(component='post', data-pid='{posts.pid}', data-uid='{posts.uid}')
+              .panel.panel-default
+                .panel-body
+                  a(href='{config.relative_path}/user/{posts.user.userslug}')
+                    img.img-rounded.user-img(title='{posts.user.username}', src='{posts.user.picture}')
+                  | &#x9;&#x9;&#x9;&#x9;
+                  a(href='{config.relative_path}/user/{posts.user.userslug}')
+                    strong
+                      span {posts.user.username}
+                  | &#x9;&#x9;&#x9;&#x9;
+                  .content(component='post/content')
+                    p {posts.content}
+                    | &#x9;&#x9;&#x9;&#x9;&#x9;
+                    p.fade-out
+                  | &#x9;&#x9;&#x9;&#x9;
+                  small
+                    span.pull-right
+                      | [[global:posted_in_ago, 
+                      a(href='{config.relative_path}/category/{posts.category.slug}')
+                        i.fa(class='{posts.category.icon}')
+                        |  {posts.category.name}
+                      | , 
+                      span.timeago(title='{posts.relativeTime}')
+                      | ]] &bull;
+                      | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                      a(href='{config.relative_path}/topic/{posts.topic.slug}/{posts.index}') [[global:read_more]]
+            // END posts
+          .loading-indicator.text-center.hidden(component='posts/loading')
+            i.fa.fa-refresh.fa-spin
+        | &#x9;&#x9;
+        div(widget-area='right')
+    input(type='hidden', template-variable='group_name', value='{group.displayName}')
+    input(type='hidden', template-variable='is_owner', value='{group.isOwner}')

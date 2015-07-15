@@ -1,0 +1,43 @@
+html
+  body
+    ol.breadcrumb
+      // BEGIN breadcrumbs
+      li(itemscope='itemscope', itemtype='http://data-vocabulary.org/Breadcrumb', <!--='', if='', @last='', --='')
+        | class=&quot;active&quot;
+        // ENDIF @last
+        | &gt;
+        // IF !@last
+        a(href='{breadcrumbs.url}', itemprop='url')
+          // ENDIF !@last
+          span(itemprop='title')
+            | {breadcrumbs.text}
+            // IF @last
+            // IF !feeds:disableRSS
+            // IF rssFeedUrl
+            a(target='_blank', href='{rssFeedUrl}')
+              i.fa.fa-rss-square
+            // ENDIF rssFeedUrl
+            // ENDIF !feeds:disableRSS
+            // ENDIF @last
+          // IF !@last
+        // ENDIF !@last
+      // END breadcrumbs
+    .alert.alert-info
+      | [[reset_password:enter_email]]
+    .well
+      #success.alert.alert-success(style='display:none')
+        button.close(type='button', data-dismiss='alert') &times;
+        | &#x9;&#x9;
+        strong [[reset_password:password_reset_sent]]
+      | &#x9;
+      #error.alert.alert-danger(style='display:none')
+        button.close(type='button', data-dismiss='alert') &times;
+        | &#x9;&#x9;
+        strong [[reset_password:invalid_email]]
+      | &#x9;
+      form(onsubmit='return false;')
+        input#email.form-control.input-block.input-lg(type='text', placeholder='[[reset_password:enter_email_address]]')
+        | &#x9;&#x9;
+        br
+        | &#x9;&#x9;
+        button#reset.btn.btn-primary.btn-block.btn-lg(type='submit') [[reset_password:reset_password]]

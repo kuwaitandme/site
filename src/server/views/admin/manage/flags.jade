@@ -1,0 +1,83 @@
+html
+  body
+    .flags
+      .col-lg-9
+        .panel.panel-default
+          .panel-heading
+            i.fa.fa-flag
+            |  Flags
+          | &#x9;&#x9;&#x9;
+          .panel-body(data-next='{next}')
+            form#flag-search(method='GET', action='flags')
+              .form-group
+                .row
+                  .col-md-6
+                    label Flags by user
+                    | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                    input#byUsername.form-control(type='text', placeholder='Search flagged posts by username', name='byUsername', value='{byUsername}')
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              .form-group
+                label Sort By
+                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                .row
+                  .col-md-6
+                    select#flag-sort-by.form-control(name='sortBy')
+                      option(value='count') Most Flags
+                      | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                      option(value='time') Most Recent
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              button.btn.btn-default(type='submit') [[global:search]]
+            | &#x9;&#x9;&#x9;&#x9;
+            hr
+            | &#x9;&#x9;&#x9;&#x9;
+            .post-container(data-next='{next}')
+              // IF !posts.length
+              | No flagged posts!
+              // ENDIF !posts.length
+              // BEGIN posts
+              div
+                .panel.panel-default(data-pid='{posts.pid}', data-tid='{posts.topic.tid}')
+                  .panel-body
+                    a(href='{config.relative_path}/user/{posts.user.userslug}')
+                      img.img-rounded.user-img(title='{posts.user.username}', src='{posts.user.picture}')
+                    | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                    a(href='{config.relative_path}/user/{posts.user.userslug}')
+                      strong
+                        span {posts.user.username}
+                    | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                    .content
+                      p {posts.content}
+                      | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                      p.fade-out
+                    | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                    small
+                      span.pull-right
+                        | Posted in 
+                        a(href='{config.relative_path}/category/{posts.category.slug}', target='_blank')
+                          i.fa(class='{posts.category.icon}')
+                          |  {posts.category.name}
+                        | , 
+                        span.timeago(title='{posts.relativeTime}')
+                        |  &bull;
+                        | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                        a(href='{config.relative_path}/topic/{posts.topic.slug}/{posts.index}', target='_blank') Read More
+                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                span.badge.badge-warning
+                  i.fa.fa-flag
+                  |  {posts.flags}
+                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                button.btn.btn-warning.dismiss Dismiss
+                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                button.btn.btn-danger.delete Delete
+                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                br
+                br
+              // END posts
+      | &#x9;
+      .col-lg-3.acp-sidebar
+        .panel.panel-default
+          .panel-heading Flags Control Panel
+          | &#x9;&#x9;&#x9;
+          .panel-body
+            div
+              button#dismissAll.btn.btn-primary Dismiss All

@@ -1,0 +1,24 @@
+html
+  body
+    ol.breadcrumb
+      // BEGIN breadcrumbs
+      li(itemscope='itemscope', itemtype='http://data-vocabulary.org/Breadcrumb', <!--='', if='', @last='', --='')
+        | class=&quot;active&quot;
+        // ENDIF @last
+        | &gt;
+        // IF !@last
+        a(href='{breadcrumbs.url}', itemprop='url')
+          // ENDIF !@last
+          span(itemprop='title')
+            | {breadcrumbs.text}
+            // IF @last
+            // IF !feeds:disableRSS
+            // IF rssFeedUrl
+            a(target='_blank', href='{rssFeedUrl}')
+              i.fa.fa-rss-square
+            // ENDIF rssFeedUrl
+            // ENDIF !feeds:disableRSS
+            // ENDIF @last
+          // IF !@last
+        // ENDIF !@last
+      // END breadcrumbs

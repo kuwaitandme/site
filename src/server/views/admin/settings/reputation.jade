@@ -1,0 +1,48 @@
+html
+  body
+    .col-lg-9
+      .panel.panel-default
+        .panel-heading Reputation Settings
+        | &#x9;
+        .panel-body
+          form
+            .checkbox
+              label
+                input(type='checkbox', data-field='reputation:disabled')
+                |  
+                strong Disable Reputation System
+            | &#x9;&#x9;&#x9;
+            .checkbox
+              label
+                input(type='checkbox', data-field='downvote:disabled')
+                |  
+                strong
+                  | Disable Down Voting
+      .panel.panel-default
+        .panel-heading Activity Thresholds
+        | &#x9;
+        .panel-body
+          form
+            strong Minimum reputation to downvote posts
+            br
+            |  
+            input.form-control(type='text', data-field='privileges:downvote')
+            br
+            | &#x9;&#x9;&#x9;
+            strong Minimum reputation to flag posts
+            br
+            |  
+            input.form-control(type='text', data-field='privileges:flag')
+            br
+    .col-lg-3.acp-sidebar
+      .panel.panel-default
+        .panel-heading Save Settings
+        | &#x9;&#x9;
+        .panel-body
+          button#save.btn.btn-primary.btn-md Save Changes
+          | &#x9;&#x9;&#x9;
+          button#revert.btn.btn-warning.btn-md Revert Changes
+    script.
+      require(['admin/settings'], function(Settings) {
+      Settings.prepare();
+      });

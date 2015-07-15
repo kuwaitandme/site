@@ -1,0 +1,39 @@
+html
+  body
+    #chat-modal.chat-modal.hide(tabindex='-1', role='dialog', aria-labelledby='Chat', aria-hidden='true', data-backdrop='none')
+      .modal-dialog
+        .modal-content
+          .modal-header
+            button#chat-close-btn.close(type='button', data-dismiss='modal', aria-label='Close')
+              span(aria-hidden='true') &times;
+            | &#x9;&#x9;&#x9;&#x9;
+            button.close(type='button', data-action='maximize')
+              span(aria-hidden='true')
+                i.fa.fa-expand
+              span.sr-only [[modules:chat.maximize]]
+            | &#x9;&#x9;&#x9;&#x9;
+            h4
+              | [[modules:chat.chatting_with]] 
+              i.fa.fa-circle.status.offline(component='user/status', title='[[global:offline]]')
+          | &#x9;&#x9;&#x9;
+          .modal-body
+            span.since-bar
+              a.selected(href='#', data-since='recent') [[recent:title]]
+              |  &bull; 
+              a(href='#', data-since='week') [[modules:chat.seven_days]]
+              |  &bull; 
+              a(href='#', data-since='month') [[modules:chat.thirty_days]]
+              |  &bull; 
+              a(href='#', data-since='threemonths') [[modules:chat.three_months]]
+            | &#x9;&#x9;&#x9;&#x9;
+            ul#chat-content.well.well-sm
+              span.user-typing.hide
+                i.fa.fa-pencil
+                |  
+                span.text
+            | &#x9;&#x9;&#x9;&#x9;
+            .input-group
+              textarea#chat-message-input.form-control(component='chat/input', rows='1', placeholder='[[modules:chat.placeholder]]', name='chat-message')
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              span.input-group-btn
+                button#chat-message-send-btn.btn.btn-primary(href='#', type='button') [[modules:chat.send]]

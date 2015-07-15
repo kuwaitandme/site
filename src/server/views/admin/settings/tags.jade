@@ -1,0 +1,42 @@
+html
+  body
+    .col-lg-9
+      .panel.panel-default
+        .panel-heading Tag Settings
+        | &#x9;
+        .panel-body
+          form
+            .checkbox
+              label
+                input(type='checkbox', data-field='privateTagListing')
+                |  Make the tags list private
+            | &#x9;&#x9;&#x9;
+            .form-group
+              label(for='tagsPerTopics') Tags per Topic
+              | &#x9;&#x9;&#x9;&#x9;
+              input#tagsPerTopics.form-control(type='text', value='5', data-field='tagsPerTopic')
+            | &#x9;&#x9;&#x9;
+            .form-group
+              label(for='minimumTagLength') Minimum Tag Length
+              | &#x9;&#x9;&#x9;&#x9;
+              input#minimumTagLength.form-control(type='text', value='3', data-field='minimumTagLength')
+            | &#x9;&#x9;&#x9;
+            .form-group
+              label(for='maximumTagLength') Maximum Tag Length
+              | &#x9;&#x9;&#x9;&#x9;
+              input#maximumTagLength.form-control(type='text', value='15', data-field='maximumTagLength')
+          | &#x9;&#x9;Click 
+          a(href='/admin/manage/tags') here
+          |  to visit the tag management page.
+    .col-lg-3.acp-sidebar
+      .panel.panel-default
+        .panel-heading Save Settings
+        | &#x9;&#x9;
+        .panel-body
+          button#save.btn.btn-primary.btn-md Save Changes
+          | &#x9;&#x9;&#x9;
+          button#revert.btn.btn-warning.btn-md Revert Changes
+    script.
+      require(['admin/settings'], function(Settings) {
+      Settings.prepare();
+      });

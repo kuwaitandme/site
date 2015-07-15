@@ -1,0 +1,53 @@
+html
+  body
+    .col-lg-9
+      .panel.panel-default
+        .panel-heading Maintenance Mode
+        | &#x9;
+        .panel-body
+          form
+            .checkbox
+              label
+                input(type='checkbox', data-field='maintenanceMode')
+                |  
+                strong Maintenance Mode
+            | &#x9;&#x9;&#x9;
+            p.help-block
+              | When the forum is in maintenance mode, all requests will be redirected to a static holding page.
+              | Administrators are exempt from this redirection, and are able to access the site normally.
+            | &#x9;&#x9;&#x9;
+            .form-group
+              label(for='maintenanceModeMessage') Maintenance Message
+              | &#x9;&#x9;&#x9;&#x9;
+              textarea.form-control(data-field='maintenanceModeMessage')
+      .panel.panel-default
+        .panel-heading Domain Settings
+        | &#x9;
+        .panel-body
+          form
+            .form-group
+              label(for='allow-from-uri') Set ALLOW-FROM to Place NodeBB in an iFrame:
+              | &#x9;&#x9;&#x9;&#x9;
+              input#allow-from-uri.form-control(type='text', placeholder='external-domain.com', data-field='allow-from-uri')
+              br
+            | &#x9;&#x9;&#x9;
+            .form-group
+              label(for='cookieDomain') Set domain for session cookie
+              | &#x9;&#x9;&#x9;&#x9;
+              input#cookieDomain.form-control(type='text', placeholder='.domain.tld', data-field='cookieDomain')
+              br
+              | &#x9;&#x9;&#x9;&#x9;
+              p.help-block
+                | Leave blank for default
+    .col-lg-3.acp-sidebar
+      .panel.panel-default
+        .panel-heading Save Settings
+        | &#x9;&#x9;
+        .panel-body
+          button#save.btn.btn-primary.btn-md Save Changes
+          | &#x9;&#x9;&#x9;
+          button#revert.btn.btn-warning.btn-md Revert Changes
+    script.
+      require(['admin/settings'], function(Settings) {
+      Settings.prepare();
+      });

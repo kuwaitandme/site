@@ -1,0 +1,46 @@
+html
+  body
+    .col-lg-9
+      .panel.panel-default
+        .panel-heading Email Settings
+        | &#x9;
+        .panel-body
+          form
+            p
+              | Please ensure that you have installed a third-party emailer (e.g. PostageApp, Mailgun, Mandrill, SendGrid, etc), otherwise emails will not be sent by NodeBB
+            | &#x9;&#x9;&#x9;
+            .form-group
+              label(for='email:from')
+                strong Email Address
+              | &#x9;&#x9;&#x9;&#x9;
+              p.help-block
+                | The following email address refers to the email that the recipient will see in the &quot;From&quot; and &quot;Reply To&quot; fields.
+              | &#x9;&#x9;&#x9;&#x9;
+              input.form-control.input-lg(type='text', id='email:from', data-field='email:from', placeholder='info@example.org')
+              br
+            | &#x9;&#x9;&#x9;
+            button.btn.btn-block.btn-default(type='button', data-action='email.test') Send Test Email
+            | &#x9;&#x9;&#x9;
+            p.help-block
+              | The test email will be sent to the currently logged in user&apos;s email address.
+      .panel.panel-default
+        .panel-heading Email Subscriptions
+        | &#x9;
+        .panel-body
+          form
+            .checkbox
+              label(for='disableEmailSubscriptions')
+                input#disableEmailSubscriptions(type='checkbox', data-field='disableEmailSubscriptions', name='disableEmailSubscriptions')
+                |  Disable subscriber notification emails
+    .col-lg-3.acp-sidebar
+      .panel.panel-default
+        .panel-heading Save Settings
+        | &#x9;&#x9;
+        .panel-body
+          button#save.btn.btn-primary.btn-md Save Changes
+          | &#x9;&#x9;&#x9;
+          button#revert.btn.btn-warning.btn-md Revert Changes
+    script.
+      require(['admin/settings'], function(Settings) {
+      Settings.prepare();
+      });

@@ -1,0 +1,23 @@
+html
+  body
+    .col-lg-9
+      .panel.panel-default
+        .panel-heading Lavender Theme Settings
+        | &#x9;&#x9;
+        .panel-body
+          form
+            label
+              | Disable Masonry
+              input#disableMasonry(type='checkbox', data-field='disableMasonry')
+    .col-lg-3.acp-sidebar
+      .panel.panel-default
+        .panel-heading Save Settings
+        | &#x9;&#x9;
+        .panel-body
+          button#save.btn.btn-primary.btn-md Save Changes
+          | &#x9;&#x9;&#x9;
+          button#revert.btn.btn-warning.btn-md Revert Changes
+    script.
+      require(['admin/settings'], function(Settings) {
+      Settings.prepare();
+      });

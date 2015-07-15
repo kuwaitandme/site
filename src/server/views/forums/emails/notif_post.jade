@@ -1,0 +1,16 @@
+html
+  body
+    p [[email:greeting_with_name, {username}]],
+    p {intro}:
+    blockquote {postBody}
+    a(href='{url}') [[email:notif.post.cta]]
+    p
+      | [[email:closing]]
+      br
+      | &#x9;
+      strong {site_title}
+    hr
+    p
+      | [[email:notif.post.unsub.info]] 
+      a(href='{base_url}/user/{userslug}/settings') [[email:unsub.cta]]
+      | .

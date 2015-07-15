@@ -1,0 +1,31 @@
+html
+  body
+    .post-cache
+      .col-lg-9
+        .panel.panel-default
+          .panel-heading
+            i.fa.fa-calendar-o
+            |  Post Cache
+          | &#x9;&#x9;&#x9;
+          .panel-body(data-next='{next}')
+            label Posts in Cache
+            br
+            | &#x9;&#x9;&#x9;&#x9;
+            span {cache.itemCount}
+            br
+            | &#x9;&#x9;&#x9;&#x9;
+            label Average Post Size
+            br
+            | &#x9;&#x9;&#x9;&#x9;
+            span {cache.avgPostSize}
+            br
+            | &#x9;&#x9;&#x9;&#x9;
+            label Length / Max
+            br
+            | &#x9;&#x9;&#x9;&#x9;
+            span {cache.length} / {cache.max}
+            br
+            | &#x9;&#x9;&#x9;&#x9;
+            .progress
+              .progress-bar(role='progressbar', aria-valuenow='{cache.percentFull}', aria-valuemin='0', aria-valuemax='100', style='width: {cache.percentFull}%;')
+                | {cache.percentFull}% Full

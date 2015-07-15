@@ -1,0 +1,27 @@
+html
+  body
+    #fork-thread-modal.hide(tabindex='-1', role='dialog', aria-labelledby='', aria-hidden='true', data-backdrop='none')
+      .modal-dialog
+        .modal-content
+          .modal-header
+            button.close(type='button', data-dismiss='modal', aria-hidden='true') &times;
+            | &#x9;&#x9;&#x9;&#x9;
+            h4 [[topic:fork_topic]]
+          | &#x9;&#x9;&#x9;
+          .modal-body
+            .form-group
+              label(for='title') Title
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              input#fork-title.form-control(type='text', placeholder='Enter new thread title')
+              br
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              label [[topic:fork_topic_instruction]]
+              |  
+              br
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              span#fork-pids
+          | &#x9;&#x9;&#x9;
+          .modal-footer
+            button#fork_thread_cancel.btn.btn-default(type='button', data-dismiss='modal') [[global:buttons.close]]
+            | &#x9;&#x9;&#x9;&#x9;
+            button#fork_thread_commit.btn.btn-primary(type='button', disabled='') [[topic:confirm_fork]]

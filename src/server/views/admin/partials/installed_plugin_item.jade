@@ -1,0 +1,61 @@
+html
+  body
+    // IF !installed.error
+    li.clearfix(id='{installed.id}', data-plugin-id='{installed.id}', data-version='{installed.version}')
+      .pull-right
+        // IF installed.isTheme
+        a.btn.btn-info(href='{config.relative_path}/admin/appearance/themes') Themes
+        // ELSE
+        button.btn.IF.ELSE.ENDIF(data-action='toggleActive', class='<!-- installed.active --> btn-warning<!-- --> btn-success<!-- installed.active -->')
+          i.fa.fa-power-off
+          // IF installed.active
+          | Deactivate
+          // ELSE
+          | Activate
+          // ENDIF installed.active
+        // ENDIF installed.isTheme
+        button.btn.btn-danger(data-action='toggleInstall', data-installed='1')
+          i.fa.fa-trash-o
+          |  Uninstall
+      | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+      h2
+        strong {installed.name}
+      // IF installed.description
+      p {installed.description}
+      // ENDIF installed.description
+      // IF installed.outdated
+      i.fa.fa-exclamation-triangle.text-danger
+      // ENDIF installed.outdated
+      small
+        | Installed 
+        strong.currentVersion {installed.version}
+        |  | Latest 
+        strong.latestVersion {installed.latest}
+      // IF installed.outdated
+      button.btn.btn-success.btn-xs(data-action='upgrade')
+        i.fa.fa-download
+        |  Upgrade
+      // ENDIF installed.outdated
+      // IF installed.url
+      p
+        | For more information: 
+        a(target='_blank', href='{installed.url}') {installed.url}
+      // ENDIF installed.url
+    // ENDIF !installed.error
+    // IF installed.error
+    li.clearfix(data-plugin-id='{installed.id}')
+      .pull-right
+        button.btn.btn-default.disabled
+          i.fa.fa-exclamation-triangle
+          |  Unknown
+        | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+        button.btn.btn-danger(data-action='toggleInstall', data-installed='1')
+          i.fa.fa-trash-o
+          |  Uninstall
+      | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+      h2
+        strong {installed.id}
+      | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+      p
+        | The state of this plugin could not be determined, possibly due to a misconfiguration error.
+    // ENDIF installed.error

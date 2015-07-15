@@ -1,0 +1,58 @@
+html
+  body
+    .registration
+      .col-lg-9
+        .panel.panel-default
+          .panel-heading
+            i.fa.fa-group
+            |  Registration Queue
+          | &#x9;&#x9;&#x9;
+          .panel-body
+            table.table.table-striped.users-list
+              tr
+                th Name
+                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                th Email
+                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                th IP
+                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                th Time
+                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                th
+              // BEGIN users
+              tr(data-username='{users.username}')
+                td
+                  // IF users.usernameSpam
+                  i.fa.fa-times-circle.text-danger(title='Frequency: {users.spamData.username.frequency} Appears: {users.spamData.username.appears} Confidence: {users.spamData.username.confidence}')
+                  // ELSE
+                  i.fa.fa-check.text-success
+                  // ENDIF users.usernameSpam
+                  | {users.username}
+                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                td
+                  // IF users.emailSpam
+                  i.fa.fa-times-circle.text-danger(title='Frequency: {users.spamData.email.frequency} Appears: {users.spamData.email.appears}')
+                  // ELSE
+                  i.fa.fa-check.text-success
+                  // ENDIF users.emailSpam
+                  | {users.email}
+                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                td
+                  // IF users.ipSpam
+                  i.fa.fa-times-circle.text-danger(title='Frequency: {users.spamData.ip.frequency} Appears: {users.spamData.ip.appears}')
+                  // ELSE
+                  i.fa.fa-check.text-success
+                  // ENDIF users.ipSpam
+                  | {users.ip}
+                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                td
+                  span.timeago(title='{users.timestamp}')
+                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                td
+                  .btn-group.pull-right
+                    button.btn.btn-success.btn-xs(data-action='accept')
+                      i.fa.fa-check
+                    | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                    button.btn.btn-danger.btn-xs(data-action='delete')
+                      i.fa.fa-times
+              // END users

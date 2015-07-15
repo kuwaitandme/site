@@ -1,0 +1,156 @@
+html
+  body
+    .database
+      .col-sm-9
+        // IF mongo
+        .panel.panel-default
+          .panel-heading
+            i.fa.fa-hdd-o
+            |  Mongo
+          | &#x9;&#x9;&#x9;
+          .panel-body
+            .database-info
+              span Collections
+              |  
+              span.text-right.formatted-number {mongo.collections}
+              br
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              span Objects
+              |  
+              span.text-right.formatted-number {mongo.objects}
+              br
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              span Avg. Object Size
+              |  
+              span.text-right {mongo.avgObjSize} kb
+              br
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              hr
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              span Data Size
+              |  
+              span.text-right {mongo.dataSize} mb
+              br
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              span Storage Size
+              |  
+              span.text-right {mongo.storageSize} mb
+              br
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              span Index Size
+              |  
+              span.text-right {mongo.indexSize} mb
+              br
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              span File Size
+              |  
+              span.text-right {mongo.fileSize} mb
+              br
+        // ENDIF mongo
+        // IF redis
+        .panel.panel-default
+          .panel-heading
+            i.fa.fa-hdd-o
+            |  Redis
+          | &#x9;&#x9;&#x9;
+          .panel-body
+            .database-info
+              span Redis Version
+              |  
+              span.text-right {redis.redis_version}
+              br
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              hr
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              span Uptime in Seconds
+              |  
+              span.text-right.formatted-number {redis.uptime_in_seconds}
+              br
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              span Uptime in Days
+              |  
+              span.text-right {redis.uptime_in_days}
+              br
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              hr
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              span Connected Clients
+              |  
+              span.text-right {redis.connected_clients}
+              br
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              span Connected Slaves
+              |  
+              span.text-right {redis.connected_slaves}
+              br
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              span Blocked Clients
+              |  
+              span.text-right {redis.blocked_clients}
+              br
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              hr
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              span Used Memory
+              |  
+              span.text-right {redis.used_memory_human}
+              br
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              span Memory Fragmentation Ratio
+              |  
+              span.text-right {redis.mem_fragmentation_ratio}
+              br
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              hr
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              span Total Connections Received
+              |  
+              span.text-right.formatted-number {redis.total_connections_received}
+              br
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              span Total Commands Processed
+              |  
+              span.text-right.formatted-number {redis.total_commands_processed}
+              br
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              span Instantaneous Ops. Per Second
+              |  
+              span.text-right.formatted-number {redis.instantaneous_ops_per_sec}
+              br
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              hr
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              span Keyspace Hits
+              |  
+              span.text-right.formatted-number {redis.keyspace_hits}
+              br
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              span Keyspace Misses
+              |  
+              span.text-right.formatted-number {redis.keyspace_misses}
+              br
+        // ENDIF redis
+        // IF mongo
+        .panel.panel-default
+          .panel-heading(data-toggle='collapse', data-target='.mongodb-raw')
+            h3.panel-title
+              i.fa.fa-caret-down
+              |  MongoDB Raw Info
+          | &#x9;&#x9;&#x9;
+          .panel-body.mongodb-raw.collapse
+            .highlight
+              pre.
+                \n{mongo.raw}                
+        // ENDIF mongo
+        // IF redis
+        .panel.panel-default
+          .panel-heading(data-toggle='collapse', data-target='.redis-raw')
+            h3.panel-title
+              i.fa.fa-caret-down
+              |  Redis Raw Info
+          | &#x9;&#x9;&#x9;
+          .panel-body.redis-raw.collapse
+            .highlight
+              pre.
+                \n{redis.raw}                
+        // ENDIF redis

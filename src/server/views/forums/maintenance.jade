@@ -1,0 +1,13 @@
+html
+  body
+    h1.text-center [[pages:maintenance.text, {site_title}]]
+    h2.text-center
+      i.fa.fa-wrench.fa-3x
+    // IF message
+    .row.maintenance
+      .col-sm-10.col-sm-offset-1.col-md-8.col-md-offset-2
+        p.lead.text-center [[pages:maintenance.messageIntro]]
+        | &#x9;&#x9;
+        .well
+          | {message}
+    // ENDIF message

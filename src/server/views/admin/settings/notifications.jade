@@ -1,0 +1,31 @@
+html
+  body
+    .col-lg-9
+      .panel.panel-default
+        .panel-heading Notifications
+        | &#x9;
+        .panel-body
+          form
+            strong Welcome Notification
+            br
+            |  
+            textarea.form-control(data-field='welcomeNotification')
+            br
+            | &#x9;&#x9;&#x9;
+            strong Welcome Notification Link
+            br
+            |  
+            input.form-control(type='text', data-field='welcomeLink')
+            br
+    .col-lg-3.acp-sidebar
+      .panel.panel-default
+        .panel-heading Save Settings
+        | &#x9;&#x9;
+        .panel-body
+          button#save.btn.btn-primary.btn-md Save Changes
+          | &#x9;&#x9;&#x9;
+          button#revert.btn.btn-warning.btn-md Revert Changes
+    script.
+      require(['admin/settings'], function(Settings) {
+      Settings.prepare();
+      });

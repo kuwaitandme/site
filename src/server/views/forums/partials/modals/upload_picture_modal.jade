@@ -1,0 +1,41 @@
+html
+  body
+    #upload-picture-modal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='Upload Picture', aria-hidden='true')
+      .modal-dialog
+        .modal-content
+          .modal-header
+            button.close(type='button', data-dismiss='modal', aria-hidden='true') &times;
+            | &#x9;&#x9;&#x9;&#x9;&#x9;
+            h3#myModalLabel [[user:upload_picture]]
+          | &#x9;&#x9;&#x9;&#x9;
+          .modal-body
+            form#uploadForm(action='', method='post', enctype='multipart/form-data')
+              .form-group
+                label(for='userPhoto') [[user:upload_a_picture]]
+                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                input#userPhotoInput(type='file', name='files[]')
+                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                p.help-block
+                  | [[user:image_spec]] (
+                  span#file-size-block.hide
+                  | )
+              | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+              input#params(type='hidden', name='params')
+            | &#x9;&#x9;&#x9;&#x9;&#x9;
+            #upload-progress-box.progress.progress-striped
+              #upload-progress-bar.progress-bar.progress-bar-success(role='progressbar', aria-valuenow='0', aria-valuemin='0')
+                span.sr-only  [[success:success]]
+            | &#x9;&#x9;&#x9;&#x9;&#x9;
+            #alert-status.alert.alert-info.hide
+            | &#x9;&#x9;&#x9;&#x9;&#x9;
+            #alert-success.alert.alert-success.hide
+            | &#x9;&#x9;&#x9;&#x9;&#x9;
+            #alert-error.alert.alert-danger.hide
+          | &#x9;&#x9;&#x9;&#x9;
+          .modal-footer
+            button.btn.btn-default(data-dismiss='modal', aria-hidden='true') Close
+            | &#x9;&#x9;&#x9;&#x9;&#x9;
+            button#pictureUploadSubmitBtn.btn.btn-primary [[user:upload_picture]]
+        // /.modal-content
+      // /.modal-dialog
+    // /.modal

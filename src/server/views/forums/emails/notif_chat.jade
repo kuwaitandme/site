@@ -1,0 +1,16 @@
+html
+  body
+    p [[email:greeting_with_name, {username}]],
+    p {summary}:
+    blockquote {message.content}
+    a(href='{url}/chats/{fromUserslug}') [[email:notif.chat.cta]]
+    p
+      | [[email:closing]]
+      br
+      | &#x9;
+      strong {site_title}
+    hr
+    p
+      | [[email:notif.chat.unsub.info]] 
+      a(href='{url}/user/{userslug}/settings') [[email:unsub.cta]]
+      | .

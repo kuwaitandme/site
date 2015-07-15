@@ -1,0 +1,30 @@
+html
+  body
+    #move_thread_modal.modal(tabindex='-1', role='dialog', aria-labelledby='Move Topic', aria-hidden='true')
+      .modal-dialog
+        .modal-content
+          .modal-header
+            button.close(type='button', data-dismiss='modal', aria-hidden='true') &times;
+            | &#x9;&#x9;&#x9;&#x9;
+            h3 [[topic:move_topic]]
+          | &#x9;&#x9;&#x9;
+          .modal-body
+            p#categories-loading
+              i.fa.fa-spin.fa-refresh
+              |  [[topic:load_categories]]
+            | &#x9;&#x9;&#x9;&#x9;
+            p
+              | [[topic:disabled_categories_note]]
+            | &#x9;&#x9;&#x9;&#x9;
+            #move-confirm(style='display: none;')
+              hr
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              .alert.alert-info
+                | [[topic:topic_will_be_moved_to]] 
+                strong
+                  span#confirm-category-name
+          | &#x9;&#x9;&#x9;
+          .modal-footer
+            button#move_thread_cancel.btn.btn-default(type='button', data-dismiss='modal') [[global:buttons.close]]
+            | &#x9;&#x9;&#x9;&#x9;
+            button#move_thread_commit.btn.btn-primary(type='button', disabled='') [[topic:confirm_move]]

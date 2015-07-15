@@ -1,0 +1,42 @@
+html
+  body
+    #change-picture-modal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='[[user:change_picture]]', aria-hidden='true')
+      .modal-dialog
+        .modal-content
+          .modal-header
+            button.close(type='button', data-dismiss='modal', aria-hidden='true') &times;
+            | &#x9;&#x9;&#x9;&#x9;&#x9;
+            h3#myModalLabel [[user:change_picture]]
+          | &#x9;&#x9;&#x9;&#x9;
+          .modal-body
+            #gravatar-box
+              img#user-gravatar-picture.img-thumbnail.user-profile-picture(src='')
+              | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+              span.user-picture-label [[user:gravatar]]
+              | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+              i.fa.fa-check.fa-2x
+            | &#x9;&#x9;&#x9;&#x9;&#x9;
+            br
+            // IF config.allowProfileImageUploads
+            #uploaded-box
+              img#user-uploaded-picture.img-thumbnail.user-profile-picture(src='')
+              | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+              span.user-picture-label [[user:uploaded_picture]]
+              | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+              i.fa.fa-check.fa-2x
+            | &#x9;&#x9;&#x9;&#x9;&#x9;
+            a#uploadPictureBtn(href='#') [[user:upload_new_picture]]
+            |  
+            br
+            // IF config.hasImageUploadPlugin
+            a#uploadFromUrlBtn(href='#') [[user:upload_new_picture_from_url]]
+            // ENDIF config.hasImageUploadPlugin
+            // ENDIF config.allowProfileImageUploads
+          | &#x9;&#x9;&#x9;&#x9;
+          .modal-footer
+            button.btn.btn-default(data-dismiss='modal', aria-hidden='true') [[global:close]]
+            | &#x9;&#x9;&#x9;&#x9;&#x9;
+            button#savePictureChangesBtn.btn.btn-primary [[global:save_changes]]
+        // /.modal-content
+      // /.modal-dialog
+    // /.modal

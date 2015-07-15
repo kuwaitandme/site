@@ -1,0 +1,73 @@
+html
+  body
+    // IF privileges.editable
+    .btn-group.thread-tools
+      button.btn.btn-default.dropdown-toggle(data-toggle='dropdown', type='button')
+        span.visible-sm-inline.visible-md-inline.visible-lg-inline [[topic:thread_tools.title]]
+        | &#x9;&#x9;
+        span.visible-xs-inline
+          i.fa.fa-fw.fa-gear
+        | &#x9;&#x9;
+        span.caret
+      | &#x9;
+      ul.dropdown-menu.pull-right
+        li
+          a(component='topic/mark-unread-for-all', href='#')
+            i.fa.fa-fw.fa-inbox
+            |  [[topic:thread_tools.markAsUnreadForAll]]
+        | &#x9;&#x9;
+        li
+          a(component='topic/pin', href='#')
+            i.fa.fa-fw.fa-thumb-tack
+            |  [[topic:thread_tools.pin]]
+        | &#x9;&#x9;
+        li
+          a.hidden(component='topic/unpin', href='#')
+            i.fa.fa-fw.fa-thumb-tack.fa-rotate-90
+            |  [[topic:thread_tools.unpin]]
+        | &#x9;&#x9;
+        li
+          a(component='topic/lock', href='#')
+            i.fa.fa-fw.fa-lock
+            |  [[topic:thread_tools.lock]]
+        | &#x9;&#x9;
+        li
+          a.hidden(component='topic/unlock', href='#')
+            i.fa.fa-fw.fa-unlock
+            |  [[topic:thread_tools.unlock]]
+        | &#x9;&#x9;
+        li.divider
+        | &#x9;&#x9;
+        li
+          a(component='topic/move', href='#')
+            i.fa.fa-fw.fa-arrows
+            |  [[topic:thread_tools.move]]
+        | &#x9;&#x9;
+        li
+          a(component='topic/move-all', href='#')
+            i.fa.fa-fw.fa-arrows
+            |  [[topic:thread_tools.move_all]]
+        | &#x9;&#x9;
+        li.divider
+        | &#x9;&#x9;
+        li
+          a(component='topic/delete', href='#')
+            i.fa.fa-fw.fa-trash-o
+            |  [[topic:thread_tools.delete]]
+        | &#x9;&#x9;
+        li
+          a.hidden(component='topic/restore', href='#')
+            i.fa.fa-fw.fa-history
+            |  [[topic:thread_tools.restore]]
+        | &#x9;&#x9;
+        li
+          a.hidden(component='topic/purge', href='#')
+            i.fa.fa-fw.fa-eraser
+            |  [[topic:thread_tools.purge]]
+        // BEGIN thread_tools
+        li
+          a.(href='#', class='{thread_tools.class}')
+            i.fa.fa-fw(class='{thread_tools.icon}')
+            |  {thread_tools.title}
+        // END thread_tools
+    // ENDIF privileges.editable

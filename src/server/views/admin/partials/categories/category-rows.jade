@@ -1,0 +1,31 @@
+html
+  body
+    ul(data-cid='{cid}')
+      // BEGIN categories
+      li(data-cid='{categories.cid}', <!--='', if='', categories.disabled='', --='')
+        | class=&quot;disabled&quot;
+        // ENDIF categories.disabled
+        | &gt;
+        .row
+          .col-md-9
+            .clearfix
+              .icon(style="color: {categories.color}; background-color: {categories.bgColor};<!-- IF categories.backgroundImage --> background-image: url('{categories.backgroundImage}');<!-- ENDIF categories.backgroundImage -->")
+                i.fa(data-name='icon', value='{categories.icon}', class='{categories.icon}')
+              |                     
+              .information
+                h5.header {categories.name}
+                |                         
+                p.description {categories.description}
+          |             
+          .col-md-3
+            .clearfix.pull-right.text-right
+              .btn-group
+                button.btn.btn-xs.IF.ELSE.ENDIF(data-action='toggle', data-disabled='{categories.disabled}', class='<!-- categories.disabled -->btn-primary<!-- -->btn-danger<!-- categories.disabled -->')
+                  // IF categories.disabled
+                  | Enable
+                  // ELSE
+                  | Disable
+                  // ENDIF categories.disabled
+                |                         
+                a.btn.btn-default.btn-xs(href='./categories/{categories.cid}') Edit
+      // END categories

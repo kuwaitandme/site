@@ -1,0 +1,17 @@
+html
+  body
+    // BEGIN posts
+    li.clearfix(data-pid='{posts.pid}')
+      a(href='<!-- IF posts.user.userslug -->{relative_path}/user/{posts.user.userslug}<!-- ELSE -->#<!-- ENDIF posts.user.userslug -->')
+        img.profile-image.user-img(title='{posts.user.username}', src='{posts.user.picture}')
+      | &#x9;
+      div
+        | {posts.content}
+        p.fade-out
+      | &#x9;
+      span.pull-right.post-preview-footer
+        span.timeago(title='{posts.relativeTime}')
+        |  &bull;
+        | &#x9;&#x9;
+        a(href='{relative_path}/topic/{posts.topic.slug}/{posts.index}') [[global:read_more]]
+    // END posts

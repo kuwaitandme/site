@@ -1,0 +1,25 @@
+html
+  body
+    ul.dropdown-menu.pull-right(role='menu')
+      li.dropdown-header(role='presentation') [[category:share_this_category]]
+      // IF !config.disableSocialButtons
+      li(role='presentation')
+        a.facebook-share(role='menuitem', tabindex='-1', href='#')
+          span.menu-icon
+            i.fa.fa-facebook
+          |  Facebook
+      | &#x9;
+      li(role='presentation')
+        a.twitter-share(role='menuitem', tabindex='-1', href='#')
+          span.menu-icon
+            i.fa.fa-twitter
+          |  Twitter
+      | &#x9;
+      li(role='presentation')
+        a.google-share(role='menuitem', tabindex='-1', href='#')
+          span.menu-icon
+            i.fa.fa-google-plus
+          |  Google+
+      // ENDIF !config.disableSocialButtons
+      li.text-center
+        input#category-link.form-control.post-link.inline-block(readonly='true', type='text', value='')

@@ -1,0 +1,8 @@
+html
+  body
+    ul.category-list
+      // BEGIN categories
+      li.IF.ENDIF(style='\      <!-- IF categories.bgColor -->background-color: {categories.bgColor};<!-- ENDIF categories.bgColor -->\      <!-- IF categories.color -->color: {categories.color};<!-- ENDIF categories.color -->\      ', class='<!-- categories.disabled -->disabled<!-- categories.disabled -->', data-cid='{categories.cid}')
+        i.fa.fa-fw(class='{categories.icon}')
+        |  {categories.name}
+      // END categories

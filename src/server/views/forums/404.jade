@@ -1,0 +1,9 @@
+html
+  body
+    .alert.alert-danger
+      strong {path} [[global:404.title]]
+      // IF error
+      p {error}
+      // ELSE
+      p [[global:404.message, {config.relative_path}]]
+      // ENDIF error

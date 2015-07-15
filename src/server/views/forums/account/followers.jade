@@ -1,0 +1,101 @@
+html
+  body
+    .account-username-box(data-userslug='{userslug}', data-uid='{uid}')
+      ul.nav.nav-pills.account-sub-links
+        li
+          a.dropdown-toggle.inline-block(href='#', type='button', data-toggle='dropdown')
+            | [[user:more]]
+            span.caret
+            | &#x9;&#x9;&#x9;&#x9;
+            span.sr-only Toggle Dropdown
+          | &#x9;&#x9;&#x9;
+          ul.dropdown-menu.pull-right(role='menu')
+            li
+              a(href='{config.relative_path}/user/{userslug}/following')
+                i.fa.fa-fw.fa-users
+                |  [[user:following]]
+            | &#x9;&#x9;&#x9;&#x9;
+            li
+              a(href='{config.relative_path}/user/{userslug}/followers')
+                i.fa.fa-fw.fa-users
+                |  [[user:followers]]
+            | &#x9;&#x9;&#x9;&#x9;
+            li.divider
+            | &#x9;&#x9;&#x9;&#x9;
+            li
+              a(href='{config.relative_path}/user/{userslug}/topics')
+                i.fa.fa-fw.fa-book
+                |  [[global:topics]]
+            | &#x9;&#x9;&#x9;&#x9;
+            li
+              a(href='{config.relative_path}/user/{userslug}/posts')
+                i.fa.fa-fw.fa-pencil
+                |  [[global:posts]]
+            | &#x9;&#x9;&#x9;&#x9;
+            li
+              a(href='{config.relative_path}/user/{userslug}/groups')
+                i.fa.fa-fw.fa-users
+                |  [[global:header.groups]]
+            // IF showHidden
+            li
+              a(href='{config.relative_path}/user/{userslug}/favourites')
+                i.fa.fa-fw.fa-heart
+                |  [[user:favourites]]
+            | &#x9;&#x9;&#x9;&#x9;
+            li
+              a(href='{config.relative_path}/user/{userslug}/watched')
+                i.fa.fa-fw.fa-eye
+                |  [[user:watched]]
+            // ENDIF showHidden
+            // BEGIN profile_links
+            li.plugin-link.IF.ELSE.ENDIF(id='{profile_links.id}', class='<!-- profile_links.public -->public<!-- -->private<!-- profile_links.public -->')
+              a(href='{config.relative_path}/user/{userslug}/{profile_links.route}')
+                i.fa.fa-fw(class='{profile_links.icon}')
+                |  {profile_links.name}
+            // END profile_links
+        | &#x9;&#x9;
+        li
+          a#profile.inline-block(href='{config.relative_path}/user/{userslug}')
+            i.fa.fa-user
+            |  [[user:profile]]
+        // IF showHidden
+        li
+          a(href='{config.relative_path}/user/{userslug}/settings')
+            i.fa.fa-gear
+            |  [[user:settings]]
+        | &#x9;&#x9;
+        li
+          a(href='{config.relative_path}/user/{userslug}/edit')
+            i.fa.fa-pencil-square-o
+            |  [[user:edit]]
+        // ENDIF showHidden
+    .users.account
+      ul#users-container.users-container(data-nextstart='{nextStart}')
+        // BEGIN users
+        li.users-box.registered-user(data-uid='{users.uid}')
+          a(href='{config.relative_path}/user/{users.userslug}')
+            img.img-thumbnail(src='{users.picture}')
+          | &#x9;
+          br
+          | &#x9;
+          .user-info
+            span
+              i.fa.fa-circle.status(component='user/status', class='{users.status}', title='[[global:{users.status}]]')
+              | &#x9;&#x9;&#x9;
+              a(href='{config.relative_path}/user/{users.userslug}') {users.username}
+            | &#x9;&#x9;
+            br
+            | &#x9;&#x9;
+            .reputation(title='reputation')
+              i.fa.fa-star
+              | &#x9;&#x9;&#x9;
+              span.formatted-number {users.reputation}
+            | &#x9;&#x9;
+            .post-count(title='post count')
+              i.fa.fa-pencil
+              | &#x9;&#x9;&#x9;
+              span.formatted-number {users.postcount}
+        // END users
+      // IF !users.length
+      .alert.alert-warning [[user:has_no_follower]]
+      // ENDIF !users.length

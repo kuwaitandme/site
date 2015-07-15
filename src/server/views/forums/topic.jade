@@ -1,0 +1,641 @@
+html
+  body
+    .topic
+      ol.breadcrumb
+        // BEGIN breadcrumbs
+        li(itemscope='itemscope', itemtype='http://data-vocabulary.org/Breadcrumb', <!--='', if='', @last='', --='')
+          | class=&quot;active&quot;
+          // ENDIF @last
+          | &gt;
+          // IF !@last
+          a(href='{breadcrumbs.url}', itemprop='url')
+            // ENDIF !@last
+            span(itemprop='title')
+              | {breadcrumbs.text}
+              // IF @last
+              // IF !feeds:disableRSS
+              // IF rssFeedUrl
+              a(target='_blank', href='{rssFeedUrl}')
+                i.fa.fa-rss-square
+              // ENDIF rssFeedUrl
+              // ENDIF !feeds:disableRSS
+              // ENDIF @last
+            // IF !@last
+          // ENDIF !@last
+        // END breadcrumbs
+      | &#x9;
+      .alert.IF.ENDIF(component='topic/deleted/message', class='alert-warning<!-- !deleted --> hidden<!-- !deleted -->') [[topic:deleted_message]]
+      | &#x9;
+      ul#post-container.posts(component='topic', data-tid='{tid}')
+        // BEGIN posts
+        li.post-row.IF.ENDIF(component='post', class='<!-- posts.deleted -->deleted<!-- posts.deleted -->', data-pid='{posts.pid}', data-uid='{posts.uid}', data-username='{posts.user.username}', data-userslug='{posts.user.userslug}', data-index='{posts.index}', data-timestamp='{posts.timestamp}', data-votes='{posts.votes}', itemscope='', itemtype='http://schema.org/Comment')
+          a(component='post/anchor', name='{posts.index}')
+          | &#x9;&#x9;&#x9;&#x9;
+          meta(itemprop='datePublished', content='{posts.relativeTime}')
+          | &#x9;&#x9;&#x9;&#x9;
+          meta(itemprop='dateModified', content='{posts.relativeEditTime}')
+          | &#x9;&#x9;&#x9;&#x9;
+          .topic-item
+            .topic-body
+              .row
+                .col-md-12
+                  .topic-profile-pic.hidden-xs.text-center
+                    a(href='<!-- IF posts.user.userslug -->{config.relative_path}/user/{posts.user.userslug}<!-- ELSE -->#<!-- ENDIF posts.user.userslug -->')
+                      img.profile-image.user-img(src='{posts.user.picture}', alt='{posts.user.username}', title='{posts.user.username}')
+                    | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                    small.username(title='{posts.user.username}')
+                      a(href='<!-- IF posts.user.userslug -->{config.relative_path}/user/{posts.user.userslug}<!-- ELSE -->#<!-- ENDIF posts.user.userslug -->') {posts.user.username}
+                    // IF posts.user.banned
+                    .text-center
+                      span.label.label-danger [[user:banned]]
+                    // ENDIF posts.user.banned
+                    // IF posts.user.groups.length
+                    // BEGIN groups
+                    // IF ../selected
+                    // IF ../userTitleEnabled
+                    a(href='{config.relative_path}/groups/{../slug}')
+                      small.label.group-label.inline-block(style='background-color: {../labelColor};')
+                        // IF ../icon
+                        i.fa(class='{../icon}')
+                        // ENDIF ../icon
+                        | {../userTitle}
+                    // ENDIF ../userTitleEnabled
+                    // ENDIF ../selected
+                    // END groups
+                    // ENDIF posts.user.groups.length
+                  | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                  .topic-text
+                    // IF @first
+                    h3.topic-title
+                      p.topic-title(component='post/header', itemprop='name')
+                        i.fa.fa-thumb-tack.IF.ENDIF(class='<!-- !pinned -->hidden<!-- !pinned -->')
+                        |  
+                        i.fa.fa-lock.IF.ENDIF(class='<!-- !locked -->hidden<!-- !locked -->')
+                        |  
+                        span(component='topic/title') {title}
+                      | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                      hr
+                    // ENDIF @first
+                    .post-content(component='post/content', itemprop='text') {posts.content}
+                    // IF posts.user.signature
+                    .post-signature {posts.user.signature}
+                    // ENDIF posts.user.signature
+            | &#x9;&#x9;&#x9;&#x9;&#x9;
+            .topic-footer
+              .row
+                div
+                  small.pull-right
+                    span
+                      // IF posts.user.userslug
+                      i.fa.fa-circle.status(component='user/status', class='{posts.user.status}', title='[[global:{posts.user.status}]]')
+                      // ENDIF posts.user.userslug
+                      span(data-username='{posts.user.username}', data-uid='{posts.user.uid}')
+                        // IF posts.user.userslug
+                        | [[global:user_posted_ago, 
+                        strong
+                          a(href='{config.relative_path}/user/{posts.user.userslug}', itemprop='author') {posts.user.username}
+                        | , 
+                        span.timeago(title='{posts.relativeTime}')
+                        | ]]
+                        // ELSE
+                        | [[global:guest_posted_ago, 
+                        span.timeago(title='{posts.relativeTime}')
+                        | ]]
+                        // ENDIF posts.user.userslug
+                    | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                    span.IF.ENDIF(component='post/editor', class='<!-- !posts.editor.username --> hidden<!-- !posts.editor.username -->')
+                      | , [[global:last_edited_by_ago, 
+                      strong
+                        a(href='{config.relative_path}/user/{posts.editor.userslug}') {posts.editor.username}
+                      | , 
+                      span.timeago(title='{posts.relativeEditTime}')
+                      | ]]
+                  | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                  .dropdown.moderator-tools(component='post/tools')
+                    a(href='#', data-toggle='dropdown')
+                      i.fa.fa-fw.fa-gear
+                    | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                    ul.dropdown-menu(role='menu')
+                      // IF posts.display_moderator_tools
+                      li.dropdown-header(role='presentation') [[topic:tools]]
+                      li(role='presentation')
+                        a(component='post/edit', role='menuitem', tabindex='-1', href='#')
+                          span.menu-icon
+                            i.fa.fa-pencil
+                          |  [[topic:edit]]
+                      li(role='presentation')
+                        a.IF.ENDIF(component='post/delete', role='menuitem', tabindex='-1', href='#', class='<!-- posts.deleted -->hidden<!-- posts.deleted -->')
+                          .inline.menu-icon
+                            i.fa.fa-trash-o
+                          |  
+                          span [[topic:delete]]
+                      li(role='presentation')
+                        a.IF.ENDIF(component='post/restore', role='menuitem', tabindex='-1', href='#', class='<!-- !posts.deleted -->hidden<!-- !posts.deleted -->')
+                          .inline.menu-icon
+                            i.fa.fa-history
+                          |  
+                          span [[topic:restore]]
+                      li(role='presentation')
+                        a.IF.ENDIF(component='post/purge', role='menuitem', tabindex='-1', href='#', class='<!-- !posts.deleted -->hidden<!-- !posts.deleted -->')
+                          span.menu-icon
+                            i.fa.fa-eraser
+                          |  [[topic:purge]]
+                      // IF posts.display_move_tools
+                      li(role='presentation')
+                        a(component='post/move', role='menuitem', tabindex='-1', href='#')
+                          span.menu-icon
+                            i.fa.fa-arrows
+                          |  [[topic:move]]
+                      // ENDIF posts.display_move_tools
+                      li.divider(role='presentation')
+                      // ENDIF posts.display_moderator_tools
+                      li(role='presentation')
+                        a(component='post/favourite', role='menuitem', tabindex='-1', href='#', data-favourited='{posts.favourited}')
+                          span.favourite-text [[topic:favourite]]
+                          | &#x9;&#x9;
+                          span.favouriteCount(component='post/favourite-count', data-favourites='{posts.reputation}') {posts.reputation}
+                          | &nbsp;
+                          | &#x9;&#x9;
+                          i.fa.fa-heart.IF.ENDIF(component='post/favourite/on', class='<!-- !posts.favourited -->hidden<!-- !posts.favourited -->')
+                          | &#x9;&#x9;
+                          i.fa.fa-heart-o.IF.ENDIF(component='post/favourite/off', class='<!-- posts.favourited -->hidden<!-- posts.favourited -->')
+                      // IF !config.disableSocialButtons
+                      li.divider(role='presentation')
+                      li.dropdown-header(role='presentation') [[topic:share_this_post]]
+                      li(role='presentation')
+                        a.facebook-share(role='menuitem', tabindex='-1', href='#')
+                          span.menu-icon
+                            i.fa.fa-facebook
+                          |  Facebook
+                      li(role='presentation')
+                        a.twitter-share(role='menuitem', tabindex='-1', href='#')
+                          span.menu-icon
+                            i.fa.fa-twitter
+                          |  Twitter
+                      li(role='presentation')
+                        a.google-share(role='menuitem', tabindex='-1', href='#')
+                          span.menu-icon
+                            i.fa.fa-google-plus
+                          |  Google+
+                      // ENDIF !config.disableSocialButtons
+                      li.divider(role='presentation')
+                      // IF !posts.selfPost
+                      li(role='presentation')
+                        a(component='post/flag', role='menuitem', tabindex='-1', href='#')
+                          | [[topic:flag_title]]
+                      // ENDIF !posts.selfPost
+                  // IF !reputation:disabled
+                  | &bull;
+                  a.IF.ENDIF(component='post/upvote', href='#', class='upvote<!-- posts.upvoted --> upvoted<!-- posts.upvoted -->')
+                    i.fa.fa-chevron-up
+                  | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                  span.votes(component='post/vote-count', data-votes='{posts.votes}') {posts.votes}
+                  // IF !downvote:disabled
+                  a.IF.ENDIF(component='post/downvote', href='#', class='downvote<!-- posts.downvoted --> downvoted<!-- posts.downvoted -->')
+                    i.fa.fa-chevron-down
+                  // ENDIF !downvote:disabled
+                  // ENDIF !reputation:disabled
+                  // IF posts.user.custom_profile_info.length
+                  // BEGIN custom_profile_info
+                  | &bull; {posts.user.custom_profile_info.content}
+                  // END custom_profile_info
+                  // ENDIF posts.user.custom_profile_info.length
+                  span.post-tools
+                    // IF !posts.selfPost
+                    // IF posts.user.userslug
+                    // IF loggedIn
+                    // IF !config.disableChat
+                    button.btn.btn-sm.btn-link.chat(component='post/chat', type='button', title='[[topic:chat]]')
+                      i.fa.fa-comment
+                      span.hidden-xs-inline  [[topic:chat]]
+                    // ENDIF !config.disableChat
+                    // ENDIF loggedIn
+                    // ENDIF posts.user.userslug
+                    // ENDIF !posts.selfPost
+                    button.btn.btn-sm.btn-link.IF(component='post/quote', class='<!-- !privileges.topics:reply -->hidden<!--ENDIF !privileges.topics:reply -->', type='button', title='[[topic:quote]]')
+                      i.fa.fa-quote-left
+                      span.hidden-xs-inline  [[topic:quote]]
+                    | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                    button.btn.btn-sm.btn-link.IF(component='post/reply', class='<!-- !privileges.topics:reply -->hidden<!--ENDIF !privileges.topics:reply -->', type='button')
+                      i.fa.fa-reply
+                      span.hidden-xs-inline  [[topic:reply]]
+        // IF !posts.index
+        .post-bar(data-index='{posts.index}')
+          .inline-block
+            span.tags
+              // BEGIN tags
+              a(href='{config.relative_path}/tags/{tags.value}')
+                span.tag-item(data-tag='{tags.value}', style='<!-- IF tags.color -->color: {tags.color};<!-- ENDIF tags.color --><!-- IF tags.bgColor -->background-color: {tags.bgColor};<!-- ENDIF tags.bgColor -->') {tags.value}
+                span.tag-topic-count {tags.score}
+              // END tags
+            // IF tags.length
+            span |
+            // ENDIF tags.length
+            small.topic-stats
+              span [[global:posts]]
+              | &#x9;&#x9;
+              strong
+                span.human-readable-number(component='topic/post-count', title='{postcount}') {postcount}
+              |  |
+              | &#x9;&#x9;
+              span [[global:views]]
+              | &#x9;&#x9;
+              strong
+                span.human-readable-number(title='{viewcount}') {viewcount}
+            | &#x9;
+            span.browsing-users.hidden
+              | &bull;
+              small
+                span [[category:browsing]]
+              | &#x9;&#x9;
+              .thread_active_users.active-users.inline-block(component='topic/browsing/list')
+              | &#x9;&#x9;
+              small.hidden
+                i.fa.fa-users
+                |  
+                span.user-count(component='topic/browsing/count')
+          .topic-main-buttons.pull-right.inline-block
+            .loading-indicator(done='0', style='display:none;')
+              span.hidden-xs [[topic:loading_more_posts]]
+              |  
+              i.fa.fa-refresh.fa-spin
+            a.btn.btn-primary.IF.ENDIF(component='topic/reply', class='<!-- !privileges.topics:reply -->hidden<!-- !privileges.topics:reply -->') [[topic:reply]]
+            // IF loggedIn
+            // IF !privileges.topics:reply
+            // IF locked
+            a.btn.btn-primary(component='topic/reply/locked', disabled='')
+              i.fa.fa-lock
+              |  [[topic:locked]]
+            // ENDIF locked
+            // ENDIF !privileges.topics:reply
+            // IF !locked
+            a.btn.btn-primary.hidden(component='topic/reply/locked', disabled='')
+              i.fa.fa-lock
+              |  [[topic:locked]]
+            // ENDIF !locked
+            // ELSE
+            // IF !privileges.topics:reply
+            a.btn.btn-primary(href='{config.relative_path}/login') [[topic:guest-login-reply]]
+            // ENDIF !privileges.topics:reply
+            // ENDIF loggedIn
+            // IF loggedIn
+            .btn-group.dropup(component='thread/sort')
+              button.btn.btn-default.dropdown-toggle(data-toggle='dropdown', type='button')
+                | [[topic:sort_by]] 
+                span.caret
+              | &#x9;
+              ul.dropdown-menu.pull-right
+                li
+                  a.oldest_to_newest(href='#', data-sort='oldest_to_newest')
+                    i.fa.fa-fw
+                    |  [[topic:oldest_to_newest]]
+                | &#x9;&#x9;
+                li
+                  a.newest_to_oldest(href='#', data-sort='newest_to_oldest')
+                    i.fa.fa-fw
+                    |  [[topic:newest_to_oldest]]
+                | &#x9;&#x9;
+                li
+                  a.most_votes(href='#', data-sort='most_votes')
+                    i.fa.fa-fw
+                    |  [[topic:most_votes]]
+            // ENDIF loggedIn
+            // IF privileges.view_thread_tools
+            .btn-group.thread-tools.dropup
+              button.btn.btn-default.dropdown-toggle(data-toggle='dropdown', type='button')
+                | [[topic:thread_tools.title]] 
+                span.caret
+              | &#x9;
+              ul.dropdown-menu.pull-right
+                // IF privileges.editable
+                li
+                  a(component='topic/mark-unread-for-all', href='#')
+                    i.fa.fa-fw.fa-inbox
+                    |  [[topic:thread_tools.markAsUnreadForAll]]
+                | &#x9;&#x9;
+                li
+                  a.IF.pinned.ENDIF.pinned(component='topic/pin', href='#', class='<!-- -->hidden<!-- -->')
+                    i.fa.fa-fw.fa-thumb-tack
+                    |  [[topic:thread_tools.pin]]
+                | &#x9;&#x9;
+                li
+                  a.IF.ENDIF(component='topic/unpin', href='#', class='<!-- !pinned -->hidden<!-- !pinned -->')
+                    i.fa.fa-fw.fa-thumb-tack.fa-rotate-90
+                    |  [[topic:thread_tools.unpin]]
+                | &#x9;&#x9;
+                li
+                  a.IF.locked.ENDIF.locked(component='topic/lock', href='#', class='<!-- -->hidden<!-- -->')
+                    i.fa.fa-fw.fa-lock
+                    |  [[topic:thread_tools.lock]]
+                | &#x9;&#x9;
+                li
+                  a.IF.ENDIF(component='topic/unlock', href='#', class='<!-- !locked -->hidden<!-- !locked -->')
+                    i.fa.fa-fw.fa-unlock
+                    |  [[topic:thread_tools.unlock]]
+                | &#x9;&#x9;
+                li.divider
+                | &#x9;&#x9;
+                li
+                  a(component='topic/move', href='#')
+                    i.fa.fa-fw.fa-arrows
+                    |  [[topic:thread_tools.move]]
+                | &#x9;&#x9;
+                li
+                  a(component='topic/fork', href='#')
+                    i.fa.fa-fw.fa-code-fork
+                    |  [[topic:thread_tools.fork]]
+                | &#x9;&#x9;
+                li.divider
+                // ENDIF privileges.editable
+                // IF privileges.deletable
+                li
+                  a.IF.deleted.ENDIF.deleted(component='topic/delete', href='#', class='<!-- -->hidden<!-- -->')
+                    i.fa.fa-fw.fa-trash-o
+                    |  [[topic:thread_tools.delete]]
+                | &#x9;&#x9;
+                li
+                  a.IF.ENDIF(component='topic/restore', href='#', class='<!-- !deleted -->hidden<!-- !deleted -->')
+                    i.fa.fa-fw.fa-history
+                    |  [[topic:thread_tools.restore]]
+                | &#x9;&#x9;
+                li
+                  a.IF.ENDIF(component='topic/purge', href='#', class='<!-- !deleted -->hidden<!-- !deleted -->')
+                    i.fa.fa-fw.fa-eraser
+                    |  [[topic:thread_tools.purge]]
+                // BEGIN thread_tools
+                li
+                  a.(href='#', class='{thread_tools.class}')
+                    i.fa.fa-fw(class='{thread_tools.icon}')
+                    |  {thread_tools.title}
+                // END thread_tools
+                // ENDIF privileges.deletable
+            // ENDIF privileges.view_thread_tools
+          div(style='clear:both;')
+        // ENDIF !posts.index
+        // END posts
+      | &#x9;
+      .post-bar.col-xs-12.IF.unreplied.ENDIF.unreplied.bottom-post-bar(class='<!-- -->hidden<!-- -->')
+        .inline-block
+          span.tags
+            // BEGIN tags
+            a(href='{config.relative_path}/tags/{tags.value}')
+              span.tag-item(data-tag='{tags.value}', style='<!-- IF tags.color -->color: {tags.color};<!-- ENDIF tags.color --><!-- IF tags.bgColor -->background-color: {tags.bgColor};<!-- ENDIF tags.bgColor -->') {tags.value}
+              span.tag-topic-count {tags.score}
+            // END tags
+          // IF tags.length
+          span |
+          // ENDIF tags.length
+          small.topic-stats
+            span [[global:posts]]
+            | &#x9;&#x9;
+            strong
+              span.human-readable-number(component='topic/post-count', title='{postcount}') {postcount}
+            |  |
+            | &#x9;&#x9;
+            span [[global:views]]
+            | &#x9;&#x9;
+            strong
+              span.human-readable-number(title='{viewcount}') {viewcount}
+          | &#x9;
+          span.browsing-users.hidden
+            | &bull;
+            small
+              span [[category:browsing]]
+            | &#x9;&#x9;
+            .thread_active_users.active-users.inline-block(component='topic/browsing/list')
+            | &#x9;&#x9;
+            small.hidden
+              i.fa.fa-users
+              |  
+              span.user-count(component='topic/browsing/count')
+        .topic-main-buttons.pull-right.inline-block
+          .loading-indicator(done='0', style='display:none;')
+            span.hidden-xs [[topic:loading_more_posts]]
+            |  
+            i.fa.fa-refresh.fa-spin
+          a.btn.btn-primary.IF.ENDIF(component='topic/reply', class='<!-- !privileges.topics:reply -->hidden<!-- !privileges.topics:reply -->') [[topic:reply]]
+          // IF loggedIn
+          // IF !privileges.topics:reply
+          // IF locked
+          a.btn.btn-primary(component='topic/reply/locked', disabled='')
+            i.fa.fa-lock
+            |  [[topic:locked]]
+          // ENDIF locked
+          // ENDIF !privileges.topics:reply
+          // IF !locked
+          a.btn.btn-primary.hidden(component='topic/reply/locked', disabled='')
+            i.fa.fa-lock
+            |  [[topic:locked]]
+          // ENDIF !locked
+          // ELSE
+          // IF !privileges.topics:reply
+          a.btn.btn-primary(href='{config.relative_path}/login') [[topic:guest-login-reply]]
+          // ENDIF !privileges.topics:reply
+          // ENDIF loggedIn
+          // IF loggedIn
+          .btn-group.dropup(component='thread/sort')
+            button.btn.btn-default.dropdown-toggle(data-toggle='dropdown', type='button')
+              | [[topic:sort_by]] 
+              span.caret
+            | &#x9;
+            ul.dropdown-menu.pull-right
+              li
+                a.oldest_to_newest(href='#', data-sort='oldest_to_newest')
+                  i.fa.fa-fw
+                  |  [[topic:oldest_to_newest]]
+              | &#x9;&#x9;
+              li
+                a.newest_to_oldest(href='#', data-sort='newest_to_oldest')
+                  i.fa.fa-fw
+                  |  [[topic:newest_to_oldest]]
+              | &#x9;&#x9;
+              li
+                a.most_votes(href='#', data-sort='most_votes')
+                  i.fa.fa-fw
+                  |  [[topic:most_votes]]
+          // ENDIF loggedIn
+          // IF privileges.view_thread_tools
+          .btn-group.thread-tools.dropup
+            button.btn.btn-default.dropdown-toggle(data-toggle='dropdown', type='button')
+              | [[topic:thread_tools.title]] 
+              span.caret
+            | &#x9;
+            ul.dropdown-menu.pull-right
+              // IF privileges.editable
+              li
+                a(component='topic/mark-unread-for-all', href='#')
+                  i.fa.fa-fw.fa-inbox
+                  |  [[topic:thread_tools.markAsUnreadForAll]]
+              | &#x9;&#x9;
+              li
+                a.IF.pinned.ENDIF.pinned(component='topic/pin', href='#', class='<!-- -->hidden<!-- -->')
+                  i.fa.fa-fw.fa-thumb-tack
+                  |  [[topic:thread_tools.pin]]
+              | &#x9;&#x9;
+              li
+                a.IF.ENDIF(component='topic/unpin', href='#', class='<!-- !pinned -->hidden<!-- !pinned -->')
+                  i.fa.fa-fw.fa-thumb-tack.fa-rotate-90
+                  |  [[topic:thread_tools.unpin]]
+              | &#x9;&#x9;
+              li
+                a.IF.locked.ENDIF.locked(component='topic/lock', href='#', class='<!-- -->hidden<!-- -->')
+                  i.fa.fa-fw.fa-lock
+                  |  [[topic:thread_tools.lock]]
+              | &#x9;&#x9;
+              li
+                a.IF.ENDIF(component='topic/unlock', href='#', class='<!-- !locked -->hidden<!-- !locked -->')
+                  i.fa.fa-fw.fa-unlock
+                  |  [[topic:thread_tools.unlock]]
+              | &#x9;&#x9;
+              li.divider
+              | &#x9;&#x9;
+              li
+                a(component='topic/move', href='#')
+                  i.fa.fa-fw.fa-arrows
+                  |  [[topic:thread_tools.move]]
+              | &#x9;&#x9;
+              li
+                a(component='topic/fork', href='#')
+                  i.fa.fa-fw.fa-code-fork
+                  |  [[topic:thread_tools.fork]]
+              | &#x9;&#x9;
+              li.divider
+              // ENDIF privileges.editable
+              // IF privileges.deletable
+              li
+                a.IF.deleted.ENDIF.deleted(component='topic/delete', href='#', class='<!-- -->hidden<!-- -->')
+                  i.fa.fa-fw.fa-trash-o
+                  |  [[topic:thread_tools.delete]]
+              | &#x9;&#x9;
+              li
+                a.IF.ENDIF(component='topic/restore', href='#', class='<!-- !deleted -->hidden<!-- !deleted -->')
+                  i.fa.fa-fw.fa-history
+                  |  [[topic:thread_tools.restore]]
+              | &#x9;&#x9;
+              li
+                a.IF.ENDIF(component='topic/purge', href='#', class='<!-- !deleted -->hidden<!-- !deleted -->')
+                  i.fa.fa-fw.fa-eraser
+                  |  [[topic:thread_tools.purge]]
+              // BEGIN thread_tools
+              li
+                a.(href='#', class='{thread_tools.class}')
+                  i.fa.fa-fw(class='{thread_tools.icon}')
+                  |  {thread_tools.title}
+              // END thread_tools
+              // ENDIF privileges.deletable
+          // ENDIF privileges.view_thread_tools
+        div(style='clear:both;')
+      // IF config.usePagination
+      .text-center.IF.ENDIF(class='pagination-container<!-- !pagination.pages.length --> hidden<!-- !pagination.pages.length -->')
+        ul.pagination
+          li.previous.IF.ENDIF(class='pull-left<!-- !pagination.prev.active --> disabled<!-- !pagination.prev.active -->')
+            a(href='?{pagination.prev.qs}', data-page='{pagination.prev.page}')
+              i.fa.fa-chevron-left
+          // BEGIN pages
+          // IF pagination.pages.separator
+          li.page.select-page
+            a(href='#')
+              i.fa.fa-ellipsis-h
+          // ELSE
+          li.IF.ENDIF(class='page<!-- pagination.pages.active --> active<!-- pagination.pages.active -->')
+            a(href='?{pagination.pages.qs}', data-page='{pagination.pages.page}') {pagination.pages.page}
+          // ENDIF pagination.pages.separator
+          // END pages
+          li.next.IF.ENDIF(class='pull-right<!-- !pagination.next.active --> disabled<!-- !pagination.next.active -->')
+            a(href='?{pagination.next.qs}', data-page='{pagination.next.page}')
+              i.fa.fa-chevron-right
+      // ENDIF config.usePagination
+      #move_thread_modal.modal(tabindex='-1', role='dialog', aria-labelledby='Move Topic', aria-hidden='true')
+        .modal-dialog
+          .modal-content
+            .modal-header
+              button.close(type='button', data-dismiss='modal', aria-hidden='true') &times;
+              | &#x9;&#x9;&#x9;&#x9;
+              h3 [[topic:move_topic]]
+            | &#x9;&#x9;&#x9;
+            .modal-body
+              p#categories-loading
+                i.fa.fa-spin.fa-refresh
+                |  [[topic:load_categories]]
+              | &#x9;&#x9;&#x9;&#x9;
+              p
+                | [[topic:disabled_categories_note]]
+              | &#x9;&#x9;&#x9;&#x9;
+              #move-confirm(style='display: none;')
+                hr
+                | &#x9;&#x9;&#x9;&#x9;&#x9;
+                .alert.alert-info
+                  | [[topic:topic_will_be_moved_to]] 
+                  strong
+                    span#confirm-category-name
+            | &#x9;&#x9;&#x9;
+            .modal-footer
+              button#move_thread_cancel.btn.btn-default(type='button', data-dismiss='modal') [[global:buttons.close]]
+              | &#x9;&#x9;&#x9;&#x9;
+              button#move_thread_commit.btn.btn-primary(type='button', disabled='') [[topic:confirm_move]]
+      #fork-thread-modal.hide(tabindex='-1', role='dialog', aria-labelledby='', aria-hidden='true', data-backdrop='none')
+        .modal-dialog
+          .modal-content
+            .modal-header
+              button.close(type='button', data-dismiss='modal', aria-hidden='true') &times;
+              | &#x9;&#x9;&#x9;&#x9;
+              h4 [[topic:fork_topic]]
+            | &#x9;&#x9;&#x9;
+            .modal-body
+              .form-group
+                label(for='title') Title
+                | &#x9;&#x9;&#x9;&#x9;&#x9;
+                input#fork-title.form-control(type='text', placeholder='Enter new thread title')
+                br
+                | &#x9;&#x9;&#x9;&#x9;&#x9;
+                label [[topic:fork_topic_instruction]]
+                |  
+                br
+                | &#x9;&#x9;&#x9;&#x9;&#x9;
+                span#fork-pids
+            | &#x9;&#x9;&#x9;
+            .modal-footer
+              button#fork_thread_cancel.btn.btn-default(type='button', data-dismiss='modal') [[global:buttons.close]]
+              | &#x9;&#x9;&#x9;&#x9;
+              button#fork_thread_commit.btn.btn-primary(type='button', disabled='') [[topic:confirm_fork]]
+      #move-post-modal.hide(tabindex='-1', role='dialog', aria-labelledby='', aria-hidden='true', data-backdrop='none')
+        .modal-dialog
+          .modal-content
+            .modal-header
+              button.close(type='button', data-dismiss='modal', aria-hidden='true') &times;
+              | &#x9;&#x9;&#x9;&#x9;
+              h4 [[topic:move_post]]
+            | &#x9;&#x9;&#x9;
+            .modal-body
+              .form-group
+                label(for='topicId') Topic ID
+                | &#x9;&#x9;&#x9;&#x9;&#x9;
+                input#topicId.form-control(type='text', placeholder='Enter topic ID')
+                br
+            | &#x9;&#x9;&#x9;
+            .modal-footer
+              button#move_post_cancel.btn.btn-default(type='button', data-dismiss='modal') [[global:buttons.close]]
+              | &#x9;&#x9;&#x9;&#x9;
+              button#move_post_commit.btn.btn-primary(type='button', disabled='') [[topic:confirm_move]]
+    | &#x9;
+    noscript
+      .text-center
+        ul.pagination
+          // BEGIN pages
+          li(<!--='', if='', pages.active='', --='')
+            | class=&quot;active&quot;
+            // ENDIF pages.active
+            | &gt;
+            a(href='?page={pages.page}') {pages.page}
+          // END pages
+    input(type='hidden', template-variable='topic_id', value='{tid}')
+    input(type='hidden', template-variable='topic_slug', value='{slug}')
+    input(type='hidden', template-variable='category_id', value='{category.cid}')
+    input(type='hidden', template-variable='currentPage', value='{currentPage}')
+    input(type='hidden', template-variable='pageCount', value='{pageCount}')
+    input(type='hidden', template-variable='locked', template-type='boolean', value='{locked}')
+    input(type='hidden', template-variable='deleted', template-type='boolean', value='{deleted}')
+    input(type='hidden', template-variable='pinned', template-type='boolean', value='{pinned}')
+    input(type='hidden', template-variable='topic_name', value='{title}')
+    input(type='hidden', template-variable='postcount', value='{postcount}')
+    input(type='hidden', template-variable='viewcount', value='{viewcount}')

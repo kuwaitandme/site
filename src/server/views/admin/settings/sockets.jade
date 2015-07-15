@@ -1,0 +1,29 @@
+html
+  body
+    .col-lg-9
+      .panel.panel-default
+        .panel-heading Web Socket Settings
+        | &#x9;
+        .panel-body
+          form
+            .form-group
+              label(for='maxReconnectionAttempts') Max Reconnection Attempts
+              | &#x9;&#x9;&#x9;&#x9;
+              input#maxReconnectionAttempts.form-control(type='text', value='5', placeholder='Default: 5', data-field='maxReconnectionAttempts')
+            | &#x9;&#x9;&#x9;
+            .form-group
+              label(for='reconnectionDelay') Reconnection Delay
+              | &#x9;&#x9;&#x9;&#x9;
+              input#reconnectionDelay.form-control(type='text', value='1500', placeholder='Default: 1500', data-field='reconnectionDelay')
+    .col-lg-3.acp-sidebar
+      .panel.panel-default
+        .panel-heading Save Settings
+        | &#x9;&#x9;
+        .panel-body
+          button#save.btn.btn-primary.btn-md Save Changes
+          | &#x9;&#x9;&#x9;
+          button#revert.btn.btn-warning.btn-md Revert Changes
+    script.
+      require(['admin/settings'], function(Settings) {
+      Settings.prepare();
+      });

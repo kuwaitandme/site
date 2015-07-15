@@ -1,0 +1,75 @@
+html
+  body
+    .users
+      ul.nav.nav-pills
+        li
+          a(href='{config.relative_path}/users/online') [[global:online]]
+        | &#x9;&#x9;
+        li
+          a(href='{config.relative_path}/users/latest') [[users:latest_users]]
+        | &#x9;&#x9;
+        li
+          a(href='{config.relative_path}/users/sort-posts') [[users:top_posters]]
+        | &#x9;&#x9;
+        li
+          a(href='{config.relative_path}/users/sort-reputation') [[users:most_reputation]]
+        // IF function.displayUserSearch, {config.allowGuestUserSearching}
+        li
+          a(href='{config.relative_path}/users/search') [[users:search]]
+        // ENDIF function.displayUserSearch
+        // IF inviteOnly
+        button.btn.btn-success.pull-right(component='users/invite')
+          i.fa.fa-users
+          |  [[users:invite]]
+        // ENDIF inviteOnly
+      | &#x9;
+      br
+      | &#x9;
+      .search.well(class='{search_display}')
+        .input-group
+          input#search-user.form-control(type='text', placeholder='[[users:enter_username]]')
+          | &#x9;&#x9;&#x9;
+          span.input-group-addon
+            span#user-notfound-notify
+              i.fa.fa-search
+      | &#x9;
+      ul#users-container.users-container
+        // BEGIN users
+        li.users-box.registered-user(data-uid='{users.uid}')
+          a(href='{config.relative_path}/user/{users.userslug}')
+            img.img-thumbnail(src='{users.picture}')
+          | &#x9;
+          br
+          | &#x9;
+          .user-info
+            span
+              i.fa.fa-circle.status(component='user/status', class='{users.status}', title='[[global:{users.status}]]')
+              | &#x9;&#x9;&#x9;
+              a(href='{config.relative_path}/user/{users.userslug}') {users.username}
+            | &#x9;&#x9;
+            br
+            | &#x9;&#x9;
+            .reputation(title='reputation')
+              i.fa.fa-star
+              | &#x9;&#x9;&#x9;
+              span.formatted-number {users.reputation}
+            | &#x9;&#x9;
+            .post-count(title='post count')
+              i.fa.fa-pencil
+              | &#x9;&#x9;&#x9;
+              span.formatted-number {users.postcount}
+        // END users
+        // IF anonymousUserCount
+        li.users-box.anon-user(class='{show_anon}')
+          img.img-thumbnail(src='https://secure.gravatar.com/avatar/')
+          | &#x9;&#x9;&#x9;
+          br
+          | &#x9;&#x9;&#x9;
+          .user-info
+            span#online_anon_count {anonymousUserCount}
+            | &#x9;&#x9;&#x9;&#x9;
+            span [[global:guests]]
+        // ENDIF anonymousUserCount
+      | &#x9;
+      .text-center(class='{loadmore_display}')
+        button#load-more-users-btn.btn.btn-primary [[users:load_more]]

@@ -1,0 +1,34 @@
+html
+  body
+    .row.forum-stats
+      .col-md-3.col-xs-6
+        .stats-card(class='{statsClass}')
+          h2
+            span.stats(title='{online}') {online}
+            br
+            small [[global:online]]
+      | &#x9;
+      .col-md-3.col-xs-6
+        .stats-card(class='{statsClass}')
+          h2
+            span.stats(title='{users}') {users}
+            br
+            small [[global:users]]
+      | &#x9;
+      .col-md-3.col-xs-6
+        .stats-card(class='{statsClass}')
+          h2
+            span.stats(title='{topics}') {topics}
+            br
+            small [[global:topics]]
+      | &#x9;
+      .col-md-3.col-xs-6
+        .stats-card(class='{statsClass}')
+          h2
+            span.stats(title='{posts}') {posts}
+            br
+            small [[global:posts]]
+    script.
+      $(document).ready(function() {
+      utils.makeNumbersHumanReadable($('.forum-stats .stats'));
+      });

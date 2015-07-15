@@ -1,0 +1,76 @@
+html
+  body
+    .row.categories(itemscope='', itemtype='http://www.schema.org/ItemList')
+      .col-lg-9.col-sm-12(no-widget-class='col-lg-12 col-sm-12', no-widget-target='sidebar')
+        .row.IF.ENDIF(class='<!-- !disableMasonry -->masonry<!-- !disableMasonry -->')
+          // BEGIN categories
+          .IF.ELSE.col-sm-6.ENDIF.category-item(component='categories/category', class='<!-- categories.class -->{categories.class}<!-- -->col-md-3 col-xs-12<!-- categories.class -->', data-cid='{categories.cid}', data-numrecentreplies='{categories.numRecentReplies}')
+            meta(itemprop='name', content='{categories.name}')
+            | &#x9;&#x9;&#x9;&#x9;
+            .category-icon
+              // IF categories.link
+              a(style='color: {categories.color};', href='{categories.link}', itemprop='url', target='_blank')
+                // ELSE
+                a(style='color: {categories.color};', href='{config.relative_path}/category/{categories.slug}', itemprop='url')
+                  // ENDIF categories.link
+                  .category-header(id='category-{categories.cid}', class='category-header-image-{categories.imageClass}', style='\
+                  <!-- IF categories.backgroundImage -->background-image: url({categories.backgroundImage});<!-- ENDIF categories.backgroundImage -->\
+                  <!-- IF categories.bgColor -->background-color: {categories.bgColor};<!-- ENDIF categories.bgColor -->\
+                  color: {categories.color};\
+                  ')
+                    // IF !categories.link
+                    span.badge(class='{categories.unread-class}')
+                      i.fa.fa-book(data-toggle='tooltip', title='[[global:topics]]')
+                      |  
+                      span.human-readable-number(title='{categories.totalTopicCount}') {categories.totalTopicCount}
+                      | &nbsp; 
+                      i.fa.fa-pencil(data-toggle='tooltip', title='[[global:posts]]')
+                      |  
+                      span.human-readable-number(title='{categories.totalPostCount}') {categories.totalPostCount}
+                    // ENDIF !categories.link
+                    // IF categories.icon
+                    div
+                      i.fa.fa-4x(class='{categories.icon}')
+                    // ENDIF categories.icon
+                | &#x9;&#x9;&#x9;&#x9;&#x9;
+                .category-box
+                  .category-info
+                    // IF categories.link
+                    a(href='{categories.link}', itemprop='url', target='_blank')
+                      // ELSE
+                      a(href='{config.relative_path}/category/{categories.slug}', itemprop='url')
+                        // ENDIF categories.link
+                        h4
+                          // IF categories.icon
+                          i.fa.visible-xs-inline(class='{categories.icon}')
+                          // ENDIF categories.icon
+                          | {categories.name}
+                      | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                      .description(itemprop='description') {categories.description}
+                  // IF !categories.link
+                  // BEGIN posts
+                  .post-preview.clearfix(component='category/posts')
+                    strong
+                      a(href='{config.relative_path}/topic/{categories.posts.topic.slug}') {categories.posts.topic.title}
+                    | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                    hr
+                    | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                    a(style='color: {categories.color};', href='<!-- IF categories.posts.user.userslug -->{config.relative_path}/user/{categories.posts.user.userslug}<!-- ELSE -->#<!-- ENDIF categories.posts.user.userslug-->')
+                      img.pull-left.user-img(src='{categories.posts.user.picture}', title='{categories.posts.user.username}')
+                    | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                    .post-preview-content
+                      .content
+                        | {categories.posts.content}
+                      | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                      p.fade-out
+                    | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                    span.pull-right.post-preview-footer
+                      span.timeago(title='{categories.posts.relativeTime}')
+                      |  &bull;
+                      | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                      a(href='{config.relative_path}/topic/{categories.posts.topic.slug}<!-- IF categories.posts.index -->/{categories.posts.index}<!-- ENDIF categories.posts.index -->') [[global:read_more]]
+                  // END posts
+                  // ENDIF !categories.link
+          // END categories
+      | &#x9;
+      .col-lg-3.col-sm-12(widget-area='sidebar')

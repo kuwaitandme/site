@@ -1,0 +1,51 @@
+html
+  body
+    .tags
+      .col-lg-9
+        // IF !tags.length
+        .alert.alert-warning
+          strong Your forum does not have any topics with tags yet!
+        // ENDIF !tags.length
+        .panel.panel-default.tag-management
+          .panel-heading Tag Management
+          | &#x9;&#x9;&#x9;
+          .panel-body
+            .row
+              .tag-list
+                // BEGIN tags
+                .tag-row(data-tag='{tags.value}')
+                  div(data-value='{tags.value}')
+                    span.tag-item(data-tag='{tags.value}', style='<!-- IF tags.color -->color: {tags.color};<!-- ENDIF tags.color --><!-- IF tags.bgColor -->background-color: {tags.bgColor};<!-- ENDIF tags.bgColor -->') {tags.value}
+                    span.tag-topic-count
+                      a(href='{config.relative_path}/tags/{tags.value}', target='_blank') {tags.score}
+                  | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                  .tag-modal.hidden
+                    .form-group
+                      label(for='bgColor') Background Colour
+                      | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                      input#bgColor.form-control.category_bgColor(placeholder='#ffffff', data-name='bgColor', value='{tags.bgColor}')
+                    | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                    .form-group
+                      label(for='color') Text Colour
+                      | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                      input#color.form-control.category_color(placeholder='#a2a2a2', data-name='color', value='{tags.color}')
+                // END tags
+      | &#x9;
+      .col-lg-3.acp-sidebar
+        .panel.panel-default
+          .panel-heading Modify Tag
+          | &#x9;&#x9;&#x9;
+          .panel-body
+            p Select tags via clicking and/or dragging, use shift to select multiple.
+            | &#x9;&#x9;&#x9;&#x9;
+            button#modify.btn.btn-primary.btn-md Modify Tags
+            | &#x9;&#x9;&#x9;&#x9;
+            button#deleteSelected.btn.btn-warning.btn-md Delete Tags
+        | &#x9;&#x9;
+        .panel.panel-default
+          .panel-body
+            input#tag-search.form-control(type='text', placeholder='Search for tags...')
+            br
+            | &#x9;&#x9;&#x9;&#x9;Click 
+            a(href='/admin/settings/tags') here
+            |  to visit the tag settings page.

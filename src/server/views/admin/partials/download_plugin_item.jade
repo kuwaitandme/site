@@ -1,0 +1,25 @@
+html
+  body
+    li.clearfix(id='{download.id}', data-plugin-id='{download.id}')
+      .pull-right
+        button.btn.btn-success.hidden(data-action='toggleActive')
+          i.fa.fa-power-off
+          |  Activate
+        | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+        button.btn.btn-success(data-action='toggleInstall', data-installed='0')
+          i.fa.fa-download
+          |  Install
+      | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+      h2
+        strong {download.name}
+      // IF download.description
+      p {download.description}
+      // ENDIF download.description
+      small
+        | Latest 
+        strong.latestVersion {download.latest}
+      // IF download.url
+      p
+        | For more information: 
+        a(target='_blank', href='{download.url}') {download.url}
+      // ENDIF download.url

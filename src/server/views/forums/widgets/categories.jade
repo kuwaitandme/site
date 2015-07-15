@@ -1,0 +1,14 @@
+html
+  body
+    // BEGIN categories
+    ul.categories-list
+      li
+        // IF !categories.link
+        h4
+          a(href='{config.relative_path}/category/{categories.slug}') {categories.name}
+        // ELSE
+        h4
+          a(href='{categories.link}') {categories.name}
+        // ENDIF !categories.link
+        p {categories.description}
+    // END categories

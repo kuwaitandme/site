@@ -1,0 +1,23 @@
+html
+  body
+    // BEGIN groups
+    li(data-name='{groups.displayName}')
+      .btn-group.pull-right
+        button.btn.btn-default.dropdown-toggle(type='button', data-toggle='dropdown')
+          | Privileges 
+          span.caret
+        | &#x9;&#x9;
+        ul.dropdown-menu(role='menu')
+          li(role='presentation')
+            a.IF.ENDIF(href='#', data-priv='groups:find', class='<!-- groups.privileges.groups:find -->active<!-- groups.privileges.groups:find -->') Find category
+          | &#x9;&#x9;&#x9;
+          li(role='presentation')
+            a.IF.ENDIF(href='#', data-priv='groups:read', class='<!-- groups.privileges.groups:read -->active<!-- groups.privileges.groups:read -->') Access &amp; Read
+          | &#x9;&#x9;&#x9;
+          li(role='presentation')
+            a.IF.ENDIF(href='#', data-priv='groups:topics:create', class='<!-- groups.privileges.groups:topics:create -->active<!-- groups.privileges.groups:topics:create -->') Create Topics
+          | &#x9;&#x9;&#x9;
+          li(role='presentation')
+            a.IF.ENDIF(href='#', data-priv='groups:topics:reply', class='<!-- groups.privileges.groups:topics:reply -->active<!-- groups.privileges.groups:topics:reply -->') Reply to Topics
+      | &#x9;{groups.displayName}
+    // END groups

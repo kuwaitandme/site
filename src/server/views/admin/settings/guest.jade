@@ -1,0 +1,45 @@
+html
+  body
+    .col-lg-9
+      .panel.panel-default
+        .panel-heading Guests
+        | &#x9;
+        .panel-body
+          p.alert.alert-info
+            | These options affect guest users as a whole. Control over which categories a guest can see or post to is handled in
+            | the categories themselves
+          | &#x9;&#x9;
+          form(role='form')
+            .checkbox
+              label
+                input(type='checkbox', data-field='allowGuestHandles')
+                |  
+                strong Allow guest handles
+                | &#x9;&#x9;&#x9;&#x9;&#x9;
+                p.help-block
+                  | This option exposes a new field that allows guests to pick a name to associate with each post they make. If disabled,
+                  | the will simply be called &quot;Guest&quot; (or the equivalent in the forum&apos;s selected language)
+            | &#x9;&#x9;&#x9;
+            .checkbox
+              label
+                input(type='checkbox', data-field='allowGuestSearching')
+                |  
+                strong Allow guests to search without logging in
+            | &#x9;&#x9;&#x9;
+            .checkbox
+              label
+                input(type='checkbox', data-field='allowGuestUserSearching')
+                |  
+                strong Allow guests to search users logging in
+    .col-lg-3.acp-sidebar
+      .panel.panel-default
+        .panel-heading Save Settings
+        | &#x9;&#x9;
+        .panel-body
+          button#save.btn.btn-primary.btn-md Save Changes
+          | &#x9;&#x9;&#x9;
+          button#revert.btn.btn-warning.btn-md Revert Changes
+    script.
+      require(['admin/settings'], function(Settings) {
+      Settings.prepare();
+      });

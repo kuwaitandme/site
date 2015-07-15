@@ -1,0 +1,20 @@
+html
+  body
+    .text-center.IF.ENDIF(class='pagination-container<!-- !pagination.pages.length --> hidden<!-- !pagination.pages.length -->')
+      ul.pagination
+        li.previous.IF.ENDIF(class='pull-left<!-- !pagination.prev.active --> disabled<!-- !pagination.prev.active -->')
+          a(href='?{pagination.prev.qs}', data-page='{pagination.prev.page}')
+            i.fa.fa-chevron-left
+        // BEGIN pages
+        // IF pagination.pages.separator
+        li.page.select-page
+          a(href='#')
+            i.fa.fa-ellipsis-h
+        // ELSE
+        li.IF.ENDIF(class='page<!-- pagination.pages.active --> active<!-- pagination.pages.active -->')
+          a(href='?{pagination.pages.qs}', data-page='{pagination.pages.page}') {pagination.pages.page}
+        // ENDIF pagination.pages.separator
+        // END pages
+        li.next.IF.ENDIF(class='pull-right<!-- !pagination.next.active --> disabled<!-- !pagination.next.active -->')
+          a(href='?{pagination.next.qs}', data-page='{pagination.next.page}')
+            i.fa.fa-chevron-right

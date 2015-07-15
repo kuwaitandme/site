@@ -1,0 +1,336 @@
+doctype html
+html
+  head
+    title NodeBB Admin Control Panel
+    | &#x9;
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    | &#x9;
+    link(rel='stylesheet', href='{relative_path}/vendor/jquery/css/smoothness/jquery-ui-1.10.4.custom.min.css?{cache-buster}')
+    | &#x9;
+    link(rel='stylesheet', type='text/css', href='{relative_path}/vendor/nanoscroller/nanoscroller.css?{cache-buster}')
+    | &#x9;
+    link(rel='stylesheet', type='text/css', href='{relative_path}/admin.css?{cache-buster}')
+    | &#x9;
+    script.
+      var RELATIVE_PATH = "{relative_path}";
+      var config = JSON.parse('{{configJSON}}');
+      var app = {
+      template: "{template.name}",
+      user: JSON.parse('{{userJSON}}')
+      };
+    //if lt IE 9
+      script(src='//cdnjs.cloudflare.com/ajax/libs/es5-shim/2.3.0/es5-shim.min.js')
+      | &#x9;&#x9;
+      script(src='//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.js')
+      | &#x9;&#x9;
+      script(src='//cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.js')
+      | &#x9;&#x9;
+      script.
+        __lt_ie_9__ = 1;
+    | &#x9;&#x9;
+    script(type='text/javascript', src='{relative_path}/vendor/chart.js/chart.min.js?{cache-buster}')
+    | &#x9;&#x9;
+    script(type='text/javascript', src='{relative_path}/vendor/hammer/hammer.min.js?{cache-buster}')
+    | &#x9;&#x9;
+    script(type='text/javascript', src='{relative_path}/vendor/jquery/sortable/Sortable.js?{cache-buster}')
+    | &#x9;&#x9;
+    script(type='text/javascript', src='{relative_path}/nodebb.min.js?{cache-buster}')
+    | &#x9;&#x9;
+    script.
+      require.config({
+      baseUrl: "{relative_path}/src/modules",
+      waitSeconds: 3,
+      urlArgs: "{cache-buster}",
+      paths: {
+      'admin': '../admin',
+      'vendor': '../../vendor',
+      'buzz': '../../vendor/buzz/buzz.min'
+      }
+      });
+      app.inAdmin = true;
+    | &#x9;&#x9;
+    script(type='text/javascript', src='{relative_path}/vendor/colorpicker/colorpicker.js?{cache-buster}')
+    | &#x9;&#x9;
+    script(type='text/javascript', src='{relative_path}/src/admin/admin.js?{cache-buster}')
+    | &#x9;&#x9;
+    script(type='text/javascript', src='{relative_path}/vendor/ace/ace.js?{cache-buster}')
+    | &#x9;&#x9;
+    script(type='text/javascript', src='{relative_path}/vendor/nanoscroller/nanoscroller.min.js?{cache-buster}')
+    | &#x9;&#x9;
+    script(type='text/javascript', src='{relative_path}/vendor/jquery/event/jquery.event.drag.js?{cache-buster}')
+    | &#x9;&#x9;
+    script(type='text/javascript', src='{relative_path}/vendor/jquery/event/jquery.event.drop.js?{cache-buster}')
+    | &#x9;&#x9;
+    script(type='text/javascript', src='{relative_path}/vendor/semver/semver.browser.js?{cache-buster}')
+    | &#x9;&#x9;
+    script(type='text/javascript', src='{relative_path}/vendor/jquery/serializeObject/jquery.ba-serializeobject.min.js?{cache-buster}')
+    | &#x9;&#x9;
+    script(type='text/javascript', src='{relative_path}/vendor/jquery/deserialize/jquery.deserialize.min.js?{cache-buster}')
+    | &#x9;&#x9;
+    script(type='text/javascript', src='{relative_path}/vendor/mousetrap/mousetrap.js?{cache-buster}')
+    | &#x9;&#x9;
+    script(type='text/javascript', src='{relative_path}/vendor/jquery/js/jquery-ui-1.10.4.custom.js?{cache-buster}')
+    // BEGIN scripts
+    script(type='text/javascript', src='{scripts.src}')
+    // END scripts
+  | &#x9;
+  body.admin
+    nav.navbar.navbar-inverse.navbar-fixed-top.header
+      .container
+        .navbar-header
+          button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-collapse')
+            span.icon-bar
+            | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+            span.icon-bar
+            | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+            span.icon-bar
+          | &#x9;&#x9;&#x9;&#x9;&#x9;
+          a.navbar-brand.nodebb-logo(href='{relative_path}/admin/general/dashboard')
+            img(src='{relative_path}/images/logo.png', alt='NodeBB ACP')
+            |  Admin Control Panel 
+            span#breadcrumbs.hidden-xs
+          | &#x9;&#x9;&#x9;&#x9;&#x9;
+          ul.nav.navbar-nav.pull-left
+            li
+              a#reconnect(href='#')
+        | &#x9;&#x9;&#x9;&#x9;
+        .navbar-collapse.collapse
+          ul#logged-in-menu.navbar-nav.nav.navbar-right
+            li.hidden-lg.hidden-md.hidden-sm
+              a(href='{relative_path}/', target='_blank', title='View Forum')
+                | View Forum
+            | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+            li.hidden-lg.hidden-md.hidden-sm
+              a#user-profile-link(href='{relative_path}/user/{user.userslug}', target='_top')
+                | View Profile
+            | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+            li.hidden-lg.hidden-md.hidden-sm.divider(role='presentation')
+            | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+            li.hidden-lg.hidden-md.hidden-sm
+              a.reload(href='#', title='Reload Forum')
+                | Reload Forum
+            | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+            li.hidden-lg.hidden-md.hidden-sm
+              a.restart(href='#', title='Restart Forum')
+                | Restart Forum
+            | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+            li.hidden-lg.hidden-md.hidden-sm.divider(role='presentation')
+            | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+            li.hidden-lg.hidden-md.hidden-sm(component='logout')
+              a(href='#') Log out
+            | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+            li(style='float:left;')
+              form.navbar-form.hidden-xs(role='search')
+                #acp-search.form-group
+                  .dropdown
+                    input.form-control(type='text', data-toggle='dropdown', placeholder='/')
+                    | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                    ul.dropdown-menu(role='menu')
+            | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+            li#user_label.dropdown.pull-right.hidden-xs
+              a#user_dropdown.dropdown-toggle(data-toggle='dropdown', href='#')
+                img(src='{user.picture}')
+              | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+              ul#user-control-list.dropdown-menu(aria-labelledby='user_dropdown')
+                li
+                  a(href='{relative_path}/', target='_blank', title='View Forum')
+                    | View Forum
+                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                li
+                  a#user-profile-link(href='{relative_path}/user/{user.userslug}', target='_top')
+                    | View Profile
+                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                li.divider(role='presentation')
+                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                li
+                  a.reload(href='#', title='Reload Forum')
+                    | Reload Forum
+                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                li
+                  a.restart(href='#', title='Restart Forum')
+                    | Restart Forum
+                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                li.divider(role='presentation')
+                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                li(component='logout')
+                  a(href='#') Log out
+    | &#x9;&#x9;
+    .wrapper
+      #main-menu.nano
+        .nano-content
+          .sidebar-nav
+            ul.nav.nav-list
+              li.nav-header
+                i.fa.fa-fw.fa-dashboard
+                |  General
+              | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+              li.active
+                a(href='{relative_path}/admin/general/dashboard') Dashboard
+              | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+              li
+                a(href='{relative_path}/admin/general/homepage') Home Page
+              | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+              li
+                a(href='{relative_path}/admin/general/navigation') Navigation
+              | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+              li
+                a(href='{relative_path}/admin/general/languages') Languages
+              | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+              li
+                a(href='{relative_path}/admin/general/sounds') Sounds
+          | &#x9;&#x9;&#x9;&#x9;
+          .sidebar-nav
+            ul.nav.nav-list
+              li.nav-header
+                i.fa.fa-fw.fa-comments-o
+                |  Manage
+              | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+              li
+                a(href='{relative_path}/admin/manage/categories') Categories
+              | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+              li
+                a(href='{relative_path}/admin/manage/tags') Tags
+              | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+              li
+                a(href='{relative_path}/admin/manage/users') Users
+              | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+              li
+                a(href='{relative_path}/admin/manage/groups') Groups
+              | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+              li
+                a(href='{relative_path}/admin/manage/flags') Flags
+          | &#x9;&#x9;&#x9;&#x9;
+          .sidebar-nav
+            ul.nav.nav-list
+              li.nav-header
+                i.fa.fa-fw.fa-cogs
+                |  Settings
+              | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+              li
+                a(href='{relative_path}/admin/settings/general') General
+              | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+              li
+                a(href='{relative_path}/admin/settings/reputation') Reputation
+              | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+              li
+                a(href='{relative_path}/admin/settings/email') Email
+              | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+              li
+                a(href='{relative_path}/admin/settings/user') User
+              | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+              li
+                a(href='{relative_path}/admin/settings/group') Group
+              | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+              li
+                a(href='{relative_path}/admin/settings/guest') Guests
+              | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+              li
+                a(href='{relative_path}/admin/settings/post') Post
+              | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+              li
+                a(href='{relative_path}/admin/settings/pagination') Pagination
+              | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+              li
+                a(href='{relative_path}/admin/settings/tags') Tags
+              | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+              li
+                a(href='{relative_path}/admin/settings/notifications') Notifications
+              | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+              li
+                a(href='{relative_path}/admin/settings/web-crawler') Web Crawler
+              | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+              li
+                a(href='{relative_path}/admin/settings/sockets') Sockets
+              | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+              li
+                a(href='{relative_path}/admin/settings/advanced') Advanced
+          | &#x9;&#x9;&#x9;&#x9;
+          .sidebar-nav
+            ul.nav.nav-list
+              li.nav-header
+                i.fa.fa-fw.fa-paint-brush
+                |  Appearance
+              | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+              li
+                a(href='{relative_path}/admin/appearance/themes') Themes
+              | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+              li
+                a(href='{relative_path}/admin/appearance/skins') Skins
+              | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+              li
+                a(href='{relative_path}/admin/appearance/customise') Custom HTML &amp; CSS
+          | &#x9;&#x9;&#x9;&#x9;
+          .sidebar-nav
+            ul.nav.nav-list
+              li.nav-header
+                i.fa.fa-fw.fa-wrench
+                |  Extend
+              | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+              li
+                a(href='{relative_path}/admin/extend/plugins') Plugins
+              | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+              li
+                a(href='{relative_path}/admin/extend/widgets') Widgets
+              | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+              li
+                a(href='{relative_path}/admin/extend/rewards') Rewards
+          | &#x9;&#x9;&#x9;&#x9;
+          .sidebar-nav
+            ul.nav.nav-list
+              li.nav-header
+                i.fa.fa-fw.fa-hdd-o
+                |  Advanced
+              | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+              li
+                a(href='{relative_path}/admin/advanced/database') Database
+              | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+              li
+                a(href='{relative_path}/admin/advanced/events') Events
+              | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+              li
+                a(href='{relative_path}/admin/advanced/logs') Logs
+              | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+              li
+                a(href='{relative_path}/admin/advanced/post-cache') Post Cache
+          // IF authentication.length
+          .sidebar-nav
+            ul.nav.nav-list
+              li.nav-header
+                i.fa.fa-fw.fa-facebook-square
+                |  Social Authentication
+              // BEGIN authentication
+              li
+                a(href='{relative_path}/admin{authentication.route}') {authentication.name}
+              // END authentication
+          // ENDIF authentication.length
+          // IF plugins.length
+          .sidebar-nav
+            ul.nav.nav-list
+              li.nav-header
+                i.fa.fa-fw.fa-th
+                |  Installed Plugins
+              // BEGIN plugins
+              li
+                a(href='{relative_path}/admin{plugins.route}')
+                  // IF plugins.icon
+                  i.fa(class='{plugins.icon}')
+                  // ENDIF plugins.icon
+                  | {plugins.name}
+              // END plugins
+              li(data-link='1')
+                a(href='{relative_path}/admin/extend/plugins')
+                  i.fa.fa-plus
+                  |  Install Plugins
+          // ENDIF plugins.length
+          // IF env
+          .sidebar-nav
+            ul.nav.nav-list
+              li.nav-header
+                i.fa.fa-fw.fa-th
+                |  Development
+              | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+              li
+                a(href='{relative_path}/admin/development/logger') Logger
+          // ENDIF env
+      | &#x9;&#x9;&#x9;
+      #content.col-sm-12

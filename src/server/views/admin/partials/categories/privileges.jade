@@ -1,0 +1,76 @@
+html
+  body
+    table.table.table-striped.table-hover.privilege-table
+      tr
+        th(colspan='2') User
+        // BEGIN privileges.labels.users
+        th.text-center {privileges.labels.users.name}
+        // END privileges.labels.users
+      // IF privileges.users.length
+      // BEGIN privileges.users
+      tr(data-uid='{privileges.users.uid}')
+        td
+          img(src='{privileges.users.picture}', title='{privileges.users.username}')
+        | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+        td {privileges.users.username}
+        | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;{function.spawnPrivilegeStates, privileges.users.username, privileges}
+      // END privileges.users
+      tr
+        td(colspan='{privileges.columnCount}')
+          button.btn.btn-primary.btn-xs.pull-right(type='button', data-ajaxify='false', data-action='search.user')
+            i.fa.fa-plus
+            |  Add User
+      // ELSE
+      tr
+        td(colspan='{privileges.columnCount}')
+          .alert.alert-info
+            button.btn.btn-primary.btn-xs.pull-right(type='button', data-ajaxify='false', data-action='search.user')
+              i.fa.fa-plus
+              |  Add User
+            | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;No user-specific privileges in this category.
+      // ENDIF privileges.users.length
+    | &#x9;&#x9;&#x9;&#x9;&#x9;
+    table.table.table-striped.table-hover.privilege-table
+      tr
+        th(colspan='2') Group
+        // BEGIN privileges.labels.groups
+        th.text-center {privileges.labels.groups.name}
+        // END privileges.labels.groups
+      // IF privileges.groups.length
+      // BEGIN privileges.groups
+      tr(data-group-name='{privileges.groups.name}', data-private='<!-- IF privileges.groups.isPrivate -->1<!-- ELSE -->0<!-- ENDIF privileges.groups.isPrivate -->')
+        td
+          // IF privileges.groups.isPrivate
+          i.fa.fa-lock.text-muted(title='This group is private')
+          // ENDIF privileges.groups.isPrivate
+          | {privileges.groups.name}
+        | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+        td
+        | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;{function.spawnPrivilegeStates, name, privileges}
+      // END privileges.groups
+      tr
+        td(colspan='{privileges.columnCount}')
+          button.btn.btn-primary.btn-xs.pull-right(type='button', data-ajaxify='false', data-action='search.group')
+            i.fa.fa-plus
+            |  Add Group
+      // ELSE
+      tr
+        td(colspan='{privileges.columnCount}')
+          .alert.alert-info
+            button.btn.btn-primary.btn-xs.pull-right(type='button', data-ajaxify='false', data-action='search.group')
+              i.fa.fa-plus
+              |  Add Group
+            | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;No group-specific privileges in this category.
+      // ENDIF privileges.groups.length
+    | &#x9;&#x9;&#x9;&#x9;&#x9;
+    .help-block
+      | If the 
+      code registered-users
+      |  group is granted a specific privilege, all other groups receive an
+      | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+      strong implicit privilege
+      | , even if they are not explicitly defined/checked. This implicit
+      | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;privilege is shown to you because all users are part of the 
+      code registered-users
+      |  user group,
+      | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;and so, privileges for additional groups need not be explicitly granted.

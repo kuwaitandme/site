@@ -1,0 +1,28 @@
+html
+  body
+    // IF loggedIn
+    .btn-group(component='thread/sort')
+      button.btn.btn-default.dropdown-toggle(data-toggle='dropdown', type='button')
+        span.visible-sm-inline.visible-md-inline.visible-lg-inline [[topic:sort_by]]
+        | &#x9;&#x9;
+        span.visible-xs-inline
+          i.fa.fa-fw.fa-sort
+        | &#x9;&#x9;
+        span.caret
+      | &#x9;
+      ul.dropdown-menu.pull-right
+        li
+          a.newest_to_oldest(href='#', data-sort='newest_to_oldest')
+            i.fa.fa-fw
+            |  [[topic:newest_to_oldest]]
+        | &#x9;&#x9;
+        li
+          a.oldest_to_newest(href='#', data-sort='oldest_to_newest')
+            i.fa.fa-fw
+            |  [[topic:oldest_to_newest]]
+        | &#x9;&#x9;
+        li
+          a.most_posts(href='#', data-sort='most_posts')
+            i.fa.fa-fw
+            |  [[topic:most_posts]]
+    // ENDIF loggedIn

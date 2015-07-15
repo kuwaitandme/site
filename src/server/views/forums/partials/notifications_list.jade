@@ -1,0 +1,25 @@
+html
+  body
+    // IF !notifications.length
+    li.no-notifs
+      a [[notifications:no_notifs]]
+    // ENDIF !notifications.length
+    // BEGIN notifications
+    li.(class='{notifications.readClass}', data-nid='{notifications.nid}')
+      // IF notifications.image
+      // IF notifications.from
+      a(href='{config.relative_path}/user/{notifications.user.userslug}')
+        img(src='{notifications.image}')
+      // ENDIF notifications.from
+      // ELSE
+      img(src='{notifications.image}')
+      // ENDIF notifications.image
+      .pull-right.mark-read(aria-label='Mark Read')
+      | &#x9;
+      a(href='{notifications.path}')
+        span.pull-right.relTime {notifications.timeago}
+        | &#x9;&#x9;
+        span.text {notifications.bodyShort}
+      | &#x9;
+      .clear
+    // END notifications

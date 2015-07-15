@@ -1,0 +1,7 @@
+html
+  body
+    .latest-users
+      // BEGIN users
+      a(data-uid='{users.uid}', href='{relative_path}/user/{users.userslug}')
+        img.profile-image.user-img(title='{users.username}', src='{users.picture}')
+      // END users

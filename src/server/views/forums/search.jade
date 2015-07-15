@@ -1,0 +1,250 @@
+html
+  body
+    ol.breadcrumb
+      // BEGIN breadcrumbs
+      li(itemscope='itemscope', itemtype='http://data-vocabulary.org/Breadcrumb', <!--='', if='', @last='', --='')
+        | class=&quot;active&quot;
+        // ENDIF @last
+        | &gt;
+        // IF !@last
+        a(href='{breadcrumbs.url}', itemprop='url')
+          // ENDIF !@last
+          span(itemprop='title')
+            | {breadcrumbs.text}
+            // IF @last
+            // IF !feeds:disableRSS
+            // IF rssFeedUrl
+            a(target='_blank', href='{rssFeedUrl}')
+              i.fa.fa-rss-square
+            // ENDIF rssFeedUrl
+            // ENDIF !feeds:disableRSS
+            // ENDIF @last
+          // IF !@last
+        // ENDIF !@last
+      // END breadcrumbs
+    .search
+      .row
+        .col-xs-12
+          form#advanced-search
+            .form-group
+              .row
+                .col-md-5
+                  label [[global:search]]
+                  | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                  input#search-input.form-control(type='text', placeholder='[[global:search]]')
+                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                .col-md-5
+                  label [[search:in]]
+                  | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                  select#search-in.form-control
+                    option(value='titlesposts') [[search:titles-posts]]
+                    | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                    option(value='titles') [[search:titles]]
+                    | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                    option(value='posts') [[global:posts]]
+                    | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                    option(value='users') [[global:users]]
+                    | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                    option(value='tags') [[tags:tags]]
+                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                .col-md-2
+                  label &nbsp;
+                  | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                  button.btn.btn-default.form-control(type='submit') [[global:search]]
+            | &#x9;&#x9;&#x9;&#x9;
+            .panel.panel-default
+              .panel-heading(data-toggle='collapse', data-target='.search-options')
+                h3.panel-title
+                  i.fa.fa-caret-down
+                  |  [[search:advanced-search]]
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              .panel-body.search-options.collapse.IF.expandSearch.ENDIF.expandSearch(class='<!-- -->in<!-- -->')
+                .form-group.post-search-item
+                  label [[search:posted-by]]
+                  | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                  input#posted-by-user.form-control(type='text', placeholder='[[search:posted-by]]')
+                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                .form-group.post-search-item
+                  label [[search:in-categories]]
+                  | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                  select#posted-in-categories.form-control(multiple='')
+                    option(value='all') All Categories
+                    | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                    option(value='watched') Watched Categories
+                    // BEGIN categories
+                    option(value='{categories.cid}') {categories.name}
+                    // END categories
+                  | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                  input#search-children(type='checkbox')
+                  |  [[search:search-child-categories]]
+                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                .form-group.post-search-item
+                  label [[search:reply-count]]
+                  | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                  .row
+                    .col-md-6
+                      select#reply-count-filter.form-control
+                        option(value='atleast') [[search:at-least]]
+                        | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                        option(value='atmost') [[search:at-most]]
+                    | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                    .col-md-6
+                      input#reply-count.form-control(type='text')
+                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                .form-group.post-search-item
+                  label [[search:post-time]]
+                  | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                  .row
+                    .col-md-6
+                      select#post-time-filter.form-control
+                        option(value='newer') [[search:newer-than]]
+                        | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                        option(value='older') [[search:older-than]]
+                    | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                    .col-md-6
+                      select#post-time-range.form-control
+                        option(value='') [[search:any-date]]
+                        | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                        option(value='86400') [[search:yesterday]]
+                        | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                        option(value='604800') [[search:one-week]]
+                        | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                        option(value='1209600') [[search:two-weeks]]
+                        | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                        option(value='2592000') [[search:one-month]]
+                        | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                        option(value='7776000') [[search:three-months]]
+                        | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                        option(value='15552000') [[search:six-months]]
+                        | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                        option(value='31104000') [[search:one-year]]
+                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                .form-group.post-search-item
+                  label [[search:sort-by]]
+                  | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                  .row
+                    .col-md-6
+                      select#post-sort-by.form-control
+                        option(value='timestamp') [[search:post-time]]
+                        | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                        option(value='teaser.timestamp') [[search:last-reply-time]]
+                        | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                        option(value='topic.title') [[search:topic-title]]
+                        | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                        option(value='topic.postcount') [[search:number-of-replies]]
+                        | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                        option(value='topic.viewcount') [[search:number-of-views]]
+                        | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                        option(value='topic.timestamp') [[search:topic-start-date]]
+                        | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                        option(value='user.username') [[search:username]]
+                        | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                        option(value='category.name') [[search:category]]
+                    | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                    .col-md-6
+                      select#post-sort-direction.form-control
+                        option(value='desc') [[search:descending]]
+                        | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                        option(value='asc') [[search:ascending]]
+                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                .form-group.post-search-item
+                  label [[search:show-results-as]]
+                  | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                  #show-results-as.btn-group(data-toggle='buttons')
+                    label.btn.btn-primary.active
+                      input#show-as-posts(type='radio', name='options', autocomplete='off', checked='')
+                      |  [[global:posts]]
+                    | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                    label.btn.btn-primary
+                      input#show-as-topics(type='radio', name='options', autocomplete='off')
+                      |  [[global:topics]]
+                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                a#save-preferences(href='#') [[search:save-preferences]]
+                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                a#clear-preferences(href='#') [[search:clear-preferences]]
+      | &#x9;
+      .row
+        #results.col-md-12(data-search-query='{search_query}')
+          // IF matchCount
+          .alert.alert-info [[search:results_matching, {matchCount}, {search_query}, {time}]] 
+          // ELSE
+          // IF search_query
+          .alert.alert-warning [[search:no-matches]]
+          // ENDIF search_query
+          // ENDIF matchCount
+          // BEGIN posts
+          .topic-row.panel.panel-default.clearfix
+            .panel-body
+              a.search-result-text(href='{config.relative_path}/topic/{posts.topic.slug}/{posts.index}')
+                h4 {posts.topic.title}
+              // IF showAsPosts
+              .search-result-text
+                | {posts.content}
+                p.fade-out
+              // ENDIF showAsPosts
+              small
+                span.pull-right.post-preview-footer
+                  a(href='{config.relative_path}/user/{posts.user.userslug}')
+                    img.user-img(title='{posts.user.username}', src='{posts.user.picture}')
+                  | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;[[global:posted_in_ago, 
+                  a(href='{config.relative_path}/category/{posts.category.slug}')
+                    i.fa(class='{posts.category.icon}')
+                    |  {posts.category.name}
+                  | , 
+                  span.timeago(title='{posts.relativeTime}')
+                  | ]]
+          // END posts
+          // IF users.length
+          ul#users-container.users-container
+            // BEGIN users
+            li.users-box.registered-user(data-uid='{users.uid}')
+              a(href='{config.relative_path}/user/{users.userslug}')
+                img.img-thumbnail(src='{users.picture}')
+              | &#x9;
+              br
+              | &#x9;
+              .user-info
+                span
+                  i.fa.fa-circle.status(component='user/status', class='{users.status}', title='[[global:{users.status}]]')
+                  | &#x9;&#x9;&#x9;
+                  a(href='{config.relative_path}/user/{users.userslug}') {users.username}
+                | &#x9;&#x9;
+                br
+                | &#x9;&#x9;
+                .reputation(title='reputation')
+                  i.fa.fa-star
+                  | &#x9;&#x9;&#x9;
+                  span.formatted-number {users.reputation}
+                | &#x9;&#x9;
+                .post-count(title='post count')
+                  i.fa.fa-pencil
+                  | &#x9;&#x9;&#x9;
+                  span.formatted-number {users.postcount}
+            // END users
+          // ENDIF users.length
+          // IF tags.length
+          // BEGIN tags
+          h3.pull-left.tag-container
+            a(href='{config.relative_path}/tags/{tags.value}', data-value='{tags.value}')
+              span.tag-item(data-tag='{tags.value}', style='<!-- IF tags.color -->color: {tags.color};<!-- ENDIF tags.color --><!-- IF tags.bgColor -->background-color: {tags.bgColor};<!-- ENDIF tags.bgColor -->') {tags.value}
+              span.tag-topic-count {tags.score}
+          // END tags
+          // ENDIF tags.length
+          .text-center.IF.ENDIF(class='pagination-container<!-- !pagination.pages.length --> hidden<!-- !pagination.pages.length -->')
+            ul.pagination
+              li.previous.IF.ENDIF(class='pull-left<!-- !pagination.prev.active --> disabled<!-- !pagination.prev.active -->')
+                a(href='?{pagination.prev.qs}', data-page='{pagination.prev.page}')
+                  i.fa.fa-chevron-left
+              // BEGIN pages
+              // IF pagination.pages.separator
+              li.page.select-page
+                a(href='#')
+                  i.fa.fa-ellipsis-h
+              // ELSE
+              li.IF.ENDIF(class='page<!-- pagination.pages.active --> active<!-- pagination.pages.active -->')
+                a(href='?{pagination.pages.qs}', data-page='{pagination.pages.page}') {pagination.pages.page}
+              // ENDIF pagination.pages.separator
+              // END pages
+              li.next.IF.ENDIF(class='pull-right<!-- !pagination.next.active --> disabled<!-- !pagination.next.active -->')
+                a(href='?{pagination.next.qs}', data-page='{pagination.next.page}')
+                  i.fa.fa-chevron-right

@@ -1,0 +1,152 @@
+html
+  body
+    .inline-block
+      span.tags
+        // BEGIN tags
+        a(href='{config.relative_path}/tags/{tags.value}')
+          span.tag-item(data-tag='{tags.value}', style='<!-- IF tags.color -->color: {tags.color};<!-- ENDIF tags.color --><!-- IF tags.bgColor -->background-color: {tags.bgColor};<!-- ENDIF tags.bgColor -->') {tags.value}
+          span.tag-topic-count {tags.score}
+        // END tags
+      // IF tags.length
+      span |
+      // ENDIF tags.length
+      small.topic-stats
+        span [[global:posts]]
+        | &#x9;&#x9;
+        strong
+          span.human-readable-number(component='topic/post-count', title='{postcount}') {postcount}
+        |  |
+        | &#x9;&#x9;
+        span [[global:views]]
+        | &#x9;&#x9;
+        strong
+          span.human-readable-number(title='{viewcount}') {viewcount}
+      | &#x9;
+      span.browsing-users.hidden
+        | &bull;
+        small
+          span [[category:browsing]]
+        | &#x9;&#x9;
+        .thread_active_users.active-users.inline-block(component='topic/browsing/list')
+        | &#x9;&#x9;
+        small.hidden
+          i.fa.fa-users
+          |  
+          span.user-count(component='topic/browsing/count')
+    .topic-main-buttons.pull-right.inline-block
+      .loading-indicator(done='0', style='display:none;')
+        span.hidden-xs [[topic:loading_more_posts]]
+        |  
+        i.fa.fa-refresh.fa-spin
+      a.btn.btn-primary.IF.ENDIF(component='topic/reply', class='<!-- !privileges.topics:reply -->hidden<!-- !privileges.topics:reply -->') [[topic:reply]]
+      // IF loggedIn
+      // IF !privileges.topics:reply
+      // IF locked
+      a.btn.btn-primary(component='topic/reply/locked', disabled='')
+        i.fa.fa-lock
+        |  [[topic:locked]]
+      // ENDIF locked
+      // ENDIF !privileges.topics:reply
+      // IF !locked
+      a.btn.btn-primary.hidden(component='topic/reply/locked', disabled='')
+        i.fa.fa-lock
+        |  [[topic:locked]]
+      // ENDIF !locked
+      // ELSE
+      // IF !privileges.topics:reply
+      a.btn.btn-primary(href='{config.relative_path}/login') [[topic:guest-login-reply]]
+      // ENDIF !privileges.topics:reply
+      // ENDIF loggedIn
+      // IF loggedIn
+      .btn-group.dropup(component='thread/sort')
+        button.btn.btn-default.dropdown-toggle(data-toggle='dropdown', type='button')
+          | [[topic:sort_by]] 
+          span.caret
+        | &#x9;
+        ul.dropdown-menu.pull-right
+          li
+            a.oldest_to_newest(href='#', data-sort='oldest_to_newest')
+              i.fa.fa-fw
+              |  [[topic:oldest_to_newest]]
+          | &#x9;&#x9;
+          li
+            a.newest_to_oldest(href='#', data-sort='newest_to_oldest')
+              i.fa.fa-fw
+              |  [[topic:newest_to_oldest]]
+          | &#x9;&#x9;
+          li
+            a.most_votes(href='#', data-sort='most_votes')
+              i.fa.fa-fw
+              |  [[topic:most_votes]]
+      // ENDIF loggedIn
+      // IF privileges.view_thread_tools
+      .btn-group.thread-tools.dropup
+        button.btn.btn-default.dropdown-toggle(data-toggle='dropdown', type='button')
+          | [[topic:thread_tools.title]] 
+          span.caret
+        | &#x9;
+        ul.dropdown-menu.pull-right
+          // IF privileges.editable
+          li
+            a(component='topic/mark-unread-for-all', href='#')
+              i.fa.fa-fw.fa-inbox
+              |  [[topic:thread_tools.markAsUnreadForAll]]
+          | &#x9;&#x9;
+          li
+            a.IF.pinned.ENDIF.pinned(component='topic/pin', href='#', class='<!-- -->hidden<!-- -->')
+              i.fa.fa-fw.fa-thumb-tack
+              |  [[topic:thread_tools.pin]]
+          | &#x9;&#x9;
+          li
+            a.IF.ENDIF(component='topic/unpin', href='#', class='<!-- !pinned -->hidden<!-- !pinned -->')
+              i.fa.fa-fw.fa-thumb-tack.fa-rotate-90
+              |  [[topic:thread_tools.unpin]]
+          | &#x9;&#x9;
+          li
+            a.IF.locked.ENDIF.locked(component='topic/lock', href='#', class='<!-- -->hidden<!-- -->')
+              i.fa.fa-fw.fa-lock
+              |  [[topic:thread_tools.lock]]
+          | &#x9;&#x9;
+          li
+            a.IF.ENDIF(component='topic/unlock', href='#', class='<!-- !locked -->hidden<!-- !locked -->')
+              i.fa.fa-fw.fa-unlock
+              |  [[topic:thread_tools.unlock]]
+          | &#x9;&#x9;
+          li.divider
+          | &#x9;&#x9;
+          li
+            a(component='topic/move', href='#')
+              i.fa.fa-fw.fa-arrows
+              |  [[topic:thread_tools.move]]
+          | &#x9;&#x9;
+          li
+            a(component='topic/fork', href='#')
+              i.fa.fa-fw.fa-code-fork
+              |  [[topic:thread_tools.fork]]
+          | &#x9;&#x9;
+          li.divider
+          // ENDIF privileges.editable
+          // IF privileges.deletable
+          li
+            a.IF.deleted.ENDIF.deleted(component='topic/delete', href='#', class='<!-- -->hidden<!-- -->')
+              i.fa.fa-fw.fa-trash-o
+              |  [[topic:thread_tools.delete]]
+          | &#x9;&#x9;
+          li
+            a.IF.ENDIF(component='topic/restore', href='#', class='<!-- !deleted -->hidden<!-- !deleted -->')
+              i.fa.fa-fw.fa-history
+              |  [[topic:thread_tools.restore]]
+          | &#x9;&#x9;
+          li
+            a.IF.ENDIF(component='topic/purge', href='#', class='<!-- !deleted -->hidden<!-- !deleted -->')
+              i.fa.fa-fw.fa-eraser
+              |  [[topic:thread_tools.purge]]
+          // BEGIN thread_tools
+          li
+            a.(href='#', class='{thread_tools.class}')
+              i.fa.fa-fw(class='{thread_tools.icon}')
+              |  {thread_tools.title}
+          // END thread_tools
+          // ENDIF privileges.deletable
+      // ENDIF privileges.view_thread_tools
+    div(style='clear:both;')

@@ -1,0 +1,9 @@
+html
+  body
+    span.IF.ENDIF(component='post/editor', class='<!-- !editor.username --> hidden<!-- !editor.username -->')
+      | , [[global:last_edited_by_ago, 
+      strong
+        a(href='{config.relative_path}/user/{editor.userslug}') {editor.username}
+      | , 
+      span.timeago(title='{relativeEditTime}')
+      | ]]

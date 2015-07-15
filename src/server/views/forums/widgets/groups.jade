@@ -1,0 +1,10 @@
+html
+  body
+    .groups-list
+      // BEGIN groups
+      .groups-list-item.clearfix
+        img.pull-left(src='{groups.cover:url}')
+        | &#x9;
+        a(href='{config.relative_path}/groups/{groups.slug}')
+          strong {groups.name}
+      // END groups

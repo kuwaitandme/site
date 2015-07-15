@@ -1,0 +1,162 @@
+doctype html
+html
+  head
+    meta(charset='utf-8')
+    |     
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    |     
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    | &#x9;
+    title NodeBB Web Installer
+    | &#x9;
+    link(rel='stylesheet', type='text/css', href='https://bootswatch.com/united/bootstrap.min.css')
+    | &#x9;
+    link(href='http://fonts.googleapis.com/css?family=Roboto:400,300,500,700', rel='stylesheet', type='text/css')
+    | &#x9;
+    link(rel='stylesheet', href='//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css')
+    | &#x9;
+    link(rel='stylesheet', type='text/css', href='stylesheet.css')
+    //if lt IE 9
+      script(src='//cdnjs.cloudflare.com/ajax/libs/es5-shim/2.3.0/es5-shim.min.js')
+      |   &#x9;&#x9;
+      script(src='//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.js')
+      |   &#x9;&#x9;
+      script(src='//cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.js')
+      |   &#x9;&#x9;
+      script.
+        __lt_ie_9__ = 1;
+  body
+    nav.navbar.navbar-default
+      .container-fluid
+        .navbar-header
+          button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#bs-example-navbar-collapse-1')
+            span.sr-only Toggle navigation
+            | &#x9;&#x9;&#x9;&#x9;&#x9;
+            span.icon-bar
+            | &#x9;&#x9;&#x9;&#x9;&#x9;
+            span.icon-bar
+            | &#x9;&#x9;&#x9;&#x9;&#x9;
+            span.icon-bar
+          | &#x9;&#x9;&#x9;&#x9;
+          a.navbar-brand(href='#') NodeBB
+        | &#x9;&#x9;&#x9;
+        #bs-example-navbar-collapse-1.collapse.navbar-collapse
+          ul.nav.navbar-nav
+            li.active
+              a(href='/') Installer
+            | &#x9;&#x9;&#x9;&#x9;&#x9;
+            li
+              a(href='https://docs.nodebb.org', target='_blank') Get Help
+            | &#x9;&#x9;&#x9;&#x9;&#x9;
+            li
+              a(href='https://community.nodebb.org', target='_blank') Community
+    | &#x9;
+    .container.IF.success.ENDIF.success(class='<!-- -->hide<!-- -->')
+      p
+      h1 Welcome to the NodeBB Installer
+      | &#x9;&#x9;&#x9;You are just a few steps away from launching your own NodeBB forum!
+      | &#x9;&#x9;
+      p
+      | &#x9;&#x9;
+      form#install(action='/', method='post')
+        .admin
+          p
+          h1
+            small Create an Administrator account
+          | &#x9;&#x9;&#x9;&#x9;&#x9;
+          hr
+          | &#x9;&#x9;&#x9;&#x9;
+          p
+          | &#x9;&#x9;&#x9;&#x9;
+          .row.input-row
+            .col-sm-7.col-xs-12.input-field
+              label(for='admin:username') Username
+              | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+              input.form-control(type='text', name='admin:username', value='<!-- IF admin:username -->{admin:username}<!-- ENDIF admin:username -->', placeholder='Username')
+            | &#x9;&#x9;&#x9;&#x9;&#x9;
+            .col-sm-5.help-text(data-help='Enter an <strong>alphanumeric username</strong>. Spaces between words are allowed. You can always change your username later on your profile page.')
+          | &#x9;&#x9;&#x9;&#x9;
+          .row.input-row
+            .col-sm-7.col-xs-12.input-field
+              label(for='admin:email') Email Address
+              | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+              input.form-control(type='text', name='admin:email', value='<!-- IF admin:email -->{admin:email}<!-- ENDIF admin:email -->', placeholder='Email Address')
+            | &#x9;&#x9;&#x9;&#x9;&#x9;
+            .col-sm-5.help-text(data-help='Please enter your email address.')
+          | &#x9;&#x9;&#x9;&#x9;
+          .row.input-row
+            .col-sm-7.col-xs-12.input-field
+              label(for='admin:password') Password
+              | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+              input.form-control(type='password', name='admin:password', value='<!-- IF admin:password -->{admin:password}<!-- ENDIF admin:password -->', placeholder='Password')
+            | &#x9;&#x9;&#x9;&#x9;&#x9;
+            .col-sm-5.help-text(data-help='Use a combination of numbers, symbols, and different cases. You can change the strictness of password creation in the Admin Control Panel.')
+          | &#x9;&#x9;&#x9;&#x9;
+          .row.input-row
+            .col-sm-7.col-xs-12.input-field
+              label(for='admin:passwordConfirm') Confirm Password
+              | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+              input.form-control(type='password', name='admin:passwordConfirm', value='<!-- IF admin:passwordConfirm -->{admin:passwordConfirm}<!-- ENDIF admin:passwordConfirm -->', placeholder='Confirm Password')
+            | &#x9;&#x9;&#x9;&#x9;&#x9;
+            .col-sm-5.help-text(data-help='Please confirm your password.')
+        // IF error
+        a#database-error
+        // ENDIF error
+        // IF !skipDatabaseSetup
+        .database
+          p
+          h1
+            small Configure your database
+          | &#x9;&#x9;&#x9;&#x9;&#x9;
+          hr
+          | &#x9;&#x9;&#x9;&#x9;
+          p
+          | &#x9;&#x9;&#x9;&#x9;
+          .row.input-row
+            .col-sm-7.col-xs-12.input-field
+              label(for='database') Database Type
+              | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+              select.form-control(name='database')
+                option(value='redis') Redis
+                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                option(value='mongo') MongoDB
+            | &#x9;&#x9;&#x9;&#x9;&#x9;
+            .col-sm-5.help-text(data-help='Leave the fields blank to use the default settings.')
+              // IF error
+              | There was an error connecting to your database. Please try again.
+              // ENDIF error
+          | &#x9;&#x9;&#x9;&#x9;
+          #database-config
+        // ENDIF !skipDatabaseSetup
+        button#submit.btn.btn-lg.btn-success(type='submit')
+          | Install NodeBB 
+          i.fa.fa-spinner.fa-spin.hide
+    | &#x9;
+    .container.IF.ENDIF(class='<!-- !success -->hide<!-- !success -->')
+      p
+      h1 Congratulations! Your NodeBB has been set-up.
+      | &#x9;&#x9;&#x9;
+      | &#x9;&#x9;&#x9;
+      button#launch.btn.btn-lg.btn-success
+        | Launch NodeBB 
+        i.fa.fa-spinner.fa-spin.hide
+      | &#x9;&#x9;
+      p
+    | &#x9;
+    .hide
+      // BEGIN databases
+      div(data-database='{databases.name}')
+        // BEGIN questions
+        .row.input-row
+          .col-sm-7.col-xs-12.input-field
+            label(for='{databases.questions.name}') {databases.questions.description}
+            | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+            input.form-control(type='<!-- IF hidden -->password<!-- ELSE -->text<!-- ENDIF hidden -->', name='{databases.questions.name}', placeholder='{databases.questions.default}', value='{databases.questions.default}')
+        // END questions
+      // END databases
+    | &#x9;
+    script(src='//code.jquery.com/jquery-1.11.2.min.js')
+    | &#x9;
+    script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js')
+    | &#x9;
+    script(type='text/javascript', src='nodebb.min.js')

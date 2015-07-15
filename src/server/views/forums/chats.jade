@@ -1,0 +1,84 @@
+html
+  body
+    .col-sm-9
+      // IF !allowed
+      .alert.alert-warning
+        | [[error:chat-restricted]]
+      // ENDIF !allowed
+      // IF meta
+      .panel.panel-default.expanded-chat(data-uid='{meta.uid}', data-username='{meta.username}')
+        .panel-heading
+          button.close(type='button', data-action='pop-out')
+            span(aria-hidden='true')
+              i.fa.fa-compress
+            span.sr-only [[modules:chat.pop-out]]
+          | &#x9;&#x9;&#x9;
+          h2.panel-title [[modules:chat.message-history]]
+        | &#x9;&#x9;
+        .panel-body
+          span.since-bar
+            a.selected(href='#', data-since='recent') [[recent:title]]
+            |  &bull; 
+            a(href='#', data-since='week') [[modules:chat.seven_days]]
+            |  &bull; 
+            a(href='#', data-since='month') [[modules:chat.thirty_days]]
+            |  &bull; 
+            a(href='#', data-since='threemonths') [[modules:chat.three_months]]
+          | &#x9;&#x9;&#x9;
+          ul.chat-content.well.well-sm
+            // BEGIN messages
+            li.chat-message.clear(data-uid='{messages.fromuid}', data-self='{messages.self}', data-break='{messages.newSet}')
+              .message-header
+                span.chat-timestamp.pull-right.timeago(title='{messages.timestampISO}')
+                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                a(href='{config.relative_path}/user/{messages.fromUser.userslug}')
+                  img.chat-user-image(src='{messages.fromUser.picture}')
+                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                strong
+                  span.chat-user {messages.fromUser.username}
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              .message-body {messages.content}
+            // END messages
+            span.user-typing.pull-right.hide
+              i.fa.fa-pencil
+              |  [[modules:chat.user_typing, {meta.username}]]
+          | &#x9;&#x9;&#x9;
+          .input-group
+            textarea.form-control.chat-input(component='chat/input', placeholder='[[modules:chat.placeholder]]', rows='1')
+            | &#x9;&#x9;&#x9;&#x9;
+            span.input-group-btn
+              button.btn.btn-primary(type='button', data-action='send') Send
+      // ELSE
+      .alert.alert-info
+        | [[modules:chat.no-messages]]
+      // ENDIF meta
+    .col-sm-3
+      .panel.panel-default
+        .panel-heading
+          h2.panel-title [[modules:chat.contacts]]
+        | &#x9;&#x9;
+        .panel-body
+          ul.chats-list
+            // BEGIN contacts
+            li(data-username='{contacts.username}', data-uid='{contacts.uid}')
+              i.fa.fa-circle.status(component='user/status', title='[[global:{contacts.status}]]', class='{contacts.status}')
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              img.user-img(src='{contacts.picture}')
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              span {contacts.username}
+            // END contacts
+      | &#x9;
+      .panel.panel-default
+        .panel-heading
+          h2.panel-title [[modules:chat.recent-chats]]
+        | &#x9;&#x9;
+        .panel-body
+          ul.chats-list.recent-chats(data-nextstart='{nextStart}')
+            // BEGIN chats
+            li.IF.ENDIF(data-username='{chats.username}', data-uid='{chats.uid}', class='<!-- chats.unread -->unread<!-- chats.unread -->')
+              i.fa.fa-circle.status(component='user/status', title='[[global:{chats.status}]]', class='{chats.status}')
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              img.user-img(src='{chats.picture}')
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              span {chats.username}
+            // END chats

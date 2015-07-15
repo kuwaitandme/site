@@ -1,0 +1,32 @@
+html
+  body
+    .users
+      ul#users-container.users-container
+        // BEGIN users
+        li.users-box.registered-user(data-uid='{users.uid}')
+          a(href='{config.relative_path}/user/{users.userslug}')
+            img.img-thumbnail(src='{users.picture}')
+          | &#x9;
+          br
+          | &#x9;
+          .user-info
+            span
+              i.fa.fa-circle.status(component='user/status', class='{users.status}', title='[[global:{users.status}]]')
+              | &#x9;&#x9;&#x9;
+              a(href='{config.relative_path}/user/{users.userslug}') {users.username}
+            | &#x9;&#x9;
+            br
+            | &#x9;&#x9;
+            .reputation(title='reputation')
+              i.fa.fa-star
+              | &#x9;&#x9;&#x9;
+              span.formatted-number {users.reputation}
+            | &#x9;&#x9;
+            .post-count(title='post count')
+              i.fa.fa-pencil
+              | &#x9;&#x9;&#x9;
+              span.formatted-number {users.postcount}
+        // END users
+      | &#x9;
+      .text-center(class='{loadmore_display}')
+        button#load-more-users-btn.btn.btn-primary [[users:load_more]]

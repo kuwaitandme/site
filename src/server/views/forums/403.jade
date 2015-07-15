@@ -1,0 +1,12 @@
+html
+  body
+    .alert.alert-danger
+      strong [[global:403.title]]
+      // IF error
+      p {error}
+      // ELSE
+      p [[global:403.message]]
+      // ENDIF error
+      // IF !loggedIn
+      p [[global:403.login, {config.relative_path}]]
+      // ENDIF !loggedIn

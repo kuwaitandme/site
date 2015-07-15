@@ -1,0 +1,42 @@
+html
+  body
+    .events
+      .col-lg-9
+        .panel.panel-default
+          .panel-heading
+            i.fa.fa-calendar-o
+            |  Events
+          | &#x9;&#x9;&#x9;
+          .panel-body(data-next='{next}')
+            // IF !events.length
+            .alert.alert-info There are no events
+            // ENDIF !events.length
+            .events-list
+              // BEGIN events
+              div
+                span #{events.eid} 
+                span.label.label-info {events.type}
+                | &#x9;&#x9;&#x9;&#x9;&#x9;
+                a(href='{config.relative_path}/user/{events.user.userslug}', target='_blank')
+                  img.user-img(src='{events.user.picture}')
+                |  
+                a(href='{config.relative_path}/user/{events.user.userslug}', target='_blank') {events.user.username}
+                |  (uid {events.user.uid}) (IP {events.ip})
+                | &#x9;&#x9;&#x9;&#x9;&#x9;
+                span.pull-right {events.timestampISO}
+                | &#x9;&#x9;&#x9;&#x9;&#x9;
+                br
+                br
+                | &#x9;&#x9;&#x9;&#x9;&#x9;
+                pre.
+                  \n{events.jsonString}                  
+              // END events
+      | &#x9;
+      .col-lg-3.acp-sidebar
+        .panel.panel-default
+          .panel-heading Events Control Panel
+          | &#x9;&#x9;&#x9;
+          .panel-body
+            button.btn.btn-warning(data-action='clear')
+              i.fa.fa-eraser
+              |  Delete Events

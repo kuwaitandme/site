@@ -1,0 +1,25 @@
+html
+  body
+    .logs
+      .col-lg-9
+        .panel.panel-default
+          .panel-heading
+            i.fa.fa-file-text-o
+            |  Logs
+          | &#x9;&#x9;&#x9;
+          .panel-body
+            pre.
+              \n{data}              
+      | &#x9;
+      .col-lg-3.acp-sidebar
+        .panel.panel-default
+          .panel-heading Logs Control Panel
+          | &#x9;&#x9;&#x9;
+          .panel-body
+            button.btn.btn-primary(data-action='reload')
+              i.fa.fa-refresh
+              |  Reload Logs
+            | &#x9;&#x9;&#x9;&#x9;
+            button.btn.btn-warning(data-action='clear')
+              i.fa.fa-eraser
+              |  Clear Logs

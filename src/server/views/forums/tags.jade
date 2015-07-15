@@ -1,0 +1,41 @@
+html
+  body
+    .tags
+      ol.breadcrumb
+        // BEGIN breadcrumbs
+        li(itemscope='itemscope', itemtype='http://data-vocabulary.org/Breadcrumb', <!--='', if='', @last='', --='')
+          | class=&quot;active&quot;
+          // ENDIF @last
+          | &gt;
+          // IF !@last
+          a(href='{breadcrumbs.url}', itemprop='url')
+            // ENDIF !@last
+            span(itemprop='title')
+              | {breadcrumbs.text}
+              // IF @last
+              // IF !feeds:disableRSS
+              // IF rssFeedUrl
+              a(target='_blank', href='{rssFeedUrl}')
+                i.fa.fa-rss-square
+              // ENDIF rssFeedUrl
+              // ENDIF !feeds:disableRSS
+              // ENDIF @last
+            // IF !@last
+          // ENDIF !@last
+        // END breadcrumbs
+      // IF !tags.length
+      .alert.alert-warning
+        strong [[tags:no_tags]]
+      // ENDIF !tags.length
+      input#tag-search.form-control(type='text', placeholder='[[global:search]]')
+      | &#x9;
+      br
+      | &#x9;
+      .category.row
+        .col-md-12.clearfix.tag-list(data-nextstart='{nextStart}')
+          // BEGIN tags
+          h3.pull-left.tag-container
+            a(href='{config.relative_path}/tags/{tags.value}', data-value='{tags.value}')
+              span.tag-item(data-tag='{tags.value}', style='<!-- IF tags.color -->color: {tags.color};<!-- ENDIF tags.color --><!-- IF tags.bgColor -->background-color: {tags.bgColor};<!-- ENDIF tags.bgColor -->') {tags.value}
+              span.tag-topic-count {tags.score}
+          // END tags

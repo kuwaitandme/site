@@ -1,0 +1,34 @@
+html
+  body
+    // BEGIN themes
+    li(data-type='{themes.type}', data-theme='{themes.id}', <!--='', if='', themes.css='', --='')
+      | data-css=&quot;{themes.css}&quot;
+      // ENDIF themes.css
+      | &gt;
+      img(title='{themes.id}', src='{themes.screenshot_url}')
+      | &#x9;
+      div
+        .pull-right
+          button.btn.btn-primary(data-action='use') Use
+        | &#x9;&#x9;
+        h4 {themes.name}
+        | &#x9;&#x9;
+        p
+          | {themes.description}
+          // IF themes.url
+          | (
+          a(href='{themes.url}', target='_blank') Homepage
+          | )
+          // ENDIF themes.url
+      | &#x9;
+      .clear
+    // END themes
+    // IF showRevert
+    li(data-type='bootswatch', data-theme='', data-css='')
+      .pull-right
+        button.btn.btn-primary.pull-right(data-action='use') Revert
+      | &#x9;
+      h4 No Skin
+      | &#x9;
+      p Remove applied skin and revert back to the base colours
+    // ENDIF showRevert

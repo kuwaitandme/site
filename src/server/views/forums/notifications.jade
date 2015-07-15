@@ -1,0 +1,37 @@
+html
+  body
+    .notifications
+      .dropdown.pull-right.visible-xs-block
+        button#dropdownMenu1.btn.btn-default.dropdown-toggle(type='button', data-toggle='dropdown', aria-expanded='true')
+          i.fa.fa-eye
+          | &#x9;&#x9;&#x9;
+          span.caret
+        | &#x9;&#x9;
+        ul.dropdown-menu.dropdown-menu-right(role='menu', aria-labelledby='dropdownMenu1')
+          li(role='presentation')
+            a(role='menuitem', tabindex='-1', href='#', data-ajaxify='false', component='notifications/mark_all') [[notifications:mark_all_read]]
+      | &#x9;
+      h2 [[notifications:title]]
+      | &#x9;
+      hr
+      | &#x9;
+      .alert.alert-info.IF.ENDIF(class='<!-- notifications.length -->hidden<!-- notifications.length -->')
+        | [[notifications:no_notifs]]
+      | &#x9;
+      ul.notifications-list
+        // BEGIN notifications
+        li.(data-nid='{notifications.nid}', class='{notifications.readClass}', component='notifications/item')
+          // IF notifications.image
+          // IF notifications.from
+          a.pull-left(href='{config.relative_path}/user/{notifications.user.userslug}')
+            img.user-img(src='{notifications.image}')
+          // ENDIF notifications.from
+          // ELSE
+          img.pull-left(src='{notifications.image}')
+          // ENDIF notifications.image
+          p
+            a(href='{notifications.path}') {notifications.bodyShort}
+          | &#x9;&#x9;&#x9;
+          p.timestamp
+            span.timeago(title='{notifications.datetimeISO}')
+        // END notifications

@@ -1,0 +1,90 @@
+html
+  body
+    .col-lg-9
+      .panel.panel-default
+        .panel-heading Site Settings
+        | &#x9;
+        .panel-body
+          form
+            label Site Title
+            | &#x9;&#x9;&#x9;
+            input.form-control(type='text', placeholder='Your Community Name', data-field='title')
+            | &#x9;&#x9;&#x9;
+            .checkbox
+              label(for='showSiteTitle')
+                input#showSiteTitle(type='checkbox', data-field='showSiteTitle', name='showSiteTitle')
+                |  Show Site Title in Header
+            | &#x9;&#x9;&#x9;
+            label Browser Title
+            | &#x9;&#x9;&#x9;
+            input.form-control(type='text', placeholder='Browser Title', data-field='browserTitle')
+            | &#x9;&#x9;&#x9;
+            p.help-block
+              | If no browser title is specified, the site title will be used
+            | &#x9;&#x9;&#x9;
+            label Site Description
+            | &#x9;&#x9;&#x9;
+            input.form-control(type='text', placeholder='A short description about your community', data-field='description')
+            br
+            | &#x9;&#x9;&#x9;
+            label Site Keywords
+            | &#x9;&#x9;&#x9;
+            input.form-control(type='text', placeholder='Keywords describing your community, comma-seperated', data-field='keywords')
+            br
+      .panel.panel-default
+        .panel-heading Site Logo
+        | &#x9;
+        .panel-body
+          form
+            label Site Logo
+            | &#x9;&#x9;&#x9;
+            input#logoUrl.form-control(type='text', placeholder='Path to a logo to display on forum header', data-field='brand:logo')
+            br
+            | &#x9;&#x9;&#x9;
+            input.btn.btn-default(data-action='upload', data-target='logoUrl', data-route='{config.relative_path}/api/admin/uploadlogo', type='button', value='Upload Logo')
+      .panel.panel-default
+        .panel-heading Favicon
+        | &#x9;
+        .panel-body
+          form
+            label Favicon
+            br
+            | &#x9;&#x9;&#x9;
+            input#faviconUrl.form-control(type='text', placeholder='favicon.ico', data-field='brand:favicon')
+            br
+            | &#x9;&#x9;&#x9;
+            input.btn.btn-default(data-action='upload', data-target='faviconUrl', data-route='{config.relative_path}/api/admin/uploadfavicon', type='button', value='Upload')
+      .panel.panel-default
+        .panel-heading Miscellaneous
+        | &#x9;
+        .panel-body
+          form
+            .checkbox
+              label
+                input(type='checkbox', data-field='useOutgoingLinksPage')
+                |  
+                strong Use Outgoing Links Warning Page
+            | &#x9;&#x9;&#x9;
+            .checkbox
+              label
+                input(type='checkbox', data-field='disableSocialButtons')
+                |  
+                strong Disable social buttons
+            | &#x9;&#x9;&#x9;
+            .checkbox
+              label
+                input(type='checkbox', data-field='disableChat')
+                |  
+                strong Disable chat
+    .col-lg-3.acp-sidebar
+      .panel.panel-default
+        .panel-heading Save Settings
+        | &#x9;&#x9;
+        .panel-body
+          button#save.btn.btn-primary.btn-md Save Changes
+          | &#x9;&#x9;&#x9;
+          button#revert.btn.btn-warning.btn-md Revert Changes
+    script.
+      require(['admin/settings'], function(Settings) {
+      Settings.prepare();
+      });

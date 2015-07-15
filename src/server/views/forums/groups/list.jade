@@ -1,0 +1,53 @@
+html
+  body
+    .row
+      .col-lg-4
+        // IF allowGroupCreation
+        button.btn.btn-primary(data-action='new')
+          i.fa.fa-plus
+          |  [[groups:new_group]]
+        // ENDIF allowGroupCreation
+      | &#x9;
+      .col-lg-8
+        .col-xs-3.text-left.pull-right
+          select#search-sort.form-control
+            option(value='alpha') [[groups:details.group_name]]
+            | &#x9;&#x9;&#x9;&#x9;
+            option(value='count') [[groups:details.member_count]]
+            | &#x9;&#x9;&#x9;&#x9;
+            option(value='date') [[groups:details.creation_date]]
+        | &#x9;&#x9;
+        .col-xs-5.text-left.pull-right
+          .input-group
+            input#search-text.form-control(type='text', placeholder='Search', name='query', value='')
+            | &#x9;&#x9;&#x9;&#x9;
+            span#search-button.input-group-addon.search-button
+              i.fa.fa-search
+    hr
+    #groups-list.row(component='groups/container', data-nextstart='{nextStart}')
+      // IF groups.length
+      // BEGIN groups
+      .col-lg-4.col-md-6.col-sm-12(component='groups/summary', data-slug='{groups.slug}')
+        .panel.panel-default
+          .panel-heading.list-cover(style='<!-- IF groups.cover:url -->background-image: url({groups.cover:url});<!-- ENDIF groups.cover:url -->')
+            h3.panel-title
+              | {groups.displayName} 
+              small {groups.memberCount}
+          | &#x9;&#x9;&#x9;
+          .panel-body
+            ul.members
+              // BEGIN members
+              li
+                a(href='{config.relative_path}/user/{groups.members.userslug}')
+                  img(src='{groups.members.picture}', title='{groups.members.userslug}')
+              // END members
+              // IF groups.truncated
+              li.truncated
+                i.fa.fa-ellipsis-h
+              // ENDIF groups.truncated
+      // END groups
+      // ELSE
+      .col-xs-12
+        .alert.alert-warning
+          | [[groups:no_groups_found]]
+      // ENDIF groups.length

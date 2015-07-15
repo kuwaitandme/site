@@ -1,0 +1,16 @@
+html
+  body
+    h3
+      | Upvoters 
+      small ({upvoteCount})
+    // BEGIN upvoters
+    a(href='{config.relative_path}/user/{upvoters.userslug}')
+      img.profile-image.small(src='{upvoters.picture}', title='{upvoters.username}')
+    // END upvoters
+    h3
+      | Downvoters 
+      small ({downvoteCount})
+    // BEGIN downvoters
+    a(href='{config.relative_path}/user/{downvoters.userslug}')
+      img.profile-image.small(src='{downvoters.picture}', title='{downvoters.username}')
+    // END downvoters

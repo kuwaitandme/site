@@ -1,0 +1,180 @@
+html
+  body
+    .row.dashboard
+      .col-lg-9
+        .panel.panel-default
+          .panel-heading Forum Traffic
+          | &#x9;&#x9;&#x9;
+          .panel-body
+            .graph-container
+              ul.graph-legend
+                li
+                  .page-views
+                  span Page Views
+                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                li
+                  .unique-visitors
+                  span Unique Visitors
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              canvas#analytics-traffic(width='100%', height='400')
+            | &#x9;&#x9;&#x9;&#x9;
+            hr
+            | &#x9;&#x9;&#x9;&#x9;
+            .text-center.pull-left.monthly-pageviews
+              div
+                strong#pageViewsLastMonth
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              div Page views Last Month
+            | &#x9;&#x9;&#x9;&#x9;
+            .text-center.pull-left.monthly-pageviews
+              div
+                strong#pageViewsThisMonth
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              div Page views This Month
+            | &#x9;&#x9;&#x9;&#x9;
+            .text-center.pull-left.monthly-pageviews
+              div
+                strong#pageViewsPastDay
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              div Page views in last 24 hours
+        | &#x9;&#x9;
+        .row
+          // BEGIN stats
+          .col-lg-6
+            .panel.panel-default
+              .panel-heading {stats.name}
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              .panel-body
+                #unique-visitors
+                  .text-center.pull-left
+                    span.formatted-number {stats.day}
+                    | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                    div Day
+                  | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                  .text-center.pull-left
+                    span.formatted-number {stats.week}
+                    | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                    div Week
+                  | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                  .text-center.pull-left
+                    span.formatted-number {stats.month}
+                    | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                    div Month
+                  | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                  .text-center.pull-left
+                    span.formatted-number {stats.alltime}
+                    | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                    div All Time
+          // END stats
+          .col-lg-6
+            .panel.panel-default
+              .panel-heading Updates
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              .panel-body
+                .alert.alert-info.version-check
+                  p
+                    | You are running 
+                    strong
+                      | NodeBB v
+                      span#version {version}
+                    | .
+                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                p
+                  | Always make sure that your NodeBB is up to date for the latest security patches and bug fixes.
+          | &#x9;&#x9;&#x9;
+          .col-lg-6
+            .panel.panel-default
+              .panel-heading Notices
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              .panel-body
+                // BEGIN notices
+                div
+                  // IF notices.done
+                  i.fa.fa-fw.fa-check.text-success
+                  |  {notices.doneText}
+                  // ELSE
+                  // IF notices.link
+                  a(href='{notices.link}', data-toggle='tooltip', title='{notices.tooltip}')
+                    // ENDIF notices.link
+                    i.fa.fa-fw.fa-times.text-danger
+                    |  {notices.notDoneText}
+                    // IF notices.link
+                  // ENDIF notices.link
+                  // ENDIF notices.done
+                // END notices
+      | &#x9;
+      .col-lg-3
+        .panel.panel-default
+          .panel-heading System Control
+          | &#x9;&#x9;&#x9;
+          .panel-body.text-center
+            p
+              button.btn.btn-warning.reload(data-placement='bottom', data-toggle='tooltip', title='Reload NodeBB to activate new plugins') Reload
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              button.btn.btn-danger.restart(data-placement='bottom', data-toggle='tooltip', title='Restarting NodeBB will drop all existing connections for a few seconds') Restart
+            | &#x9;&#x9;&#x9;&#x9;
+            p
+              a.btn.btn-info(href='{config.relative_path}/admin/settings/advanced', data-placement='bottom', data-toggle='tooltip', title='Click here to set up maintenance mode for NodeBB') Maintenance Mode
+            | &#x9;&#x9;&#x9;&#x9;
+            hr
+            | &#x9;&#x9;&#x9;&#x9;
+            span#toggle-realtime
+              | Realtime Chart Updates 
+              strong OFF
+              |  
+              i.fa.fa.fa-toggle-off.pointer
+        | &#x9;&#x9;
+        .panel.panel-default
+          .panel-heading Anonymous vs Registered Users
+          | &#x9;&#x9;&#x9;
+          .panel-body
+            .graph-container.pie-chart.legend-up
+              ul.graph-legend
+                li
+                  .anonymous
+                  span Anonymous
+                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                li
+                  .registered
+                  span Registered
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              canvas#analytics-registered
+        | &#x9;&#x9;
+        .panel.panel-default
+          .panel-heading User Presence
+          | &#x9;&#x9;&#x9;
+          .panel-body
+            .graph-container.pie-chart.legend-up
+              ul.graph-legend
+                li
+                  .on-categories
+                  span On categories list
+                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                li
+                  .reading-posts
+                  span Reading posts
+                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                li
+                  .browsing-topics
+                  span Browsing topics
+                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                li
+                  .recent
+                  span Recent / Unread
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              canvas#analytics-presence
+        | &#x9;&#x9;
+        .panel.panel-default
+          .panel-heading High Presence Topics
+          | &#x9;&#x9;&#x9;
+          .panel-body
+            .graph-container.pie-chart.legend-down
+              canvas#analytics-topics
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              ul#topics-legend.graph-legend
+        | &#x9;&#x9;
+        .panel.panel-default
+          .panel-heading Active Users
+          | &#x9;&#x9;&#x9;
+          .panel-body
+            #active-users

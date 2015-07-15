@@ -1,0 +1,44 @@
+html
+  body
+    #customise.customise
+      .panel.panel-default
+        .panel-heading Custom CSS
+        | &#x9;&#x9;
+        .panel-body
+          p
+            | Enter your own CSS declarations here, which will be applied after all other styles.
+          | &#x9;&#x9;&#x9;
+          #customCSS
+          | &#x9;&#x9;&#x9;
+          input#customCSS-holder(type='hidden', value='', data-field='customCSS')
+          | &#x9;&#x9;&#x9;
+          br
+          | &#x9;&#x9;&#x9;
+          form.form
+            .form-group
+              label(for='useCustomCSS')
+                | Use Custom CSS?
+                input#useCustomCSS(type='checkbox', data-field='useCustomCSS')
+      | &#x9;
+      .panel.panel-default
+        .panel-heading Custom Header
+        | &#x9;&#x9;
+        .panel-body
+          p
+            | Enter custom HTML here (ex. JavaScript, Meta Tags, etc.), which will be appended to the 
+            code &lt;head&gt;
+            |  section of your forum&apos;s markup.
+          | &#x9;&#x9;&#x9;
+          #customHTML
+          | &#x9;&#x9;&#x9;
+          input#customHTML-holder(type='hidden', value='', data-field='customJS')
+          | &#x9;&#x9;&#x9;
+          br
+          | &#x9;&#x9;&#x9;
+          form.form
+            .form-group
+              label(for='useCustomJS')
+                | Use Custom Header?
+                input#useCustomJS(type='checkbox', data-field='useCustomJS')
+      | &#x9;
+      button#save.btn.btn-primary Save

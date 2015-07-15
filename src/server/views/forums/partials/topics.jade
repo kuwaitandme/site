@@ -1,0 +1,13 @@
+html
+  body
+    // BEGIN topics
+    li.clearfix
+      a(href='<!-- IF topics.user.userslug -->{relative_path}/user/{topics.user.userslug}<!-- ELSE -->#<!-- ENDIF topics.user.userslug -->')
+        img.profile-image.user-img(title='{topics.user.username}', src='{topics.user.picture}')
+      | &#x9;
+      p
+        a(href='{config.relative_path}/topic/{topics.slug}') {topics.title}
+      | &#x9;
+      span.pull-right.post-preview-footer
+        span.timeago(title='{topics.lastposttimeISO}')
+    // END topics

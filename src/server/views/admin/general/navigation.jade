@@ -1,0 +1,106 @@
+html
+  body
+    #navigation
+      .col-lg-6
+        .panel.panel-default
+          .panel-heading Active Navigation
+          | &#x9;&#x9;&#x9;
+          .panel-body
+            ul#enabled
+              // BEGIN enabled
+              li.well
+                form
+                  label
+                    | ID: 
+                    small optional
+                    | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                    input.form-control(type='text', name='id', value='{enabled.id}')
+                  | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                  label
+                    | Route: 
+                    small ex. /unread
+                    | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                    input.form-control(type='text', name='route', value='{enabled.route}')
+                  | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                  label
+                    | Title: 
+                    small shown upon mouseover
+                    | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                    input.form-control(type='text', name='title', value='{enabled.title}')
+                  | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                  label
+                    | Text:
+                    input.form-control(type='text', name='text', value='{enabled.text}')
+                  | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                  label
+                    | Icon Class: 
+                    small
+                      a(href='http://fortawesome.github.io/Font-Awesome/cheatsheet/', target='_blank') pick one
+                    | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                    input.form-control(type='text', name='iconClass', value='{enabled.iconClass}')
+                  | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                  label
+                    | Text Class: 
+                    small optional
+                    | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                    input.form-control(type='text', name='textClass', value='{enabled.textClass}')
+                  | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                  hr
+                  | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                  strong Properties:
+                  | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                  .checkbox
+                    label
+                      input(type='checkbox', name='property:adminOnly', <!--='', if='', enabled.properties.adminonly='', --='')
+                      | checked
+                      // ENDIF enabled.properties.adminOnly
+                      | /&gt; 
+                      strong Only display to Admins
+                  | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                  .checkbox
+                    label
+                      input(type='checkbox', name='property:loggedIn', <!--='', if='', enabled.properties.loggedin='', --='')
+                      | checked
+                      // ENDIF enabled.properties.loggedIn
+                      | /&gt; 
+                      strong Only display to logged in users
+                  | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                  hr
+                  | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                  button.btn.btn-danger.delete Delete
+                  // IF enabled.enabled
+                  button.btn.btn-warning.toggle Disable
+                  // ELSE
+                  button.btn.btn-success.toggle Enable
+                  // ENDIF enabled.enabled
+                  input(type='hidden', name='enabled', value='{enabled.enabled}')
+              // END enabled
+      | &#x9;
+      .col-lg-3
+        .panel.panel-default
+          .panel-heading Available Menu Items
+          | &#x9;&#x9;&#x9;
+          .panel-body
+            ul#available
+              li.alert.alert-warning(data-id='custom')
+                strong Custom Route
+              // BEGIN available
+              li.alert.IF.ELSE.ENDIF(data-id='@index', class='<!-- available.core -->alert-info<!-- -->alert-success<!-- available.core -->')
+                strong {available.text}
+                |  {available.route}
+                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                span.pull-right.badge
+                  // IF available.core
+                  | core
+                  // ELSE
+                  | plugin
+                  // ENDIF available.core
+              // END available
+              input(type='hidden', template-variable='available', value='{function.stringify, available}')
+      | &#x9;
+      .col-lg-3.acp-sidebar
+        .panel.panel-default
+          .panel-heading Navigation Control
+          | &#x9;&#x9;&#x9;
+          .panel-body
+            button#save.btn.btn-primary.btn-md Save Changes

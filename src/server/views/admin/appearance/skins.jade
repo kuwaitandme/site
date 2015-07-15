@@ -1,0 +1,31 @@
+html
+  body
+    #skins.row.skins
+      .col-lg-9
+        .panel.panel-default
+          .panel-heading Bootswatch Themes
+          | &#x9;&#x9;&#x9;
+          .panel-body
+            p
+              | NodeBB&apos;s skins are powered by Bootswatch, a repository containing themes built with Bootstrap as a base theme. Currently, the Vanilla theme is best optimized for use with Bootswatch.
+            | &#x9;&#x9;&#x9;&#x9;
+            ul#bootstrap_themes.directory
+              li
+                i.fa.fa-refresh.fa-spin
+                |  Loading Themes
+      | &#x9;
+      .col-lg-3.acp-sidebar
+        .panel.panel-default
+          .panel-heading Revert to Default
+          | &#x9;&#x9;&#x9;
+          .panel-body
+            p
+              | This will remove any custom Bootswatch skin applied to your NodeBB, and restore the base theme.
+            | &#x9;&#x9;&#x9;&#x9;
+            button#revert_theme.btn.btn-warning.btn-md Revert to Default
+    script.
+      var bootswatchListener = function(data) {
+      require(['admin/appearance/skins'], function(t) {
+      t.render(data);
+      });
+      };

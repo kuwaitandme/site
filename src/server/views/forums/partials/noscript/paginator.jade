@@ -1,0 +1,12 @@
+html
+  body
+    noscript
+      .text-center
+        ul.pagination
+          // BEGIN pages
+          li(<!--='', if='', pages.active='', --='')
+            | class=&quot;active&quot;
+            // ENDIF pages.active
+            | &gt;
+            a(href='?page={pages.page}') {pages.page}
+          // END pages

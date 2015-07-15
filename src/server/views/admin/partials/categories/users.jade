@@ -1,0 +1,30 @@
+html
+  body
+    // BEGIN users
+    li(data-uid='{users.uid}')
+      .btn-group.pull-right
+        button.btn.btn-default.dropdown-toggle(type='button', data-toggle='dropdown')
+          | Privileges 
+          span.caret
+        | &#x9;&#x9;
+        ul.dropdown-menu(role='menu')
+          li(role='presentation')
+            a.IF.ENDIF(href='#', data-priv='find', class='<!-- users.privileges.find -->active<!-- users.privileges.find -->') Find category
+          | &#x9;&#x9;&#x9;
+          li(role='presentation')
+            a.IF.ENDIF(href='#', data-priv='read', class='<!-- users.privileges.read -->active<!-- users.privileges.read -->') Access &amp; Read
+          | &#x9;&#x9;&#x9;
+          li(role='presentation')
+            a.IF.ENDIF(href='#', data-priv='topics:create', class='<!-- users.privileges.topics:create -->active<!-- users.privileges.topics:create -->') Create Topics
+          | &#x9;&#x9;&#x9;
+          li(role='presentation')
+            a.IF.ENDIF(href='#', data-priv='topics:reply', class='<!-- users.privileges.topics:reply -->active<!-- users.privileges.topics:reply -->') Reply to Topics
+          | &#x9;&#x9;&#x9;
+          li.divider(role='presentation')
+          | &#x9;&#x9;&#x9;
+          li(role='presentation')
+            a.IF.ENDIF(href='#', data-priv='mods', class='<!-- users.privileges.mods -->active<!-- users.privileges.mods -->') Moderator
+      | &#x9;
+      img(src='{users.picture}')
+      |  {users.username}
+    // END users

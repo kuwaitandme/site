@@ -1,0 +1,32 @@
+html
+  body
+    .languages
+      .col-lg-9
+        .panel.panel-default
+          .panel-heading Language Settings
+          | &#x9;&#x9;&#x9;
+          .panel-body
+            p
+              | The default language determines the language settings for all users who
+              | are visiting your forum. 
+              br
+              | &#x9;&#x9;&#x9;&#x9;&#x9;Individual users can override the default language on their account settings page.
+            | &#x9;&#x9;&#x9;&#x9;
+            form.row
+              .form-group.col-sm-6
+                label(for='defaultLang') Default Language
+                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                select#language.form-control(data-field='defaultLang')
+                  // BEGIN languages
+                  option(value='{languages.code}', <!--='', if='', languages.selected='', --='')
+                    | selected
+                    // ENDIF languages.selected
+                    | &gt;{languages.name} ({languages.code})
+                  // END languages
+      | &#x9;
+      .col-lg-3.acp-sidebar
+        .panel.panel-default
+          .panel-heading Languages Control Panel
+          | &#x9;&#x9;&#x9;
+          .panel-body
+            button#save.btn.btn-primary Save Language Settings

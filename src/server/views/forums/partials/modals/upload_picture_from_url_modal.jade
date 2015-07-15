@@ -1,0 +1,17 @@
+html
+  body
+    #upload-picture-from-url-modal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='Upload Picture From Url', aria-hidden='true')
+      .modal-dialog
+        .modal-content
+          .modal-header
+            button.close(type='button', data-dismiss='modal', aria-hidden='true') &times;
+            | &#x9;&#x9;&#x9;&#x9;&#x9;
+            h3 [[user:upload_picture]]
+          | &#x9;&#x9;&#x9;&#x9;
+          .modal-body
+            input#uploadFromUrl.form-control(type='text')
+          | &#x9;&#x9;&#x9;&#x9;
+          .modal-footer
+            button.btn.btn-default(data-dismiss='modal', aria-hidden='true') Close
+            | &#x9;&#x9;&#x9;&#x9;&#x9;
+            button.btn.btn-primary.upload-btn [[user:upload_picture]]

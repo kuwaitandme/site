@@ -1,0 +1,195 @@
+html
+  body
+    .manage-users
+      .col-lg-9
+        .panel.panel-default
+          .panel-heading
+            i.fa.fa-user
+            |  Users
+          | &#x9;&#x9;&#x9;
+          .panel-body
+            ul.nav.nav-pills
+              li.active
+                a(href='{config.relative_path}/admin/manage/users/latest') Latest Users
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              li
+                a(href='{config.relative_path}/admin/manage/users/sort-posts') Top Posters
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              li
+                a(href='{config.relative_path}/admin/manage/users/sort-reputation') Most Reputation
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              li
+                a(href='{config.relative_path}/admin/manage/users/banned') Banned
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              li
+                a(href='{config.relative_path}/admin/manage/users/registration') Registration Queue
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              li
+                a(href='{config.relative_path}/admin/manage/users/search') User Search
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              .btn-group.pull-right
+                button.btn.btn-default.dropdown-toggle(data-toggle='dropdown', type='button')
+                  | Edit 
+                  span.caret
+                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                ul.dropdown-menu
+                  li
+                    a.admin-user(href='#')
+                      i.fa.fa-fw.fa-shield
+                      |  Make Admin
+                  | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                  li
+                    a.remove-admin-user(href='#')
+                      i.fa.fa-fw.fa-ban
+                      |  Remove Admin
+                  | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                  li.divider
+                  | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                  li
+                    a.validate-email(href='#')
+                      i.fa.fa-fw.fa-check
+                      |  Validate Email
+                  | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                  li
+                    a.send-validation-email(href='#')
+                      i.fa.fa-fw.fa-mail-forward
+                      |  Send Validation Email
+                  | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                  li
+                    a.password-reset-email(href='#')
+                      i.fa.fa-fw.fa-key
+                      |  Send Password Reset Email
+                  | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                  li.divider
+                  | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                  li
+                    a.ban-user(href='#')
+                      i.fa.fa-fw.fa-gavel
+                      |  Ban User
+                  | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                  li
+                    a.unban-user(href='#')
+                      i.fa.fa-fw.fa-comment-o
+                      |  Unban User
+                  | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                  li
+                    a.reset-lockout(href='#')
+                      i.fa.fa-fw.fa-unlock
+                      |  Reset Lockout
+                  | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                  li
+                    a.reset-flags(href='#')
+                      i.fa.fa-fw.fa-flag
+                      |  Reset Flags
+                  | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                  li.divider
+                  | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                  li
+                    a.delete-user(href='#')
+                      i.fa.fa-fw.fa-trash-o
+                      |  Delete User
+            | &#x9;&#x9;&#x9;&#x9;
+            br
+            | &#x9;&#x9;&#x9;&#x9;
+            .search.well(class='{search_display}')
+              label By User Name
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              input#search-user-name.form-control(data-search-type='username', type='text', placeholder='Enter a username to search')
+              br
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              label By Email 
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              input#search-user-email.form-control(data-search-type='email', type='text', placeholder='Enter a email to search')
+              br
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              label By IP Address 
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              input#search-user-ip.form-control(data-search-type='ip', type='text', placeholder='Enter an IP Address to search')
+              br
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              i.fa.fa-spinner.fa-spin.hidden
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              span#user-notfound-notify.label.label-danger.hide User not found!
+              br
+            | &#x9;&#x9;&#x9;&#x9;
+            ul#users-container
+              // BEGIN users
+              .users-box(data-uid='{users.uid}', data-username='{users.username}')
+                .user-image
+                  img.img-thumbnail.user-selectable(src='{users.picture}')
+                  | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                  .labels
+                    // IF config.requireEmailConfirmation
+                    // IF !users.email:confirmed
+                    span.notvalidated.label.label-danger Not Validated
+                    // ENDIF !users.email:confirmed
+                    // ENDIF config.requireEmailConfirmation
+                    span.administrator.label.label-primary.IF.ENDIF(class='<!-- !users.administrator -->hide<!-- !users.administrator -->') Admin
+                    | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                    span.ban.label.label-danger.IF.ENDIF(class='<!-- !users.banned -->hide<!-- !users.banned -->') Banned
+                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                a(href='{config.relative_path}/user/{users.userslug}', target='_blank') {users.username} ({users.uid})
+                br
+                // IF users.email
+                small
+                  span(title='{users.email}') {users.email}
+                // ENDIF users.email
+                // IF users.flags
+                div
+                  small
+                    span
+                      i.fa.fa-flag
+                      |  {users.flags}
+                // ENDIF users.flags
+              // END users
+            | &#x9;&#x9;&#x9;&#x9;
+            #create-modal.modal.fade
+              .modal-dialog
+                .modal-content
+                  .modal-header
+                    button.close(type='button', data-dismiss='modal', aria-hidden='true') &times;
+                    | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                    h4.modal-title Create User
+                  | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                  .modal-body
+                    #create-modal-error.alert.alert-danger.hide
+                    | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                    form
+                      .form-group
+                        label(for='group-name') User Name
+                        | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                        input#create-user-name.form-control(type='text', placeholder='User Name')
+                      | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                      .form-group
+                        label(for='group-name') Email
+                        | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                        input#create-user-email.form-control(type='text', placeholder='Email of this user')
+                      | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                      .form-group
+                        label(for='group-name') Password
+                        | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                        input#create-user-password.form-control(type='password', placeholder='Password')
+                      | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                      .form-group
+                        label(for='group-name') Password Confirm
+                        | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                        input#create-user-password-again.form-control(type='password', placeholder='Password')
+                  | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                  .modal-footer
+                    button.btn.btn-default(type='button', data-dismiss='modal') Close
+                    | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                    button#create-modal-go.btn.btn-primary(type='button') Create
+            | &#x9;&#x9;&#x9;&#x9;
+            .text-center(class='{loadmore_display}')
+              button#load-more-users-btn.btn.btn-primary Load More
+            | &#x9;&#x9;&#x9;&#x9;
+            input(type='hidden', template-variable='yourid', value='{yourid}')
+      | &#x9;
+      .col-lg-3.acp-sidebar
+        .panel.panel-default
+          .panel-heading Users Control Panel
+          | &#x9;&#x9;&#x9;
+          .panel-body
+            button#createUser.btn.btn-primary New User
+            | &#x9;&#x9;&#x9;&#x9;
+            a.btn.btn-primary(target='_blank', href='{config.relative_path}/api/admin/users/csv') Download CSV

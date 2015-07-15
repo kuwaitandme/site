@@ -1,0 +1,15 @@
+html
+  body
+    // IF !error
+    .alert.alert-success
+      strong [[notifications:email-confirmed]]
+      | &#x9;
+      p [[notifications:email-confirmed-message]]
+      // ELSE
+      .alert.alert-danger
+        strong {error}
+        | &#x9;
+        p [[notifications:email-confirm-error-message]]
+        // ENDIF !error
+        p
+          a(href='{config.relative_path}/') [[notifications:back_to_home, {config.siteTitle}]]

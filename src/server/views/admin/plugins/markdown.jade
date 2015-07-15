@@ -1,0 +1,102 @@
+html
+  body
+    .row
+      .col-lg-9
+        form.form.markdown-settings
+          .panel.panel-default
+            .panel-heading Markdown
+            | &#x9;&#x9;&#x9;&#x9;
+            .panel-body
+              .row
+                .col-lg-6
+                  .form-group
+                    label(for='xhtmlOut')
+                      input#xhtmlOut(type='checkbox', name='xhtmlOut')
+                      | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Use &apos;/&apos; to close single tags (
+                      code &lt;br /&gt;
+                      | )
+                  | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                  .form-group
+                    label(for='breaks')
+                      input#breaks(type='checkbox', name='breaks')
+                      | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Treat newlines as single line breaks
+                  | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                  .form-group
+                    label(for='typographer')
+                      input#typographer(type='checkbox', name='typographer')
+                      | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Enable smartypants and other sweet transforms (e.g. 
+                      code (c)
+                      |  &rarr; 
+                      code &copy;
+                      | )
+                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                .col-lg-6
+                  .form-group
+                    label(for='linkify')
+                      input#linkify(type='checkbox', name='linkify')
+                      | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Autoconvert url-like texts to links
+                  | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                  .form-group
+                    label(for='externalBlank')
+                      input#externalBlank(type='checkbox', name='externalBlank')
+                      | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Open external links in a new tab/window
+                  | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                  .form-group
+                    label(for='nofollow')
+                      input#nofollow(type='checkbox', name='nofollow')
+                      | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Tell web crawlers that external links are not to be followed
+          | &#x9;&#x9;&#x9;
+          .row
+            .col-sm-6
+              .panel.panel-default
+                .panel-heading Code Formatting
+                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                .panel-body
+                  .form-group
+                    label(for='highlight')
+                      input#highlight(type='checkbox', name='highlight')
+                      | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Automatically detect and highlight code blocks
+                  | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                  .form-group
+                    label(for='highlightTheme') Use this theme for highlighted code blocks
+                    | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                    select#highlightTheme.form-control(name='highlightTheme')
+                      // BEGIN themes
+                      option(value='{themes.name}') {themes.name}
+                      // END themes
+                  | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                  .form-group
+                    label(for='langPrefix')
+                      | Prefix for 
+                      code code
+                      |  blocks
+                    | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                    input#langPrefix.form-control(placeholder='language-', type='text', name='langPrefix')
+            | &#x9;&#x9;&#x9;&#x9;
+            .col-sm-6
+              .panel.panel-danger
+                .panel-heading Danger Zone
+                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                .panel-body
+                  .form-group
+                    label(for='html')
+                      input#html(type='checkbox', name='html')
+                      | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Allow HTML
+                    | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                    .alert.alert-warning
+                      strong
+                        i.icon-warning-sign
+                        |  Careful!
+                      | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                      p
+                        | Automatic HTML sanitization is an important part of ensuring that
+                        | your users do not run arbitrary javascript or alter parts of the
+                        | page that were not meant to be altered. If this option is checked,
+                        | beware the consequences!
+      | &#x9;
+      .col-lg-3
+        .panel.panel-default
+          .panel-heading Markdown Control Panel
+          | &#x9;&#x9;&#x9;
+          .panel-body
+            button#save.btn.btn-primary Save Settings

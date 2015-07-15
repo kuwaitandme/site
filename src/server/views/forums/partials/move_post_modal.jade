@@ -1,0 +1,21 @@
+html
+  body
+    #move-post-modal.hide(tabindex='-1', role='dialog', aria-labelledby='', aria-hidden='true', data-backdrop='none')
+      .modal-dialog
+        .modal-content
+          .modal-header
+            button.close(type='button', data-dismiss='modal', aria-hidden='true') &times;
+            | &#x9;&#x9;&#x9;&#x9;
+            h4 [[topic:move_post]]
+          | &#x9;&#x9;&#x9;
+          .modal-body
+            .form-group
+              label(for='topicId') Topic ID
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              input#topicId.form-control(type='text', placeholder='Enter topic ID')
+              br
+          | &#x9;&#x9;&#x9;
+          .modal-footer
+            button#move_post_cancel.btn.btn-default(type='button', data-dismiss='modal') [[global:buttons.close]]
+            | &#x9;&#x9;&#x9;&#x9;
+            button#move_post_commit.btn.btn-primary(type='button', disabled='') [[topic:confirm_move]]

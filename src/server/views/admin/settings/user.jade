@@ -1,0 +1,182 @@
+html
+  body
+    .col-lg-9
+      .panel.panel-default
+        .panel-heading User List
+        | &#x9;
+        .panel-body
+          form(role='form')
+            .checkbox
+              label
+                input(type='checkbox', data-field='allowLocalLogin', checked='')
+                |  
+                strong Allow local login
+            | &#x9;&#x9;&#x9;
+            .checkbox
+              label
+                input(type='checkbox', data-field='allowAccountDelete', checked='')
+                |  
+                strong Allow account deletion
+            | &#x9;&#x9;&#x9;
+            .checkbox
+              label
+                input(type='checkbox', data-field='privateUserInfo')
+                |  
+                strong Make user info private
+            | &#x9;&#x9;&#x9;
+            .checkbox
+              label
+                input(type='checkbox', data-field='requireEmailConfirmation')
+                |  
+                strong Require Email Confirmation
+            | &#x9;&#x9;&#x9;
+            .form-group
+              label Allow login with
+              | &#x9;&#x9;&#x9;&#x9;
+              select.form-control(data-field='allowLoginWith')
+                option(value='username-email') Username or Email
+                | &#x9;&#x9;&#x9;&#x9;&#x9;
+                option(value='username') Username Only
+                | &#x9;&#x9;&#x9;&#x9;&#x9;
+                option(value='email') Email Only
+            | &#x9;&#x9;&#x9;
+            .form-group
+              label Registration Type
+              | &#x9;&#x9;&#x9;&#x9;
+              select.form-control(data-field='registrationType')
+                option(value='normal') Normal
+                | &#x9;&#x9;&#x9;&#x9;&#x9;
+                option(value='admin-approval') Admin Approval
+                | &#x9;&#x9;&#x9;&#x9;&#x9;
+                option(value='invite-only') Invite Only
+                | &#x9;&#x9;&#x9;&#x9;&#x9;
+                option(value='disabled') No registration
+      .panel.panel-default
+        .panel-heading Avatars
+        | &#x9;
+        .panel-body
+          form
+            .checkbox
+              label
+                input(type='checkbox', data-field='allowProfileImageUploads')
+                |  
+                strong Allow users to upload profile images
+            | &#x9;&#x9;&#x9;
+            .checkbox
+              label
+                input(type='checkbox', data-field='profile:convertProfileImageToPNG')
+                |  
+                strong Convert profile image uploads to PNG
+            | &#x9;&#x9;&#x9;
+            .form-group
+              label Default Gravatar Image
+              | &#x9;&#x9;&#x9;&#x9;
+              select.form-control(data-field='defaultGravatarImage')
+                option(value='') default
+                | &#x9;&#x9;&#x9;&#x9;&#x9;
+                option(value='identicon') identicon
+                | &#x9;&#x9;&#x9;&#x9;&#x9;
+                option(value='mm') mystery-man
+                | &#x9;&#x9;&#x9;&#x9;&#x9;
+                option(value='monsterid') monsterid
+                | &#x9;&#x9;&#x9;&#x9;&#x9;
+                option(value='wavatar') wavatar
+                | &#x9;&#x9;&#x9;&#x9;&#x9;
+                option(value='retro') retro
+            | &#x9;&#x9;&#x9;
+            .form-group
+              label Custom Gravatar Default Image
+              | &#x9;&#x9;&#x9;&#x9;
+              input#customGravatarDefaultImage.form-control(type='text', placeholder='A custom image to use instead of gravatar defaults', data-field='customGravatarDefaultImage')
+              br
+              | &#x9;&#x9;&#x9;&#x9;
+              input.btn.btn-default(data-action='upload', data-target='customGravatarDefaultImage', data-route='{config.relative_path}/api/admin/uploadgravatardefault', type='button', value='Upload')
+            | &#x9;&#x9;&#x9;
+            .form-group
+              label(for='profileImageDimension') Profile Image Dimension
+              | &#x9;&#x9;&#x9;&#x9;
+              input#profileImageDimension.form-control(type='text', data-field='profileImageDimension', placeholder='128')
+            | &#x9;&#x9;&#x9;
+            .form-group
+              label Maximum User Image File Size
+              | &#x9;&#x9;&#x9;&#x9;
+              input.form-control(type='text', placeholder='Maximum size of uploaded user images in kilobytes', data-field='maximumProfileImageSize')
+      .panel.panel-default
+        .panel-heading Account Protection
+        | &#x9;
+        .panel-body
+          form
+            .form-group
+              label(for='loginAttempts') Login attempts per hour
+              | &#x9;&#x9;&#x9;&#x9;
+              input#loginAttempts.form-control(type='text', data-field='loginAttempts', placeholder='5')
+              | &#x9;&#x9;&#x9;&#x9;
+              p.help-block
+                | If login attempts to a user&apos;s account exceeds this threshold, that account will be locked for a pre-configured amount of time
+            | &#x9;&#x9;&#x9;
+            .form-group
+              label(for='lockoutDuration') Account Lockout Duration (minutes)
+              | &#x9;&#x9;&#x9;&#x9;
+              input#lockoutDuration.form-control(type='text', data-field='lockoutDuration', placeholder='60')
+            | &#x9;&#x9;&#x9;
+            .form-group
+              label Days to remember user login sessions
+              | &#x9;&#x9;&#x9;&#x9;
+              input.form-control(type='text', data-field='loginDays', placeholder='14')
+            | &#x9;&#x9;&#x9;
+            .form-group
+              label Force password reset after a set number of days
+              | &#x9;&#x9;&#x9;&#x9;
+              input.form-control(type='text', data-field='passwordExpiryDays', placeholder='0')
+      .panel.panel-default
+        .panel-heading User Registration
+        | &#x9;
+        .panel-body
+          form
+            .form-group
+              label Minimum Username Length
+              | &#x9;&#x9;&#x9;&#x9;
+              input.form-control(type='text', value='2', data-field='minimumUsernameLength')
+            | &#x9;&#x9;&#x9;
+            .form-group
+              label Maximum Username Length
+              | &#x9;&#x9;&#x9;&#x9;
+              input.form-control(type='text', value='16', data-field='maximumUsernameLength')
+            | &#x9;&#x9;&#x9;
+            .form-group
+              label Minimum Password Length
+              | &#x9;&#x9;&#x9;&#x9;
+              input.form-control(type='text', value='6', data-field='minimumPasswordLength')
+            | &#x9;&#x9;&#x9;
+            .form-group
+              label Maximum About Me Length
+              | &#x9;&#x9;&#x9;&#x9;
+              input.form-control(type='text', value='500', data-field='maximumAboutMeLength')
+            | &#x9;&#x9;&#x9;
+            .form-group
+              label
+                | Forum Terms of Use 
+                small (Leave blank to disable)
+              | &#x9;&#x9;&#x9;&#x9;
+              textarea.form-control(data-field='termsOfUse')
+      .panel.panel-default
+        .panel-heading User Search
+        | &#x9;
+        .panel-body
+          form
+            .form-group
+              label Number of results to display
+              | &#x9;&#x9;&#x9;&#x9;
+              input.form-control(type='text', value='24', data-field='userSearchResultsPerPage')
+    .col-lg-3.acp-sidebar
+      .panel.panel-default
+        .panel-heading Save Settings
+        | &#x9;&#x9;
+        .panel-body
+          button#save.btn.btn-primary.btn-md Save Changes
+          | &#x9;&#x9;&#x9;
+          button#revert.btn.btn-warning.btn-md Revert Changes
+    script.
+      require(['admin/settings'], function(Settings) {
+      Settings.prepare();
+      });

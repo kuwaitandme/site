@@ -1,0 +1,74 @@
+html
+  body
+    .groups
+      .col-lg-9
+        .panel.panel-default
+          .panel-heading
+            i.fa.fa-group
+            |  Groups List
+          | &#x9;&#x9;&#x9;
+          .panel-body
+            input#group-search.form-control(type='text', placeholder='Search')
+            br
+            | &#x9;&#x9;&#x9;&#x9;
+            table.table.table-striped.groups-list
+              tr
+                th Group Name
+                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                th Group Description
+              // BEGIN groups
+              tr(data-groupname='{groups.displayName}')
+                td
+                  | {groups.displayName}
+                  // IF groups.system
+                  span.badge System Group
+                  // ENDIF groups.system
+                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                td
+                  .btn-group.pull-right
+                    a.btn.btn-default.btn-xs(href='{config.relative_path}/admin/manage/groups/{groups.nameEncoded}')
+                      i.fa.fa-edit
+                      |  Edit
+                    // IF !groups.system
+                    button.btn.btn-danger.btn-xs(data-action='delete')
+                      i.fa.fa-times
+                    // ENDIF !groups.system
+                  | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                  p.description {groups.description}
+              // END groups
+      | &#x9;
+      .col-lg-3.acp-sidebar
+        .panel.panel-default
+          .panel-heading Groups Control Panel
+          | &#x9;&#x9;&#x9;
+          .panel-body
+            div
+              button#create.btn.btn-primary New Group
+      | &#x9;
+      #create-modal.modal.fade
+        .modal-dialog
+          .modal-content
+            .modal-header
+              button.close(type='button', data-dismiss='modal', aria-hidden='true') &times;
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              h4.modal-title Create Group
+            | &#x9;&#x9;&#x9;&#x9;
+            .modal-body
+              #create-modal-error.alert.alert-danger.hide
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              form
+                .form-group
+                  label(for='group-name') Group Name
+                  | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                  input#create-group-name.form-control(type='text', placeholder='Group Name')
+                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                .form-group
+                  label(for='group-name') Description
+                  | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                  input#create-group-desc.form-control(type='text', placeholder='A short description about your group')
+            | &#x9;&#x9;&#x9;&#x9;
+            .modal-footer
+              button.btn.btn-default(type='button', data-dismiss='modal') Close
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              button#create-modal-go.btn.btn-primary(type='button') Create
+    input(type='hidden', template-variable='yourid', value='{yourid}')

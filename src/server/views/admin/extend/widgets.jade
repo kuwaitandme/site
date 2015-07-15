@@ -1,0 +1,114 @@
+html
+  body
+    #widgets
+      .col-md-7
+        .panel.panel-default
+          .panel-heading Widget Areas
+          | &#x9;&#x9;&#x9;
+          .panel-body
+            ul.nav.nav-pills
+              // BEGIN templates
+              li.IF.ENDIF(class='<!-- @first -->active<!-- @first -->')
+                a(href='#', data-template='{../template}', data-toggle='pill') {../template}
+              // END templates
+            | &#x9;&#x9;&#x9;&#x9;
+            .row
+              .col-xs-12
+                .tab-content
+                  // BEGIN templates
+                  .tab-pane.IF.ENDIF(class='<!-- @first -->active<!-- @first -->', data-template='{../template}')
+                    // BEGIN areas
+                    .area(data-template='{templates.template}', data-location='{../location}')
+                      h4
+                        | {../name} 
+                        small {templates.template} / {../location}
+                      | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                      .well.widget-area
+                    // END areas
+                  // END templates
+                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                button.btn.btn-success.save.pull-right Save
+      | &#x9;
+      .col-md-5
+        .panel.panel-default
+          .panel-heading Available Widgets
+          | &#x9;&#x9;&#x9;
+          .panel-body
+            .available-widgets
+              p Drag and drop widgets into templates
+              // IF !widgets.length
+              .alert.alert-info
+                | No widgets found! Activate the essential widgets plugin in the 
+                a(href='/admin/extend/plugins') plugins
+                |  control panel.
+              // ENDIF !widgets.length
+              .row
+                // BEGIN widgets
+                .col-md-6.col-sm-12
+                  .panel.widget-panel.panel-default.pointer(data-widget='{widgets.widget}')
+                    .panel-heading
+                      strong {widgets.name}
+                      | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                      small
+                        br
+                        | {widgets.description}
+                    | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                    .panel-body.hidden
+                      form
+                        | {widgets.content}
+                // END widgets
+        | &#x9;&#x9;
+        .panel.panel-default
+          .panel-heading Available Containers
+          | &#x9;&#x9;&#x9;
+          .panel-body
+            p Drag and drop on top of any active widget
+            | &#x9;&#x9;&#x9;&#x9;
+            .available-containers
+              h4
+                | Available Containers 
+                small Drag and drop on top of any widget
+              | &#x9;&#x9;&#x9;&#x9;&#x9;
+              .containers
+                .pointer(style='padding: 20px; border: 1px dotted #dedede; margin-bottom: 20px;', data-container-html=' ')
+                  | None
+                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                .well.pointer(data-container-html='<div class="well">\{{body\}}</div>')
+                  | Well
+                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                .jumbotron.pointer(data-container-html='<div class="jumbotron">\{{body\}}</div>')
+                  | Jumbotron
+                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                .panel(data-container-html='<div class="panel panel-default"><div class="panel-body">\{{body\}}</div></div>')
+                  .panel-body.pointer
+                    | Panel
+                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                .panel.panel-default.pointer(data-container-html='<div class="panel panel-default"><div class="panel-heading"><h3 class="panel-title">\{{title\}}</h3></div><div class="panel-body">\{{body\}}</div></div>')
+                  .panel-heading
+                    | Panel Header
+                    .pull-right.color-selector
+                      button.btn.btn-xs(data-class='panel-default') &nbsp;&nbsp;
+                      | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                      button.btn.btn-xs.btn-primary(data-class='panel-primary') &nbsp;&nbsp;
+                      | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                      button.btn.btn-xs.btn-success(data-class='panel-success') &nbsp;&nbsp;
+                      | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                      button.btn.btn-xs.btn-info(data-class='panel-info') &nbsp;&nbsp;
+                      | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                      button.btn.btn-xs.btn-warning(data-class='panel-warning') &nbsp;&nbsp;
+                      | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                      button.btn.btn-xs.btn-danger(data-class='panel-danger') &nbsp;&nbsp;
+                  | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                  .panel-body
+                    | Panel Body
+                | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                .alert.alert-info.pointer(data-container-html='<div class="alert alert-info">\{{body\}}</div>')
+                  | Alert
+                  .pull-right.color-selector
+                    button.btn.btn-xs.btn-success(data-class='alert-success') &nbsp;&nbsp;
+                    | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                    button.btn.btn-xs.btn-info(data-class='alert-info') &nbsp;&nbsp;
+                    | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                    button.btn.btn-xs.btn-warning(data-class='alert-warning') &nbsp;&nbsp;
+                    | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
+                    button.btn.btn-xs.btn-danger(data-class='alert-danger') &nbsp;&nbsp;
