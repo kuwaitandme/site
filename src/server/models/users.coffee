@@ -6,27 +6,6 @@
 Promise   = require "bluebird"
 bCrypt    = require "bcrypt-nodejs"
 validator = require "validator"
-TABLENAME = "users"
-
-
-loginStrategies =
-  EMAIL: 0
-  FACEBOOK: 1
-  TWITTER: 2
-  YAHOO: 3
-  GOOGLEPLUS: 4
-  PHONEGAP: 5
-
-roles =
-  NORMAL: 0
-  MODERATOR: 1
-  ADMIN: 2
-
-statuses =
-  INACTIVE: 0
-  ACTIVE: 1
-  BANNED: 2
-  SUSPENDED: 3
 
 
 ###*
@@ -40,20 +19,20 @@ randomPassword = ->
   "#{s4()}-#{s4()}-#{s4()}"
 
 
-exports = module.exports = (IoC, knex, cache) ->
-  logger = IoC.create "igloo/logger"
-  name = "[model:users]"
-
-  bookshelf   = (require "bookshelf") knex
-  model      = bookshelf.Model.extend tableName: TABLENAME
-  collection = bookshelf.Collection.extend model: model
+exports = module.exports = (BaseModel, Enum) ->
 
   usersPerPage = 20
+  class Users extends BaseModel
+    tableName: "users"
 
-  class Users
+    initialize: ->
+      (new Enum "user_roles").then (json) => @roles = json
+      (new Enum "user_statuses").then (json) => @statuses = json
+
     ###*
      * Queries all the users that matches the given parameters.
      *
+     * TODO use page plugin
      * @param  Object  parameters      An object containing query parameters
      * @return Promise                 Promise that resolves to an array of
      *                                 users that match the conditions in the
@@ -72,36 +51,11 @@ exports = module.exports = (IoC, knex, cache) ->
 
         qb.limit usersPerPage
         qb.offset (page - 1) * usersPerPage
-        qb.orderBy "created", "DESC"
+        qb.orderBy "created_at", "DESC"
 
-      model.query(buildQuery).fetchAll()
+      @model.query(buildQuery).fetchAll()
       # collection.forge parameters
       # .query()
-
-
-    ###*
-     * Queries all the users and finds the first matching user that matches the
-     * values in the parameters
-     *
-     * @param  {[type]} parameters={} [description]
-     * @return {[type]}                 [description]
-    ###
-    findOne: (parameters={}) -> model.forge(parameters).fetch()
-
-
-    ###*
-     * Fetches a user, but unlike findOne this takes in only an id.
-     *
-     * @param  {[type]} id [description]
-     * @return {[type]}    [description]
-    ###
-    get: (id) -> model.forge(id: id).fetch()
-
-
-    # Creates a new user
-    create: (parameters={}) ->
-      parameters.credits = 100
-      model.forge(parameters).save()
 
 
     ###*
@@ -124,15 +78,6 @@ exports = module.exports = (IoC, knex, cache) ->
           status: statuses.ACTIVE
         Model.create newUser
 
-    ###*
-     * [patch description]
-     * @param  {[type]} id         [description]
-     * @param  {[type]} parameters [description]
-     * @return {[type]}            [description]
-    ###
-    patch: (id, parameters) -> model.forge(id: id).save parameters
-
-
 
 
     ###*
@@ -141,8 +86,8 @@ exports = module.exports = (IoC, knex, cache) ->
      * @param  bookshelf.Model user     The user to verify against
      * @return Boolean
     ###
-    isAdmin: (user) -> roles.ADMIN is user.get 'role'
-    isModerator: (user) -> roles.MODERATOR is user.get 'role'
+    isAdmin: (user) -> @roles.ADMIN is user.get 'role'
+    isModerator: (user) -> @roles.MODERATOR is user.get 'role'
 
 
     ###*
@@ -211,9 +156,8 @@ exports = module.exports = (IoC, knex, cache) ->
   new Users
 
 
-exports["@singleton"] = true
 exports["@require"] = [
-  "$container"
-  "igloo/knex"
-  "libraries/cache"
+  "models/base/model"
+  "models/base/enum"
 ]
+exports["@singleton"] = true

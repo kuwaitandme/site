@@ -64,7 +64,7 @@ exports = module.exports = (IoC) ->
   # r "/sharing/([0-9]+)/prev",               "sharing/id/prev",           GET
   # r "/sharing/slug/([^/]+)",                "sharing/slug",              GET
   # r "/users/([0-9]+)?",                     "users",                     DELETE
-  # r "/users/([0-9]+)?",                     "users",                     GET
+  r "/users/([0-9]+)?",                     "users",                     GET
   # r "/users/([0-9]+)?",                     "users",                     PATCH
   # r "/users/([0-9]+)?",                     "users",                     PUT
   # r "/users/current",                       "users/current",             GET
