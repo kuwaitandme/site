@@ -1,5 +1,6 @@
 i18n               = require "i18n"
 
+
 exports = module.exports = (IoC, settings) ->
   logger = IoC.create "igloo/logger"
   logger.debug "[init] configuring i18n middleware"
@@ -7,7 +8,7 @@ exports = module.exports = (IoC, settings) ->
   i18n.configure
     cookie: "l"
     defaultLocale: "en"
-    directory: "#{settings.appDir}/locales"
+    directory: "#{settings.appDir}/locales/generated"
     locales: [
       "en"
       "ar"
