@@ -6,16 +6,16 @@
 Promise = require "bluebird"
 
 
-exports = module.exports = (BaseModel, Cache) ->
+exports = module.exports = (BaseModel, Enum) ->
   class Model extends BaseModel
-    tableName: "forums_topics"
+    tableName: "forum_topics"
 
 
-  model = new Model
+  new Model
 
 
 exports["@singleton"] = true
 exports["@require"] = [
   "models/base/model"
-  "controllers/cache"
+  # "models/base/enum"
 ]

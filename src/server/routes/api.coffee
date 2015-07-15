@@ -53,6 +53,8 @@ exports = module.exports = (IoC) ->
 
   r "/logs",                                "logs",                      GET
 
+  r "/forums/topics",                       "forums/topics",             GET
+
   r "/lang/([a-z]+)",                       "lang",                      GET
 
   r "/locations",                           "locations",                 GET

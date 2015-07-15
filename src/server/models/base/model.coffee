@@ -94,6 +94,7 @@ exports = module.exports = (knex) ->
 
 
     ###
+      @todo have each fn implement it's own query fn
     ###
     query: (parameters) -> @collection.forge({}).query()
 
