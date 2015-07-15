@@ -31,11 +31,14 @@ _path = (newpath) -> path.join __dirname, newpath
 # First load the settings.
 IoC.loader                IoC.node _path "../../etc/config"
 
-# Then load our controller and cron tasks.
+# Load the common libraries
+IoC.loader "libraries",   IoC.node _path "libraries"
+
+# Load our controller and cron tasks.
 IoC.loader "controllers", IoC.node _path "controllers"
 IoC.loader "cron",        IoC.node _path "cron"
 
-# Then load all igloo components.
+# Load all igloo components.
 IoC.loader "igloo",       igloo
 
 # And then finally load our models.
