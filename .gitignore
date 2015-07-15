@@ -104,8 +104,6 @@ boot/local.js
 /etc/config/knexfile.coffee
 
 # hide log files
-/var/logs/*.log
-/var/logs/*.gz
 /var/backups/*.tgz
 .tmp/
 dist/
