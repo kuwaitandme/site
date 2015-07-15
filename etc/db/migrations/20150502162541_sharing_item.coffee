@@ -7,7 +7,8 @@ exports.up = (knex, Promise) ->
     table.integer("parent_category").notNull().references("id").inTable "sharing_categories"
     table.integer("child_category").references("id").inTable "sharing_categories"
     table.integer("location").notNull().references("id").inTable "locations"
-    table.integer("owner").notNull().references("id").inTable "users"
+    table.integer("created_by").notNull().references("id").inTable "users"
+    table.integer("updated_by").references("id").inTable "users"
     table.integer("price_type").notNull().references("id").inTable "sharing_price_types"
     table.integer("price_value").defaultTo 0
     table.integer("language").notNull().references("id").inTable "languages"
