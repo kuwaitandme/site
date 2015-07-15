@@ -2,7 +2,7 @@ exports = module.exports = ($element, $location, $log, $scope,
 $timeout, Users) ->
   @name = "[page:account]"
   $log.log @name, "initializing"
-  $scope.$emit "page-loaded"
+  $scope.$emit "page:loaded"
   currentUser = Users.getCurrent() or {}
 
 

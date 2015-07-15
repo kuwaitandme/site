@@ -1,14 +1,10 @@
-section(classified-single, ng-model="classified", ng-if="classified")
+.categories.row
+  .small-6.medium-4.large-3.columns.end(ng-repeat="category in categories")
+    .category
+      a(fn-route="/forums/{{ category.slug }}")
+        .category-header
+      h4
+        a(fn-route="/forums/{{ category.slug }}") {{ category.name }}
+      .description {{ category.description }}
+      .posts
 
-.seperator
-
-section.row(ng-if="classified")
-  h2.columns Similar classifieds
-  section.columns(classified-list, ng-model="similarListOptions")
-
-.seperator
-
-section.row(ng-if="classified")
-  h2.columns More classifieds by this user
-  section.columns(classified-list, ng-model="userListOptions")
-categor asd

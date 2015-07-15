@@ -12,7 +12,7 @@ exports = module.exports = ($scope, $log, $location, $notifications) ->
     $location.path "/classified/finish/#{classified.id}"
 
 
-  $scope.$emit "page-loaded", allowBackNavigation: true
+  $scope.$emit "page:loaded", allowBackNavigation: true
 
 exports.$inject = [
   "$scope"

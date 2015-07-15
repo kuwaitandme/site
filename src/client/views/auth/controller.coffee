@@ -4,7 +4,7 @@ Languages, Users) ->
   $log.log @name, "initializing"
 
 
-  $scope.$emit "page-loaded"
+  $scope.$emit "page:loaded"
 
 
   $scope.login = {}

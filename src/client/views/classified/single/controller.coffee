@@ -21,7 +21,7 @@ exports = module.exports = ($scope, $root, $stateParams, $log, Classifieds) ->
 
   # Load the classified!
   Classifieds.get($stateParams.id).then (classified) ->
-    $scope.$emit "page-loaded", title: classified.title
+    $scope.$emit "page:loaded", title: classified.title
 
     # Set the query params for the similar classifieds..
     $scope.similarListOptions.query =

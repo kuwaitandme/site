@@ -4,7 +4,7 @@ exports = module.exports = ($log, $root, ga) ->
   $log.log name, "initialized"
 
 
-  $root.$on "page-loaded", (event, value={}) ->
+  $root.$on "page:loaded", (event, value={}) ->
     # Remove the loading class, so that loading bar gets hidden away.
     $root.bodyClasses.loading = false
 

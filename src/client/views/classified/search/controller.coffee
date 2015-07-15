@@ -8,7 +8,7 @@ Categories, Classifieds) ->
   $scope.parentCategory = Categories.findBySlug($stateParams.parent) or {}
 
   $scope.heroURL = "cl-#{$scope.parentCategory.slug or 'miscellaneous'}.jpg"
-  $scope.$emit "page-loaded"
+  $scope.$emit "page:loaded"
 
   $scope.listOptions = query: {}, options: {}
   angular.extend(

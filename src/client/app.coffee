@@ -53,6 +53,7 @@ app = angular.module "App", [
   # "btford.socket-io"
 ]
 
+# Add each of the angular components
 (require "./components")    app
 (require "./config")        app
 (require "./directives")    app
@@ -64,6 +65,9 @@ app = angular.module "App", [
 (require "./services")      app
 (require "./values")        app
 (require "./views")         app
+
+# Add the router
+app.config require "./router"
 
 
 # Helper function to boot the angular App.

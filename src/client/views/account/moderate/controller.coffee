@@ -1,7 +1,7 @@
 name = "[page:account-moderate]"
 exports = module.exports = ($scope, $location, $log, Classifieds) ->
   $log.log name, "initializing"
-  $scope.$emit "page-loaded", allowBackNavigation: true
+  $scope.$emit "page:loaded", allowBackNavigation: true
 
   # Prepare options for the classified list.
   $scope.listOptions =

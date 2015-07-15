@@ -1,7 +1,7 @@
 name = "[page:account-manage]"
 exports = module.exports = ($location, $log, $scope, Users) ->
   $log.log name, "initializing"
-  $scope.$emit "page-loaded", allowBackNavigation: true
+  $scope.$emit "page:loaded", allowBackNavigation: true
 
   # Prepare options for the classified list.
   $scope.listOptions =

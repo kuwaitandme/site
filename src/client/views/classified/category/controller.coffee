@@ -7,7 +7,7 @@ exports = module.exports = ($scope, $stateParams, $log, Categories) ->
 
   $scope.childCategory  = Categories.findBySlug $stateParams.child
   $scope.parentCategory = Categories.findBySlug $stateParams.parent
-  $scope.$emit "page-loaded", allowBackNavigation: true
+  $scope.$emit "page:loaded", allowBackNavigation: true
 
 exports.$inject = [
   "$scope"

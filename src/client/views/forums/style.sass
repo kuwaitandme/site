@@ -1,4 +1,37 @@
-body#classified-single
-  main
-    margin-bottom: 1rem
-    // margin: 1rem auto
+body#forums
+
+  .categories
+    a
+      color: #2461b2
+      text-decoration: none
+      &:hover
+        color: #173e72
+
+    > .columns
+      margin: .9375rem 0
+    .category
+      +radius(3px)
+      +single-transition(border-bottom-color)
+      // margin: 10px
+      background: #f2f2f2
+      border: 1px solid #DDD
+      border-bottom-width: 2px
+      overflow: hidden
+      padding: 10px
+      &:hover
+        border-bottom-color: #999
+      // width:
+
+    h4
+      font-weight: bold
+      margin-top: 0
+      margin-bottom: 5px
+
+    .description
+      font-size: 14px
+
+    .category-header
+      margin: -10px
+      margin-bottom: 10px
+      background: #2461b2
+      min-height: 100px

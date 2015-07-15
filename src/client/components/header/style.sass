@@ -4,9 +4,9 @@ main
   +single-transition
 
 header
-  position: fixed
-  top: 0
-  left: 0
+  // position: fixed
+  // top: 0
+  // left: 0
   width: 100%
   background: #FFF
   z-index: 4
@@ -79,20 +79,31 @@ header
         padding: 0
         color: #777
         a
+          +single-transition(background)
           text-decoration: none
           display: block
-          +single-transition(background)
           color: inherit
           cursor: pointer
           padding: 9px 7px
           text-align: center
           text-transform: uppercase
           font-size: 10px
+          &:hover
+            background: #A0C9CC
+            color: #FFF
+
+        &.food a:hover
+          background: #CB202E
+        &.forums a:hover
+          background: #2461B2
+        &.lifestyle a:hover
+          background: #FAA617
+        &.meetups a:hover
+          background: #009F5E
+        &.news a:hover
+          background: #41274B
         &:last-child
           border-right: 1px solid #ddd
-        &:hover
-          background: #F60
-          color: #FFF
 
 @media print
   header

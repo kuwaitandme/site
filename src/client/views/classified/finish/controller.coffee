@@ -6,7 +6,7 @@ exports = module.exports = ($scope, $stateParams, $log, Classifieds) ->
   Classifieds.get $stateParams.id
   .then (classified) ->
     $scope.classified = classified
-    $scope.$emit "page-loaded"
+    $scope.$emit "page:loaded"
 
 
 exports.$inject = [

@@ -11,8 +11,8 @@ exports = module.exports = ($stateProvider, $locationProvider, $urlMatcher,
       controller: "#{page}"
       templateUrl: "views/#{page}/template"
       url: route
-      # resolve:
-        # categories: ["models.categories", (m) -> m.download()]
+      resolve:
+        categories: ["models.forums.categories", (m) -> m.download()]
         # user: ["models.users", (m) -> m.download()]
         # location: ["models.locations", (m) -> m.download()]
         # notifications: ["models.notifications", (m) -> m.download()]
@@ -24,6 +24,7 @@ exports = module.exports = ($stateProvider, $locationProvider, $urlMatcher,
   # _route "account/moderate",            "/account/moderate"
   # _route "account/moderate/single",     "/account/moderate/{id:[0-9]+}"
   _route "forums",                      "/forums"
+  _route "forums",                      "/forums/{parent:[^/]+}"
   _route "auth",                        "/auth"
   _route "auth/logout",                 "/auth/logout"
   # _route "classified/finish",           "/classified/finish/{id:[0-9]+}"

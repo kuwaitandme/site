@@ -8,7 +8,7 @@ Classifieds) ->
   $scope.heroURL = "landing.jpg"
   $scope.displayClassifiedList = true
 
-  $scope.$emit "page-loaded"
+  $scope.$emit "page:loaded"
 
   $scope.showAuth = -> $root.$broadcast "component:auth:show"
 
