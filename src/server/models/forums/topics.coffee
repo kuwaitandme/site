@@ -11,6 +11,9 @@ exports = module.exports = (BaseModel, Cache) ->
     tableName: "forums_topics"
 
 
+  model = new Model
+
+
 exports["@singleton"] = true
 exports["@require"] = [
   "models/base/model"
