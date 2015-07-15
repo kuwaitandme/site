@@ -43,9 +43,7 @@ exports.seed = (knex, Promise) ->
     role: 2
 
 
-  knex("users").del().then ->
-    knex("users").insert(newAdmin)
-  .then ->
-    knex("users").insert(newModerator)
-  .then ->
-    knex("users").insert(newUser)
+  knex("users").del()
+  .then -> knex("users").insert newAdmin
+  .then -> knex("users").insert newModerator
+  .then -> knex("users").insert newUser
