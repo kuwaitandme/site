@@ -21,18 +21,18 @@ exports = module.exports = (Cache, renderer, Classifieds) ->
     # If nothing in the cache was found, then the function throws an error. We
     # catch it here and re-fill the cache by calculating the counters again..
     .catch ->
-      Classifieds.query status: Classifieds.statuses.ACTIVE
-      .then (classifieds) ->
-        json = classifieds.toJSON()
-        Cache.set cache.key, json, cache.timeout
-        json
-
+      # Classifieds.query status: Classifieds.statuses.ACTIVE
+      # .then (classifieds) ->
+      #   json = classifieds.toJSON()
+      #   Cache.set cache.key, json, cache.timeout
+      #   json
+      ""
     # Once we get classifieds (either from the cache or from the DB), we start
     # rendering the page
     .then (classifieds) ->
       options =
         cache: cache
-        data: classifieds: classifieds
+        # data: classifieds: classifieds
         description: description
         page: "landing"
         title: response.__ "title.landing"

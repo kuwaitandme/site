@@ -3,7 +3,8 @@ Entry point
 ===========
 Entry point for the server-side. INCOMPLETE
 
-Steven Enamakel <me@steven.pw>
+Contributors
+[Steven Enamakel](steven.pw)
 ###
 
 IoC      = require "electrolyte"
@@ -17,31 +18,46 @@ path     = require "path"
 _path = (newpath) -> path.join __dirname, newpath
 
 
-# Start loading the different dependencies
+###
+  ## Dependency Initialization
+  Here we include the different components that we want to include in our app.
+  Note that this project was initialized using
+  [eskimo](https://github.com/niftylettuce/eskimo) and a good deal of code
+  lies there (Especially the code to setup the server itself).
+
+  Visit [igloo's documentation page](https://www.npmjs.com/package/igloo) to
+  get more info about how it's different components work.
+###
+# First load the settings.
 IoC.loader                IoC.node _path "../../etc/config"
+
+# Then load our controller and cron tasks.
 IoC.loader "controllers", IoC.node _path "controllers"
 IoC.loader "cron",        IoC.node _path "cron"
+
+# Then load all igloo components.
 IoC.loader "igloo",       igloo
+
+# And then finally load our models.
 IoC.loader "models",      IoC.node _path "models"
 
 
 ###
+  ## Boot definition
   At this point, electrolyte will have scanned all our source code and created
   proper dependency maps. So to understand how control now goes, follow the
   `app.phase` lines below.
 
-  NOTE: If you don't understand how bootable or bootable.di.initializer works
-  then I recommend reading their source codes on github.
+  NOTE: If you don't understand how `bootable` or `bootable.di.initializer`
+  works then I recommend reading their
+  [source code on github](https://github.com/jaredhanson/bootable/blob/master/lib/phases/initializers.js).
 
-  At first all scripts in "init/pre" are executed and then the app is
-  initialized by igloo (using "igloo/server"). When the app is set, it is now
-  listening to the routes that we have defined and will start executing based
-  on which ones get fired. We also keep some scripts in "init/post" if we need
+  1. At first all scripts in `init/pre` are executed and then the app is
+  initialized by igloo (using `igloo/server`).
+  2. When the app is set, it is now listening to the routes that we have defined
+  and will start executing based on which ones get fired.
+  3. We also keep some scripts in `init/post` if we need
   to run anything after the app has been set.
-
-  Also note that the app doesn't really start in this file. It's boot-order is
-  just defined here. To really start the app you need to call `app.boot()`
-  which is done in the bin/server.coffee file.
 ###
 
 
@@ -58,6 +74,15 @@ app.phase IoC.create "igloo/server"
 # Run scripts that have to be run after initializing.
 app.phase bootable.di.initializers _path "init/post"
 
-# Hand over our app to whoever wants it. They must start the app using
-# app.boot().
+
+###
+  ## Finish
+  Now the app has been properly defined, with all boot phases and dependencies
+  wired up. But the app doesn't really start here. To really start the
+  app, we need to call `app.boot()`, which is done in the `bin/server.coffee`
+  file.
+
+  For now we'll just hand over the app to whoever wants it (Useful if we are
+  running some test-suites).
+###
 module.exports = app

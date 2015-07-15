@@ -12,7 +12,7 @@ header
   z-index: 4
 
   $shadow-opacity: 0.1
-  box-shadow: -3px -3px 3px 0 rgba(0,0,0,$shadow-opacity), 3px 0 3px 0 rgba(0,0,0,$shadow-opacity), 0 3px 3px 0 rgba(0,0,0,$shadow-opacity)
+  border-bottom: 2px solid #DEDEDE
 
   #header-logo-container
     cursor: pointer
@@ -46,7 +46,7 @@ header
   #main-header
     +clearfix
     +single-transition
-    border-bottom: 1px solid #f6f6f6
+    border-bottom: 1px solid #f9f9f9
     height: $headerHeight
     z-index: 1
 
@@ -75,7 +75,7 @@ header
       max-width: 800px
       li
         border-left: 1px solid #ddd
-        border-bottom: 1px solid #ddd
+        // border-bottom: 1px solid #ddd
         padding: 0
         color: #777
         a
