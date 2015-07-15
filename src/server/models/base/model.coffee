@@ -54,6 +54,16 @@ exports = module.exports = (knex) ->
 
       if @initialize? then @initialize()
 
+    ###*
+     * Queries all the rows and finds the first matching row that matches the
+     * values in the parameters
+     *
+     * @param  {[type]} parameters={} [description]
+     * @return {[type]}                 [description]
+    ###
+    findOne: (parameters={}) -> model.forge(parameters).fetch()
+
+
     ###
      [get description]
 
