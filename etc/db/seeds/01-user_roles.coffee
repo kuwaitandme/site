@@ -8,13 +8,9 @@ exports.seed = (knex, Promise) ->
       name: name
     knex("user_roles").insert values
 
-  # Deletes ALL existing entries
-  knex("users").del()
-  .then -> knex("user_roles").del()
 
-  # Insert
-  .then -> Promise.join(
-      ins("Normal"),
-      ins("Moderator"),
-      ins("Admin")
-    )
+  Promise.join(
+    ins("Normal"),
+    ins("Moderator"),
+    ins("Admin")
+  )

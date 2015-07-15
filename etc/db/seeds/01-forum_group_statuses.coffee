@@ -6,12 +6,9 @@ exports.seed = (knex, Promise) ->
       id: ++uid
       slug: "#{slug}-#{uid}"
       name: name
-    (knex "forum_category_statuses").insert values
+    (knex "forum_group_statuses").insert values
 
   Promise.join(
-    # Deletes ALL existing entries
-    knex("forum_category_statuses").del(),
-
     (ins "Active"),
     (ins "Banned"),
     (ins "Blocked"),

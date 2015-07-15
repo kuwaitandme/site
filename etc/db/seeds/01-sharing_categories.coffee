@@ -12,8 +12,7 @@ exports.seed = (knex, Promise) ->
     (knex "sharing_categories").insert values
 
 
-  knex("sharing_categories").del()
-  .then -> Promise.join(
+  Promise.join(
     # First the parent categories
     (ins 1,  "General Items"),
     (ins 2,  "Careers & Jobs"),

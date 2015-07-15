@@ -1,21 +1,18 @@
 exports.seed = (knex, Promise) ->
   uid = 0
-  ins = (name="", slug) ->
+  ins = (name="") ->
     slug = name.toLowerCase().replace(/[&\-]/g, "").replace /[,\s]+/g, "-"
     values =
       id: ++uid
       slug: "#{slug}-#{uid}"
       name: name
-    (knex "forum_group_statuses").insert values
+    (knex "sharing_types").insert values
+
 
   Promise.join(
-    # Deletes ALL existing entries
-    knex("forum_group_statuses").del(),
-
     (ins "Active"),
     (ins "Banned"),
     (ins "Blocked"),
-    (ins "Disabled"),
     (ins "Flagged"),
     (ins "In-Active"),
     (ins "Rejected")

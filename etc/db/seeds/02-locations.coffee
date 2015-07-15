@@ -8,10 +8,8 @@ exports.seed = (knex, Promise) ->
       name: name
     (knex "locations").insert values
 
-  Promise.join(
-    # Deletes ALL existing entries
-    knex("locations").del(),
 
+  Promise.join(
     (ins 0, "None"),
     (ins null, "Abdullah Al-Salem"),
     (ins null, "Abraq Khaitan"),

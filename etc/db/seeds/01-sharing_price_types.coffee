@@ -9,9 +9,6 @@ exports.seed = (knex, Promise) ->
     (knex "sharing_price_types").insert values
 
   Promise.join(
-    # Deletes ALL existing entries
-    knex("sharing_price_types").del(),
-
     (ins "Contact Owner"),
     (ins "Free"),
     (ins "Range")
