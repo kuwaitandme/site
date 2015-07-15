@@ -215,5 +215,5 @@ exports["@singleton"] = true
 exports["@require"] = [
   "$container"
   "igloo/knex"
-  "controllers/cache"
+  "libraries/cache"
 ]

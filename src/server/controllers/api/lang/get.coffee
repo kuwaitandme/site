@@ -33,6 +33,6 @@ exports = module.exports = (settings, cache) ->
 
 exports["@require"] = [
   "igloo/settings"
-  "controllers/cache"
+  "libraries/cache"
 ]
 exports["@singleton"] = true

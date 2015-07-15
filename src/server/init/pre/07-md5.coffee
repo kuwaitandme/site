@@ -46,6 +46,6 @@ exports = module.exports = (IoC, settings, Cache) ->
 exports["@require"] = [
   "$container"
   "igloo/settings"
-  "controllers/cache"
+  "libraries/cache"
 ]
 exports["@singleton"] = true

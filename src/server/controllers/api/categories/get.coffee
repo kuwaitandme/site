@@ -27,6 +27,6 @@ exports = module.exports = (Categories, Cache, email) ->
 exports["@singleton"] = true
 exports["@require"] = [
   "models/categories"
-  "controllers/cache"
-  "controllers/email"
+  "libraries/cache"
+  "libraries/email"
 ]

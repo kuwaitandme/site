@@ -9,6 +9,6 @@ exports = module.exports = (IoC, Cache) ->
 
 exports["@require"] = [
   "$container"
-  "controllers/cache"
+  "libraries/cache"
 ]
 exports["@singleton"] = true

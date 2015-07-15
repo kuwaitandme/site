@@ -43,5 +43,5 @@ exports = module.exports = (BaseModel, Cache) ->
 exports["@singleton"] = true
 exports["@require"] = [
   "models/base/model"
-  "controllers/cache"
+  "libraries/cache"
 ]

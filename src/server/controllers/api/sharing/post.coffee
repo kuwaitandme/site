@@ -242,7 +242,7 @@ Events, Users) ->
 
 exports["@require"] = [
   "$container"
-  "controllers/email"
+  "libraries/email"
   "controllers/recaptcha"
   "controllers/uploader"
 

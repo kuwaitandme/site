@@ -35,5 +35,5 @@ exports = module.exports = (Classifieds, Cache) ->
 exports["@singleton"] = true
 exports["@require"] = [
   "models/classifieds"
-  "controllers/cache"
+  "libraries/cache"
 ]

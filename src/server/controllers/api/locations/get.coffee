@@ -23,6 +23,6 @@ exports = module.exports = (Locations, Cache) ->
 
 exports["@require"] = [
   "models/locations"
-  "controllers/cache"
+  "libraries/cache"
 ]
 exports["@singleton"] = true

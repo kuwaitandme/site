@@ -61,5 +61,5 @@ exports = module.exports = (knex, Cache) ->
 exports["@singleton"] = true
 exports["@require"] = [
   "igloo/knex"
-  "controllers/cache"
+  "libraries/cache"
 ]

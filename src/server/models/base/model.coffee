@@ -37,7 +37,6 @@ exports = module.exports = (knex) ->
 
 
     constructor: ->
-      console.log this
       # Initialize the schema.
       @initializeSchema()
 

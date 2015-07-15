@@ -64,7 +64,7 @@ exports = module.exports = (reCaptcha, Email, Classifieds, Messages, Users) ->
 
 exports["@require"] = [
   "controllers/recaptcha"
-  "controllers/email"
+  "libraries/email"
   "models/classifieds"
   "models/messages"
   "models/users"

@@ -94,7 +94,7 @@ exports = module.exports = (IoC, Email, reCaptcha, Users) ->
 
 exports["@require"] = [
   "$container"
-  "controllers/email"
+  "libraries/email"
   "controllers/recaptcha"
 
   "models/users"

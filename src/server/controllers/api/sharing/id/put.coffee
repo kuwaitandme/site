@@ -280,7 +280,7 @@ exports["@require"] = [
   "$container"
   "controllers/recaptcha"
   "controllers/uploader"
-  "controllers/email"
+  "libraries/email"
 
   "models/classifieds"
   "models/events"

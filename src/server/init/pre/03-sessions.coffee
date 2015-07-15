@@ -183,7 +183,7 @@ exports["@require"] = [
   "$container"
   "igloo/settings"
   "igloo/sessions"
-  "controllers/email"
+  "libraries/email"
   "policies"
 
   "models/events"
