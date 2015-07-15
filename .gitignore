@@ -90,7 +90,6 @@ boot/local.js
 .vagrant/
 /docs
 /bin/activate
-/var/public/uploads
 /var/public/build
 /var/public/checksums
 /var/public/javascripts/*.js
