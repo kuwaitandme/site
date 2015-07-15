@@ -20,6 +20,8 @@ module.exports = (app) ->
     "classified/category": require "./classified/category/controller"
     "classified/single": require "./classified/single/controller"
 
+    "forums": require "./forums/controller"
+
     "info/contact": require "./info/contact/controller"
     "info/donate": require "./info/donate/controller"
     # "info/about": require "./info/about/controller"
