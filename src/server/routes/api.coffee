@@ -49,6 +49,7 @@ exports = module.exports = (IoC) ->
   # r "/csrf",                                "csrf",                      GET
   # r "/logs",                                "logs",                      GET
   r "/forums/topics",                       "forums/topics",             GET
+  r "/forums/categories",                   "forums/categories",         GET
   # r "/lang/([a-z]+)",                       "lang",                      GET
   # r "/locations",                           "locations",                 GET
   # r "/messages/classified/([0-9]+)?",       "messages/classified",       POST
