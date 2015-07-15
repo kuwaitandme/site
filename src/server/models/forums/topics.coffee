@@ -10,6 +10,9 @@ exports = module.exports = (BaseModel, Enum) ->
   class Model extends BaseModel
     tableName: "forum_topics"
 
+    initialize: ->
+      (new Enum "forum_topic_statuses").then (json) => @statuses = json
+
 
   new Model
 
@@ -17,5 +20,5 @@ exports = module.exports = (BaseModel, Enum) ->
 exports["@singleton"] = true
 exports["@require"] = [
   "models/base/model"
-  # "models/base/enum"
+  "models/base/enum"
 ]

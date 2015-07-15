@@ -52,6 +52,7 @@ exports = module.exports = (knex) ->
       @model = bookshelf.Model.extend tableName: @tableName
       @collection = bookshelf.Collection.extend model: @model
 
+      if @initialize? then @initialize()
 
     ###
      [get description]
