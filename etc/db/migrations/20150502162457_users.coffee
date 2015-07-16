@@ -1,13 +1,13 @@
 exports.up = (knex, Promise) ->
   knex.schema.createTable "users", (table) ->
     table.increments().primary()
-    table.string("email").notNull().unique()
-    table.string("username").notNull().unique()
+    table.string("email").index().notNull().unique()
+    table.string("username").index().notNull().unique()
     table.string("slug").notNull().unique()
     table.string("password").notNull()
     table.string("reason").defaultTo ""
-    table.string("rss_token", 75).defaultTo ""
-    table.string("mailing_list_token", 75).defaultTo ""
+    table.string("rss_token", 75).index().unique().defaultTo ""
+    table.string("mailing_list_token", 75).unique().defaultTo ""
     table.string("signature").notNull().defaultTo ""
     table.text("about").notNull().defaultTo ""
     table.json("login_providers").defaultTo "{}"
