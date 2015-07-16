@@ -7,4 +7,10 @@
         a(fn-route="/forums/{{ category.slug }}") {{ category.name }}
       .description {{ category.description }}
       .posts
+        .post
+          strong.title
+            a(fn-route="/forums/topic/{{ topic.slug }}") {{ topic.title }}
+          a(fn-route="/user/{{ topic.created_by }}")
+            .avatar(ng-style="{'background-image': 'url(http://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?size=40px)'}")
+          .preview(ng-bind-html="topic.excerpt")
 

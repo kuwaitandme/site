@@ -2,8 +2,9 @@ exports.up = (knex, Promise) ->
   knex.schema.createTable "forum_topics", (table) ->
     table.increments().primary()
     table.text("content").notNull()
-    table.string("name").notNull()
+    table.string("title").notNull()
     table.string("slug").notNull()
+    table.string("excerpt").notNull()
     table.integer("forum_category").notNull().references("id").inTable "forum_categories"
     table.integer("created_by").notNull().references("id").inTable "users"
     table.integer("updated_by").references("id").inTable "users"
