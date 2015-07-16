@@ -98,9 +98,6 @@ boot/local.js
 /tmp
 /.env
 
-# Hide server configuration file
-/etc/config/local.coffee
-/etc/config/knexfile.coffee
 
 # hide log files
 /var/backups/*.tgz
