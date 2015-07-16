@@ -3,7 +3,8 @@ exports.up = (knex, Promise) ->
     table.increments().primary()
     table.string("name").notNull().unique()
     table.string("slug").notNull().unique()
-    table.timestamps()
+    table.timestamp("created_at").notNull().defaultTo knex.raw "now()"
+    table.timestamp("updated_at").notNull().defaultTo knex.raw "now()"
 
 
 exports.down = (knex, Promise) -> knex.schema.dropTable "forum_tags"

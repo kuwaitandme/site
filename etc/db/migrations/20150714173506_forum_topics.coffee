@@ -5,7 +5,7 @@ exports.up = (knex, Promise) ->
     table.string("title").notNull()
     table.string("slug").notNull()
     table.string("excerpt").notNull()
-    table.integer("forum_category").notNull().references("id").inTable "forum_categories"
+    table.integer("category").notNull().references("id").inTable "forum_categories"
     table.integer("created_by").notNull().references("id").inTable "users"
     table.integer("updated_by").references("id").inTable "users"
     table.integer("status").notNull().references("id").inTable "forum_topic_statuses"
@@ -14,8 +14,9 @@ exports.up = (knex, Promise) ->
     table.integer("language").notNull().references("id").inTable "languages"
     table.integer("reputation").notNull().defaultTo 0
     table.integer("edited").notNull().defaultTo 0
-    table.json("meta")
-    table.timestamps()
+    table.json("meta").defaultTo "{}"
+    table.timestamp("created_at").notNull().defaultTo knex.raw "now()"
+    table.timestamp("updated_at").notNull().defaultTo knex.raw "now()"
 
 
 exports.down = (knex, Promise) -> knex.schema.dropTable "forum_topics"
