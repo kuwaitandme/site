@@ -20,6 +20,7 @@ exports.seed = (knex, Promise) ->
   .then -> knex("sharing_statuses").del()
   .then -> knex("sharing_price_types").del()
   .then -> knex("sharing_categories").del()
+  .then -> knex("news_story_category").del()
   .then -> knex("news_stories").del()
   .then -> knex("news_categories").del()
   .then -> knex("users").del()
