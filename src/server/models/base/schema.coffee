@@ -66,7 +66,7 @@ module.exports =  class Schema
     @throws {Exception} e \- Throws an exception if any of the type values has
                              failed validation.
   ###
-  validate: (json) ->
+  validateSchema: (json) ->
     # Validate first based on the schema
     results = @v.validate json, @mainSchema
 

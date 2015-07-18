@@ -1,4 +1,5 @@
 module.exports = (route) ->
+  route "/news",                                       "news/index"
   route "/news/category/([0-9a-z]+)/page/([0-9]+)",    "news/index"
   route "/news/category/([0-9a-z]+)?",                 "news/index"
   route "/news/comments",                              "news/index"

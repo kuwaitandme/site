@@ -1,7 +1,6 @@
 Bookshelf         = require "bookshelf"
 Promise           = require "bluebird"
 _                 = require "underscore"
-jsonValidator     = require("jsonschema").Validator
 moment            = require "moment"
 traverse          = require "traverse"
 validator         = require "validator"
@@ -42,26 +41,38 @@ exports = module.exports = (knex) ->
 
       # Load the Bookshelf registry plugin, which helps us avoid circular
       # dependencies.
-      bookshelf.plugin "registry"
+      @bookshelf.plugin "registry"
 
       # Load the the app's pagination plugin, which gives us the `fetchPage`
       # method on Models.
       @bookshelf.plugin require "./pagination"
 
+
+      # @bookshelf.plugin require "./validation"
+
       # Create the model and collection instances.
-      @model = bookshelf.Model.extend tableName: @tableName
+      @model = bookshelf.Model.extend
+        tableName: @tableName
+        # initialize: -> @on "saving", @validateSchema
+
       @collection = bookshelf.Collection.extend model: @model
+
 
       if @initialize? then @initialize()
 
-    ###*
-     * Queries all the rows and finds the first matching row that matches the
-     * values in the parameters
-     *
-     * @param  {[type]} parameters={} [description]
-     * @return {[type]}                 [description]
+
     ###
-    findOne: (parameters={}) -> model.forge(parameters).fetch()
+      Queries all the rows and finds the first matching row that matches the
+      values in the parameters.
+
+      TODO: Fix for sqlinjection
+
+      @param {Object} parameters           The parameter with which we should
+                                           query the DB.
+      @return {Promise(Bookshelf.Model)}   A promise which resolves to the
+                                           matching rows.
+    ###
+    findOne: (parameters={}) -> @model.forge(parameters).fetch()
 
 
     ###
@@ -71,7 +82,7 @@ exports = module.exports = (knex) ->
      @return {[type]}    [description]
      @todo fix sql injection
     ###
-    get: (id) -> @model.forge(id: id).fetch()
+    get: (id) -> @findOne(id: id)
 
 
     ###

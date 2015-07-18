@@ -45,20 +45,21 @@ exports = module.exports = (IoC, settings) ->
       controller = IoC.create "controllers/#{controller}"
     router.get (new RegExp "^#{url}/?$"), controller
 
+  # Have all the routes redirect to the news page for now
 
   # Add route for the landing page
-  route "",              "index"
+  # route "",              "index"
 
   # Add route for each of the sub-pages
-  (require "./account")  route
-  (require "./auth")     route
-  (require "./food")     route
-  (require "./forums")   route
-  (require "./info")     route
-  (require "./meetups")  route
-  (require "./news")     route
-  (require "./sharing")  route
-  (require "./shopping") route
+  # (require "./account")  route
+  # (require "./auth")     route
+  # (require "./food")     route
+  # (require "./forums")   route
+  # (require "./info")     route
+  # (require "./meetups")  route
+  # (require "./sharing")  route
+  # (require "./shopping") route
+  require("./news")     route
 
   # If none of the routes matched, then route to the 404 controller!
   route ".*",            "errors/404"

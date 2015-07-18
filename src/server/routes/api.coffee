@@ -1,4 +1,4 @@
-express   = require "express"
+-express   = require "express"
 
 
 exports = module.exports = (IoC) ->
@@ -47,11 +47,9 @@ exports = module.exports = (IoC) ->
   # r "/categories",                          "categories",                GET
   # r "/categories/counters",                 "categories/counters",       GET
   # r "/csrf",                                "csrf",                      GET
-  # r "/logs",                                "logs",                      GET
-  r "/forums/topics",                       "forums/topics",             GET
-  r "/forums/categories",                   "forums/categories",         GET
   # r "/lang/([a-z]+)",                       "lang",                      GET
   # r "/locations",                           "locations",                 GET
+  # r "/logs",                                "logs",                      GET
   # r "/messages/classified/([0-9]+)?",       "messages/classified",       POST
   # r "/messages/contact",                    "messages/contact",          POST
   # r "/notifications",                       "notifications",             GET
@@ -64,15 +62,22 @@ exports = module.exports = (IoC) ->
   # r "/sharing/([0-9]+)/(next|prev)",        "sharing/id/next-prev",      GET
   # r "/sharing/([0-9]+)/prev",               "sharing/id/prev",           GET
   # r "/sharing/slug/([^/]+)",                "sharing/slug",              GET
-  r "/users",                               "users",                     GET
   # r "/users/([0-9]+)?",                     "users",                     DELETE
-  r "/users/([0-9]+)?",                     "users/id",                  GET
   # r "/users/([0-9]+)?",                     "users",                     PATCH
   # r "/users/([0-9]+)?",                     "users",                     PUT
   # r "/users/current",                       "users/current",             GET
+  r "/forums/categories",                   "forums/categories",         GET
+  r "/forums/topics",                       "forums/topics",             GET
+  r "/news",                                "/news",                     GET
+  r "/news/([0-9]+)",                       "/news/:id",                 GET
+  r "/news/top",                            "/news/top",                 GET
+  r "/news/categories",                     "/news/categories",          GET
+  r "/users",                               "users",                     GET
+  r "/users/([0-9]+)?",                     "users/id",                  GET
 
   app.use "/api", router
 
 
 exports["@require"] = ["$container"]
 exports["@singleton"] = true
+

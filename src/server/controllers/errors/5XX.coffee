@@ -2,15 +2,20 @@ exports = module.exports = (renderer, settings) ->
   controller = (error, request, response, next) ->
     response.status error.status or 500
 
+    isProduction = settings.server.env == "production"
+    console.log isProduction
+
     # In production, no stack-traces leaked to user
-    if settings.server.env is "production" then error.stack = null
+    if isProduction then error.stack = null
+    # In development, display the error on console
+    else console.trace error
 
     # For API request just return a JSON version of the message
     if request.url.indexOf("/api") > -1 then return response.json error.message
 
+
     # Render 404 errors separately.
     template = if error.status is 404 then "404" else "error"
-
 
     options =
       page: "errors/5XX"
