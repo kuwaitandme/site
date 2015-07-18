@@ -1,4 +1,5 @@
 bCrypt    = require "bcrypt-nodejs"
+md5       = require "MD5"
 
 hashPassword = (p) -> bCrypt.hashSync p, (bCrypt.genSaltSync 10), null
 
@@ -6,6 +7,8 @@ exports.seed = (knex, Promise) ->
   # New admin, username: admin, password: admin
   newAdmin =
     id: 1
+    rss_token: md5 "#{Math.random()}"
+    mailing_list_token: md5 "#{Math.random()}"
     email: "admin@mail.com"
     username: "admin"
     slug: "admin"
@@ -22,6 +25,8 @@ exports.seed = (knex, Promise) ->
   # New moderator, username: moderator, password: moderator
   newModerator =
     id: 2
+    rss_token: md5 "#{Math.random()}"
+    mailing_list_token: md5 "#{Math.random()}"
     email: "moderator@mail.com"
     username: "moderator"
     slug: "moderator"
@@ -38,6 +43,8 @@ exports.seed = (knex, Promise) ->
   # New regular user, username: john, password: pass
   newUser =
     id: 3
+    rss_token: md5 "#{Math.random()}"
+    mailing_list_token: md5 "#{Math.random()}"
     email: "john@mail.com"
     username: "john"
     slug: "john"

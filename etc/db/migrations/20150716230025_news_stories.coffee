@@ -8,11 +8,12 @@ exports.up = (knex, Promise) ->
     table.string("url", 250).index().defaultTo ""
     table.integer("upvotes").notNull().defaultTo 0
     table.integer("downvotes").notNull().defaultTo 0
+    table.integer("comments_count").notNull().defaultTo 0
     table.decimal("hotness", 20, 10).index().notNull().defaultTo 0.0
     table.boolean("is_expired").defaultTo false
     table.boolean("is_moderated").defaultTo false
     table.integer("merged_story").index().notNull().references("id").inTable "news_stories"
-    table.text("story_cache")
+    table.text("story_cache").defaultTo ""
     table.json("meta").defaultTo "{}"
     table.integer("created_by").notNull().references("id").inTable "users"
     table.integer("updated_by").references("id").inTable "users"

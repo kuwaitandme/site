@@ -6,7 +6,7 @@ exports.seed = (knex, Promise) ->
     title: "Welcome to your NodeBB!"
     slug: "welcome-to-your-nodebb-1"
     excerpt: "Welcome to your brand new forum!<p>This is what a topic"
-    forum_category: 1
+    category: 1
     status: 1
     created_by: 1
     language: 1
