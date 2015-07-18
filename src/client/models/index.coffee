@@ -8,6 +8,9 @@ module.exports = (app) ->
   app.factory "models.messages",      require "./messages"
   app.factory "models.notifications", require "./notifications"
   app.factory "models.users",         require "./users"
-  app.factory "models.forums.categories",         require "./forums/categories"
 
+  app.factory "models.forums.categories",     require "./forums/categories"
   app.factory "models.forums.topics",         require "./forums/topics"
+
+  app.factory "models.news.categories",     require "./news/categories"
+  app.factory "models.news.stories",        require "./news/stories"

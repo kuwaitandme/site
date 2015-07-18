@@ -1,0 +1,100 @@
+body#news
+  background: #FFF
+  main
+    max-width: 800px
+    padding: 0 10px
+    margin-bottom: 50px
+
+    a
+      +single-transition(border)
+      text-decoration: none
+
+    nav
+      +clearfix
+      a
+        @extend .font-roboto
+        // text-transform: uppercase
+        font-size: 14px
+        padding: 3px 0
+        margin: 0 10px
+        color: #777
+        border-bottom: 2px solid #EEE
+        font-weight: bold
+        float: left
+        &:hover
+          color: #F60
+          border-color: #F60
+
+    .page-links
+      font-size: 12px
+      padding-bottom: 10px
+      border-bottom: 2px solid #F60
+      a
+        text-transform: uppercase
+        color: #777
+        font-weight: bold
+        display: block
+        &:hover
+          color: #F60
+    .stories
+      background: #FFF
+      margin: 20px auto
+
+      li
+        +clearfix
+        .link a
+          // @extend .font-cantarell
+          color: #000
+          font-size: 12pt
+          font-weight: bold
+          margin-right: 5px
+          // &:visited
+          //   color: #777
+          &:hover
+            color: $news-color
+            text-decoration: none
+        a
+          text-decoration: none
+          &:hover
+            text-decoration: underline
+        .story_liner
+          padding: 0.3em 0
+
+        .tags
+          margin-right: 0.25em
+
+        .domain
+          font-style: italic
+
+        .details
+          color: #888
+          font-size: 8.5pt
+          margin-left: 50px
+
+        .voters
+          float: left
+
+          .upvoter
+            border-color: transparent transparent #CCC transparent
+            border-style: solid
+            border-width: 6px
+            border-bottom-width: 11px
+            display: block
+            height: 0
+            margin-bottom: 0px
+            margin-left: 5px
+            padding: 0
+            text-decoration: none
+            width: 0px
+            &:hover
+              border-color: transparent transparent $news-color transparent
+
+        .index
+          float: left
+          color: #CCC
+          font-size: 9pt
+          margin-top: 2px
+          margin-bottom: -3px
+          text-align: center
+          font-weight: bold
+          width: 20px

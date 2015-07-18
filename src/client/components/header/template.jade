@@ -1,12 +1,30 @@
-//- #main-header.columns(ng-scrollup-class="nav-up")
-#main-header
+#main-header(ng-init="showMenuHeader = false", class="{{ route }}")
   #header-logo-container
-    a#header-logo(fn-route="/")
-  //- #grabber-container(ng-click="toggleHeader()")
-    #grabber
+    a(fn-route="/")
+      img(src="/images/header/logo.png")
+  #header-logo-container
+  #grabber-container(ng-click="showMenuHeader = !showMenuHeader")
+    img(src="/images/header/grabber.png")
 
 
-nav#sub-header
+nav#menu-header(ng-class="{'show-menuheader': showMenuHeader}")
+  ul.main-sublinks.small-block-grid-3.medium-block-grid-6
+    //- li.food
+      a(fn-route="/food") Food
+    li.forums
+      a(fn-route="/forums") Forums
+    li.meetups
+      a(fn-route="/meetups") Meetups
+    li.news(ng-class="{active: route == 'news'}")
+      a(fn-route="/news") News
+    li.sharing
+      a(fn-route="/sharing") Sharing
+    li.stories
+      a(fn-route="/stories") Stories
+    li.contribute
+      a(fn-route="/info/contribute") Contribute
+
+//- nav#sub-header
   ul.main-sublinks.small-block-grid-3.medium-block-grid-6
     //- li.food
       a(fn-route="/food") Food

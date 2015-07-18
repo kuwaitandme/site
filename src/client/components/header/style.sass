@@ -4,6 +4,8 @@ main
   +single-transition
 
 header
+  $border-color: #EEE
+
   // position: fixed
   // top: 0
   // left: 0
@@ -12,33 +14,27 @@ header
   z-index: 4
 
   $shadow-opacity: 0.1
-  border-bottom: 2px solid #DEDEDE
+  // border-bottom: 1px solid $border-color
 
   #header-logo-container
     cursor: pointer
-    left: 50%
-    margin-left: (146/2) * -1px
-    padding: 14px 0
+    left: 70px
+    // margin-left: (146/2) * -1px
+    padding: 13px 0
     position: absolute
     top: 0
 
-    #header-logo
-      background-image: url(#{$image_root}/images/header/logo.png)
-      background-size: 147px
-      display: block
-      height: 27px
-      width: 146px
+    img
+      height: 21px
+      width: 112px
 
   #grabber-container
     cursor: pointer
     float: left
-    padding: 19px 25px
-    #grabber
-      background-image: url(#{$image_root}/images/header/grabber.png)
-      background-size: 100%
-      height: 21px
-      position: relative
-      width: 21px
+    padding: 16px 25px 18px 20px
+    img
+      height: 16px
+      width: 16px
 
   #header-logo, #grabber
     background-repeat: no-repeat
@@ -46,38 +42,48 @@ header
   #main-header
     +clearfix
     +single-transition
-    border-bottom: 1px solid #f9f9f9
+    // border-bottom: 1px solid $border-color
+    // background: #41274B
     height: $headerHeight
     z-index: 1
 
     &.nav-up
       margin-top: -$headerHeight
-    #nav-social-container
-      @extend .font-awesome
-      float: right
-      a
-        +single-transition
-        display: inline-block
-        font-size: 0.9rem
-        opacity: 0.3
-        padding: 24px 8px
-        text-decoration: none
-        &:hover
-          opacity: 1
 
 
-  nav#sub-header
-    border-top: 1px solid #ddd
-    // display: none
+  nav#menu-header
+    +single-transition
+    border-bottom: 1px solid $border-color
+    border-top: 1px solid $border-color
+    transform: translateY(-70px)
+    height: 0
+    opacity: 0
+    display: none
+    z-index: 0
+
+    &.show-menuheader
+      display: block
+      opacity: 1
+      height: auto
+      transform: translateY(0)
+      // display: block
 
     ul.main-sublinks
+      background: #FFF
       margin: 0 auto
       max-width: 800px
       li
-        border-left: 1px solid #ddd
-        // border-bottom: 1px solid #ddd
+        border-left: 1px solid $border-color
         padding: 0
-        color: #777
+        color: #555
+
+        &:last-child
+          border-right: 1px solid $border-color
+        @media #{$small-only}
+          border-bottom: 1px solid $border-color
+          &:last-child
+            border-right: 0
+
         a
           +single-transition(background)
           text-decoration: none
@@ -88,22 +94,27 @@ header
           text-align: center
           text-transform: uppercase
           font-size: 10px
-          &:hover
-            background: #CB202E
-            color: #FFF
 
-        &.contribute a:hover
-          background: #FAA617
-        &.forums a:hover
-          background: #2461B2
-        &.stories a:hover
-          background: #A0C9CC
-        &.meetups a:hover
-          background: #009F5E
-        &.news a:hover
-          background: #41274B
-        &:last-child
-          border-right: 1px solid #ddd
+        &.sharing, &
+          a:hover, &.active
+            background: $sharing-color
+            color: #FFF
+        &.contribute
+          a:hover, &.active a
+            border-color: $contribute-color
+        &.forums
+          a:hover, &.active a
+            background: $forum-color
+        &.stories
+          a:hover, &.active a
+            background: $stories-color
+        &.meetups
+          a:hover, &.active a
+            background: $meetups-color
+        &.news
+          a:hover, &.active a
+            background: $news-color
+
 
 @media print
   header

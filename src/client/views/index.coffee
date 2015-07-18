@@ -21,6 +21,7 @@ module.exports = (app) ->
     "classified/single": require "./classified/single/controller"
 
     "forums": require "./forums/controller"
+    "news": require "./news/controller"
 
     "info/contact": require "./info/contact/controller"
     "info/donate": require "./info/donate/controller"

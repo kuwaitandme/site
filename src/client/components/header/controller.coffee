@@ -7,6 +7,8 @@ exports = module.exports = ($scope, $root, $log, $timeout, $location,
 Notifications) ->
   $log.log name, "initializing"
 
+  $scope.route = "news"
+
   $scope.notifications = []
   $scope.unreadNotifications = 0
 
