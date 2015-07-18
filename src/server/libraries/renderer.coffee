@@ -86,27 +86,34 @@ exports = module.exports = (settings, Cache) ->
       ###
       htmlOptions.publicData.md5 = settings.md5 or {}
 
+      # headers: { 'Content-Type': 'application/json' }
+
       # Compile and render the page
-      viewURL = "#{settings.views.dir}/main/#{options.page}.jade"
-      fn = jade.compileFile viewURL, jadeOptions
-      html = fn htmlOptions
+      if not request.xhr
+        viewURL = "#{settings.views.dir}/main/#{options.page}.jade"
+        fn = jade.compileFile viewURL, jadeOptions
+        html = fn htmlOptions
 
-      ###
-        Now that we have compiled the HTML, we decide if we want to cache it or
-        not.
+        ###
+          Now that we have compiled the HTML, we decide if we want to cache it or
+          not.
 
-        Note that these function return a promise which then resolves to
-        the HTML code, so the next promise function will definitely receive
-        HTML one way or the other
-      ###
-      if cacheTimeout then Cache.set cacheKey, html, cacheTimeout
-      else if cacheEnable then Cache.set cacheKey, html
-      else html
+          Note that these function return a promise which then resolves to
+          the HTML code, so the next promise function will definitely receive
+          HTML one way or the other
+        ###
+        if cacheTimeout then return Cache.set cacheKey, html, cacheTimeout
+        else if cacheEnable then return Cache.set cacheKey, html
+        else return html
+      else return options.data
+
 
     # Finally write to the response!
-    .then (html) ->
-      response.header "Content-Type", "text/html; charset=utf-8"
-      response.end html
+    .then (data) ->
+      if not request.xhr
+        response.header "Content-Type", "text/html; charset=utf-8"
+        response.end data
+      else response.json data
 
 
 exports["@require"] = [
