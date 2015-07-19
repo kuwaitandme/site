@@ -1,8 +1,8 @@
 .story_liner
   .index {{ $index + 1}}
-  .voters
-    a.upvoter(ng-if="can_upvote")
-    a.upvoter(fn-route="/login", ng-if="!can_upvote")
+  .voters()
+    //- a.upvoter.hide-if-loggedin(fn-route="/login", ng-if="!can_upvote")
+    a.upvoter.show-if-loggedin(ng-click="upvote()", ng-class="{voted: hasVoted}")
   .details
     span.link
       span(ng-if="!story.is_gone")
@@ -13,7 +13,7 @@
     span.tags(ng-if="!story.is_gone")
     a.domain(ng-href="{{ story.url }}") ({{ story.domain }})
     | &nbsp;&middot;&nbsp;
-    span {{ story.upvotes + story.downvotes }} points by&nbsp;
+    span {{ story.score }} points by&nbsp;
     span
       a(fn-route="/user/@puskin") puskin
     //- | &nbsp;&middot;&nbsp;

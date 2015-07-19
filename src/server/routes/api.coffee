@@ -69,12 +69,13 @@ exports = module.exports = (IoC) ->
   r "/forums/categories",                   "forums/categories",         GET
   r "/forums/topics",                       "forums/topics",             GET
   r "/news",                                "/news",                     GET
-  r "/news/([0-9]+)",                       "/news/:id",                 GET
   r "/news/categories",                     "/news/categories",          GET
+  r "/news/recent",                         "/news/recent",              GET
   r "/news/scrape",                         "/news/scrape",              GET
   r "/news/stories",                        "/news/stories",             POST
+  r "/news/stories/([0-9]+)",               "/news/stories/:id",         GET
+  r "/news/stories/([0-9]+)/upvote",        "/news/stories/:id/upvote",  PUT
   r "/news/top",                            "/news/top",                 GET
-  r "/news/recent",                         "/news/recent",              GET
   r "/users",                               "users",                     GET
   r "/users/([0-9]+)?",                     "users/id",                  GET
 

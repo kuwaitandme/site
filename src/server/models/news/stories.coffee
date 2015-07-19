@@ -18,7 +18,8 @@ exports = module.exports = (BaseModel, Enum, Users) ->
     tableName: "news_stories"
 
 
-    top: (options) -> @query({}, options)
+    top: (options) -> @query {}, order: hotness: "DESC"
+
 
     # Setup the enum types
     enums: categories: tableName: "news_categories"
@@ -62,7 +63,19 @@ exports = module.exports = (BaseModel, Enum, Users) ->
       else throw new Error "must contain either description or URL"
 
 
-    fetchPage: (query, options) -> @model.forge(query).fetchPage options
+
+
+    upvote: (story_id, user_id) ->
+      @knex('news_votes').insert
+        user: user_id
+        story: story_id
+        is_upvote: true
+      .then =>
+        @get(story_id).then (model) ->
+          model.set "upvotes", 1 + model.get "upvotes"
+          model.set "hotness", Math.random * 10 * model.get "upvotes"
+          # calculate_hotness
+          model.save()
 
 
     isRecent: (json) -> json.created_at >= RECENT_DAYS.days.ago #fix this

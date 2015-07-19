@@ -23,9 +23,11 @@ exports = module.exports = (knex, Enum) ->
 
     tableName: ""
 
-    # Give a clean bookshelf instance, just in case we would need one without
-    # all our modifications.
+    # Give a clean bookshelf & knex instance, just in case we would need one
+    # without all our modifications.
     bookshelf: Bookshelf knex
+    knex: knex
+
 
     # List of different enums
     enums: []
