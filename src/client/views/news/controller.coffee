@@ -6,15 +6,13 @@ exports = module.exports = ($scope, $root, $stateParams, $log, $http, $location)
   $log.debug name, "routeParams", $stateParams
 
 
+  if /recent/.test $location.path() then $scope.ifRecent = "/recent"
+
+
   $http.get $location.url()
   .success (data) ->
-    stories = data.concat data
-    stories = stories.concat stories
-    stories = stories.concat stories
-    # stories = stories.concat stories
-    # stories = stories.concat stories
-    for story in stories then story.score = Math.floor Math.random() * 100
-    $scope.stories = stories
+    $scope.pagination = data.pagination
+    $scope.stories = data.collection
     $scope.$emit "page:loaded"
 
 

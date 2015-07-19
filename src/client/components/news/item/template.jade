@@ -1,0 +1,23 @@
+.story_liner
+  .index {{ $index + 1}}
+  .voters
+    a.upvoter(ng-if="can_upvote")
+    a.upvoter(fn-route="/login", ng-if="!can_upvote")
+  .details
+    span.link
+      span(ng-if="!story.is_gone")
+        a(fn-route="{{ story.url }}") {{ story.title }}
+      span(ng-if="story.is_gone")
+        | [Story removed by {{ story.is_moderated ? "moderator" : "original submitter" }}]
+
+    span.tags(ng-if="!story.is_gone")
+    a.domain(ng-href="{{ story.url }}") ({{ story.domain }})
+    | &nbsp;&middot;&nbsp;
+    span {{ story.upvotes + story.downvotes }} points by&nbsp;
+    span
+      a(fn-route="/user/@puskin") puskin
+    //- | &nbsp;&middot;&nbsp;
+    //- span.comments_label
+      a(fn-route="/news/story/{{ story.shortid }}") {{ story.comments_count }} {{ story.comments_count == 1 ? "comment" : "comments" }}
+    | &nbsp;&middot;&nbsp;
+    span.timestamp {{ story.created_at | prettydate }}

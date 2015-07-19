@@ -14,8 +14,6 @@ Notifications) ->
     reselectColor()
 
 
-
-
   reselectColor = ->
     switch $scope.route
       when "contribute" then $scope.mainColor = "#FAA617"

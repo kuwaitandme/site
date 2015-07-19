@@ -1,7 +1,7 @@
 name = "[page:news]"
 
 
-exports = module.exports = ($scope, $root, $stateParams, $log, $http, $location) ->
+exports = module.exports = ($scope, $root, $stateParams, $log, $http, $location, Stories) ->
   $log.log name, "initializing"
   $log.debug name, "routeParams", $stateParams
   $scope.$emit "page:loaded"
@@ -15,7 +15,9 @@ exports = module.exports = ($scope, $root, $stateParams, $log, $http, $location)
     .success (info) -> $scope.story.title = info.title
     .finally -> $scope.formClasses = loading: $scope.formLoading = false
 
-  $scope.submit = (data) -> console.log data
+  $scope.submit = (data) ->
+    Stories.create data
+    .then -> $location.path "/news/recent"
 
 
 
@@ -27,4 +29,5 @@ exports.$inject = [
 
   "$http"
   "$location"
+  "models.news.stories"
 ]

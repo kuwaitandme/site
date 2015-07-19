@@ -10,6 +10,12 @@ exports = module.exports = ($environment, $http, $log, $storage) ->
       $http.get "#{API}"
 
 
+    create: (data) ->
+      $http
+        data: data
+        method: "POST"
+        url: "#{$environment.url}/api/news/stories"
+
 
 
 exports.$inject = [

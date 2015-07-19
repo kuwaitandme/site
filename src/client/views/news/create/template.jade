@@ -15,7 +15,7 @@ form(name="form", ng-class="formClasses", ng-init="showGuidlines = false; showMa
     .row.collapse
       label.columns.large-1 Text
       textarea.columns.large-11(placeholder="Optional when submitting a URL; please see guidelines",
-        ng-model="story.text", ng-disabled="formLoading")
+        ng-model="story.description", ng-disabled="formLoading")
 
   a.guidlines.columns.medium-6(ng-click="showGuidlines = !showGuidlines") Story submission guidlines
   a.markdown.columns.medium-6(ng-click="showMarkdown = !showMarkdown") Markdown formatting available
@@ -107,4 +107,4 @@ form(name="form", ng-class="formClasses", ng-init="showGuidlines = false; showMa
 
 
   .columns
-    button(ng-click="submit(story)") Submit
+    button(ng-click="submit(story)", ng-if="form.$valid") Submit

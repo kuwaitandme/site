@@ -20,10 +20,24 @@ $timeout, Languages, Users, $window) ->
     $scope.usernameValid = value?
 
 
+
+  # Function to perform user registration
+  $scope.signup = {}
   $scope.doSignup = (data) ->
-    $scope.formClasses = loading: true
-    $scope.formLoading = true
-    $timeout (-> $scope.page = 3), 1000
+    $scope.formClasses = loading: $scope.formLoading = true
+    Users.signup data
+    .then (response) -> $scope.page = 3
+    .catch (response) ->
+      switch response.data
+        when "user already registered with email"
+          error = "An account is registered with that email. You can
+            login with that email."
+        else error = "Signup failed. Please check your credentials or try
+        again later"
+
+      $notifications.error error, 7000
+      $log.error name, response.data, response.status
+    .finally -> $scope.formClasses = loading: $scope.formLoading = false
 
 
 

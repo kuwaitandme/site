@@ -12,7 +12,10 @@ module.exports = (app) ->
 
   app.directive "auth", require "./auth/directive"
   app.directive "header", require "./header/directive"
+
   app.directive "newsHeader", require "./news/header/directive"
+  app.directive "newsItem", require "./news/item/directive"
+
   app.directive "notifications", require "./notifications/directive"
 
   # app.directive "formUi", require "./form-ui/directive"

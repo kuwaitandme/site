@@ -1,0 +1,58 @@
+news-item
+  +clearfix
+  .link a
+    // @extend .font-cantarell
+    color: #000
+    font-size: 12pt
+    font-weight: bold
+    margin-right: 5px
+    // &:visited
+    //   color: #777
+    &:hover
+      color: $news-color
+      text-decoration: none
+  a
+    text-decoration: none
+    &:hover
+      text-decoration: underline
+  .story_liner
+    padding: 0.3em 0
+
+  .tags
+    margin-right: 0.25em
+
+  .domain
+    font-style: italic
+
+  .details
+    color: #888
+    font-size: 8.5pt
+    margin-left: 50px
+
+  .voters
+    float: left
+
+    .upvoter
+      border-color: transparent transparent #CCC transparent
+      border-style: solid
+      border-width: 6px
+      border-bottom-width: 11px
+      display: block
+      height: 0
+      margin-bottom: 0px
+      margin-left: 5px
+      padding: 0
+      text-decoration: none
+      width: 0px
+      &:hover
+        border-color: transparent transparent $news-color transparent
+
+  .index
+    float: left
+    color: #CCC
+    font-size: 9pt
+    margin-top: 2px
+    margin-bottom: -3px
+    text-align: center
+    font-weight: bold
+    width: 20px

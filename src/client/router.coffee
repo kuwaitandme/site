@@ -36,10 +36,12 @@ exports = module.exports = ($stateProvider, $locationProvider, $urlMatcher,
   _route "forums",                      "/forums/{parent:[^/]+}"
   # _route "index",                       ""
   _route "news",                        "/news"
+  _route "news",                        "/news/page/{page:[0-9]+}"
   _route "news",                        "/news/comments"
   _route "news/create",                 "/news/create"
   _route "news",                        "/news/filters"
   _route "news",                        "/news/recent"
+  _route "news",                        "/news/recent/page/{page:[0-9]+}"
   _route "news",                        "/news/search"
   _route "error/404",                   "*page"
 
