@@ -1,7 +1,7 @@
 ###*
  *
  *
- * @author Steven Enamakel <m2=e@steven.pw>
+ * @author Steven Enamakel <me@steven.pw>
 ###
 u = publicData.staticUrl
 
@@ -9,7 +9,7 @@ u = publicData.staticUrl
 # Set this to the total number of scripts in the page. Ideally we could use a
 # loop and find out programatically, but I prefer to hard-code it as the
 # dependencies don't change that often.
-maxScriptCount = 12
+maxScriptCount = 13
 
 
 #
@@ -30,6 +30,7 @@ window.scripts = [
       "//ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular-touch.min.js"
       "//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.14/angular-ui-router.min.js"
       "//cdnjs.cloudflare.com/ajax/libs/masonry/3.3.0/masonry.pkgd.min.js"
+      "//cdnjs.cloudflare.com/ajax/libs/angular-md5/0.1.7/angular-md5.min.js"
       # "//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.5/socket.io.min.js"
     ]
     local: "/build/md5/libraries_#{ publicData.md5['libraries.js'] }.js"
@@ -55,11 +56,6 @@ window.scripts = [
     ]
   }
 ]
-
-
-# Defining this function for some reason fixes the google maps API from not
-# loading. This function is set as the callback fn. in the maps's URL.
-window.initializeGmap = ->
 
 
 # Define some variables
