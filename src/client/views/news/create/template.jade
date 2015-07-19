@@ -106,5 +106,7 @@ form(name="form", ng-class="formClasses", ng-init="showGuidlines = false; showMa
           tt ![alt text](http://example.com/image.jpg) (only allowed in story text)
 
 
-  .columns
-    button(ng-click="submit(story)", ng-if="form.$valid") Submit
+  .columns(ng-if="form.$valid")
+    div(google-recaptcha, ng-model="story.gcaptcha", ng-if="!story.gcaptcha")
+
+    button(ng-click="submit(story)", ng-if="story.gcaptcha") Submit

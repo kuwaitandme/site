@@ -16,7 +16,10 @@ exports = module.exports = ($environment, $http, $log, $storage) ->
         method: "POST"
         url: "#{$environment.url}/api/news/stories"
 
-
+    upvote: (id) ->
+      $http
+        method: "PUT"
+        url: "#{$environment.url}/api/news/stories/#{id}/upvote"
 
 exports.$inject = [
   "$environment"

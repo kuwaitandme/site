@@ -13,7 +13,7 @@ exports = module.exports = ($stateProvider, $locationProvider, $urlMatcher,
       url: route
       resolve:
         categories: ["models.forums.categories", (m) -> m.download()]
-        # user: ["models.users", (m) -> m.download()]
+        user: ["models.users", (m) -> m.download()]
         # location: ["models.locations", (m) -> m.download()]
         # notifications: ["models.notifications", (m) -> m.download()]
 
