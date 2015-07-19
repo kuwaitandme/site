@@ -123,27 +123,29 @@ header
       background: $subHeaderColor
     #menu-header
       opacity: 1
+
       -webkit-transform: translate3D(0,0,0)
       -ms-transform: translate3D(0,0,0)
       transform: translate3D(0,0,0)
-
     #main-header
       -webkit-transform: translate3D($subHeaderWidth, 0, 0)
       -ms-transform: translate3D($subHeaderWidth, 0, 0)
       transform: translate3D($subHeaderWidth, 0, 0)
     .nav-cover
-      position: fixed
-      top: 0
-      right: 0
-      left: $subHeaderWidth
       bottom: 0
+      left: $subHeaderWidth
+      position: fixed
+      right: 0
+      top: 0
       z-index: 200
 
   main
     opacity: 0.1
+
     -webkit-transform: translate3D(50px, 0, 0)
     -ms-transform: translate3D(50px, 0, 0)
     transform: translate3D(50px, 0, 0)
+
 
 @media print
   header

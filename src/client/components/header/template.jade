@@ -3,26 +3,28 @@
     a(fn-route="/")
       img(src="/images/header/logo.png")
   #header-logo-container
-  #grabber-container(ng-click="toggleHeader()")
+  #grabber-container(ng-click="toggleHeader()"
+    ng-style="{background: mainColor}")
     img(src="/images/header/grabber{{ showMenuHeader ? '-white' : '' }}.png",)
 
 
-nav#menu-header(ng-class="{'show-menuheader': showMenuHeader}")
+nav#menu-header(ng-class="{'show-menuheader': showMenuHeader}",
+  ng-style="{background: mainColor, 'border-color':mainColor}")
   ul.main-sublinks
     //- li.food
       a(fn-route="/food") Food
-    li.forums
+    li.forums(ng-class="{active: route == 'forums'}")
       a(fn-route="/forums") Forums
-    li.meetups
+    li.meetups(ng-class="{active: route == 'meetups'}")
       a(fn-route="/meetups") Meetups
-    li.news.active
-      a(fn-route="/news", ng-class="{active: route == 'news'}") News
-    li.sharing
+    li.news(ng-class="{active: route == 'news'}")
+      a(fn-route="/news") News
+    li.sharing(ng-class="{active: route == 'sharing'}")
       a(fn-route="/sharing") Sharing
-    li.stories
+    li.stories(ng-class="{active: route == 'stories'}")
       a(fn-route="/stories") Stories
     li.contribute
-      a(fn-route="/info/contribute") Contribute
+      a(href="https://github.com/kuwaitandme/site/blob/develop/CONTRIBUTION.md") Contribute
   ul.second-sublinks
     li
       a(fn-route="/login") Login

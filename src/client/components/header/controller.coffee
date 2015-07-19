@@ -7,7 +7,26 @@ exports = module.exports = ($scope, $root, $log, $timeout, $location,
 Notifications) ->
   $log.log name, "initializing"
 
-  $scope.route = "news"
+
+  $root.$on "$viewContentLoaded", ->
+    try $scope.route = $location.path().split("/")[1]
+    catch e then $scope.route = ""
+    reselectColor()
+
+
+
+
+  reselectColor = ->
+    switch $scope.route
+      when "contribute" then $scope.mainColor = "#FAA617"
+      when "forums" then $scope.mainColor = "#2461B2"
+      when "meetups" then $scope.mainColor = "#009F5E"
+      when "news" then $scope.mainColor = "#F60"
+      when "sharing" then $scope.mainColor = "#CB202E"
+      when "stories" then $scope.mainColor = "#A0C9CC"
+      else $scope.mainColor = "#FFF"
+
+    if not $scope.showMenuHeader then $scope.mainColor = "#FFF"
 
   $scope.notifications = []
   $scope.unreadNotifications = 0
@@ -15,11 +34,13 @@ Notifications) ->
   # A click handler to display the sub header
   $scope.openHeader = ->
     $root.bodyClasses["show-subheader"] = $scope.showMenuHeader = true
+    reselectColor()
 
 
   # A click handler to hide the sub header.
   $scope.closeHeader = ->
     $root.bodyClasses["show-subheader"] = $scope.showMenuHeader = false
+    reselectColor()
 
 
   $root.$on "$stateChangeStart", $scope.closeHeader
