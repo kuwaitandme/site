@@ -13,24 +13,14 @@ Notifications) ->
   $scope.unreadNotifications = 0
 
   # A click handler to display the sub header
-  $scope.openHeader = -> $root.bodyClasses["show-subheader"] = true
-
-  # This function sends an event which gets picked by the auth component and
-  # shows the auth modal..
-  $scope.showAuth = -> $root.$broadcast "component:auth:show"
+  $scope.openHeader = ->
+    $root.bodyClasses["show-subheader"] = $scope.showMenuHeader = true
 
 
-  # A click handler to hide the sub header. It also removes all unwanted unread
-  # notifications.
+  # A click handler to hide the sub header.
   $scope.closeHeader = ->
-    $root.bodyClasses["show-subheader"] = false
-    count = 0
-    for notification in $scope.notifications
-      # Mark this notification as 'read'
-      notification.hasRead = true
-      # Remove all notifications that have exceeded our limit
-      if ++count > maxUnreadNotifications
-        notification.remove = true
+    $root.bodyClasses["show-subheader"] = $scope.showMenuHeader = false
+
 
   $root.$on "$stateChangeStart", $scope.closeHeader
 

@@ -1,14 +1,14 @@
 name = "[page:news]"
 
 
-exports = module.exports = ($scope, $root, $stateParams, $log, Categories, News, $sce) ->
+exports = module.exports = ($scope, $root, $stateParams, $log, $http, $location) ->
   $log.log name, "initializing"
   $log.debug name, "routeParams", $stateParams
 
 
-  $scope.categories = Categories.getAll()
-  News.top().success (stories) ->
-    stories = stories.concat stories
+  $http.get $location.url()
+  .success (data) ->
+    stories = data.concat data
     stories = stories.concat stories
     stories = stories.concat stories
     # stories = stories.concat stories
@@ -24,7 +24,6 @@ exports.$inject = [
   "$stateParams"
   "$log"
 
-  "models.news.categories"
-  "models.news.stories"
-  "$sce"
+  "$http"
+  "$location"
 ]

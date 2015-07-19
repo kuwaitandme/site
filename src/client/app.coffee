@@ -50,6 +50,7 @@ app = angular.module "App", [
   "ngTouch"
   "ui.router"
   "cfp.hotkeys"
+  "angular-md5"
   # "btford.socket-io"
 ]
 

@@ -1,0 +1,85 @@
+ul.flow-nav(ng-init="page = 1")
+  li.item(ng-class="{active: page == 1, complete: page > 1}")
+    a
+      i.icon-check
+      span.num 1
+  li.divider
+  li.item(ng-class="{active: page == 2, complete: page > 1}")
+    a
+      i.icon-check
+      span.num 2
+  li.divider
+  li.item(ng-class="{active: page == 3}")
+    a
+      i.icon-check
+      span.num 3
+
+#page-1.page.row(ng-if="page == 1")
+  h1 Welcome to <strong>Kuwait &amp; Me!</strong>
+  p More than 300 lives have been changed so far. Today we're changing yours.
+
+  img(src="/images/install-welcome.png")
+
+  button(ng-click="goto(2)") Create your account
+
+form#page-2(name="form", ng-class="formClasses")
+  .page.row(ng-if="page == 2")
+    h1 Create your account
+
+    figure
+      a(href="https://gravatar.com/", target="_blank")
+        .image(style="background-image: url(https://www.gravatar.com/avatar/{{ signup.email | gravatar }}?s=90)")
+
+    .columns(input-text
+      form-ui
+      maxlength="140"
+      ng-model="signup.email"
+      placeholder="Email"
+      type="email"
+      required="true"
+      ng-disabled="formLoading")
+
+    .columns(input-text
+      form-ui
+      maxlength="140"
+      minlength="6"
+      ng-if="emailValid"
+      ng-model="signup.username"
+      placeholder="Username"
+      type="text"
+      required="true"
+      ng-disabled="formLoading")
+
+    .columns(input-text
+      form-ui
+      maxlength="140"
+      ng-if="usernameValid"
+      ng-model="signup.fullname"
+      placeholder="Full Name"
+      type="text"
+      required="true"
+      ng-disabled="formLoading")
+
+    .columns(input-text
+      form-ui
+      maxlength="140"
+      minlength="6"
+      ng-if="usernameValid"
+      ng-model="signup.password"
+      placeholder="Password"
+      type="password"
+      required="true"
+      ng-disabled="formLoading")
+
+    button.submit(ng-click="doSignup(signup)", ng-if="form.$valid") Sign Up
+    h4 By creating an account, you agree that you have read our <a href="/info/terms-privacy">terms and services</a>
+
+
+#page-3.page.row(ng-if="page == 3")
+  h1 You have been registered
+  h2 Welcome to the Kuwait &amp; Me community!
+  img(src="/images/check-mark.ico")
+  h2
+    | Your account now needs to be <b>activated</b>. To activate it, click on
+    | the link in the email we sent you.
+  h2 Make sure to check your spam folder, just in case.

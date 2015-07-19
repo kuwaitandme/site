@@ -1,9 +1,13 @@
 body#news
-  background: #FFF
+  background: #fdfdfd
+  // background-image: url(/images/hero/landing.jpg)
+
   main
+    background: #FFF
     max-width: 800px
-    padding: 0 10px
-    margin-bottom: 50px
+    padding: 20px 10px
+    border-bottom: 3px solid #F60
+    margin-bottom: 0
 
     a
       +single-transition(border)
@@ -14,21 +18,20 @@ body#news
       a
         @extend .font-roboto
         // text-transform: uppercase
-        font-size: 14px
+        font-size: 12px
         padding: 3px 0
         margin: 0 10px
         color: #777
-        border-bottom: 2px solid #EEE
+        border-bottom: 2px solid #f8f8f8
         font-weight: bold
         float: left
-        &:hover
+        &:hover, &.active
           color: #F60
           border-color: #F60
 
     .page-links
       font-size: 12px
       padding-bottom: 10px
-      border-bottom: 2px solid #F60
       a
         text-transform: uppercase
         color: #777

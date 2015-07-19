@@ -1,4 +1,4 @@
-section(ng-class="formClasses")
+section(ng-class="formClasses", ng-init="formClasses={}")
   form.row(name="form", novalidate)
 
     .columns.admin-panel(ng-if="classified.id")

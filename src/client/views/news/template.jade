@@ -1,8 +1,14 @@
+//- #page-hero
+  img(src="/images/hero/landing.jpg")
+
+news-header
 nav
-  a(fn-route="/news") Top
+  a(fn-route="/news").active Top
   a(fn-route="/news/recent") Recent
   a(fn-route="/news/comments") Comments
   a(fn-route="/news/search") Search
+  //- a(fn-route="/admin/news/filters") Filters
+  a(fn-route="/news/create", ng-if="loggedIn") Submit
 
 
 ul.stories
@@ -25,8 +31,8 @@ ul.stories
         span {{ story.score || 0}} points by&nbsp;
         span
           a(fn-route="/user/@puskin") puskin
-        | &nbsp;&middot;&nbsp;
-        span.comments_label
+        //- | &nbsp;&middot;&nbsp;
+        //- span.comments_label
           a(fn-route="/news/story/{{ story.shortid }}") {{ story.comments_count }} {{ story.comments_count == 1 ? "comment" : "comments" }}
         | &nbsp;&middot;&nbsp;
         span.timestamp {{ story.created_at | prettydate }}

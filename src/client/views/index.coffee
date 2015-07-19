@@ -12,6 +12,7 @@ module.exports = (app) ->
     # "account/credits": require "./account/credits/controller"
 
     "auth": require "./auth/controller"
+    "auth/signup": require "./auth/signup/controller"
     "auth/logout": require "./auth/logout/controller"
 
     "classified/finish": require "./classified/finish/controller"
