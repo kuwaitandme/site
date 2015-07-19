@@ -1,15 +1,14 @@
 util = require "util"
 zpad = require "zpad"
 
-exports = module.exports = (Events) ->
+exports = module.exports = (Logs) ->
   controller = (request, response, next) ->
 
     # Prints out the events in a CSV style format
-    Events.query(request.query).then (events) ->
-      eventsJSON = events.toJSON()
+    Logs.query(request.query).then (events) ->
       output = ""
-      for event in eventsJSON
-        timestamp = event.timestamp
+      for event in events
+        timestamp = event.created_at
 
         date = util.format "%s:%s:%s %s/%s/%s",
           (zpad timestamp.getHours()),
@@ -31,5 +30,5 @@ exports = module.exports = (Events) ->
 
     .catch next
 
-exports["@require"] = ["models/events"]
+exports["@require"] = ["models/logs"]
 exports["@singleton"] = true

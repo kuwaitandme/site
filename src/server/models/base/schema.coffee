@@ -38,7 +38,7 @@ module.exports =  class Schema
   ###
   constructor: ->
     # Initialize the validator and attach our different schemas..
-    @v = @createSchema new jsonValidator
+    @_jsonValidator = new jsonValidator
 
 
   ###
@@ -51,11 +51,7 @@ module.exports =  class Schema
                                                 schemas too.
     @return {jsonschema.Validator} \-           The new custom modified schema.
   ###
-  createSchema: (schema) ->
-    schema.addSchema @contactSchema, "/contact"
-    schema.addSchema @metaSchema, "/meta"
-    schema.addSchema @imageSchema, "/images"
-    schema
+  customSchema: (schema) -> schema
 
 
   ###
@@ -68,18 +64,7 @@ module.exports =  class Schema
   ###
   validateSchema: (json) ->
     # Validate first based on the schema
-    results = @v.validate json, @mainSchema
-
-    # Then validate based on any custom rules
-    try
-      # If price_type is CUSTOM then price_value must be set
-      if json.price_type is @prices.CUSTOM and (not json.price_value? or
-      json.price_value <= 0)
-        results.valid = false
-        error = new Error "must not be empty when instance.price_type is CUSTOM"
-        error.property = "instance.price_value"
-        results.errors.push error
-    catch e
+    results = @_jsonValidator.validate json, @schema
 
     # Now if there is an error, then throw the first one we find.
     if not results.valid and results.errors
@@ -105,6 +90,7 @@ module.exports =  class Schema
     .forEach (value) ->
       # If it is not defined then remove it.. (remove any annoying nulls..)
       if not value? then @remove()
+
       # If it is a string then perform an XSS filter on it
       else if typeof value is "string" then value = xss value
 

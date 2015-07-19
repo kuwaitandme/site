@@ -25,9 +25,11 @@ exports = module.exports = (BaseModel, Enum) ->
   class Users extends BaseModel
     tableName: "users"
 
-    initialize: ->
-      (new Enum "user_roles").then (json) => @roles = json
-      (new Enum "user_statuses").then (json) => @statuses = json
+    # Setup the enum types
+    enums:
+      roles: tableName: "user_roles"
+      statuses: tableName: "user_statuses"
+
 
     ###*
      * Queries all the users that matches the given parameters.
@@ -56,6 +58,13 @@ exports = module.exports = (BaseModel, Enum) ->
       @model.query(buildQuery).fetchAll()
       # collection.forge parameters
       # .query()
+
+
+    findByUsernameOrEmail: (value) ->
+      buildQuery = (qb) ->
+        qb.where "email", value
+        qb.orWhere "username", value
+      @model.query(buildQuery).fetch()
 
 
     ###*
@@ -149,7 +158,7 @@ exports = module.exports = (BaseModel, Enum) ->
      *                              desired user.
     ###
     deserialize: (id, callback) ->
-      Users.get(id).then (user) -> callback null, user
+      @get(id).then (user) -> callback null, user
       .catch (error) -> callback error.message
 
 

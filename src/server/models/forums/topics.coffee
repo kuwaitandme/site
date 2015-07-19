@@ -10,8 +10,11 @@ exports = module.exports = (BaseModel, Enum) ->
   class Model extends BaseModel
     tableName: "forum_topics"
 
-    initialize: ->
-      (new Enum "forum_topic_statuses").then (json) => @statuses = json
+    # Enable validation
+    validate: true
+
+    # Setup the enum types
+    enums: statuses: tableName: "forum_topic_statuses"
 
 
   new Model

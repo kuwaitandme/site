@@ -243,11 +243,11 @@ Events, Users) ->
 exports["@require"] = [
   "$container"
   "libraries/email"
-  "controllers/recaptcha"
+  "libraries/recaptcha"
   "controllers/uploader"
 
   "models/classifieds"
-  "models/events"
+  "models/logs"
   "models/users"
 ]
 exports["@singleton"] = true

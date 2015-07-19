@@ -278,12 +278,12 @@ Events, Notifications, Users) ->
 
 exports["@require"] = [
   "$container"
-  "controllers/recaptcha"
+  "libraries/recaptcha"
   "controllers/uploader"
   "libraries/email"
 
   "models/classifieds"
-  "models/events"
+  "models/logs"
   "models/notifications"
   "models/users"
 ]

@@ -18,16 +18,8 @@ exports = module.exports = (BaseModel, Enum, Users) ->
     tableName: "news_stories"
 
 
-    constructor: ->
-      super()
-
-      (new Enum "news_categories").then (json) => @categories = json
-      @top = @query
-
-      # @model = @model.extend
-      #   _created_by: -> @belongsTo Users.model
-      # @model.get
-      # @model.on "saving", @validationURL
+    # Setup the enum types
+    enums: categories: tableName: "news_categories"
 
 
     calculate_hotness: ->

@@ -1,9 +1,9 @@
-exports = module.exports = (Events) ->
+exports = module.exports = (Logs) ->
   (request, response, next) ->
-    Events.log request, "LOGOUT"
-    request.session.destroy()
+    Logs.log request, "logout"
+    # request.session.destroy()
     response.json {}
 
 
-exports["@require"] = ["models/events"]
+exports["@require"] = ["models/logs"]
 exports["@singleton"] = true

@@ -13,6 +13,6 @@ exports = module.exports = (settings, Events) ->
 
 exports["@require"] = [
   "igloo/settings"
-  "models/events"
+  "models/logs"
 ]
 exports["@singleton"] = true

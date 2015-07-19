@@ -47,5 +47,5 @@ exports = module.exports = (reCaptcha, email) ->
     reCaptcha.verify request, captchaSuccess, captchaFail
 
 
-exports["@require"] = ["controllers/recaptcha"]
+exports["@require"] = ["libraries/recaptcha"]
 exports["@singleton"] = true

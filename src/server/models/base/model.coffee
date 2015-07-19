@@ -9,16 +9,13 @@ xss               = require "xss"
 Schema    = require "./schema"
 
 
-exports = module.exports = (knex) ->
+exports = module.exports = (knex, Enum) ->
   bookshelf  = Bookshelf knex
 
 
   bookshelf.Model = bookshelf.Model.extend
     hasTimestamps: true
-
     permittedAttributes: -> _.keys schema.tables[@tableName]
-
-    defaults: -> uuid: uuid.v4()
 
 
   ###
@@ -34,10 +31,13 @@ exports = module.exports = (knex) ->
     # all our modifications.
     bookshelf: Bookshelf knex
 
+    # List of different enums
+    enums: []
 
     constructor: ->
       # Initialize the schema.
       super()
+      validateSchema = @validateSchema
 
       # Load the Bookshelf registry plugin, which helps us avoid circular
       # dependencies.
@@ -47,15 +47,33 @@ exports = module.exports = (knex) ->
       # method on Models.
       @bookshelf.plugin require "./pagination"
 
-
-      # @bookshelf.plugin require "./validation"
-
       # Create the model and collection instances.
+      self = this
       @model = bookshelf.Model.extend
         tableName: @tableName
-        # initialize: -> @on "saving", @validateSchema
+
+        initialize: ->
+          if self.validate then @on "saving", @validate
+          if @customs then @customs()
+
+        validate: -> self.validateSchema @attributes or {}
 
       @collection = bookshelf.Collection.extend model: @model
+
+      # Now assign all the different enums into the object
+      for e of @enums then do (e) =>
+        value = @enums[e]
+
+        # Instantiate and read from the table first
+        (new Enum value.tableName).then (json) =>
+          # If a pick option was set, then start picking and then save it!
+          if value.pick?
+            picked = {}
+            for item in json then picked[item[value.pick]] = item.id
+            this[e] = picked
+
+          # Else, directly save the JSON
+          else this[e] = json
 
 
     ###
@@ -117,5 +135,8 @@ exports = module.exports = (knex) ->
     query: (parameters) -> @collection.forge({}).query()
 
 
-exports["@require"] = ["igloo/knex"]
+exports["@require"] = [
+  "igloo/knex"
+  "models/base/enum"
+]
 exports["@singleton"] = true

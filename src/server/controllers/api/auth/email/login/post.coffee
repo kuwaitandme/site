@@ -45,5 +45,5 @@ exports = module.exports = (Events) ->
     (passport.authenticate "local", finish) request, response, next
 
 
-exports["@require"] = ["models/events"]
+exports["@require"] = ["models/logs"]
 exports["@singleton"] = true

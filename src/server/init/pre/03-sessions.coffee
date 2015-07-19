@@ -18,21 +18,22 @@ WordpressStrategy     = (require "passport-wordpress").Strategy
 OpenIDStrategy        = (require "passport-openid").Strategy
 
 
-exports = module.exports = (IoC, settings, sessions, Email, policies, Events,
+exports = module.exports = (IoC, settings, sessions, Email, Logs,
 Users) ->
   app = this
   logger = IoC.create "igloo/logger"
   name = "[session]"
 
-  ###*
-   * This function gets called for each of the OAuth logins. A uniform function
-   * that takes care of everything from DB....
-   *
-   * @param  {[type]}   accessToken  [description]
-   * @param  {[type]}   refreshToken [description]
-   * @param  {[type]}   profile      [description]
-   * @param  {Function} done         [description]
-   * @return {[type]}                [description]
+
+  ###
+    This function gets called for each of the OAuth logins. A uniform function
+    that takes care of everything from DB....
+
+    @param {[type]}   accessToken  [description]
+    @param {[type]}   refreshToken [description]
+    @param {[type]}   profile      [description]
+    @param {Function} done         [description]
+    @return {[type]}                [description]
   ###
   providerAuthCallback = (accessToken, refreshToken, profile, done) ->
     logger.debug name, "got profile from OAuth:", profile.provider
@@ -114,15 +115,16 @@ Users) ->
   app.use passport.session()
 
 
-  ###*
-   * A helper function that nicely registers a passport strategy of an OAuth
-   * provider. This function safely checks if the provider has been enabled
-   * in the settings and registers them in passport using the proper values.
-   *
-   * @param  String           provider='' [description]
-   * @param  PassportStrategy Strategy    [description]
   ###
-  _passport = (provider='', Strategy) ->
+    A helper function that nicely registers a passport strategy of an OAuth
+    provider. This function safely checks if the provider has been enabled
+    in the settings and registers them in passport using the proper values.
+
+    @param {String} provider              Id of provider in use (eg: facebook)
+    @param {PassportStrategy} Strategy    The Passport strategy for the
+                                          given provider.
+  ###
+  _passport = (provider, Strategy) ->
     # If the provider's OAuth information don't exist or if the provider has
     # not been enabled then return.
     if not settings[provider]? or not settings[provider].enabled then return
@@ -136,7 +138,6 @@ Users) ->
 
     # Now register the strategy in passport
     passport.use new Strategy options, providerAuthCallback
-
 
   # Using our helper function defined above, we start initialized the OAuth
   # login service for the different providers we support so far.
@@ -152,7 +153,8 @@ Users) ->
   if settings.emailAuth.enabled
     passport.use new LocalStrategy (username, password, done) ->
       # First query the DB for the user.
-      Users.findOne(email: username).then (user) ->
+      Users.findByUsernameOrEmail username
+      .then (user) ->
         # Check if the user exists
         if not user? then throw new Error "bad username/email"
 
@@ -165,7 +167,7 @@ Users) ->
           throw new Error "password mismatch"
 
         # Check if account is active or not.
-        if not Users.isActive json
+        if not Users.isActive user
           # if json.meta and not json.meta.hasTemporaryPassword
           return throw new Error "not allowed to login"
 
@@ -175,8 +177,8 @@ Users) ->
 
 
   # Add passport serialization/de-serialization
-  passport.deserializeUser Users.deserialize
-  passport.serializeUser Users.serialize
+  passport.deserializeUser (id, callback) -> Users.deserialize id, callback
+  passport.serializeUser (user, callback) -> Users.serialize user, callback
 
 
 exports["@require"] = [
@@ -184,8 +186,7 @@ exports["@require"] = [
   "igloo/settings"
   "igloo/sessions"
   "libraries/email"
-  "policies"
 
-  "models/events"
+  "models/logs"
   "models/users"
 ]

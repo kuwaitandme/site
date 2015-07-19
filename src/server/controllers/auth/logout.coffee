@@ -6,5 +6,5 @@ exports = module.exports = (Events) ->
     request.session.destroy()
     response.redirect "/?success=logout"
 
-exports["@require"] = ["models/events"]
+exports["@require"] = ["models/logs"]
 exports["@singleton"] = true
