@@ -41,15 +41,15 @@ exports = module.exports = (IoC) ->
   # r "",                                     ".",                         GET
   # r "/auth/email",                          "auth/email",                PUT
   # r "/auth/email/activate/([0-9]+)",        "auth/email/activate",       GET
-  # r "/auth/email/login",                    "auth/email/login",          POST
-  # r "/auth/email/signup",                   "auth/email/signup",         POST
-  # r "/auth/logout",                         "auth/logout",               GET
+  r "/auth/email/login",                    "auth/email/login",          POST
+  r "/auth/email/signup",                   "auth/email/signup",         POST
+  r "/auth/logout",                         "auth/logout",               GET
   # r "/categories",                          "categories",                GET
   # r "/categories/counters",                 "categories/counters",       GET
   # r "/csrf",                                "csrf",                      GET
   # r "/lang/([a-z]+)",                       "lang",                      GET
   # r "/locations",                           "locations",                 GET
-  # r "/logs",                                "logs",                      GET
+  r "/logs",                                "logs",                      GET
   # r "/messages/classified/([0-9]+)?",       "messages/classified",       POST
   # r "/messages/contact",                    "messages/contact",          POST
   # r "/notifications",                       "notifications",             GET
@@ -65,12 +65,13 @@ exports = module.exports = (IoC) ->
   # r "/users/([0-9]+)?",                     "users",                     DELETE
   # r "/users/([0-9]+)?",                     "users",                     PATCH
   # r "/users/([0-9]+)?",                     "users",                     PUT
-  # r "/users/current",                       "users/current",             GET
+  r "/users/current",                       "users/current",             GET
   r "/forums/categories",                   "forums/categories",         GET
   r "/forums/topics",                       "forums/topics",             GET
   r "/news",                                "/news",                     GET
   r "/news/([0-9]+)",                       "/news/:id",                 GET
   r "/news/top",                            "/news/top",                 GET
+  r "/news/scrape",                         "/news/scrape",              GET
   r "/news/categories",                     "/news/categories",          GET
   r "/users",                               "users",                     GET
   r "/users/([0-9]+)?",                     "users/id",                  GET
