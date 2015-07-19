@@ -1,11 +1,18 @@
-exports = module.exports = (renderer) ->
+exports = module.exports = (renderer, Stories) ->
   controller = (request, response, next) ->
-    args =
-      page: "info/about"
-      title: response.__ "title.about"
+    Stories.query().then (stories) ->
 
-    renderer request, response, args, true
+      args =
+        page: "info/about"
+        title: response.__ "title:news"
+        data: stories
+
+      renderer request, response, args, true
+    .catch (e) -> next e
 
 
-exports["@require"] = ["libraries/renderer"]
+exports["@require"] = [
+  "libraries/renderer"
+  "models/news/stories"
+]
 exports["@singleton"] = true

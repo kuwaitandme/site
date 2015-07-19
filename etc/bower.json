@@ -8,7 +8,8 @@
     "angular-ui-router": "~0.2.13",
     "angular": "1.4",
     "masonry": "~3.3.0",
-    "angular-hotkeys": "chieffancypants/angular-hotkeys#~1.4.5"
+    "angular-hotkeys": "chieffancypants/angular-hotkeys#~1.4.5",
+    "angular-md5": "~0.1.7"
   },
   "disabled": {
     "socket.io-client": "~1.3.5"

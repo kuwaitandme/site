@@ -37,7 +37,7 @@ exports = module.exports = (knex) ->
 
     constructor: ->
       # Initialize the schema.
-      @initializeSchema()
+      super()
 
       # Load the Bookshelf registry plugin, which helps us avoid circular
       # dependencies.
@@ -56,9 +56,6 @@ exports = module.exports = (knex) ->
         # initialize: -> @on "saving", @validateSchema
 
       @collection = bookshelf.Collection.extend model: @model
-
-
-      if @initialize? then @initialize()
 
 
     ###

@@ -13,7 +13,9 @@ exports = module.exports = (Stories) ->
 
       # All good, so now query the DB
       Stories.get request.params[0]
-    .then (story) -> response.json story
+    .then (story) ->
+      console.log story.user
+      response.json story
     .catch ->
       response.status 404
       response.json {}

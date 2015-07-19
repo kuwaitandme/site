@@ -1,4 +1,4 @@
-module.exports = pagination = (bookshelf) ->
+module.exports = (bookshelf) ->
   # Extend updates the first object passed to it, no need for an assignment
   bookshelf.Model = bookshelf.Model.extend
   ###

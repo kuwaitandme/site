@@ -1,41 +1,41 @@
-###*
- * Pagination (Bookself plugin)
- *
- * Extends Bookshelf.Model with a `fetchPage` method. Handles everything to do
- * with paginated requests.
+###
+  Pagination (Bookself plugin)
+
+  Extends Bookshelf.Model with a `fetchPage` method. Handles everything to do
+  with paginated requests.
 ###
 _ = require "lodash"
 Promise = require "bluebird"
 
 
-###*
- * ## Default pagination values.
- * These are overridden via `options` passed to each function.
- *
- * @typedef {Object} defaults
- * @default
- * @property {Number} `page` \- page in set to display (default: 1)
- * @property {Number|String} `limit` \- no. results per page (default: 15)
+###
+  ## Default pagination values.
+  These are overridden via `options` passed to each function.
+
+  @typedef {Object} defaults
+  @default
+  @property {Number} `page` \- page in set to display (default: 1)
+  @property {Number|String} `limit` \- no. results per page (default: 15)
 ###
 defaults =
   page: 1
   limit: 15
 
 
-###*
- * ## Pagination Utils
- *
- * @api private
- * @type {{parseOptions: Function, query: Function, formatResponse: Function}}
+###
+  ## Pagination Utils
+
+  @api private
+  @type {{parseOptions: Function, query: Function, formatResponse: Function}}
 ###
 paginationUtils =
-  ###*
-   * ## Parse Options
-   * Take the given options and ensure they are valid pagination options, else
-   * use the defaults.
-   *
-   * @param {options} options
-   * @returns {options} options sanitised for pagination
+  ###
+    ## Parse Options
+    Take the given options and ensure they are valid pagination options, else
+    use the defaults.
+
+    @param {options} options
+    @returns {options} options sanitised for pagination
    ###
   parseOptions: (options) ->
     options = _.defaults options or {}, defaults
@@ -45,27 +45,27 @@ paginationUtils =
     options
 
 
-  ###*
-   * ## Query
-   * Apply the necessary parameters to paginate the query.
-   *
-   * @param {Bookshelf.Model, Bookshelf.Collection} itemCollection
-   * @param {options} options
+  ###
+    ## Query
+    Apply the necessary parameters to paginate the query.
+
+    @param {Bookshelf.Model, Bookshelf.Collection} itemCollection
+    @param {options} options
    ###
   query: (itemCollection, options) ->
     if _.isNumber options.limit
       itemCollection.query "limit", options.limit
-      .query "offset", options.limit * (options.page - 1)
+      .query "offset", options.limit  (options.page - 1)
 
 
-  ###*
-   * ## Format Response
-   * Takes the no. of items returned and original options and calculates all of
-   * the pagination meta data.
-   *
-   * @param {Number} totalItems
-   * @param {options} options
-   * @returns {pagination} pagination metadata
+  ###
+    ## Format Response
+    Takes the no. of items returned and original options and calculates all of
+    the pagination meta data.
+
+    @param {Number} totalItems
+    @param {JSON} options
+    @returns {JSON} pagination metadata
    ###
   formatResponse: (totalItems, options) ->
     calcPages = Math.ceil(totalItems / options.limit) or 0
@@ -88,42 +88,42 @@ paginationUtils =
     pagination
 
 
-###*
- * ## Pagination Object
- *
- * @typedef {Object} pagination
- * @property {Number} `page` \- page in set to display
- * @property {Number|String} `limit` \- no. results per page, or 'all'
- * @property {Number} `pages` \- total no. pages in the full set
- * @property {Number} `total` \- total no. items in the full set
- * @property {Number|null} `next` \- next page
- * @property {Number|null} `prev` \- previous page
+###
+  ## Pagination Object
+
+  @typedef {Object} pagination
+  @property {Number} `page` \- page in set to display
+  @property {Number|String} `limit` \- no. results per page, or 'all'
+  @property {Number} `pages` \- total no. pages in the full set
+  @property {Number} `total` \- total no. items in the full set
+  @property {Number|null} `next` \- next page
+  @property {Number|null} `prev` \- previous page
 ###
 
 ###*
- * ## Fetch Page Options
- *
- * @typedef {Object} options
- * @property {Number} `page` \- page in set to display
- * @property {Number|String} `limit` \- no. results per page, or 'all'
- * @property {Object} `order` \- set of order by params and directions
+  ## Fetch Page Options
+
+  @typedef {Object} options
+  @property {Number} `page` \- page in set to display
+  @property {Number|String} `limit` \- no. results per page, or 'all'
+  @property {Object} `order` \- set of order by params and directions
 ###
 
-###*
- * ## Fetch Page Response
- *
- * @typedef {Object} paginatedResult
- * @property {Array} `collection` \- set of results
- * @property {pagination} pagination \- pagination metadata
+###
+  ## Fetch Page Response
+
+  @typedef {Object} paginatedResult
+  @property {Array} `collection` \- set of results
+  @property {pagination} pagination \- pagination metadata
 ###
 
 
-###*
- * ## Pagination
- *
- * Extends `bookshelf.Model` with `fetchPage`
- * @api public
- * @param {Bookshelf} bookshelf \- the instance to plug into
+###
+  ## Pagination
+
+  Extends `bookshelf.Model` with `fetchPage`
+  @api public
+  @param {Bookshelf} bookshelf \- the instance to plug into
 ###
 module.exports = pagination = (bookshelf) ->
   # Extend updates the first object passed to it, no need for an assignment

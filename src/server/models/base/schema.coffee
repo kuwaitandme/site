@@ -36,7 +36,7 @@ module.exports =  class Schema
     This function is used to initialize the validator. It is only called once
     and makes sure that the schema is correctly instantiated.
   ###
-  initializeSchema: ->
+  constructor: ->
     # Initialize the validator and attach our different schemas..
     @v = @createSchema new jsonValidator
 
