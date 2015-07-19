@@ -54,7 +54,7 @@ exports = module.exports = (IoC, settings) ->
   # (require "./account")  route
   (require "./auth")     route
   # (require "./food")     route
-  # (require "./forums")   route
+  (require "./forums")   route
   # (require "./info")     route
   # (require "./meetups")  route
   # (require "./sharing")  route
