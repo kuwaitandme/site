@@ -12,6 +12,7 @@ module.exports = (app) ->
     # "account/credits": require "./account/credits/controller"
 
     "auth": require "./auth/controller"
+    "auth/login": require "./auth/login/controller"
     "auth/signup": require "./auth/signup/controller"
     "auth/logout": require "./auth/logout/controller"
 
@@ -23,6 +24,7 @@ module.exports = (app) ->
 
     "forums": require "./forums/controller"
     "news": require "./news/controller"
+    "news/create": require "./news/create/controller"
 
     "info/contact": require "./info/contact/controller"
     "info/donate": require "./info/donate/controller"

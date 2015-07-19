@@ -1,76 +1,28 @@
-body#auth
-
-  #page-hero
-    &:after
-      content: ""
+body#auth-login
+  background: #FFF
   main
-    background: transparent
+    padding: 10px
+    margin-top: 50px
 
-  form
-    input
-      border: none
-      padding: 0.8rem
-      font-size: 0.8rem
-      &:focus
-        outline: none
-      &[type='submit']
-        background: #40d47e
-        border-bottom: 4px solid rgba(0,0,0,0.15)
-        color: #FFF
-        text-transform: uppercase
-  h1
-    @extend .font-open
-    color: #FFF
-    font-size: 2rem
-    font-weight: bold
-    padding: 1rem 0
     text-align: center
-    text-shadow: 1px 1px 2px #000
-  form
-    margin-bottom: 2rem
-    // border: 1px solid #DDD
-    border-bottom: 0
-  .oauth-methods
+    // max-width: 500px
     a
-      +single-transition
-      +radius(3px)
-      @extend .font-open
-      margin: 0 auto
-      color: #FFF
-      display: block
-      font-size: 12px
-      padding: 0.5rem
-      text-align: center
+      color: $color-blue
       text-decoration: none
-      overflow: none
-      height: 40px
-      line-height: 20px
-      margin-bottom: 10px
-    .option-text
-      font-size: 14px
-    .windows
-      background: #945990
-    .facebook
-      background: #567CC5
-    .google-plus
-      background: #DF4A32
-    .login
-      background: #F60
-    .signup
-      border: 1px solid #F60
-      color: #f60
-      &:hover
-        color: #FFF
-        background: #F60
-
-  .extra-links
-    text-align: center
-    padding-top: 20px
-    font-size: 0.8rem
-    .columns
-      padding-bottom: 1rem
-    a
-      color: #DF4A32
-      text-decoration: none
-      border-bottom: 2px solid #DF4A32
       font-weight: bold
+
+    h4
+      font-size: 12px
+
+    .columns
+      margin-bottom: 1rem
+
+
+  form
+    max-width: 400px
+    margin: 0 auto
+    &.loading
+      .submit
+        &, &:focus, &:hover
+          background: #DDD
+          color: #222
