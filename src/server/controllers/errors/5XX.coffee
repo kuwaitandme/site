@@ -3,12 +3,12 @@ exports = module.exports = (renderer, settings) ->
     response.status error.status or 500
 
     isProduction = settings.server.env == "production"
-    console.log isProduction
+
 
     # In production, no stack-traces leaked to user
     if isProduction then error.stack = null
     # In development, display the error on console
-    else console.trace error
+    else console.error error
 
     # For API request just return a JSON version of the message
     if request.url.indexOf("/api") > -1 then return response.json error.message

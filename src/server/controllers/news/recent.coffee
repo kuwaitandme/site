@@ -1,10 +1,10 @@
 exports = module.exports = (renderer, Stories) ->
   controller = (request, response, next) ->
-    Stories.top(page: request.params[0] or 1).then (stories) ->
+    Stories.recent({}, page: request.params[0] or 1).then (stories) ->
 
       args =
         page: "info/about"
-        title: response.__ "news:title"
+        title: response.__ "news/recent:title"
         data: stories
 
       renderer request, response, args, true

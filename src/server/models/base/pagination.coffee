@@ -18,8 +18,8 @@ Promise = require "bluebird"
   @property {Number|String} `limit` \- no. results per page (default: 15)
 ###
 defaults =
+  limit: 20
   page: 1
-  limit: 15
 
 
 ###
@@ -55,7 +55,7 @@ paginationUtils =
   query: (itemCollection, options) ->
     if _.isNumber options.limit
       itemCollection.query "limit", options.limit
-      .query "offset", options.limit  (options.page - 1)
+      .query "offset", options.limit * (options.page - 1)
 
 
   ###

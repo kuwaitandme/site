@@ -18,6 +18,8 @@ exports = module.exports = (BaseModel, Enum, Users) ->
     tableName: "news_stories"
 
 
+    top: (options) -> @query({}, options)
+
     # Setup the enum types
     enums: categories: tableName: "news_categories"
 
@@ -45,7 +47,7 @@ exports = module.exports = (BaseModel, Enum, Users) ->
       window = 60 * 60 * 36
 
       Math.round -((order * sign) + base +
-         (Number(@created_at or Date.now()) / window)), 7
+        (Number(@created_at or Date.now()) / window)), 7
 
 
     ###
@@ -60,6 +62,7 @@ exports = module.exports = (BaseModel, Enum, Users) ->
       else throw new Error "must contain either description or URL"
 
 
+    fetchPage: (query, options) -> @model.forge(query).fetchPage options
 
 
     isRecent: (json) -> json.created_at >= RECENT_DAYS.days.ago #fix this

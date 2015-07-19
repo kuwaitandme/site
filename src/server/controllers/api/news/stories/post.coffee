@@ -4,11 +4,11 @@ validator = require "validator"
 
 exports = module.exports = (Stories) ->
   controller = (request, response, next) ->
-    Stories.recent().then (stories) ->  response.json stories
-    .catch (e) ->
-      console.trace e
-      response.status 404
-      response.json "no top stories"
+    console.log request.body
+    request.body.created_by = request.user.id
+    Stories.create request.body
+    .then (story) ->  response.json story
+    .catch (e) -> next e
 
 
 exports["@require"] = ["models/news/stories"]

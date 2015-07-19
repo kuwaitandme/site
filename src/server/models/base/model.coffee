@@ -13,10 +13,6 @@ exports = module.exports = (knex, Enum) ->
   bookshelf  = Bookshelf knex
 
 
-  bookshelf.Model = bookshelf.Model.extend
-    hasTimestamps: true
-    permittedAttributes: -> _.keys schema.tables[@tableName]
-
 
   ###
     @todo have checks for get, patch, etc..
@@ -41,16 +37,17 @@ exports = module.exports = (knex, Enum) ->
 
       # Load the Bookshelf registry plugin, which helps us avoid circular
       # dependencies.
-      @bookshelf.plugin "registry"
+      bookshelf.plugin "registry"
 
       # Load the the app's pagination plugin, which gives us the `fetchPage`
       # method on Models.
-      @bookshelf.plugin require "./pagination"
+      bookshelf.plugin require "./pagination"
 
       # Create the model and collection instances.
       self = this
       @model = bookshelf.Model.extend
         tableName: @tableName
+        hasTimestamps: true
 
         initialize: ->
           if self.validate then @on "saving", @validate
@@ -116,7 +113,8 @@ exports = module.exports = (knex, Enum) ->
       @param  {[type]} parameters [description]
       @return {[type]}            [description]
     ###
-    create: (parameters) -> @model.forge(@filter parameters).save()
+    # create: (parameters) -> @model.forge(@filter parameters).save()
+    create: (parameters) -> @model.forge(parameters).save()
 
 
     ###
@@ -129,10 +127,15 @@ exports = module.exports = (knex, Enum) ->
     patch: (id, parameters) -> @model.forge(id: id).save parameters
 
 
+    recent: (parameters, options={}) ->
+      options.order = created_at: "DESC"
+      @model.forge(parameters).fetchPage options
+
+
     ###
       @todo have each fn implement it's own query fn
     ###
-    query: (parameters) -> @collection.forge({}).query()
+    query: (parameters, options) -> @model.forge().fetchPage options
 
 
 exports["@require"] = [
