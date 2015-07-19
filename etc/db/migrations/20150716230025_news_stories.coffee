@@ -12,7 +12,7 @@ exports.up = (knex, Promise) ->
     table.decimal("hotness", 20, 10).index().notNull().defaultTo 0.0
     table.boolean("is_expired").defaultTo false
     table.boolean("is_moderated").defaultTo false
-    table.integer("merged_story").index().notNull().references("id").inTable "news_stories"
+    table.integer("merged_story").references("id").inTable "news_stories"
     table.text("story_cache").defaultTo ""
     table.json("meta").defaultTo "{}"
     table.integer("created_by").notNull().references("id").inTable "users"
