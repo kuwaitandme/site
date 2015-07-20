@@ -5,8 +5,9 @@ exports = module.exports = (BaseModel, Enum) ->
   class Model extends BaseModel
     tableName: "forum_categories"
 
-    initialize: ->
-      (new Enum "forum_category_statuses").then (json) => @statuses = json
+    # Setup the enum types
+    enums:
+      statuses: tableName: "forum_category_statuses"
 
 
   new Model

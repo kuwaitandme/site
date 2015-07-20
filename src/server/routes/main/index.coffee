@@ -52,15 +52,16 @@ exports = module.exports = (IoC, settings) ->
 
   # Add route for each of the sub-pages
   # (require "./account")  route
-  (require "./auth")     route
   # (require "./food")     route
-  (require "./users")     route
-  (require "./forums")   route
   # (require "./info")     route
   # (require "./meetups")  route
   # (require "./sharing")  route
   # (require "./shopping") route
+  require("./auth") route
+  require("./forums") route
   require("./news") route
+  require("./stories") route
+  require("./users") route
 
   # If none of the routes matched, then route to the 404 controller!
   route ".*",            "errors/404"

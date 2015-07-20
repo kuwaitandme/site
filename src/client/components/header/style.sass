@@ -10,15 +10,17 @@ header
   width: 100%
   background: #FFF
   z-index: 4
+  border-bottom: 1px solid $border-color
 
   $shadow-opacity: 0.1
+  +clearfix
 
   #header-logo-container
+    float: left
     cursor: pointer
-    left: 70px
-    padding: 13px 0
-    position: absolute
-    top: 0
+    padding: 15px 13px
+    @media #{$small-only}
+      float: right
 
     img
       height: 21px
@@ -46,6 +48,24 @@ header
     &.nav-up
       margin-top: -$headerHeight
 
+  nav.sub-links
+    margin-left: 30px
+    float: left
+    a
+      font-size: 11px
+      float: left
+      text-transform: uppercase
+      text-decoration: none
+      padding: 25px 3px 18px
+      margin: 0 10px
+      display: inline-block
+      border-bottom: 2px solid transparent
+      &.active, &:hover
+        font-weight: 700
+        border-color: #000
+
+
+
   nav#menu-header
     +single-transition
     background: $subHeaderColor
@@ -67,9 +87,9 @@ header
 
     ul
       li
-        margin-bottom: 10px
-        margin-right: 15px
         +single-transition(background)
+        margin-bottom: 10px
+        // margin-right: 15px
         a
           text-decoration: none
           cursor: pointer
@@ -94,11 +114,18 @@ header
           text-transform: uppercase
           font-size: 12px
 
+        .sub
+          display: none !important
+          padding-left: 30px
+
         &.active, &:hover
           a
             display: block
             color: #FFF
             border-color: transparent
+
+        &.active .sub
+          display: block !important
 
         &.plain:hover, &.plain.active
           background: #FFF

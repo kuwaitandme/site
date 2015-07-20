@@ -9,8 +9,10 @@ Notifications) ->
 
 
   $root.$on "$viewContentLoaded", ->
-    try $scope.route = $location.path().split("/")[1]
+    try $scope.route = $location.path().split("/")[1] or ""
     catch e then $scope.route = ""
+    try $scope.subroute = $location.path().split("/")[2] or ""
+    catch e then $scope.subroute = ""
     reselectColor()
 
 

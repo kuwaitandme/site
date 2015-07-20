@@ -1,30 +1,60 @@
 #main-header(class="{{ route }}")
-  #header-logo-container
-    a(fn-route="/")
-      img(src="/images/header/logo.png")
-  #header-logo-container
   #grabber-container(ng-click="toggleHeader()"
     ng-style="{background: mainColor}")
     img(src="/images/header/grabber{{ showMenuHeader ? '-white' : '' }}.png",)
+  #header-logo-container
+    a(fn-route="/")
+      img(src="/images/header/logo.png")
 
+  //- Different sub headers get defined here
+  nav.sub-links.hide-for-small(ng-if="route == 'forums'")
+    a(fn-route="/forums", ng-class="{active: subroute == ''}") Categories
+    a(fn-route="/forums/recent", ng-class="{active: subroute == 'recent'}") Recent
+    a(fn-route="/forums/popular", ng-class="{active: subroute == 'popular'}") Popular
+    a(fn-route="/forums/create", ng-class="{active: subroute == 'tags'}") Tags
+  nav.sub-links.hide-for-small(ng-if="route == 'news'")
+    a(fn-route="/news", ng-class="{active: subroute == ''}") Top
+    a(fn-route="/news/recent", ng-class="{active: subroute == 'recent'}") Recent
+    a(fn-route="/news/create", ng-class="{active: subroute == 'create'}") Submit
+  nav.sub-links.hide-for-small(ng-if="route == 'stories'")
+    a(fn-route="/stories", ng-class="{active: subroute == ''}") Recommended
+    a(fn-route="/stories/latest", ng-class="{active: subroute == 'latest'}") Latest
+    a.hide-if-loggedin(fn-route="/login") Write a story
+    a.show-if-loggedin(fn-route="/account/stories/write") Write a story
 
+//- This is the sidebar header
 nav#menu-header(ng-class="{'show-menuheader': showMenuHeader}",
   ng-style="{background: mainColor, 'border-color':mainColor}")
   ul.main-sublinks
-    //- li.food
-      a(fn-route="/food") Food
     li.forums(ng-class="{active: route == 'forums'}")
       a(fn-route="/forums") Forums
+      a.sub(fn-route="/forums", ng-class="{active: subroute == ''}") Categories
+      a.sub(fn-route="/forums/recent", ng-class="{active: subroute == 'recent'}") Recent
+      a.sub(fn-route="/forums/popular", ng-class="{active: subroute == 'popular'}") Popular
+      a.sub(fn-route="/forums/create", ng-class="{active: subroute == 'tags'}") Tags
+    //- Meetups
     li.meetups(ng-class="{active: route == 'meetups'}")
       a(fn-route="/meetups") Meetups
+    //- News
     li.news(ng-class="{active: route == 'news'}")
       a(fn-route="/news") News
+      a.sub(fn-route="/news", ng-class="{active: subroute == ''}") Top
+      a.sub(fn-route="/news/recent", ng-class="{active: subroute == 'recent'}") Recent
+      a.sub(fn-route="/news/create", ng-class="{active: subroute == 'create'}") Submit
+    //- Sharing
     li.sharing(ng-class="{active: route == 'sharing'}")
       a(fn-route="/sharing") Sharing
+    //- Stories
     li.stories(ng-class="{active: route == 'stories'}")
       a(fn-route="/stories") Stories
+      a.sub(fn-route="/stories", ng-class="{active: subroute == ''}") Recommended
+      a.sub(fn-route="/stories/latest", ng-class="{active: subroute == 'latest'}") Latest
+      a.sub(fn-route="/account/stories/write") Write a story
+    //- Contribute
     li.contribute
       a(href="https://github.com/kuwaitandme/site/blob/develop/CONTRIBUTION.md") Contribute
+
+  //- Other sublinks go in here
   ul.second-sublinks
     li.hide-if-loggedin
       a(fn-route="/login") Login
@@ -39,19 +69,3 @@ nav#menu-header(ng-class="{'show-menuheader': showMenuHeader}",
 
 
 span.nav-cover(ng-click="closeHeader()")
-//- nav#sub-header
-  ul.main-sublinks.small-block-grid-3.medium-block-grid-6
-    //- li.food
-      a(fn-route="/food") Food
-    li.forums
-      a(fn-route="/forums") Forums
-    li.meetups
-      a(fn-route="/meetups") Meetups
-    li.news
-      a(fn-route="/news") News
-    li.sharing
-      a(fn-route="/sharing") Sharing
-    li.stories
-      a(fn-route="/stories") Stories
-    li.contribute
-      a(fn-route="/info/contribute") Contribute
