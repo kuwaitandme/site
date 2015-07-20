@@ -1,4 +1,4 @@
-exports = module.exports = ($log, $root, ga) ->
+exports = module.exports = ($log, $root, ga, $timeout) ->
   body = document.body
   name = "[run:pageLoad]"
   $log.log name, "initialized"
@@ -6,7 +6,7 @@ exports = module.exports = ($log, $root, ga) ->
 
   $root.$on "page:loaded", (event, value={}) ->
     # Remove the loading class, so that loading bar gets hidden away.
-    $root.bodyClasses.loading = false
+    $timeout (-> $root.bodyClasses.loading = false), 250
 
     # # Set the header's backbutton accordingly.. FIXTHIS
     # $root.bodyClasses["show-header-backbutton"] = historyIndex++ > 0 and
@@ -21,4 +21,5 @@ exports.$inject = [
   "$rootScope"
 
   "Google.Analytics"
+  "$timeout"
 ]

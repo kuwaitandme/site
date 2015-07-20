@@ -22,7 +22,7 @@ Notifications) ->
       when "news" then $scope.mainColor = "#F60"
       when "sharing" then $scope.mainColor = "#CB202E"
       when "stories" then $scope.mainColor = "#A0C9CC"
-      else $scope.mainColor = "#F60"
+      else $scope.mainColor = "#222"
 
     if not $scope.showMenuHeader then $scope.mainColor = "#FFF"
 

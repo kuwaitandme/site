@@ -14,7 +14,7 @@ exports = module.exports = (Stories) ->
         $ = cheerio.load html
 
         # Get the title
-        title = $("title").html().trim()
+        title = $("title").text().trim()
 
         # Return!
         response.json url: url, title: title

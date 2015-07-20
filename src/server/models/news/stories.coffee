@@ -18,7 +18,9 @@ exports = module.exports = (BaseModel, Enum, Users) ->
     tableName: "news_stories"
 
 
-    top: (options) -> @query {}, order: hotness: "DESC"
+    top: (paramerters={}, options={}) ->
+      options.order = hotness: "DESC"
+      @query paramerters, options
 
 
     # Setup the enum types

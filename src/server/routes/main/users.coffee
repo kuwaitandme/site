@@ -1,2 +1,2 @@
 module.exports = (route) ->
-  route "/user/@([0-9a-z\-]*)",     "meetups/index"
+  route "/user/@([0-9a-z\-]*)",     "users/single"

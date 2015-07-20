@@ -60,6 +60,9 @@ exports = module.exports = (BaseModel, Enum) ->
       # .query()
 
 
+    getByUsername: (username) -> @model.forge(username: username).fetch()
+
+
     findByUsernameOrEmail: (value) ->
       buildQuery = (qb) ->
         qb.where "email", value

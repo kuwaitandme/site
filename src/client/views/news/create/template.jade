@@ -107,6 +107,6 @@ form(name="form", ng-class="formClasses", ng-init="showGuidlines = false; showMa
 
 
   .columns(ng-if="form.$valid")
-    div(google-recaptcha, ng-model="story.gcaptcha", ng-if="!story.gcaptcha")
+    div(google-recaptcha, ng-model="form.gcaptcha", ng-if="!form.gcaptcha")
 
-    button(ng-click="submit(story)", ng-if="story.gcaptcha") Submit
+    button(ng-click="submit(story)", ng-if="form.gcaptcha") Submit

@@ -7,9 +7,9 @@ exports = module.exports = ($scope, $root, $stateParams, $log, Categories, Topic
 
 
   $scope.categories = Categories.getAll()
-  Topics.get().success (topic) ->
+  Topics.get().success (data) ->
 
-    $scope.topic = topic[0]
+    $scope.topic = data.collection[0]
     $scope.topic.excerpt = $sce.trustAsHtml $scope.topic.excerpt + "..."
   $scope.$emit "page:loaded"
 

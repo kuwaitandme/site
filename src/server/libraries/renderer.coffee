@@ -76,7 +76,7 @@ exports = module.exports = (settings, Cache) ->
       jadeOptions =
         cache: cacheEnable
         pretty: defaults.environment is "development"
-      htmlOptions = _.extend defaults, options
+      htmlOptions = _.extend defaults, options or {}
 
       ###
         Set the MD5 variables into the publicData field. We set this value
@@ -91,8 +91,8 @@ exports = module.exports = (settings, Cache) ->
       # Compile and render the page
       if not request.xhr
         viewURL = "#{settings.views.dir}/main/#{options.page}.jade"
-        fn = jade.compileFile viewURL, jadeOptions
-        html = fn htmlOptions
+        fn = jade.compileFile viewURL, jadeOptions or {}
+        html = fn htmlOptions or {}
 
         ###
           Now that we have compiled the HTML, we decide if we want to cache it or

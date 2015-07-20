@@ -1,7 +1,6 @@
 .story_liner
-  .index {{ $index + 1}}
   .voters()
-    //- a.upvoter.hide-if-loggedin(fn-route="/login", ng-if="!can_upvote")
+    a.upvoter.hide-if-loggedin(fn-route="/login")
     a.upvoter.show-if-loggedin(ng-click="upvote()", ng-class="{voted: hasVoted}")
   .details
     span.link
@@ -11,11 +10,11 @@
         | [Story removed by {{ story.is_moderated ? "moderator" : "original submitter" }}]
 
     span.tags(ng-if="!story.is_gone")
-    a.domain(ng-href="{{ story.url }}") ({{ story.domain }})
+    a.domain(ng-href="{{ story.url }}") ({{ story.url | domain }})
     | &nbsp;&middot;&nbsp;
     span {{ story.score }} points by&nbsp;
     span
-      a(fn-route="/user/@puskin") puskin
+      a(fn-route="/user/@admin") john
     //- | &nbsp;&middot;&nbsp;
     //- span.comments_label
       a(fn-route="/news/story/{{ story.shortid }}") {{ story.comments_count }} {{ story.comments_count == 1 ? "comment" : "comments" }}

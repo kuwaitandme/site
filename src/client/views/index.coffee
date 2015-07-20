@@ -31,6 +31,8 @@ module.exports = (app) ->
     # "info/about": require "./info/about/controller"
     # "info/terms-privacy": require "./info/terms-privacy/controller"
 
+    "users/single": require "./users/single/controller"
+
     "error/404": require "./error/404/controller"
 
 

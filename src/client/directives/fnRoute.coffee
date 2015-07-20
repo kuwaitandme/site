@@ -16,4 +16,5 @@ exports = module.exports = ($location) ->
       if $location.$$html5 then element.href = value
       else element.href = "##{ value }"
 
+
 exports.$inject = ["$location"]
