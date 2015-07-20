@@ -154,5 +154,6 @@
 	"auth/signup:title": "auth/signup:title",
 	"news/recent:title": "news/recent:title",
 	"news:title": "news:title",
-	"users/single:title": "users/single:title"
+	"users/single:title": "users/single:title",
+	"forums:title": "forums:title"
 }

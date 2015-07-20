@@ -36,14 +36,14 @@ exports = module.exports = (IoC, BaseModel, Enum) ->
 
       @param {Express.req} request    The request object. (used to get the ip)
       @param {String} logType         The key of the log type name.
-      @param {Object} data            A JSON object that will be attached to
+      @param {Object} meta            A JSON object that will be attached to
                                       the event.
       @param {Bookshelf.Model} user   The user who should the log event be
                                       attached to.
       @return Promise                 A promise which resolves iff the log
                                       event could be created.
     ###
-    log: (request, logType, data, user={}) ->
+    log: (request, logType, meta, user={}) ->
       logger.debug name, "logging event #{logType}"
 
       # First parse the data and populate the event's fields
@@ -52,8 +52,8 @@ exports = module.exports = (IoC, BaseModel, Enum) ->
         type: @types[logType.toLowerCase()]
         user: (request.user and request.user.id) or user.id
 
-      # For the data field, try to stringify the JSON so that psql stays happy.
-      try if data? then newEvent.data = JSON.stringify data
+      # For the meta field, try to stringify the JSON so that psql stays happy.
+      try if meta? then newEvent.meta = JSON.stringify meta
       catch e
 
       # Create the log entry.

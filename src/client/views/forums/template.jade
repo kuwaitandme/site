@@ -1,16 +1,46 @@
-.categories.row
-  .small-6.medium-4.large-3.columns.end(ng-repeat="category in categories")
-    .category
-      a(fn-route="/forums/{{ category.slug }}")
-        .category-header
-      h4
-        a(fn-route="/forums/{{ category.slug }}") {{ category.name }}
-      .description {{ category.description }}
-      .posts
-        .post
-          strong.title
-            a(fn-route="/forums/topic/{{ topic.slug }}") {{ topic.title }}
-          a(fn-route="/user/{{ topic.created_by }}")
-            .avatar(ng-style="{'background-image': 'url(http://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?size=40px)'}")
-          .preview(ng-bind-html="topic.excerpt")
+
+forums-header
+
+.row
+  h3 Recent topics
+  h3 Categories
+  ul.categories
+    li.row(ng-repeat="category in categories track by $index")
+      .large-7.medium-9.columns
+        .info
+          .icon(ng-style="{background: category.meta.color}", ng-bind-html="category.meta.icon")
+          .title
+            a(href='/forums/category/{{category.slug}}') {{ category.name }}
+            br
+            small {{ category.description }}
+      .stats.large-1.columns.show-for-large-up
+        .value {{ category.topic_count || 0 }}
+        .label topics
+      .stats.large-1.columns.show-for-large-up
+        .value {{ category.post_count || 0 }}
+        .label posts
+      .teaser.medium-3.columns.show-for-medium-up.end(ng-style="{'border-color': category.meta.color}")
+        .author
+          a(fn-route="/users/@admin")
+            b Admin
+          | &nbsp;
+          span
+            a(fn-route="/sasd") 12 days ago
+        .content Can you please pass res object into the hook? As I need to clear some cookies. Can you please pass res object into the hook? As I need to clear some cookies.
+
+  //- .categories.row
+    .small-6.medium-4.large-3.columns.end(ng-repeat="category in categories")
+      .category
+        a(fn-route="/forums/{{ category.slug }}")
+          .category-header
+        h4
+          a(fn-route="/forums/{{ category.slug }}") {{ category.name }}
+        .description {{ category.description }}
+        .posts
+          .post
+            strong.title
+              a(fn-route="/forums/topic/{{ topic.slug }}") {{ topic.title }}
+            a(fn-route="/user/{{ topic.created_by }}")
+              .avatar(ng-style="{'background-image': 'url(http://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?size=40px)'}")
+            .preview(ng-bind-html="topic.excerpt")
 

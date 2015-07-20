@@ -26,10 +26,14 @@ nav#menu-header(ng-class="{'show-menuheader': showMenuHeader}",
     li.contribute
       a(href="https://github.com/kuwaitandme/site/blob/develop/CONTRIBUTION.md") Contribute
   ul.second-sublinks
-    li
+    li.hide-if-loggedin
       a(fn-route="/login") Login
-    li
+    li.hide-if-loggedin
       a(fn-route="/signup") Signup
+    li.show-if-loggedin
+      a(fn-route="/account") Your Account
+    li.show-if-loggedin
+      a(fn-route="/auth/logout") Logout
     li
       a(fn-route="/info/privacy-terms") Terms &amp; Privacy
 

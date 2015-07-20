@@ -14,7 +14,9 @@ exports = module.exports = (BaseModel, Enum) ->
     validate: true
 
     # Setup the enum types
-    enums: statuses: tableName: "forum_topic_statuses"
+    enums:
+      statuses: tableName: "forum_topic_statuses"
+
 
 
   new Model

@@ -1,63 +1,150 @@
 body#forums
+  header
+    border-bottom: 1px solid #EEE
+  main
+    padding: 0 1rem
 
-  .categories
-    max-width: none
-    a
-      color: #2461b2
-      text-decoration: none
-      &:hover
-        color: #173e72
+  h3
+    text-transform: uppercase
+    color: #777
+    font-size: 14px
 
-    > .columns
-      margin: .9375rem 0
-    .category
-      +radius(3px)
-      +single-transition(border-bottom-color)
-      // margin: 10px
-      background: #f2f2f2
-      border: 1px solid #DDD
-      border-bottom-width: 2px
-      overflow: hidden
-      padding: 10px
-      &:hover
-        border-bottom-color: #999
-      // width:
+  ul.categories
+    margin: 0
 
-    h4
-      font-weight: bold
-      margin-top: 0
-      margin-bottom: 5px
-
-    .description
-      font-size: 14px
-
-    .category-header
-      margin: -10px
-      margin-bottom: 10px
-      background: #2461b2
-      min-height: 100px
-
-    .posts
-      background: #FFF
-      margin: -10px
-      margin-top: 10px
-      .post
-        border-top: 1px solid #DDD
-        font-size: 14px
-        padding: 10px
+    li
+      margin-bottom: 1rem
+      .info
         position: relative
-        .title
-        .preview
-          font-size: 13px
-          padding-left: 40px
-          padding-top: 10px
-        .avatar
-          background: #EEE
-          border: 1px solid #DDD
-          border-left: 0
-          height: 40px
-          left: 0
-          margin-top: 10px
-          position: absolute
-          width: 40px
+        height: 47px
+        +clearfix
+
+      .title
+        text-transform: none
+        // width: 95%
+        margin-left: 0
+        font-size: 20px
+        line-height: 22px
+        margin: 0
+        // position: absolute
+        white-space: nowrap
+        overflow: hidden
+        text-overflow: ellipsis
+
+        @media #{$medium-up}
+          margin-left: 62px
+
+        a
+          color: $forum-color
+          text-decoration: none
+          &:hover
+            color: #23527c
+        small
+          font-size: 14px
+
+      .icon
+        +radius(100%)
+        background: $forum-color
+        color: #FFF
+        height: 47px
+        left: 0
+        padding: 15px 0
+        position: absolute
+        text-align: center
+        top: 0
+        width: 50px
+        display: none
+
+        @media #{$medium-up}
+          display: block
+      .stats
+        text-align: center
+        .value
+          font-size: 20px
+          line-height: 22px
+          margin-bottom: 7px
+          text-align: center
+        .label
+          @extend .font-roboto
+          color: #777
+          font-size: 12px
+          font-weight: 300
+          text-transform: uppercase
+      .teaser
+        border-left: 4px solid $forum-color
+        overflow: hidden
+        height: 53px
+
+        .author
+          font-size: 14px
+          a
+            text-decoration: none
+          span a
+            color: #999
+            text-decoration: underline
+            font-size: 10px
+        .content
+          font-size: 12px
+
+  // .categories-disable
+  //   max-width: none
+  //   a
+  //     color: #2461b2
+  //     text-decoration: none
+  //     &:hover
+  //       color: #173e72
+
+
+  //   > .columns
+  //     margin: .9375rem 0
+  //   .category
+  //     +radius(3px)
+  //     +single-transition(border-bottom-color)
+  //     // margin: 10px
+  //     background: #f2f2f2
+  //     border: 1px solid #DDD
+  //     border-bottom-width: 2px
+  //     overflow: hidden
+  //     padding: 10px
+  //     &:hover
+  //       border-bottom-color: #999
+  //     // width:
+
+  //   h4
+  //     font-weight: bold
+  //     margin-top: 0
+  //     margin-bottom: 5px
+
+  //   .description
+  //     font-size: 14px
+
+  //   .category-header
+  //     margin: -10px
+  //     margin-bottom: 10px
+  //     background: #2461b2
+  //     min-height: 100px
+
+  //   .posts
+  //     background: #FFF
+  //     margin: -10px
+  //     margin-top: 10px
+  //     .post
+  //       border-top: 1px solid #DDD
+  //       font-size: 14px
+  //       padding: 10px
+  //       position: relative
+  //       .title
+  //       .preview
+  //         font-size: 13px
+  //         padding-left: 40px
+  //         padding-top: 10px
+  //       .avatar
+  //         background: #EEE
+  //         border: 1px solid #DDD
+  //         border-left: 0
+  //         height: 40px
+  //         left: 0
+  //         margin-top: 10px
+  //         position: absolute
+  //         width: 40px
 
