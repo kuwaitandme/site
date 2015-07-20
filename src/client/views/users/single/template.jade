@@ -1,0 +1,34 @@
+.user-intro
+  .row
+    .columns.large-6.profile-img
+      img(src="https://www.gravatar.com/avatar/{{ user.email | gravatar }}?s=240")
+    .columns.large-6.info
+      h2.name {{ user.name }} <span class="uname">@{{ user.username }}<span>
+      p.about {{ user.about}}
+      p.signature &quot;{{ user.signature }}&quot;
+      p.url
+        span.icon &#xf0ac;
+        a.clean(ng-href="{{ user.personal.url }}") {{ user.personal.url | domain }}
+
+  .progress
+    .row
+      .columns.small-6.medium-3
+        .value {{ user.count.views | prettynumber }}
+        .title Followers
+      .columns.small-6.medium-3
+        .value {{ user.count.stories | prettynumber }}
+        .title Stories
+      .columns.small-6.medium-3
+        .value {{ user.count.forumPosts | prettynumber }}
+        .title Forum posts
+      .columns.small-6.medium-3
+        .value {{ user.count.sharing | prettynumber }}
+        .title Items shared
+
+  .meta.activity
+    .row
+      span Last online {{ user.created_at | prettydate }}
+      span &middot;
+      span Joined {{ user.created_at | prettydate }}
+      span &middot;
+      span Profile viewed {{ user.count.views | prettynumber }} times
