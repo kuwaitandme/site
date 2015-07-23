@@ -6,29 +6,84 @@
 exports = module.exports = ->
   cache: false
   sitename: "My Awesome site"
+  staticUrl: "https://localhost:3000"
+  url: "https://localhost:3000"
 
-  facebook:
-    clientid: "1234567890"
-    secret: "1234567890"
+  facebook: oauth:
+    clientid: "XXXXXXXXXXXX"
+    secret: "XXXXXXXXXXXX"
 
   twitter:
-    consumerKey: "1234567890"
-    consumerSecret: "1234567890"
+    oauth:
+      consumerKey: "XXXXXXXXXXXX"
+      consumerSecret: "XXXXXXXXXXXX"
+    user: "@twitterhandle"
 
   google:
-    clientID: "1234567890"
-    clientSecret: "1234567890"
+    analyticsCode: "XX-XXXXXXXXXXXX"
+    reCaptcha:
+      siteKey: "XXXXXXXXXXXX"
+      serverKey: "XXXXXXXXXXXX"
+    oauth:
+      clientID: "XXXXXXXXXXXX"
+      clientSecret: "XXXXXXXXXXXX"
 
-  session:
-    secret: "1234567890"
+  windowslive: oauth:
+    clientID: "XXXXXXXXXXXX"
+    clientSecret: "XXXXXXXXXXXX"
+
+  wordpress: oauth:
+    clientID: "XXXXXXXXXXXX"
+    clientSecret: "XXXXXXXXXXXX"
+
+  linkedin: oauth:
+    consumerKey: "XXXXXXXXXXXX"
+    consumerSecret: "XXXXXXXXXXXX"
+    profileFields: [
+      "email-address"
+      "first-name"
+      "id"
+      "last-name"
+    ]
+
+
+  windowslive: oauth:
+    clientID: "XXXXXXXXXXXX"
+    clientSecret: "XXXXXXXXXXXX"
+
+  wordpress: oauth:
+    clientID: "XXXXXXXXXXXX"
+    clientSecret: "XXXXXXXXXXXX"
+
+  linkedin: oauth:
+    consumerKey: "XXXXXXXXXXXX"
+    consumerSecret: "XXXXXXXXXXXX"
+    profileFields: [
+      "email-address"
+      "first-name"
+      "id"
+      "last-name"
+    ]
+
+  amazon: oauth:
+    clientID: "XXXXXXXXXXXX"
+    clientSecret: "XXXXXXXXXXXX"
+
+  reddit: oauth:
+    clientID: "XXXXXXXXXXXX"
+    clientSecret: "XXXXXXXXXXXX"
+
+  session: secret: "XXXXXXXXXXXX"
+
+  phonegap: csrfBypassKey: "XXXXXXXXXXXX"
 
   email:
-    noreplyAddress: "noreply@site.com"
-    templates: options: webmasterAddress: "webmaster@site.com"
+    noreplyAddress: "noreply@domain.tld"
+    templates: options: webmasterAddress: "webmaster@domain.tld"
     smtp:
-      username: "noreply@site.com"
-      password: "123456"
-      hostname: "smtp.site.com"
+      username: "noreply@domain.tld"
+      password: "XXXXXXXXXXXX"
+      hostname: "smtp.domain.tld"
       ssl: true
 
 

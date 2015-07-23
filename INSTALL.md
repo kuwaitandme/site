@@ -1,54 +1,137 @@
-The sections below describe how to install a local version of the site on your machine. This is a very general guide which can be used (with a few changes) on any other project as well.
+Installation Guide
+==================
+The preferred operating system for installing is any Unix based system so mostly Linux and OS X. Windows should also be supported but it has not been tested.
 
-#### 1. Fulfill Dependencies
+## 0. Quick Start
+If you don't want to read through all of the steps below, then we recommend simply running our pre-built install script to setup things up for you.
+
+    sh etc/install.sh
+
+If the script fails, then we recommend following the instructions, step by step.
+
+
+## 1. Fulfill Dependencies
 These are the requirements that are necessary to run the site locally on your machine. We recommend using a UNIX environment such as OSX or Linux, although there is support for Windows distributions.
-* NodeJS runtime libraries
-* MongoDB database
-* MongoDB database
-* Node package manager ([npm](http://blog.npmjs.org/post/85484771375/how-to-install-npm))
-* SASS css pre-processor ([sass](http://sass-lang.com/install))
-
-    $ npm install -g mongodb pm2 redis gulp coffee-script
-
-#### 2. Set up a local server
-Simply place the project's folder inside of your server's html folder and access the site as you normally would access your server. In most cases the url to browse would be `http://localhost/kuwaitandme.com/www`.
-
-If you encounter any problems with your serve not finding the site properly then modify the `kme_base_URL` in the [`www/index.php`](www/index.php) file as needed. Ideally it should contain the base url that will point to the `www` folder.
-
-If you want to set up a virtual host, then linked here are sample scripts for [apache](src/conf/apache.conf)/[nginx](src/conf/nginx.conf). You must set the virtual host to point to the the `www` folder of this project.
-
-#### 3. Set up a local Database
-Create a new database in the MySQL server using the following details
-
-Once created, populate the database schema by importing the [`populate.js`](server/db/populate.js) file. You can simply run this command to do so.
-
-    mongo kuwaitandme ./
-
-You can use a interface like [phpmyadmin](http://www.phpmyadmin.net/home_page/index.php) to perform the above operations. You can also copy-paste the following commands.
-
-Execute the following commands in a MySQL shell to create the user and the database
-
-    $ mysql
-
-    mysql> CREATE DATABASE kuwaitandme;
-    mysql> CREATE USER 'kme'@'localhost' IDENTIFIED BY 'kme';
-    mysql> GRANT ALL PRIVILEGES ON kuwaitandme . * TO 'kme'@'localhost';
-    mysql> FLUSH PRIVILEGES;
-
-Then run these commands in a terminal to populate the database.
-
-    $ mysql -u kme --password=kme -D kuwaitandme < www/codeigniter/db/schema.sql
-    $ mysql -u kme --password=kme -D kuwaitandme < www/codeigniter/db/populate.sql
 
 
-#### 4. Compiling front-end assets (CSS/JS)
-Because of the nature of the CSS/JS files, the build files are never committed onto git. So to view the pages with the CSS/JS files you must compile them at least once.
+#### 1.1 Core packages
 
-For the first time, move to the source directory `cd src` and download the npm packages by typing in `npm install`. Once done compile the library files by typing in `grunt deploy`.
+Make sure you have the following programs installed in your machine.
 
-You will only do this once. After that, every time you will make a change to the CSS/JS files you will simply have to run `grunt` to compile the build files.
+ + [NodeJS](https://nodejs.org/) (The server)
+ + [PostgreSQL](http://www.postgresql.org/) (Database)
+ + [Redis](http://redis.io/) (A storage DB used for session)
 
-    $ cd src
-    $ npm install
-    $ grunt deploy
-    $ cd ..
+
+#### 1.2 Global npm packages
+For the project to run it requires some global programs from npm installed. Because our requirements can change a lot, we keep a [requirements file](etc/nodeenv.conf) which can be used to setup a nice virtual environment. 
+
+The following two sub-section describe how to setup the global packages. **Choose only one of the options below**.
+
+
+##### A. Setup using a virtual environment
+We recommend setting up a local environment using [nodeenv](https://github.com/ekalinin/nodeenv) (Node's equivalent of virtualenv). 
+
+    npm install -g nodeenv  # Install nodeenv
+    nodeenv --requirements=./etc/nodeenv.conf .env # Setup Virtual environment
+
+We also recommend creating a symlink for easier access.
+
+    ln -s ./.env/bin/activate ./bin/activate
+
+So now, all you have to do is run ``` source ./bin/activate ``` to enter into the virtual env. 
+ 
+
+##### B. Setup without virtual environment (not recommended)
+If you don't want to setup a virtual environment then simply install [bower](https://bower.io) and [coffee-script](http://coffeescript.org/) which is probably the only dependency you'll need. 
+
+    npm install -g bower coffee-script # Not recommended
+
+
+#### 1.3 Local npm packages
+Now that you have the global dependencies installed, You can finally install the local dependencies with
+
+    npm install
+    bower install
+
+
+
+## 2. Setup the database
+The database is run on the PostgreSQL DB and the server uses [knex.js](http://knexjs.org) to communicate with the DB. You specify connection parameters inside knex's configuration file (knexfile.coffee).
+
+
+#### 2.1 Setting up a DB user
+Run these commands in a postgres shell. These commands create a simple database and a database user.
+
+    -- Create a user 'kuwaitandme_db' with password 'password'
+    CREATE ROLE kuwaitandme_db;
+    ALTER ROLE kuwaitandme_db with password 'password';
+    ALTER ROLE kuwaitandme_db WITH LOGIN;
+
+    -- Create a database 'kuwaitandme' and give access only to user 'kuwaitandme_db'
+    CREATE DATABASE kuwaitandme;
+    REVOKE CONNECT ON DATABASE kuwaitandme FROM PUBLIC;
+    GRANT CONNECT ON DATABASE kuwaitandme TO kuwaitandme_db;
+    GRANT ALL ON DATABASE kuwaitandme TO webmaster;
+    GRANT ALL ON ALL TABLES IN DATABASE kuwaitandme TO kuwaitandme;
+
+
+Once done you should be able to get a shell by logging into Postgres by running
+
+    psql -U kuwaitandme_db -d kuwaitandme -W
+
+#### 2.2 Writing the configuration file
+You can view [knexfile.sample.coffee](etc/config/knexfile.sample.coffee) which is a sample configuration file that can be used as reference. 
+
+Fill up the DB details in a file called knexfile.coffee in the same directory.
+
+    cp etc/config/knexfile.sample.coffee etc/config/knexfile.coffee
+    vim etc/config/knexfile.coffee
+
+The mode is decided using the value stored in the ```NODE_ENV``` environment variable. Set the fields accordingly
+
+#### 2.3 Populating the DB
+Knex is amazing with its support for database migrations. Migration commands to update the tables have been written as custom scripts in the [package.json](package.json) file.
+
+    npm run-script schema-up # Add the schemas
+    npm run-script seed # Seed the DB
+
+
+<!-- /#### 3. Compile Assets -->
+
+## 3. Configure the server
+The site was built using [igloo](https://www.npmjs.com/package/igloo) which keeps two kinds of configuration files. 
+
+Read more about how [igloo builds its configuration file](https://github.com/niftylettuce/igloo/blob/master/lib/boot/settings.js). Basically write all your changes in a separate file called ```etc/config/local.coffee```. This file will overwrite any settings provided in ```etc/config/config.coffee``` and will also be ignored by git.
+
+A sample file has been provided for you [```etc/config/local.sample.coffee```](etc/config/local.sample.coffee) for reference
+
+    cp  etc/config/local.sample.coffee etc/config/local.coffee
+    vim etc/config/local.coffee
+
+
+## 4. Setup a virtual host (Optional)
+There are a lot of tutorial on how to setup your own virtual host. We recommend finding one which lets you use SSL and proxy forwarding.
+
+Create two virtual hosts, one used to serve static files and the other to proxy to the app. The app can be configured to create URLs to contain the static server's URL so that static content can be served directly from the static server instead. The static server can then run behind a CDN cache like [CloudFlare](https://www.cloudflare.com) to serve files faster.
+
+Our servers run on [nginx](http://nginx.org/), so we have left a [sample configuration file](etc/nginx.conf) which can be used as reference. Note that this configuration uses a SSL certificate which you can generate by yourself or get one online.
+
+
+## 5. Compile frontend assets
+Because of the nature of the asset files, they are never committed onto git. So to view the site properly, you must compile them at least once.
+
+All frontend files are compiled using [gulp](https://gulpjs.com). There are different options you can choose from while compiling with gulp.
+
+  + To build files and watch for changes use ``` gulp ```
+  + To build files only use ```gulp build```
+  + To build files and minify (for production) use ```gulp deploy ```
+
+
+## 6. YAAAY!!! Congratulations!
+Good job! The app is all set to run now.
+
+    NODE_ENV=production npm start # For production 
+    nodeenv -w src/server         # For development
+
+I know this readme is just too long, but I'm more than happy to take suggestions from anyone how would like to share on ways to shorten the installation process or at the very least this doc ;).
