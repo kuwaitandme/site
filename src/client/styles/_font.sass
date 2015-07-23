@@ -1,3 +1,5 @@
+@import url(//fonts.googleapis.com/css?family=Palanquin:100)
+@import url(//fonts.googleapis.com/css?family=Droid+Sans:700)
 
 // Define CSS font-specific classes
 .font-roboto-slab
@@ -20,13 +22,24 @@
 .font-roboto
   font-family: "Roboto", serif
 
+.font-palanquin
+  font-family: 'Palanquin', 'Helvetica', 'Arial', sans-serif
+
+.font-droid
+  font-family: 'Droid Sans', sans-serif
+
+
 // Define CSS text-specific classes
 .font-text
   @extend .font-open
 
 .font-thin
-  @extend .font-open
-  font-weight: 200
+  @extend .font-palanquin
+  font-weight: 100
+
+.font-bold
+  @extend .font-droid
+  font-weight: 700
 
 
 .font-title

@@ -56,7 +56,7 @@ header
       float: left
       text-transform: uppercase
       text-decoration: none
-      padding: 25px 3px 18px
+      padding: 25px 3px 17px
       margin: 0 10px
       display: inline-block
       border-bottom: 2px solid transparent
@@ -69,16 +69,16 @@ header
   nav#menu-header
     +single-transition
     background: $subHeaderColor
+    border-right: 2px solid $subHeaderColor
     bottom: 0
     left: 0
     margin-bottom: 0
+    opacity: 0
     overflow-y: auto
     position: fixed
     text-align: left
     top: 0
     width: 240px
-    opacity: 0
-    border-right: 2px solid $subHeaderColor
     z-index: 5
 
     -webkit-transform: translate3D(-$subHeaderWidth, 0, 0)
@@ -100,6 +100,7 @@ header
       color: #FFF
       font-size: 12px
     ul.main-sublinks
+      padding-bottom: 1px
       // padding: 10px 0
       margin: 0
       background: #FFF

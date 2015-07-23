@@ -1,3 +1,4 @@
+h2 Submit your link
 form(name="form", ng-class="formClasses", ng-init="showGuidlines = false; showMarkdown = false").row
   .columns
     .row.collapse
@@ -15,7 +16,7 @@ form(name="form", ng-class="formClasses", ng-init="showGuidlines = false; showMa
       textarea.columns.large-11(placeholder="Optional when submitting a URL; please see guidelines",
         ng-model="story.description", ng-disabled="formLoading")
 
-  a.guidlines.columns.medium-6(ng-click="showGuidlines = !showGuidlines") Story submission guidlines
+  a.guidlines.columns.medium-6(ng-click="showGuidlines = !showGuidlines") Link submission guidlines
   a.markdown.columns.medium-6(ng-click="showMarkdown = !showMarkdown") Markdown formatting available
   .columns(ng-if="showGuidlines")
     ul
@@ -35,20 +36,20 @@ form(name="form", ng-class="formClasses", ng-init="showGuidlines = false; showMa
 
       li
         p
-          | Do not editorialize story titles, but when the original story's
+          | Do not editorialize link titles, but when the original link's
           | title has no context or is unclear, please change it.  <strong>Please
           | remove extraneous components from titles such as the name of the
           | site or section.</strong>
 
       li
         p
-          | If no tags clearly apply to the story you are submitting, chances
+          | If no tags clearly apply to the link you are submitting, chances
           | are it does not belong here.  Do not overreach with tags if they
-          | are not the primary focus of the story.
+          | are not the primary focus of the link.
       li
         p
-          | When the story being submitted is more than a year or so old,
-          | please add the year the story was written to the post title in
+          | When the link being submitted is more than a year or so old,
+          | please add the year the link was written to the post title in
           | parentheses.
 
 
@@ -101,7 +102,7 @@ form(name="form", ng-class="formClasses", ng-init="showGuidlines = false; showMa
         td (inline image)
 
         td
-          tt ![alt text](http://example.com/image.jpg) (only allowed in story text)
+          tt ![alt text](http://example.com/image.jpg) (only allowed in link text)
 
 
   .columns(ng-if="form.$valid")
