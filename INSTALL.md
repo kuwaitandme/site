@@ -5,7 +5,7 @@ The preferred operating system for installing is any Unix based system so mostly
 ## 0. Quick Start
 If you don't want to read through all of the steps below, then we recommend simply running our pre-built install script to setup things up for you.
 
-    sh etc/install.sh
+    sh etc/setup.sh
 
 If the script fails, then we recommend following the instructions, step by step.
 
