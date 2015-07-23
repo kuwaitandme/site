@@ -8,28 +8,37 @@ exports = module.exports = (IoC, Email, reCaptcha, Users) ->
 
   validateRequest = (request) ->
     email = request.body.email
-    fullname = request.body.full_name
+    name = request.body.fullname
+    username = request.body.username
     password = request.body.password
+
     # Check for any missing fields
-    if not fullname or not password or not email
+    if not name or not password or not email or not username
       throw new Error "missing fields"
+
     # Check for a short password
-    if password.length < 6
-      throw new Error "short password"
+    if password.length < 6 then throw new Error "short password"
+
     # Check for invalid characters
     if not (validator.isEmail email) or
-    not (validator.matches fullname, /[a-zA-Z\s]*/)
+    not (validator.matches name, /[a-zA-Z\s]*/) or
+    not (validator.matches username, /[a-zA-Z0-9_]+/)
       throw new Error "bad email/name"
+
     request
 
 
   createNewUserObject = (request) ->
     email: request.body.email
-    full_name: request.body.full_name
     login_providers: email: request.body.email
     meta: activationToken: Users.randomPassword()
+    name: request.body.fullname
+    language: 1 # hard code for now
+    slug: request.body.username
     password: Users.hashPassword request.body.password
-    status: Users.statuses.INACTIVE
+    status: Users.statuses["In-Active"]
+    role: Users.roles["Normal"]
+    username: request.body.username
 
 
   validateWithDBUser = (newUser, dbUser) ->
@@ -62,7 +71,7 @@ exports = module.exports = (IoC, Email, reCaptcha, Users) ->
         template: "user-signup-activate"
         subject: "#{newUser.full_name}! Activate your account"
         user: newUser
-      [emailOptions, Users.createPromise newUser]
+      [emailOptions, Users.create newUser]
 
 
   sendEmail = (emailOptions, newUser) ->

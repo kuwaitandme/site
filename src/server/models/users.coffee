@@ -8,17 +8,6 @@ bCrypt    = require "bcrypt-nodejs"
 validator = require "validator"
 
 
-###*
- * Helper function to create a random password
- *
- * @return String          A random password with a format that follows
- *                         XXXX-XXXX-XXXX
-###
-randomPassword = ->
-  s4 = -> Math.floor((1 + Math.random()) * 0x10000).toString(16).substring 1
-  "#{s4()}-#{s4()}-#{s4()}"
-
-
 exports = module.exports = (BaseModel, Enum) ->
 
   usersPerPage = 20
@@ -27,8 +16,8 @@ exports = module.exports = (BaseModel, Enum) ->
 
     # Setup the enum types
     enums:
-      roles: tableName: "user_roles"
-      statuses: tableName: "user_statuses"
+      roles: tableName: "user_roles", pick: "name"
+      statuses: tableName: "user_statuses", pick: "name"
 
 
     ###*
@@ -163,6 +152,17 @@ exports = module.exports = (BaseModel, Enum) ->
     deserialize: (id, callback) ->
       @get(id).then (user) -> callback null, user
       .catch (error) -> callback error.message
+
+
+    ###*
+     * Helper function to create a random password
+     *
+     * @return String          A random password with a format that follows
+     *                         XXXX-XXXX-XXXX
+    ###
+    randomPassword: ->
+      s4 = -> Math.floor((1 + Math.random()) * 0x10000).toString(16).substring 1
+      "#{s4()}-#{s4()}-#{s4()}"
 
 
   new Users
