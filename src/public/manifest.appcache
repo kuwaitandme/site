@@ -1,0 +1,33 @@
+CACHE MANIFEST
+
+# These are the files that must be cached.
+CACHE:
+
+# Build files.
+https://cdn.development.kuwaitandme.com/build/md5/style_0793929d017a1465834cdef16c23795a.css
+https://cdn.development.kuwaitandme.com/build/md5/templates_792f728e15ad2899384f09e26f2f5f95.js
+https://cdn.development.kuwaitandme.com/build/md5/app_c3979a73a2caf25eb17aee0e995ea5d3.js
+
+# External JS library files.
+https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular.min.js
+https://cdnjs.cloudflare.com/ajax/libs/angular-hotkeys/1.4.5/hotkeys.min.js
+https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular-touch.min.js
+https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.14/angular-ui-router.min.js
+https://cdnjs.cloudflare.com/ajax/libs/masonry/3.3.0/masonry.pkgd.min.js
+https://cdnjs.cloudflare.com/ajax/libs/angular-md5/0.1.7/angular-md5.min.js
+
+# External Font files.
+https://fonts.googleapis.com/css?family=Cantarell
+https://fonts.googleapis.com/css?family=Open+Sans:400,600
+https://fonts.googleapis.com/css?family=Roboto
+https://fonts.googleapis.com/css?family=Roboto+Slab
+https://fonts.googleapis.com/css?family=Palanquin:100
+https://fonts.googleapis.com/css?family=Droid+Sans:700
+https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css
+
+# Internal Image files.
+
+
+# Ignore all the other files and load them from the network.
+NETWORK:
+*
