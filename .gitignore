@@ -81,25 +81,22 @@ dwsync.xml
 # ------------------------------------------------------------------------------
 # Add your custom excludes below
 # ------------------------------------------------------------------------------
-bower_components/
-.bower/
 .bower-cache/
 .bower-registry/
-coverage/
-boot/local.js
+.bower/
+.tmp/
 .vagrant/
-/docs
+/.env
 /bin/activate
-/var/public/build
-/var/public/checksums
-/var/public/javascripts/*.js
-/var/public/stylesheets/*.css
+/docs
 /src/server/**/*.js
 /tmp
-/.env
-
-
-# hide log files
 /var/backups/*.tgz
-.tmp/
+src/public/build
+src/public/checksums
+src/public/javascripts/*.js
+src/public/stylesheets/*.css
+boot/local.js
+bower_components/
+coverage/
 dist/
