@@ -1,3 +1,11 @@
+###
+  This file should contain DB credentials for the app. You must fill this up
+  accordingly. We recommend using PostgreSQL because of it's recent JSON
+  support.
+
+  The app switches from either using the 'development', 'staging' or
+  'production' values based on the value set by $NODE_ENV.
+###
 module.exports =
   development:
     client: "postgres"

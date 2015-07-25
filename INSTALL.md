@@ -3,11 +3,11 @@ Installation Guide
 The preferred operating system for installing is any Unix based system so mostly Linux and OS X. Windows should also be supported but it has not been tested.
 
 ## 0. Quick Start
-If you don't want to read through all of the steps below, then we recommend simply running our pre-built install script to setup things up for you.
+If you don't want to read through all of the steps below, then we recommend simply setting up the project environment using [Vagrant](https://www.vagrantup.com/).
 
-    sh etc/setup.sh
+    vagrant init enamakel/kuwaitandme; vagrant up --provider virtualbox
 
-If the script fails, then we recommend following the instructions, step by step.
+If vagrant fails, then we recommend following the instructions, step by step.
 
 
 ## 1. Fulfill Dependencies
@@ -63,22 +63,23 @@ The database is run on the PostgreSQL DB and the server uses [knex.js](http://kn
 #### 2.1 Setting up a DB user
 Run these commands in a postgres shell. These commands create a simple database and a database user.
 
-    -- Create a user 'kuwaitandme_db' with password 'password'
-    CREATE ROLE kuwaitandme_db;
-    ALTER ROLE kuwaitandme_db with password 'password';
-    ALTER ROLE kuwaitandme_db WITH LOGIN;
+    CREATE ROLE kme_webmaster;
+    -- Create a user 'kme_webmaster' with password 'password'
+    CREATE ROLE kme_webmaster;
+    ALTER  ROLE kme_webmaster with password 'password';
+    ALTER  ROLE kme_webmaster WITH LOGIN;
 
-    -- Create a database 'kuwaitandme' and give access only to user 'kuwaitandme_db'
-    CREATE DATABASE kuwaitandme;
+    -- Create a database 'kuwaitandme' and give access only to 
+    -- user 'kme_webmaster'
+    CREATE            DATABASE kuwaitandme;
     REVOKE CONNECT ON DATABASE kuwaitandme FROM PUBLIC;
-    GRANT CONNECT ON DATABASE kuwaitandme TO kuwaitandme_db;
-    GRANT ALL ON DATABASE kuwaitandme TO webmaster;
-    GRANT ALL ON ALL TABLES IN DATABASE kuwaitandme TO kuwaitandme;
+    GRANT  CONNECT ON DATABASE kuwaitandme TO kme_webmaster;
+    GRANT  ALL     ON DATABASE kuwaitandme TO kme_webmaster;
 
 
 Once done you should be able to get a shell by logging into Postgres by running
 
-    psql -U kuwaitandme_db -d kuwaitandme -W
+    psql -U kme_webmaster -d kuwaitandme -W
 
 #### 2.2 Writing the configuration file
 You can view [knexfile.sample.coffee](etc/config/knexfile.sample.coffee) which is a sample configuration file that can be used as reference. 
