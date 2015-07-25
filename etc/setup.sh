@@ -1,5 +1,8 @@
 #!/bin/bash
 
+yum update -y
+yum install -y
+
 echo "Installing Kuwait & Me"
 echo "Waking up our installation Wizard (wiz)."
 sleep 2
