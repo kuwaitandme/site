@@ -6,22 +6,22 @@ The preferred operating system for installing is any Unix based system so mostly
 If you don't want to read through all of the steps below, then we recommend simply setting up the project environment using [Vagrant](https://www.vagrantup.com/). We have created a box for you with all the dependencies installed
 
     # Download and start the box
-    vagrant init enamakel/kuwaitandme 
-    vagrant up --provider virtualbox
+    $ vagrant init enamakel/kuwaitandme 
+    $ vagrant up --provider virtualbox
 
     # SSH into the box
-    vagrant ssh
+    $ vagrant ssh
 
     # Goto the app!
-    cd /vagrant
+    [vagrant@kuwaitandme ~]$ cd /vagrant
 
     # Update and build.
-    git pull
-    npm install
-    gulp build
+    [vagrant@kuwaitandme vagrant]$ git pull
+    [vagrant@kuwaitandme vagrant]$ npm install
+    [vagrant@kuwaitandme vagrant]$ gulp build
 
     # Now run!
-    npm start
+    [vagrant@kuwaitandme vagrant]$ npm start
 
 If vagrant fails, then we recommend following the instructions, step by step. Most of it is setting up the different dependencies that is required for the app.
 
