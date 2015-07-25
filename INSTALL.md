@@ -3,11 +3,27 @@ Installation Guide
 The preferred operating system for installing is any Unix based system so mostly Linux and OS X. Windows should also be supported but it has not been tested.
 
 ## 0. Quick Start
-If you don't want to read through all of the steps below, then we recommend simply setting up the project environment using [Vagrant](https://www.vagrantup.com/).
+If you don't want to read through all of the steps below, then we recommend simply setting up the project environment using [Vagrant](https://www.vagrantup.com/). We have created a box for you with all the dependencies installed
 
-    vagrant init enamakel/kuwaitandme; vagrant up --provider virtualbox
+    # Download and start the box
+    vagrant init enamakel/kuwaitandme 
+    vagrant up --provider virtualbox
 
-If vagrant fails, then we recommend following the instructions, step by step.
+    # SSH into the box
+    vagrant ssh
+
+    # Goto the app!
+    cd /vagrant
+
+    # Update and build.
+    git pull
+    npm install
+    gulp build
+
+    # Now run!
+    npm start
+
+If vagrant fails, then we recommend following the instructions, step by step. Most of it is setting up the different dependencies that is required for the app.
 
 
 ## 1. Fulfill Dependencies
