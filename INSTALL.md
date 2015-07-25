@@ -12,18 +12,15 @@ If you don't want to read through all of the steps below, then we recommend simp
     # SSH into the box
     $ vagrant ssh
 
-    # Goto the app!
-    [vagrant@kuwaitandme ~]$ cd /vagrant
-
-    # Update and build.
-    [vagrant@kuwaitandme vagrant]$ git pull
-    [vagrant@kuwaitandme vagrant]$ npm install
-    [vagrant@kuwaitandme vagrant]$ gulp build
+    # Init the app!
+    [vagrant@kuwaitandme ~]$ kme_init
 
     # Now run!
-    [vagrant@kuwaitandme vagrant]$ npm start
+    [vagrant@kuwaitandme ~]$ kme_start
 
-If vagrant fails, then we recommend following the instructions, step by step. Most of it is setting up the different dependencies that is required for the app.
+If vagrant fails, then we recommend following the instructions, step by step. Most of it is setting up the different dependencies that is required for the app. 
+
+Vagrant will have the app running on port 6902 of your browser. [http://localhost:6902](http://localhost:6902)
 
 
 ## 1. Fulfill Dependencies
