@@ -1,5 +1,4 @@
-Kuwait & Me
-===========
+![](src/images/kme-logo-beta.png)
 
 [![](https://travis-ci.org/kuwaitandme/site.svg)](https://travis-ci.org/kuwaitandme/site)
 [![](https://david-dm.org/kuwaitandme/site.svg)](https://david-dm.org/kuwaitandme/site)
@@ -7,6 +6,8 @@ Kuwait & Me
 
 
 [Kuwait & Me](https://kuwaitandme.com) is an [open-source](LICENSE.md) community site that is all about making Kuwait a better place to live. It is feature packed, ad-free, beautiful and will always be free to use.
+
+Kuwait & Me is [licensed](LICENSE.md) under the [GNU GPL v3](http://www.gnu.org/licenses/gpl-3.0.en.html)
 
 **NOTE:** This site is effectively under development. It is undergoing a major redesign and does not reflect what you see in the actual website; unless of course, if you roll back a few hundred commits :P
 

@@ -1,5 +1,3 @@
-console.log require("../config/config")()
-
 module.exports =
   coffee:
     dest: "src/public/build"
