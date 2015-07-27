@@ -1,4 +1,4 @@
-![](src/images/kme-logo-beta.png)
+->![](https://kuwaitandme.com/images/kme-logo-beta.png)<-
 
 [![](https://travis-ci.org/kuwaitandme/site.svg)](https://travis-ci.org/kuwaitandme/site)
 [![](https://david-dm.org/kuwaitandme/site.svg)](https://david-dm.org/kuwaitandme/site)
