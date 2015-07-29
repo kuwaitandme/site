@@ -1,6 +1,6 @@
 exports = module.exports = (renderer, Stories) ->
   controller = (request, response, next) ->
-    Stories.recent({}, page: request.params[0] or 1).then (stories) ->
+    Stories.recent(null, page: request.params[0] or 1).then (stories) ->
 
       args =
         page: "info/about"

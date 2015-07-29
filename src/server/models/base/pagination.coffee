@@ -127,14 +127,14 @@ paginationUtils =
 ###
 module.exports = pagination = (bookshelf) ->
   # Extend updates the first object passed to it, no need for an assignment
-  _.extend bookshelf.Model.prototype, fetchPage: (qb, options) ->
-    qb ?= ->
+  _.extend bookshelf.Model.prototype, fetchPage: (buildQuery, options) ->
+    buildQuery ?= ->
 
     # Setup pagination options
     options = paginationUtils.parseOptions options
 
     @resetQuery()
-    @query qb
+    @query buildQuery
 
     # Get the table name and idAttribute for this model
     tableName = _.result @constructor.prototype, "tableName"
@@ -145,7 +145,7 @@ module.exports = pagination = (bookshelf) ->
 
 
     # Clone the base query into our collection
-    collection.query qb
+    collection.query buildQuery
 
     # Setup the pagination parameters so that we return the correct items from
     # the set

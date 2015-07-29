@@ -2,7 +2,7 @@ exports = module.exports = (Renderer, Categories, Topics) ->
   controller = (request, response, next) ->
     data = {}
 
-    Categories.getBySlug(request.params[0])
+    Categories.getBySlug request.params[0]
     .then (category) ->
       data.category = category
       Topics.getLatestByCategory category.id
@@ -24,4 +24,3 @@ exports["@require"] = [
   "models/forums/topics"
 ]
 exports["@singleton"] = true
-

@@ -130,15 +130,15 @@ exports = module.exports = (knex, Enum) ->
     patch: (id, parameters) -> @model.forge(id: id).save parameters
 
 
-    recent: (parameters, options={}) ->
+    recent: (buildQuery, options={}) ->
       options.order = created_at: "DESC"
-      @model.forge(parameters).fetchPage options
+      @model.forge().fetchPage buildQuery, options
 
 
     ###
       @todo have each fn implement it's own query fn
     ###
-    query: (qb, options) -> @model.forge().fetchPage qb, options
+    query: (buildQuery, options) -> @model.forge().fetchPage buildQuery, options
 
 
 exports["@require"] = [
