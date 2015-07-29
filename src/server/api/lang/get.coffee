@@ -2,13 +2,13 @@ Promise = require "bluebird"
 fs      = Promise.promisifyAll require "fs"
 
 ###
-This function returns a JSON of all the strings for the given language. The
-language is specified in the URL as shown below.
+  This function returns a JSON of all the strings for the given language. The
+  language is specified in the URL as shown below.
 
-GET /api/lang/en
+  GET /api/lang/en
 
-@method api.lang.get
-@return JSON
+  @method api.lang.get
+  @return JSON
 ###
 exports = module.exports = (settings, Cache) ->
   controller = (request, response, next) ->
@@ -23,10 +23,9 @@ exports = module.exports = (settings, Cache) ->
     # Check in cache
     Cache.get "route:api/lang/#{lang}"
     .catch ->
-
-      # Categories was not cached, so query and then save in cache
+      # Language was not cached, so query and then save in cache
       fs.readFileAsync "#{settings.localeDest}/#{lang}.json"
-      .then (data) -> Cache.set "route:api/lang/#{lang}", data
+      .then (data) -> Cache.set "route:api/lang/#{lang}", data.toString()
 
     .then (results) -> response.end results
     .catch (e) ->  next e

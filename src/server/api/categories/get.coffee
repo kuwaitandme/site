@@ -7,7 +7,7 @@ exports = module.exports = (Categories, Cache, email) ->
     Cache.get cacheKey
 
     # If nothing was found in the cache then we re-query the DB.
-    .catch (results) ->
+    .catch ->
 
       # Get all the categories from the DB.
       Categories.getAll()

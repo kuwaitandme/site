@@ -37,7 +37,7 @@ exports = module.exports = (IoC, settings, Cache) ->
 
   # We ask for node to re-calculate the checksums in case if there needs to be
   # any updating that is done on-the-go..
-  try fs .watch checksumFile, readChecksums
+  try fs.watch checksumFile, readChecksums
   catch e then logger.error e
 
   # Finally, read the checksums for the first time.

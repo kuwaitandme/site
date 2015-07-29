@@ -10,7 +10,7 @@
     "db-init": "npm run-script schema-up && npm run-script seed",
     "db-refresh": "npm run-script schema-down && npm run-script db-init",
     "init-config": "sh ./etc/init-config.sh",
-    "docs": "docker -n --ignore_hidden --colour_scheme emacs -m -i src -o docs --exclude *.sass,*.jade -w",
+    "docs": "docker -n --ignore_hidden --colour_scheme emacs -m -i src -o docs --exclude *.sass,*.jade,public -w",
     "start": "coffee ./bin/server.coffee",
     "test": "NODE_TLS_REJECT_UNAUTHORIZED=0 mocha src/server/mocha.coffee --compilers coffee:coffee-script/register --check-leaks --bail"
   },
@@ -148,6 +148,7 @@
     "chalk": "~0.5.1",
     "concat-stream": "~1.4.7",
     "del": "~1.1.1",
+    "docker": "^0.2.14",
     "http-proxy": "~1.8.0",
     "jshint-stylish": "~1.0.0",
     "karma": "~0.12.31",

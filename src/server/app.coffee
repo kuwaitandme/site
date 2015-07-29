@@ -1,10 +1,11 @@
 ###
-Entry point
-===========
-Entry point for the server-side. INCOMPLETE
+  Entry point
+  ===========
 
-Contributors
-[Steven Enamakel](steven.pw)
+  Entry point for the server-side. INCOMPLETE
+
+  ## Contributors
+  Steven Enamakel <me@steven.pw>
 ###
 
 IoC      = require "electrolyte"
@@ -14,13 +15,13 @@ igloo    = require "igloo"
 path     = require "path"
 
 
-# A helper function to properly resolve paths
+# helper functions to properly resolve paths and libraries
 _path = (newpath) -> path.join __dirname, newpath
 _library = (newpath) -> IoC.node _path newpath
 
 
 ###
-  ## Dependency Initialization
+  # Dependency Initialization
   Here we include the different components that we want to include in our app.
   Note that this project was initialized using
   [eskimo](https://github.com/niftylettuce/eskimo) and a good deal of code
@@ -29,6 +30,7 @@ _library = (newpath) -> IoC.node _path newpath
   Visit [igloo's documentation page](https://www.npmjs.com/package/igloo) to
   get more info about how it's different components work.
 ###
+
 # First load the settings.
 IoC.loader                _library "../../etc/config"
 
@@ -48,7 +50,7 @@ IoC.loader "models",      _library "models"
 
 
 ###
-  ## Boot definition
+  # Boot definition
   At this point, electrolyte will have scanned all our source code and created
   proper dependency maps. So to understand how control now goes, follow the
   `app.phase` lines below.
@@ -65,7 +67,6 @@ IoC.loader "models",      _library "models"
   to run anything after the app has been set.
 ###
 
-
 # Use bootable to create our app.
 app = bootable express()
 
@@ -81,7 +82,7 @@ app.phase bootable.di.initializers _path "init/post"
 
 
 ###
-  ## Finish
+  # Finish
   Now the app has been properly defined, with all boot phases and dependencies
   wired up. But the app doesn't really start here. To really start the
   app, we need to call `app.boot()`, which is done in the `bin/server.coffee`

@@ -1,20 +1,22 @@
-###*
- * This file is main entry file for unit-testing the App's server-side. Unlike
- * normal convention of having a 'test' folder in the root directory, we prefer
- * to have '*test.coffee' files all across the src of the App. This way we keep
- * each test file right next to it's source code and this makes it much easier
- * for when the App grows large-scale.
- *
- * The code below walks through all the files in the source tree and grabs all
- * the files that match the "*test.coffee" expression. It then instantiates it
- * with an instance of the server (the 'app' variable; see below).
- *
- * This configuration also allows us to have nice filenames like
- * 'get.test.coffee', 'put.test.coffee', 'part1.test.coffee' etc ... that can be
- * descriptive about the test itself.
- *
- * @author Steven Enamakel <me@steven.pw>
 ###
+  This file is main entry file for unit-testing the App's server-side. Unlike
+  normal convention of having a 'test' folder in the root directory, we prefer
+  to have '*test.coffee' files all across the src of the App. This way we keep
+  each test file right next to it's source code and this makes it much easier
+  for when the App grows large-scale.
+
+  The code below walks through all the files in the source tree and grabs all
+  the files that match the "*test.coffee" expression. It then instantiates it
+  with an instance of the server (the 'app' variable; see below).
+
+  This configuration also allows us to have nice filenames like
+  'get.test.coffee', 'put.test.coffee', 'part1.test.coffee' etc ... that can be
+  descriptive about the test itself.
+
+  ## Authors
+  Steven Enamakel <me@steven.pw>
+###
+
 path     = require "path"
 walk     = require "fs-walk"
 
@@ -42,10 +44,12 @@ IoC.loader "mocha",       IoC.node _path "mocha"
 logger = IoC.create "igloo/logger"
 
 
-# Now this block of code, walks through all the sub-files and fetches out files
-# that contain the 'test.coffee' string inside their filename.
-#
-# Each file that matches this condition is added and returned as an array
+###
+  Now this block of code, walks through all the sub-files and fetches out files
+  that contain the 'test.coffee' string inside their filename.
+
+  Each file that matches this condition is added and returned as an array
+###
 tests = do ->
   testFilename = "test.coffee"
   walkPath = path.join __dirname, "."
@@ -68,8 +72,10 @@ tests = do ->
   testPaths
 
 
-# Finally for each test file, require it! (using electrolyte) and execute it
-# using the app's URL
+###
+  Finally for each test file, require it! (using electrolyte) and execute it
+  using the app's URL
+###
 for test in tests
   try (IoC.create test) app
   catch e then logger.error e
