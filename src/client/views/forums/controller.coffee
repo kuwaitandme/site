@@ -1,16 +1,15 @@
-name = "[page:news]"
+name = "[page:forums]"
 
 
 exports = module.exports = ($scope, $root, $stateParams, $log, $http, $location, $sce) ->
   $log.log name, "initializing"
   $log.debug name, "routeParams", $stateParams
 
-
-  $http.get $location.url()
-  .success (data) ->
+  $http.pageAsJSON().success (data) ->
     $scope.pagination = data.pagination
-    for category in data.collection
-      category.meta.icon = $sce.trustAsHtml category.meta.icon
+
+    cat.meta.icon = $sce.trustAsHtml cat.meta.icon for cat in data.collection
+
     $scope.categories = data.collection
     $scope.$emit "page:loaded"
 

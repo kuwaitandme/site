@@ -11,7 +11,6 @@ Notifications) ->
   setRoute = ->
     try $scope.route = $location.path().split("/")[2] or ""
     catch e then $scope.route = ""
-    console.log  $scope.route
   $root.$on "$viewContentLoaded", setRoute
   setRoute()
 

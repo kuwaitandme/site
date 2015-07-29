@@ -8,9 +8,7 @@ exports = module.exports = ($scope, $root, $stateParams, $log, $http, $location)
 
   if /recent/.test $location.path() then $scope.ifRecent = "/recent"
 
-
-  $http.get $location.url()
-  .success (data) ->
+  $http.pageAsJSON().success (data) ->
     $scope.pagination = data.pagination
     $scope.stories = data.collection
     $scope.$emit "page:loaded"

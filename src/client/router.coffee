@@ -27,7 +27,7 @@ exports = module.exports = ($stateProvider, $locationProvider, $urlMatcher,
   # _route "classified/search",           "/classified/{parent:[^/]+}"
   # _route "classified/search",           "/classified/{parent:[^/]+}/{child:[^/]+}"
   # _route "classified/single",           "/{slug:[^/]+}-{id:[0-9]+}"
-  _route "account",                     "/account"
+  _route "comingsoon",                     "/account"
   _route "auth",                        "/auth"
   _route "auth/signup",                 "/signup"
   _route "auth/login",                  "/login"

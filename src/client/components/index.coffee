@@ -15,7 +15,7 @@ module.exports = (app) ->
 
   app.directive "forumsBreadcrumbs", require "./forums/breadcrumbs/directive"
 
-  app.directive "newsHeader", require "./news/header/directive"
+  # app.directive "newsHeader", require "./news/header/directive"
   app.directive "newsItem", require "./news/item/directive"
 
   app.directive "notifications", require "./notifications/directive"

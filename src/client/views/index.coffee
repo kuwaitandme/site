@@ -20,6 +20,7 @@ module.exports = (app) ->
     "news/create": require "./news/create/controller"
     "stories": require "./stories/controller"
     "users/single": require "./users/single/controller"
+    "comingsoon": require "./error/comingsoon/controller"
     # "account/credits": require "./account/credits/controller"
     # "classified/category": require "./classified/category/controller"
     # "classified/create": require "./classified/create/controller"
