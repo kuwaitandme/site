@@ -45,24 +45,23 @@ exports = module.exports = (knex, Enum) ->
       # method on Models.
       @bookshelf.plugin require "./pagination"
 
-      # Create the model and collection instances.
+      # Prepare the parameters we will extend
       self = this
-      @model = @bookshelf.Model.extend
+      extendPrameters =
         tableName: @tableName
         hasTimestamps: true
-
         initialize: ->
           if self.validate then @on "saving", @validate
           if @customs then @customs()
-
         validate: -> self.validateSchema @attributes or {}
 
-      if @extends? then @model.extend @extends
+      # Extend!
+      if @extends? then extendPrameters = _.extend extendPrameters, @extends
 
+      # Create the model and collection instances.
+      @bookshelf.model @tableName, extendPrameters
+      @model = @bookshelf.model @tableName
       @collection = @bookshelf.Collection.extend model: @model
-
-      # Register the model in the bookshelf's registry
-      @bookshelf.model @tableName, @model
 
       # Now assign all the different enums into the object
       for e of @enums then do (e) =>

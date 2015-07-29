@@ -20,6 +20,11 @@ exports = module.exports = (BaseModel, Enum) ->
       statuses: tableName: "user_statuses", pick: "name"
 
 
+    extends:
+      hidden: ["password"]
+      topics: -> @hasMany "forum_topics"
+
+
     ###*
      * Queries all the users that matches the given parameters.
      *

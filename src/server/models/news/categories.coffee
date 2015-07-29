@@ -14,6 +14,7 @@ exports = module.exports = (BaseModel, Enum) ->
       # (new Enum "forum_topic_statuses").then (json) => @statuses = json
       @top = @query
 
+
   new Model
 
 

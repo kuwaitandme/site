@@ -6,7 +6,7 @@
 Promise = require "bluebird"
 validator = require "validator"
 
-exports = module.exports = (BaseModel, Enum, Users) ->
+exports = module.exports = (BaseModel, Users) ->
   # after this many minutes old, a story cannot be edited
   MAX_EDIT_MINS = 90
 
@@ -16,7 +16,6 @@ exports = module.exports = (BaseModel, Enum, Users) ->
 
   class Model extends BaseModel
     tableName: "news_stories"
-
 
     top: (buildQuery, options={}) ->
       options.order = hotness: "DESC"
@@ -82,12 +81,12 @@ exports = module.exports = (BaseModel, Enum, Users) ->
 
     isRecent: (json) -> json.created_at >= RECENT_DAYS.days.ago #fix this
 
+
   new Model
 
 
 exports["@singleton"] = true
 exports["@require"] = [
   "models/base/model"
-  "models/base/enum"
   "models/users"
 ]
