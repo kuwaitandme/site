@@ -6,7 +6,9 @@ walk    = require "fs-walk"
 
 exports = module.exports = (IoC, settings) ->
   logger = IoC.create "igloo/logger"
-  logger.debug "[init] configuring i18n middleware"
+  logger.verbose "[init] configuring i18n middleware"
+
+  localeDest = "#{settings.appDir}/locales/.generated"
 
   generateLocale = (locale="en") ->
     walkPath = "#{settings.appDir}/locales/#{locale}"
@@ -32,7 +34,7 @@ exports = module.exports = (IoC, settings) ->
 
     # Stringify JSON and write to the file.
     json = JSON.stringify obj, null, 2
-    fs.writeFile "#{settings.appDir}/locales/generated/#{locale}.json", json, (err) ->
+    fs.writeFile "#{localeDest}/#{locale}.json", json, (err) ->
       if err then return logger.error err
       logger.verbose "generated locale/#{locale}.json"
 
@@ -46,7 +48,7 @@ exports = module.exports = (IoC, settings) ->
   i18n.configure
     cookie: "l"
     defaultLocale: "en"
-    directory: "#{settings.appDir}/locales/generated"
+    directory: localeDest
     locales: [
       "en"
       "ar"
