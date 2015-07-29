@@ -1,7 +1,6 @@
 exports.up = (knex, Promise) ->
   knex.schema.createTable "forum_topics", (table) ->
     table.increments().primary()
-    table.text("content").notNull()
     table.string("title").notNull()
     table.string("slug").notNull()
     table.string("excerpt").notNull()
@@ -12,7 +11,7 @@ exports.up = (knex, Promise) ->
     table.integer("view_count").notNull().defaultTo 0
     table.integer("votes").notNull().defaultTo 0
     table.integer("language").notNull().references("id").inTable "languages"
-    table.integer("reputation").notNull().defaultTo 0
+    table.decimal("hotness", 20, 10).index().notNull().defaultTo 0.0
     table.integer("edited").notNull().defaultTo 0
     table.json("meta").defaultTo "{}"
     table.timestamp("created_at").notNull().defaultTo knex.raw "now()"

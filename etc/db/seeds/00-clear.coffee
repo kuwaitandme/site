@@ -1,5 +1,6 @@
 exports.seed = (knex, Promise) ->
   knex("forum_topic_tags").del()
+  .then -> knex("forum_posts").del()
   .then -> knex("forum_topics").del()
   .then -> knex("forum_topic_statuses").del()
   .then -> knex("forum_tags").del()
