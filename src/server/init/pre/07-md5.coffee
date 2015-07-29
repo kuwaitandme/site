@@ -7,13 +7,13 @@ md5File = require "md5-file"
 name = "[md5]"
 exports = module.exports = (IoC, settings, Cache) ->
   logger = IoC.create "igloo/logger"
-  logger.debug name, "initializing md5 listeners"
+  logger.verbose name, "initializing md5 listeners"
 
   publicDir = settings.publicDir
   modelsDir = settings.modelsDir
 
   checksumFile = "#{publicDir}/build/checksums"
-  logger.debug name, "reading checksums from", checksumFile
+  logger.verbose name, "reading checksums from", checksumFile
 
   # This function reads and updates the md5 sums from the checksum file.
   readChecksums = ->

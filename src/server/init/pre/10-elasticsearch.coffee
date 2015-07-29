@@ -4,7 +4,7 @@ elasticsearch = require "elasticsearch"
 exports = module.exports = (IoC, settings) ->
   name = "[elasticsearch]"
   logger = IoC.create "igloo/logger"
-  logger.debug name, "connecting to elastic server"
+  logger.verbose name, "connecting to elastic server"
 
   # Setup the options
   options = settings.elasticsearch

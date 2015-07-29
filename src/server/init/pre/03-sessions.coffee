@@ -57,11 +57,11 @@ Users) ->
         if not json.login_providers[profile.provider]?
           ## Welcome email here!
           json.login_providers[profile.provider] = uid: profile.id
-          logger.debug name, "adding social network [#{profile.provider}] to
+          logger.verbose name, "adding social network [#{profile.provider}] to
             existing user", profile.emails[0].value
           return Users.patch json.id, json
 
-      logger.debug name, "using social network [#{profile.provider}] from
+      logger.verbose name, "using social network [#{profile.provider}] from
         existing user", profile.emails[0].value
       user
 
@@ -128,7 +128,7 @@ Users) ->
     # If the provider's OAuth information don't exist or if the provider has
     # not been enabled then return.
     if not settings[provider]? or not settings[provider].enabled then return
-    else logger.debug name, "using '#{provider}' oauth authentication"
+    else logger.verbose name, "using '#{provider}' oauth authentication"
 
     # Set the callback URL
     options = callbackURL: "#{settings.url}/auth/oauth/#{provider}/callback"
