@@ -11,8 +11,7 @@ Schema    = require "./schema"
 
 exports = module.exports = (knex, Enum) ->
 
-  bookshelf  = Bookshelf knex
-
+  bookshelf = Bookshelf knex
 
 
   ###
@@ -26,7 +25,7 @@ exports = module.exports = (knex, Enum) ->
 
     # Give a clean bookshelf & knex instance, just in case we would need one
     # without all our modifications.
-    bookshelf: Bookshelf knex
+    bookshelf: bookshelf
     knex: knex
 
 
@@ -40,15 +39,15 @@ exports = module.exports = (knex, Enum) ->
 
       # Load the Bookshelf registry plugin, which helps us avoid circular
       # dependencies.
-      bookshelf.plugin "registry"
+      @bookshelf.plugin "registry"
 
       # Load the the app's pagination plugin, which gives us the `fetchPage`
       # method on Models.
-      bookshelf.plugin require "./pagination"
+      @bookshelf.plugin require "./pagination"
 
       # Create the model and collection instances.
       self = this
-      @model = bookshelf.Model.extend
+      @model = @bookshelf.Model.extend
         tableName: @tableName
         hasTimestamps: true
 
@@ -58,7 +57,12 @@ exports = module.exports = (knex, Enum) ->
 
         validate: -> self.validateSchema @attributes or {}
 
-      @collection = bookshelf.Collection.extend model: @model
+      if @extends? then @model.extend @extends
+
+      @collection = @bookshelf.Collection.extend model: @model
+
+      # Register the model in the bookshelf's registry
+      @bookshelf.model @tableName, @model
 
       # Now assign all the different enums into the object
       for e of @enums then do (e) =>

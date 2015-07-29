@@ -1,7 +1,7 @@
 async   = require "async"
 fs      = require "fs"
-md5     = require "MD5"
-md5File = require "md5-file"
+# md5     = require "MD5"
+# md5File = require "md5-file"
 
 
 name = "[md5]"

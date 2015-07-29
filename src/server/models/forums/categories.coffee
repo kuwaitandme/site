@@ -6,8 +6,7 @@ exports = module.exports = (BaseModel, Enum) ->
     tableName: "forum_categories"
 
     # Setup the enum types
-    enums:
-      statuses: tableName: "forum_category_statuses"
+    enums: statuses: tableName: "forum_category_statuses"
 
 
   new Model
