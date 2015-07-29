@@ -18,6 +18,9 @@ exports = module.exports = (BaseModel, Enum) ->
       statuses: tableName: "forum_topic_statuses"
 
 
+    getLatestByCategory: (categoryID, page=1) ->
+      buildQuery = (qb) -> qb.where "category", categoryID
+      @query buildQuery, {page: page, category: categoryID}
 
   new Model
 

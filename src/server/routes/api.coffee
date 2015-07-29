@@ -27,7 +27,7 @@ exports = module.exports = (IoC) ->
    *                              should use.
   ###
   r = (url, controller, method=GET) ->
-    api = (controller) -> IoC.create "controllers/api/#{controller}"
+    api = (controller) -> IoC.create "api/#{controller}"
     switch method
       when POST
         router.post   (new RegExp "^#{url}/?$"), api "#{controller}/post"

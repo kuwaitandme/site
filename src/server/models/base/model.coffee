@@ -10,6 +10,7 @@ Schema    = require "./schema"
 
 
 exports = module.exports = (knex, Enum) ->
+
   bookshelf  = Bookshelf knex
 
 
@@ -137,7 +138,7 @@ exports = module.exports = (knex, Enum) ->
     ###
       @todo have each fn implement it's own query fn
     ###
-    query: (parameters, options) -> @model.forge().fetchPage options
+    query: (qb, options) -> @model.forge().fetchPage qb, options
 
 
 exports["@require"] = [

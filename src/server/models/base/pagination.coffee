@@ -18,7 +18,7 @@ Promise = require "bluebird"
   @property {Number|String} `limit` \- no. results per page (default: 15)
 ###
 defaults =
-  limit: 20
+  limit: 30
   page: 1
 
 
@@ -100,7 +100,7 @@ paginationUtils =
   @property {Number|null} `prev` \- previous page
 ###
 
-###*
+###
   ## Fetch Page Options
 
   @typedef {Object} options
@@ -127,10 +127,14 @@ paginationUtils =
 ###
 module.exports = pagination = (bookshelf) ->
   # Extend updates the first object passed to it, no need for an assignment
-  _.extend bookshelf.Model.prototype, fetchPage: (options) ->
+  _.extend bookshelf.Model.prototype, fetchPage: (qb, options) ->
+    qb ?= ->
 
     # Setup pagination options
     options = paginationUtils.parseOptions options
+
+    @resetQuery()
+    @query qb
 
     # Get the table name and idAttribute for this model
     tableName = _.result @constructor.prototype, "tableName"
@@ -139,31 +143,28 @@ module.exports = pagination = (bookshelf) ->
     countPromise = @query().clone().count "#{tableName}.#{idAttribute} as
       aggregate"
 
-    collectionPromise = undefined
-    self = undefined
 
     # Clone the base query into our collection
-    collection._knex = @query().clone()
+    collection.query qb
 
     # Setup the pagination parameters so that we return the correct items from
     # the set
     paginationUtils.query collection, options
 
     # Apply ordering options if they are present
-    # This is an optimisation, adding order before cloning for the count query
+    # This is an optimization, adding order before cloning for the count query
     # would mean the count query was also ordered, when that is unnecessary.
     if options.order
       _.forOwn options.order, (direction, property) ->
         collection.query "orderBy", "#{tableName}.#{property}", direction
 
-    @resetQuery()
     if @relatedData then collection.relatedData = @relatedData
 
     # ensure that our model (self) gets the correct events fired upon it
     collection.on "fetching", (collection, columns, options) =>
-      @triggerThen 'fetching:collection', collection, columns, options
+      @triggerThen "fetching:collection", collection, columns, options
     .on "fetched", (collection, resp, options) =>
-      @triggerThen 'fetched:collection', collection, resp, options
+      @triggerThen "fetched:collection", collection, resp, options
 
     # Setup the promise to do a fetch on our collection, running the specified
     # query.
