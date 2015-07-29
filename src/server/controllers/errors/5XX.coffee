@@ -7,7 +7,7 @@ exports = module.exports = (renderer, settings) ->
     # In production, no stack-traces leaked to user
     if isProduction then error.stack = null
     # In development, display the error on console
-    else console.trace error
+    else console.error error.trace
 
     # For API request just return a JSON version of the message
     if request.url.indexOf("/api") > -1 then return response.json error.message

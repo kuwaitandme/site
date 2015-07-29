@@ -1,5 +1,5 @@
-fs = require "fs"
-
+Promise = require "bluebird"
+fs      = Promise.promisifyAll require "fs"
 
 ###
 This function returns a JSON of all the strings for the given language. The
@@ -10,7 +10,7 @@ GET /api/lang/en
 @method api.lang.get
 @return JSON
 ###
-exports = module.exports = (settings, cache) ->
+exports = module.exports = (settings, Cache) ->
   controller = (request, response, next) ->
     response.contentType "application/json"
     lang = request.params[0]
@@ -18,17 +18,18 @@ exports = module.exports = (settings, cache) ->
     # Check if language is valid
     if not /(en|ar|dg)/.test lang
       response.status 404
-      return response.json "Language not found"
+      return response.json "language not found"
 
     # Check in cache
-    cache.get "route:api/lang/#{lang}", (error, results) =>
-      if results then return response.end results
+    Cache.get "route:api/lang/#{lang}"
+    .catch ->
 
       # Categories was not cached, so query and then save in cache
-      fs.readFile "#{settings.appDir}/locales/#{lang}.json", "utf8",
-      (error, data) ->
-        cache.set "route:api/lang/#{lang}", data
-        response.end data
+      fs.readFileAsync "#{settings.localeDest}/#{lang}.json"
+      .then (data) -> Cache.set "route:api/lang/#{lang}", data
+
+    .then (results) -> response.end results
+    .catch (e) ->  next e
 
 
 exports["@require"] = [
