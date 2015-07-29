@@ -16,6 +16,7 @@ path     = require "path"
 
 # A helper function to properly resolve paths
 _path = (newpath) -> path.join __dirname, newpath
+_library = (newpath) -> IoC.node _path newpath
 
 
 ###
@@ -29,20 +30,21 @@ _path = (newpath) -> path.join __dirname, newpath
   get more info about how it's different components work.
 ###
 # First load the settings.
-IoC.loader                IoC.node _path "../../etc/config"
+IoC.loader                _library "../../etc/config"
 
 # Load the common libraries
-IoC.loader "libraries",   IoC.node _path "libraries"
+IoC.loader "libraries",   _library "libraries"
 
-# Load our controller and cron tasks.
-IoC.loader "controllers", IoC.node _path "controllers"
-IoC.loader "cron",        IoC.node _path "cron"
+# Load our controllers and cron tasks.
+IoC.loader "controllers", _library "controllers"
+IoC.loader "api",         _library "api"
+IoC.loader "cron",        _library "cron"
 
 # Load all igloo components.
 IoC.loader "igloo",       igloo
 
 # And then finally load our models.
-IoC.loader "models",      IoC.node _path "models"
+IoC.loader "models",      _library "models"
 
 
 ###
