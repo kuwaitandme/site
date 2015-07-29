@@ -1,0 +1,4 @@
+.row
+  h3(ng-if="ifRecent") {{ "Recent topics" }}
+  h3(ng-if="!ifRecent") {{ "Popular topics" }}
+  forums-topic-small(ng-repeat="topic in topics track by $index", ng-model="topic")

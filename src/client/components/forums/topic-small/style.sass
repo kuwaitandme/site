@@ -1,0 +1,78 @@
+forums-topic-small
+  .row > .columns
+    margin-bottom: 1rem
+  .info
+    position: relative
+    height: 47px
+    +clearfix
+
+  .title
+    text-transform: none
+    // width: 95%
+    margin-left: 0
+    font-size: 20px
+    line-height: 22px
+    margin: 0
+    // position: absolute
+    white-space: nowrap
+    overflow: hidden
+    text-overflow: ellipsis
+
+    @media #{$medium-up}
+      margin-left: 62px
+
+    a
+      font-weight: bold
+      color: #555
+      text-decoration: none
+      &:hover
+        color: #23527c
+    small
+      line-height: 1
+      color: #777
+      font-size: 12px
+
+  .icon
+    +radius(100%)
+    background: $forum-color
+    color: #FFF
+    display: none
+    height: 47px
+    left: 0
+    overflow:hidden
+    position: absolute
+    text-align: center
+    top: 0
+    width: 50px
+
+    @media #{$medium-up}
+      display: block
+
+  .stats
+    text-align: center
+    .value
+      font-size: 20px
+      line-height: 22px
+      margin-bottom: 7px
+      text-align: center
+    .label
+      @extend .font-roboto
+      color: #777
+      font-size: 12px
+      font-weight: 300
+      text-transform: uppercase
+
+  .teaser
+    border-left: 4px solid $forum-color
+    overflow: hidden
+    height: 53px
+    .author
+      font-size: 14px
+      a
+        text-decoration: none
+      span a
+        color: #999
+        text-decoration: underline
+        font-size: 10px
+    .content
+      font-size: 12px
