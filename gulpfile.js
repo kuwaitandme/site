@@ -7,7 +7,7 @@ var dependencies = [
   "bower",
   "checksum",
   "coffee",
-  // "docs",
+  "docs",
   "jade",
   "md5",
   "minify",

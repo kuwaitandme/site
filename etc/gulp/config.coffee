@@ -42,11 +42,11 @@ module.exports =
   docs:
     hostname: "http://localhost:8000"
     backend:
-      dest: "docs/backend"
+      dest: "docs/server"
       src: "src/server/**/*.coffee"
     frontend:
-      dest: "docs/frontend"
-      src: "src/client/javascripts/**/*.coffee"
+      dest: "docs/client"
+      src: "src/client/**/*.coffee"
 
   server:
     footer:
