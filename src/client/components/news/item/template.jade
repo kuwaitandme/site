@@ -14,7 +14,7 @@
     | &nbsp;&middot;&nbsp;
     span {{ story.score }} points by&nbsp;
     span
-      a(fn-route="/user/@admin") john
+      a(fn-route="/user/@{{ story.created_by.username }}") {{ story.created_by.username }}
     //- | &nbsp;&middot;&nbsp;
     //- span.comments_label
       a(fn-route="/news/story/{{ story.shortid }}") {{ story.comments_count }} {{ story.comments_count == 1 ? "comment" : "comments" }}

@@ -1,6 +1,13 @@
 exports = module.exports = (renderer, Stories) ->
   controller = (request, response, next) ->
-    Stories.recent(null, page: request.params[0] or 1).then (stories) ->
+    Stories.recent(page: request.params[0] or 1).then (stories) ->
+
+      # TODO find some other way for this..
+      stories.collection = stories.collection.toJSON()
+      for story in stories.collection
+        delete story.created_by.password
+        delete story.created_by.rss_token
+        delete story.created_by.mailing_list_token
 
       args =
         page: "info/about"
@@ -9,6 +16,16 @@ exports = module.exports = (renderer, Stories) ->
 
       renderer request, response, args, true
     .catch (e) -> next e
+
+    # Stories.recent(null, page: request.params[0] or 1).then (stories) ->
+
+    #   args =
+    #     page: "info/about"
+    #     title: response.__ "news/recent:title"
+    #     data: stories
+
+    #   renderer request, response, args, true
+    # .catch (e) -> next e
 
 
 exports["@require"] = [

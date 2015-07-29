@@ -7,7 +7,7 @@ exports = module.exports = ($scope, $root, $stateParams, $log, $http, $location)
 
 
 
-  $http.get($location.url()).success (data) ->
+  $http.pageAsJSON().success (data) ->
     data.count =
       views: 100000 * Math.random()
       stories: 100000 * Math.random()

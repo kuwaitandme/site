@@ -17,9 +17,14 @@ exports = module.exports = (BaseModel, Users) ->
   class Model extends BaseModel
     tableName: "news_stories"
 
-    top: (buildQuery, options={}) ->
+    extends:
+      created_by: -> @belongsTo "users", "created_by"
+      updated_by: -> @belongsTo "users", "updated_by"
+
+    top: (options={}) ->
       options.order = hotness: "DESC"
-      @query buildQuery, options
+      options.withRelated = ["created_by"]
+      @query null, options
 
 
     # Setup the enum types
@@ -64,6 +69,10 @@ exports = module.exports = (BaseModel, Users) ->
       else throw new Error "must contain either description or URL"
 
 
+    recent: (options) ->
+      options.withRelated = ["created_by"]
+      options.order = created_at: "DESC"
+      @model.forge().fetchPage null, options
 
 
     upvote: (story_id, user_id) ->

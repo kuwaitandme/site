@@ -30,7 +30,6 @@ exports = module.exports = (BaseModel) ->
 
     extends:
       created_by: -> @belongsTo "users", "created_by"
-
       updated_by: -> @belongsTo "users", "updated_by"
 
 

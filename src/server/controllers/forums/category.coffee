@@ -6,9 +6,9 @@ exports = module.exports = (Renderer, Categories, Topics, Users) ->
       data.category = category
       Topics.getLatestByCategory category.id
     .then (topics) ->
-      topics.collection = topics.collection.toJSON()
 
       # TODO find some other way for this..
+      topics.collection = topics.collection.toJSON()
       for topic in topics.collection
         delete topic.created_by.password
         delete topic.created_by.rss_token
