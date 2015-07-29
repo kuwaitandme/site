@@ -6,20 +6,24 @@
 exports = module.exports = ->
   cache: false
   sitename: "My Awesome site"
-  staticUrl: "https://localhost:3000"
-  url: "https://localhost:3000"
+  staticUrl: "https://localhost:6902"
+  url: "https://localhost:6902"
 
-  facebook: oauth:
-    clientid: "XXXXXXXXXXXX"
-    secret: "XXXXXXXXXXXX"
+  facebook:
+    enabled: false
+    oauth:
+      clientid: "XXXXXXXXXXXX"
+      secret: "XXXXXXXXXXXX"
 
   twitter:
+    enabled: false
     oauth:
       consumerKey: "XXXXXXXXXXXX"
       consumerSecret: "XXXXXXXXXXXX"
     user: "@twitterhandle"
 
   google:
+    enabled: false
     analyticsCode: "XX-XXXXXXXXXXXX"
     reCaptcha:
       siteKey: "XXXXXXXXXXXX"
@@ -28,56 +32,48 @@ exports = module.exports = ->
       clientID: "XXXXXXXXXXXX"
       clientSecret: "XXXXXXXXXXXX"
 
-  windowslive: oauth:
-    clientID: "XXXXXXXXXXXX"
-    clientSecret: "XXXXXXXXXXXX"
+  windowslive:
+    enabled: false
+    oauth:
+      clientID: "XXXXXXXXXXXX"
+      clientSecret: "XXXXXXXXXXXX"
 
-  wordpress: oauth:
-    clientID: "XXXXXXXXXXXX"
-    clientSecret: "XXXXXXXXXXXX"
+  wordpress:
+    enabled: false
+    oauth:
+      clientID: "XXXXXXXXXXXX"
+      clientSecret: "XXXXXXXXXXXX"
 
-  linkedin: oauth:
-    consumerKey: "XXXXXXXXXXXX"
-    consumerSecret: "XXXXXXXXXXXX"
-    profileFields: [
-      "email-address"
-      "first-name"
-      "id"
-      "last-name"
-    ]
+  linkedin:
+    enabled: false
+    oauth:
+      consumerKey: "XXXXXXXXXXXX"
+      consumerSecret: "XXXXXXXXXXXX"
+      profileFields: [
+        "email-address"
+        "first-name"
+        "id"
+        "last-name"
+      ]
 
+  amazon:
+    enabled: false
+    oauth:
+      clientID: "XXXXXXXXXXXX"
+      clientSecret: "XXXXXXXXXXXX"
 
-  windowslive: oauth:
-    clientID: "XXXXXXXXXXXX"
-    clientSecret: "XXXXXXXXXXXX"
-
-  wordpress: oauth:
-    clientID: "XXXXXXXXXXXX"
-    clientSecret: "XXXXXXXXXXXX"
-
-  linkedin: oauth:
-    consumerKey: "XXXXXXXXXXXX"
-    consumerSecret: "XXXXXXXXXXXX"
-    profileFields: [
-      "email-address"
-      "first-name"
-      "id"
-      "last-name"
-    ]
-
-  amazon: oauth:
-    clientID: "XXXXXXXXXXXX"
-    clientSecret: "XXXXXXXXXXXX"
-
-  reddit: oauth:
-    clientID: "XXXXXXXXXXXX"
-    clientSecret: "XXXXXXXXXXXX"
+  reddit:
+    enabled: false
+    oauth:
+      clientID: "XXXXXXXXXXXX"
+      clientSecret: "XXXXXXXXXXXX"
 
   session: secret: "XXXXXXXXXXXX"
 
   phonegap: csrfBypassKey: "XXXXXXXXXXXX"
 
   email:
+    enabled: false
     noreplyAddress: "noreply@domain.tld"
     templates: options: webmasterAddress: "webmaster@domain.tld"
     smtp:

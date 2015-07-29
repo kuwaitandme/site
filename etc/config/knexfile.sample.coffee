@@ -8,10 +8,11 @@
 ###
 module.exports =
   development:
+    debug: true
     client: "postgres"
     connection:
-      database: "databse_development"
-      user:     "user"
+      database: "kuwaitandme_development"
+      user:     "vagrant"
       password: "password"
     pool:
       min: 2
@@ -23,8 +24,8 @@ module.exports =
     client: "postgres"
     connection:
       host: "db.sitename.tld"
-      database: "databse_testing"
-      user:     "user"
+      database: "kuwaitandme_testing"
+      user:     "vagrant"
       password: "password"
     pool:
       min: 2
@@ -36,8 +37,8 @@ module.exports =
     client: "postgres"
     connection:
       host: "db.sitename.tld"
-      database: "databse_production"
-      user:     "user"
+      database: "kuwaitandme_production"
+      user:     "vagrant"
       password: "password"
     pool:
       min: 2

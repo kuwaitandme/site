@@ -9,6 +9,7 @@
     "seed": "knex seed:run --cwd ./etc/db --knexfile ./etc/config/knexfile.coffee",
     "db-init": "npm run-script schema-up && npm run-script seed",
     "db-refresh": "npm run-script schema-down && npm run-script db-init",
+    "init-config": "sh ./etc/init-config.sh",
     "docs": "docker -n --ignore_hidden --colour_scheme emacs -m -i src -o docs --exclude *.sass,*.jade -w",
     "start": "coffee ./bin/server.coffee",
     "test": "NODE_TLS_REJECT_UNAUTHORIZED=0 mocha src/server/mocha.coffee --compilers coffee:coffee-script/register --check-leaks --bail"

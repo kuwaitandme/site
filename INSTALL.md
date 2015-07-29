@@ -1,26 +1,25 @@
 Installation Guide
 ==================
-The preferred operating system for installing is any Unix based system so mostly Linux and OS X. Windows should also be supported but it has not been tested.
+This doc gives instructions on how to install dependencies to have the app running in your machine.
 
 ## 0. Quick Start
 If you don't want to read through all of the steps below, then we recommend simply setting up the project environment using [Vagrant](https://www.vagrantup.com/). We have created a box for you with all the dependencies installed
 
-    # Download and start the box
-    $ vagrant init enamakel/kuwaitandme 
-    $ vagrant up --provider virtualbox
+    # Install local dependencies
+    npm install
 
-    # SSH into the box
-    $ vagrant ssh
+    # Download and SSH into the box
+    vagrant up; vagrant ssh
 
-    # Init the app!
-    [vagrant@kuwaitandme ~]$ kme_init
+Once the above commands succeeds, you should have a shell inside of the box. Start the project by running the following commands inside the box.
 
-    # Now run!
-    [vagrant@kuwaitandme ~]$ kme_start
+    [vagrant@kuwaitandme ~]$ cd /vagrant
+    [vagrant@kuwaitandme ~]$ npm run-script init-config
+    [vagrant@kuwaitandme ~]$ npm start
 
-If vagrant fails, then we recommend following the instructions, step by step. Most of it is setting up the different dependencies that is required for the app. 
+Because of the shared folders, vagrant will share the current project files so you can easily edit the files and view the changes in the box itself. The box has been set to have the app running on port 6902 of your browser. [http://localhost:6902](http://localhost:6902)
 
-Vagrant will have the app running on port 6902 of your browser. [http://localhost:6902](http://localhost:6902)
+If everything goes well, then you're all good to go. If however vagrant fails or you want to install the app in your own local environment, then we recommend following the instructions below given step by step. Most of it is setting up the different dependencies that is required for the app. 
 
 
 ## 1. Fulfill Dependencies
@@ -76,7 +75,6 @@ The database is run on the PostgreSQL DB and the server uses [knex.js](http://kn
 #### 2.1 Setting up a DB user
 Run these commands in a postgres shell. These commands create a simple database and a database user.
 
-    CREATE ROLE kme_webmaster;
     -- Create a user 'kme_webmaster' with password 'password'
     CREATE ROLE kme_webmaster;
     ALTER  ROLE kme_webmaster with password 'password';

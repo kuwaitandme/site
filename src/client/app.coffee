@@ -40,7 +40,7 @@ setTimeout ->
   else
     localStorage.removeItem "boot:failed"
     console.log name, "BOOTSTRAP_OK set properly!"
-, 3000
+, 15 * 1000
 
 
 console.log name, "initializing with angular"
