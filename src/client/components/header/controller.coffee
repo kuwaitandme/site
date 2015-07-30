@@ -20,8 +20,8 @@ Notifications) ->
     switch $scope.route
       when "contribute" then $scope.mainColor = "#FAA617"
       when "forums" then $scope.mainColor = "#2461B2"
-      when "meetups" then $scope.mainColor = "#009F5E"
-      when "news" then $scope.mainColor = "#F60"
+      when "meetups" then $scope.mainColor = "#F60"
+      when "news" then $scope.mainColor = "#009F5E"
       when "sharing" then $scope.mainColor = "#CB202E"
       when "stories" then $scope.mainColor = "#A0C9CC"
       else $scope.mainColor = "#222"

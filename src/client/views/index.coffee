@@ -21,6 +21,7 @@ module.exports = (app) ->
     "info/donate": require "./info/donate/controller"
     "news": require "./news/controller"
     "news/create": require "./news/create/controller"
+    "news/single": require "./news/single/controller"
     "stories": require "./stories/controller"
     "users/single": require "./users/single/controller"
     "comingsoon": require "./error/comingsoon/controller"

@@ -1,39 +1,64 @@
-body#news
+// Styles for all news pages
+body.news
   background: #FFF
-  // background-image: url(/images/hero/landing.jpg)
 
   main
-    // background: #fbfbfb
     max-width: 800px
     padding: 20px 10px
-    // border-bottom: 3px solid #F60
     margin-bottom: 0
 
-    a
-      +single-transition(border)
-      // text-decoration: none
+  #header-logo-container
+    display: none
+  #main-header
+    background: $news-color
+    height: 40px
+  #grabber-container
+    background: $news-color !important
+    padding: 12px 20px
+    .black
+      display: none
+    .white
+      display: block
 
-    .page-links
-      font-size: 12px
-      padding-bottom: 10px
+  header
+    border: none
+    nav.sub-links
+      margin: 0
       a
-        text-transform: uppercase
-        color: #777
+        @extend .font-roboto
         font-weight: bold
-        display: block
-        &:hover
-          color: #F60
-    .stories
-      // background: #FFF
-      margin: 0 auto
+        opacity: 0.2
+        padding: 14px 3px 8px
+        &.active, &:hover
+          opacity: 1
+          color: #FFF
+          border-color: #FFF
+
+
+// Styles for this specific news page
+body#news main
+  a
+    +single-transition(border)
+
+  .page-links
+    font-size: 12px
+    padding: 10px 0
+    a
+      text-transform: uppercase
+      text-decoration: none
+      color: $news-color
+      font-weight: bold
+      display: block
+  .stories
+    margin: 0 auto
 
 
   .index
     float: left
     color: #CCC
     font-size: 9pt
-    margin-top: 7px
+    margin-top: 6px
     margin-bottom: -3px
     text-align: center
     font-weight: bold
-    width: 20px
+    width: 15px
