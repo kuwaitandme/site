@@ -24,8 +24,11 @@ form(name="form", ng-class="formClasses", ng-init="showGuidlines = false; showMa
         maxlength="3000"
         ng-model="story.description", ng-disabled="formLoading")
 
-  a.guidlines.columns.medium-6(ng-if="story.url", ng-click="showGuidlines = !showGuidlines") Link submission guidlines
-  a.markdown.columns.medium-6(ng-if="story.url", ng-click="showMarkdown = !showMarkdown") Markdown formatting available
+  a.guidlines.columns.medium-6(ng-click="showGuidlines = !showGuidlines")
+    span(ng-if="story.url") Submission guidlines
+  a.markdown.columns.medium-6(ng-click="showMarkdown = !showMarkdown")
+    span(ng-if="story.url") Markdown formatting help
+
   .columns(ng-if="showGuidlines")
     ul
       //- li
