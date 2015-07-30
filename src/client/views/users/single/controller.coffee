@@ -6,7 +6,6 @@ exports = module.exports = ($scope, $root, $stateParams, $log, $http, $location)
   $log.debug name, "routeParams", $stateParams
 
 
-
   $http.pageAsJSON().success (data) ->
     data.count =
       views: 100000 * Math.random()

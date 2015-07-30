@@ -1,5 +1,5 @@
 .story_liner
-  .voters()
+  .voters
     a.upvoter.hide-if-loggedin(fn-route="/login")
     a.upvoter.show-if-loggedin(ng-click="upvote()", ng-class="{voted: hasVoted}")
   .details
@@ -9,14 +9,17 @@
       span(ng-if="story.is_gone")
         | [Story removed by {{ story.is_moderated ? "moderator" : "original submitter" }}]
 
-    span.tags(ng-if="!story.is_gone")
-    a.domain(ng-href="{{ story.url }}") ({{ story.url | domain }})
+    span.cats(ng-if="!story.is_gone")
+      a(ng-style="{background: cat.meta.color}"
+        fn-route="/news/category/{{ cat.slug }}"
+        ng-repeat="cat in story.categories") {{ cat.title }}
+    a.domain(fn-route="{{ story.url }}") ({{ story.url | domain }})
     | &nbsp;&middot;&nbsp;
     span {{ story.score }} points by&nbsp;
     span
-      a(fn-route="/user/@{{ story.created_by.username }}") {{ story.created_by.username }}
-    //- | &nbsp;&middot;&nbsp;
-    //- span.comments_label
-      a(fn-route="/news/story/{{ story.shortid }}") {{ story.comments_count }} {{ story.comments_count == 1 ? "comment" : "comments" }}
+      a.author(fn-route="/user/@{{ story.created_by.username }}") {{ story.created_by.username }}
+    | &nbsp;&middot;&nbsp;
+    span.comments_label
+      a(fn-route="/news/story/{{ story.slug }}") {{ story.comments_count }} {{ story.comments_count == 1 ? "comment" : "comments" }}
     | &nbsp;&middot;&nbsp;
     span.timestamp {{ story.created_at | prettydate }}

@@ -1,25 +1,37 @@
 news-item
   +clearfix
   .link a
-    // @extend .font-cantarell
+    @extend .font-bitter
     color: #000
     font-size: 12pt
     font-weight: bold
     margin-right: 5px
-    // &:visited
-    //   color: #777
     &:hover
       color: $news-color
       text-decoration: none
   a
+    +single-transition
     text-decoration: none
     &:hover
       text-decoration: underline
+      color: $news-color
   .story_liner
     padding: 0.3em 0
 
-  .tags
+  .cats
     margin-right: 0.25em
+    a
+      +radius(3px)
+      margin-left: 5px
+      margin-right: 3px
+      font-size: 10px
+      // vertical-align: middle
+      text-decoration: none
+      padding: 0px 0.5em 1px 0.5em
+      display: inline-block
+      background: #fffcd7
+      color: #555
+      border: 1px solid rgba(0,0,0,0.1)
 
   .domain
     font-style: italic
@@ -28,6 +40,7 @@ news-item
     color: #888
     font-size: 8.5pt
     margin-left: 50px
+
 
   .voters
     float: left
