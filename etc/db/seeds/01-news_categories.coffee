@@ -9,20 +9,24 @@ exports.seed = (knex, Promise) ->
       inactive: options.inactive or false
       hotness_mod: options.hotness_mod or 0
       slug: "#{slug}-#{uid}"
+      meta: JSON.stringify color: options.color
     (knex "news_categories").insert values
 
 
   category1 =
     title: "Global"
     description: "Worldwide news"
+    color: "#fffcd7"
 
   category2 =
     title: "Film"
     description: "film related news"
+    color: "#ddebf9"
 
   category3 =
     title: "National"
     description: "national news"
+    color: "#fffcd7"
 
 
   Promise.join(

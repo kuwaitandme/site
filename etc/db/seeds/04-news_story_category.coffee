@@ -1,7 +1,6 @@
 exports.seed = (knex, Promise) ->
-  story_category =
-    category: 1
-    story: 1
-    id: 1
-
-  knex("news_story_category").insert story_category
+  knex("news_story_category").insert category: 1, story: 1
+  .then -> knex("news_story_category").insert category: 2, story: 1
+  .then -> knex("news_story_category").insert category: 3, story: 1
+  .then -> knex("news_story_category").insert category: 2, story: 2
+  .then -> knex("news_story_category").insert category: 1, story: 3

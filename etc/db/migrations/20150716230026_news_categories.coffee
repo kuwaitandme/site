@@ -7,6 +7,7 @@ exports.up = (knex, Promise) ->
     table.boolean("is_media").defaultTo false
     table.boolean("inactive").defaultTo false
     table.integer("hotness_mod").defaultTo 0
+    table.json("meta").defaultTo "{}"
     table.timestamp("created_at").notNull().defaultTo knex.raw "now()"
     table.timestamp("updated_at").notNull().defaultTo knex.raw "now()"
 

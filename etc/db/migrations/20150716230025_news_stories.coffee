@@ -4,7 +4,7 @@ exports.up = (knex, Promise) ->
     table.string("title", 150).notNull().defaultTo ""
     table.text("description")
     table.text("description_markdown")
-    table.text("short_id", 6).index().notNull().defaultTo ""
+    table.string("slug").index().notNull().defaultTo ""
     table.string("url", 250).index().defaultTo ""
     table.integer("upvotes").notNull().defaultTo 0
     table.integer("downvotes").notNull().defaultTo 0

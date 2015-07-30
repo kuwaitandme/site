@@ -4,7 +4,7 @@ exports.seed = (knex, Promise) ->
     title: "This is the first link"
     description: "This is sometings cool"
     description_markdown: "<p>This is sometings cool</p>"
-    short_id: "oovzkk"
+    slug: "this-is-something-1"
     url: "https://github.com/jcs/lobsters"
     upvotes: 0
     downvotes: 0
@@ -20,7 +20,7 @@ exports.seed = (knex, Promise) ->
     title: "What’s Your Pain Threshold?"
     description: "This is sometings cool"
     description_markdown: "<p>This is sometings cool</p>"
-    short_id: "oovzak"
+    slug: "this-is-something-2"
     url: "https://github.com/jcs/lobsters"
     upvotes: 0
     downvotes: 0
@@ -37,7 +37,7 @@ exports.seed = (knex, Promise) ->
     title: "This is the third link"
     description: "This is sometings cool"
     description_markdown: "<p>This is sometings cool</p>"
-    short_id: "oovzks"
+    slug: "this-is-something-3"
     url: "https://github.com/jcs/lobsters"
     upvotes: 0
     downvotes: 0

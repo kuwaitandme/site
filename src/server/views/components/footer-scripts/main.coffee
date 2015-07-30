@@ -11,9 +11,6 @@ u = publicData.staticUrl
 # dependencies don't change that often.
 maxScriptCount = 13
 
-
-#
-#
 window.scripts = [
   {
     id: "style.css"
@@ -53,6 +50,8 @@ window.scripts = [
       "//fonts.googleapis.com/css?family=Open+Sans:400,600"
       "//fonts.googleapis.com/css?family=Roboto"
       "//fonts.googleapis.com/css?family=Roboto+Slab"
+      "//fonts.googleapis.com/css?family=Palanquin:100"
+      "//fonts.googleapis.com/css?family=Droid+Sans:700"
     ]
   }
 ]
@@ -62,7 +61,7 @@ window.scripts = [
 head = (document.getElementsByTagName "head")[0]
 body = (document.getElementsByTagName "body")[0]
 totalScriptsLoaded = 0
-isDevelopment = publicData.environment == "development" and false
+isDevelopment = publicData.environment == "development"
 
 
 # Create this helper function to automatically increment the progress bar.
