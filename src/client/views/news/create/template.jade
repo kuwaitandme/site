@@ -1,23 +1,31 @@
-h2 Submit your link
+h1 Submit your link
 form(name="form", ng-class="formClasses", ng-init="showGuidlines = false; showMarkdown = false").row
   .columns
     .row.collapse
-      label.columns.large-1 URL *
-      input.columns.medium-9(ng-model="story.url", ng-disabled="formLoading", required)
-      .columns.large-2.medium-3.get-title-container
+      input.field.columns(ng-model="story.url"
+        ng-disabled="formLoading"
+        placeholder="URL *"
+        type="url"
+        required)
+
+    .row.collapse(ng-if="story.url")
+      input.field.columns.medium-10(ng-model="story.title"
+        ng-disabled="formLoading"
+        placeholder="Title *"
+        minlength="20"
+        maxlength="255"
+        required)
+      .columns.medium-2.get-title-container(ng-if="story.url")
         button(ng-click="getTitle()") Get Title
 
-    .row.collapse
-      label.columns.large-1 Title *
-      input.columns.large-11(ng-model="story.title", ng-disabled="formLoading", required)
-
-    .row.collapse
-      label.columns.large-1 Text
-      textarea.columns.large-11(placeholder="Optional when submitting a URL; please see guidelines",
+    .row.collapse(ng-if="story.url")
+      textarea.field.columns(placeholder="Optional description when submitting a URL; please see guidelines",
+        minlength="20"
+        maxlength="3000"
         ng-model="story.description", ng-disabled="formLoading")
 
-  a.guidlines.columns.medium-6(ng-click="showGuidlines = !showGuidlines") Link submission guidlines
-  a.markdown.columns.medium-6(ng-click="showMarkdown = !showMarkdown") Markdown formatting available
+  a.guidlines.columns.medium-6(ng-if="story.url", ng-click="showGuidlines = !showGuidlines") Link submission guidlines
+  a.markdown.columns.medium-6(ng-if="story.url", ng-click="showMarkdown = !showMarkdown") Markdown formatting available
   .columns(ng-if="showGuidlines")
     ul
       //- li
