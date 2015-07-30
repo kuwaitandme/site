@@ -8,11 +8,18 @@ Promise = require "bluebird"
 
 exports = module.exports = (BaseModel, Enum) ->
   class Model extends BaseModel
-    tableName: "news_stories"
+    tableName: "news_story_comments"
 
-    initialize: ->
-      # (new Enum "forum_topic_statuses").then (json) => @statuses = json
-      @top = @query
+    getByStory: (storyID, page=1) ->
+      buildQuery = (qb) -> qb.where "story", storyID
+      @query buildQuery, page: page#, withRelated: ["created_by"]
+
+
+    extends:
+      comment: -> @belongsTo "comments", "comment"
+      # created_by: -> @belongsTo "users", "created_by"
+      # updated_by: -> @belongsTo "users", "updated_by"
+
 
   new Model
 

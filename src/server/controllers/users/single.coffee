@@ -1,6 +1,8 @@
 exports = module.exports = (renderer, Users) ->
   controller = (request, response, next) ->
     Users.getByUsername(request.params[0]).then (user) ->
+      if not user? then next()
+
       args =
         page: "info/about"
         title: response.__ "users/single:title"

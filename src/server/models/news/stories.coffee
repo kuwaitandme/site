@@ -14,16 +14,28 @@ exports = module.exports = (BaseModel, Users) ->
   RECENT_DAYS = 30
 
 
+  new class ModelCategories extends BaseModel
+    tableName: "news_categories"
+  new class Comments extends BaseModel
+    tableName: "comments"
+
+
   class Model extends BaseModel
     tableName: "news_stories"
 
     extends:
+      comments: ->
+        @belongsToMany "comments", "news_story_comments", "story", "comment"
+      categories: ->
+        @belongsToMany "news_categories", "news_story_category", "category",
+          "story"
       created_by: -> @belongsTo "users", "created_by"
       updated_by: -> @belongsTo "users", "updated_by"
 
+
     top: (options={}) ->
       options.order = hotness: "DESC"
-      options.withRelated = ["created_by"]
+      options.withRelated = ["created_by", "categories"]
       @query null, options
 
 
@@ -70,13 +82,13 @@ exports = module.exports = (BaseModel, Users) ->
 
 
     recent: (options) ->
-      options.withRelated = ["created_by"]
+      options.withRelated = ["created_by", "categories"]
       options.order = created_at: "DESC"
       @model.forge().fetchPage null, options
 
 
     upvote: (story_id, user_id) ->
-      @knex('news_votes').insert
+      @knex("news_votes").insert
         user: user_id
         story: story_id
         is_upvote: true
@@ -89,7 +101,6 @@ exports = module.exports = (BaseModel, Users) ->
 
 
     isRecent: (json) -> json.created_at >= RECENT_DAYS.days.ago #fix this
-
 
   new Model
 

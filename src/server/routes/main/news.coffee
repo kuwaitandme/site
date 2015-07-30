@@ -16,4 +16,5 @@ module.exports = (route) ->
   route "/news/search",                                "news/index"
   route "/news/stories",                               "news/index"
   route "/news/stories/preview",                       "news/index"
+  route "/news/story/([a-z0-9\-]+)",                   "news/single"
   route "/news/threads",                               "news/index"

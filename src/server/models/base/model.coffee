@@ -90,7 +90,7 @@ exports = module.exports = (knex, Enum) ->
       @return {Promise(Bookshelf.Model)}   A promise which resolves to the
                                            matching rows.
     ###
-    findOne: (parameters={}) -> @model.forge(parameters).fetch()
+    findOne: (parameters, options) -> @model.forge(parameters).fetch(options)
 
 
     ###
@@ -100,7 +100,7 @@ exports = module.exports = (knex, Enum) ->
      @return {[type]}    [description]
      @todo fix sql injection
     ###
-    get: (id) -> @findOne(id: id)
+    get: (id, options) -> @findOne(id: id, options)
 
 
     ###
@@ -110,7 +110,7 @@ exports = module.exports = (knex, Enum) ->
       @return {[type]}      [description]
       @todo fix sql injection
     ###
-    getBySlug: (slug) -> @model.forge(slug: slug).fetch()
+    getBySlug: (slug, options) -> @model.forge(slug: slug).fetch(options)
 
 
     ###
