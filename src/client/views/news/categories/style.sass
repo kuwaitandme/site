@@ -1,0 +1,36 @@
+body#news-create main
+  h1
+    @extend .font-roboto
+    text-align: center
+    margin-bottom: 2rem
+
+  a
+    @extend .font-roboto
+    +single-transition(border)
+    text-decoration: none
+
+    &.guidlines, &.markdown
+      color: blue
+      font-size: 9.5pt
+
+    &.markdown
+      text-align: right
+
+  .get-title-container
+    text-align: right
+
+  ul
+    color: #333
+    font-size: 9.5pt
+    padding-left: 40px
+    li
+      list-style: disc
+
+
+  .markdown_help
+    background-color: #f4f4f4
+    border: 1px solid #e0e0e0
+    padding: 0 1em
+    margin-top: 0.5em
+    font-size: 9.5pt
+    color: #333

@@ -1,5 +1,7 @@
 module.exports = (route) ->
+  route "/n/([0-9]+)",                                 "news/redirector"
   route "/news",                                       "news/index"
+  route "/news/categories",                            "news/categories"
   route "/news/category/([0-9a-z]+)/page/([0-9]+)",    "news/index"
   route "/news/category/([0-9a-z]+)?",                 "news/index"
   route "/news/comments",                              "news/index"
@@ -17,4 +19,3 @@ module.exports = (route) ->
   route "/news/stories",                               "news/index"
   route "/news/stories/preview",                       "news/index"
   route "/news/story/([a-z0-9\-]+)",                   "news/single"
-  route "/news/threads",                               "news/index"

@@ -2,9 +2,12 @@ Bookshelf         = require "bookshelf"
 Promise           = require "bluebird"
 _                 = require "underscore"
 moment            = require "moment"
+randomstring      = require "randomstring"
+slug              = require "slug"
 traverse          = require "traverse"
 validator         = require "validator"
 xss               = require "xss"
+
 
 Schema    = require "./schema"
 
@@ -51,8 +54,9 @@ exports = module.exports = (knex, Enum) ->
         tableName: @tableName
         hasTimestamps: true
         initialize: ->
-          if self.validate then @on "saving", @validate
-          if @customs then @customs()
+          @on "saving", -> self.onSave this
+          @on "creating", -> self.onCreate this
+          @on "updating", -> self.onUpdate this
         validate: -> self.validateSchema @attributes or {}
 
       # Extend!
@@ -77,6 +81,17 @@ exports = module.exports = (knex, Enum) ->
 
           # Else, directly save the JSON
           else this[e] = json
+
+      # if @full_cache then do something
+
+    onCreate: (model) -> null
+    onUpdate: (model) -> null
+    onSave: (model) -> null
+
+
+    createSlug: (text="") ->
+      slugText = "#{text} #{randomstring.generate 10}"
+      slug slugText.toLowerCase()
 
 
     ###
@@ -147,5 +162,6 @@ exports = module.exports = (knex, Enum) ->
 exports["@require"] = [
   "igloo/knex"
   "models/base/enum"
+  "libraries/cache"
 ]
 exports["@singleton"] = true

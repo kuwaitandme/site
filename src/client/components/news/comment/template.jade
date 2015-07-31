@@ -1,0 +1,10 @@
+.story_comment
+  .voters
+    a.upvoter.hide-if-loggedin(fn-route="/login")
+    a.upvoter.show-if-loggedin(ng-click="upvote()", ng-class="{voted: hasVoted}")
+    .score {{ comment.score }}
+  .details
+    a.author(fn-route="/user/@{{ comment.created_by.username }}") {{ comment.created_by.username }}
+    | &nbsp;&middot;&nbsp;
+    span {{ comment.created_at | prettydate }}
+  .content(ng-bind-html="markdown")

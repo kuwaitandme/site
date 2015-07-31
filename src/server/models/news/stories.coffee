@@ -3,21 +3,17 @@
  *
  * @author Steven Enamakel <me@steven.pw>
 ###
-Promise = require "bluebird"
+Promise   = require "bluebird"
 validator = require "validator"
+markdown  = require("markdown").markdown
 
-exports = module.exports = (BaseModel, Users) ->
+
+exports = module.exports = (BaseModel, Users, Comments, NewsCategories) ->
   # after this many minutes old, a story cannot be edited
   MAX_EDIT_MINS = 90
 
   # days a story is considered recent, for resubmitting
   RECENT_DAYS = 30
-
-
-  new class ModelCategories extends BaseModel
-    tableName: "news_categories"
-  new class Comments extends BaseModel
-    tableName: "comments"
 
 
   class Model extends BaseModel
@@ -69,9 +65,6 @@ exports = module.exports = (BaseModel, Users) ->
         (Number(@created_at or Date.now()) / window)), 7
 
 
-    ###
-     ## Custom validation hook
-    ###
     validationURL: (json) ->
       if json.url?
         if not validator.isURL json.url then throw new Error "URL is invalid"
@@ -81,11 +74,33 @@ exports = module.exports = (BaseModel, Users) ->
       else throw new Error "must contain either description or URL"
 
 
+
+    onCreate: (model) ->
+      # First set the slug from the right variable.
+      model.set "slug", @createSlug model.get "title"
+
+      # Then parse the description if it was set.
+      if description = model.get "description"
+        model.set "description", markdown.toHTML description
+
+
     recent: (options) ->
       options.withRelated = ["created_by", "categories"]
       options.order = created_at: "DESC"
       @model.forge().fetchPage null, options
 
+
+    comments: (id) ->
+      @model.where(id: id).fetch withRelated: ["comments"]
+      .then (story) ->
+        comments = story.related("comments").load "created_by"
+        comments
+        # data
+
+    increaseCommentsCount: (id) ->
+      @get(id).then (model) ->
+        model.set "comments_count", 1 + model.get "comments_count"
+        model.save()
 
     upvote: (story_id, user_id) ->
       @knex("news_votes").insert
@@ -109,4 +124,6 @@ exports["@singleton"] = true
 exports["@require"] = [
   "models/base/model"
   "models/users"
+  "models/comments"
+  "models/news/categories"
 ]

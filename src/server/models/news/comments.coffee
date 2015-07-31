@@ -1,31 +1,33 @@
-###*
- * [Promise description]
- *
- * @author Steven Enamakel <me@steven.pw>
-###
-Promise = require "bluebird"
+Promise  = require "bluebird"
+_        = require "underscore"
+markdown = require("markdown").markdown
 
-
-exports = module.exports = (BaseModel, Enum) ->
+exports = module.exports = (BaseModel, Comments, Stories) ->
   class Model extends BaseModel
     tableName: "news_story_comments"
 
-    getByStory: (storyID, page=1) ->
-      buildQuery = (qb) -> qb.where "story", storyID
-      @query buildQuery, page: page#, withRelated: ["created_by"]
+    create: (storyID, data) ->
+      newComment =
+        content_markdown: data.content
+        content: markdown.toHTML data.content
+        created_by: data.created_by
+        slug: @createSlug()
+
+      Comments.create newComment
+      .then (comment) =>
+        Stories.increaseCommentsCount storyID
+        @model.forge(story: storyID, comment: comment.id).save()
 
 
-    extends:
-      comment: -> @belongsTo "comments", "comment"
-      # created_by: -> @belongsTo "users", "created_by"
-      # updated_by: -> @belongsTo "users", "updated_by"
+    extends: hasTimestamps: false
 
 
   new Model
 
 
-exports["@singleton"] = true
 exports["@require"] = [
   "models/base/model"
-  "models/base/enum"
+  "models/comments"
+  "models/news/stories"
 ]
+exports["@singleton"] = true
