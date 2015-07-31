@@ -3,9 +3,84 @@ body.news
   background: #FFF
 
   main
+    margin-bottom: 0
     max-width: 800px
     padding: 20px 10px
-    margin-bottom: 0
+
+    .columns
+      margin-bottom: 1rem
+
+    form
+      &.loading
+        .field, button
+          background: #DDD !important
+          color: #999 !important
+        button
+          opacity: 0.2
+
+      .field, button
+        @extend .font-roboto
+        outline: none
+
+      .field
+        +single-transition(border)
+        border: 0
+        border-bottom: 2px solid transparent
+        padding: 5px 10px
+        width: 100%
+        &.ng-invalid-required, &:focus
+          background: #f6f6f6
+          border-color: $color-red
+        &.ng-invalid, &:focus
+          border-color: #CCC
+        &:focus
+          border-color: $news-color
+          &.ng-invalid
+            border-color: $color-red
+
+      textarea:focus
+        background: #f6f6f6
+        border: 0
+        &.ng-invalid
+          border-bottom: 2px solid $color-red
+
+      input
+        background-color: white
+        color: #555
+        line-height: 1.2em
+        min-height: 26px
+        padding: 5px
+
+      label
+        color: #333
+        font-weight: bold
+        margin-bottom: 4px
+        vertical-align: middle
+
+      textarea
+        background-color: white
+        color: #555
+        line-height: 1.2em
+        min-height: 150px
+        padding: 3px 5px
+
+    button
+      background-color: #fafafa
+      border: 1px solid #ccc
+      border-bottom-color: #bbb
+      border-radius: 0
+      color: #333 !important
+      cursor: pointer
+      display: inline-block
+      font-size: 9.5pt
+      line-height: 18px
+      min-height: 0
+      padding: 2px 10px 2px 10px
+      text-align: center
+      text-transform: none
+      width: auto
+      &:hover
+        background-color: #e6e6e6
 
   #header-logo-container
     display: none
@@ -44,14 +119,14 @@ body#news main
     font-size: 12px
     padding: 10px 0
     a
-      text-transform: uppercase
-      text-decoration: none
       color: $news-color
-      font-weight: bold
       display: block
+      font-weight: bold
+      text-decoration: none
+      text-transform: uppercase
+
   .stories
     margin: 0 auto
-
 
   .index
     float: left

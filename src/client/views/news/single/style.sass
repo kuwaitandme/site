@@ -1,92 +1,28 @@
-body#news-create
-  main
-    font-family: "helvetica neue", arial, sans-serif;
-    font-size: 9.5pt
+body#news-single
 
-    h2
-      text-align: center
-      margin-top: 0
+  .main-commentbox
+    width: 100%
+    min-height: 100px
+    outline: none
+    background: #f9f9f9
 
+  .description, form
+    padding: 1rem 0
+    margin: 1rem 0 1rem 40px
+    // margin-right: 40px
+    border-bottom: 1px solid #EEE
 
-    form.loading
-      input, textarea
-        background: #EEE
+  .description
+    margin-top: 0
+    padding-top: 0
+    font-size: 12px
+    font-family: "helvetica neue", arial, sans-serif
 
-    input, textarea
-      border: 1px solid #ccc
-
-    input
-      outline: none
-      color: #555
-      min-height: 26px
-      background-color: white
-      line-height: 1.2em
-      padding: 3px 5px
-
-
-    button
-      display: inline-block
-      width: auto
-      min-height: 0
-      padding: 2px 10px 2px 10px
-      line-height: 18px
-      color: #333 !important
-      text-align: center
-      background-color: #fafafa
-      font-size: 9.5pt
-      border-radius: 0
-      text-transform: none
-      border: 1px solid #ccc
-      border-bottom-color: #bbb
-      cursor: pointer
-      font-family: "helvetica neue", arial, sans-serif;
-      &:hover
-        background-color: #e6e6e6
-    label
-      color: #333
+    h1, h2, h3, h4, h5, h6
       font-weight: bold
-      margin-bottom: 4px
-      vertical-align: middle
-
-    textarea
-      font-family: "helvetica neue", arial, sans-serif;
-      color: #555
-      min-height: 150px
-      background-color: white
-      line-height: 1.2em
-      padding: 3px 5px
-
-    .columns
-      margin-bottom: 1rem
 
     a
-      +single-transition(border)
-      text-decoration: none
+      color: blue
 
-      &.guidlines, &.markdown
-        color: blue
-        text-decoration: underline
-        font-size: 9.5pt;
-      &.markdown
-        text-align: right
-
-    .get-title-container
-      text-align: right
-
-    ul
-      padding-left: 40px
-
-      font-size: 9.5pt;
-      color: #333;
-      li
-        list-style: disc
-
-
-    .markdown_help
-      background-color: #f4f4f4;
-      border: 1px solid #e0e0e0;
-      padding: 0 1em;
-      margin-top: 0.5em;
-      font-size: 9.5pt;
-      color: #333;
-
+  news-item .link a:visited
+    color: #000

@@ -21,6 +21,13 @@ exports = module.exports = ($environment, $http, $log, $storage) ->
         method: "PUT"
         url: "#{$environment.url}/api/news/stories/#{id}/upvote"
 
+    createComment: (id, data) ->
+      $http
+        data: data
+        method: "POST"
+        url: "#{$environment.url}/api/news/stories/#{id}/comments"
+
+
 exports.$inject = [
   "$environment"
   "$http"

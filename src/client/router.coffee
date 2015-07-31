@@ -44,7 +44,7 @@ exports = module.exports = ($stateProvider, $locationProvider, $urlMatcher,
   _route "news",                        "/news"
   _route "news",                        "/news/categories"
   _route "news",                        "/news/page/{page:[0-9]+}"
-  _route "news",                        "/news/story/{story:[^/]+}"
+  _route "news/single",                 "/news/story/{story:[^/]+}"
   _route "news/create",                 "/news/create"
   _route "news/create",                 "/news/create"
   _route "news",                        "/news/filters"

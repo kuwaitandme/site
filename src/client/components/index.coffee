@@ -17,6 +17,7 @@ module.exports = (app) ->
 
   # app.directive "newsHeader", require "./news/header/directive"
   app.directive "newsItem", require "./news/item/directive"
+  app.directive "newsComment", require "./news/comment/directive"
 
   app.directive "notifications", require "./notifications/directive"
 

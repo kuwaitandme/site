@@ -16,7 +16,7 @@
   nav.sub-links.hide-for-small(ng-if="route == 'news'")
     a(fn-route="/news", ng-class="{active: subroute == ''}") Top
     a(fn-route="/news/recent", ng-class="{active: subroute == 'recent'}") Recent
-    a(fn-route="/news/categories", ng-class="{active: subroute == 'categories'}") Categories
+    //- a(fn-route="/news/categories", ng-class="{active: subroute == 'categories'}") Categories
     a(fn-route="/news/create", ng-class="{active: subroute == 'create'}") Submit
 
 
@@ -44,7 +44,7 @@ nav#menu-header(ng-class="{'show-menuheader': showMenuHeader}",
       a(fn-route="/news") News
       a.sub(fn-route="/news", ng-class="{active: subroute == ''}") Top
       a.sub(fn-route="/news/recent", ng-class="{active: subroute == 'recent'}") Recent
-      a.sub(fn-route="/news/categories", ng-class="{active: subroute == 'categories'}") Categories
+      //- a.sub(fn-route="/news/categories", ng-class="{active: subroute == 'categories'}") Categories
       a.sub(fn-route="/news/create", ng-class="{active: subroute == 'create'}") Submit
     //- Sharing
     li.sharing(ng-class="{active: route == 'sharing'}")

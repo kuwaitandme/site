@@ -8,16 +8,21 @@ exports = module.exports = ($scope, $root, $stateParams, $log, $http, $location,
 
   $scope.story = {}
 
+  blockForm = -> $scope.formClasses = loading: $scope.formLoading = true
+  unlockForm = -> $scope.formClasses = loading: $scope.formLoading = false
+
   # When requested to get the title, send the URL to our scrapper
   $scope.getTitle = ->
-    $scope.formClasses = loading: $scope.formLoading = true
+    blockForm()
     $http.get "/api/news/scrape?u=#{$scope.story.url}"
     .success (info) -> $scope.story.title = info.title
-    .finally -> $scope.formClasses = loading: $scope.formLoading = false
+    .finally unlockForm
 
   $scope.submit = (data) ->
+    blockForm()
     Stories.create data
     .then -> $location.path "/news/recent"
+    .finally unlockForm
 
 
 
