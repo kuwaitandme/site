@@ -1,7 +1,10 @@
+name = "[page:auth/signup]"
+
+
 exports = module.exports = ($http, $location, $log, $notifications, $scope,
 $timeout, Languages, Users, $window) ->
-  @name = "[page:auth-signup]"
-  $log.log @name, "initializing"
+  $log.log name, "initializing"
+
   prompted = false
   $scope.formClasses = {}
   $scope.signup = {}
@@ -15,10 +18,10 @@ $timeout, Languages, Users, $window) ->
     # TODO: Poll the server to see if email is valid
     $scope.emailValid = value?
 
+  usernameLock = false
   $scope.$watch "signup.username", (value) ->
     # TODO: Poll the server to see if username is valid
     $scope.usernameValid = value?
-
 
 
   # Function to perform user registration
@@ -42,7 +45,6 @@ $timeout, Languages, Users, $window) ->
 
 
   $window.onbeforeunload = ->
-    console.log $scope.page is 2 and not promted
     if $scope.page is 2 and not promted
       promted = true
       return "Are you sure you want to leave? You haven't signed up yet."

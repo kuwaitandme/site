@@ -3,11 +3,14 @@ section(ng-if="story.id")
   .description(ng-bind-html="description")
   form.row.collapse(name="form", ng-class="formClasses")
     .columns
-      textarea.field.main-commentbox(ng-model="comment"
+      textarea.field.main-commentbox.show-if-loggedin(ng-model="comment"
         ng-disabled="formLoading"
         maxlength=3000
         placeholder="Comment on this link."
         required)
+      textarea.field.main-commentbox.hide-if-loggedin(
+        placeholder="you need to be logged in to comment"
+        disabled)
 
     .columns(ng-if="form.$valid")
       button(ng-click="submit(comment)") Submit

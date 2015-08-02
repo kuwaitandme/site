@@ -4,9 +4,9 @@
       img(src="https://www.gravatar.com/avatar/{{ user.email | gravatar }}?s=240")
     .columns.large-7.info
       h2.name {{ user.name }} <span class="uname">@{{ user.username }}<span>
-      p.about {{ user.about}}
-      p.signature &quot;{{ user.signature }}&quot;
-      p.url
+      p.about(ng-if="user.about") {{ user.about}}
+      p.signature(ng-if="user.signature") &quot;{{ user.signature }}&quot;
+      p.url(ng-if="user.personal.url")
         span.icon &#xf0ac;
         a.clean(ng-href="{{ user.personal.url }}") {{ user.personal.url | domain }}
 

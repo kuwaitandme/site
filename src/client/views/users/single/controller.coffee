@@ -13,7 +13,6 @@ exports = module.exports = ($scope, $root, $stateParams, $log, $http, $location)
       forumPosts: 100000 * Math.random()
       sharing: 100 * Math.random()
 
-    data.personal.url = "https://community.nodebb.org/user/psychobunny"
     $scope.user = data
     $scope.$emit "page:loaded"
 
