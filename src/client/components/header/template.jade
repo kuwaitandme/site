@@ -7,73 +7,33 @@
     a(fn-route="/")
       img(src="/images/header/logo.png")
 
-  //- Different sub headers get defined here
-  nav.sub-links.hide-for-small(ng-if="route == 'forums'")
-    a(fn-route="/forums", ng-class="{active: subroute == ''}") Home
-    a(fn-route="/forums/recent", ng-class="{active: subroute == 'recent'}") Recent
-    a(fn-route="/forums/popular", ng-class="{active: subroute == 'popular'}") Popular
-    a(fn-route="/forums/create", ng-class="{active: subroute == 'tags'}") Tags
-  nav.sub-links.hide-for-small(ng-if="route == 'news'")
-    a(fn-route="/news", ng-class="{active: subroute == ''}") Top
-    a(fn-route="/news/recent", ng-class="{active: subroute == 'recent'}") Recent
-    //- a(fn-route="/news/categories", ng-class="{active: subroute == 'categories'}") Categories
-    a(fn-route="/news/create", ng-class="{active: subroute == 'create'}") Submit
+//- This is the Main header
+nav#menu-header(ng-class="{'show-menuheader': showMenuHeader}"
+  ng-init="showSubMenu=false;"
+  ng-style="{'border-color': mainBorderColor}")
+  ul
+    li(ng-repeat="link in links"
+      class="{{ link.class }}"
+      ng-mouseover="onMainLinkHover(link)"
+      ng-class="{active: link.isActive}")
+      span.icon(ng-if="link.children") &#xf105;
+      a(fn-route="{{ link.url }}"
+        ng-if="link.slug") {{ link.name }}
+
+//- This is the sub header. It gets set with the link's children from the main
+//- header
+nav#submenu-header(ng-style="{background: activeLink.color}")
+  ul
+    li(ng-repeat="sublink in activeLink.children"
+      class="{{ activeLink.class }} {{ sublink.class }}"
+      ng-class="{active: sublink.isActive}")
+      a(fn-route="{{ sublink.url }}") {{ sublink.name }}
+
+//- This is the page header. It gets set with the content for the given page
+nav#page-header
+  ul
+    li(ng-repeat="link in currentPageLink.children")
+      a(fn-route="{{ link.url }}") {{ link.name }}
 
 
-  nav.sub-links.hide-for-small(ng-if="route == 'stories'")
-    a(fn-route="/stories", ng-class="{active: subroute == ''}") Recommended
-    a(fn-route="/stories/latest", ng-class="{active: subroute == 'latest'}") Latest
-    a.hide-if-loggedin(fn-route="/login") Write a story
-    a.show-if-loggedin(fn-route="/account/stories/write") Write a story
-
-//- This is the sidebar header
-nav#menu-header(ng-class="{'show-menuheader': showMenuHeader}",
-  ng-style="{background: mainColor, 'border-color':mainColor}")
-  ul.main-sublinks
-    li.forums(ng-class="{active: route == 'forums'}")
-      a(fn-route="/forums") Forums
-      a.sub(fn-route="/forums", ng-class="{active: subroute == ''}") Categories
-      a.sub(fn-route="/forums/recent", ng-class="{active: subroute == 'recent'}") Recent
-      a.sub(fn-route="/forums/popular", ng-class="{active: subroute == 'popular'}") Popular
-      a.sub(fn-route="/forums/create", ng-class="{active: subroute == 'tags'}") Tags
-    //- Meetups
-    li.meetups(ng-class="{active: route == 'meetups'}")
-      a(fn-route="/meetups") Meetups
-    //- News
-    li.news(ng-class="{active: route == 'news'}")
-      a(fn-route="/news") News
-      a.sub(fn-route="/news", ng-class="{active: subroute == ''}") Top
-      a.sub(fn-route="/news/recent", ng-class="{active: subroute == 'recent'}") Recent
-      //- a.sub(fn-route="/news/categories", ng-class="{active: subroute == 'categories'}") Categories
-      a.sub(fn-route="/news/create", ng-class="{active: subroute == 'create'}") Submit
-    //- Sharing
-    li.sharing(ng-class="{active: route == 'sharing'}")
-      a(fn-route="/sharing") Sharing
-    //- Stories
-    li.stories(ng-class="{active: route == 'stories'}")
-      a(fn-route="/stories") Stories
-      a.sub(fn-route="/stories", ng-class="{active: subroute == ''}") Recommended
-      a.sub(fn-route="/stories/latest", ng-class="{active: subroute == 'latest'}") Latest
-      a.sub(fn-route="/account/stories/write") Write a story
-    //- Contribute
-    li.contribute
-      a(href="https://github.com/kuwaitandme/site/blob/develop/CONTRIBUTION.md") Contribute
-
-  //- Other sublinks go in here
-  ul.second-sublinks
-    li.hide-if-loggedin
-      a(fn-route="/login") Login
-    li.hide-if-loggedin
-      a(fn-route="/signup") Signup
-    li.show-if-loggedin
-      a(fn-route="/account") Your Account
-    li.show-if-loggedin
-      a(fn-route="/auth/logout") Logout
-    li
-      a(fn-route="/info/privacy-terms") Terms &amp; Privacy
-
-    li.copy
-      a Copyright &copy; Kuwait &amp; Me
-
-
-span.nav-cover(ng-click="closeHeader()")
+span.nav-cover(ng-click="closeHeader()", ng-mouseover="onCoverHover()")

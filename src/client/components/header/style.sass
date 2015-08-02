@@ -1,5 +1,5 @@
 $headerHeight: 60px
-$subHeaderWidth: 240px
+$subHeaderWidth: 130px
 $subHeaderColor: $news-color
 
 
@@ -50,72 +50,57 @@ header
     &.nav-up
       margin-top: -$headerHeight
 
-  nav.sub-links
-    margin-left: 30px
-    float: left
-    a
-      +single-transition
-      font-size: 11px
-      float: left
-      text-transform: uppercase
-      text-decoration: none
-      padding: 25px 3px 17px
-      margin: 0 10px
-      display: inline-block
-      border-bottom: 2px solid transparent
-      &.active, &:hover
-        border-color: #000
-
-
-
-  nav#menu-header
-    +single-transition
-    background: $subHeaderColor
-    border-right: 2px solid $subHeaderColor
-    bottom: 0
-    left: 0
-    margin-bottom: 0
+  nav#menu-header, nav#submenu-header
     opacity: 0
-    overflow-y: auto
-    position: fixed
-    text-align: left
-    top: 0
-    width: 240px
-    z-index: 5
-
-    -webkit-transform: translate3D(-$subHeaderWidth, 0, 0)
-    -ms-transform: translate3D(-$subHeaderWidth, 0, 0)
-    transform: translate3D(-$subHeaderWidth, 0, 0)
-
     ul
+      margin: 0
+      padding: 5px 0
+
       li
         +single-transition(background)
-        margin-bottom: 10px
-        // margin-right: 15px
         a
           text-decoration: none
           cursor: pointer
           margin-left: 10px
           font-weight: bold
 
-    ul.second-sublinks
-      color: #FFF
-      font-size: 12px
-    ul.main-sublinks
-      padding-bottom: 1px
-      // padding: 10px 0
-      margin: 0
+
+
+  nav#menu-header
+    +single-transition
+    background: #FFF
+    border-right: 2px solid $subHeaderColor
+    bottom: 0
+    left: 0
+    margin-bottom: 0
+    overflow-y: auto
+    position: fixed
+    text-align: left
+    top: 0
+    width: $subHeaderWidth
+    z-index: 5
+
+    -webkit-transform: translate3D(-$subHeaderWidth, 0, 0)
+    -ms-transform: translate3D(-$subHeaderWidth, 0, 0)
+    transform: translate3D(-$subHeaderWidth, 0, 0)
+
+
+    ul
       background: #FFF
+      position: relative
+
       li
         color: #000
-
         a
           display: inline-block
           color: inherit
-          padding: 9px 7px
-          // border-bottom: 2px solid #333
-          text-transform: uppercase
+          padding: 7px
           font-size: 12px
+
+        .icon
+          float: right
+          color: inherit
+          padding: 7px 15px
 
         .sub
           display: none !important
@@ -124,17 +109,15 @@ header
             background: rgba(0,0,0,0.3)
 
         &.active, &:hover
+          color: #FFF
+          background: #333
           a
             display: block
-            color: #FFF
+            color: inherit
             border-color: transparent
 
         &.active .sub
           display: block !important
-
-        &.plain:hover, &.plain.active
-          background: #FFF
-          color: #000
         &.sharing:hover, &.sharing.active
           background: $sharing-color
         &.contribute:hover, &.contribute.active
@@ -148,8 +131,36 @@ header
         &.news:hover, &.news.active
           background: $news-color
 
+        &.divider
+          background: #EEE
+          height: 2px
+          margin: 10px 0
 
-.show-subheader
+nav#submenu-header
+  +single-transition
+  background: #EEE
+  bottom: 0
+  height: 100%
+  left: $subHeaderWidth
+  position: fixed
+  top: 0
+  width: $subHeaderWidth
+  z-index: 2
+
+  -webkit-transform: translate3D(-$subHeaderWidth * 2, 0, 0)
+  -ms-transform: translate3D(-$subHeaderWidth * 2, 0, 0)
+  transform: translate3D(-$subHeaderWidth * 2, 0, 0)
+
+  li
+    color: #FFF
+    a
+      display: inline-block
+      color: inherit
+      padding: 7px
+      font-size: 12px
+    &:hover, &.active
+      background: rgba(0,0,0,0.3)
+.show-header
   header
     #grabber-container
       background: $subHeaderColor
@@ -167,6 +178,10 @@ header
       -webkit-transform: translate3D($subHeaderWidth, 0, 0)
       -ms-transform: translate3D($subHeaderWidth, 0, 0)
       transform: translate3D($subHeaderWidth, 0, 0)
+    #submenu-header
+      -webkit-transform: translate3D(-$subHeaderWidth, 0, 0)
+      -ms-transform: translate3D(-$subHeaderWidth, 0, 0)
+      transform: translate3D(-$subHeaderWidth, 0, 0)
     .nav-cover
       bottom: 0
       left: $subHeaderWidth
@@ -182,11 +197,18 @@ header
     -ms-transform: translate3D(50px, 0, 0)
     transform: translate3D(50px, 0, 0)
 
-  .copy
-    opacity: 0.4
-    color: #FFF
-    font-size: 10px
-
+  &.show-subheader
+    #submenu-header
+      opacity: 1
+      -webkit-transform: translate3D(0,0,0)
+      -ms-transform: translate3D(0,0,0)
+      transform: translate3D(0,0,0)
+    #main-header
+      -webkit-transform: translate3D($subHeaderWidth * 2, 0, 0)
+      -ms-transform: translate3D($subHeaderWidth * 2, 0, 0)
+      transform: translate3D($subHeaderWidth * 2, 0, 0)
+    header .nav-cover
+      left: $subHeaderWidth * 2
 
 @media print
   header

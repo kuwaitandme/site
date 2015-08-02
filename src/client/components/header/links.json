@@ -1,0 +1,112 @@
+/**
+ *
+ */
+[
+  {
+    "slug": "home",
+    "class": "home",
+    "name": "Home Page",
+    "url": "/"
+  }, {
+    "slug": "contribute",
+    "class": "contribute",
+    "name": "Contribute",
+    "url": "/info/contribute",
+    "color": "#F60"
+  }, {
+    "class": "divider",
+  }, {
+    "slug": "forums",
+    "class": "forums",
+    "name": "Forums",
+    "url": "/forums",
+    "color": "#2461B2",
+    "children": [
+      {
+        "slug": "home",
+        "class": "home",
+        "name": "Home",
+        "url": "/forums/",
+      }, {
+        "slug": "recent",
+        "class": "recent",
+        "name": "Recent",
+        "url": "/forums/recent",
+      }
+    ]
+  }, {
+  //   "slug": "meetups",
+  //   "class": "meetups",
+  //   "name": "Meetups",
+  //   "url": "/meetups",
+  //   "color": "#F60",
+  //   "children": []
+  // }, {
+  //   "slug": "stories",
+  //   "class": "stories",
+  //   "name": "Stories",
+  //   "url": "/stories",
+  //   "color": "#A0C9CC",
+  //   "children": []
+  // }, {
+    "slug": "news",
+    "class": "news",
+    "name": "News",
+    "url": "/news",
+    "color": "#009F5E",
+    "children": [
+      {
+        "slug": "top",
+        "class": "top",
+        "name": "Top",
+        "url": "/news/top",
+      }, {
+        "slug": "recent",
+        "class": "recent",
+        "name": "Recent",
+        "url": "/news/recent",
+      }, {
+        "slug": "categories",
+        "class": "categories",
+        "name": "Categories",
+        "url": "/news/categories",
+      }, {
+        "slug": "submit",
+        "class": "submit",
+        "name": "Submit",
+        "url": "/news/submit",
+      }
+    ]
+  }, {
+    "slug": "sharing",
+    "class": "sharing",
+    "name": "Sharing",
+    "url": "/sharing",
+    "color": "#CB202E",
+    "children": []
+  }, {
+    "class": "divider",
+  }, {
+    "slug": "login",
+    "class": "hide-if-loggedin",
+    "name": "Login",
+    "url": "/login",
+  }, {
+    "slug": "signup",
+    "class": "hide-if-loggedin",
+    "name": "Signup",
+    "url": "/signup",
+  }, {
+    "class": "divider",
+  }, {
+    "class": "about",
+    "slug": "about",
+    "name": "About",
+    "url": "/info/about",
+  }, {
+    "slug": "terms-privacy",
+    "class": "terms-privacy",
+    "name": "Terms & Privacy",
+    "url": "/info/terms-privacy",
+  }
+];

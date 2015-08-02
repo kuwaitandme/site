@@ -7,14 +7,48 @@ exports = module.exports = ($scope, $root, $log, $timeout, $location,
 Notifications) ->
   $log.log name, "initializing"
 
+  $scope.activeLink = null
 
   $root.$on "$viewContentLoaded", ->
     try $scope.route = $location.path().split("/")[1] or ""
     catch e then $scope.route = ""
-    try $scope.subroute = $location.path().split("/")[2] or ""
-    catch e then $scope.subroute = ""
     reselectColor()
 
+
+  $scope.onMainLinkHover = (link) ->
+    if $scope.activeLink? then $scope.activeLink.isActive = false
+    if not link.children? then return $scope.showSubMenu = false
+    link.isActive = true
+    $scope.showSubMenu = true
+    $scope.mainBorderColor = link.color
+    $scope.activeLink = link
+
+
+  $scope.onCoverHover = ->
+    $scope.showSubMenu = false
+    reselectColor()
+    if $scope.activeLink? then $scope.activeLink.isActive = false
+
+
+  onHeaderChange = ->
+    setActiveLinks()
+    reselectColor()
+
+  onHeaderClose = ->
+    $scope.showMenuHeader = false
+    $scope.showSubMenu = false
+    if $scope.activeLink? then $scope.activeLink.isActive = false
+    onHeaderChange()
+
+  $scope.showSubMenu = false
+  $scope.links = require "./links.json"
+
+  setActiveLinks = ->
+    url = $location.url()
+    evaluate = (l) -> l.isActive = url.indexOf(l.url) is 0 and l.url != "/"
+    for link in $scope.links
+      evaluate link
+      evaluate childLink for childLink in link.children or []
 
   reselectColor = ->
     switch $scope.route
@@ -27,29 +61,29 @@ Notifications) ->
       else $scope.mainColor = "#222"
 
     if not $scope.showMenuHeader then $scope.mainColor = "#FFF"
+    $scope.mainBorderColor = $scope.mainColor
 
   $scope.notifications = []
   $scope.unreadNotifications = 0
 
   # A click handler to display the sub header
   $scope.openHeader = ->
-    $root.bodyClasses["show-subheader"] = $scope.showMenuHeader = true
-    reselectColor()
+    $scope.showMenuHeader = true
+    onHeaderChange()
 
 
   # A click handler to hide the sub header.
-  $scope.closeHeader = ->
-    $root.bodyClasses["show-subheader"] = $scope.showMenuHeader = false
-    reselectColor()
+  $scope.closeHeader = -> onHeaderClose()
 
 
   $root.$on "$stateChangeStart", $scope.closeHeader
+  $scope.$watch "showMenuHeader", (v) -> $root.bodyClasses["show-header"] = v
+  $scope.$watch "showSubMenu", (v) -> $root.bodyClasses["show-subheader"] = v
 
 
   # This click handler is used to toggle (display/hide) the subheader.
   $scope.toggleHeader = ->
-    headerIsOpened = $root.bodyClasses["show-subheader"]
-    if headerIsOpened then $scope.closeHeader()
+    if $scope.showMenuHeader then $scope.closeHeader()
     else $scope.openHeader()
 
 
