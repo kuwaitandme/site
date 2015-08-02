@@ -1,19 +1,21 @@
 section(ng-if="story.id")
   news-item(ng-model="story")
   .description(ng-bind-html="description")
-  form.row.collapse(name="form", ng-class="formClasses")
-    .columns
-      textarea.field.main-commentbox.show-if-loggedin(ng-model="comment"
-        ng-disabled="formLoading"
-        maxlength=3000
-        placeholder="Comment on this link."
-        required)
-      textarea.field.main-commentbox.hide-if-loggedin(
-        placeholder="you need to be logged in to comment"
-        disabled)
+  .row.collapse
+    form(name="form", ng-class="formClasses")
+      .columns
+        textarea.field.main-commentbox.show-if-loggedin(ng-model="comment"
+          ng-disabled="formLoading"
+          maxlength=3000
+          placeholder="Comment on this link."
+          required)
+        a.hide-if-loggedin(fn-route="/login")
+          textarea.field.main-commentbox(
+            placeholder="you need to be logged in to comment"
+            disabled)
 
-    .columns(ng-if="form.$valid")
-      button(ng-click="submit(comment)") Submit
+      .columns(ng-if="form.$valid")
+        button(ng-click="submit(comment)") Submit
 
 
   p(ng-repeat="comment in story.comments")

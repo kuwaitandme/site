@@ -4,4 +4,4 @@ ul.stories
     news-item(ng-model="story")
 
 .page-links
-  a(fn-route="/news{{ ifRecent }}/page/{{ pagination.next }}", ng-if="pagination.next") More
+  a(fn-route="/news{{ ifRecent ? '/top' : '/recent' }}/page/{{ pagination.next }}", ng-if="pagination.next") More

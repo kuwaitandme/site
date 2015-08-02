@@ -18,6 +18,8 @@ exports = module.exports = ($scope, $root, $stateParams, $log, $http, $location,
     .success (info) -> $scope.story.title = info.title
     .finally unlockForm
 
+  window.a = $scope
+
   $scope.submit = (data) ->
     blockForm()
     Stories.create data

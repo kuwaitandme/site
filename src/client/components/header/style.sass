@@ -13,6 +13,21 @@ header
   $shadow-opacity: 0.1
   +clearfix
 
+  #page-header
+    // float: left
+    ul
+      margin: 0
+      font-size: 11px
+      +clearfix
+      li
+        padding: 0 5px
+        float: left
+        a
+          @extend .font-cantarell
+          text-decoration: none
+          display: block
+          border-bottom: 2px solid transparent
+
   #header-logo-container
     float: left
     cursor: pointer

@@ -1,12 +1,12 @@
 name = "[page:news]"
 
 
-exports = module.exports = ($scope, $root, $stateParams, $log, $http, $location) ->
+exports = module.exports = ($scope, $stateParams, $log, $http, $location) ->
   $log.log name, "initializing"
   $log.debug name, "routeParams", $stateParams
 
 
-  if /recent/.test $location.path() then $scope.ifRecent = "/recent"
+  if /recent/.test $location.path() then $scope.ifRecent = true
 
   $http.pageAsJSON().success (data) ->
     $scope.pagination = data.pagination
@@ -16,7 +16,6 @@ exports = module.exports = ($scope, $root, $stateParams, $log, $http, $location)
 
 exports.$inject = [
   "$scope"
-  "$rootScope"
   "$stateParams"
   "$log"
 

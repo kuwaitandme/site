@@ -97,6 +97,16 @@
     "name": "Signup",
     "url": "/signup",
   }, {
+    "slug": "account",
+    "class": "show-if-loggedin",
+    "name": "Your account",
+    "url": "/account",
+  }, {
+    "slug": "logout",
+    "class": "show-if-loggedin",
+    "name": "Logout",
+    "url": "/auth/logout",
+  }, {
     "class": "divider",
   }, {
     "class": "about",

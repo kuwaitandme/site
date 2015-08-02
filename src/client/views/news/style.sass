@@ -95,19 +95,19 @@ body.news
     .white
       display: block
 
-  header
-    border: none
-    nav.sub-links
-      margin: 0
-      a
-        @extend .font-roboto
-        font-weight: bold
-        opacity: 0.2
-        padding: 14px 3px 8px
-        &.active, &:hover
-          opacity: 1
-          color: #FFF
-          border-color: #FFF
+
+  nav#page-header
+    margin: 0
+    a
+      +single-transition
+      @extend .font-roboto
+      font-weight: bold
+      opacity: 0.2
+      padding: 14px 3px 8px
+      &.active, &:hover
+        opacity: 1
+        color: #FFF
+        border-color: #FFF
 
 
 // Styles for this specific news page

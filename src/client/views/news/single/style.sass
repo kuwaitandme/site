@@ -5,16 +5,24 @@ body#news-single
     min-height: 100px
     outline: none
     background: #f9f9f9
+    border: 1px solid #DDD
+    border-bottom: 2px solid #DDD
+    &:focus
+      border-bottom-color: $color-warn
+    &.ng-valid
+      border-bottom-color: $color-success
+    &[disabled]
+      background: #EEE
 
   .description, form
-    padding: 1rem 0
-    margin: 1rem 0 1rem 40px
-    // margin-right: 40px
     border-bottom: 1px solid #EEE
+    margin-left: 40px
+
 
   .description
     margin-top: 0
     padding-top: 0
+    margin: 1rem 0 1rem 40px
     font-size: 12px
     font-family: "helvetica neue", arial, sans-serif
 

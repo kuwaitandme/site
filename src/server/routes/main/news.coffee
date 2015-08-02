@@ -6,7 +6,7 @@ module.exports = (route) ->
   route "/news/category/([0-9a-z]+)?",                 "news/index"
   route "/news/comments",                              "news/index"
   route "/news/comments/page/([0-9]+)",                "news/index"
-  route "/news/create",                                "news/index"
+  route "/news/submit",                                "news/submit"
   route "/news/hottest",                               "news/index"
   route "/news/moderations",                           "news/index"
   route "/news/newest",                                "news/index"

@@ -49,6 +49,9 @@ Notifications) ->
     for link in $scope.links
       evaluate link
       evaluate childLink for childLink in link.children or []
+      if link.isActive then $scope.currentPageLink = link
+      console.log $scope.currentPageLink
+
 
   reselectColor = ->
     switch $scope.route

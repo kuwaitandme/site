@@ -20,7 +20,7 @@ module.exports = (app) ->
     "info/contact": require "./info/contact/controller"
     "info/donate": require "./info/donate/controller"
     "news": require "./news/controller"
-    "news/create": require "./news/create/controller"
+    "news/submit": require "./news/submit/controller"
     "news/single": require "./news/single/controller"
     "stories": require "./stories/controller"
     "users/single": require "./users/single/controller"

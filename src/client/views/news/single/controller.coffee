@@ -20,7 +20,7 @@ exports = module.exports = ($scope, $log, $notifications, $http, $sce, Stories) 
     Stories.createComment $scope.story.id, content: data
     .then ->
       $notifications.success "Your comment has been posted successfully! Reload this page"
-      # $location.path "/news/recent"
+      location.reload() # avoid using global fn.
     .finally unlockForm
 
 
