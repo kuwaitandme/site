@@ -82,6 +82,10 @@ exports = module.exports = ($http, $root, $log, $storage, $environment, $q) ->
     refresh: -> $http.get("#{userURL}/current").then updateUser
 
 
+
+    findByUsername: (uname) -> $http.get "#{userURL}/username/#{uname}"
+
+
     ###*
      * A simple function to perform a user-logout. Deletes the current session
      * both locally and from the server.

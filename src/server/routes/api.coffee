@@ -78,8 +78,9 @@ exports = module.exports = (IoC) ->
   r "/news/stories/([0-9]+)/upvote",        "/news/stories/:id/upvote",   PUT
   r "/news/top",                            "/news/top",                  GET
   r "/users",                               "users",                      GET
-  r "/users/([0-9]+)?",                     "users/id",                   GET
+  r "/users/([0-9]+)?",                     "users/:id",                  GET
   r "/users/current",                       "users/current",              GET
+  r "/users/username/([0-9a-zA-Z\_]+)",     "users/username",             GET
 
   app.use "/api", router
 

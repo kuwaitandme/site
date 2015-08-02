@@ -11,7 +11,6 @@ module.exports = (route) ->
   route "/news/moderations",                           "news/index"
   route "/news/newest",                                "news/index"
   route "/news/newest/page/([0-9]+)?",                 "news/index"
-  route "/news/page/([0-9]+)?",                        "news/index"
   route "/news/recent",                                "news/recent"
   route "/news/recent/page/([0-9]+)?",                 "news/recent"
   route "/news/rss",                                   "news/index"
@@ -19,3 +18,5 @@ module.exports = (route) ->
   route "/news/stories",                               "news/index"
   route "/news/stories/preview",                       "news/index"
   route "/news/story/([a-z0-9\-]+)",                   "news/single"
+  route "/news/top",                                   "news/top"
+  route "/news/top/page/([0-9]+)?",                    "news/top"
