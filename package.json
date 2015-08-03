@@ -86,6 +86,7 @@
     "jade": "~1.11.0",
     "jade-amd": "^0.2.3",
     "jsonschema": "^1.0.2",
+    "jstransformer-coffee-script": "^0.1.0",
     "keyword-extractor": "0.0.12",
     "knex": "^0.8.6",
     "less": "^2.5.1",

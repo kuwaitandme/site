@@ -1,7 +1,7 @@
 module.exports =
   coffee:
     dest: "src/public/build"
-    src: "src/client/app.coffee"
+    src: "src/client/*/main.coffee"
     targetFilename: "app.js"
     targetFilenameMin: "app.js"
 

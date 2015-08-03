@@ -38,9 +38,14 @@ window.scripts = [
     local: "/build/md5/templates_#{publicData.md5['templates.js']}.js"
   }
   {
-    id: "app.js"
-    remote: ["#{u}/build/md5/app_#{publicData.md5['app.js']}.js"]
-    local: "/build/md5/app_#{publicData.md5['app.js']}.js"
+    id: "common.js"
+    remote: ["#{u}/build/md5/common_#{publicData.md5['common.js']}.js"]
+    local: "/build/md5/common_#{publicData.md5['common.js']}.js"
+  }
+  {
+    id: "news.js"
+    remote: ["#{u}/build/md5/news_#{publicData.md5['news.js']}.js"]
+    local: "/build/md5/news_#{publicData.md5['news.js']}.js"
   }
   {
     id: "fonts.css"
