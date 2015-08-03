@@ -5,7 +5,7 @@
     li.row(ng-repeat="category in categories track by $index")
       .large-7.medium-9.columns
         .info
-          .icon(ng-style="{background: category.meta.color}", ng-bind-html="category.meta.icon")
+          .icon.show-for-medium-up(ng-style="{background: category.meta.color}", ng-bind-html="category.meta.icon")
           .title
             a(href='/forums/category/{{category.slug}}') {{ category.name }}
             br

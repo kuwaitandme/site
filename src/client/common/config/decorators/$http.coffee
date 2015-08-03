@@ -5,7 +5,7 @@ exports = module.exports = ($provide) ->
     $delegate.pageAsJSON = ->
       url = $window.location.toString()
       url += if url.indexOf("?") > 1 then "&json" else "?json"
-      $delegate.get(url)
+      $delegate.get url
 
     $delegate
 

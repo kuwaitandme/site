@@ -1,3 +1,5 @@
+@import "./common"
+
 body#forums
   main
     padding: 0 1rem
@@ -20,7 +22,7 @@ body#forums
 
       .title
         text-transform: none
-        font-size: 20px
+        font-size: 17px
         line-height: 20px
         margin: 0
         margin-top: 3px
@@ -35,10 +37,10 @@ body#forums
           &:hover
             color: #23527c
         small
-          font-size: 13px
+          font-size: 12px
 
       .icon
-        +radius(3px)
+        +radius(100%)
         background: $forum-color
         color: #FFF
         height: 47px
@@ -48,10 +50,6 @@ body#forums
         text-align: center
         top: 0
         width: 50px
-        display: none
-
-        @media #{$medium-up}
-          display: block
 
       .stats
         text-align: center

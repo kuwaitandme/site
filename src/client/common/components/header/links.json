@@ -23,15 +23,25 @@
     "color": "#2461B2",
     "children": [
       {
-        "slug": "home",
-        "class": "home",
-        "name": "Home",
-        "url": "/forums/",
+        "slug": "categories",
+        "class": "categories",
+        "name": "Categories",
+        "url": "/forums",
       }, {
         "slug": "recent",
         "class": "recent",
         "name": "Recent",
         "url": "/forums/recent",
+      }, {
+        "slug": "trending",
+        "class": "trending",
+        "name": "Trending",
+        "url": "/forums/trending",
+      }, {
+        "slug": "tags",
+        "class": "tags",
+        "name": "Tags",
+        "url": "/forums/tags",
       }
     ]
   }, {
@@ -52,7 +62,7 @@
     "slug": "news",
     "class": "news",
     "name": "News",
-    "url": "/news",
+    "url": "/news/top",
     "color": "#009F5E",
     "children": [
       {
@@ -70,6 +80,11 @@
         "class": "categories",
         "name": "Categories",
         "url": "/news/categories",
+      }, {
+        "slug": "search",
+        "class": "search",
+        "name": "Search",
+        "url": "/news/search",
       }, {
         "slug": "submit",
         "class": "submit",

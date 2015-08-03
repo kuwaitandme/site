@@ -13,6 +13,10 @@
         a(fn-route="{{ link.url }}"
           ng-class="{active: link.isActive}") {{ link.name }}
 
+      li.search.hide-for-small
+        input(placeholder="search")
+  #header-searchbar
+
 
 //- This is the Main header
 nav#menu-header(ng-class="{'show-menuheader': showMenuHeader}"

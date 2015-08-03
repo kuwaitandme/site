@@ -2,6 +2,8 @@
 body.news
   background: #FFF
 
+  $headerHeight: 40px
+
   main
     margin-bottom: 0
     max-width: 800px
@@ -86,10 +88,10 @@ body.news
     display: none
   #main-header
     background: $news-color
-    height: 40px
+    height: $headerHeight
   #grabber-container
     background: $news-color !important
-    padding: 5px 20px
+    padding: 5px 10px
     .black
       display: none
     .white
@@ -103,9 +105,11 @@ body.news
       @extend .font-roboto
       font-weight: bold
       opacity: 0.2
-      padding: 14px 3px 8px
+      padding: 12px 3px 11px
       &.active, &:hover
         opacity: 1
         color: #FFF
         border-color: #FFF
 
+    .search input
+      height: $headerHeight

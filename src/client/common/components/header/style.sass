@@ -20,13 +20,31 @@ header
       font-size: 11px
       +clearfix
       li
-        padding: 0 5px
+        padding-left: 10px
         float: left
         a
-          @extend .font-cantarell
           text-decoration: none
           display: block
           border-bottom: 2px solid transparent
+
+        a, input
+          @extend .font-cantarell
+        &.search
+          float: right
+          input
+            font-weight: bold
+            background: rgba(0,0,0,0.3)
+            border: 0
+            padding: 5px 10px
+            width: 200px
+            color: #FFF
+            outline: none
+            height: $headerHeight
+
+
+
+  #header-searchbar
+    float: left
 
   #header-logo-container
     float: left
@@ -44,7 +62,7 @@ header
     cursor: pointer
     float: left
     padding: 5px 20px
-    // padding: 25px 25px 19px 25px
+
     img
       height: 16px
       width: 16px
@@ -177,6 +195,9 @@ nav#submenu-header
       font-size: 12px
     &:hover, &.active
       background: rgba(0,0,0,0.3)
+
+
+
 .show-header
   header
     #grabber-container

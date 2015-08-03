@@ -1,5 +1,5 @@
 //- article: https://raygun.io/blog/2014/07/making-svg-html-burger-button/
-#hamburger.hamburglar.is-closed(ng-class="classes")
+#hamburger.hamburglar.is-closed(ng-class="classes", ng-init="color='#FFF'")
   .burger-icon
     .burger-container
       span.burger-bun-top
@@ -9,7 +9,7 @@
   //- svg ring container
   .burger-ring
     svg.svg-ring
-      path.path(fill="none", stroke="#fff", stroke-miterlimit="10"
+      path.path(fill="none", stroke="{{ color }}", stroke-miterlimit="10"
         stroke-width="4",
         d="M 34 2 C 16.3 2 2 16.3 2 34 s 14.3 32 32 32 s 32 -14.3 32 -32 S 51.7 2 34 2")
 
