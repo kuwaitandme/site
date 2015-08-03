@@ -9,15 +9,15 @@ form(name="form", ng-class="formClasses", ng-init="showGuidlines = false; showMa
           type="url"
           required)
 
-      .columns.medium-10(ng-if="story.url")
+      .columns(ng-if="story.url", class="{{ form.$valid ? '' : 'medium-10' }}")
         input.field.title(ng-model="story.title"
           ng-disabled="formLoading"
           placeholder="Title *"
           minlength="20"
           maxlength="255"
           required)
-      .columns.medium-2.get-title-container(ng-if="story.url")
-        button(ng-click="getTitle()", ng-if="!form.$valid") Get Title
+      .columns.medium-2.get-title-container(ng-if="story.url && !form.$valid")
+        button(ng-click="getTitle()") Get Title
 
       .columns(ng-if="story.url")
         textarea.field(placeholder="Optional description when submitting a URL; please see guidelines",

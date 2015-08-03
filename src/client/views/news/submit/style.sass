@@ -35,6 +35,9 @@ body#news-submit main
     font-size: 9.5pt
     color: #333
 
+  .field
+    +single-transition
+
   .field:not(:focus)
     &.url.ng-valid
       color: blue
@@ -42,4 +45,3 @@ body#news-submit main
     &.title.ng-valid
       font-size: 14px
       color: #000
-      font-weight: bold

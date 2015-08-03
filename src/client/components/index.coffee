@@ -12,6 +12,7 @@ module.exports = (app) ->
 
   app.directive "auth", require "./auth/directive"
   app.directive "header", require "./header/directive"
+  app.directive "headerHamburger", require "./header/hamburger/directive"
 
   app.directive "forumsBreadcrumbs", require "./forums/breadcrumbs/directive"
 
