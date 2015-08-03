@@ -37,8 +37,14 @@ Notifications) ->
   onHeaderClose = ->
     $scope.showMenuHeader = false
     $scope.showSubMenu = false
+    $scope.$broadcast "hamburger:close"
     if $scope.activeLink? then $scope.activeLink.isActive = false
     onHeaderChange()
+
+  onHeaderOpen = ->
+    $scope.$broadcast "hamburger:open"
+    onHeaderChange()
+
 
   $scope.showSubMenu = false
   $scope.links = require "./links.json"
@@ -50,7 +56,6 @@ Notifications) ->
       evaluate link
       evaluate childLink for childLink in link.children or []
       if link.isActive then $scope.currentPageLink = link
-      console.log $scope.currentPageLink
 
 
   reselectColor = ->
@@ -72,7 +77,7 @@ Notifications) ->
   # A click handler to display the sub header
   $scope.openHeader = ->
     $scope.showMenuHeader = true
-    onHeaderChange()
+    onHeaderOpen()
 
 
   # A click handler to hide the sub header.

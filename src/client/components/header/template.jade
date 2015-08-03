@@ -1,8 +1,6 @@
 #main-header(class="{{ route }}")
-  #grabber-container(ng-click="toggleHeader()"
-    ng-style="{background: mainColor}")
-    img.white(src="/images/header/grabber-white.png")
-    img.black(src="/images/header/grabber.png")
+  #grabber-container(ng-style="{background: mainColor}")
+    header-hamburger(ng-click="toggleHeader()")
 
   #header-logo-container
     a(fn-route="/")

@@ -1,0 +1,164 @@
+// Credit to https://codepen.io/kyleHenwood/pen/Alayb
+$color: #FFF     // icon color
+$blue: #158fef   // background color
+$animation: 0.3s // animation speed
+$scale: 0.4
+$size: 30px
+
+@import "./keyframes"
+
+header-hamburger
+  height: $size
+  width: $size
+  position: relative
+  display: block
+  // // icon scale 68/68 default
+  // *, *:before, *:after
+  //   box-sizing: border-box
+
+  .hamburglar
+    transform: scale($scale)
+    position: absolute
+    top: -7px
+    left: -7px
+    display: block
+    width: 30px
+    height: 30px
+    -webkit-touch-callout: none
+    user-select: none
+
+  // transition mask
+  .path-burger
+    position: absolute
+    top: 0
+    left: 0
+    height: 68px
+    width: 68px
+    // two masks because... browser support.
+    mask: url(#mask)
+    -webkit-mask-box-image: url(https://raygun.io/upload/mask.svg)
+
+  .animate-path
+    position: absolute
+    top: 0
+    left: 0
+    width: 68px
+    height: 68px
+
+  // what this does is create a small square that I then rotate behind an svg mask, giving the apparence of the line animating
+  .path-rotation
+    height: 34px
+    width: 34px
+    margin: 34px 34px 0 0
+    transform: rotate(0deg)
+    transform-origin: 100% 0
+    &:before
+      content: ''
+      display: block
+      width: 30px
+      height: 34px
+      margin: 0 4px 0 0
+      background: $color
+
+  // offset moves
+  // dasharray is the dash size
+  // need to be able to control dash space size.
+
+  .hamburglar.is-open
+    .path
+      animation: dash-in $animation linear normal
+      animation-fill-mode: forwards
+    .animate-path
+      animation: rotate-in $animation linear normal
+      animation-fill-mode: forwards
+
+  .hamburglar.is-closed
+    .path
+      animation: dash-out $animation linear normal
+      animation-fill-mode: forwards
+    .animate-path
+      animation: rotate-out $animation linear normal
+      animation-fill-mode: forwards
+
+  .path
+    stroke-dasharray: 240
+    stroke-dashoffset: 240
+    stroke-linejoin: round
+
+  // All good burgers need filling!
+
+  .burger-icon
+    position: absolute
+    padding: 20px 16px
+    height: 68px
+    width: 68px
+
+  .burger-container
+    position: relative
+    height: 28px
+    width: 36px
+
+  .burger-bun-top,
+  .burger-bun-bot,
+  .burger-filling
+    position: absolute
+    display: block
+    height: 4px
+    width: 36px
+    border-radius: 2px
+    background: $color
+
+  .burger-bun-top
+    top: 0
+    transform-origin: 34px 2px
+
+  .burger-bun-bot
+    bottom: 0
+    transform-origin: 34px 2px
+
+  //.burger-filling {
+  //  @include transition(all,($animation/2.5),ease-in-//out);
+  //}
+  // relative parent is the button
+  .burger-filling
+    top: 12px
+
+  // burger ring container
+  .burger-ring
+    position: absolute
+    top: 0
+    left: 0
+    width: 68px
+    height: 68px
+
+  .svg-ring
+    width: 68px
+    height: 68px
+
+  // bun animations
+  .hamburglar.is-open
+    .burger-bun-top
+      animation: bun-top-out $animation linear normal
+      animation-fill-mode: forwards
+    .burger-bun-bot
+      animation: bun-bot-out $animation linear normal
+      animation-fill-mode: forwards
+
+  .hamburglar.is-closed
+    .burger-bun-top
+      animation: bun-top-in $animation linear normal
+      animation-fill-mode: forwards
+    .burger-bun-bot
+      animation: bun-bot-in $animation linear normal
+      animation-fill-mode: forwards
+
+  // burger filling
+  .hamburglar.is-open
+    .burger-filling
+      animation: burger-fill-out $animation linear normal
+      animation-fill-mode: forwards
+
+  .hamburglar.is-closed
+    .burger-filling
+      animation: burger-fill-in $animation linear normal
+      animation-fill-mode: forwards
