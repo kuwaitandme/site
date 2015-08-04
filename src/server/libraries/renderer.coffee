@@ -88,6 +88,9 @@ exports = module.exports = (settings, Cache) ->
       ###
       htmlOptions.publicData.md5 = settings.md5 or {}
 
+      # Parse out the page's title
+      htmlOptions.title = response.__ "#{options.page}:title"
+
       viewURL = "#{settings.views.dir}/main/#{options.page}.jade"
       fn = jade.compileFile viewURL, jadeOptions or {}
       html = fn htmlOptions or {}
