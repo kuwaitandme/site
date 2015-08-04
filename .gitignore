@@ -98,6 +98,6 @@ src/public/build
 src/public/checksums
 src/public/javascripts/*.js
 src/public/stylesheets/*.css
-src/server/**/*.js
+src/server/views/**/*.js
 tmp
 var/backups/*.tgz
