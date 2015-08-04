@@ -1,3 +1,7 @@
 {
-  "title": "This is a begginning"
+  "news": "News",
+  "news.top": "Top",
+  "news.recent": "Recent",
+  "news.search": "Search",
+  "news.submit": "Submit"
 }

@@ -61,34 +61,34 @@
   // }, {
     "slug": "news",
     "class": "news",
-    "name": "News",
+    "name": "news",
     "url": "/news/top",
     "color": "#009F5E",
     "children": [
       {
         "slug": "top",
         "class": "top",
-        "name": "Top",
+        "name": "news.top",
         "url": "/news/top",
       }, {
         "slug": "recent",
         "class": "recent",
-        "name": "Recent",
+        "name": "news.recent",
         "url": "/news/recent",
       }, {
         "slug": "categories",
         "class": "categories",
-        "name": "Categories",
+        "name": "news.categories",
         "url": "/news/categories",
       }, {
         "slug": "search",
         "class": "search",
-        "name": "Search",
+        "name": "news.search",
         "url": "/news/search",
       }, {
         "slug": "submit",
         "class": "submit",
-        "name": "Submit",
+        "name": "news.submit",
         "url": "/news/submit",
       }
     ]

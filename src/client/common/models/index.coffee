@@ -1,6 +1,8 @@
 module.exports = (app) ->
   console.log "[common:models] initializing"
 
+  app.factory "models.base.enum",    require "./base/enum"
+
   app.factory "models.categories",    require "./categories"
   # app.factory "models.classifieds",   require "./classifieds"
   app.factory "models.languages",     require "./languages"
