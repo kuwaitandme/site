@@ -1,15 +1,7 @@
-name = "[model:forums/categories]"
-categories = []
-
-
-exports = module.exports = ($environment, $http, $log, $storage) ->
-  new class Model
-    constructor: -> @download()
-    ###
-      This function returns an array of all the categories from the server.
-    ###
-    getAll: (callback) -> categories or []
-
+exports = module.exports = (Enum) ->
+  class Categories extends Enum
+    downloadUrl: -> "/api/news/categories"
+    name: "[model:news/categories]"
 
     ###
       This function returns the category (child or parent) given only it's slug.
@@ -25,44 +17,8 @@ exports = module.exports = ($environment, $http, $log, $storage) ->
           if childcat.slug is slug then return childcat
 
 
-    ###
-      Find the parent category with the given id.
-    ###
-    findByParentId: (id) -> for c in @getAll() then if c.id is id then return c
+
+  new Categories
 
 
-    ###
-      Find the child category with the given id.
-    ###
-    findByChildId: (id) ->
-      for c1 in @getAll() then if c1.children? then for c2 in c1.children
-        if c2.id is id then return c2
-
-
-
-    ###
-      Download all the categories either from the API or from the cache
-    ###
-    download: ->
-      # If categories were already downloaded, then this variable would be
-      # defined, so we simply return..
-      if categories.length > 0 then return
-
-      # Now we prepare to download the categories
-      $log.log name, "downloading categories"
-
-      # A helper function to retrieve the categories from the API
-      $http.get "#{$environment.url}/api/news/stories/"
-      .success (result) ->
-        $log.log name, "fetched forums/categories from API"
-        categories = result
-        $storage.local "models:category", angular.toJson result
-
-
-
-exports.$inject = [
-  "$environment"
-  "$http"
-  "$log"
-  "$storage"
-]
+exports.$inject = ["models.base.enum"]

@@ -7,11 +7,11 @@
       img(src="/images/header/logo.png")
 
   //- This is the page header. It gets set with the content for the given page
-  nav#page-header(ng-if="currentPageLink")
+  nav#page-header
     ul
       li(ng-repeat="link in currentPageLink.children")
         a(fn-route="{{ link.url }}"
-          ng-class="{active: link.isActive}") {{ link.name }}
+          ng-class="{active: link.isActive}") {{ link.name  }}
 
       li.search.hide-for-small
         input(placeholder="search")
@@ -38,8 +38,7 @@ nav#submenu-header(ng-style="{background: activeLink.color}")
     li(ng-repeat="sublink in activeLink.children"
       class="{{ activeLink.class }} {{ sublink.class }}"
       ng-class="{active: sublink.isActive}")
-      a(fn-route="{{ sublink.url }}") {{ sublink.name }}
-
+      a(fn-route="{{ sublink.url }}") {{ sublink.name | translate }}
 
 
 span.nav-cover(ng-click="closeHeader()", ng-mouseover="onCoverHover()")

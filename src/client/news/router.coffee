@@ -13,8 +13,9 @@ exports = module.exports = ($stateProvider, $locationProvider, $urlMatcher,
       templateUrl: templateUrl
       url: route
       resolve:
-        # categories: ["models.news.categories", (m) -> m.download()]
-        user: ["models.users", (m) -> m.download()]
+        categories: ["models.news.categories", (m) -> m.download()]
+        user:       ["models.users",           (m) -> m.download()]
+        language:   ["models.languages",       (m) -> m.download()]
 
 
   # Start adding each route one by one
