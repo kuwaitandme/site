@@ -1,0 +1,81 @@
+@import "./common"
+
+body#forums
+  main
+    padding: 0 1rem
+
+  h3
+    @extend .font-roboto
+    color: #777
+    font-size: 14px
+    text-transform: uppercase
+
+  ul.categories
+    margin: 0
+
+    li
+      margin-bottom: 1rem
+      .info
+        +clearfix
+        position: relative
+        height: 47px
+
+      .title
+        text-transform: none
+        font-size: 17px
+        line-height: 20px
+        margin: 0
+        margin-top: 3px
+
+        @media #{$medium-up}
+          margin-left: 62px
+
+        a
+          color: $forum-color
+          font-weight: bold
+          text-decoration: none
+          &:hover
+            color: #23527c
+        small
+          font-size: 12px
+
+      .icon
+        +radius(100%)
+        background: $forum-color
+        color: #FFF
+        height: 47px
+        left: 0
+        padding: 15px 0
+        position: absolute
+        text-align: center
+        top: 0
+        width: 50px
+
+      .stats
+        text-align: center
+        .value
+          font-size: 20px
+          line-height: 22px
+          margin-bottom: 7px
+          text-align: center
+        .label
+          @extend .font-roboto
+          color: #777
+          font-size: 12px
+          font-weight: 300
+          text-transform: uppercase
+
+      .teaser
+        border-left: 4px solid $forum-color
+        overflow: hidden
+        height: 53px
+        .author
+          font-size: 14px
+          a
+            text-decoration: none
+          span a
+            color: #999
+            font-size: 10px
+            text-decoration: underline
+        .content
+          font-size: 12px

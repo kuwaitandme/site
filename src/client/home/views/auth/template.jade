@@ -1,0 +1,40 @@
+#page-hero
+  img(fn-image-loader!="<%= staticUrl %>/images/hero/landing.jpg",
+    fn-image-success="onHeroLoad()")
+
+.row
+  .columns.medium-7.medium-centered
+    h1 Login or Signup using
+
+    ul.oauth-methods.row
+      li.medium-6.large-4.columns
+        a.facebook.method(target="_self", href="/auth/oauth/facebook") Facebook
+      li.medium-6.large-4.columns
+        a.google-plus.method(target="_self", href="/auth/oauth/google") Google Plus
+      li.medium-6.large-4.columns
+        a.windows.method(target="_self", href="/auth/oauth/windowslive") Windows Live
+
+  .email-forms
+    .columns.large-6.medium-7.medium-centered.large-uncentered
+      form.row.collapse(ng-submit="doLogin()")
+        input.columns(type="email", ng-model="login.username", required,
+          placeholder="your email *")
+        input.columns(type="password", ng-model="login.password", required,
+          placeholder="your password *")
+        input.columns(type="submit", value="Login")
+
+
+      //- .row.extra-links
+        .columns Forgot your password? Click&nbsp;
+          a(href="/auth/forgot") here
+          | , to reset it.
+
+    .columns.large-6.medium-7.medium-centered.large-uncentered
+      form.row.collapse(ng-submit="doSignup()")
+        input.columns(type="text", ng-model="signup.fullname", ng-required, placeholder="your full-name *")
+        input.columns(type="email", ng-model="signup.email", ng-required, placeholder="your email *")
+        input.columns(type="password", ng-model="signup.password", ng-required, placeholder="your password *")
+        input.columns(type="password", ng-model="signup.repassword", ng-required, placeholder="re-enter password *")
+        input.columns(type="submit", value="Signup")
+
+      .gcaptcha

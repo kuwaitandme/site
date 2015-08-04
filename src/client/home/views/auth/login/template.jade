@@ -1,0 +1,29 @@
+form(name="form", ng-class="formClasses").row
+  h1 Login
+  .columns(input-text
+    form-ui
+    maxlength="140"
+    minlength="4"
+    ng-model="login.username"
+    placeholder="Username or Email"
+    type="text"
+    required="true"
+    ng-disabled="formLoading")
+
+  .columns(input-text
+    form-ui
+    maxlength="140"
+    minlength="4"
+    ng-model="login.password"
+    placeholder="Password"
+    type="password"
+    required="true"
+    ng-disabled="formLoading")
+
+  button.submit(ng-click="doLogin(login)", ng-if="form.$valid") Login
+  h4
+    | If you don't have an account, then&nbsp;
+    a(fn-route="/signup") signup!
+  h4
+    | Reset your password&nbsp;
+    a(fn-route="/reset_password") here.

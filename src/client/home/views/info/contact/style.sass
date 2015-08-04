@@ -1,0 +1,35 @@
+body#contact
+  @extend body#terms-privacy
+  .row
+  	margin-bottom: 1rem
+  textarea
+  	min-height: 5rem
+  .prefix
+    z-index: 0
+  .submit
+    @extend .font-title
+    +single-transition(background)
+    background: #2ecc71
+    border: none
+    color: #FFF
+    cursor: pointer
+    font-weight: 400
+    padding: 10px 20px
+    margin: 20px 0
+    width: auto
+    &:hover
+      background: #27ae60
+
+  ul.messages
+    padding: 0
+    font-size: 14px
+    margin: 10px auto
+    li
+      color: #FFF
+      background: #E74C3C
+      padding: 10px
+      margin-bottom: 5px
+      &.success
+        background: #2ecc71
+      &.error
+        color: rgba(255, 255, 255, 0.75)

@@ -1,0 +1,31 @@
+h1
+//- .row
+  #splash.columns(ng-class="{imgLoaded: imgLoaded}")
+
+    //- CTA background
+    #collage(ng-style="{'background-image': hero}")
+    img.hide(fn-image-loader!="<%= staticUrl %>/images/collage.png",
+      fn-image-success!="imgLoaded=true; hero='url(<%= staticUrl %>/images/collage.png)';")
+
+    //- Site logo
+    img(src!="<%= staticUrl %>/images/kme-logo-white.png",
+      ng-class="{hide: !imgLoaded}")
+
+    //- Tagline
+    h1.tagline Your free local classifieds in Kuwait
+
+    //- CTA buttons
+    .cta
+      a(fn-route="/classified/create"
+        ng-clicks="trackEvent('Create classified')") Post your classified
+      a(fn-route="/classified"
+        ng-clicks="trackEvent('Find classified')") Find a classified
+      .hide-if-loggedin
+        a(ng-click="showAuth(); trackEvent('Login')") Login/Signup
+      .show-if-loggedin
+        a(fn-route="/account"
+          ng-clicks="trackEvent('Manage account')") Manage your Account
+
+//- #featured-classifieds.row(ng-if="displayClassifiedList")
+  h2 Latest Classifieds
+  section(classified-list, ng-model="classifiedList")

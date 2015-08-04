@@ -1,0 +1,65 @@
+body#classified-finish
+  h1
+    font-size: 2rem
+    padding-bottom: 0
+    margin-top: 100px
+  h1, h3
+    @extend .font-open
+    // color: #FFF
+    font-weight: bold
+    margin:  0
+    padding: 1rem
+    // text-shadow: 1px 2px 2px #000
+
+  h1
+    text-transform: none
+    font-size: 3rem
+  #page-hero:after
+    content: ""
+
+  main
+    background: transparent
+    margin: 50px auto
+    section
+      background: #FFF
+    p
+      font-size: 1rem
+
+    .submit
+      width: 100%
+      color: #FFF
+      display: block
+      text-decoration: none
+      text-align: center
+      background: #2ecc71
+
+    a, .submit
+      // padding: 8px 10px
+      font-size: 0.8rem
+
+    ul.social-links
+      margin-top: 2rem
+      // margin-bottom: 1rem
+      li
+        color: #FFF
+        margin-bottom: 1rem
+        .facebook
+          background: #3B5390
+          &:hover
+            background: #293A65
+        .twitter
+          background: #00AFEB
+          &:hover
+            background: #008CBC
+        .gplus
+          background: #CC4534
+          &:hover
+            background: #A3372A
+        a
+          +single-transition
+          @extend button
+          display: block
+          margin: 0
+          text-align: center
+          text-decoration: none
+          text-transform: none

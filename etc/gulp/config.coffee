@@ -50,9 +50,9 @@ module.exports =
 
   server:
     footer:
-      dest: "src/server/views/components/footer-scripts"
-      filenameMin: "main.min.js"
-      src: "src/server/views/components/footer-scripts/*.coffee"
+      dest: "src/server/views/"
+      # filenameMin: "main.min.js"
+      src: "src/server/views/**/*.coffee"
     db:
       dest: "src/server/db"
       filename: "populate.js"

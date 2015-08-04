@@ -1,0 +1,81 @@
+body#account
+  main
+
+    .columns
+      color: #FFF
+      padding: 1rem 2rem
+      text-align: center
+      a
+        +single-transition
+        border: 2px solid #FFF
+        color: #FFF
+        display: inline-block
+        @extend .font-title
+        font-size: 0.8rem
+        margin: 1rem
+        padding: 0.5rem 1rem
+        text-decoration: none
+        text-transform: uppercase
+        &:hover
+          background: #FFF
+          color: #000
+
+      h1
+        @extend .font-title
+        font-size: 1rem
+        margin-bottom: 10px
+        padding-bottom: 10px
+        border-bottom: 2px solid #FFF
+        text-transform: uppercase
+      &:nth-child(4n)
+        background: #ea1e54
+      &:nth-child(4n+1)
+        background: #8200E5
+      &:nth-child(4n+2)
+        background: #f60
+      &:nth-child(4n+3)
+        background: #ea1e54
+      &.disabled
+        background: #BABEC8
+
+
+
+
+  // background: #e8e8e8;
+  // #aD9600Fccount-container
+  //   @extend .row
+  //   .block
+  //     @extend .columns
+  //     @extend .medium-4
+  //     // @extend .large-4;
+  //     padding: 20px
+  //     a
+  //       text-decoration: none
+  //     .content
+  //       +single-transition(background)
+  //       background: #FFF
+  //       cursor: pointer
+  //       // padding: 20px;
+  //       overflow: hidden
+  //       border: 1px solid #f6f6f6
+  //       border-bottom: 2px solid #FF6600
+  //       // -webkit-border-radius: 3px;
+  //       // -moz-border-radius: 3px;
+  //       // border-radius: 3px;
+  //       -webkit-box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.25)
+  //       -moz-box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.25)
+  //       box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.25)
+  //       // &:hover { background: #fafafa; }
+  //       .title
+  //         @extend .font-title
+  //         // border: 1px solid #eee;
+  //         font-size: 24px
+  //         padding: 20px
+  //         // text-align: center;
+  //       // .icon {
+  //       //   font-size: 50px;
+  //       //   padding: 20px;
+  //       //   color: #FFF;
+  //       //   background: #FF6600;
+  //       //   text-align: center;
+  //       // }

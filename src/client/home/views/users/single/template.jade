@@ -1,0 +1,61 @@
+.user-intro
+  .row
+    .columns.large-5.profile-img
+      img(src="https://www.gravatar.com/avatar/{{ user.email | gravatar }}?s=240")
+    .columns.large-7.info
+      h2.name {{ user.name }} <span class="uname">@{{ user.username }}<span>
+      p.about(ng-if="user.about") {{ user.about}}
+      p.signature(ng-if="user.signature") &quot;{{ user.signature }}&quot;
+      p.url(ng-if="user.personal.url")
+        span.icon &#xf0ac;
+        a.clean(ng-href="{{ user.personal.url }}") {{ user.personal.url | domain }}
+
+  .progress
+    .row
+      .columns.small-6.medium-3
+        .value {{ user.count.views | prettynumber }}
+        .title Followers
+      .columns.small-6.medium-3
+        .value {{ user.count.stories | prettynumber }}
+        .title Stories
+      .columns.small-6.medium-3
+        .value {{ user.count.forumPosts | prettynumber }}
+        .title Forum posts
+      .columns.small-6.medium-3
+        .value {{ user.count.sharing | prettynumber }}
+        .title Items shared
+
+  .meta.activity
+    .row
+      span Last online {{ user.created_at | prettydate }}
+      span &middot;
+      span Joined {{ user.created_at | prettydate }}
+      span &middot;
+      span Profile viewed {{ user.count.views | prettynumber }} times
+
+//- .user-timeline.row
+  h2
+    .title {{ user.name }}'s Stories
+  .post.small-6.columns
+    h3.title This is my first story
+    .thumb
+      img(src="http://hdwallpapers360.com/wp-content/uploads/royalty-free-images-desktop.jpg")
+    p.description A few months ago, the mute half of the famous magic duo Penn & Teller published an article in Smithsonian Magazine describing seven principles that drive the development of his magic tricks.
+    p.meta
+      span Posted 3 days ago
+      span &middot;
+      span 5 min read
+      span &middot;
+      span Recommended by 5k people
+
+  .post.small-6.columns
+    h3.title This is my first story
+    .thumb
+      img(src="http://hdwallpapers360.com/wp-content/uploads/royalty-free-images-desktop.jpg")
+    p.description A few months ago, the mute half of the famous magic duo Penn & Teller published an article in Smithsonian Magazine describing seven principles that drive the development of his magic tricks.
+    p.meta
+      span Posted 3 days ago
+      span &middot;
+      span 5 min read
+      span &middot;
+      span Recommended by 5k people

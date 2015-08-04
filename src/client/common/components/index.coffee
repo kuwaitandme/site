@@ -1,6 +1,4 @@
 module.exports = (app) ->
-  console.log "[components] initializing"
-
   app.directive "categoryList", require "./category-list/directive"
 
   app.directive "classifiedCards", require "./classifieds/cards/directive"
@@ -13,12 +11,6 @@ module.exports = (app) ->
   app.directive "auth", require "./auth/directive"
   app.directive "header", require "./header/directive"
   app.directive "headerHamburger", require "./header/hamburger/directive"
-
-  app.directive "forumsBreadcrumbs", require "./forums/breadcrumbs/directive"
-
-  # app.directive "newsHeader", require "./news/header/directive"
-  app.directive "newsItem", require "./news/item/directive"
-  app.directive "newsComment", require "./news/comment/directive"
 
   app.directive "notifications", require "./notifications/directive"
 
@@ -38,7 +30,6 @@ module.exports = (app) ->
   app.directive "inputTextarea", require "./form-ui/input-textarea/directive"
   app.directive "csrf", require "./form-ui/csrf/directive"
 
-  app.directive "forumsTopicSmall", require "./forums/topic-small/directive"
 
   # app.directive "filterbox", require "./filterbox/directive"
 
