@@ -4,4 +4,4 @@ exports = module.exports = ->
     ngDisabled: "="
     type: "="
   require: "ngModel"
-  templateUrl: "components/form-ui/input-text/template"
+  templateUrl: "common/components/form-ui/input-text/template"

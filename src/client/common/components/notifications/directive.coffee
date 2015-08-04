@@ -1,3 +1,3 @@
 exports = module.exports = ->
   controller: require "./controller"
-  templateUrl: "components/notifications/template"
+  templateUrl: "common/components/notifications/template"

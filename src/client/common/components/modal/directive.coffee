@@ -1,3 +1,3 @@
 exports = module.exports = ->
   controller: require "./controller"
-  templateUrl: "components/modal/template"
+  templateUrl: "common/components/modal/template"

@@ -3,4 +3,4 @@ exports = module.exports = ->
   require: "ngModel"
   link: require "./link"
   scope: true
-  templateUrl: "news/components/item/template"
+  templateUrl: "news/components/news-item/template"

@@ -2,4 +2,4 @@ exports = module.exports = ->
   require: "ngModel"
   scope: true
   link: require "./link"
-  templateUrl: "components/form-ui/input-textarea/template"
+  templateUrl: "common/components/form-ui/input-textarea/template"

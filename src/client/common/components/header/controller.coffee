@@ -116,7 +116,7 @@ Notifications) ->
   # Attach this function to the refresh event and run it once (because the header
   # can initialize after the notifications have been downloaded).
   $scope.$on "notifications:refresh", readNotification
-  readNotification()
+  # readNotification()
 
 
   $scope.headerLogoClick = ->
@@ -131,5 +131,5 @@ exports.$inject = [
   "$timeout"
   "$location"
 
-  "models.notifications"
+  # "models.notifications"
 ]

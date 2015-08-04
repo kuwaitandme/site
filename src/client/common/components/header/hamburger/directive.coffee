@@ -1,4 +1,4 @@
 exports = module.exports = ->
   controller: require "./controller"
-  templateUrl: "components/header/hamburger/template"
+  templateUrl: "common/components/header/hamburger/template"
   scope: true
