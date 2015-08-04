@@ -1,8 +1,6 @@
 exports = module.exports = (Renderer) ->
   controller = (request, response, next) ->
-    args =
-      page: "info/about"
-      title: response.__ "news/recent:title"
+    args = page: "news/submit"
 
     Renderer request, response, args, true
     .catch (e) -> next e

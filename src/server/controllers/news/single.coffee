@@ -33,7 +33,7 @@ exports = module.exports = (Renderer, Stories, Comments, NotFoundError) ->
       delete story.created_by.rss_token
 
       options =
-        page: "info/about"
+        page: "news/single"
         title: response.__ "news/single:title"
         data: story: story
       Renderer request, response, options

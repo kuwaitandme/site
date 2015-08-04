@@ -10,7 +10,7 @@ exports = module.exports = (renderer, Stories) ->
         delete story.created_by.mailing_list_token
 
       args =
-        page: "info/about"
+        page: "news/recent"
         title: response.__ "news/recent:title"
         data: stories
 

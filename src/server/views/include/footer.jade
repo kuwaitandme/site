@@ -9,11 +9,19 @@ script.
 if environment != "production"
   script
     include ./asyncloader/build/files.js
+
+  //- Extra scripts go in here
+  block extraScripts
+
   script
     include ./asyncloader/build/loader.js
 else
   script
     include ./asyncloader/build/files.min.js
+
+  //- Extra scripts go in here
+  block extraScripts
+
   script
     include ./asyncloader/build/loader.min.js
   if settings.google.analyticsCode

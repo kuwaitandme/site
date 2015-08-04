@@ -31,11 +31,6 @@ window.scripts = [
     local: "/build/md5/common_#{publicData.md5['common.js']}.js"
   }
   {
-    id: "news.js"
-    remote: ["#{u}/build/md5/news_#{publicData.md5['news.js']}.js"]
-    local: "/build/md5/news_#{publicData.md5['news.js']}.js"
-  }
-  {
     id: "fonts.css"
     remote: [
       "//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css"
