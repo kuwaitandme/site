@@ -7,10 +7,10 @@ exports = module.exports = ($stateProvider, $locationProvider, $urlMatcher,
   # Helper function to create our routes
   index = 0
   _route = (page, route) ->
-    template = "news/views/#{page.replace 'news/', ''}/template"
+    templateUrl = "news/views/#{page.replace 'news/', ''}/template"
     $stateProvider.state "#{page}-#{index++}",
       controller: "#{page}"
-      templateUrl: template
+      templateUrl: templateUrl
       url: route
       resolve:
         # categories: ["models.news.categories", (m) -> m.download()]

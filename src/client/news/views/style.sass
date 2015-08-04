@@ -84,6 +84,9 @@ body.news
       &:hover
         background-color: #e6e6e6
 
+  header
+    border: 0
+
   #header-logo-container
     display: none
   #main-header
@@ -105,11 +108,14 @@ body.news
       @extend .font-roboto
       font-weight: bold
       opacity: 0.2
-      padding: 12px 3px 11px
+      padding: 12px 3px 10px
+      border-width: 5px
       &.active, &:hover
         opacity: 1
         color: #FFF
         border-color: #FFF
 
-    .search input
-      height: $headerHeight
+    .search
+      display: none !important
+      // input
+      //   height: $headerHeight

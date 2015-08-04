@@ -31,22 +31,17 @@ _library = (newpath) -> IoC.node _path newpath
   get more info about how it's different components work.
 ###
 
-# First load the settings.
-IoC.loader                _library "../../etc/config"
-
-# Load the common libraries
-IoC.loader "libraries",   _library "libraries"
-
-# Load our controllers and cron tasks.
-IoC.loader "controllers", _library "controllers"
+# Load the basic app components
 IoC.loader "api",         _library "api"
+IoC.loader "controllers", _library "controllers"
 IoC.loader "cron",        _library "cron"
+IoC.loader "errors",      _library "errors"
+IoC.loader "libraries",   _library "libraries"
+IoC.loader "models",      _library "models"
 
 # Load all igloo components.
+IoC.loader                _library "../../etc/config"
 IoC.loader "igloo",       igloo
-
-# And then finally load our models.
-IoC.loader "models",      _library "models"
 
 
 ###
