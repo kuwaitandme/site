@@ -5,9 +5,11 @@ html(lang= lang, dir= dir, data-ng-strict-di)
     block meta
     include ./include/head.jade
     if data.noIndex
-      meta(name="robots", content="noindex")
+      meta(name="robots" content="noindex")
+    else if data.noFollow
+      meta(name="robots" content="index, nofollow")
     else
-      meta(name="robots" content="index, follow")
+      meta(name="robots" content="index, nofollow")
 
   body.initializing(itemscope
     itemtype="http://schema.org/WebSite"
@@ -31,8 +33,4 @@ html(lang= lang, dir= dir, data-ng-strict-di)
         block robots
       block content
 
-
-    script
-      :coffee-script
-        console.log 'This is coffee script'
     include ./include/footer.jade

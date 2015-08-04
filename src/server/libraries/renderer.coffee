@@ -74,6 +74,9 @@ exports = module.exports = (settings, Cache) ->
     .catch ->
       if request.query.json? then return options.data
 
+      # Give the default page title
+      options.title ?= response.__ "#{options.page}:title"
+
       # Setup options for the jade compiler and HTML compiler
       jadeOptions =
         cache: cacheEnable
@@ -87,9 +90,6 @@ exports = module.exports = (settings, Cache) ->
         defaults section (which remains static) nor pass it through the options
       ###
       htmlOptions.publicData.md5 = settings.md5 or {}
-
-      # Parse out the page's title
-      htmlOptions.title = response.__ "#{options.page}:title"
 
       viewURL = "#{settings.views.dir}/main/#{options.page}.jade"
       fn = jade.compileFile viewURL, jadeOptions or {}

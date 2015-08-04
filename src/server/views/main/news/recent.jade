@@ -1,10 +1,1 @@
-extends ../../layout.jade
-
-block extraScripts
-  script.
-    script = {
-      id: "news.js",
-      remote: [window.publicData.staticUrl + "/build/md5/news_" + publicData.md5['news.js'] + ".js"],
-      local: "/build/md5/news_" + publicData.md5['news.js'] + ".js"
-    }
-    window.scripts.push(script);
+extends ./common.jade

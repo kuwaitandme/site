@@ -1,4 +1,4 @@
-exports = module.exports = (renderer, Stories) ->
+exports = module.exports = (Renderer, Stories) ->
   controller = (request, response, next) ->
     Stories.recent(page: request.params[0] or 1).then (stories) ->
 
@@ -9,12 +9,10 @@ exports = module.exports = (renderer, Stories) ->
         delete story.created_by.rss_token
         delete story.created_by.mailing_list_token
 
-      args =
+      options =
         page: "news/recent"
-        title: response.__ "news/recent:title"
         data: stories
-
-      renderer request, response, args, true
+      Renderer request, response, options
     .catch (e) -> next e
 
 

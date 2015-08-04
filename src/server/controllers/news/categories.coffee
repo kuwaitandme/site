@@ -1,11 +1,9 @@
 exports = module.exports = (Renderer, Stories) ->
   controller = (request, response, next) ->
-    args =
+    options =
       page: "news/categories"
-      title: response.__ "news:title"
       data: categories: Stories.categories
-
-    Renderer request, response, args, true
+    Renderer request, response, options
 
 
 exports["@require"] = [

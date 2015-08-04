@@ -34,8 +34,10 @@ exports = module.exports = (Renderer, Stories, Comments, NotFoundError) ->
 
       options =
         page: "news/single"
-        title: response.__ "news/single:title"
-        data: story: story
+        title: story.title
+        data:
+          noFollow: true
+          story: story
       Renderer request, response, options
 
     .catch (e) -> next e

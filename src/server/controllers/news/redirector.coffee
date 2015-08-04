@@ -17,7 +17,7 @@ validator = require "validator"
   @example
   GET sitename.tld/c/123 -> 301 sitename.tld/story-slug-here-123
 ###
-exports = module.exports = (Stories) ->
+exports = module.exports = (Stories, NotFoundError) ->
   controller = (request, response, next) ->
     if request.params.length is 0 then return next()
 
@@ -34,10 +34,13 @@ exports = module.exports = (Stories) ->
     # Finally query the DB and redirect
     Stories.get id
     .then (story) ->
-      if not story then return next()
+      if not story then throw new NotFoundError
       response.redirect "/news/story/#{story.get "slug"}?#{newqueryString}"
-    .catch next
+    .catch (e) -> next e
 
 
-exports["@require"] = ["models/news/stories"]
+exports["@require"] = [
+  "models/news/stories"
+  "errors/NotFoundError"
+]
 exports["@singleton"] = true
