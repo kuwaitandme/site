@@ -1,4 +1,4 @@
-exports = module.exports = (Renderer, Stories, Comments) ->
+exports = module.exports = (Renderer, Stories, Comments, NotFoundError) ->
   controller = (request, response, next) ->
     data = {}
 
@@ -7,8 +7,7 @@ exports = module.exports = (Renderer, Stories, Comments) ->
     # First get the story by the slug
     Stories.getBySlug slug, withRelated: ["created_by", "categories", "comments"]
     .then (story) ->
-      # Using a string to decide 404s is probably inefficient. FIX THIS.
-      if not story? then throw new Error "not_found"
+      if not story? then throw new NotFoundError
 
       # Load the comments now
       story.related("comments").load "created_by"
@@ -39,12 +38,13 @@ exports = module.exports = (Renderer, Stories, Comments) ->
         data: story: story
       Renderer request, response, options
 
-    .catch (e) -> if e.message == "not_found" then next() else next(e)
+    .catch (e) -> next e
 
 
 exports["@require"] = [
   "libraries/renderer"
   "models/news/stories"
   "models/news/comments"
+  "errors/NotFoundError"
 ]
 exports["@singleton"] = true

@@ -28,7 +28,7 @@ _library = (newpath) -> IoC.node _path newpath
   lies there (Especially the code to setup the server itself).
 
   Visit [igloo's documentation page](https://www.npmjs.com/package/igloo) to
-  get more info about how it's different components work.
+  get more info about how it works.
 ###
 
 # Load the basic app components
@@ -65,14 +65,14 @@ IoC.loader "igloo",       igloo
 # Use bootable to create our app.
 app = bootable express()
 
-# Run scripts that have to be run before initializing.
+# Run the 'before initializing' scripts.
 app.phase bootable.di.initializers _path "init/pre"
 
-# Now initialize the app.
-app.phase bootable.di.routes _path "routes"
-app.phase IoC.create "igloo/server"
+# Initialize the app.
+app.phase bootable.di.routes       _path "routes"
+app.phase IoC.create                     "igloo/server"
 
-# Run scripts that have to be run after initializing.
+# Run the 'after initialization' scripts.
 app.phase bootable.di.initializers _path "init/post"
 
 

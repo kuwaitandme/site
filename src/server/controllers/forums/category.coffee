@@ -1,8 +1,9 @@
-exports = module.exports = (Renderer, Categories, Topics, Users) ->
+exports = module.exports = (Renderer, Categories, Topics, NotFoundError) ->
   controller = (request, response, next) ->
     data = {}
 
     Categories.getBySlug(request.params[0]).then (category) ->
+      if not category? then throw new NotFoundError
       data.category = category
       Topics.getLatestByCategory category.id
     .then (topics) ->
@@ -20,14 +21,14 @@ exports = module.exports = (Renderer, Categories, Topics, Users) ->
         title: response.__ "forums:title"
         data: data
       Renderer request, response, args, true
-    .catch (e) ->
-      console.error e
-      next e
+
+    .catch (e) -> next e
 
 
 exports["@require"] = [
   "libraries/renderer"
   "models/forums/categories"
   "models/forums/topics"
+  "errors/NotFoundError"
 ]
 exports["@singleton"] = true
