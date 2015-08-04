@@ -1,3 +1,4 @@
+name = "[boot]"
 module.exports =
   initialize: ->
     # This block checks if the app has been booted properly (gives it 15s to
@@ -36,26 +37,33 @@ module.exports =
         console.log name, "BOOTSTRAP_OK set properly!"
     , 15 * 1000
 
+
   start: (modulename) ->
     # Helper function to boot the angular App.
     boot = ->
-      html = (document.getElementsByTagName "html")[0]
-      body = angular.element (document.getElementsByTagName "body")[0]
+      console.log name, "initializing angular with module '#{modulename}'"
+
+      # Remove the initializing class from the body element
+      body = angular.element document.getElementsByTagName("body")[0]
       body.removeClass "initializing"
+
+      # Boot angular!
+      html = document.getElementsByTagName("html")[0]
       angular.bootstrap html, [modulename]
       window.BOOTSTRAP_OK = true
 
+    ###
+      Now only boot the angular app, if the JST template has been loaded.
+      Because we can't really determine which async script loads first. This way
+      we avoid script from breaking due to race conditions..
 
-    # Now only boot the angular app, if the JST template has been loaded.
-    # Because we can't really determine which async script loads first. This way
-    # we avoid script from breaking due to race conditions..
-    #
-    # http://stackoverflow.com/questions/8996852/load-and-execute-order-of-scripts
-    #
-    # We wait for all the dependencies to be loaded first, before executing the
-    # angular app itself.
-    #
-    # This recursive function will keep on checking for the JST and variable to
-    # be defined. And when it does get defined, it will boot the app!
+      http://stackoverflow.com/questions/8996852/load-and-execute-order-of-scripts
+
+      We wait for all the dependencies to be loaded first, before executing the
+      angular app itself.
+
+      This recursive function will keep on checking for the JST and variable to
+      be defined. And when it does get defined, it will boot the app!
+    ###
     waitAndCheck = -> if JST? then boot() else setTimeout waitAndCheck, 250
     waitAndCheck()

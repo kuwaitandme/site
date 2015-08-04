@@ -1,6 +1,5 @@
 module.exports = (app) ->
-  console.log "[filters] initializing"
-
+  console.log "[common:filters] initializing"
   app.filter "category",      require "./category"
   app.filter "domain",        require "./domain"
   app.filter "link",          require "./link"

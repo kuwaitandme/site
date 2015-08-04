@@ -1,4 +1,4 @@
 module.exports = (app) ->
-  console.log "[components] initializing"
+  console.log "[news:components] initializing"
   app.directive "newsItem", require "./news-item/directive"
   app.directive "newsComment", require "./news-comment/directive"

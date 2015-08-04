@@ -1,4 +1,5 @@
 module.exports = (app) ->
+  console.log "[common:components] initializing"
   app.directive "categoryList", require "./category-list/directive"
 
   app.directive "classifiedCards", require "./classifieds/cards/directive"
@@ -8,11 +9,11 @@ module.exports = (app) ->
   app.directive "classifiedListItem", require "./classifieds/list/item/directive"
   app.directive "classifiedSingle", require "./classifieds/single/directive"
 
-  app.directive "auth", require "./auth/directive"
-  app.directive "header", require "./header/directive"
+  # app.directive "auth", require "./auth/directive"
+  # app.directive "header", require "./header/directive"
   app.directive "headerHamburger", require "./header/hamburger/directive"
 
-  app.directive "notifications", require "./notifications/directive"
+  # app.directive "notifications", require "./notifications/directive"
 
   # app.directive "formUi", require "./form-ui/directive"
   # app.directive "inputSelect", require "./form-ui/input-select/directive"
@@ -33,5 +34,5 @@ module.exports = (app) ->
 
   # app.directive "filterbox", require "./filterbox/directive"
 
-  app.directive "modal", require "./modal/directive"
-  app.factory "modal", require "./modal/factory"
+  # app.directive "modal", require "./modal/directive"
+  # app.factory "modal", require "./modal/factory"

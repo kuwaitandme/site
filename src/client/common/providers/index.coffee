@@ -1,3 +1,3 @@
 module.exports = (app) ->
-  console.log "[providers] initializing"
+  console.log "[common:providers] initializing"
   app.provider "$environment", require "./environment"

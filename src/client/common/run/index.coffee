@@ -1,5 +1,5 @@
 module.exports = (app) ->
-  console.log "[run] preparing run stages"
+  console.log "[common:run] preparing run stages"
   # app.run require "./cacheScripts"
   app.run require "./pageLoad"
   app.run require "./socketIO"

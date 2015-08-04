@@ -28,15 +28,15 @@ exports = module.exports = ($http, $log, $location, $notifications, $storage, $t
 
   parseURL: ->
     $log.log name, "parsing URL"
-    # query = $location.search()
-    # if query._success? then @success @_translate query._success
-    # if query._error? then @error @_translate query._error
-    # if query._warn? then @warn @_translate query._warn
-    # $timeout ->
-    #   $location.search "_error", null
-    #   $location.search "_success", null
-    #   $location.search "_warn", null
-    # , 1000
+    query = $location.search()
+    if query._success? then @success @_translate query._success
+    if query._error? then @error @_translate query._error
+    if query._warn? then @warn @_translate query._warn
+    $timeout ->
+      $location.search "_error", null
+      $location.search "_success", null
+      $location.search "_warn", null
+    , 1000
 
 
 exports.$inject = [

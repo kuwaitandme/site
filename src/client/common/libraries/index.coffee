@@ -1,5 +1,5 @@
 module.exports = (app) ->
-  console.log "[libraries] initializing"
+  console.log "[common:libraries] initializing"
 
   app.service "$facebook",          require "./facebook/sdk"
 

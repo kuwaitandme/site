@@ -1,5 +1,5 @@
 module.exports = (app) ->
-  console.log "[directives] initializing"
+  console.log "[common:directives] initializing"
   app.directive "fnImageLoader",      require "./fnImageLoader"
   app.directive "fnLikeViewport",     require "./fnLikeViewport"
   app.directive "fnModelFile",        require "./fnModelFile"

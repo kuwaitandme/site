@@ -1,4 +1,3 @@
-name = "[component:notification]"
 
 # Use this to adjust how long the toast notifications stay before they
 # disappear.
@@ -10,6 +9,7 @@ flashNotificationLifetime = 5000
 
 
 exports = module.exports = ($scope, $root, $log, $timeout) ->
+  name = "[component:notification]"
   $log.log name, "initializing"
 
   $scope.unreadNotifications = 12

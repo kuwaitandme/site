@@ -1,7 +1,5 @@
-name = "[page:news/single]"
-
-
 exports = module.exports = ($scope, $log, $notifications, $http, $sce, Stories) ->
+  name = "[page:news/single]"
   $log.log name, "initializing"
   $scope.$emit "page:loaded"
 
