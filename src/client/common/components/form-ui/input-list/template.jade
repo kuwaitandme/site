@@ -1,8 +1,0 @@
-.field(ng-init="opened=false; focused=false"
-  ng-click="focused=true; onTouch()") {{ userInput }}
-
-.placeholder(ng-class="{shrink: focused || userInput}") {{ placeholder }}
-
-ul(ng-class="{opened: focused}")
-  li(ng-repeat="item in list"
-    ng-click="setItem(item)") {{ item.name }}

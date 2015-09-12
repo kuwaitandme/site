@@ -12,8 +12,8 @@ Kuwait & Me is [licensed](LICENSE.md) under the [GNU GPL v3](http://www.gnu.org/
 **NOTE:** This site is effectively under development. It is undergoing a major redesign and does not reflect what you see in the actual website; unless of course, if you roll back a few hundred commits :P
 
 Contribute
----------- 
-We love you! Why not show us some love back? Contribute to the development of Kuwait & Me any way you possibly can. Developers can read the [contributions](CONTRIBUTION.md) file for more information on how to contribute. Contributors and will be honored in the [credits](CREDITS.md) file. 
+----------
+We love you! Why not show us some love back? Contribute to the development of Kuwait & Me any way you possibly can. Developers can read the [contributions](CONTRIBUTION.md) file for more information on how to contribute. Contributors and will be honored in the [credits](CREDITS.md) file.
 
 Donations are accepted via [PayPal](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=VF7PSX5M68LSQ) and help keep our servers running for you.
 

@@ -1,0 +1,72 @@
+sharing-comment
+  display: block
+
+  .content, .details
+    margin-left: 50px
+
+  .children
+    margin-left: 30px
+
+  .content
+    margin-top: 5px
+    font-family: "helvetica neue", arial, sans-serif
+    font-size: 13px
+    p
+      margin-top: 5px
+    a
+      color: blue
+
+  .details
+    color: #888
+    font-size: 12px
+    margin-top: 2px
+    a
+      text-decoration: none
+
+  .votes
+    float: left
+    position: relative
+    .voter, .score
+      position: absolute
+
+    .voter
+      left: 28px
+      top: 3px
+      a
+        border-color: transparent transparent #CCC transparent
+        border-style: solid
+        border-width: 4px
+        border-bottom-width: 9px
+        display: block
+        height: 0
+        margin-top: -2px
+        margin-bottom: 0px
+        margin-left: 5px
+        padding: 0
+        text-decoration: none
+        width: 0px
+        &:hover, &.voted
+          border-color: transparent transparent #000 transparent
+    .score
+      top: 2px
+      left: 0
+      color: #CCC !important
+      display: inline-block
+      font-size: 11px
+      text-align: right
+      font-weight: bold
+      min-width: 25px
+
+  .replyBox
+    margin-left: 50px
+
+    .columns
+      padding: 0
+
+    textarea
+      width: 80%
+      min-height: 100px
+      outline: none
+      background: #f9f9f9
+      border: 1px solid #DDD
+      border-bottom: 2px solid #DDD

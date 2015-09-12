@@ -9,81 +9,81 @@ exports.seed = (knex, Promise) ->
     (knex "locations").insert values
 
 
-  Promise.join(
-    (ins 0, "None"),
-    (ins null, "Abdullah Al-Salem"),
-    (ins null, "Abraq Khaitan"),
-    (ins null, "Abu Fteira"),
-    (ins null, "Abu Halifa"),
-    (ins null, "Adiliya"),
-    (ins null, "Adan"),
-    (ins null, "Ahmadi"),
-    (ins null, "Al-Jabriya"),
-    (ins null, "Al-Zour"),
-    (ins null, "Andalus"),
-    (ins null, "Ardiyah"),
-    (ins null, "Bayan"),
-    (ins null, "Bi-di"),
-    (ins null, "Bnied Al-Gar"),
-    (ins null, "Daiya"),
-    (ins null, "Dasman"),
-    (ins null, "Doha"),
-    (ins null, "Fahaheel"),
-    (ins null, "Faiha"),
-    (ins null, "Fardaws"),
-    (ins null, "Farwaniyah"),
-    (ins null, "Fintas"),
-    (ins null, "Funaitīs"),
-    (ins null, "Ghirnata"),
-    (ins null, "Hadiya"),
-    (ins null, "Hawally"),
-    (ins null, "Hittin"),
-    (ins null, "Jabir Al-Ahmad City"),
-    (ins null, "Jabriya"),
-    (ins null, "Jahra"),
-    (ins null, "Jibla"),
-    (ins null, "Jleeb Al-Shuyoukh"),
-    (ins null, "Keifan"),
-    (ins null, "Khaitan"),
-    (ins null, "Khaldiya"),
-    (ins null, "Kuwait City"),
-    (ins null, "Mahboula"),
-    (ins null, "Maidan Hawalli"),
-    (ins null, "Mangaf"),
-    (ins null, "Mansouriya"),
-    (ins null, "Mirgab"),
-    (ins null, "Mishref"),
-    (ins null, "Misila"),
-    (ins null, "Mubarak Aj-Jabir"),
-    (ins null, "Mubarak Al-Kabeer"),
-    (ins null, "Nahdha"),
-    (ins null, "Nigra"),
-    (ins null, "Nuzha"),
-    (ins null, "Omariya"),
-    (ins null, "Qadsiya"),
-    (ins null, "Qurain"),
-    (ins null, "Qurtuba"),
-    (ins null, "Qusur"),
-    (ins null, "Rabiya"),
-    (ins null, "Rai"),
-    (ins null, "Rawdah"),
-    (ins null, "Riqqah"),
-    (ins null, "Rumaithiya"),
-    (ins null, "Sabah Al-Nasser"),
-    (ins null, "Sabah Al-Salem"),
-    (ins null, "Sabahiyah"),
-    (ins null, "Sabhan"),
-    (ins null, "Salhiya"),
-    (ins null, "Salmiya"),
-    (ins null, "Salwa"),
-    (ins null, "Sawabir"),
-    (ins null, "Sha-ab"),
-    (ins null, "Shammiya"),
-    (ins null, "Sharq"),
-    (ins null, "Shuwaikh"),
-    (ins null, "Sulaibikhat"),
-    (ins null, "Surra"),
-    (ins null, "Udailiya"),
-    (ins null, "Wafra"),
+  Promise.all([
+    (ins 0, "None")
+    (ins null, "Abdullah Al-Salem")
+    (ins null, "Abraq Khaitan")
+    (ins null, "Abu Fteira")
+    (ins null, "Abu Halifa")
+    (ins null, "Adiliya")
+    (ins null, "Adan")
+    (ins null, "Ahmadi")
+    (ins null, "Al-Jabriya")
+    (ins null, "Al-Zour")
+    (ins null, "Andalus")
+    (ins null, "Ardiyah")
+    (ins null, "Bayan")
+    (ins null, "Bi-di")
+    (ins null, "Bnied Al-Gar")
+    (ins null, "Daiya")
+    (ins null, "Dasman")
+    (ins null, "Doha")
+    (ins null, "Fahaheel")
+    (ins null, "Faiha")
+    (ins null, "Fardaws")
+    (ins null, "Farwaniyah")
+    (ins null, "Fintas")
+    (ins null, "Funaitīs")
+    (ins null, "Ghirnata")
+    (ins null, "Hadiya")
+    (ins null, "Hawally")
+    (ins null, "Hittin")
+    (ins null, "Jabir Al-Ahmad City")
+    (ins null, "Jabriya")
+    (ins null, "Jahra")
+    (ins null, "Jibla")
+    (ins null, "Jleeb Al-Shuyoukh")
+    (ins null, "Keifan")
+    (ins null, "Khaitan")
+    (ins null, "Khaldiya")
+    (ins null, "Kuwait City")
+    (ins null, "Mahboula")
+    (ins null, "Maidan Hawalli")
+    (ins null, "Mangaf")
+    (ins null, "Mansouriya")
+    (ins null, "Mirgab")
+    (ins null, "Mishref")
+    (ins null, "Misila")
+    (ins null, "Mubarak Aj-Jabir")
+    (ins null, "Mubarak Al-Kabeer")
+    (ins null, "Nahdha")
+    (ins null, "Nigra")
+    (ins null, "Nuzha")
+    (ins null, "Omariya")
+    (ins null, "Qadsiya")
+    (ins null, "Qurain")
+    (ins null, "Qurtuba")
+    (ins null, "Qusur")
+    (ins null, "Rabiya")
+    (ins null, "Rai")
+    (ins null, "Rawdah")
+    (ins null, "Riqqah")
+    (ins null, "Rumaithiya")
+    (ins null, "Sabah Al-Nasser")
+    (ins null, "Sabah Al-Salem")
+    (ins null, "Sabahiyah")
+    (ins null, "Sabhan")
+    (ins null, "Salhiya")
+    (ins null, "Salmiya")
+    (ins null, "Salwa")
+    (ins null, "Sawabir")
+    (ins null, "Sha-ab")
+    (ins null, "Shammiya")
+    (ins null, "Sharq")
+    (ins null, "Shuwaikh")
+    (ins null, "Sulaibikhat")
+    (ins null, "Surra")
+    (ins null, "Udailiya")
+    (ins null, "Wafra")
     (ins null, "Yarmuk")
-  )
+  ])

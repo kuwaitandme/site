@@ -1,0 +1,27 @@
+form(name="form", ng-class="formClasses")
+  .page.row
+    h1 Login
+    input.columns(type="text"
+      maxlength="140"
+      minlength="4"
+      ng-disabled="formLoading"
+      ng-model="login.username"
+      placeholder="Username or Email"
+      required="true")
+
+    input.columns(maxlength="140"
+      minlength="4"
+      ng-disabled="formLoading"
+      ng-model="login.password"
+      placeholder="Password"
+      required="true"
+      type="password")
+
+    button.submit.columns(ng-click="doLogin(login)", ng-if="form.$valid") Login
+    .other-options.columns
+      h4
+        | If you don't have an account, then&nbsp;
+        a(fn-route="/signup") signup!
+      //- h4
+      //-   | Forgot your password? Reset it&nbsp;
+      //-   a(fn-route="/login/forgot") here.

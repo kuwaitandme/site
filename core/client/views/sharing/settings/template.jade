@@ -1,0 +1,83 @@
+h1 Settings
+p
+  | Here you can customize your experience with the site. If you want more features why not give us a&nbsp;
+  a(href="https://github.com/enamakel/thebigindian.sharing/blob/master/CONTRIBUTION.md") suggestion?
+p These settings will be saved (only) in this machine, no login required.
+//- p.hide-if-loggedin
+  | These settings are only saved in this machine. If you want to save them permanently then&nbsp;
+  a(fn-route="/login") login
+  | &nbsp;or&nbsp;
+  a(fn-route="/login") signup!
+//- p.show-if-loggedin Since you are logged in, all your changes will be saved in our account and will be the same from all logged in machines.
+
+//- .seperator
+
+form(name="form")
+  h2 General Settings
+
+  .row.collapse
+    .small-6.medium-9.columns
+      div Make header stick to the top
+    .small-6.medium-3.columns.input
+      form-checkbox(ng-model="settings.stickHeader")
+
+  //- .row.collapse
+    .small-6.medium-9.columns
+      div Number of story links per page
+    .small-6.medium-3.columns.input
+      select
+        option 10
+        option 20
+        option 30
+        option 40
+
+  .row.collapse
+    .small-6.medium-9.columns
+      div Hide quotes in the footer
+    .small-6.medium-3.columns.input
+      form-checkbox(ng-model="settings.hideFooterQuotes")
+
+  .row.collapse(ng-if="settings.hideFooterQuotes")
+    .small-6.medium-9.columns
+      div Completly hide the footer
+    .small-6.medium-3.columns.input
+      form-checkbox(ng-model="settings.hideFooter")
+
+  .row.collapse
+    .small-6.medium-9.columns
+      div Open story links in a new tab
+    .small-6.medium-3.columns.input
+      form-checkbox(ng-model="settings.storyInNewTab")
+
+
+  h2 sharing link settings
+  sharing-item(ng-model="sampleStory")
+  .row.collapse
+    .small-6.medium-9.columns
+      div Hide the domain name
+    .small-6.medium-3.columns.input
+      form-checkbox(ng-model="settings.storyHideDomain")
+
+  .row.collapse
+    .small-6.medium-9.columns
+      div Hide score and upvote button
+    .small-6.medium-3.columns.input
+      form-checkbox(ng-model="settings.storyHideScore")
+
+  .row.collapse
+    .small-6.medium-9.columns
+      div Hide the categories.
+    .small-6.medium-3.columns.input
+      form-checkbox(ng-model="settings.storyHideCategories")
+
+  .row.collapse
+    .small-6.medium-9.columns
+      div Hide the comments count
+    .small-6.medium-3.columns.input
+      form-checkbox(ng-model="settings.storyHideComments")
+
+  .row.collapse
+    .small-6.medium-9.columns
+      div Hide the date posted.
+    .small-6.medium-3.columns.input
+      form-checkbox(ng-model="settings.storyHideDate")

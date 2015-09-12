@@ -2,9 +2,9 @@ path      = require "path"
 
 # Setup the different directory variables
 parentDir    = path.join __dirname, "../.."
-appDir       = path.join parentDir, "src/server"
-assetsDir    = path.join parentDir, "src/public"
-publicDir    = path.join parentDir, "src/public"
+appDir       = path.join parentDir, "core/server"
+assetsDir    = path.join parentDir, "content"
+publicDir    = path.join parentDir, "content"
 backupDir    = path.join parentDir, "var/backups"
 viewsDir     = path.join appDir,    "views"
 modelsDir    = path.join parentDir, "etc/db"
@@ -18,7 +18,8 @@ knexConfig   = require "./knexfile"
 
 exports = module.exports = ->
   defaults:
-    sitename: "SITENAME-GOES-HERE"
+    sitename: "Kuwait & Me"
+
     emailAuth:
       enabled: true
       requireActivation: true
@@ -26,80 +27,33 @@ exports = module.exports = ->
     facebook:
       enabled: true
       supportMeta: true
-      oauth:
-        clientID: "XXXXXXXXXX"
-        clientSecret: "XXXXXXXXXX"
       scope: ["email"]
 
     twitter:
       enabled: false
       supportMeta: true
-      user: "@twitteraccount"
-      oauth:
-        consumerKey: "XXXXXXXXXX"
-        consumerSecret: "XXXXXXXXXX"
+      user: "@kuwaitandme"
 
+    reCaptcha:
+      siteKey: "XXXXXXXXXX"
+      siteSecret: "XXXXXXXXXX"
     google:
       enabled: true
-      reCaptcha:
-        siteKey: "XXXXXXXXXX"
-        siteSecret: "XXXXXXXXXX"
       analyticsCode: "UA-XXXXXXXXXX-X"
-      oauth:
-        clientID: "XXXXXXXXXX"
-        clientSecret: "XXXXXXXXXX"
       scope: [
         "https://www.googleapis.com/auth/userinfo.email"
         "https://www.googleapis.com/auth/userinfo.profile"
       ]
 
-    windowslive:
-      enabled: true
-      oauth:
-        clientID: "XXXXXXXXXX"
-        clientSecret: "XXXXXXXXXX"
-      scope: [
-        "wl.basic"
-        "wl.emails"
-      ]
-
-    openid:
-      enabled: true
-      oauth:
-        relam: "https://development.kuwaitandme.com"
-
-    wordpress:
-      enabled: true
-      clientID: "XXXXXXXXXX"
-      clientSecret: "XXXXXXXXXX"
+    windowslive: scope: ["wl.basic", "wl.emails"]
 
     linkedin:
-      enabled: true
-      scope: [
+      csope: [
         "r_basicprofile"
         "r_emailaddress"
       ]
-      oauth:
-        consumerKey: "XXXXXXXXXX"
-        consumerSecret: "XXXXXXXXXX"
-        profileFields: [
-          "id"
-          "email-address"
-          "first-name"
-          "last-name"
-        ]
 
-    amazon:
-      enabled: true
-      scope: ["profile"]
-      oauth:
-        clientID: "XXXXXXXXXX"
-        clientSecret: "XXXXXXXXXX"
-
-    reddit:
-      enabled: true
-      clientID: "XXXXXXXXXX"
-      clientSecret: "XXXXXXXXXX"
+    amazon: scope: ["profile"]
 
     paypal:
       client_id: "XXXXXXXXXX",
@@ -109,21 +63,16 @@ exports = module.exports = ->
       port: ""
       currency: "USD"
 
-    phonegap: csrfBypassKey: "XXXXXXXXX"
 
     appDir: appDir
     assetsDir: assetsDir
+    backupDir: backupDir
     cache: false
+    modelsDir: modelsDir
     pkg: pkg
     publicDir: publicDir
-    modelsDir: modelsDir
-    backupDir: backupDir
     showStack: true
 
-    reCaptcha:
-      enabled: false
-      secret: ""
-      siteKey: ""
 
     views:
       dir: viewsDir
@@ -134,21 +83,21 @@ exports = module.exports = ->
       minStrength: 0
 
     email:
-      enabled: true
-      noreplyAddress: "noreply@server.tld"
-      webmasterAddress: "webmaster@server.tld"
+      enabled: false
+      noreplyAddress: "noreply@kuwaitandme.com"
+      webmasterAddress: "webmaster@kuwaitandme.com"
       templates:
         dir: templatesDir
         options: {}
       smtp:
         hostname: "mailserver.tld"
-        password: "mh76N*&="
+        password: "XXXXXX"
         ssl: true
         username: "noreply@server.tld"
 
     session:
       cookie: maxAge: maxAge
-      # key: "s"
+      key: "s"
       resave: true
       saveUninitialized: false
       secret: "change-me"
@@ -181,10 +130,12 @@ exports = module.exports = ->
       host: "localhost"
       maxAge: maxAge
       port: 6379
+
     output:
       colorize: true
       handleExceptions: true
       prettyPrint: false
+
     logger:
       console: true
       file: false
@@ -192,7 +143,9 @@ exports = module.exports = ->
       mongo: false
       requests: true
       slack: false
+
     knex: client: "postgres"
+
     jade: amd:
       path: "/js/tmpl/"
       options: {}
@@ -222,7 +175,6 @@ exports = module.exports = ->
       port: 3000
     redis: prefix: "kme-development:"
     output: level: "debug"
-    paypal: host: "api.sandbox.paypal.com"
 
   # Production specific options
   production:

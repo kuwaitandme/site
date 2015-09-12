@@ -1,0 +1,7 @@
+//- The stories list
+ul.stories
+  li.story(ng-repeat="story in stories track by $index")
+    sharing-item(ng-model="story")
+
+.page-links
+  a(fn-route="/sharing/page/{{ pagination.next }}", ng-if="pagination.next") More

@@ -1,0 +1,22 @@
+//- The stories list
+ul.stories
+  li.story(ng-repeat="story in stories track by $index")
+    sharing-item(ng-model="story")
+
+//- //- The two page options (they get displayed only on the first page)
+//- .page-option(ng-if="pagination.page == 1")
+//-   .field
+//-     input(type="checkbox", ng-model="options.newtab")
+//-   .info Open links in a new tab
+//- .page-option(ng-if="pagination.page == 1")
+//-   .info
+//-     | Show&nbsp;
+//-     select(ng-model="options.resultsPerPage")
+//-       option(ng-repeat="opt in resultOptions track by $index"
+//-         value="{{ opt }}") {{ opt }}
+//-     span &nbsp;results per page
+
+.page-links
+  a(fn-route="/page/{{ pagination.prev }}", ng-if="pagination.prev") Page {{ pagination.prev }}
+  span(ng-if="pagination.prev && pagination.next") &nbsp;&middot;&nbsp;
+  a(fn-route="/page/{{ pagination.next }}", ng-if="pagination.next") Page {{ pagination.next }}

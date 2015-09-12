@@ -1,0 +1,18 @@
+#main-header(class="{{ route }}")
+  #grabber-container
+    header-hamburger(ng-click="toggleHeader()")
+
+//- This is the Main header
+nav#menu-header(ng-class="{'show-menuheader': showMenuHeader}"
+  ng-init="showSubMenu=false;")
+  ul
+    li(ng-repeat="link in links"
+      class="{{ link.class }}"
+      ng-mouseover="onMainLinkHover(link)"
+      ng-class="{active: link.isActive}")
+      span.icon(ng-if="link.children") &#xf105;
+      a(fn-route="{{ link.url }}"
+        ng-if="link.slug") {{ link.name | translate:'header'}}
+
+
+span.nav-cover(ng-click="closeHeader()", ng-mouseover="onCoverHover()")

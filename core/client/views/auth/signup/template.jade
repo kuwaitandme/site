@@ -1,0 +1,57 @@
+form(name="form", ng-class="formClasses", ng-init="page = 1")
+  .page.row(ng-if="page == 1")
+    h1 Create your account
+
+    input.columns(maxlength="140"
+      ng-model="signup.email"
+      placeholder="Email"
+      ng-focus="hideLogin=true"
+      type="email"
+      required="true"
+      ng-disabled="formLoading")
+
+    input.columns(maxlength="140"
+      minlength="3"
+      ng-if="emailValid"
+      ng-model="signup.username"
+      placeholder="Username"
+      type="text"
+      required="true"
+      ng-disabled="formLoading")
+
+    input.columns(maxlength="140"
+      minlength="6"
+      ng-if="usernameValid"
+      ng-model="signup.password"
+      placeholder="Password"
+      type="password"
+      required="true"
+      ng-disabled="formLoading")
+
+    .columns.captcha(ng-if="form.$valid && signup.password")
+      div(google-recaptcha, ng-model="form.gcaptcha", ng-if="!form.gcaptcha")
+
+      button.submit(ng-click="doSignup(signup)", ng-if="form.gcaptcha") Sign Up
+
+      h4(ng-if="form.$valid") By creating an account, you agree that you have read our <a href="/info/terms-privacy">terms and services</a>
+
+    .other-options.columns(ng-if="!hideLogin")
+      h4
+        | Already have an account? then&nbsp;
+        a(fn-route="/login") login!
+
+#page-3.page.row(ng-if="page == 2")
+  h1 You have been registered
+
+  b
+    p.
+      Yeah... We keep getting <a href="http://mailinator.com/" target="_blank">Mailinator</a> trolls so
+      we're not going to trouble you with an activation email.
+  p.
+    So go ahead, submit your first link <a fn-route="/submit">here</a>.
+  p.
+    Welcome to the community :)
+  //- h2
+    | Your account now needs to be <b>activated</b>. To activate it, click on
+    | the link in the email we just sent you.
+  //- h2 Make sure to check your spam folder, just in case.

@@ -1,0 +1,226 @@
+// $headerHeight: 60px
+$headerHeight: 50px
+$subHeaderWidth: 130px
+$subHeaderColor: #382869
+$subHeaderDarkColor: rgba(0,0,0,0.3)
+
+
+header
+  $border-color: #EEE
+  width: 100%
+  background: #FFF
+  z-index: 4
+
+  $shadow-opacity: 0.1
+  +clearfix
+
+  #header-searchbar
+    float: left
+
+  #header-logo-container
+    float: left
+    cursor: pointer
+    padding: 15px 13px
+    @media #{$small-only}
+      float: right
+
+    img
+      height: 21px
+      width: 112px
+
+  #grabber-container
+    +single-transition(transform)
+    cursor: pointer
+    float: left
+    // padding: 5px 20px
+
+    // background: $sharing-color
+    margin: 0
+    a
+      +single-transition
+      @extend .font-roboto
+      font-weight: bold
+      opacity: 0.2
+      padding: 12px 3px 10px
+      border-width: 5px
+      &.active, &:hover
+        opacity: 1
+        color: #FFF
+        border-color: #FFF
+
+
+    img
+      height: 16px
+      width: 16px
+
+    .black
+      display: none
+    .white
+      display: block
+
+  #header-logo, #grabber
+    background-repeat: no-repeat
+
+  #main-header
+    +clearfix
+    +single-transition(transform)
+    // background: #FFF
+    height: $headerHeight
+    z-index: 2
+
+  nav#menu-header, nav#submenu-header
+    opacity: 0
+    ul
+      margin: 0
+      padding: 5px 0
+
+      li
+        +single-transition(background)
+        a
+          text-decoration: none
+          cursor: pointer
+          margin-left: 10px
+          font-weight: bold
+
+
+
+  nav#menu-header
+    +single-transition
+    background: $subHeaderColor
+    border-right: 2px solid $subHeaderDarkColor
+    bottom: 0
+    left: 0
+    margin-bottom: 0
+    overflow-y: auto
+    position: fixed
+    text-align: left
+    top: 0
+    width: $subHeaderWidth
+    z-index: 5
+
+    -webkit-transform: translate3D(-$subHeaderWidth, 0, 0)
+    -ms-transform: translate3D(-$subHeaderWidth, 0, 0)
+    transform: translate3D(-$subHeaderWidth, 0, 0)
+
+
+    ul
+      // background: #FFF
+      position: relative
+      color: #FFF
+
+      li
+        a
+          display: inline-block
+          color: inherit
+          padding: 7px
+          font-size: 12px
+
+        .icon
+          float: right
+          color: inherit
+          padding: 7px 15px
+
+        .sub
+          display: none !important
+          margin-left: 30px
+          &:hover, &.active
+            background: $subHeaderDarkColor
+
+        &.active, &:hover
+          background: $subHeaderDarkColor
+          a
+            display: block
+            color: inherit
+            border-color: transparent
+
+        &.active .sub
+          display: block !important
+
+        &.divider
+          background: $subHeaderDarkColor
+          height: 2px
+          margin: 10px 0
+
+nav#submenu-header
+  +single-transition
+  background: #EEE
+  bottom: 0
+  height: 100%
+  left: $subHeaderWidth
+  position: fixed
+  top: 0
+  width: $subHeaderWidth
+  z-index: 2
+
+  -webkit-transform: translate3D(-$subHeaderWidth * 2, 0, 0)
+  -ms-transform: translate3D(-$subHeaderWidth * 2, 0, 0)
+  transform: translate3D(-$subHeaderWidth * 2, 0, 0)
+
+  li
+    color: #FFF
+    a
+      display: inline-block
+      color: inherit
+      padding: 7px
+      font-size: 12px
+    &:hover, &.active
+      background: rgba(0,0,0,0.3)
+
+
+
+body
+  &.stickHeader
+    header
+      position: fixed
+      top: 0
+    main
+      padding-top: $headerHeight !important
+  &.show-header
+    header
+      #menu-header
+        opacity: 1
+
+        -webkit-transform: translate3D(0,0,0)
+        -ms-transform: translate3D(0,0,0)
+        transform: translate3D(0,0,0)
+      #main-header
+        -webkit-transform: translate3D($subHeaderWidth, 0, 0)
+        -ms-transform: translate3D($subHeaderWidth, 0, 0)
+        transform: translate3D($subHeaderWidth, 0, 0)
+      #submenu-header
+        -webkit-transform: translate3D(-$subHeaderWidth, 0, 0)
+        -ms-transform: translate3D(-$subHeaderWidth, 0, 0)
+        transform: translate3D(-$subHeaderWidth, 0, 0)
+      .nav-cover
+        bottom: 0
+        left: $subHeaderWidth
+        position: fixed
+        right: 0
+        top: 0
+        z-index: 200
+
+    main, footer
+      opacity: 0.2
+
+      -webkit-transform: translate3D(50px, 0, 0)
+      -ms-transform: translate3D(50px, 0, 0)
+      transform: translate3D(50px, 0, 0)
+
+    &.show-subheader
+      #submenu-header
+        opacity: 1
+        -webkit-transform: translate3D(0,0,0)
+        -ms-transform: translate3D(0,0,0)
+        transform: translate3D(0,0,0)
+      #main-header
+        -webkit-transform: translate3D($subHeaderWidth * 2, 0, 0)
+        -ms-transform: translate3D($subHeaderWidth * 2, 0, 0)
+        transform: translate3D($subHeaderWidth * 2, 0, 0)
+      header .nav-cover
+        left: $subHeaderWidth * 2
+
+
+
+@media print
+  header
+    display: none

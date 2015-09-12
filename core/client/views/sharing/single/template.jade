@@ -1,0 +1,23 @@
+section(ng-if="story.id")
+  sharing-item(ng-model="story")
+  .description(ng-bind-html="description", ng-if="description")
+  .comment-box.row.collapse
+    form.row.collapse(name="form", ng-class="formClasses")
+      .columns
+        textarea.field.main-commentbox.show-if-loggedin(ng-model="story.comment"
+          ng-disabled="formLoading"
+          maxlength=3000
+          placeholder="comment on this link."
+          required)
+        a.hide-if-loggedin(fn-route="/login")
+          textarea.field.main-commentbox(
+            placeholder="you need to be logged in to comment"
+            disabled)
+
+      .columns(ng-if="form.$valid")
+        google-recaptcha(ng-model="data.gcaptcha", ng-if="!data.gcaptcha")
+        button(ng-click="submit()", ng-if="data.gcaptcha") Submit
+
+
+  p#comments(ng-repeat="comment in comments | orderBy : 'hotness'")
+    sharing-comment(ng-model="comment")

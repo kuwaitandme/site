@@ -1,0 +1,83 @@
+body#sharing-submit
+  footer
+    display: none
+
+  main
+    max-width: 700px
+    h1
+      @extend .font-roboto
+      text-align: center
+      margin-bottom: 2rem
+
+    a
+      @extend .font-roboto
+      +single-transition(border)
+      text-decoration: none
+
+      &.guidlines, &.markdown
+        color: blue
+        font-size: 9.5pt
+
+      &.markdown
+        text-align: right
+
+    .get-title-container
+      text-align: right
+
+    ul
+      color: #333
+      font-size: 9.5pt
+      padding-left: 40px
+      li
+        list-style: disc
+
+
+    .markdown_help
+      background-color: #f4f4f4
+      border: 1px solid #e0e0e0
+      padding: 0 1em
+      margin-top: 0.5em
+      font-size: 9.5pt
+      color: #333
+
+
+    .category-selected, .category-selector
+      padding: 5px 10px
+      font-size: 12px
+      .options
+        padding: 10px 0
+
+    .title
+      font-weight: bold
+    .category-selected
+      border-bottom: 1px solid #EEE
+
+    input[type="checkbox"]
+      margin: 0 5px
+      min-height: 0
+    textarea
+      background: #f6f6f6
+    label
+      font-weight: normal
+      font-size: 13px
+
+    // .field
+    //   +single-transition
+
+    .field:not(:focus)
+      &.ng-valid
+        border-bottom: 0
+      &.url.ng-valid
+        color: blue
+        text-decoration: underline
+      &.title.ng-valid
+        font-size: 14px
+        color: #000
+
+  sharing-category
+    margin: 5px 5px 7px 3px
+    display: inline-block
+    span
+      color: #333
+      font-size: 11px
+      padding: 3px 6px

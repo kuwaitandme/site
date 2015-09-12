@@ -1,0 +1,5 @@
+.container
+  .item(ng-repeat="notification in notifications track by $index"
+    class="{{ notification.type }}"
+    ng-click="notification.hasRead = true"
+    ng-if="!notification.hasRead") {{ notification.message | translate:"notifications"}}

@@ -1,0 +1,20 @@
+=single-transition($property: all, $speed: 300ms, $ease: ease-out)
+  transition: $property $speed $ease
+  -moz-transition: $property $speed $ease
+  -webkit-transition: $property $speed $ease
+
+=force-gpu
+  -webkit-transform: translateZ(0)
+  -moz-transform: translateZ(0)
+  -ms-transform: translateZ(0)
+  -o-transform: translateZ(0)
+  transform: translateZ(0)
+
+=flexbox
+  display: -webkit-flex
+  display: -ms-flexbox
+  display: flex
+
+=no-outline
+  outline: none
+  box-shadow: none

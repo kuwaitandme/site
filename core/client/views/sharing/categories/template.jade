@@ -1,0 +1,20 @@
+h1 {{ "maintitle" | translate:"sharing/categories" }}
+//- p {{ "help1" | translate:"sharing/categories" }}
+//- p.hide-if-loggedin {{ "help2-nologin" | translate:"sharing/categories" }}
+
+table(cellspacing="0")
+  tr.head
+    //- th.center(width="7%") {{ "table.hide" | translate:"sharing/categories" }}
+    th(width="13%") {{ "table.tag" | translate:"sharing/categories" }}
+    th(width="65%") {{ "table.desc" | translate:"sharing/categories" }}
+    th.center(width="5%") {{ "table.stories" | translate:"sharing/categories" }}
+  tr(ng-repeat="category in categories | orderBy : 'slug'")
+    //- td.center
+      input(type="checkbox", ng-model="filters[category.id]")
+    td
+      a(fn-route="/category/{{ category.slug }}")
+        sharing-category(ng-model="category")
+    td {{ category.description }}
+    td.center {{ category.counter || 0 | prettynumber }}
+
+//- button(ng-click="saveFilters(filters)") {{ "submit" | translate:"sharing/categories" }}

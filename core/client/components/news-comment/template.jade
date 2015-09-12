@@ -1,0 +1,34 @@
+.story_comment(id="c_{{ comment.slug }}")
+  .voters
+  .votes(ng-if="!settings.storyHideScore")
+    .score {{ comment.score || 0 | prettynumber }}
+    .voter(ng-if="!hasVoted")
+      a(ng-click="upvote()", ng-class="{voted: hasVoted}")
+
+  .details
+    a.author(fn-route-dis="/user/@{{ comment.created_by.username }}") {{ comment.created_by.username }}
+    | &nbsp;&middot;&nbsp;
+    span {{ comment.created_at | prettydate }}
+    //- | &nbsp;&middot;&nbsp;
+    //- a(ng-href="{{ path }}#c_{{ comment.slug }}") link
+    | &nbsp;&middot;&nbsp;
+    a(ng-click="comment.showReplyBox = !comment.showReplyBox") reply
+  .content(ng-bind-html="markdown")
+  form.replyBox.row(ng-if="comment.showReplyBox", name="comment_form")
+    .columns
+      textarea.field.show-if-loggedin(ng-model="data.child_comment"
+        ng-disabled="formLoading"
+        maxlength=3000
+        placeholder="reply to this comment"
+        required)
+      a.hide-if-loggedin(fn-route="/login")
+        textarea.field.main-commentbox(
+          placeholder="you need to be logged in to comment"
+          disabled)
+
+    .columns(ng-if="comment_form.$valid")
+      google-recaptcha(ng-model="data.gcaptcha", ng-if="!data.gcaptcha")
+      button(ng-click="submit()", ng-if="data.gcaptcha") Submit
+
+  .children(ng-repeat="child in comment.children | orderBy : 'hotness'")
+    sharing-comment(ng-model="child")

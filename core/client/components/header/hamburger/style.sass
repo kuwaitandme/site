@@ -1,0 +1,92 @@
+// Credit to https://codepen.io/kyleHenwood/pen/Alayb
+$color: #000     // icon color
+$blue: #000   // background color
+$animation: 0.3s // animation speed
+$scale: 1
+$burger-width: 20px
+$burger-height: 14px
+$size: 50px
+
+@import "./keyframes"
+
+header-hamburger
+  height: $size
+  width: $size
+  position: relative
+  display: block
+  // // icon scale 68/68 default
+  // *, *:before, *:after
+  //   box-sizing: border-box
+
+  .hamburglar
+    transform: scale($scale)
+    position: absolute
+    top: -8px
+    left: -7px
+    display: block
+    width: $burger-width
+    height: $burger-width
+    -webkit-touch-callout: none
+    user-select: none
+
+
+  // All good burgers need filling!
+  .burger-icon
+    position: absolute
+    padding: 25px
+    height: $size
+    width: $size
+
+  .burger-container
+    position: relative
+    height: $burger-height
+    width: $burger-width
+
+  .burger-bun
+    position: absolute
+    display: block
+    height: 2px
+    width: $burger-width
+    border-radius: 2px
+    background: $color
+
+  .burger-bun-top
+    top: 0
+
+  .burger-bun-bot
+    bottom: 0
+
+  .burger-bun-top, .burger-bun-bot
+    transform-origin: $burger-width - 2px 1px
+
+  .burger-filling
+    top: 6px
+
+
+  // bun animations
+  .hamburglar.is-open
+    .burger-bun-top
+      animation: bun-top-out $animation linear normal
+      animation-fill-mode: forwards
+    .burger-bun-bot
+      animation: bun-bot-out $animation linear normal
+      animation-fill-mode: forwards
+
+  .hamburglar.is-closed
+    .burger-bun-top
+      animation: bun-top-in $animation linear normal
+      animation-fill-mode: forwards
+    .burger-bun-bot
+      animation: bun-bot-in $animation linear normal
+      animation-fill-mode: forwards
+
+  // burger filling
+  .hamburglar.is-open
+    .burger-filling
+      animation: burger-fill-out $animation linear normal
+      animation-fill-mode: forwards
+
+  .hamburglar.is-closed
+    .burger-filling
+      animation: burger-fill-in $animation linear normal
+      animation-fill-mode: forwards

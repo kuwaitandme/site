@@ -1,0 +1,23 @@
+//- The stories list
+ul.stories
+  li.story(ng-repeat="story in stories track by $index")
+    sharing-item(ng-model="story")
+  li(ng-if="pagination.total == 0")
+    | There are no stories yet :( Post one&nbsp;
+    a.blue(fn-route="/submit") here!
+
+//- //- The two page options (they get displayed only on the first page)
+//- .page-option(ng-if="pagination.page == 1")
+//-   .field
+//-     input(type="checkbox", ng-model="options.newtab")
+//-   .info Open links in a new tab
+//- .page-option(ng-if="pagination.page == 1")
+//-   .info
+//-     | Show&nbsp;
+//-     select(ng-model="options.resultsPerPage")
+//-       option(ng-repeat="opt in resultOptions track by $index"
+//-         value="{{ opt }}") {{ opt }}
+//-     span &nbsp;results per page
+
+.page-links
+  a(fn-route="/sharing/page/{{ pagination.next }}", ng-if="pagination.next") More

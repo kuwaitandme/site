@@ -1,0 +1,26 @@
+body#sharing-settings main
+  p a
+    text-decoration: none
+    color: blue
+
+  h2
+    font-size: 18px
+    margin: 50px 0 2rem
+    text-transform: uppercase
+  form
+    .columns
+      margin-bottom: 10px
+
+      &:nth-child(even)
+        text-align: right
+
+    .note
+      padding-left: 5px
+      font-size: 12px
+
+    @media #{$small-only}
+      .input
+        text-align: center !important
+
+    sharing-item .story_liner
+      margin-bottom: 20px

@@ -1,5 +1,5 @@
 exports.up = (knex, Promise) ->
-  knex.schema.createTable "sharing_item", (table) ->
+  knex.schema.createTable "sharing_items", (table) ->
     table.increments().primary()
     table.string("title").notNull()
     table.string("slug").index().notNull().unique()
@@ -13,15 +13,15 @@ exports.up = (knex, Promise) ->
     table.integer("price_value").defaultTo 0
     table.integer("language").notNull().references("id").inTable "languages"
     table.integer("weight").index().notNull().defaultTo 0
-    table.integer("status").index().notNull().references("id").inTable "sharing_statuses"
+    table.integer("status").index().notNull().references("id").inTable "sharing_item_statuses"
     table.integer("view_count").notNull().defaultTo 0
     table.json("contact").defaultTo "{}"
     table.json("images").defaultTo "[]"
     table.json("meta").defaultTo "{}"
-    table.integer("type").notNull().references("id").inTable "sharing_types"
+    table.integer("type").notNull().references("id").inTable "sharing_item_types"
     table.timestamp("created_at").notNull().defaultTo knex.raw "now()"
     table.timestamp("modified_at").notNull().defaultTo knex.raw "now()"
     table.timestamp("updated_at").notNull().defaultTo knex.raw "now()"
 
 
-exports.down = (knex, Promise) -> knex.schema.dropTable "sharing_item"
+exports.down = (knex, Promise) -> knex.schema.dropTable "sharing_items"
