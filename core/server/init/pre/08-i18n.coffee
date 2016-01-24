@@ -11,6 +11,7 @@ i18n    = require "i18n"
 fs      = require "fs"
 path    = require "path"
 walk    = require "fs-walk"
+MD5     = require "MD5"
 _       = require "underscore"
 
 
@@ -79,6 +80,10 @@ exports = module.exports = (IoC, settings) ->
 
     # Stringify JSON and write to the file.
     json = JSON.stringify obj, null, 2
+
+    #! Save the MD5!
+    settings.md5["locale:#{locale}"] = MD5 json
+
     fs.writeFile "#{settings.localeDest}/#{locale}.json", json, (err) ->
       if err then return logger.error err
       logger.verbose "generated #{locale}.json"

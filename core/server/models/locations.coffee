@@ -1,9 +1,8 @@
-module.exports = Model = (BaseModel) ->
-  new class LocationModel extends BaseModel
+Model = module.exports = (Bookshelf) ->
+  Bookshelf.Model.extend
     tableName: "locations"
-    enableMD5: true
-    fullCache: true
+    cache: true
 
 
+Model["@require"] = ["models/base/bookshelf"]
 Model["@singleton"] = true
-Model["@require"] = ["models/base/model"]

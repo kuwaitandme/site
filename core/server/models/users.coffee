@@ -1,23 +1,18 @@
-###*
- * [Promise description]
- *
- * @author Steven Enamakel <me@steven.pw>
-###
 Promise   = require "bluebird"
 bCrypt    = require "bcrypt-nodejs"
 validator = require "validator"
 
 
-exports = module.exports = (BaseModel, Enum) ->
+exports = module.exports = (BaseModel) ->
   usersPerPage = 20
 
   class Users extends BaseModel
     tableName: "users"
 
     # Setup the enum types
-    enums:
-      roles: tableName: "user_roles", pick: "name"
-      statuses: tableName: "user_statuses", pick: "name"
+    # enums:
+    #   roles: tableName: "user_roles", pick: "name"
+    #   statuses: tableName: "user_statuses", pick: "name"
 
 
     extends:
@@ -175,6 +170,5 @@ exports = module.exports = (BaseModel, Enum) ->
 
 exports["@require"] = [
   "models/base/model"
-  "models/base/enum"
 ]
 exports["@singleton"] = true

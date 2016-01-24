@@ -1,5 +1,5 @@
-exports = module.exports = (Items) ->
-  controller = (request, response, next) ->
+Controller = module.exports = (Items) ->
+  (request, response, next) ->
     Item.getBySlug request.params[0]
     .then (results) ->
       # Start parsing out the Item's data
@@ -21,5 +21,5 @@ exports = module.exports = (Items) ->
     .catch next
 
 
-exports["@require"] = ["models/sharing/items"]
-exports["@singleton"] = true
+Controller["@require"] = ["models/sharing/items"]
+Controller["@singleton"] = true

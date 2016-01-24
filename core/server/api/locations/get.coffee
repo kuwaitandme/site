@@ -1,30 +1,20 @@
-exports = module.exports = (Locations, Cache) ->
-  routes: ["/locations"]
-  controller: (request, response, next) ->
-    response.contentType "application/json"
-    cacheKey = "route:api/locations"
+###
+@api {get} /locations Gets all the locations saved in the database
+@apiName GetLocation
+@apiGroup Locations
 
-    # Check in cache
-    Cache.get cacheKey
-
-    # The Locations were not cached, so query and then save in cache
-    .catch ->
-
-      # Get all the locations from the DB.
-      Locations.getAll()
-      .then (results) -> Cache.set cacheKey, JSON.stringify results, null, 2
-
-    # This promise only executes when the locations have been fetched (either
-    # from the DB or from the cache)
-    .then (results) ->
-      response.contentType "application/json"
-      response.end results
-    .catch next
+@apiVersion 1.0.0
+###
+Controller = module.exports = (Locations, Cache) ->
+  (request, response, next) ->
+    location = new Locations
+    location.fetchAll().then (collection) -> response.json collection
+    .catch (e) -> next e
 
 
-exports.APIroute = "/locations/([a-z]+)"
-exports["@require"] = [
+Controller["@require"] = [
   "models/locations"
   "libraries/cache"
 ]
-exports["@singleton"] = true
+Controller["@routes"] = ["/locations"]
+Controller["@singleton"] = true

@@ -16,7 +16,7 @@ passport = require "passport"
  *
  * @author Steven Enamakel <me@steven.pw>
 ###
-exports = module.exports = (settings) ->
+Controller = module.exports = (settings) ->
   controller = (request, response, next) ->
     provider = request.params[0]
     if not provider? then return next()
@@ -40,5 +40,5 @@ exports = module.exports = (settings) ->
     catch e then next()
 
 
-exports["@require"] = ["igloo/settings"]
-exports["@singleton"] = true
+Controller["@require"] = ["igloo/settings"]
+Controller["@singleton"] = true

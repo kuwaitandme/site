@@ -1,4 +1,4 @@
-exports = module.exports = (renderer, Users) ->
+Controller = module.exports = (renderer, Users) ->
   controller = (request, response, next) ->
     Users.getByUsername(request.params[0]).then (user) ->
       if not user? then next()
@@ -12,7 +12,8 @@ exports = module.exports = (renderer, Users) ->
     .catch (e) -> next e
 
 
-exports["@require"] = [
+# Controller["@routes"] = []
+Controller["@require"] = [
   "models/users"
 ]
-exports["@singleton"] = true
+Controller["@singleton"] = true

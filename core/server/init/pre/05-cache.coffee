@@ -2,12 +2,12 @@ cachemanMemory     = require "cacheman-memory"
 helmet             = require "helmet"
 path               = require "path"
 
+
 exports = module.exports = (IoC, settings) ->
   app = this
 
   # Disable cache if settings say so
-  if not settings.cache
-    app.use helmet.nocache()
+  if not settings.cache then app.use helmet.nocache()
   else
     # Enable cache if NOT an XHR (AJAX) request
     app.use (req, res, next) ->

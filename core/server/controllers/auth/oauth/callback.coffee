@@ -1,6 +1,6 @@
 passport = require "passport"
 
-exports = module.exports = (settings, Events) ->
+Controller = module.exports = (settings, Events) ->
   controller = (request, response, next) ->
     fn = passport.authenticate request.params[0],
       failureRedirect: "/auth?_error=oauth_fail"
@@ -11,8 +11,8 @@ exports = module.exports = (settings, Events) ->
     fn request, response, next
 
 
-exports["@require"] = [
+Controller["@require"] = [
   "igloo/settings"
   "models/logs"
 ]
-exports["@singleton"] = true
+Controller["@singleton"] = true

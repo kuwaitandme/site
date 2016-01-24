@@ -14,7 +14,7 @@ exposed to the compiler.
 For a better understanding about how to use this module see the documentation
 of the function that gets returned below.
 ###
-exports = module.exports = (settings, Cache) ->
+Middleware = module.exports = (settings, Cache) ->
   defaults =
     _: global.__
     lang: "en"
@@ -46,7 +46,7 @@ exports = module.exports = (settings, Cache) ->
   ###
   TODO: Write this...
   ###
-  Middleware = (filePath, options, callback) ->
+  (filePath, options, callback) ->
     #! Setup the cache variables
     cacheKey = "never-set"
 
@@ -116,8 +116,8 @@ exports = module.exports = (settings, Cache) ->
     .then (data) -> callback null, data
 
 
-exports["@require"] = [
+Middleware["@require"] = [
   "igloo/settings"
   "libraries/cache"
 ]
-exports["@singleton"] = true
+Middleware["@singleton"] = true

@@ -1,28 +1,31 @@
-module.exports =
-  tag:  "[boot]"
+module.exports = do ->
+  TAG = "[boot]"
+
   initialize: ->
-    # This block checks if the app has been booted properly (gives it 15s to
-    # load) which by at which time the App should have fixed the script cache
-    # and set the BOOTSTRAP_OK flag..
-    #
-    # We execute this first because in case anything wrong happens below the
-    # setTimeout() function will make sure the block below still executes
-    # because of it's async nature.
+    ###
+      This block checks if the app has been booted properly (gives it 15s to
+      load) which by at which time the App should have fixed the script cache
+      and set the BOOTSTRAP_OK flag..
+
+      We execute this first because in case anything wrong happens below the
+      setTimeout() function will make sure the block below still executes
+      because of it's async nature.
+    ###
     setTimeout =>
-      console.log @tag, "checking for BOOTSTRAP_OK"
+      console.log TAG, "checking for BOOTSTRAP_OK"
       if not window.BOOTSTRAP_OK
-        console.warn @tag, "BOOTSTRAP_OK != true after 10s"
+        console.warn TAG, "BOOTSTRAP_OK != true after 10s"
 
         # Check the flag
         if localStorage.getItem "boot:failed"
-          console.warn @tag, "not reloading page as previous attempt failed"
-          console.error @tag, "scripts failed to load"
+          console.warn TAG, "not reloading page as previous attempt failed"
+          console.error TAG, "scripts failed to load"
 
           # TODO: redirect to a maintenance page
           document.body.innerHTML = "The site is under maintenance or your Internet
           connection is really slow"
         else
-          console.warn @tag, "something wrong with loading scripts. Clearing cache now,
+          console.warn TAG, "something wrong with loading scripts. Clearing cache now,
            setting a flag and reloading the page"
           # Clear the cache entirely!
           localStorage.clear()
@@ -34,22 +37,22 @@ module.exports =
           location.reload()
       else
         localStorage.removeItem "boot:failed"
-        console.log @tag, "BOOTSTRAP_OK set properly!"
+        console.log TAG, "BOOTSTRAP_OK set properly!"
     , 15 * 1000
 
 
   start: (modulename) ->
     # Helper function to boot the angular App.
     boot = =>
-      console.log @tag, "initializing angular with module '#{modulename}'"
+      console.log TAG, "initializing angular with module '#{modulename}'"
 
       # Remove the initializing class from the body element
-      body = angular.element document.getElementsByTagName("body")[0]
+      body = window.angular.element document.getElementsByTagName("body")[0]
       body.removeClass "initializing"
 
       # Boot angular!
       html = document.getElementsByTagName("html")[0]
-      angular.bootstrap html, [modulename]
+      window.angular.bootstrap html, [modulename]
       window.BOOTSTRAP_OK = true
 
     ###
@@ -65,5 +68,5 @@ module.exports =
       This recursive function will keep on checking for the JST and variable to
       be defined. And when it does get defined, it will boot the app!
     ###
-    waitAndCheck = -> if JST? then boot() else setTimeout waitAndCheck, 250
+    waitAndCheck = -> if window.JST? then boot() else setTimeout waitAndCheck, 250
     waitAndCheck()

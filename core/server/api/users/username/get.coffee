@@ -1,24 +1,21 @@
-Promise = require "bluebird"
-validator = require "validator"
+###
+@api {get} /users/:username Get a single user
+@apiName GetUserUsername
+@apiGroup User
+
+@apiParam {String} username Users unique username.
+
+@apiSuccess {String} firstname Firstname of the User.
+@apiSuccess {String} lastname  Lastname of the User.
+@apiVersion 1.0.0
+###
+Controller = module.exports = (User) ->
+  (request, response, next) ->
+    User.forge username: request.params.slug
+    .fetch().then (user) -> response.json user
+    .catch (e) -> next e
 
 
-exports = module.exports = (Users) ->
-  routes: ["/users/username/([0-9a-zA-Z\_]+)"]
-  controller: (request, response, next) ->
-    Users.findByUsernameOrEmail request.params[0]
-    .then (user) ->
-      if not user? then throw new Error
-
-      user = user.toJSON()
-      delete user.credits
-      delete user.mailing_list_token
-      delete user.password
-      delete user.rss_token
-
-      response.json user
-    .catch ->
-      response.status 404
-      response.json {}
-
-exports["@require"] = ["models/users"]
-exports["@singleton"] = true
+Controller["@require"] = ["models/user"]
+Controller["@routes"] = ["/users/username/:slug"]
+Controller["@singleton"] = true

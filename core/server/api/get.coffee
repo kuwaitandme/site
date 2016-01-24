@@ -1,7 +1,5 @@
-exports = module.exports = (settings) ->
-  routes: [""]
-
-  controller: (request, response, next) ->
+Controller = module.exports = (settings) ->
+  (request, response, next) ->
     data =
       version: "2.0.0"
       authors: [
@@ -13,4 +11,6 @@ exports = module.exports = (settings) ->
     response.json data
 
 
-exports["@require"] = ["igloo/settings"]
+Controller["@require"] = ["igloo/settings"]
+Controller["@routes"] = [""]
+Controller["@singleton"] = true

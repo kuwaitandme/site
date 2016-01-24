@@ -13,6 +13,6 @@ exports = module.exports = (Items, NotFoundError) ->
 exports.APIroute = "/sharing/item/slug/([^/]+)"
 exports["@require"] = [
   "models/sharing/items"
-  "errors/NotFoundError"
+  "libraries/errors/NotFoundError"
 ]
 exports["@singleton"] = true

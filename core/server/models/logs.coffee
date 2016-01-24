@@ -15,11 +15,11 @@ validator = require "validator"
 name = "[model:logs]"
 
 
-exports = module.exports = (IoC, BaseModel, Enum) ->
+exports = module.exports = (IoC, BaseModel) ->
   logger = IoC.create "igloo/logger"
 
 
-  new class Logs extends BaseModel
+  class Logs extends BaseModel
     tableName: "logs"
 
 
@@ -28,7 +28,7 @@ exports = module.exports = (IoC, BaseModel, Enum) ->
 
 
     # Setup the enum types
-    enums: types: tableName: "log_types", pick: "name"
+    # enums: types: tableName: "log_types", pick: "name"
 
 
     ###
@@ -83,10 +83,10 @@ exports = module.exports = (IoC, BaseModel, Enum) ->
         # Finally execute the query.
         @collection.query(buildQuery).fetch()
 
+  new Logs
 
 exports["@require"] = [
   "$container"
   "models/base/model"
-  "models/base/enum"
 ]
 exports["@singleton"] = true

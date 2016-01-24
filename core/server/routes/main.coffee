@@ -13,7 +13,7 @@ which route then either
 ###
 Express   = require "express"
 Walk      = require "fs-walk"
-path      = require "path"
+path     = require "path"
 
 
 exports = module.exports = (IoC) ->
@@ -43,18 +43,18 @@ exports = module.exports = (IoC) ->
 
   Modify this if you want to customize how routes and controllers get added.
   ###
-  _route = (url, controller) ->
+  _route = (url, rawMiddlewares=[], controller) ->
     #! If a string was passed to us, then we instansiate the controller
     #! manually.
     if typeof controller is "string" then controller = getController controller
 
-    #! This url matcher will take care of trailing back-slashes. Modify this
-    #! if you want to add a prefix.
-    urlRegex = new RegExp "^#{url}/?$"
 
-    #! Finally add the route to Express's router! `controller.controller` will
-    #! refer to the controller function specified in the controller file.
-    router.get urlRegex, controller.controller
+    #! Get all the middlewares now!
+    middlewares = do -> getMiddleware(m) for m in rawMiddlewares
+
+    #! Finally add the route to Express's router!
+    if url? then router.get url, middlewares, controller
+    else router.get middlewares, controller
 
 
   ###
@@ -72,6 +72,12 @@ exports = module.exports = (IoC) ->
 
 
   ###
+  **getMiddleware()** This function fetches the middleware given it's name.
+  ###
+  getMiddleware = (name) -> IoC.create "routes/middlewares/#{name}"
+
+
+  ###
   **isController()** This function is used to determine if a given filename
   is a valid controller (for us to instantiate and add to the route) or not.
 
@@ -79,6 +85,17 @@ exports = module.exports = (IoC) ->
   not ending with '.coffee'.
   ###
   isController = (fn) -> fn.indexOf("test") is -1 and /coffee$/.test(fn)
+
+  #! Add the common middlewares here!
+  router.use getMiddleware "UpdateLastOnlineForUser"
+
+  #! Add a middleware to check all the integer parameters
+  params = ["id", "page", "moderation"]
+  router.param p, getMiddleware "CheckIfParameterInteger" for p in params
+
+  #! Add a middleware to check all the slug parametesr
+  params = ["slug", "username", "story", "comment"]
+  router.param p, getMiddleware "CheckIfParameterSlug" for p in params
 
 
   #! Now start walking!
@@ -91,24 +108,24 @@ exports = module.exports = (IoC) ->
     file = path.join basedir, filename.split(".coffee")[0]
     relativePath = path.relative walkPath, file
 
-    try
-      #! Invoke IoC and get an instance of our controller
-      controller = getController relativePath
+    #! Invoke IoC and get an instance of our controller
+    routes = require("../controllers/#{relativePath}")["@routes"]
+    middlewares = require("../controllers/#{relativePath}")["@middlewares"]
+    controller = getController relativePath
 
-      #! Now if this controller does not have any routes then we skip it!
-      if not controller.routes? then return
+    #! Now if this controller does not have any routes then we skip it!
+    if not routes? then return
 
-      #! If it did have routes set, then we set it for each of its routes
-      for route in controller.routes
-        _route route, controller
+    #! If it did have routes set, then we set it for each of its routes
+    for route in routes
+      _route route, middlewares, controller
 
-        if route == "" then route = "/"
-        logger.debug "GET\t#{route} -> #{relativePath}"
-    catch e then return
+      if route == "" then route = "/"
+      logger.debug "GET\t#{route} -> #{relativePath}"
 
 
   #! If none of the routes matched, then route to the 404 controller!
-  # _route ".*",                                     "errors/404"
+  _route null, [], "errors/404"
 
   #! Finally attach the router into the app
   app.use router

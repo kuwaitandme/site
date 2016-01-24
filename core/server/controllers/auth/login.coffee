@@ -1,4 +1,4 @@
-exports = module.exports = ->
+Controller = module.exports = ->
   routes: ["/login"]
   controller: (request, response, next) ->
     response.render "main/auth/login",
@@ -6,4 +6,4 @@ exports = module.exports = ->
       metaRobots: "noindex"
 
 
-exports["@singleton"] = true
+Controller["@singleton"] = true

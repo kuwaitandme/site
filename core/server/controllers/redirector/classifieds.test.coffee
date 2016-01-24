@@ -4,7 +4,7 @@ w3c              = require("w3c-validate").createValidator()
 Promise          = require "bluebird"
 
 
-exports = module.exports = (IoC, Classifieds) -> (app) ->
+Controller = module.exports = (IoC, Classifieds) -> (app) ->
   ###*
    * This helper checks if the given redirect route actually returns a URL
    * pointing to the classified with it's slug. It returns a promise so that
@@ -69,8 +69,8 @@ exports = module.exports = (IoC, Classifieds) -> (app) ->
       checkForBadRedirect "-1", done
 
 
-exports["@require"] = [
+Controller["@require"] = [
   "$container"
   "models/sharing/items"
 ]
-exports["@singleton"] = true
+Controller["@singleton"] = true

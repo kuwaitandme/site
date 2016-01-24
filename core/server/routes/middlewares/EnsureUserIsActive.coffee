@@ -1,8 +1,8 @@
-exports = module.exports = (Users) ->
+exports = module.exports = (Users, UserInactiveError) ->
   middleware = (request, response, next) ->
-    if !request.user then next()
+    if not request.user then next()
     else if Users.isActive request.user then next()
-    else next new NotPrivelegedError
+    else next new UserInactiveError
 
 
 exports["@singleton"] = true

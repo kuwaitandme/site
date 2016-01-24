@@ -1,15 +1,9 @@
-# http://stackoverflow.com/questions/14430655/recursion-in-angular-directives
 # An Angular service which helps with creating recursive directives.
-module.exports = Service = ($compile) ->
+Service = module.exports = ($compile, angular) ->
   ###
-  Manually compiles the element, fixing the recursion loop.
-
-  @param element
-  @param [link] A post-link function, or an object with function(s) registered via pre and post properties.
-  @returns An object containing the linking functions.
+    Manually compiles the element, fixing the recursion loop.
   ###
   compile: (element, link) ->
-    console.log element, link
     # Normalize the link parameter
     if angular.isFunction link then link = post: link
 
@@ -17,7 +11,7 @@ module.exports = Service = ($compile) ->
     contents = element.contents().remove()
     compiledContents = undefined
 
-    return {
+    ret =
       pre: if link and link.pre then link.pre else null
       post: (scope, element) ->
         # Compile the contents
@@ -28,7 +22,10 @@ module.exports = Service = ($compile) ->
 
         # Call the post-linking function, if any
         if link and link.post then link.post.apply null, arguments
-    }
+    return ret
 
 
-Service.$inject = ["$compile"]
+Service.$inject = [
+  "$compile"
+  "angular"
+]

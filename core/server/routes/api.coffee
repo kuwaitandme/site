@@ -1,7 +1,4 @@
 ###
-API routes
-==========
-
 This file is mainly responsible for setting up all the different routes for the
 API.
 
@@ -21,8 +18,8 @@ convention to implement this.
   - All post requests will be served from the `post.coffee` file
   - All put requests will be served from the `put.coffee` file
 ###
-Express   = require "express"
-Walk      = require "fs-walk"
+Express  = require "express"
+Walk     = require "fs-walk"
 path     = require "path"
 
 
@@ -38,22 +35,21 @@ exports = module.exports = (IoC) ->
 
   Modify this if you want to customize how routes and controllers get added.
   ###
-  _route = (url, controller, method) ->
+  _route = (url, rawMiddlewares=[], controller, method) ->
     #! If a string was passed to us, then we instansiate the controller
     #! manually.
     if typeof controller is "string" then controller = getController controller
 
-    #! This url matcher will take care of trailing back-slashes. Modify this
-    #! if you want to add a prefix.
-    urlRegex = new RegExp "^#{url}/?$"
+    #! Get all the middlewares now!
+    middlewares = do -> getMiddleware(m) for m in rawMiddlewares
 
     #! Finally add the route to Express's router! `controller.controller` will
     #! refer to the controller function specified in the controller file.
     switch method
-      when "DELETE" then router.delete urlRegex, controller.controller
-      when "GET"    then router.get    urlRegex, controller.controller
-      when "POST"   then router.post   urlRegex, controller.controller
-      when "PUT"    then router.put    urlRegex, controller.controller
+      when "DELETE" then router.delete url, middlewares, controller
+      when "GET"    then router.get    url, middlewares, controller
+      when "POST"   then router.post   url, middlewares, controller
+      when "PUT"    then router.put    url, middlewares, controller
 
 
   ###
@@ -71,6 +67,13 @@ exports = module.exports = (IoC) ->
 
 
   ###
+  **getMiddleware()** This function fetches the middleware given it's name.
+  ###
+  getMiddleware = (name) -> IoC.create "routes/middlewares/#{name}"
+
+
+
+  ###
   **isController()** This function is used to determine if a given filename
   is a valid controller (for us to instantiate and add to the route) or not.
 
@@ -83,6 +86,14 @@ exports = module.exports = (IoC) ->
   getHTTPMethod = (filename) -> filename.split(".coffee")[0].toUpperCase()
 
 
+  #! Add a middleware to check all the integer parameters
+  params = ["id", "user", "comment", "story", "moderation"]
+  router.param p, getMiddleware "CheckIfParameterInteger" for p in params
+
+  #! Add a middleware to check all the slug parametesr
+  params = ["slug", "username", "lang"]
+  router.param p, getMiddleware "CheckIfParameterSlug" for p in params
+
   #! Now start walking!
   walkPath = path.join __dirname, "../api"
   Walk.walkSync walkPath, (basedir, filename, stat) ->
@@ -93,15 +104,17 @@ exports = module.exports = (IoC) ->
     relativePath = path.relative walkPath, file
 
     #! Invoke IoC and get an instance of our controller
+    routes = require("../api/#{relativePath}")["@routes"]
+    middlewares = require("../api/#{relativePath}")["@middlewares"]
     controller = getController relativePath
 
     #! Now if this controller does not have any routes then we skip it!
-    if not controller.routes? then return
+    if not routes? then return
 
     #! If it did have routes set, then we set it for each of its routes
-    for route in controller.routes
+    for route in routes
       method = getHTTPMethod filename
-      _route route, controller, getHTTPMethod filename
+      _route route, middlewares, controller, getHTTPMethod filename
 
       logger.debug "#{method}\tapi#{route} -> api/#{relativePath}"
 

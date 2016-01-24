@@ -1,8 +1,3 @@
-###*
- * [Promise description]
- *
- * @author Steven Enamakel <me@steven.pw>
-###
 Promise   = require "bluebird"
 bCrypt    = require "bcrypt-nodejs"
 requestIp = require "request-ip"

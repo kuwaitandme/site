@@ -36,6 +36,7 @@ IoC.loader "api",         _library "api"
 IoC.loader "controllers", _library "controllers"
 IoC.loader "cron",        _library "cron"
 IoC.loader "errors",      _library "errors"
+IoC.loader "routes",      _library "routes"
 IoC.loader "libraries",   _library "libraries"
 IoC.loader "models",      _library "models"
 

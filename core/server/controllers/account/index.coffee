@@ -1,4 +1,4 @@
-exports = module.exports = (renderer) ->
+Controller = module.exports = (renderer) ->
   controller = (request, response, next) ->
     if not request.isAuthenticated()
       return response.redirect "/?_error=need_login"
@@ -9,4 +9,4 @@ exports = module.exports = (renderer) ->
     renderer request, response, options, true
 
 
-exports["@singleton"] = true
+Controller["@singleton"] = true

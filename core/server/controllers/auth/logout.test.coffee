@@ -1,1 +1,1 @@
-exports = module.exports = (Events) -> ->
+Controller = module.exports = (Events) -> ->

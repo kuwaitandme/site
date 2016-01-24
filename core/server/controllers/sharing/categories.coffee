@@ -1,10 +1,8 @@
 Promise = require "bluebird"
 
 
-exports = module.exports = (Categories) ->
-  routes: ["/categories"]
-
-  controller: (request, response, next) ->
+Controller = module.exports = (Categories) ->
+  (request, response, next) ->
     Promise.props
       counters: Categories.getStoryCount()
       categories: Categories.getAll()
@@ -15,5 +13,6 @@ exports = module.exports = (Categories) ->
         cache: enable: true
 
 
-exports["@require"] = ["models/sharing/categories"]
-exports["@singleton"] = true
+Controller["@routes"] = ["/categories"]
+Controller["@require"] = ["models/sharing/categories"]
+Controller["@singleton"] = true

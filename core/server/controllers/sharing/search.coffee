@@ -1,4 +1,4 @@
-exports = module.exports = (Cache, renderer, Categories, Classifieds) ->
+Controller = module.exports = (Cache, renderer, Categories, Classifieds) ->
   controller = (request, response, next) ->
     page = 1
     title = ""
@@ -83,9 +83,9 @@ exports = module.exports = (Cache, renderer, Categories, Classifieds) ->
     .catch -> next()
 
 
-exports["@require"] = [
+Controller["@require"] = [
   "libraries/cache"
   # "models/categories"
   # "models/sharing/items"
 ]
-exports["@singleton"] = true
+Controller["@singleton"] = true

@@ -1,5 +1,5 @@
-exports = module.exports = (renderer) ->
-  controller = (request, response, next) ->
+Controller = module.exports = (renderer) ->
+  (request, response, next) ->
     # Prepare the data for the renderer
     options =
       cache:
@@ -14,4 +14,4 @@ exports = module.exports = (renderer) ->
     .catch next
 
 
-exports["@singleton"] = true
+Controller["@singleton"] = true

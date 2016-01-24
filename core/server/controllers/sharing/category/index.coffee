@@ -1,4 +1,4 @@
-exports = module.exports = (Stories) ->
+Controller = module.exports = (Stories) ->
   # routes: [
   #   "/category/[a-z\-]+-([0-9]+)"
   #   "/category/[a-z\-]+-([0-9]+)/page/([0-9]+)"
@@ -42,5 +42,5 @@ exports = module.exports = (Stories) ->
   #   .catch (e) -> next e
 
 
-exports["@require"] = ["models/sharing/items"]
-exports["@singleton"] = true
+Controller["@require"] = ["models/sharing/items"]
+Controller["@singleton"] = true

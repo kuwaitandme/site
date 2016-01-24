@@ -1,4 +1,4 @@
-elasticsearch = require "elasticsearch"
+Elasticsearch = require "elasticsearch"
 
 
 exports = module.exports = (IoC, settings) ->
@@ -12,8 +12,7 @@ exports = module.exports = (IoC, settings) ->
   if settings.server.env == "development" then options.log = "trace"
 
   # Initialize the client
-  client = new elasticsearch.Client options
-
+  # global.elasticsearch = new Elasticsearch.Client options
 
 
 exports["@require"] = [

@@ -25,7 +25,6 @@ defaults =
 ###
   ## Pagination Utils
 
-  @api private
   @type {{parseOptions: Function, query: Function, formatResponse: Function}}
 ###
 paginationUtils =
@@ -65,7 +64,7 @@ paginationUtils =
 
     @param {Number} totalItems
     @param {JSON} options
-    @returns {JSON} pagination metadata
+    @returns {JSON}a pagination metadata
    ###
   formatResponse: (totalItems, options) ->
     calcPages = Math.ceil(totalItems / options.limit) or 0
@@ -122,7 +121,6 @@ paginationUtils =
   ## Pagination
 
   Extends `bookshelf.Model` with `fetchPage`
-  @api public
   @param {Bookshelf} bookshelf \- the instance to plug into
 ###
 module.exports = pagination = (bookshelf) ->

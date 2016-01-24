@@ -16,7 +16,7 @@ querystring = require "querystring"
  * @example
  * GET sitename.tld/c/123 -> 301 sitename.tld/classified-slug-here-123
 ###
-exports = module.exports = (Classifieds) ->
+Controller = module.exports = (Classifieds) ->
   controller = (request, response, next) ->
     if request.params.length == 0 then return next()
 
@@ -38,5 +38,5 @@ exports = module.exports = (Classifieds) ->
     .catch next
 
 
-exports["@require"] = ["models/sharing/items"]
-exports["@singleton"] = true
+Controller["@require"] = ["models/sharing/items"]
+Controller["@singleton"] = true

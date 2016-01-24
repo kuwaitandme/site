@@ -2,12 +2,13 @@ socketSession = require "socket.io-express-session"
 socket = require "socket.io"
 redisIOstore = require "socket.io-redis"
 
-name = "[socket.io]"
 exports = module.exports = (IoC, settings) ->
+  name = "[socket.io]"
   app = this
   logger = IoC.create "igloo/logger"
   logger.debug name, "initializing server"
 
+###
   # Initialize a Socket.io server and use redis as the adapter
   io = socket app.server
   io.adapter redisIOstore
@@ -32,7 +33,7 @@ exports = module.exports = (IoC, settings) ->
       logger.debug name, "assigning id:#{id} room '#{roomName}'"
       socket.join roomName
     catch e then logger.debug name, "not assigning id:#{id} any room"
-
+###
 
 exports["@require"] = [
   "$container"

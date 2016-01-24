@@ -10,12 +10,10 @@ language is specified in the URL as shown below.
 GET /api/language/en
 ```
 ###
-exports = module.exports = (settings, Cache) ->
-  routes: ["/language/([a-z]+)"]
-
-  controller: (request, response, next) ->
+Controller = module.exports = (settings, Cache) ->
+  (request, response, next) ->
     response.contentType "application/json"
-    lang = request.params[0]
+    lang = request.params.lang
 
     # Check if language is valid
     if not /(en|ar|dg)/.test lang
@@ -34,8 +32,9 @@ exports = module.exports = (settings, Cache) ->
     .catch (e) ->  next e
 
 
-exports["@require"] = [
+Controller["@require"] = [
   "igloo/settings"
   "libraries/cache"
 ]
-exports["@singleton"] = true
+Controller["@singleton"] = true
+Controller["@routes"] = ["/language/:lang"]

@@ -12,9 +12,6 @@ exports = module.exports = (IoC, settings) ->
   # Set the default views directory.
   app.set "views", settings.views.dir
 
-  # Set the default view engine.
-  app.set "view engine", settings.views.engine
-
   # Make view engine output pretty in development mode.
   if settings.server.env == "development"
     app.locals.pretty = true

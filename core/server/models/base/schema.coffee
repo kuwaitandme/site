@@ -116,7 +116,7 @@ module.exports =  class Schema
 
     # Because Underscore refuses to perform a deep pick/extend, we will have to
     # manually filter out all the sub-json fields..
-    if json.images then for image in (json.images or [])
+    if json.images then for image in json.images or []
       image = _.pick image, (v, key, o) => key in @imageFields
     if json.meta
       json.meta = _.pick json.meta, (v, key, o) => key in @metaFields

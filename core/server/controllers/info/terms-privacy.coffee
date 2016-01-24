@@ -1,4 +1,4 @@
-exports = module.exports = ->
+Controller = module.exports = ->
   routes: ["/info/terms-privacy"]
   controller: (request, response, next) ->
     response.render "main/info/terms-privacy",
@@ -6,4 +6,4 @@ exports = module.exports = ->
       metaRobots: "nofollow"
 
 
-exports["@singleton"] = true
+Controller["@singleton"] = true

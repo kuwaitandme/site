@@ -1,5 +1,6 @@
 _ = require "underscore"
 
+
 exports = module.exports = (IoC, settings, Renderer) ->
   app = this
   name = "[views]"
@@ -28,6 +29,6 @@ exports = module.exports = (IoC, settings, Renderer) ->
 exports["@require"] = [
   "$container"
   "igloo/settings"
-  "libraries/middleware/renderer"
+  "libraries/renderer"
 ]
 exports["@singleton"] = true

@@ -46,15 +46,11 @@ exports = module.exports = (IoC, settings) ->
   Use this function to get a jade email template, render it and then
   send it as an email (along with the different options given).
 
-  @param  String destination           The destination email address to
-                                       which this email is to be sent.
-  @param  String template              The relative URL to the the template
-                                       (wrt to /views/email).
-  @param  Object templateOptions       The options that get sent to the
-                                       jade renderer.
-  @return Promise                      A promise resolving iff the email
-                                       was sent successfully
-  @example
+  String destination           The destination email address to which this email is to be sent.
+  String template              The relative URL to the the template (wrt to /views/email).
+  Object templateOptions       The options that get sent to the jade renderer.
+  Promise                      A promise resolving iff the email was sent successfully
+
   instance.sendTemplate("abd@mail.com", "account/activate",
     {subject: "Hello World"});
   ###
@@ -85,18 +81,11 @@ exports = module.exports = (IoC, settings) ->
   This function sends a simple text email. It also takes in extra options
   such an options HTML text and extra attachments.
 
-  @param  String subject            The subject that gets sent in the
-                                    email.
-  @param  String destination        The destination address that gets sent
-                                    in the email.
-  @param  String message            The actual message gets sent.
-  @param  Object options            The options for the message. It takes
-                                    in a html option used to attach
-                                    a html text and can also override the
-                                    default options.
-
-  @return Promise                   A promise that resolves iff the email
-                                    got sent out successfully.
+  String subject            The subject that gets sent in the email.
+  String destination        The destination address that gets sent in the email.
+  String message            The actual message gets sent.
+  Object options            The options for the message. It takes in a html option used to attach a html text and can also override the default options.
+  Promise                   A promise that resolves iff the email got sent out successfully.
   ###
   send = (subject, destination, message, mailOptions={}) ->
     new Promise (resolve, reject) ->

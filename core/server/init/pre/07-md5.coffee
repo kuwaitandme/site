@@ -1,5 +1,6 @@
 async   = require "async"
 fs      = require "fs"
+_       = require "underscore"
 # md5     = require "MD5"
 # md5File = require "md5-file"
 
@@ -15,6 +16,8 @@ exports = module.exports = (IoC, settings, Cache) ->
   checksumFile = "#{publicDir}/build/checksums"
   logger.verbose name, "reading checksums from", checksumFile
 
+  settings.md5 = {}
+
   # This function reads and updates the md5 sums from the checksum file.
   readChecksums = ->
     md5sums = {}
@@ -27,11 +30,11 @@ exports = module.exports = (IoC, settings, Cache) ->
       filename = words[1]
       sum = words[0]
       if filename
-        md5sums[filename] = sum
+        settings.md5[filename] = sum
         logger.debug name, "MD5 #{sum} = #{filename}"
 
     # Now that we have the sums, we now update the settings and clear the cache.
-    settings.md5 = md5sums
+    _.extend settings.md5, md5sums
     Cache.clear()
 
 

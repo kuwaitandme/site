@@ -6,22 +6,22 @@ This file describes the baseModel for all the other models that will get used
 in the side. This Model builds on top of `Bookshelf.Model` and provides easy
 to use functions as well convience ones.
 ###
-Bookshelf         = require "bookshelf"
-Md5               = require "MD5"
-Promise           = require "bluebird"
-_                 = require "underscore"
-moment            = require "moment"
-randomstring      = require "randomstring"
-slug              = require "slug"
-traverse          = require "traverse"
-validator         = require "validator"
-xss               = require "xss"
+Bookshelf           = require "bookshelf"
+Md5                 = require "MD5"
+Promise             = require "bluebird"
+_                   = require "underscore"
+bookshelfValidator  = require "bookshelf-validator"
+moment              = require "moment"
+randomstring        = require "randomstring"
+slug                = require "slug"
+traverse            = require "traverse"
+traverse            = require "traverse"
+validator           = require "validator"
+xss                 = require "xss"
 
-Schema            = require "./schema"
 
-
-BaseModel = (knex, Enum, Cache, Settings) ->
-  class Model extends Schema
+module.exports = BaseModel = (knex, Cache, NotFoundError, Settings) ->
+  class Model
     ###
     **tableName** The name of the database table this model will attach to.
     ###
@@ -47,10 +47,13 @@ BaseModel = (knex, Enum, Cache, Settings) ->
 
     ###
     **knex** Give access to a knex instance, just in case we would need one without all
-    our modifications to the Bookshelf functinos below.
+    our modifications to the Bookshelf functions below.
     ###
     knex: knex
 
+    fields: []
+
+    schema: null
 
     fullCache: false
     enableMD5: false
@@ -64,28 +67,73 @@ BaseModel = (knex, Enum, Cache, Settings) ->
 
 
     constructor: ->
-      #! Initialize the schema.
-      super()
-      validateSchema = @validateSchema
-
       #! Load the Bookshelf registry plugin, which helps us avoid circular
       #! dependencies.
       @bookshelf.plugin "registry"
 
-      #! Load the the app's pagination plugin, which gives us the `fetchPage`
+      #! Load validation plugin if a schema is set.
+      if @schema? then @bookshelf.plugin bookshelfValidator.plugin
+
+      #! Load the app's pagination plugin, which gives us the `fetchPage`
       #! method on Models.
       @bookshelf.plugin require "./pagination"
 
       #! Prepare the parameters we will extend to our Bookshelf.Model
-      self = this
       extendPrameters =
         tableName: @tableName
         hasTimestamps: true
+        fields: []
+        validation: @schema
         initialize: ->
-          @on "creating", -> self.onCreate this
-          @on "saving", -> self.onSave this
-          @on "updating", -> self.onUpdate this
-        validate: -> self.validateSchema @attributes or {}
+          @on "created", -> @onCreated.call this, arguments
+          @on "creating", -> @onCreate.call this, arguments
+          @on "saved", -> @onSaved.call this, arguments
+          @on "saving", -> @onSave.call this, arguments
+          @on "updated", -> @onUpdated.call this, arguments
+          @on "updating", -> @onUpdate.call this, arguments
+        onCreated: -> null
+        onCreate: -> null
+        onSaved: -> null
+        onSave: -> null
+        onUpdated: -> null
+        onUpdate: -> null
+        createSlug: @createSlug
+
+
+        ###
+          ## Clean JSON
+
+          @param JSON json \- The classified object that is to be cleaned
+          @return JSON \- The result after cleaning the object
+        ###
+        ###
+        **clean()** Cleans the model by performing XSS and removing unwanted
+        keys.
+
+        ```
+        Model.model.clean()
+        ```
+        ###
+        clean: ->
+          for key of @attributes
+            #! First remove any unwanted fields
+            if key not in @fields then return @unset key
+
+            #! JSON stringify any JSON fields.
+            if key in @jsonFields
+              @attributes[key] = JSON.stringify @attributes[key]
+
+          #! Traverse through each key
+          traverse(@attributes).forEach (value, key) ->
+            #! If it is not defined then remove it.. (remove any annoying nulls)
+            if not value? then @remove()
+
+            #! If it is a string then perform an XSS filter on it
+            else if typeof value is "string" then value = xss value
+
+          #! Return this instance to allow chaining.
+          this
+
 
       #! Extend with our custom parameters
       extendPrameters = _.extend extendPrameters, @extends
@@ -95,30 +143,28 @@ BaseModel = (knex, Enum, Cache, Settings) ->
       @model = @bookshelf.model @tableName
       @collection = @bookshelf.Collection.extend model: @model
 
+      @model.NotFoundError = NotFoundError
+
       #! Now assign all the different enums into the object
       for e of @enums then do (e) =>
         value = @enums[e]
 
-        #! Instantiate and read from the table first
-        (new Enum value.tableName).then (json) =>
-          #! If a pick option was set, then start picking the proper attribute
-          #! and then save!
-          if value.pick?
-            picked = {}
-            for item in json then picked[item[value.pick]] = item.id
-            this[e] = picked
+        # #! Instantiate and read from the table first
+        # (new Enum value.tableName).then (json) =>
+        #   #! If a pick option was set, then start picking the proper attribute
+        #   #! and then save!
+        #   if value.pick?
+        #     picked = {}
+        #     for item in json then picked[item[value.pick]] = item.id
+        #     this[e] = picked
 
-          #! Else, directly save the JSON
-          else this[e] = json
+        #   #! Else, directly save the JSON
+        #   else this[e] = json
 
       #! If caching was enabled then we load the entire table into the cache
       #! right away! (Calling this function does that)
       if @fullCache then @getAll()
 
-
-    onCreate: (model) -> null
-    onUpdate: (model) -> null
-    onSave: (model) -> null
 
 
     ###
@@ -129,8 +175,7 @@ BaseModel = (knex, Enum, Cache, Settings) ->
     Model.createSlug('hello world') # -> 'hello-world-asdqw12asd'
     ```
     ###
-    createSlug: (text="") ->
-      slug "#{text} #{randomstring.generate 10}".toLowerCase()
+    createSlug: (t="") -> slug "#{t} #{randomstring.generate 10}".toLowerCase()
 
 
     ###
@@ -225,6 +270,15 @@ BaseModel = (knex, Enum, Cache, Settings) ->
       #! If no caching was specified then we normally query the table.
       else @model.forge().fetchAll options
 
+    ###
+    **findAll()** An alias to getAll
+
+    ```
+    Model.findAll(options).then (collection) ->
+    ```
+    ###
+    findAll: (options) -> @getAll options
+
 
     ###
     **create()** Creates a new model from the given parameters and adds it
@@ -236,6 +290,9 @@ BaseModel = (knex, Enum, Cache, Settings) ->
     ###
     #!! create: (parameters) -> @model.forge(@filter parameters).save()
     create: (parameters) -> @model.forge(parameters).save()
+
+
+    delete: (id)->
 
 
     ###
@@ -281,14 +338,15 @@ BaseModel = (knex, Enum, Cache, Settings) ->
       result.pagintation: { .. }
     ```
     ###
-    query: (buildQuery, options) -> @model.forge().fetchPage buildQuery, options
+    query: (buildQuery, options={}) ->
+      options.require = true
+      @model.forge().fetchPage buildQuery, options
 
 
 BaseModel["@require"] = [
   "igloo/knex"
-  "models/base/enum"
   "libraries/cache"
+  "libraries/errors/NotFoundError"
   "igloo/settings"
 ]
 BaseModel["@singleton"] = true
-module.exports = BaseModel
