@@ -13,6 +13,8 @@ To generate the documentation for the site you will have to make sure you have i
 
 Installing
 ----------
+## Do not follow these instructions. They're outdated. The site uses Node.js & Knex (Postgres).
+
 The sections below describe how to install a local version of the site on your machine. This is a very general guide which can be used (with a few changes) on any other project as well.
 
 #### 1. Fulfill Dependencies
