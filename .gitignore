@@ -111,3 +111,4 @@ boot/local.js
 /var/backups/*.tgz
 .tmp/
 dist/
+ideas
